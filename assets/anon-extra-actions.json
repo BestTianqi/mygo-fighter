@@ -1,0 +1,92 @@
+[
+  {
+    "file": "anon-extra-mobility-v1.png",
+    "names": [
+      "walk-contact",
+      "walk-pass",
+      "dash-forward",
+      "dash-back"
+    ],
+    "heights": [
+      235,
+      235,
+      205,
+      220
+    ]
+  },
+  {
+    "file": "anon-extra-air-v1.png",
+    "names": [
+      "jump-takeoff",
+      "jump-rise",
+      "jump-fall",
+      "landing"
+    ],
+    "heights": [
+      195,
+      215,
+      230,
+      180
+    ]
+  },
+  {
+    "file": "anon-extra-defense-v1.png",
+    "names": [
+      "guard-standing",
+      "guard-crouch",
+      "hit-high",
+      "hit-low"
+    ],
+    "heights": [
+      230,
+      165,
+      230,
+      185
+    ]
+  },
+  {
+    "file": "anon-extra-transitions-v1.png",
+    "names": [
+      "normal-windup",
+      "normal-recover",
+      "crouch-windup",
+      "crouch-recover"
+    ],
+    "heights": [
+      230,
+      235,
+      165,
+      175
+    ]
+  },
+  {
+    "file": "anon-extra-specials-v1.png",
+    "names": [
+      "thrust-impact",
+      "rising-impact",
+      "sonic-release",
+      "spin-impact"
+    ],
+    "heights": [
+      225,
+      265,
+      225,
+      245
+    ]
+  },
+  {
+    "file": "anon-extra-recovery-v1.png",
+    "names": [
+      "knockdown-fall",
+      "knockdown-ground",
+      "getup",
+      "victory"
+    ],
+    "heights": [
+      205,
+      85,
+      170,
+      245
+    ]
+  }
+]

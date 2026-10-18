@@ -1,0 +1,878 @@
+[
+  {
+    "id": "ring",
+    "name": "RiNG 舞台",
+    "file": "assets/stages/ring-v1.png",
+    "terrain": {
+      "material": "metal",
+      "colors": [
+        "#617e94",
+        "#263a4a",
+        "#122131"
+      ],
+      "hills": [],
+      "platforms": [
+        {
+          "left": 90,
+          "right": 230,
+          "height": 56
+        },
+        {
+          "left": 730,
+          "right": 870,
+          "height": 56
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  },
+  {
+    "id": "theater",
+    "name": "月夜剧场",
+    "file": "assets/stages/theater-v1.png",
+    "terrain": {
+      "material": "stone",
+      "colors": [
+        "#baa9b5",
+        "#514459",
+        "#2a2336"
+      ],
+      "hills": [
+        {
+          "left": 100,
+          "peak": 230,
+          "right": 360,
+          "height": 26
+        },
+        {
+          "left": 600,
+          "peak": 730,
+          "right": 860,
+          "height": 26
+        }
+      ],
+      "platforms": [
+        {
+          "left": 100,
+          "right": 255,
+          "height": 84
+        },
+        {
+          "left": 350,
+          "right": 610,
+          "height": 148
+        },
+        {
+          "left": 705,
+          "right": 860,
+          "height": 84
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  },
+  {
+    "id": "rooftop",
+    "name": "黄昏天台",
+    "file": "assets/stages/rooftop-v1.png",
+    "terrain": {
+      "material": "concrete",
+      "colors": [
+        "#d0b2a2",
+        "#796d7c",
+        "#434453"
+      ],
+      "hills": [
+        {
+          "left": 70,
+          "peak": 180,
+          "right": 300,
+          "height": 32
+        },
+        {
+          "left": 620,
+          "peak": 750,
+          "right": 890,
+          "height": 44
+        }
+      ],
+      "platforms": [
+        {
+          "left": 105,
+          "right": 255,
+          "height": 84
+        },
+        {
+          "left": 350,
+          "right": 610,
+          "height": 138
+        },
+        {
+          "left": 700,
+          "right": 850,
+          "height": 100
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  },
+  {
+    "id": "rainstreet",
+    "name": "雨夜街头",
+    "file": "assets/stages/rainstreet-v1.png",
+    "terrain": {
+      "material": "metal",
+      "colors": [
+        "#7398ae",
+        "#2e485c",
+        "#172636"
+      ],
+      "hills": [
+        {
+          "left": 320,
+          "peak": 480,
+          "right": 640,
+          "height": 32
+        }
+      ],
+      "platforms": [
+        {
+          "left": 120,
+          "right": 260,
+          "height": 64
+        },
+        {
+          "left": 360,
+          "right": 600,
+          "height": 128
+        },
+        {
+          "left": 680,
+          "right": 840,
+          "height": 64
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  },
+  {
+    "id": "sakura",
+    "name": "樱花河畔",
+    "file": "assets/stages/sakura-v1.png",
+    "terrain": {
+      "material": "wood",
+      "colors": [
+        "#dec7a4",
+        "#8b7962",
+        "#4c4e42"
+      ],
+      "hills": [
+        {
+          "left": 80,
+          "peak": 250,
+          "right": 420,
+          "height": 30
+        },
+        {
+          "left": 550,
+          "peak": 720,
+          "right": 890,
+          "height": 36
+        }
+      ],
+      "platforms": [
+        {
+          "left": 130,
+          "right": 300,
+          "height": 88
+        },
+        {
+          "left": 400,
+          "right": 560,
+          "height": 152
+        },
+        {
+          "left": 640,
+          "right": 815,
+          "height": 104
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  },
+  {
+    "id": "studio",
+    "name": "乐队练习室",
+    "file": "assets/stages/studio-v1.png",
+    "terrain": {
+      "material": "speaker",
+      "colors": [
+        "#b5a18b",
+        "#4e4947",
+        "#252b31"
+      ],
+      "hills": [
+        {
+          "left": 120,
+          "peak": 230,
+          "right": 340,
+          "height": 20
+        },
+        {
+          "left": 620,
+          "peak": 730,
+          "right": 840,
+          "height": 20
+        }
+      ],
+      "platforms": [
+        {
+          "left": 140,
+          "right": 280,
+          "height": 56
+        },
+        {
+          "left": 410,
+          "right": 550,
+          "height": 112
+        },
+        {
+          "left": 680,
+          "right": 820,
+          "height": 56
+        },
+        {
+          "left": -610,
+          "right": -390,
+          "height": -80
+        },
+        {
+          "left": -420,
+          "right": -220,
+          "height": 0
+        },
+        {
+          "left": -300,
+          "right": -100,
+          "height": 80
+        },
+        {
+          "left": -180,
+          "right": 20,
+          "height": 160
+        },
+        {
+          "left": -340,
+          "right": -140,
+          "height": 240
+        },
+        {
+          "left": -500,
+          "right": -300,
+          "height": 320
+        },
+        {
+          "left": -620,
+          "right": -420,
+          "height": 400
+        },
+        {
+          "left": -620,
+          "right": -400,
+          "height": 480
+        },
+        {
+          "left": 1350,
+          "right": 1570,
+          "height": -80
+        },
+        {
+          "left": 1180,
+          "right": 1380,
+          "height": 0
+        },
+        {
+          "left": 1060,
+          "right": 1260,
+          "height": 80
+        },
+        {
+          "left": 940,
+          "right": 1140,
+          "height": 160
+        },
+        {
+          "left": 1100,
+          "right": 1300,
+          "height": 240
+        },
+        {
+          "left": 1260,
+          "right": 1460,
+          "height": 320
+        },
+        {
+          "left": 1380,
+          "right": 1580,
+          "height": 400
+        },
+        {
+          "left": 1360,
+          "right": 1580,
+          "height": 480
+        }
+      ],
+      "ground": [
+        {
+          "x": -720,
+          "y": -160
+        },
+        {
+          "x": -400,
+          "y": -160
+        },
+        {
+          "x": -80,
+          "y": 0
+        },
+        {
+          "x": 1040,
+          "y": 0
+        },
+        {
+          "x": 1360,
+          "y": -160
+        },
+        {
+          "x": 1680,
+          "y": -160
+        }
+      ]
+    }
+  }
+]

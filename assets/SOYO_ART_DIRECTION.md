@@ -1,0 +1,17 @@
+# 长崎素世 · 正常身材动作图 v1
+
+2026-10-17。使用内置 `image_gen` 生成，不使用 CLI/API 回退。
+
+用户要求：在现有正常身材 MyGO 格斗网页版中添加长崎素世。
+
+身份与服装参考：`images/candidates/official_redesign_20260922_mygo_umiri/official_refs/mygo_soyo_official.png`。
+画风、头身比、动作顺序参考：`web/mygo-fighter/assets/anon-normal-actions-v1.png`。
+两张图仅作参考，素世为新绘制人物，不复用旧 Q 版或给爱音改色。
+
+成品：`soyo-normal-actions-v1.png`，1254×1254，RGBA，4×4 共 16 动作，透明背景。
+包含待机、两帧移动、防御、轻击和重击各三阶段、跳起、落下、两种受击、胜利和败北。
+提取文件：`soyo-runtime.webp`、`soyo-idle.png`；运行素材全部内嵌至上级 `index.html`。
+
+## 最终生成提示词
+
+Use case: identity-preserve / stylized-concept. Production transparent sprite atlas for a 2D anime fighting game. Image 1 is ONLY the character identity/outfit reference: Nagasaki Soyo 長崎そよ / 长崎素世 from BanG Dream It's MyGO!!!!!. Image 2 is ONLY the already accepted normal-proportioned Anon art style, pose order, cell spacing and scale reference. DRAW ONLY SOYO in all sixteen cells, never draw Anon. Match image 2's polished Japanese anime cel shading, fine clean outlines, natural normal human body proportions around 6.5 to 7 heads tall, small head, long natural limbs, NOT CHIBI or super deformed. Faithfully preserve image 1's ash light brown long hair with side-swept bangs and softly curved ends, blue-gray eyes, gentle elegant expression. Exact outfit throughout: dark navy blue long sleeved Tsukinomori sailor school uniform dress, broad white sailor collar with dark stripes, large muted lavender-gray chest ribbon, dark navy pleated skirt reaching just above knees with TWO white hem stripes, dark knee socks, brown loafers. No Anon gray blazer, no green plaid skirt, no changed outfit. Wholesome fully clothed. Same character identity, drawing scale, body size, face and outfit across all sixteen poses. Exactly FOUR COLUMNS by FOUR ROWS, one separate COMPLETE FULL BODY figure per invisible equal cell, square sprite sheet, ideal 2048x2048 if possible. Each figure's normal standing full height occupies at most 80 percent of cell height. All heads, flowing hair, extended fingers and shoes must fit fully inside their OWN cells with at least 20 transparent pixels on every side. Common foot baseline about 91 percent cell height. No figure overlaps another, no edge clipping, complete hair crown and shoe soles visible. ALL figures face screen RIGHT in a three-quarter side combat view. EXACT pose order left to right top to bottom: Row1: 1 neutral fighting idle both hands up elegant ready stance; 2 left-foot-forward walking step; 3 right-foot-forward walking step; 4 standing guard both forearms in front of face. Row2: 5 light palm/punch windup elbow pulled back; 6 light strike impact with arm extended toward RIGHT; 7 light strike recovery arm retracting; 8 heavy palm strike windup low planted stance. Row3: 9 heavy double-palm strike impact toward RIGHT with balanced forward body lean; 10 heavy strike recovery hands retracting; 11 rising jump knees slightly bent; 12 descending jump legs extending for landing. Row4: 13 hurt reaction wince slightly recoiling LEFT; 14 stronger hit reaction leaning backward LEFT with arms balancing; 15 elegant happy victory smile with one hand raised; 16 defeat slumped shoulders head lowered standing tired. Each pose genuinely distinct. Transparent alpha background everywhere except figures. NO background NO floor NO shadows NO VFX NO floating accessories NO text NO labels NO grid NO borders NO watermark. Keep the exact normal tall body proportions of image2, NOT a large head or short chibi body.

@@ -1,0 +1,122 @@
+[
+  {
+    "file": "tomori-penguin-presence-v1.png",
+    "names": [
+      "idle",
+      "walk-contact",
+      "walk-pass",
+      "guard-standing"
+    ],
+    "heights": [
+      190,
+      190,
+      190,
+      185
+    ]
+  },
+  {
+    "file": "tomori-penguin-air-v1.png",
+    "names": [
+      "jump-rise",
+      "jump-fall",
+      "landing",
+      "guard-crouch"
+    ],
+    "heights": [
+      175,
+      190,
+      135,
+      135
+    ]
+  },
+  {
+    "file": "tomori-penguin-flippers-v1.png",
+    "names": [
+      "flipper-light",
+      "flipper-medium",
+      "flipper-heavy",
+      "kick-light"
+    ],
+    "heights": [
+      190,
+      190,
+      185,
+      185
+    ]
+  },
+  {
+    "file": "tomori-penguin-kicks-v1.png",
+    "names": [
+      "kick-medium",
+      "kick-heavy",
+      "normal-windup",
+      "normal-recover"
+    ],
+    "heights": [
+      190,
+      190,
+      180,
+      190
+    ]
+  },
+  {
+    "file": "tomori-penguin-specials-v1.png",
+    "names": [
+      "flying-kick",
+      "cry-counter",
+      "hey-release",
+      "laugh-release"
+    ],
+    "heights": [
+      180,
+      180,
+      190,
+      190
+    ]
+  },
+  {
+    "file": "tomori-penguin-call-v1.png",
+    "names": [
+      "call-windup",
+      "call-release",
+      "transform",
+      "hit-high"
+    ],
+    "heights": [
+      185,
+      205,
+      200,
+      185
+    ]
+  },
+  {
+    "file": "tomori-penguin-recovery-v1.png",
+    "names": [
+      "knockdown-fall",
+      "knockdown-ground",
+      "getup",
+      "victory"
+    ],
+    "heights": [
+      165,
+      100,
+      145,
+      195
+    ]
+  },
+  {
+    "file": "tomori-penguin-stances-v1.png",
+    "names": [
+      "crouch-flipper",
+      "crouch-kick",
+      "air-flipper",
+      "air-kick"
+    ],
+    "heights": [
+      140,
+      135,
+      175,
+      175
+    ]
+  }
+]
