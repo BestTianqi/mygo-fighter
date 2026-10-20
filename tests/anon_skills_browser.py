@@ -38,7 +38,7 @@ with sync_playwright() as p:
     while page.evaluate('mygoGame.match.fighters[0].attackMs') < 1560:
         page.clock.run_for(40)
     page.screenshot(path=str(ART / 'anon-yellow-dragon-slam.png'), full_page=True)
-    assert page.evaluate('mygoGame.match.fighters[1].hp') <= 60
+    assert page.evaluate('mygoGame.match.fighters[1].hp') <= 160
     page.clock.run_for(1400)
     assert page.evaluate('mygoGame.match.fighters[0].attack') is None
     assert page.evaluate('mygoGame.match.fighters[0].energy') == 100
@@ -90,14 +90,14 @@ with sync_playwright() as p:
     assert page.evaluate('mygoGame.match.fighters[0].attack') is None
     assert page.locator('#super-title').is_hidden()
 
-    # P2 Anon has the same super; Soyo cannot use Anon's extra moves.
+    # Both players keep their own character's super.
     select_game_option(page, '#player-character', '1')
     select_game_option(page, '#opponent-character', '0')
     select_game_option(page, '#mode', 'duel')
     start_match(page); page.clock.run_for(1150)
     page.evaluate('mygoGame.match.fighters.forEach(f => f.energy = 100)')
     page.keyboard.press('p'); page.clock.run_for(50)
-    assert page.evaluate('mygoGame.match.fighters[0].attack') is None
+    assert page.evaluate('mygoGame.match.fighters[0].attack') == 'soyoSuper'
     page.keyboard.press('NumpadSubtract'); page.clock.run_for(900)
     assert page.evaluate('mygoGame.match.fighters[1].attack') == 'super'
 

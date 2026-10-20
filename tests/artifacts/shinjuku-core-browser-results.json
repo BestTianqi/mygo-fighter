@@ -1,0 +1,26 @@
+[
+  {
+    "test": "shinjuku_feel_browser.py",
+    "code": 0
+  },
+  {
+    "test": "browser_test.py",
+    "code": 0
+  },
+  {
+    "test": "world_camera_browser.py",
+    "code": 0
+  },
+  {
+    "test": "feel_browser.py",
+    "code": 0
+  },
+  {
+    "test": "rana_browser.py",
+    "code": 0
+  },
+  {
+    "test": "stages_browser.py",
+    "code": 0
+  }
+]

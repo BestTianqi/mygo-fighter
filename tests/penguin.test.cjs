@@ -11,11 +11,11 @@ test('G transforms Tomori immediately, costs 50, lasts 20 seconds and cannot ref
   m.advance(a.penguin.ms-10);assert.ok(a.penguin);m.advance(10);assert.equal(a.penguin,null);assert.equal(a.hp,55);
 });
 test('morph requires enough energy and ground; incoming hits no longer interrupt a transformation startup',()=>{
-  for(const setup of[a=>a.energy=49,a=>{a.y=120;a.vy=0;},a=>a.character=0,a=>a.character=1]){
+  for(const setup of[a=>a.energy=49,a=>{a.y=300;a.vy=0;},a=>a.character=0,a=>a.character=1]){
     const m=fight(),a=m.fighters[0];setup(a);const energy=a.energy;m.advance(10,{penguinTransform:true});m.advance(400);assert.equal(a.penguin,null);assert.equal(a.energy,energy);
   }
   const m=fight();m.fighters[0].x=420;m.fighters[1].x=485;m.advance(10,{heal:true},{light:true});m.advance(500);
-  assert.ok(m.fighters[0].penguin);assert.equal(m.fighters[0].energy,58);assert.ok(m.fighters[0].hp<100);
+  assert.ok(m.fighters[0].penguin);assert.equal(m.fighters[0].energy,58);assert.ok(m.fighters[0].hp<200);
 });
 test('instant transformation allows movement, dash, jump and an immediate follow-up skill',()=>{
   for(const action of ['right','dash','jump']){
@@ -61,22 +61,22 @@ test('penguin controls map to the five skills with distinct costs, leaving norma
 });
 test('cry counters one frontal strike with a returning wave, but startup, rear hits and throws beat it',()=>{
   const m=fight(),a=morph(m);a.x=420;m.fighters[1].x=485;a.energy=100;
-  m.advance(10,{shield:true});m.advance(120);m.hit(1,'heavy');assert.equal(a.hp,100);assert.equal(a.attack,null);
-  assert.ok(m.waves.some(w=>w.owner===0&&w.attack==='penguinCryWave'));m.advance(1000);assert.ok(m.fighters[1].hp<100);
+  m.advance(10,{shield:true});m.advance(120);m.hit(1,'heavy');assert.equal(a.hp,200);assert.equal(a.attack,null);
+  assert.ok(m.waves.some(w=>w.owner===0&&w.attack==='penguinCryWave'));m.advance(1000);assert.ok(m.fighters[1].hp<200);
   for(const mode of['startup','rear','throw']){
     const n=fight(),p=morph(n);p.x=420;n.fighters[1].x=485;p.energy=100;n.advance(10,{shield:true});
     if(mode!=='startup')n.advance(120);if(mode==='rear')n.fighters[1].x=350;
-    n.hit(1,mode==='throw'?'throw':'heavy');assert.ok(p.hp<100);assert.ok(!n.waves.some(w=>w.attack==='penguinCryWave'));
+    n.hit(1,mode==='throw'?'throw':'heavy');assert.ok(p.hp<200);assert.ok(!n.waves.some(w=>w.attack==='penguinCryWave'));
   }
 });
 test('hey hits once; laughter covers nearby opponents on either side and respects guard',()=>{
   const m=fight(),a=morph(m);a.x=300;m.fighters[1].x=470;a.energy=100;m.advance(10,{wave:true});m.advance(1200);
-  assert.equal(m.fighters[1].hp,90);
+  assert.equal(m.fighters[1].hp,190);
   for(const rear of[false,true]){const n=fight(),p=morph(n);p.x=480;n.fighters[1].x=rear?350:610;p.energy=100;
-    n.advance(10,{sonic:true});n.advance(700);assert.equal(n.fighters[1].hp,88);}
-  const g=fight(),p=morph(g);p.x=400;g.fighters[1].x=520;p.energy=100;g.advance(10,{sonic:true},{guard:true});g.advance(700,{}, {guard:true});assert.equal(g.fighters[1].hp,97);
+    n.advance(10,{sonic:true});n.advance(700);assert.equal(n.fighters[1].hp,188);}
+  const g=fight(),p=morph(g);p.x=400;g.fighters[1].x=520;p.energy=100;g.advance(10,{sonic:true},{guard:true});g.advance(700,{}, {guard:true});assert.equal(g.fighters[1].hp,197);
   const r=fight(),q=morph(r);q.x=480;r.fighters[1].x=610;q.energy=100;r.advance(10,{sonic:true});r.fighters[1].x=350;r.advance(200);
-  assert.ok(r.fighters[1].vx<0,'a rear shock must push away from its center');
+  assert.ok(r.fighters[1].pushVx<0,'a rear shock must push away from its center');
 });
 test('gugugaga releases three real projectiles, can be blocked and stops unreleased pulses when interrupted',()=>{
   const m=fight(),a=morph(m);a.x=300;m.fighters[1].x=470;a.energy=100;m.advance(10,{special:true});m.advance(1900);
@@ -86,7 +86,7 @@ test('gugugaga releases three real projectiles, can be blocked and stops unrelea
 });
 test('flying kick moves forward, can hit, lands with recovery and cannot be repeated in one jump',()=>{
   const m=fight(),a=morph(m);a.x=300;m.fighters[1].x=460;a.energy=100;m.advance(10,{thrust:true});assert.ok(a.vy>0);assert.ok(a.airUsed);
-  m.advance(700);assert.ok(a.x>350);assert.ok(m.fighters[1].hp<100);assert.ok(m.grounded(a));
+  m.advance(700);assert.ok(a.x>350);assert.ok(m.fighters[1].hp<200);assert.ok(m.grounded(a));
   const n=fight(),p=morph(n);p.y=150;p.vy=0;p.energy=100;p.airUsed=true;n.advance(10,{thrust:true});assert.equal(p.attack,null);assert.equal(p.energy,100);
 });
 test('landing after a full penguin jump restores the air action for the next jump',()=>{

@@ -44,17 +44,19 @@ test('low sweep beats standing guard, is stopped by crouch guard and knocks down
     const m = setup(); m.fighters[0].x = 420; m.fighters[1].x = 485;
     m.advance(10, { crouch: true, heavyKick: true }, { guard: true, crouch });
     m.advance(400, {}, { guard: true, crouch });
-    assert.equal(m.fighters[1].hp < 100, !crouch);
+    assert.equal(m.fighters[1].hp < 200, !crouch);
     assert.equal(m.fighters[1].knockdown > 0, !crouch);
   }
 });
 test('super costs a full bar, is Anon-only and cannot be activated in air', () => {
-  for (const [character, energy, y] of [[0, 99, 0], [1, 100, 0], [0, 100, 50]]) {
+  for (const [character, energy, y] of [[0, 99, 0], [2, 100, 0], [0, 100, 50]]) {
     const m = setup({ characters: [character, 0] }); Object.assign(m.fighters[0], { energy, y });
     step(m, { super: true }, 0, 10); assert.equal(m.fighters[0].attack, null);
   }
   const m = setup(); m.fighters[0].energy = 100; step(m, { super: true }, 0, 10);
   assert.equal(m.fighters[0].attack, 'super'); assert.equal(m.fighters[0].energy, 0);
+  const soyo = setup({ characters: [1, 0] }); soyo.fighters[0].energy = 100;
+  step(soyo, { super: true }, 0, 10); assert.equal(soyo.fighters[0].attack, 'soyoSuper');
 });
 test('super has three real hits, block damage, recovery and no extra hits after it ends', () => {
   for (const guard of [false, true]) {
@@ -63,7 +65,7 @@ test('super has three real hits, block damage, recovery and no extra hits after 
     for (let i = 0; i < 350; i++) m.advance(10, {}, { guard });
     const hits = m.drainEvents().filter(e => e.type === 'hit' && e.attack === 'super');
     assert.equal(hits.length, 3); assert.equal(hits.every(e => e.blocked), guard);
-    assert.ok(guard ? m.fighters[1].hp >= 88 : m.fighters[1].hp <= 60);
+    assert.ok(guard ? m.fighters[1].hp >= 188 : m.fighters[1].hp <= 160);
     assert.equal(m.fighters[0].attack, null); assert.equal(m.fighters[0].energy, 0);
     const hp = m.fighters[1].hp; m.advance(1000); assert.equal(m.fighters[1].hp, hp);
   }
@@ -71,7 +73,7 @@ test('super has three real hits, block damage, recovery and no extra hits after 
 test('super can whiff and only protects its invulnerable startup', () => {
   const m = setup(); m.fighters[0].x = 100; m.fighters[1].x = 900; m.fighters[0].energy = 100;
   step(m, { super: true }, 0, 10); m.advance(3400);
-  assert.equal(m.fighters[1].hp, 100); assert.equal(m.fighters[0].attack, null);
+  assert.equal(m.fighters[1].hp, 200); assert.equal(m.fighters[0].attack, null);
   const n = setup(); n.fighters[0].energy = 100; step(n, { super: true }, 0, 10);
   const hp = n.fighters[0].hp; n.hit(1, 'light'); assert.equal(n.fighters[0].hp, hp);
   n.advance(2200); n.hit(1, 'light'); assert.ok(n.fighters[0].hp < hp);
@@ -80,10 +82,10 @@ test('each super pulse can connect late within its active window after initially
   const m = setup(); m.fighters[0].x = 400; m.fighters[1].x = 665; m.fighters[0].energy = 100;
   step(m, { super: true }, 0, 10); m.advance(1040);
   assert.equal(m.fighters[0].attackMs, 800);
-  assert.equal(m.fighters[1].hp, 100);
+  assert.equal(m.fighters[1].hp, 200);
   assert.deepEqual(m.fighters[0].hitMarks, []);
   m.advance(80, {}, { left: true });
-  assert.ok(m.fighters[1].hp < 100);
+  assert.ok(m.fighters[1].hp < 200);
   assert.deepEqual(m.fighters[0].hitMarks, [0]);
 });
 test('pause freezes super stage, waves and timers; restart clears the transformation', () => {
@@ -119,6 +121,6 @@ test('double-tap directions dash, and holding back changes a throw into a side s
   m.advance(10, { left: true, throw: true }, { guard: true });
   m.advance(160, {}, { guard: true });
   assert.ok(m.fighters[0].x > m.fighters[1].x);
-  assert.equal(m.fighters[1].hp, 82);
+  assert.equal(m.fighters[1].hp, 182);
   assert.equal(m.fighters[1].guard, false);
 });

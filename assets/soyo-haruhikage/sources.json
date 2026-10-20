@@ -1,0 +1,41 @@
+{
+  "superName": "为什么要演奏春日影",
+  "character": "长崎素世",
+  "researchedOn": "2026-10-19",
+  "status": "integrated-offline-soyo-super",
+  "selectedSource": {
+    "url": "https://www.bilibili.com/video/BV1Va67YjEPr/",
+    "uploader": "编新述旧",
+    "startSeconds": 58.8,
+    "endSeconds": 61.4,
+    "actualWidth": 852,
+    "actualHeight": 480,
+    "note": "页面标题中的4K60并非本次公开播放接口交付的分辨率。音频保留原场景环境声。"
+  },
+  "referenceSource": {
+    "url": "https://www.bilibili.com/video/BV19F411y7FA/",
+    "uploader": "MyGO_AveMujica"
+  },
+  "greenScreenCandidate": {
+    "url": "https://www.bilibili.com/video/BV1Hx4y1X7VF/",
+    "uploader": "跃亮",
+    "status": "link-only-content-not-extracted"
+  },
+  "files": [
+    {
+      "file": "soyo-haruhikage-cutin.mp4",
+      "bytes": 164671,
+      "sha256": "b8ba98d42b5ba78d98c0961b5a3b8f10857005e8409ac7645547c086ee097128"
+    },
+    {
+      "file": "soyo-haruhikage-voice.mp3",
+      "bytes": 32180,
+      "sha256": "1d60c828c0af9a257fbc996969b9976dc94d097618a239840d713049e6cdd891"
+    },
+    {
+      "file": "soyo-haruhikage-portrait-reference.mp4",
+      "bytes": 244617,
+      "sha256": "f5e3b429b9462ad88943da10acae1a79ab80cda59cdeb5c11ae649cea0d38aab"
+    }
+  ]
+}

@@ -22,14 +22,14 @@ test('I and T produce distinct single projectiles, deal their own damage and tra
   for(const [input,damage]of[['wave',12],['sonic',18]])for(const mirror of[false,true]){
     const m=fight(),a=m.fighters[0],b=m.fighters[1];a.x=mirror?650:280;b.x=mirror?350:580;
     m.advance(10,{[input]:true});m.advance(1400);
-    assert.equal(b.hp,100-damage);assert.equal(m.drainEvents().filter(e=>e.type==='hit').length,1);
+    assert.equal(b.hp,200-damage);assert.equal(m.drainEvents().filter(e=>e.type==='hit').length,1);
   }
 });
 test('L sings three separate travelling pulses for one cost, including after the first pulse connects',()=>{
   const m=fight(),a=m.fighters[0],b=m.fighters[1];a.x=300;b.x=470;
   m.advance(10,{special:true});m.advance(1900);
   const hits=m.drainEvents().filter(e=>e.type==='hit'&&e.attack==='tomoriChorus');
-  assert.equal(hits.length,3);assert.ok(b.hp<80);assert.equal(a.hitMarks.length,3);
+  assert.equal(hits.length,3);assert.ok(b.hp<180);assert.equal(a.hitMarks.length,3);
   assert.ok(a.energy<100);assert.equal(m.fighters[0].x,300);
 });
 test('interrupting singing stops remaining emissions without deleting already released notes',()=>{
@@ -38,11 +38,11 @@ test('interrupting singing stops remaining emissions without deleting already re
   assert.equal(a.attack,null);assert.equal(a.hitMarks.length,1);assert.equal(m.waves.length,1);
 });
 test('voice projectiles can be guarded, intercepted by steel and cancelled by another projectile',()=>{
-  const g=fight();g.advance(10,{sonic:true});g.advance(1600,{}, {guard:true});assert.equal(g.fighters[1].hp,97);
+  const g=fight();g.advance(10,{sonic:true});g.advance(1600,{}, {guard:true});assert.equal(g.fighters[1].hp,197);
   const s=fight();s.advance(10,{}, {shield:true});s.advance(500);s.advance(10,{sonic:true});s.advance(1600);
-  assert.equal(s.fighters[1].hp,100);assert.ok(s.fighters[1].shield.hp<40);
+  assert.equal(s.fighters[1].hp,200);assert.ok(s.fighters[1].shield.hp<40);
   const c=fight();c.advance(10,{wave:true},{wave:true});c.advance(1600);
-  assert.deepEqual(c.fighters.map(f=>f.hp),[100,100]);assert.ok(c.drainEvents().some(e=>e.type==='clash'));
+  assert.deepEqual(c.fighters.map(f=>f.hp),[200,200]);assert.ok(c.drainEvents().some(e=>e.type==='clash'));
 });
 test('pause freezes the full chorus and restart clears waves while preserving Tomori selection',()=>{
   const m=fight();m.advance(10,{special:true});m.advance(300);m.setPaused(true);const before=JSON.stringify(m);
@@ -50,9 +50,9 @@ test('pause freezes the full chorus and restart clears waves while preserving To
   m.restart();assert.equal(m.fighters[0].character,2);assert.equal(m.fighters[0].attack,null);assert.deepEqual(m.waves,[]);
 });
 test('Tomori normal reach uses her compact profile and U remains a real throw',()=>{
-  const m=fight();m.fighters[0].x=300;m.fighters[1].x=391;m.advance(10,{light:true});m.advance(400);
-  assert.equal(m.fighters[1].hp,100);
-  m.fighters[1].x=360;m.advance(10,{shield:true});m.advance(120);assert.equal(m.fighters[1].hp,82);
+  const m=fight();m.fighters[0].x=300;m.fighters[1].x=530;m.advance(10,{light:true});m.advance(400);
+  assert.equal(m.fighters[1].hp,200);
+  m.fighters[1].x=360;m.advance(10,{shield:true});m.advance(120);assert.equal(m.fighters[1].hp,182);
 });
 test('CPU Tomori chooses her voice kit through ordinary input at range',()=>{
   const m=fight({mode:'cpu',characters:[0,2],difficulty:2});m.aiThink=0;m.advance(10);

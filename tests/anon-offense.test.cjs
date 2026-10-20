@@ -27,7 +27,7 @@ test('Anon gets three distinct named offensive moves with proper costs and stanc
 });
 test('thrust advances, hits once, and quarter-circle kick works facing either direction', () => {
   const m = setup(); m.advance(10, { thrust: true }); assert.equal(m.fighters[0].energy, 85);
-  m.advance(1000); assert.ok(m.fighters[0].x > 450); assert.equal(m.fighters[1].hp, 86);
+  m.advance(1000); assert.ok(m.fighters[0].x > 450); assert.equal(m.fighters[1].hp, 186);
   assert.equal(m.drainEvents().filter(e => e.type === 'hit' && e.attack === 'thrust').length, 1);
   for (const side of [0, 1]) {
     const n = setup([0, 0]); n.fighters[side].energy = 100; const forward = side ? 'left' : 'right';
@@ -46,9 +46,9 @@ test('rush lands exactly three real hits; guard and steel can stop all three', (
     m.advance(1500, {}, { guard: defense === 'guard' });
     const hits = m.drainEvents().filter(e => e.type === 'hit' && e.attack === 'rush');
     assert.equal(hits.length, defense === 'steel' ? 0 : 3);
-    if (defense === 'none') assert.equal(m.fighters[1].hp, 81);
-    if (defense === 'guard') assert.equal(m.fighters[1].hp, 91);
-    if (defense === 'steel') { assert.equal(m.fighters[1].hp, 100); assert.equal(m.fighters[1].shield.hp, 18); }
+    if (defense === 'none') assert.equal(m.fighters[1].hp, 181);
+    if (defense === 'guard') assert.equal(m.fighters[1].hp, 191);
+    if (defense === 'steel') { assert.equal(m.fighters[1].hp, 200); assert.equal(m.fighters[1].shield.hp, 18); }
     assert.equal(m.fighters[0].attack, null);
   }
 });
@@ -58,7 +58,7 @@ test('dive descends and hits high, standing guard stops it, crouch guard does no
     m.advance(10, { dive: true }, { guard: true, crouch });
     assert.equal(m.fighters[0].attack, 'dive'); assert.ok(m.fighters[0].vy < 0);
     m.advance(500, {}, { guard: true, crouch });
-    assert.equal(m.fighters[1].hp, crouch ? 84 : 97); assert.equal(m.fighters[0].y, 0);
+    assert.equal(m.fighters[1].hp, crouch ? 184 : 197); assert.equal(m.fighters[0].y, 0);
   }
   const whiff = setup(); whiff.fighters[1].x = 900; Object.assign(whiff.fighters[0], { y: 70, vy: 0 });
   whiff.advance(10, { dive: true }); until(whiff, () => whiff.fighters[0].y === 0);

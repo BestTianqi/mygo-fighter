@@ -56,9 +56,9 @@ with sync_playwright() as p:
         page.keyboard.press(key); page.clock.run_for(30)
         assert page.evaluate('mygoGame.match.fighters[0].attack') == move
     assert page.evaluate('mygoGame.match.fighters[0].cancelDepth') == 5
-    page.clock.run_for(2100)
+    advance_until(page, 'mygoGame.match.fighters[0].combo === 10', limit=4000)
     assert page.evaluate('mygoGame.match.fighters[0].combo') == 10
-    assert page.evaluate('mygoGame.match.fighters[1].hp') < 30
+    assert page.evaluate('mygoGame.match.fighters[1].hp') < 130
 
     # Actual jump/dive and its vulnerable landing recovery on a whiff.
     page.keyboard.press('r'); page.clock.run_for(1800)

@@ -7,35 +7,54 @@
   <title>MyGO!!!!! 格斗</title>
   <style>/*__STYLE__*/</style>
 </head>
-<body>
-  <main class="app" aria-label="MyGO 格斗游戏">
-          <div id="stage" class="stage" tabindex="0" aria-label="格斗游戏。W跳跃，AD移动，J轻击，K重击，L必杀，空格暂停。">
+<body class="menu-open">
+  <section id="main-menu" class="main-menu" aria-labelledby="menu-title">
+    <canvas id="menu-art" class="menu-art" width="1440" height="860" aria-hidden="true"></canvas>
+    <div class="menu-content">
+      <p class="menu-band">MyGO!!!!! <span>FIGHTING</span></p>
+      <h1 id="menu-title">迷途<span>回响</span></h1>
+      <p class="menu-subtitle">让下一击，接上我们的节拍。</p>
+      <nav class="menu-actions" aria-label="主菜单">
+        <button id="menu-resume" class="menu-resume" data-menu-ready disabled hidden>继续对战 <span aria-hidden="true">↗</span></button>
+        <button id="menu-start" class="menu-primary" data-menu-ready disabled>开始对战 <small>单人对战</small><span aria-hidden="true">↗</span></button>
+        <button id="menu-duel" data-menu-ready disabled>本地双人 <span aria-hidden="true">↗</span></button>
+        <button id="menu-practice" data-menu-ready disabled>自由练习 <span aria-hidden="true">↗</span></button>
+        <div class="menu-secondary"><button id="menu-settings" data-menu-ready disabled>对战设置</button><button id="menu-help" data-menu-ready disabled>操作说明</button></div>
+      </nav>
+      <p id="menu-loading" class="menu-loading" role="status">正在准备角色与舞台…</p>
+    </div>
+    <footer class="menu-footer"><span id="menu-selection">千早爱音 × 长崎素世</span><span id="menu-stage">RiNG 舞台</span></footer>
+  </section>
+  <main id="battle-screen" class="app" aria-label="MyGO 格斗游戏" hidden inert>
+          <div id="stage" class="stage" tabindex="0" aria-label="格斗游戏。W跳跃，AD移动，J攻击，K重击，L瞬移，UIO技能，H变身，P大招。">
             <canvas id="game" width="1280" height="720" aria-label="千早爱音对战画面"></canvas>
             <div class="hud" aria-hidden="true">
-              <div class="fighter-hud p1"><div class="fighter-line"><span class="player-tag">1P</span><strong id="name1">千早爱音</strong></div><div class="health-track"><div id="hp1" class="health-fill"></div></div><div class="below-health"><div id="wins1" class="round-pips"><b></b><b></b></div><span id="hptext1">100 / 100</span></div></div>
+              <div class="fighter-hud p1"><div class="fighter-line"><span class="player-tag">1P</span><strong id="name1">千早爱音</strong></div><div class="health-track"><div id="hp1" class="health-fill"></div></div><div class="below-health"><div id="wins1" class="round-pips"><b></b><b></b></div><span id="hptext1">200 / 200</span></div></div>
               <div class="timer"><span id="round-label">ROUND 01</span><strong id="timer">60</strong></div>
-              <div class="fighter-hud p2"><div class="fighter-line"><strong id="name2">长崎素世</strong><span id="p2-tag" class="player-tag">CPU</span></div><div class="health-track"><div id="hp2" class="health-fill"></div></div><div class="below-health"><span id="hptext2">100 / 100</span><div id="wins2" class="round-pips"><b></b><b></b></div></div></div>
+              <div class="fighter-hud p2"><div class="fighter-line"><strong id="name2">长崎素世</strong><span id="p2-tag" class="player-tag">CPU</span></div><div class="health-track"><div id="hp2" class="health-fill"></div></div><div class="below-health"><span id="hptext2">200 / 200</span><div id="wins2" class="round-pips"><b></b><b></b></div></div></div>
             </div>
             <div id="banner" class="battle-banner" aria-live="polite"></div>
             <div id="super-title" class="super-title" hidden><span>粉色奶龙</span><strong>法天象地</strong></div>
+            <div id="soyo-cutin-0" class="soyo-cutin" hidden aria-hidden="true"><video muted playsinline preload="auto"></video><strong>为什么要演奏春日影！</strong></div>
+            <div id="soyo-cutin-1" class="soyo-cutin from-right" hidden aria-hidden="true"><video muted playsinline preload="auto"></video><strong>为什么要演奏春日影！</strong></div>
             <div id="combo1" class="combo combo-left"></div><div id="combo2" class="combo combo-right"></div>
             <div class="meters" aria-hidden="true"><div class="meter"><div class="meter-label"><span>1P <b>共鸣</b></span><strong id="energytext1">0%</strong></div><div class="energy-track"><div id="energy1"></div><i></i></div><small id="special1">共鸣 60% 可释放必杀</small></div><div class="meter meter-p2"><div class="meter-label"><span><b>共鸣</b> <span id="meter-p2-label">CPU</span></span><strong id="energytext2">0%</strong></div><div class="energy-track"><div id="energy2"></div><i></i></div><small id="special2">闪耀合奏</small></div></div>
             <div class="combat-readout" aria-live="polite"><b id="last-move"></b><span id="chain-hint"></span></div>
-            <div id="overlay" class="overlay"><div class="overlay-card"><span id="overlay-kicker" class="eyebrow">准备上场</span><h2 id="overlay-title">准备对战</h2><p id="overlay-description">AD 移动 · W 跳跃 · J / K 攻击</p><button id="overlay-action" class="primary">开始对战 <span>↗</span></button><small id="overlay-hint">也可以按 ENTER 开始</small></div></div>
-            <div id="loading" class="loading">正在准备爱音、素世、灯与舞台…</div>
+            <div id="overlay" class="overlay"><div class="overlay-card"><span id="overlay-kicker" class="eyebrow">准备上场</span><h2 id="overlay-title">准备对战</h2><p id="overlay-description">AD 移动 · W 跳跃 · J / K 攻击</p><button id="overlay-action" class="primary">开始对战 <span>↗</span></button><small id="overlay-hint">点击开始对战</small></div></div>
+            <div id="loading" class="loading">正在准备爱音、素世、灯、乐奈、立希与舞台…</div>
           </div>
 
     <nav class="game-tools" aria-label="游戏操作">
-      <button id="pause" disabled>暂停</button><button id="restart">重开</button><button id="settings">设置</button><button id="super-demo">练习</button><button id="moves">招式表</button><button id="sound" aria-label="开启音效" aria-pressed="false">音效关</button><button id="fullscreen">全屏</button>
+      <button id="home">主菜单</button><button id="pause" disabled>暂停</button><button id="restart">重开</button><button id="settings">设置</button><button id="super-demo">练习</button><button id="moves">招式表</button><button id="sound" aria-label="开启音效" aria-pressed="false">音效关</button><button id="fullscreen">全屏</button>
     </nav>
     <span id="status" class="sr-only" role="status">等待开始</span>
-    <div class="touch-controls" aria-label="触屏操作"><div class="touch-dpad"><button data-key="KeyW" aria-label="跳跃">↑</button><div><button data-key="KeyA" aria-label="向左">←</button><button data-key="KeyS" aria-label="蹲下">↓</button><button data-key="KeyD" aria-label="向右">→</button></div></div><div class="touch-attacks"><button data-key="KeyJ">轻拳</button><button data-key="KeyH" class="extra-normal">中拳</button><button data-key="KeyK">重拳</button><button data-key="KeyN" class="extra-normal">轻脚</button><button data-key="KeyM" class="extra-normal">中脚</button><button data-key="Comma" class="extra-normal">重脚</button><button data-key="KeyI">音符</button><button data-key="KeyY" class="anon-only">升龙</button><button data-key="KeyL">必杀</button><button data-key="KeyU">钢板</button><button data-key="KeyB" class="form-shared">投技</button><button data-key="KeyO">防御</button><button data-key="ShiftLeft">冲刺</button><button data-key="KeyP" class="anon-only super-touch">奶龙大招</button><button data-key="Semicolon" class="anon-only">回旋踢</button><button data-key="KeyT">TGW音波</button><button data-key="KeyG" class="support-control" hidden>归心自愈</button><button data-key="KeyC" class="form-shared">突刺</button><button data-key="KeyV" class="anon-only">三连击</button><button data-key="KeyF" class="form-shared">俯冲踢</button></div></div>
+    <div class="touch-controls" aria-label="触屏操作"><div class="touch-dpad"><button data-key="KeyW" aria-label="跳跃">↑</button><div><button data-key="KeyA" aria-label="向左">←</button><button data-key="KeyS" aria-label="蹲下">↓</button><button data-key="KeyD" aria-label="向右">→</button></div></div><div class="touch-attacks"><button data-key="KeyJ">J 攻击</button><button data-key="KeyK">K 重击</button><button data-key="KeyL">L 瞬移</button><button data-key="KeyU">U 技能一</button><button data-key="KeyI">I 技能二</button><button data-key="KeyO">O 技能三</button><button data-key="KeyH">H 变身</button><button data-key="KeyP" class="super-touch">P 大招</button></div></div>
   </main>
   <dialog id="settings-dialog">
     <div class="dialog-header"><h2>对战设置</h2><button id="close-settings" aria-label="关闭设置">×</button></div>
     <div class="settings-grid">
-      <div><label for="player-character">1P 角色</label><select id="player-character"><option value="0">千早爱音</option><option value="1">长崎素世</option><option value="2">高松灯</option></select></div>
-      <div><label for="opponent-character">对手 / 2P</label><select id="opponent-character"><option value="0">千早爱音</option><option value="1" selected>长崎素世</option><option value="2">高松灯</option></select></div>
+      <div><label for="player-character">1P 角色</label><select id="player-character"><option value="0">千早爱音</option><option value="1">长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></select></div>
+      <div><label for="opponent-character">对手 / 2P</label><select id="opponent-character"><option value="0">千早爱音</option><option value="1" selected>长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></select></div>
       <div><label for="mode">对战模式</label><select id="mode"><option value="cpu">单人对战</option><option value="duel">本地双人</option><option value="practice">自由练习</option></select></div>
       <div><label for="difficulty">电脑难度</label><select id="difficulty"><option value="0">轻松</option><option value="1" selected>标准</option><option value="2">认真</option></select></div>
       <div id="practice-settings" class="wide" hidden><label for="dummy">练习木桩</label><select id="dummy"><option value="idle">站立</option><option value="guard">站立防御</option><option value="crouch">蹲下防御</option></select></div>
@@ -45,9 +64,10 @@
     <p id="setup-note" hidden>重新开始后应用新设置。</p>
     <div class="dialog-actions"><button id="help">操作说明</button><button id="start" class="primary">开始对战</button></div>
   </dialog>
-  <dialog id="help-dialog"><div class="dialog-header"><h2>把操作变成你的节拍</h2><button id="close-help" aria-label="关闭操作说明">×</button></div><p>每回合 60 秒，率先赢得两回合获胜。生命归零或时间耗尽结算；同血量平局重打当前回合。</p><div class="help-grid"><div><h3 id="help-player-name">1P / 千早爱音</h3><p><b>AD</b> 移动　<b>W</b> 跳跃　<b>S</b> 蹲下<br><span id="help-basic-attacks">J / H / K 轻 / 中 / 重拳</span><br><b>N / M / ,</b> 轻 / 中 / 重脚（爱音）　<b>O</b> 防御<br><b>I</b> 音符弹（20%）<br><b>L</b> <span id="help-skill-name">闪耀合奏（60%）</span><br><b id="help-throw-key">B</b> 投技　<b>Shift</b> 冲刺<br><span class="anon-only"><b>U</b> 钢板防护（20%）<br><b>T</b> TGW音波（30%）<br><b>C</b> 闪光突刺（15%） · <b>V</b> 三连击（25%）<br><b>空中 F</b> 流星俯冲踢（15%）<br></span><span class="soyo-only" hidden><b>T</b> 召唤小天素罗 ×3（50%，持续10秒）<br><b>G</b> 归心·自愈（35%，恢复24生命）<br></span><span class="tomori-only" hidden><b>G</b> 凑企鹅（50%，20秒）<br><b>T</b> 诗句回声（30%）<br><b>I / L</b> 微光音符 / 迷途之歌<br></span>爱音：<b>Y</b> 升龙 · <b>;</b> 回旋踢<br><b>P</b> 粉色奶龙·法天象地（100%）</p></div><div><h3>2P / 本地同屏</h3><p><b>方向键</b> 移动 / 跳跃 / 蹲下<br><b>小键盘 1 / 2</b> 轻击 / 重击<br><b>小键盘 3</b> 必杀　<b>0</b> 防御<br><b>小键盘 4 / 5 / 6</b><br>音符弹 / 投技 / 冲刺<br>爱音：<b>7</b> 中拳 · <b>8/9/.</b> 轻中重脚<br><b>+</b> 升龙 · <b>/</b> 回旋踢 · <b>−</b> 大招<br><b>*</b> 钢板防护（20%）<br><b>小键盘 Enter</b> TGW音波（30%）<br><b>Home</b> 突刺 · <b>End</b> 三连击<br><b>PageDown</b> 空中俯冲踢<br>素世：<b>小键盘 Enter</b> 召唤小天素罗 ×3（50%，10秒）<br><b>Delete</b> 归心·自愈（35%，回复24生命）<br>灯：<b>4 / Enter / 3</b> 微光音符 / 诗句回声 / 迷途之歌</p></div></div><p>命中与防御积攒共鸣。轻击命中后可取消接重击，重击命中后可取消接必杀。投技可以抓住防御中的对手；音符弹可以相互抵消。</p><p class="help-note">F1 招式表 · 空格 / Esc 暂停 · R 重开 · Enter 开始 / 下一回合。切换窗口自动暂停。触屏可用下方按键操作 1P。地图可向两侧、高台与下层扩展，镜头自动跟随双方移动与缩放；↓＋跳跃可穿台下落，手机同时按↓和↑。可在设置中关闭地形练习平地连招。</p></dialog>
-  <dialog id="moves-dialog"><div class="dialog-header"><h2 id="moves-title">千早爱音 · 招式表</h2><button id="close-moves" aria-label="关闭招式表">×</button></div><p id="moves-intro">方向以面向对手为准，换边后左右反转。拳：J / H / K；脚：N / M / 逗号，依次为轻、中、重。支持方向指令，也可以使用单键快捷技。</p><div id="moves-content"></div><p class="help-note penguin-only" hidden>G / 2P Delete 消耗50%能量立即变身凑企鹅，无前摇，可马上移动和接招，持续20秒，到期恢复高松灯。不能叠加或刷新时间，暂停和命中停顿冻结计时。C / 空中F 飞踢（10%）；U 糖哭反击（15%），防住一次正面攻击并回击，起手、背后和投技可破；I hey?（10%）；T 唐笑（20%）；L 咕咕嘎嘎（40%）；B 投技。基础攻击支持站立、蹲下和空中。</p><p class="help-note tomori-only" hidden>G / 2P Delete：凑企鹅立即变身（50%，持续20秒，无前摇）。<br>灯：I 微光音符（20%，伤害12）；T 诗句回声（30%，伤害18）；L 迷途之歌（60%）连续唱出三段音波，每段原始伤害8，连击存在衰减。均需在地面或平台施放，受击会停止后续歌声，已发出的音符继续前进；可被防御、钢板和飞行物抵挡。2P使用小键盘4 / Enter / 3，手机有对应按钮。</p><p class="help-note soyo-only" hidden>素世 G / 2P Delete：归心·自愈消耗35%共鸣，按胸凝神0.7秒后恢复24生命（上限100），总收招1.2秒，独立冷却12秒。限地面施放，满血不会消耗能量；起手可被打断，打断后不回血，能量与冷却仍消耗。<br>素世 T / 2P小键盘 Enter 消耗50%共鸣，在地面召唤三个小天素罗，自动轮流追击，持续10秒。每次突袭原始伤害4，可被防御（磨血1）和爱音正面钢板抵挡；召唤物不会给素世回充共鸣。持续期间不能重召或叠加，暂停冻结，回合结束与重开清除。练习按钮沿用当前所选角色。</p><p class="help-note">蹲防挡下段，站防挡跳跃攻击与越拍踢。投技可破防。普通技命中后可接更重拳脚或必杀，必杀命中可接大招；连续命中伤害会衰减。表中为单次原始伤害，大招合计48。爱音 U 召唤钢板（20%共鸣），持续3秒、40耐久，可抵消正面打击和音符弹；超出耐久的伤害仍会扣血，背后攻击和投技可绕过。爱音投技改为 B。T 释放 TGW 音波（30%共鸣），地面发动，伤害22、强击退；会被格挡、钢板和对方飞行物挡下。<br>C 闪光突刺（15%）命中可接 V 切分三连击（25%），V 末段命中可接 P 大招。空中 F / ↓+重脚发动流星俯冲踢（15%，需离地一定高度）；空中普通技命中可接 F。俯冲命中落地收招短，落空或被挡收招更长。<br>方向连按两次可冲刺。练习模式共鸣收招后自动回满，木桩最低保留1生命。</p></dialog>
+  <dialog id="help-dialog"><div class="dialog-header"><h2>操作说明</h2><button id="close-help" aria-label="关闭操作说明">×</button></div><div class="help-grid"><div><h3 id="help-player-name">1P</h3><p>AD 移动 · W 跳跃 · S 蹲下<br>J 攻击 · K 重击或腿击 · L 瞬移<br>U / I / O 三个基础技能 · H 变身 · P 大招</p></div><div><h3>2P / 本地双人</h3><p>方向键移动、跳跃与蹲下。<br>小键盘 1 攻击 · 2 重击 · 3 瞬移<br>4 / 5 / 6 基础技能 · 7 变身 · 8 大招</p></div></div><p>按住后退方向防御，后退＋蹲下挡下段。连按 J 依次打出三段普攻；站立、蹲下与空中动作不同。方向＋U/I/O 使用扩展技能，具体见招式表；前后以面朝方向为准。后＋U 或前＋O 投技。</p><div id="help-skills"></div><p class="help-note">L 可在地面或空中闪身，沿途留下人物虚影，冷却0.6秒，起步短暂无敌。W 可二段跳；↓＋W 穿台下落。触屏可同时按方向和技能。灯的 H 消耗50能量，立即变身凑企鹅20秒；变身期间不能刷新。立希普攻命中积累四拍，满四拍强化下一次基础特殊技。</p><p class="help-note">每回合60秒，生命200，共鸣上限100。F1 打开招式表。暂停、继续、重开与下一回合使用页面按钮；切换窗口自动暂停。</p></dialog>
+  <dialog id="moves-dialog"><div class="dialog-header"><h2 id="moves-title">招式表</h2><button id="close-moves" aria-label="关闭招式表">×</button></div><p id="moves-intro"></p><div id="moves-content"></div><p class="help-note">方向以前后表示，换边后自动反转；2P 使用小键盘。连按 J / 小键盘1 可打出三段普攻，第三段挑空。后退防御，蹲防挡下段；投技破防。命中可接后续攻击，连续命中伤害逐步衰减。技能仍受能量、施放姿态与自身冷却限制。变身与大招仅显示角色已拥有的招式。</p></dialog>
   <script>/*__ASSETS__*/</script>
+  <script>/*__CONTROLS__*/</script>
   <script>/*__ENGINE__*/</script>
   <script>/*__ANIMATION__*/</script>
   <script>/*__CAMERA__*/</script>

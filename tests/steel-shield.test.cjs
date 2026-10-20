@@ -13,7 +13,7 @@ test('steel shield costs 20, belongs to Anon, requires ground, and does not atta
   assert.equal(MOVES.shield?.cost, 20);
   const m = setup(); m.fighters[0].energy = 20; m.advance(10, { shield: true });
   assert.equal(m.fighters[0].energy, 0); m.advance(110);
-  assert.equal(m.fighters[0].shield.hp, 40); assert.equal(m.fighters[1].hp, 100);
+  assert.equal(m.fighters[0].shield.hp, 40); assert.equal(m.fighters[1].hp, 200);
   assert.equal(moveList(0).find(m => m.key === 'shield').command, 'U');
   assert.ok(!moveList(1).some(m => m.key === 'shield'));
   assert.ok(moveList(0).find(m => m.key === 'throw').command.includes('B'));
@@ -26,31 +26,31 @@ test('steel shield costs 20, belongs to Anon, requires ground, and does not atta
 });
 test('plate absorbs frontal strikes with durability, breaks, and passes excess damage to HP', () => {
   const m = setup(); summon(m);
-  m.hit(1, 'heavy'); assert.equal(m.fighters[0].hp, 100); assert.equal(m.fighters[0].shield.hp, 24);
-  m.hit(1, 'special'); assert.equal(m.fighters[0].hp, 100); assert.equal(m.fighters[0].shield, null);
-  m.hit(1, 'light'); assert.equal(m.fighters[0].hp, 92);
+  m.hit(1, 'heavy'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield.hp, 24);
+  m.hit(1, 'special'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield, null);
+  m.hit(1, 'light'); assert.equal(m.fighters[0].hp, 192);
   const shieldEvents = m.drainEvents().filter(e => e.type === 'shieldHit');
   assert.deepEqual(shieldEvents.map(e => e.absorbed), [16, 24]);
   assert.equal(shieldEvents[1].broken, true);
   const n = setup(); summon(n); n.fighters[0].shield.hp = 10;
-  n.hit(1, 'special'); assert.equal(n.fighters[0].hp, 86); assert.equal(n.fighters[0].shield, null);
+  n.hit(1, 'special'); assert.equal(n.fighters[0].hp, 186); assert.equal(n.fighters[0].shield, null);
 });
 test('front plate intercepts real projectiles but throws and rear attacks bypass it', () => {
   const m = setup(); m.fighters[1].x = 620; summon(m);
   m.spawnWave(1); m.advance(500);
-  assert.equal(m.fighters[0].hp, 100); assert.equal(m.fighters[0].shield.hp, 26); assert.equal(m.waves.length, 0);
+  assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield.hp, 26); assert.equal(m.waves.length, 0);
   for (const attack of ['heavy', 'throw']) {
     const n = setup(); summon(n);
     if (attack === 'heavy') n.fighters[1].x = 300;
     n.hit(1, attack);
-    assert.equal(n.fighters[0].hp, attack === 'heavy' ? 84 : 82);
+    assert.equal(n.fighters[0].hp, attack === 'heavy' ? 184 : 182);
     assert.equal(n.fighters[0].shield.hp, 40);
   }
 });
 test('guard chip after steel breaks cannot exceed the damage left over', () => {
   const m = setup(); summon(m); m.advance(500); m.fighters[0].shield.hp = 23;
   m.advance(10, { guard: true }); m.hit(1, 'special');
-  assert.equal(m.fighters[0].shield, null); assert.equal(m.fighters[0].hp, 99);
+  assert.equal(m.fighters[0].shield, null); assert.equal(m.fighters[0].hp, 199);
 });
 test('shield can stay up while acting, refreshes without stacking, freezes on pause and resets', () => {
   const m = setup(); m.fighters[1].x = 850; summon(m); m.advance(400);

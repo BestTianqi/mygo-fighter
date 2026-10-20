@@ -3,7 +3,7 @@
 
 def open_settings(page):
     if not page.locator('#settings-dialog').evaluate('(dialog) => dialog.open'):
-        page.click('#settings')
+        page.click('#menu-settings' if page.locator('#main-menu').is_visible() else '#settings')
 
 
 def select_game_option(page, selector, value):

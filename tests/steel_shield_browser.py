@@ -24,26 +24,26 @@ with sync_playwright() as p:
     page.keyboard.press('u'); page.clock.run_for(160)
     assert page.evaluate('mygoGame.match.fighters[0].shield.hp') == 40
     assert page.evaluate('mygoGame.match.fighters[0].energy') == 0
-    assert page.evaluate('mygoGame.match.fighters[1].hp') == 100
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 200
     assert '钢板' in page.locator('#special1').inner_text()
     page.keyboard.press('Numpad2'); page.clock.run_for(700)
     assert page.evaluate('mygoGame.match.fighters[0].shield.hp') == 24
-    assert page.evaluate('mygoGame.match.fighters[0].hp') == 100
+    assert page.evaluate('mygoGame.match.fighters[0].hp') == 200
     page.screenshot(path=str(ART / 'anon-steel-shield.png'), full_page=True)
     page.evaluate('mygoGame.match.fighters[1].energy=20')
     page.keyboard.press('Numpad4'); page.clock.run_for(700)
     assert page.evaluate('mygoGame.match.fighters[0].shield.hp') == 10
-    assert page.evaluate('mygoGame.match.fighters[0].hp') == 100
+    assert page.evaluate('mygoGame.match.fighters[0].hp') == 200
     page.keyboard.press('Numpad2'); page.clock.run_for(700)
     assert page.evaluate('mygoGame.match.fighters[0].shield') is None
-    assert page.evaluate('mygoGame.match.fighters[0].hp') == 94
+    assert page.evaluate('mygoGame.match.fighters[0].hp') == 194
 
     page.keyboard.press('r'); page.clock.run_for(1150)
     page.evaluate('''() => { const m = mygoGame.match;
       m.fighters[0].x=420; m.fighters[0].energy=20; m.fighters[1].x=480; }''')
     page.keyboard.press('u'); page.clock.run_for(500)
     page.keyboard.press('b'); page.clock.run_for(180)
-    assert page.evaluate('mygoGame.match.fighters[1].hp') == 82
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 182
     assert page.evaluate('mygoGame.match.fighters[0].shield.hp') == 40
     page.keyboard.press('Space')
     before = page.evaluate('JSON.stringify(mygoGame.match.fighters[0].shield)')

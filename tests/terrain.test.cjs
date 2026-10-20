@@ -48,10 +48,10 @@ test('dive height is measured above the supporting surface, and platform landing
 });
 test('throws work on a shared elevated surface but cannot grab a fighter on another level', () => {
   const m = fight(); Object.assign(m.fighters[0], { x: 300, y: 64 }); Object.assign(m.fighters[1], { x: 360, y: 64 });
-  m.advance(10, { throw: true }); m.advance(100); assert.equal(m.fighters[1].hp, 82);
+  m.advance(10, { throw: true }); m.advance(100); assert.equal(m.fighters[1].hp, 182);
   const n = fight({ platforms: [{ left: 230, right: 320, height: 64 }] });
   Object.assign(n.fighters[0], { x: 300, y: 64 }); Object.assign(n.fighters[1], { x: 360, y: 0 });
-  n.advance(10, { throw: true }); n.advance(100); assert.equal(n.fighters[1].hp, 100);
+  n.advance(10, { throw: true }); n.advance(100); assert.equal(n.fighters[1].hp, 200);
 });
 test('sloped ground sets spawn height, follows walking and receives a jump correctly', () => {
   const m = fight({ hills: [{ left: 150, peak: 280, right: 410, height: 40 }] });
@@ -64,7 +64,7 @@ test('solid ground intercepts a projectile while a high projectile can pass over
   const m = fight({ hills: [{ left: 410, peak: 480, right: 550, height: 110 }] });
   m.fighters[0].x = 330; m.fighters[0].energy = 20; m.fighters[1].x = 620;
   m.advance(10, { wave: true }); m.advance(1300);
-  assert.equal(m.fighters[1].hp, 100); assert.ok(m.drainEvents().some(e => e.type === 'terrainHit'));
+  assert.equal(m.fighters[1].hp, 200); assert.ok(m.drainEvents().some(e => e.type === 'terrainHit'));
   m.waves.push({ x: 400, y: 200, vx: 440, life: 1000, age: 0, owner: 0, attack: 'wave', rx: 15, ry: 20 });
   m.advance(300); assert.equal(m.waves.length, 1);
 });

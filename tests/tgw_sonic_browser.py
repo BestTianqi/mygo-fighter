@@ -31,7 +31,7 @@ with sync_playwright() as p:
     page.clock.run_for(800)
     assert page.evaluate('JSON.stringify(mygoGame.match.waves)') == before
     page.keyboard.press('Space'); page.clock.run_for(900)
-    assert page.evaluate('mygoGame.match.fighters[1].hp') == 78
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 178
     assert page.evaluate('mygoGame.match.waves.length') == 0
     page.keyboard.press('F1')
     assert 'TGW·音波攻击' in page.locator('#moves-content').inner_text()
@@ -45,7 +45,7 @@ with sync_playwright() as p:
     page.evaluate('mygoGame.match.fighters[0].energy=30')
     page.keyboard.down('Numpad0'); page.keyboard.press('t'); page.clock.run_for(1100)
     page.keyboard.up('Numpad0')
-    assert page.evaluate('mygoGame.match.fighters[1].hp') == 97
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 197
 
     select_game_option(page, '#opponent-character', '0'); start_match(page); page.clock.run_for(1150)
     page.evaluate('mygoGame.match.fighters[1].energy=20')
@@ -53,7 +53,7 @@ with sync_playwright() as p:
     assert page.evaluate('mygoGame.match.fighters[1].shield.hp') == 40
     page.evaluate('mygoGame.match.fighters[0].energy=30')
     page.keyboard.press('t'); page.clock.run_for(1100)
-    assert page.evaluate('mygoGame.match.fighters[1].hp') == 100
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 200
     assert page.evaluate('mygoGame.match.fighters[1].shield.hp') == 18
 
     select_game_option(page, '#player-character', '1'); start_match(page); page.clock.run_for(1150)

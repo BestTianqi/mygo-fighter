@@ -8,13 +8,13 @@ ROOT=Path(__file__).resolve().parents[1]
 PROBE='''() => {
   window.voiceProbe={decoded:[],starts:[],stops:[]};const names=new WeakMap();let decodeIndex=0;
   const proto=AudioContext.prototype,decode=proto.decodeAudioData,create=proto.createBufferSource;
-  proto.decodeAudioData=function(bytes){const name=Object.keys(MYGO_ASSETS.penguinVoices)[decodeIndex++];
+   proto.decodeAudioData=function(bytes){const name=Object.keys({...MYGO_ASSETS.penguinVoices,...MYGO_ASSETS.soyoVoices})[decodeIndex++];
     return decode.call(this,bytes).then(buffer=>{names.set(buffer,name);const samples=buffer.getChannelData(0);
       let energy=0,peak=0;for(const s of samples){energy+=s*s;peak=Math.max(peak,Math.abs(s));}
       voiceProbe.decoded.push({name,duration:buffer.duration,rms:Math.sqrt(energy/samples.length),peak});return buffer;});};
   proto.createBufferSource=function(){const source=create.call(this),start=source.start,stop=source.stop;
-    source.start=function(...args){voiceProbe.starts.push({name:names.get(this.buffer),offset:args[1]||0});return start.apply(this,args);};
-    source.stop=function(...args){voiceProbe.stops.push(names.get(this.buffer));return stop.apply(this,args);};return source;};
+    source.start=function(...args){if(names.has(this.buffer))voiceProbe.starts.push({name:names.get(this.buffer),offset:args[1]||0});return start.apply(this,args);};
+    source.stop=function(...args){if(names.has(this.buffer))voiceProbe.stops.push(names.get(this.buffer));return stop.apply(this,args);};return source;};
 }'''
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True,channel='msedge')
@@ -36,9 +36,9 @@ with sync_playwright() as p:
         page.evaluate('mygoGame.match.fighters[0].energy=100;voiceProbe.starts=[];voiceProbe.stops=[]')
     morph();page.keyboard.press('i');page.clock.run_for(600)
     assert page.evaluate('voiceProbe.starts.length')==0
-    page.click('#sound');page.wait_for_function('voiceProbe.decoded.length===5')
+    page.click('#sound');page.wait_for_function('voiceProbe.decoded.length===6')
     assert page.locator('#sound').get_attribute('aria-pressed')=='true'
-    clips=page.evaluate('voiceProbe.decoded')
+    clips=page.evaluate('voiceProbe.decoded.filter(c=>c.name.startsWith("penguin"))')
     assert all(.5<c['duration']<4 and .025<c['rms']<.5 and c['peak']<.99 for c in clips),clips
     for key,name in [('c','penguinKick'),('u','penguinCry'),('i','penguinHey'),('t','penguinLaugh'),('l','penguinCall')]:
         morph();page.keyboard.press(key);page.clock.run_for(50)
@@ -72,7 +72,7 @@ with sync_playwright() as p:
     assert 'penguinHey' in page.evaluate('voiceProbe.stops')
 
     mobile=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
-    phone=mobile.new_page();setup(phone);phone.tap('#sound');phone.wait_for_function('voiceProbe.decoded.length===5')
+    phone=mobile.new_page();setup(phone);phone.tap('#sound');phone.wait_for_function('voiceProbe.decoded.length===6')
     phone.evaluate('mygoGame.match.fighters[0].energy=100')
     cdp=mobile.new_cdp_session(phone)
     def tap(key):

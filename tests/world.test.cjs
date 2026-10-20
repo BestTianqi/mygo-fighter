@@ -25,7 +25,7 @@ test('lower ground interpolates ramps, supports jumps, downward drops and low-al
 });
 test('projectiles and all three Soyo summons keep working outside the original screen', () => {
   const m = fight(), a = m.fighters[0], b = m.fighters[1]; Object.assign(a,{ x:1150,energy:100 }); b.x=1430;
-  m.advance(10,{ wave:true });m.advance(1000);assert.ok(b.hp < 100);
+  m.advance(10,{ wave:true });m.advance(1000);assert.ok(b.hp < 200);
   m.advance(300);a.energy=100;m.advance(10,{ sonic:true });m.advance(3000);
   assert.equal(a.summons.units.length,3);assert.ok(a.summons.units.every(p=>p.x>960));
   assert.ok(m.drainEvents().some(e=>e.type==='minionStrike'));

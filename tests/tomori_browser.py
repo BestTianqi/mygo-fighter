@@ -16,7 +16,7 @@ with sync_playwright() as p:
     page.clock.install(time='2026-01-01T00:00:00Z')
     page.goto((ROOT/'index.html').as_uri());page.wait_for_function('mygoGame.loaded')
     page.clock.pause_at('2026-01-01T00:01:00Z')
-    assert page.evaluate('MYGO_ASSETS.characters.length')==3
+    assert page.evaluate('MYGO_ASSETS.characters.length')==5
     select_game_option(page,'#player-character','2');select_game_option(page,'#opponent-character','0')
     select_game_option(page,'#mode','duel');page.uncheck('#terrain-enabled');start_match(page);page.clock.run_for(1800)
     assert page.locator('#name1').inner_text()=='高松灯'
@@ -38,7 +38,7 @@ with sync_playwright() as p:
     assert page.evaluate('mygoGame.match.fighters[0].energy')==70
     assert page.evaluate('mygoGame.match.waves[0].attack')=='tomoriEcho'
     page.locator('#stage').screenshot(path=str(ART/'tomori-poetry-echo.png'))
-    page.clock.run_for(1600);assert page.evaluate('mygoGame.match.fighters[1].hp')==82
+    page.clock.run_for(1600);assert page.evaluate('mygoGame.match.fighters[1].hp')==182
     restart();page.keyboard.press('i');page.clock.run_for(1000)
     restart();page.evaluate('mygoGame.match.fighters[0].x=300;mygoGame.match.fighters[1].x=470')
     page.keyboard.press('l');page.clock.run_for(350)
@@ -48,7 +48,7 @@ with sync_playwright() as p:
     page.clock.run_for(1000);assert page.evaluate('JSON.stringify(mygoGame.match.fighters)+JSON.stringify(mygoGame.match.waves)')==frozen
     page.keyboard.press('Space');page.clock.run_for(1700)
     assert page.evaluate('mygoGame.match.fighters[0].hitMarks.length')==3
-    assert page.evaluate('mygoGame.match.fighters[1].hp')==79
+    assert page.evaluate('mygoGame.match.fighters[1].hp')==179
     page.keyboard.press('F1')
     text=page.locator('#moves-content').inner_text()
     assert all(name in text for name in ['微光音符','诗句回声','迷途之歌','8 × 3'])
@@ -57,7 +57,8 @@ with sync_playwright() as p:
 
     restart();page.keyboard.down('d');page.clock.run_for(300)
     page.keyboard.press('ShiftLeft');page.clock.run_for(100);page.keyboard.up('d');page.clock.run_for(650)
-    page.keyboard.down('a');page.keyboard.press('ShiftLeft');page.clock.run_for(100);page.keyboard.up('a');page.clock.run_for(650)
+    back='a' if page.evaluate('mygoGame.match.fighters[0].facing')>0 else 'd'
+    page.keyboard.down(back);page.keyboard.press('ShiftLeft');page.clock.run_for(100);page.keyboard.up(back);page.clock.run_for(650)
     page.keyboard.press('w');page.clock.run_for(1200)
     page.keyboard.press('j');page.clock.run_for(450);page.keyboard.press('k');page.clock.run_for(700)
     page.keyboard.down('o');page.clock.run_for(50);page.keyboard.down('s');page.clock.run_for(50)

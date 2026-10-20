@@ -1,0 +1,30 @@
+[
+  {
+    "test": "anon_offense_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "anon_skills_browser.py",
+    "exit": 1
+  },
+  {
+    "test": "steel_shield_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "tgw_sonic_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "terrain_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "animation_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "jab_animation_browser.py",
+    "exit": 0
+  }
+]

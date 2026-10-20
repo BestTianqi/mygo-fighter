@@ -12,6 +12,7 @@ test('both approved idles remain; Anon movement and each dash direction have dis
   m.elapsed += 110; assert.equal(choose(m, 0), 'walk-contact');
   a.dashMs = 140; a.vx = 580; assert.equal(choose(m, 0), 'dash-forward');
   a.vx = -580; assert.equal(choose(m, 0), 'dash-back');
+  a.y=150;a.vy=100;assert.equal(choose(m,0),'dash-back');
 });
 test('jump art progresses through takeoff, rise, fall and landing, including elevated surfaces', () => {
   for (const height of [0, 64]) {
@@ -65,5 +66,5 @@ test('a real crouching block keeps its low guard drawing throughout blockstun', 
     const pose = choose(m, 0), f = m.fighters[0];
     if (f.stun && f.guard) { assert.equal(pose, 'guard-crouch'); if (!f.crouch) sawClearedCrouch = true; }
   }
-  assert.ok(sawClearedCrouch); assert.equal(m.fighters[0].hp, 100);
+  assert.ok(sawClearedCrouch); assert.equal(m.fighters[0].hp, 200);
 });

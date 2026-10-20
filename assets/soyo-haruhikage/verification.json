@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-19",
+  "browser": "Microsoft Edge (headless)",
+  "passed": true,
+  "results": [
+    {
+      "duration": 2.6,
+      "width": 853,
+      "height": 480,
+      "playedToEnd": true,
+      "decodedFrames": 78,
+      "file": "soyo-haruhikage-cutin.mp4"
+    },
+    {
+      "duration": 6.997333,
+      "width": 480,
+      "height": 853,
+      "playedToEnd": true,
+      "decodedFrames": 166,
+      "file": "soyo-haruhikage-portrait-reference.mp4"
+    },
+    {
+      "duration": 2.6,
+      "sampleRate": 48000,
+      "channels": 1,
+      "peak": 0.5726314187049866,
+      "rms": 0.11398360978277405,
+      "file": "soyo-haruhikage-voice.mp3"
+    }
+  ],
+  "hashesMatchManifest": true
+}

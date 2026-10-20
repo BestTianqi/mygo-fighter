@@ -1,0 +1,30 @@
+[
+  {
+    "test": "rana_parfait_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "soyo_actions_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "soyo_summon_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "soyo_super_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "tomori_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "penguin_browser.py",
+    "exit": 0
+  },
+  {
+    "test": "penguin_voice_browser.py",
+    "exit": 0
+  }
+]

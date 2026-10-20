@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>要乐奈 · 人物素材预览</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10131c;color:#eee9ee;font:14px "Microsoft YaHei",sans-serif}main{max-width:1160px;margin:auto;padding:24px 16px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}h1{font-size:24px;margin:0 0 7px}header p{margin:0;color:#b2a8b8;font-size:12px}.tag{white-space:nowrap;color:#e3b7bc;border:1px solid #664252;padding:6px 10px;border-radius:5px}.stage{border:1px solid #47424e;background:#272532;border-radius:8px;overflow:hidden}#preview{display:block;width:100%;height:auto}.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0}select,button{font:inherit;color:inherit;background:#292533;border:1px solid #63546b;border-radius:5px;padding:9px 12px;min-height:38px}button{cursor:pointer}button:hover{background:#443447}label{display:flex;align-items:center;gap:5px;color:#c9bdcf;font-size:12px}input{accent-color:#b694b5}#pose{min-width:160px}.count{color:#a89cae;margin-left:auto;font-size:12px}.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:22px}.tile{margin:0;background:#252630;border:1px solid #46414d;border-radius:5px;cursor:pointer}.tile.selected{border-color:#d3a4bf;background:#39303e}.tile canvas{display:block;width:100%;height:auto}.tile figcaption{text-align:center;padding:8px 2px;font-size:11px;color:#d2c6d7}footer{margin-top:18px;color:#9d93a6;font-size:12px}a{color:#d5b0cb}body.proof main{max-width:none;width:1600px}body.proof header,body.proof .stage,body.proof .controls,body.proof footer{display:none}body.proof .grid{grid-template-columns:repeat(8,1fr);margin:0}body.proof .tile canvas{height:255px;object-fit:contain}
+@media(max-width:650px){main{padding:16px 10px}header{display:block}h1{font-size:21px}.tag{display:inline-block;margin-top:10px}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.controls{gap:7px}select{max-width:100%}.count{margin-left:0;width:100%}}
+</style></head><body><main>
+<header><div><h1>要乐奈 · 吉他动作素材</h1><p>正常动画身材 · 官方立绘参考 · 48个动作</p></div><span class="tag">48张动作 · 已接入实战</span></header>
+<div class="stage"><canvas id="preview" width="1280" height="720" aria-label="乐奈人物动作预览"></canvas></div>
+<div class="controls"><select id="group" aria-label="动作分组"></select><select id="pose" aria-label="动作"></select><button id="previous">上一张</button><button id="next">下一张</button><button id="play" aria-pressed="false">轮播本组</button><label><input id="mirror" type="checkbox">朝向左侧</label><label><input id="compare" type="checkbox">与现有角色对照</label><span id="count" class="count"></span></div>
+<div id="poses" class="grid"></div><footer>所有素材已嵌入本页，可离线查看。<a href="index.html">返回现有格斗游戏</a></footer>
+</main><script>/*__RANA_ASSETS__*/</script><script>
+(async()=>{'use strict';const a=RANA_ASSETS,$=id=>document.getElementById(id),load=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src;});
+const [atlas,bg,...others]=await Promise.all([load(a.atlas),load(a.background),...a.comparisons.map(c=>load(c.src))]);let selected=0,playing=false,last=0;
+const canvas=$('preview'),ctx=canvas.getContext('2d');
+function sprite(c,f,x,y,scale=1){const ratio=f.height/f.h*scale;c.drawImage(atlas,f.x,f.y,f.w,f.h,x-f.ax*ratio,y-f.ay*ratio,f.w*ratio,f.h*ratio);}
+function render(){const f=a.frames[selected];ctx.clearRect(0,0,1280,720);ctx.drawImage(bg,0,0,1280,720);ctx.fillStyle='#10101d66';ctx.fillRect(0,0,1280,720);
+ const compare=$('compare').checked;
+ if(compare)others.forEach((im,i)=>{const h=325,w=im.width/im.height*h,x=170+i*285;ctx.drawImage(im,x-w/2,620-h,w,h);ctx.fillStyle='#eee9ee';ctx.font='18px "Microsoft YaHei"';ctx.textAlign='center';ctx.fillText(a.comparisons[i].name,x,660);});
+ const x=compare?1050:640,y=compare?620:640,scale=compare?325/235:1.85;
+ ctx.save();ctx.translate(x,0);ctx.scale($('mirror').checked?-1:1,1);sprite(ctx,f,0,y,scale);ctx.restore();
+ ctx.font='20px "Microsoft YaHei"';ctx.textAlign='center';ctx.fillStyle='#fff0f5';ctx.fillText('要乐奈 · '+f.label,x,compare?660:690);
+}
+function select(index){selected=index;const f=a.frames[index];$('group').value=String(f.group);$('pose').replaceChildren(...a.frames.filter(p=>p.group===f.group).map(p=>new Option(p.label,p.name)));$('pose').value=f.name;
+ $('count').textContent=(index+1)+' / '+a.frames.length;document.querySelectorAll('.tile').forEach((tile,i)=>tile.classList.toggle('selected',i===index));render();}
+a.groups.forEach((label,i)=>$('group').add(new Option(label,String(i))));
+a.frames.forEach((f,i)=>{const tile=document.createElement('figure');tile.className='tile';tile.dataset.name=f.name;tile.tabIndex=0;tile.setAttribute('role','button');tile.setAttribute('aria-label',f.label);
+ const thumb=document.createElement('canvas');thumb.width=230;thumb.height=295;const c=thumb.getContext('2d');
+ const ratio=Math.min(.88*f.height/f.h,210/f.w,260/f.h),center=115+(f.ax-f.w/2)*ratio;sprite(c,f,center,277,ratio*f.h/f.height);
+ const caption=document.createElement('figcaption');caption.textContent=f.label;tile.append(thumb,caption);tile.onclick=()=>select(i);tile.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);}};$('poses').append(tile);});
+$('group').onchange=()=>select(Number($('group').value)*4);$('pose').onchange=()=>select(a.frames.findIndex(f=>f.name===$('pose').value));$('previous').onclick=()=>select((selected+47)%48);$('next').onclick=()=>select((selected+1)%48);$('mirror').onchange=render;$('compare').onchange=render;
+$('play').onclick=()=>{playing=!playing;last=performance.now();$('play').textContent=playing?'暂停轮播':'轮播本组';$('play').setAttribute('aria-pressed',String(playing));};
+function tick(time){if(playing&&time-last>650){last=time;select(Math.floor(selected/4)*4+(selected%4+1)%4);}requestAnimationFrame(tick);}select(0);requestAnimationFrame(tick);window.ranaPreviewReady=true;
+})().catch(error=>{document.querySelector('header p').textContent='素材预览加载失败，请重新打开完整文件。';console.error(error);});
+</script></body></html>

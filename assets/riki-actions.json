@@ -1,0 +1,185 @@
+[
+  {
+    "file": "riki-presence-v1.png",
+    "names": [
+      "idle",
+      "walk-contact",
+      "walk-pass",
+      "guard-standing"
+    ],
+    "heights": [
+      235,
+      235,
+      235,
+      230
+    ]
+  },
+  {
+    "file": "riki-air-v1.png",
+    "names": [
+      "jump-rise",
+      "jump-fall",
+      "landing",
+      "guard-crouch"
+    ],
+    "heights": [
+      220,
+      235,
+      180,
+      160
+    ]
+  },
+  {
+    "file": "riki-motion-v1.png",
+    "names": [
+      "dash-forward",
+      "dash-back",
+      "normal-windup",
+      "normal-recover"
+    ],
+    "heights": [
+      220,
+      230,
+      225,
+      235
+    ]
+  },
+  {
+    "file": "riki-defense-v1.png",
+    "names": [
+      "hit-high",
+      "hit-low",
+      "knockdown-fall",
+      "knockdown-ground"
+    ],
+    "heights": [
+      230,
+      170,
+      195,
+      90
+    ]
+  },
+  {
+    "file": "riki-recovery-v1.png",
+    "names": [
+      "getup",
+      "victory",
+      "throw-windup",
+      "throw-release"
+    ],
+    "heights": [
+      170,
+      235,
+      230,
+      220
+    ]
+  },
+  {
+    "file": "riki-normals-standing-a-v1.png",
+    "names": [
+      "standing-light",
+      "standing-medium",
+      "standing-heavy",
+      "standing-lightKick"
+    ],
+    "heights": [
+      235,
+      235,
+      225,
+      230
+    ],
+    "overrides": {
+      "standing-lightKick": "riki-standing-light-kick-v2.png"
+    }
+  },
+  {
+    "file": "riki-normals-standing-b-v2.png",
+    "names": [
+      "standing-mediumKick",
+      "standing-heavyKick",
+      "crouch-light",
+      "crouch-medium"
+    ],
+    "heights": [
+      235,
+      230,
+      155,
+      160
+    ]
+  },
+  {
+    "file": "riki-normals-crouch-v1.png",
+    "names": [
+      "crouch-heavy",
+      "crouch-lightKick",
+      "crouch-mediumKick",
+      "crouch-heavyKick"
+    ],
+    "heights": [
+      170,
+      150,
+      150,
+      145
+    ]
+  },
+  {
+    "file": "riki-normals-air-a-v1.png",
+    "names": [
+      "air-light",
+      "air-medium",
+      "air-heavy",
+      "air-lightKick"
+    ],
+    "heights": [
+      220,
+      225,
+      245,
+      220
+    ]
+  },
+  {
+    "file": "riki-normals-air-b-v1.png",
+    "names": [
+      "air-mediumKick",
+      "air-heavyKick",
+      "calibrate-windup",
+      "calibrate-release"
+    ],
+    "heights": [
+      225,
+      235,
+      235,
+      235
+    ]
+  },
+  {
+    "file": "riki-percussion-v1.png",
+    "names": [
+      "roll-release",
+      "rush-impact",
+      "overhead-impact",
+      "ground-shock"
+    ],
+    "heights": [
+      235,
+      215,
+      250,
+      205
+    ]
+  },
+  {
+    "file": "riki-finale-v1.png",
+    "names": [
+      "uppercut-impact",
+      "eight-beat-release",
+      "super-windup",
+      "super-release"
+    ],
+    "heights": [
+      280,
+      235,
+      260,
+      250
+    ]
+  }
+]

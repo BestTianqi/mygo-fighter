@@ -28,7 +28,8 @@ with sync_playwright() as p:
     page.click('#super-demo'); page.clock.run_for(1800)
     page.keyboard.down('d'); page.clock.run_for(300)
     page.keyboard.press('ShiftLeft'); page.clock.run_for(100); page.keyboard.up('d'); page.clock.run_for(650)
-    page.keyboard.down('a'); page.keyboard.press('ShiftLeft'); page.clock.run_for(100); page.keyboard.up('a'); page.clock.run_for(650)
+    back='a' if page.evaluate('mygoGame.match.fighters[0].facing')>0 else 'd'
+    page.keyboard.down(back); page.keyboard.press('ShiftLeft'); page.clock.run_for(100); page.keyboard.up(back); page.clock.run_for(650)
     page.keyboard.press('w'); page.clock.run_for(200)
     page.locator('#stage').screenshot(path=str(ART / 'anon-new-jump.png'))
     page.clock.run_for(1000)

@@ -1,13 +1,13 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { Match, WORLD } = require('../src/engine.js');
+const { Match, WORLD, FEEL } = require('../src/engine.js');
 const { Camera, SAFE, fighterBounds } = require('../src/camera.js');
 function setup(){const m=new Match({mode:'duel',characters:[0,1]});m.start();m.advance(1000);const c=new Camera();c.reset(m);return{m,c};}
 function visible(m,c){for(const f of m.fighters){const b=fighterBounds(f);for(const [x,y]of[[b.left,b.top],[b.right,b.bottom]]){const p=c.project(x,y);assert.ok(p.x>=SAFE.left-.01&&p.x<=SAFE.right+.01,JSON.stringify(p));assert.ok(p.y>=SAFE.top-.01&&p.y<=SAFE.bottom+.01,JSON.stringify(p));}}}
 test('camera zooms out for separated fighters and smoothly zooms back in for close combat',()=>{
-  const{m,c}=setup(),close=c.zoom;m.fighters[0].x=-650;m.fighters[1].x=1600;c.update(m,16);visible(m,c);assert.ok(c.zoom<close*.5);
+  const{m,c}=setup(),close=c.zoom;m.fighters[0].x=-650;m.fighters[1].x=1600;c.update(m,16);visible(m,c);assert.ok(c.zoom<close*.6);
   const far=c.zoom;m.fighters[0].x=420;m.fighters[1].x=485;c.update(m,16);assert.ok(c.zoom>far&&c.zoom<close);visible(m,c);
-  for(let i=0;i<200;i++)c.update(m,16);assert.ok(c.zoom>1);visible(m,c);
+  for(let i=0;i<200;i++)c.update(m,16);assert.ok(Math.abs(c.zoom-FEEL.baseZoom)<.001);visible(m,c);
 });
 test('camera follows horizontal and vertical movement while keeping fighters clear of the HUD',()=>{
   const{m,c}=setup(),before=c.snapshot();m.fighters.forEach(f=>{f.x+=700;f.y=500;});c.update(m,100);visible(m,c);

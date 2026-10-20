@@ -1,0 +1,55 @@
+{
+  "new_actual_drawings": 18,
+  "five_forms": {
+    "0": [
+      "jab-2-impact",
+      "jab-2-recover",
+      "jab-2-windup",
+      "jab-3-impact",
+      "jab-3-recover",
+      "jab-3-windup"
+    ],
+    "1": [
+      "jab-2-impact",
+      "jab-2-recover",
+      "jab-2-windup",
+      "jab-3-impact",
+      "jab-3-recover",
+      "jab-3-windup"
+    ],
+    "2": [
+      "jab-2-impact",
+      "jab-2-recover",
+      "jab-2-windup",
+      "jab-3-impact",
+      "jab-3-recover",
+      "jab-3-windup"
+    ],
+    "3": [
+      "normal-recover",
+      "normal-windup",
+      "rising-impact",
+      "standing-light",
+      "standing-medium",
+      "super-windup",
+      "throw-release",
+      "throw-windup"
+    ],
+    "penguin": [
+      "call-windup",
+      "flipper-heavy",
+      "flipper-light",
+      "kick-light",
+      "kick-medium",
+      "normal-recover",
+      "normal-windup",
+      "transform",
+      "walk-pass"
+    ]
+  },
+  "P2_mirrored": "pass",
+  "touch_hold_chain": "pass",
+  "pause_interrupt": "pass",
+  "offline": "pass",
+  "errors": []
+}

@@ -11,15 +11,15 @@ test('Soyo self heal spends 35, channels before restoring 24 and never damages t
   const m = fight(), a = m.fighters[0]; m.advance(10, { heal: true });
   assert.equal(a.attack, 'heal'); assert.equal(a.energy, 65); assert.equal(a.healCooldown, 12000);
   m.advance(690); assert.equal(a.hp, 50); m.advance(10); assert.equal(a.hp, 74);
-  m.advance(700); assert.equal(a.hp, 74); assert.equal(m.fighters[1].hp, 100);
+  m.advance(700); assert.equal(a.hp, 74); assert.equal(m.fighters[1].hp, 200);
   const events = m.drainEvents().filter(e => e.type === 'heal');
   assert.deepEqual(events, [{ type: 'heal', side: 0, amount: 24 }]);
   assert.ok(moveList(1).some(m => m.key === 'heal')); assert.ok(!moveList(0).some(m => m.key === 'heal'));
 });
 test('heal caps health, rejects full health, insufficient energy, airborne and non-Soyo casts', () => {
-  const cap = fight(); cap.fighters[0].hp = 94; cap.advance(10, { heal: true }); cap.advance(800);
-  assert.equal(cap.fighters[0].hp, 100); assert.equal(cap.drainEvents().find(e => e.type === 'heal').amount, 6);
-  for (const setup of [a => a.hp = 100, a => a.energy = 34, a => { a.y = 110; a.vy = 0; }, a => a.character = 0]) {
+  const cap = fight(); cap.fighters[0].hp = 194; cap.advance(10, { heal: true }); cap.advance(800);
+  assert.equal(cap.fighters[0].hp, 200); assert.equal(cap.drainEvents().find(e => e.type === 'heal').amount, 6);
+  for (const setup of [a => a.hp = 200, a => a.energy = 34, a => { a.y = 110; a.vy = 0; }, a => a.character = 0]) {
     const m = fight(), a = m.fighters[0]; setup(a); const energy = a.energy, hp = a.hp;
     m.advance(10, { heal: true }); assert.equal(a.attack, null); assert.equal(a.energy, energy);
     assert.equal(a.hp, hp); assert.equal(a.healCooldown, 0);

@@ -42,7 +42,7 @@ with sync_playwright() as p:
     assert page.evaluate('mygoGame.match.fighters[0].x') < -600
     assert page.evaluate('mygoGame.match.fighters[1].x') > 1600
     assert page.evaluate('mygoGame.match.fighters.every(f=>f.y<0)')
-    assert page.evaluate('mygoGame.camera.zoom') < initial['zoom']*.5
+    assert page.evaluate('mygoGame.camera.zoom') < initial['zoom']*.6
     visible()
     # Check that actual sprite draws use the same camera transform as the model.
     assert page.evaluate('''() => {const c=mygoGame.camera,m=mygoGame.match,canvas=document.querySelector('#game');
@@ -65,7 +65,7 @@ with sync_playwright() as p:
     # Put the pair on the real uppermost deck, then use ordinary jump/drop controls.
     page.evaluate('''() => {const m=mygoGame.match;m.fighters.forEach((f,i)=>Object.assign(f,{x:1400+i*80,y:480,vy:0,vx:0}));}''')
     page.clock.run_for(1500);visible()
-    assert page.evaluate('mygoGame.camera.zoom') > 1
+    assert abs(page.evaluate('235*mygoGame.camera.zoom/540')-.25)<.012
     page.keyboard.press('w');page.clock.run_for(230)
     assert page.evaluate('mygoGame.match.fighters[0].y') > 570
     visible();page.locator('#stage').screenshot(path=str(ART/'expanded-map-upper-jump.png'))

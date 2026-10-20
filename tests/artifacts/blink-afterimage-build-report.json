@@ -1,0 +1,16 @@
+{
+  "bytes": 43746821,
+  "sha256": "8eba85342840fa68e4089e054252a4991d08532b7db29abc68c16f889d3852b4",
+  "sourceMatches": {
+    "controls.js": true,
+    "engine.js": true,
+    "app.js": true,
+    "animation.js": true,
+    "camera.js": true,
+    "voice.js": true,
+    "style.css": true
+  },
+  "logicTestsPassed": 183,
+  "afterimageBrowserReport": "blink-afterimage-report.json",
+  "controlsBrowserReport": "unified-controls-browser-report.json"
+}

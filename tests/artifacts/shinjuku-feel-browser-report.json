@@ -1,0 +1,28 @@
+{
+  "walk_distance_500ms": {
+    "reference_body_heights": 1.011111111111111,
+    "actual_body_heights": 1.011111111111107
+  },
+  "standing_screen_height": 0.2499933288525211,
+  "jump": {
+    "reference_60hz_apex_body_heights": 0.879320987654321,
+    "actual_apex_body_heights": 0.895783293932229,
+    "reference_60hz_flight_ms": 716.6666666666666,
+    "flight_ms": 710
+  },
+  "air_dash_body_heights": {
+    "reference": 1.0490740740740743,
+    "actual": 1.0299999999999978
+  },
+  "dash_jump_buffer": "pass",
+  "air_dash_landing_retains_travel": "pass",
+  "four_character_chain_and_heavy_landing": "pass",
+  "actual_layered_audio_sources": 18,
+  "quick_input_during_hitstop": "pass",
+  "same_button_repress_during_hitstop": "pass",
+  "2p_keyboard": "pass",
+  "mobile_hold_chain_double_jump_air_dash": "pass",
+  "reduced_motion": "pass",
+  "errors": [],
+  "remote_requests": []
+}

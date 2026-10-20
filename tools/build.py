@@ -21,6 +21,33 @@ def data_url(image, quality=90, lossless=False):
     return "data:image/webp;base64," + base64.b64encode(buffer.getvalue()).decode()
 
 
+def game_atlas(source, frames, columns):
+    # Keep the high-resolution originals and previews. Gameplay needs about
+    # 180 screen pixels per standing body, so two pixels per world unit leave
+    # ample detail while avoiding first-use rasterization of 10-22 MP sheets.
+    pieces = []
+    for frame in frames:
+        logical_height = frame.get('height', 235 * frame['h'] / frames[0]['h'])
+        height = min(frame['h'], round(logical_height * 2))
+        ratio = height / frame['h']
+        piece = source.crop((frame['x'], frame['y'], frame['x'] + frame['w'], frame['y'] + frame['h']))
+        width = round(frame['w'] * ratio)
+        if ratio < 1:
+            piece = piece.resize((width, height), Image.Resampling.LANCZOS)
+        pieces.append((piece, frame, ratio))
+    cell_w = max(p.width for p, _, _ in pieces) + 12
+    cell_h = max(p.height for p, _, _ in pieces) + 12
+    atlas = Image.new('RGBA', (cell_w * columns, cell_h * ((len(pieces) + columns - 1) // columns)))
+    packed = []
+    for i, (piece, original, ratio) in enumerate(pieces):
+        x, y = i % columns * cell_w + 6, i // columns * cell_h + 6
+        atlas.paste(piece, (x, y))
+        packed.append({**original, 'x': x, 'y': y, 'w': piece.width, 'h': piece.height,
+                       'ax': round(original['ax'] * piece.width / original['w'], 2),
+                       'ay': round(original['ay'] * ratio, 2)})
+    return dict(atlas=data_url(atlas, lossless=True), frames=packed)
+
+
 def figures_from_sheet(path, columns, rows):
     source = Image.open(path).convert("RGBA")
     rgba = np.array(source)
@@ -86,7 +113,7 @@ def frames_from_sheet(character):
     atlas.save(ROOT / f"assets/{character}-normal-actions-v3.png")
     sprites[0][0].save(ROOT / f"assets/{character}-idle.png")
     # Lossless character art preserves the small eye and eyelash lines.
-    return dict(atlas=data_url(atlas, lossless=True), frames=frames, portrait=data_url(sprites[0][0], lossless=True))
+    return {**game_atlas(atlas, frames, 4), 'portrait': data_url(sprites[0][0], lossless=True)}
 
 
 def extra_frames(sheets, name, columns):
@@ -105,7 +132,7 @@ def extra_frames(sheets, name, columns):
         frames.append(dict(x=x, y=y, w=sprite.width, h=sprite.height,
                            ax=round(anchor_x, 2), ay=sprite.height, height=height))
     atlas.save(ROOT / f'assets/{name}-runtime.webp', lossless=True, method=6)
-    return dict(atlas=data_url(atlas, lossless=True), frames=frames)
+    return game_atlas(atlas, frames, columns)
 
 
 def build():
@@ -146,20 +173,56 @@ def build():
     base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'mic-light', 'normal-recover',
                   'echo-windup', 'chorus-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
     characters.append(dict(atlas=tomori_actions['atlas'], frames=[tomori_frames[n] for n in base_names], portrait=data_url(idle, lossless=True)))
+    rana_groups = json.loads((ROOT / 'assets/rana-actions.json').read_text(encoding='utf-8'))
+    rana = extra_frames([(g['file'], 2, 2, g['heights']) for g in rana_groups], 'rana', 8)
+    for frame, name in zip(rana['frames'], [name for g in rana_groups for name in g['names']]):
+        frame['name'] = name
+        if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
+    rana_frames = {f['name']: f for f in rana['frames']}
+    idle, _ = figures_from_sheet(ROOT / 'assets/rana-presence-v1.png', 2, 2)[0]
+    idle.save(ROOT / 'assets/rana-idle.png')
+    base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'standing-light', 'normal-recover',
+                  'normal-windup', 'solo-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
+    characters.append(dict(atlas=rana['atlas'], frames=[rana_frames[n] for n in base_names], actionFrames=rana['frames'], portrait=data_url(idle, lossless=True)))
+    riki_frames = json.loads((ROOT / 'assets/riki-frames.json').read_text(encoding='utf-8'))
+    riki = game_atlas(Image.open(ROOT / 'assets/riki-runtime.webp').convert('RGBA'), riki_frames, 8)
+    riki_by_name = {f['name']: f for f in riki['frames']}
+    base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'standing-light', 'normal-recover',
+                  'normal-windup', 'eight-beat-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
+    characters.append(dict(atlas=riki['atlas'], frames=[riki_by_name[n] for n in base_names], actionFrames=riki['frames'],
+                           portrait=data_url(Image.open(ROOT / 'assets/riki-idle.png'), lossless=True)))
+    parfait_actions = extra_frames([('rana-parfait-throw-v2.png', 2, 2, [235] * 4)], 'rana-parfait-actions', 4)
+    for frame, name in zip(parfait_actions['frames'], ['parfait-ready', 'parfait-windup', 'parfait-release', 'parfait-recover']):
+        frame['name'] = name
+    parfait_sprite, _ = figures_from_sheet(ROOT / 'assets/rana-matcha-parfait-v1.png', 1, 1)[0]
+    parfait_sprite.thumbnail((256, 384), Image.Resampling.LANCZOS)
+    parfait_sprite.save(ROOT / 'assets/rana-parfait-projectile.webp', lossless=True, method=6)
     penguin_groups = json.loads((ROOT / 'assets/tomori-penguin-actions.json').read_text(encoding='utf-8'))
     penguin = extra_frames([(g['file'], 2, 2, g['heights']) for g in penguin_groups], 'tomori-penguin', 4)
     for frame, name in zip(penguin['frames'], [name for g in penguin_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
     assets = dict(characters=characters, backgrounds=backgrounds, stages=stages, anonNormals=normals, milkDragon=dragon, anonActions=actions, soyoActions=soyo_actions, soyoTensora=tensora, tomoriActions=tomori_actions, penguin=penguin)
+    assets['ranaParfaitActions'] = parfait_actions
+    assets['ranaParfait'] = dict(src=data_url(parfait_sprite, lossless=True), height=84)
     voice_folder = ROOT / 'assets/audio'
     voice_manifest = json.loads((voice_folder / 'penguin-voices.json').read_text(encoding='utf-8'))
     assets['penguinVoices'] = {clip['move']: 'data:audio/mpeg;base64,' + base64.b64encode((voice_folder / clip['file']).read_bytes()).decode()
                              for clip in voice_manifest['clips']}
+    soyo_folder = ROOT / 'assets/soyo-haruhikage'
+    assets['soyoVoices'] = {'soyoSuper': 'data:audio/mpeg;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-voice.mp3').read_bytes()).decode()}
+    assets['soyoSuperVideo'] = 'data:video/mp4;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-cutin.mp4').read_bytes()).decode()
+    assets['jabActions'] = []
+    for group in json.loads((ROOT / 'assets/jab-actions.json').read_text(encoding='utf-8')):
+        art = extra_frames([(group['file'], 2, 3, group['heights'])], ['anon', 'soyo', 'tomori'][group['character']] + '-jab', 3)
+        for frame, name in zip(art['frames'], ['jab-2-windup', 'jab-2-impact', 'jab-2-recover', 'jab-3-windup', 'jab-3-impact', 'jab-3-recover']):
+            frame['name'] = name
+        assets['jabActions'].append(art)
     html = (ROOT / "src/page.html").read_text(encoding="utf-8")
     for marker, value in {
         "/*__STYLE__*/": (ROOT / "src/style.css").read_text(encoding="utf-8"),
         "/*__ASSETS__*/": "window.MYGO_ASSETS=" + json.dumps(assets, separators=(",", ":")) + ";",
+        "/*__CONTROLS__*/": (ROOT / "src/controls.js").read_text(encoding="utf-8"),
         "/*__ENGINE__*/": (ROOT / "src/engine.js").read_text(encoding="utf-8"),
         "/*__ANIMATION__*/": (ROOT / "src/animation.js").read_text(encoding="utf-8"),
         "/*__CAMERA__*/": (ROOT / "src/camera.js").read_text(encoding="utf-8"),
@@ -168,7 +231,7 @@ def build():
     }.items():
         html = html.replace(marker, value)
     (ROOT / "index.html").write_text(html, encoding="utf-8")
-    print(f"Built {ROOT / 'index.html'} ({len(html.encode()):,} bytes); {len(stages)} stages, 3 playable characters, 24 Tomori sprites + 32 penguin form sprites and all existing art embedded.")
+    print(f"Built {ROOT / 'index.html'} ({len(html.encode()):,} bytes); {len(stages)} stages, 5 playable characters, 48 Riki poses, 200 HP and all existing art embedded.")
 
 
 if __name__ == "__main__":

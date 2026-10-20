@@ -1,0 +1,38 @@
+{
+  "forms": [
+    {
+      "character": 0,
+      "penguin": false,
+      "distinct_sprite_ghosts": 5
+    },
+    {
+      "character": 1,
+      "penguin": false,
+      "distinct_sprite_ghosts": 5
+    },
+    {
+      "character": 2,
+      "penguin": false,
+      "distinct_sprite_ghosts": 5
+    },
+    {
+      "character": 3,
+      "penguin": false,
+      "distinct_sprite_ghosts": 5
+    },
+    {
+      "character": 4,
+      "penguin": false,
+      "distinct_sprite_ghosts": 5
+    },
+    {
+      "character": 2,
+      "penguin": true,
+      "distinct_sprite_ghosts": 5
+    }
+  ],
+  "air_2p": "pass",
+  "pause_freezes": "pass",
+  "restart_clears": "pass",
+  "errors": []
+}

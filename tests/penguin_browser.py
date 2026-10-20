@@ -20,11 +20,15 @@ with sync_playwright() as p:
     select_game_option(page,'#mode','duel');page.uncheck('#terrain-enabled');start_match(page);page.clock.run_for(1800)
     page.evaluate('mygoGame.match.fighters[1].x=1200')
     start_x=page.evaluate('mygoGame.match.fighters[0].x')
+    start_ticks=page.evaluate('mygoGame.match.elapsed')
     page.keyboard.down('d');page.clock.run_for(200);page.keyboard.up('d')
-    assert 59<=page.evaluate('mygoGame.match.fighters[0].x')-start_x<=67
+    walk_distance=page.evaluate('mygoGame.match.fighters[0].x')-start_x
+    elapsed=page.evaluate('mygoGame.match.elapsed')-start_ticks
+    assert 180<=elapsed<=220
+    assert abs(walk_distance/(1.82*60*235/54*315/345*elapsed/1000)-1)<.025, {'distance':walk_distance,'elapsed':elapsed}
     page.clock.run_for(50);dash_x=page.evaluate('mygoGame.match.fighters[0].x')
-    page.keyboard.down('d');page.keyboard.press('ShiftLeft');page.clock.run_for(140);page.keyboard.up('d')
-    assert 150<=page.evaluate('mygoGame.match.fighters[0].x')-dash_x<=178
+    page.keyboard.down('d');page.keyboard.press('ShiftLeft');page.clock.run_for(180);page.keyboard.up('d')
+    assert abs((page.evaluate('mygoGame.match.fighters[0].x')-dash_x)/(5.15*11*235/54)-1)<.05
     page.click('#restart');page.clock.run_for(1800)
     page.evaluate('''() => {window.penguinDraws=new Set();const ctx=document.querySelector('#game').getContext('2d'),draw=ctx.drawImage,cache=new WeakMap();
       ctx.drawImage=function(...args){const im=args[0];if(!cache.has(im))cache.set(im,im.src===MYGO_ASSETS.penguin.atlas);
@@ -95,8 +99,8 @@ with sync_playwright() as p:
     page.keyboard.press('u');page.clock.run_for(150)
     page.locator('#stage').screenshot(path=str(ART/'tomori-penguin-cry.png'))
     page.keyboard.press('Numpad1');page.clock.run_for(700)
-    assert page.evaluate('mygoGame.match.fighters[0].hp')==100
-    assert page.evaluate('mygoGame.match.fighters[1].hp')<100
+    assert page.evaluate('mygoGame.match.fighters[0].hp')==200
+    assert page.evaluate('mygoGame.match.fighters[1].hp')<200
     page.clock.run_for(500)
     place();page.evaluate('mygoGame.match.fighters[0].energy=100')
     page.keyboard.press('t');page.clock.run_for(230)

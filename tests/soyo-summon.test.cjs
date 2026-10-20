@@ -13,7 +13,7 @@ function summon(m, side = 0) {
 }
 test('Soyo T costs 50 and summons exactly three units, while Anon T remains TGW', () => {
   const m = fight(), group = summon(m);
-  assert.equal(m.fighters[0].energy, 50); assert.equal(m.fighters[1].hp, 100);
+  assert.equal(m.fighters[0].energy, 50); assert.equal(m.fighters[1].hp, 200);
   assert.equal(group.ms, 10000); assert.equal(MOVES.summon.cost, 50);
   assert.ok(moveList(1).some(m => m.key === 'summon'));
   assert.ok(!moveList(0).some(m => m.key === 'summon'));
@@ -40,7 +40,7 @@ test('the group lasts ten active combat seconds and cannot be stacked or refresh
 });
 test('all three independently strike the opponent without hurting their owner or farming owner energy', () => {
   const m = fight(); summon(m); m.advance(5000);
-  assert.ok(m.fighters[1].hp < 100); assert.equal(m.fighters[0].hp, 100); assert.equal(m.fighters[0].energy, 50);
+  assert.ok(m.fighters[1].hp < 200); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].energy, 50);
   const strikes = m.drainEvents().filter(e => e.type === 'minionStrike');
   assert.deepEqual([...new Set(strikes.map(e => e.unit))].sort(), [0, 1, 2]);
 });
@@ -50,13 +50,13 @@ test('standing and crouching guard stop the rush damage except one chip per hit'
     m.advance(3000, {}, { guard: true, crouch });
     const hits = m.drainEvents().filter(e => e.type === 'hit' && e.attack === 'tensoraHit');
     assert.ok(hits.length > 0); assert.ok(hits.every(e => e.blocked && e.damage === 1));
-    assert.equal(m.fighters[1].hp, 100 - hits.length);
+    assert.equal(m.fighters[1].hp, 200 - hits.length);
   }
 });
 test('Anon steel intercepts frontal minion strikes with real durability loss', () => {
   const m = fight(); m.advance(10, {}, { shield: true }); m.advance(500); summon(m);
   m.advance(1300);
-  assert.equal(m.fighters[1].hp, 100); assert.ok(m.fighters[1].shield.hp < 40);
+  assert.equal(m.fighters[1].hp, 200); assert.ok(m.fighters[1].shield.hp < 40);
   assert.ok(m.drainEvents().some(e => e.type === 'shieldHit'));
 });
 test('pause freezes all minion timers and positions; restart and round result clear them', () => {

@@ -4,7 +4,7 @@ Run: python tests/browser_test.py
 import json
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 from ui_helpers import select_game_option, start_match, show_help, close_help, open_settings
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,7 +29,7 @@ with sync_playwright() as p:
     assert page.locator('#settings-dialog').is_hidden()
     assert page.evaluate("mygoGame.match.fighters.map(f => f.character)") == [0, 1]
     assert page.locator("#name2").inner_text() == "长崎素世"
-    assert page.evaluate("MYGO_ASSETS.characters.length") == 3
+    assert page.evaluate("MYGO_ASSETS.characters.length") == 5
     assert page.evaluate("MYGO_ASSETS.characters.every(art => art.frames.length === 16)")
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     page.screenshot(path=str(ARTIFACTS / "desktop-lobby.png"), full_page=True)
@@ -46,15 +46,15 @@ with sync_playwright() as p:
     page.keyboard.press("j")
     page.clock.run_for(450)  # Include light recovery and its on-hit freeze before jumping.
     hp = page.evaluate("mygoGame.match.fighters[1].hp")
-    assert hp == 92, hp
-    assert page.locator("#hptext2").inner_text() == "92 / 100"
+    assert hp == 192, hp
+    assert page.locator("#hptext2").inner_text() == "192 / 200"
 
     page.keyboard.down("w")
     page.clock.run_for(150)
     page.keyboard.up("w")
     assert page.evaluate("mygoGame.match.fighters[0].y") > 0
     page.clock.run_for(1000)
-    assert page.evaluate("mygoGame.match.fighters[0].y") == 0
+    assert page.evaluate("mygoGame.match.grounded(mygoGame.match.fighters[0])")
     page.screenshot(path=str(ARTIFACTS / "desktop-fight.png"), full_page=True)
 
     page.keyboard.press("Space")
@@ -105,13 +105,13 @@ with sync_playwright() as p:
     page.clock.run_for(50)
     assert not page.evaluate('mygoGame.match.paused')
     page.click("#sound")
-    assert page.locator("#sound").get_attribute("aria-pressed") == "true"
+    expect(page.locator("#sound")).to_have_attribute("aria-pressed", "true")
     page.click("#sound")
 
     page.focus("#stage")
     page.keyboard.press("r")
     page.clock.run_for(1100)
-    assert page.evaluate("mygoGame.match.fighters[1].hp") == 100
+    assert page.evaluate("mygoGame.match.fighters[1].hp") == 200
     assert page.evaluate("mygoGame.match.wins") == [0, 0]
 
     # Selection changes are staged for the next match, then update real art,
@@ -138,7 +138,7 @@ with sync_playwright() as p:
     page.keyboard.press("l")
     page.clock.run_for(400)
     assert page.evaluate("mygoGame.match.fighters[0].x") == 400
-    assert page.evaluate("mygoGame.match.fighters[1].hp") == 76
+    assert page.evaluate("mygoGame.match.fighters[1].hp") == 176
     show_help(page)
     assert page.locator("#help-player-name").inner_text() == "1P / 长崎素世"
     assert page.locator("#help-skill-name").inner_text() == "回响终章（60%）"

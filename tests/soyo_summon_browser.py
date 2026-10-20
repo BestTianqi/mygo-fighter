@@ -33,7 +33,7 @@ with sync_playwright() as p:
     page.clock.run_for(1500)
     assert page.evaluate('JSON.stringify(mygoGame.match.fighters[0].summons)') == before
     page.keyboard.press('Space'); page.clock.run_for(2000)
-    assert page.evaluate('mygoGame.match.fighters[1].hp') < 100
+    assert page.evaluate('mygoGame.match.fighters[1].hp') < 200
     page.locator('#stage').screenshot(path=str(ART / 'soyo-tensora-attack.png'))
     assert page.evaluate('tensoraDraws.size') == 4
     page.evaluate('mygoGame.match.fighters[0].energy=100')

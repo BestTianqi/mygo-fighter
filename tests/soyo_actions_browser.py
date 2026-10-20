@@ -42,7 +42,7 @@ with sync_playwright() as p:
     page.clock.run_for(1000); assert page.evaluate('JSON.stringify(mygoGame.match.fighters[0])') == frozen
     page.keyboard.press('Space'); page.clock.run_for(450)
     assert page.evaluate('mygoGame.match.fighters[0].hp') == 74
-    assert page.locator('#hptext1').inner_text() == '74 / 100'
+    assert page.locator('#hptext1').inner_text() == '74 / 200'
     page.locator('#stage').screenshot(path=str(ART / 'soyo-heal-release.png'))
     page.clock.run_for(650); page.keyboard.press('g'); page.clock.run_for(50)
     assert page.evaluate('mygoGame.match.fighters[0].attack') is None
