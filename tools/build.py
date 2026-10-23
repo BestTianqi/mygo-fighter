@@ -26,7 +26,8 @@ def render_page(assets):
     html = (ROOT / 'src/page.html').read_text(encoding='utf-8')
     sources = {'STYLE': 'style.css', 'PRESENTATION': 'presentation.css', 'MUJICA': 'mujica.js', 'MEWTYPE': 'mewtype.js', 'CONTROLS': 'controls.js',
                'ENGINE': 'engine.js', 'ANIMATION': 'animation.js', 'CAMERA': 'camera.js',
-               'VOICE': 'voice.js', 'MEME_MEDIA': 'meme-media.js', 'SELECTION': 'selection.js', 'APP': 'app.js'}
+               'VOICE': 'voice.js', 'MEME_MEDIA': 'meme-media.js', 'SELECTION': 'selection.js', 'LAN': 'lan.js', 'APP': 'app.js'}
+    (ROOT / 'server/stages.json').write_text(json.dumps([dict(terrain=s['terrain']) for s in assets['stages']], separators=(',', ':')), encoding='utf-8')
     html = html.replace('/*__ASSETS__*/', 'window.MYGO_ASSETS=' + json.dumps(assets, separators=(',', ':')) + ';')
     for marker, filename in sources.items():
         html = html.replace('/*__' + marker + '__*/', (ROOT / 'src' / filename).read_text(encoding='utf-8'))

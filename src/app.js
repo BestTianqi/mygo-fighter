@@ -59,6 +59,16 @@
   let finishCueStage = '', roundRevealFighter = null;
   const selectionScreen = MygoSelection.createSelectionScreen({ root: $('character-select'), roster: ROSTER, assets,
     onConfirm: config => launchMatch(config), onBack: () => returnToMenu() });
+  const lan = MygoLan.createLan({ assets, roster: ROSTER,
+    onPrepare: async config => { await launchMatch(config); if (inMenu || starting) throw Error('角色准备失败，请返回房间重试。'); },
+    onLobby: () => { returnToMenu(); },
+    onDisconnect: () => { if (lan.active) { match.setPaused(true); clearInput(); lastUiPhase=''; } },
+    onState: (state, events) => {
+      const fighters=match.fighters, pending=match.events;
+      Object.assign(match,state);match.fighters=state.fighters.map((f,i)=>Object.assign(fighters[i],f));
+      match.events=pending.concat(events);updateCharacterInfo();
+    } });
+  document.addEventListener('lan-unlock-audio',()=>{setSoundEnabled(soundEnabled);});
 
   function loadImage(src) {
     return new Promise((resolve, reject) => {
@@ -348,10 +358,11 @@
     showDialog('help-dialog');
   });
   $('menu-resume').addEventListener('click', () => { showBattle(); updateCharacterInfo(); pause(false); });
-  $('home').addEventListener('click', returnToMenu);
+  $('home').addEventListener('click', () => lan.connected ? lan.leave() : returnToMenu());
   document.querySelectorAll('[data-menu-band]').forEach(button => button.addEventListener('click', () => { menuBand = button.dataset.menuBand; renderMainMenu(); }));
   $('overlay-home').addEventListener('click', returnToMenu);
   $('overlay-reselect').addEventListener('click', () => {
+    if (lan.connected) { lan.command('lobby'); return; }
     if (matchConfig) { $('mode').value = matchConfig.mode; $('match-format').value = matchConfig.format; }
     start(true);
   });
@@ -410,6 +421,7 @@
   }
   function action() {
     if (!loaded) return;
+    if (lan.connected) { lan.command(match.paused ? 'pause' : 'restart', match.paused ? {paused:false} : {}); return; }
     if (match.paused) pause(false);
     else if (match.phase === 'roundOver') {
       if (match.nextRound()) { voicePlayer?.stop(); summonVoicePlayer?.stop(); transformMusicPlayer?.stop(); stopSoyoCutins(); clearInput(); fx = []; lastUiPhase = ''; updateCharacterInfo(); stage.focus({ preventScroll: true }); }
@@ -417,6 +429,7 @@
     else start();
   }
   function pause(value = !match.paused) {
+    if (lan.connected) { clearInput(); lan.command('pause', {paused:value}); return; }
     if (!loaded || match.phase === 'idle' || (!value && (inMenu || inSelection))) return;
     match.setPaused(value); clearInput(); lastUiPhase = '';
     voicePlayer?.setPaused(value);
@@ -440,7 +453,7 @@
       const profile = ROSTER[f.character];
       $('name' + (side + 1)).textContent = profile.name + (f.penguin ? ' · 凑企鹅' : f.stageForm ? ' · ' + profile.stageName : '');
     });
-    const player = match.fighters[0], scheme = schemeFor(player);
+    const player = match.fighters[lan.connected ? lan.side : 0], scheme = schemeFor(player);
     $('help-player-name').textContent = '1P / ' + ROSTER[player.character].name;
     for (const [i, key] of ['KeyU', 'KeyI', 'KeyO'].entries()) document.querySelector('[data-key="' + key + '"]').textContent = ['U', 'I', 'O'][i] + ' ' + MOVES[scheme.base[i]].name;
     document.querySelector('[data-key="KeyH"]').hidden = !scheme.transform;
@@ -491,7 +504,7 @@
   $('start').addEventListener('click', start);
   $('overlay-action').addEventListener('click', action);
   $('pause').addEventListener('click', () => pause());
-  $('restart').addEventListener('click', () => matchConfig ? launchMatch(matchConfig) : start());
+  $('restart').addEventListener('click', () => lan.connected ? lan.command('restart') : matchConfig ? launchMatch(matchConfig) : start());
   $('mode').addEventListener('change', markSetup);
   $('match-format').addEventListener('change', markSetup);
   $('difficulty').addEventListener('change', markSetup);
@@ -600,7 +613,7 @@
     }).join('') + '</tbody></table>';
   }
   function showMoves() {
-    const f = match.fighters[0];
+    const f = match.fighters[lan.connected ? lan.side : 0];
     $('moves-title').textContent = ROSTER[f.character].name + (f.penguin ? ' · 凑企鹅' : f.stageForm ? ' · ' + ROSTER[f.character].stageName : '') + ' · 招式表';
     $('moves-intro').textContent = 'J 攻击（三段连按） · K 重击或腿击 · L 瞬移（消耗10共鸣）；2P 对应小键盘1 / 2 / 3。站立、蹲下和空中各有对应攻击动作。';
     $('moves-content').innerHTML = skillTable(f);
@@ -613,6 +626,7 @@
     if (e.target.closest('select,input,textarea')) return;
     if (e.code === 'F1') { e.preventDefault(); if (!e.repeat) showMoves(); return; }
     if (boundKeys.has(e.code)) {
+      if (lan.connected && !Object.values(keys1).includes(e.code)) return;
       e.preventDefault();
       if (match.phase === 'fighting' && !match.paused) { held.add(e.code); if (!e.repeat) recordPress(e.code); }
       return;
@@ -1983,7 +1997,8 @@
     if (inMenu || inSelection || starting) { requestAnimationFrame(frame); return; }
     if (!match.paused) visualTime += dt;
     const inputTickBefore = match.inputTick;
-    match.advance(dt, input(keys1), input(keys2));
+    if (lan.active) { lan.sendInput(match.paused ? {} : input(keys1)); taps.clear(); }
+    else match.advance(dt, input(keys1), input(keys2));
     if (match.inputTick !== inputTickBefore) {
       // Keep a quick press during hitstop until a simulation tick consumes it.
       for (const key of taps) {
@@ -1993,7 +2008,13 @@
         }
       }
     }
-    consumeEvents(); draw(dt); updateUI(dt); requestAnimationFrame(frame);
+    consumeEvents(); draw(dt); updateUI(dt);
+    if (lan.connected) {
+      $('settings').disabled=$('super-demo').disabled=true;
+      $('restart').disabled=lan.side!==0;
+      if(match.phase==='finished'&&!match.paused){$('overlay-action').disabled=lan.side!==0;$('overlay-action').textContent=lan.side===0?'原阵容再战':'等待房主再战';}
+    }
+    requestAnimationFrame(frame);
   }
   async function boot() {
     try {

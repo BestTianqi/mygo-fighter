@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "two independent browsers join, select their own characters and share host map",
+    "both use WASD, positions converge exactly and pause affects both",
+    "attacks and HP synchronize, guest can resume shared pause",
+    "same-frame quick down+K retains its crouching gesture on both clients",
+    "network loss pauses authoritative simulation and reconnect restores both online",
+    "reselect returns both to lobby; leaving frees slot and preserves offline menu"
+  ],
+  "errors": []
+}
