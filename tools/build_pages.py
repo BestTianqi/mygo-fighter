@@ -40,7 +40,6 @@ def build(output=None):
     assets = externalize(assets)
     end = start + len(marker) + length
     html = html[:start] + 'window.MYGO_HOSTED=true;' + html[end + 1:]
-    html = html.replace('<script>window.MYGO_HOSTED=true;</script>', '<script src="assets.js"></script>')
     # Pages is static hosting; its menu must not call the LAN server's /api endpoints.
     hosted = '''
 const lanButton=document.getElementById('menu-lan');
@@ -48,7 +47,10 @@ lanButton.removeAttribute('data-menu-ready');lanButton.disabled=true;
 lanButton.title='局域网联机请下载游戏并运行启动文件';
 lanButton.textContent='局域网联机 · 需本地启动';
 '''
-    (output / 'assets.js').write_text('window.MYGO_HOSTED=true;window.MYGO_ASSETS=' + json.dumps(assets, ensure_ascii=False, separators=(',', ':')) + ';' + hosted, 'utf-8')
+    manifest = 'window.MYGO_HOSTED=true;window.MYGO_ASSETS=' + json.dumps(assets, ensure_ascii=False, separators=(',', ':')) + ';' + hosted
+    manifest_name = 'assets.' + hashlib.sha256(manifest.encode('utf-8')).hexdigest()[:16] + '.js'
+    (output / manifest_name).write_text(manifest, 'utf-8')
+    html = html.replace('<script>window.MYGO_HOSTED=true;</script>', '<script src="' + manifest_name + '"></script>')
     (output / 'index.html').write_text(html, 'utf-8')
     (output / '.nojekyll').touch()
     print(f'Pages: {len(files)} deduplicated media files; HTML {len(html.encode()):,} bytes; total {sum(p.stat().st_size for p in output.rglob("*") if p.is_file()):,} bytes')

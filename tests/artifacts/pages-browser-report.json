@@ -1,6 +1,10 @@
 {
   "errors": [],
   "missing": [],
+  "audio": {
+    "decoded": 79,
+    "starts": 1
+  },
   "checks": [
     "project subpath loads all media",
     "Mujica selection and battle start",
