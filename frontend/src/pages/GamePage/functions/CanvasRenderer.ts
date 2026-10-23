@@ -1,15 +1,5 @@
-import { Camera } from "../../../game/camera";
-import {
-  createAnimator,
-  createMujicaMotion,
-  mujicaBodyOffset,
-} from "../../../game/animation";
-import {
-  MOVES,
-  ROSTER,
-  ROUND_END_TIMING,
-  type Match,
-} from "../../../game/engine";
+import { createAnimator } from "../../../game/animation";
+import { MOVES, ROUND_END_TIMING, type Match } from "../../../game/engine";
 import * as mujica from "../../../game/mujica";
 import * as mewtype from "../../../game/mewtype";
 import type { Assets, Atlas, SpriteFrame } from "../../../game/objects/Assets";
@@ -17,27 +7,9 @@ import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type { Fighter } from "../../../game/objects/Fighter";
 import type { MatchConfig } from "../../../game/objects/MatchOptions";
 
-interface Effect {
-  x: number;
-  y: number;
-  age: number;
-  life: number;
-  color: string;
-  text: string;
-  kind: string;
-  direction: number;
-}
-interface BlinkTrail {
-  sprite: Sprite;
-  side: number;
-  fromX: number;
-  fromY: number;
-  toX: number;
-  toY: number;
-  age: number;
-  facing: number;
-}
-interface Sprite {
+import { createBattleScene } from "./createBattleScene";
+
+export interface Sprite {
   image: HTMLImageElement;
   frame: SpriteFrame;
   scale: number;
@@ -48,17 +20,9 @@ interface Sprite {
 export class CanvasRenderer {
   private readonly images = new Map<string, HTMLImageElement>();
   private readonly loading = new Map<string, Promise<HTMLImageElement>>();
-  private readonly camera = new Camera();
   private readonly animate = createAnimator();
-  private readonly motion = createMujicaMotion();
   private readonly context: CanvasRenderingContext2D;
-  private readonly reduced = matchMedia("(prefers-reduced-motion: reduce)")
-    .matches;
-  private effects: Effect[] = [];
-  private trails: BlinkTrail[] = [];
-  private flash = 0;
-  private lastFighter: Fighter | null = null;
-  private config: MatchConfig | null = null;
+  private readonly scene: ReturnType<typeof createBattleScene>;
 
   constructor(
     private readonly assets: Assets,
@@ -67,6 +31,12 @@ export class CanvasRenderer {
     const context = canvas.getContext("2d", { alpha: false });
     if (!context) throw new Error("浏览器无法启用游戏画布。");
     this.context = context;
+    this.scene = createBattleScene(
+      context,
+      assets,
+      (url) => this.images.get(url),
+      (match, side, direction) => this.sprite(match, side, direction),
+    );
   }
 
   private load(url: string): Promise<HTMLImageElement> {
@@ -93,11 +63,7 @@ export class CanvasRenderer {
   }
 
   async prepare(config: MatchConfig) {
-    this.config = config;
-    this.effects = [];
-    this.trails = [];
-    this.flash = 0;
-    this.lastFighter = null;
+    this.scene.reset(config.settings.arena);
     const ids = [...new Set(config.teams?.flat() ?? config.characters)];
     const atlases = ids.flatMap((id) => {
       if (id >= 5)
@@ -161,10 +127,36 @@ export class CanvasRenderer {
     }
   }
 
-  private sprite(match: Match, side: number): Sprite | null {
-    const f = match.fighters[side],
+  private sprite(
+    match: Match,
+    side: number,
+    blinkDirection = 0,
+  ): Sprite | null {
+    const live = match.fighters[side],
       a = this.assets;
-    const animation = this.animate(match, side);
+    const ending = match.roundEnd?.fighters[side];
+    const impact =
+      ending &&
+      ROUND_END_TIMING.total - match.phaseMs < ROUND_END_TIMING.impact;
+    const f: Fighter = ending
+      ? {
+          ...live,
+          stageForm: ending.stageForm ? (live.stageForm ?? { ms: 1 }) : null,
+          penguin: ending.penguin ? (live.penguin ?? { ms: 1 }) : null,
+          ...(impact
+            ? { attack: ending.attack, attackMs: ending.attackMs }
+            : {}),
+        }
+      : live;
+    const animation = blinkDirection
+      ? f.penguin
+        ? blinkDirection * f.facing < 0
+          ? "walk-pass"
+          : "flipper-heavy"
+        : blinkDirection * f.facing < 0
+          ? "dash-back"
+          : "dash-forward"
+      : this.animate(match, side);
     const move = MOVES[f.attack ?? ""];
     let art: Atlas = a.characters[f.character];
     let frame = art.frames[match.pose(side)] ?? art.frames[0];
@@ -185,7 +177,13 @@ export class CanvasRenderer {
       frame =
         art.frames.find((frame) => frame.name === animation) ?? art.frames[0];
       height = frame.height ?? 235;
-    } else if (f.character === 0 && f.attack === "super" && !f.stun) {
+    } else if (
+      f.character === 0 &&
+      f.attack === "super" &&
+      !f.stun &&
+      !f.knockdown &&
+      (match.phase === "fighting" || impact)
+    ) {
       art = a.milkDragon;
       const t = f.attackMs;
       frame =
@@ -199,6 +197,8 @@ export class CanvasRenderer {
         f.character === 0 &&
         move &&
         !f.stun &&
+        !f.knockdown &&
+        (match.phase === "fighting" || impact) &&
         (move.normalIndex !== undefined ||
           move.artIndex !== undefined ||
           f.attack === "rising")
@@ -214,7 +214,8 @@ export class CanvasRenderer {
             : (move.normalIndex ??
               move.artIndex ??
               (f.attackMs < 180 ? 8 : 14));
-        frame = art.frames[index];
+        frame =
+          art.frames[f.attack === "thrust" && f.attackMs < 60 ? 0 : index];
         height = frame.height ?? 235;
       }
       if (animation) {
@@ -246,347 +247,18 @@ export class CanvasRenderer {
   }
 
   consume(match: Match, events: CombatEvent[]) {
-    for (const event of events) {
-      const side = event.side ?? 0;
-      if (["result", "roundAdvance", "teamAdvance"].includes(event.type)) {
-        this.effects = [];
-        this.trails = [];
-      }
-      const f = match.fighters[side];
-      if (event.type === "blink") {
-        const sprite = this.sprite(match, side);
-        if (sprite)
-          this.trails.push({
-            sprite,
-            side,
-            fromX: event.fromX ?? f.x,
-            fromY: event.fromY ?? f.y,
-            toX: f.x,
-            toY: f.y,
-            age: 0,
-            facing: f.facing,
-          });
-      }
-      if (
-        [
-          "hit",
-          "clash",
-          "landing",
-          "blink",
-          "heal",
-          "tune",
-          "stageFormStart",
-          "penguinStart",
-          "shieldHit",
-          "minionHit",
-          "memePulse",
-        ].includes(event.type)
-      ) {
-        this.effects.push({
-          x: event.x ?? f.x,
-          y: 438 - (event.y ?? f.y + 110),
-          age: 0,
-          life: event.type === "blink" ? 260 : 500,
-          color: event.blocked ? "#a5e5ff" : ROSTER[f.character].color,
-          text:
-            event.glyph ??
-            (event.amount
-              ? "+" + event.amount
-              : event.damage
-                ? "−" + event.damage
-                : ""),
-          kind: event.type,
-          direction: event.direction ?? f.facing,
-        });
-        if (
-          event.type === "hit" &&
-          !event.blocked &&
-          (event.weight ?? 0) >= 2 &&
-          !this.reduced
-        ) {
-          this.flash = 110;
-          this.camera.impact({ x: event.x ?? f.x, weight: event.weight ?? 2 });
-        }
-      }
-    }
+    this.scene.consume(match, events);
   }
 
   draw(match: Match, dt: number) {
-    if (!this.config) return;
-    const ctx = this.context,
-      scene = this.assets.stages[this.config.settings.arena];
-    if (this.lastFighter !== match.fighters[0]) {
-      this.lastFighter = match.fighters[0];
-      this.camera.reset(match);
-    } else this.camera.update(match, dt);
     const ratio = Math.min(2, window.devicePixelRatio || 1);
     const width = Math.round(960 * ratio),
       height = Math.round(540 * ratio);
-    if (this.canvas.width !== width) {
+    if (this.canvas.width !== width || this.canvas.height !== height) {
       this.canvas.width = width;
       this.canvas.height = height;
     }
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    ctx.fillStyle = "#101825";
-    ctx.fillRect(0, 0, 960, 540);
-    const background = this.images.get(
-      this.assets.backgrounds[this.config.settings.arena],
-    );
-    if (background)
-      ctx.drawImage(
-        background,
-        -24 - (this.camera.x - 480) * 0.025,
-        -12,
-        1008,
-        564,
-      );
-    const shade = ctx.createLinearGradient(0, 0, 0, 540);
-    shade.addColorStop(0, "#060b1855");
-    shade.addColorStop(1, "#050b17aa");
-    ctx.fillStyle = shade;
-    ctx.fillRect(0, 0, 960, 540);
-    if (!this.reduced) {
-      ctx.fillStyle = "#e6f0ff55";
-      for (let i = 0; i < 24; i++) {
-        const x = (i * 137 + match.elapsed * 0.008) % 960,
-          y = (i * 79 + Math.sin(match.elapsed / 2000 + i) * 12) % 500;
-        ctx.fillRect(x, y, 1.5, 1.5);
-      }
-    }
-    ctx.save();
-    ctx.translate(480, 270);
-    ctx.scale(this.camera.zoom, this.camera.zoom);
-    ctx.translate(-this.camera.x, -this.camera.y);
-    const terrain = match.options.terrain;
-    if (terrain) {
-      ctx.beginPath();
-      ctx.moveTo(-750, 1000);
-      for (let x = -750; x <= 1710; x += 12)
-        ctx.lineTo(x, 438 - match.floorHeight(x));
-      ctx.lineTo(1710, 1000);
-      ctx.closePath();
-      ctx.fillStyle = scene.terrain.colors?.[2] ?? "#142735";
-      ctx.fill();
-      ctx.strokeStyle = "#b8d2e455";
-      ctx.lineWidth = 3;
-      for (const p of terrain.platforms) {
-        ctx.fillStyle = scene.terrain.colors?.[1] ?? "#344c60";
-        ctx.fillRect(p.left, 438 - p.height, p.right - p.left, 14);
-        ctx.beginPath();
-        ctx.moveTo(p.left, 438 - p.height);
-        ctx.lineTo(p.right, 438 - p.height);
-        ctx.stroke();
-      }
-    } else {
-      ctx.fillStyle = "#a7bcd733";
-      ctx.fillRect(-750, 438, 2460, 2);
-    }
-    for (const area of match.areas) {
-      ctx.globalAlpha = 0.3 + Math.sin(match.elapsed / 60) * 0.12;
-      ctx.fillStyle = ROSTER[match.fighters[area.owner].character].color;
-      ctx.beginPath();
-      ctx.ellipse(area.x, 438 - area.y, area.radius, 18, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-    for (const trail of this.trails) {
-      if (!match.paused) trail.age += dt;
-      const { image, frame, scale } = trail.sprite;
-      for (let i = 0; i < (this.reduced ? 1 : 5); i++) {
-        const fraction = i / 5,
-          age = trail.age - fraction * 90;
-        if (age < 0) continue;
-        const fade = Math.max(0, 1 - age / (260 - fraction * 90));
-        ctx.save();
-        ctx.translate(
-          trail.fromX + (trail.toX - trail.fromX) * fraction,
-          438 - trail.fromY - (trail.toY - trail.fromY) * fraction,
-        );
-        ctx.scale(trail.facing * scale, scale);
-        ctx.globalAlpha = (this.reduced ? 0.15 : 0.42) * fade * fade;
-        ctx.drawImage(
-          image,
-          frame.x,
-          frame.y,
-          frame.w,
-          frame.h,
-          -frame.ax,
-          -frame.ay,
-          frame.w,
-          frame.h,
-        );
-        ctx.restore();
-      }
-    }
-    this.trails = this.trails.filter((trail) => trail.age < 260);
-    for (const [side, f] of match.fighters.entries()) {
-      const sprite = this.sprite(match, side);
-      if (!sprite) continue;
-      const { image, frame, scale, animation } = sprite;
-      ctx.save();
-      ctx.translate(f.x, 438 - match.floorHeight(f.x));
-      ctx.fillStyle = "#01040a70";
-      ctx.beginPath();
-      ctx.ellipse(0, 0, f.penguin ? 70 : 48, 12, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-      ctx.save();
-      ctx.translate(f.x, 438 - f.y);
-      ctx.scale(f.facing * scale, scale);
-      const motion =
-        f.character >= 5
-          ? this.motion(match, side, animation, this.reduced)
-          : null;
-      if (motion) {
-        for (let strip = 0; strip < 32; strip++) {
-          const top = (frame.h * strip) / 32,
-            bottom = (frame.h * (strip + 1)) / 32;
-          const offset = mujicaBodyOffset(motion, (frame.ay - top) / frame.ay);
-          ctx.drawImage(
-            image,
-            frame.x,
-            frame.y + top,
-            frame.w,
-            bottom - top,
-            -frame.ax + offset.x / scale,
-            -frame.ay + top + offset.y / scale,
-            frame.w,
-            bottom - top + 0.4,
-          );
-        }
-      } else
-        ctx.drawImage(
-          image,
-          frame.x,
-          frame.y,
-          frame.w,
-          frame.h,
-          -frame.ax,
-          -frame.ay,
-          frame.w,
-          frame.h,
-        );
-      ctx.restore();
-      if (f.guard || f.shield) {
-        ctx.strokeStyle = f.shield ? "#ccecff" : "#a8dcff88";
-        ctx.lineWidth = f.shield ? 6 : 3;
-        ctx.beginPath();
-        ctx.ellipse(
-          f.x + f.facing * 40,
-          438 - f.y - 90,
-          42,
-          95,
-          0,
-          -Math.PI / 2,
-          Math.PI / 2,
-        );
-        ctx.stroke();
-      }
-      for (const unit of f.summons?.units ?? []) {
-        const art = this.assets.soyoTensora,
-          image = this.images.get(art.atlas);
-        if (!image) continue;
-        const frame = art.frames[unit.phase === "charge" ? 2 : 0],
-          scale = 72 / frame.h;
-        ctx.save();
-        ctx.translate(unit.x, 438 - unit.y);
-        ctx.scale(unit.facing * scale, scale);
-        ctx.drawImage(
-          image,
-          frame.x,
-          frame.y,
-          frame.w,
-          frame.h,
-          -frame.ax,
-          -frame.ay,
-          frame.w,
-          frame.h,
-        );
-        ctx.restore();
-      }
-      if (f.soyoSuper?.released) {
-        ctx.strokeStyle = "#ffe7b0aa";
-        ctx.lineWidth = 8;
-        ctx.beginPath();
-        ctx.arc(
-          f.soyoSuper.x,
-          438 - f.soyoSuper.y,
-          f.soyoSuper.radius,
-          0,
-          Math.PI * 2,
-        );
-        ctx.stroke();
-      }
-    }
-    for (const w of match.waves) {
-      const color = ROSTER[match.fighters[w.owner].character].color;
-      ctx.save();
-      ctx.translate(w.x, 438 - w.y);
-      ctx.fillStyle = color;
-      ctx.strokeStyle = "#ffffffcc";
-      ctx.shadowColor = color;
-      ctx.shadowBlur = this.reduced ? 0 : 16;
-      if (w.attack === "ranaParfait") {
-        const image = this.images.get(this.assets.ranaParfait.src);
-        if (image) ctx.drawImage(image, -25, -42, 50, 84);
-      } else {
-        ctx.beginPath();
-        ctx.ellipse(
-          0,
-          0,
-          w.radial ? (w.radius ?? 0) : (w.rx ?? 22),
-          w.radial ? (w.radius ?? 0) : (w.ry ?? 30),
-          0,
-          0,
-          Math.PI * 2,
-        );
-        w.radial ? ctx.stroke() : ctx.fill();
-      }
-      ctx.restore();
-    }
-    for (const e of this.effects) {
-      if (!match.paused) e.age += dt;
-      const progress = e.age / e.life;
-      ctx.save();
-      ctx.translate(e.x, e.y);
-      ctx.globalAlpha = Math.max(0, 1 - progress);
-      ctx.strokeStyle = e.color;
-      ctx.fillStyle = e.color;
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.ellipse(
-        0,
-        0,
-        12 + progress * 80,
-        10 + progress * 55,
-        0,
-        0,
-        Math.PI * 2,
-      );
-      ctx.stroke();
-      ctx.font = "bold 24px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(e.text, 0, -30 - progress * 35);
-      ctx.restore();
-    }
-    this.effects = this.effects.filter((e) => e.age < e.life);
-    ctx.restore();
-    if (this.flash > 0) {
-      ctx.fillStyle = `rgba(255,230,242,${this.flash / 500})`;
-      ctx.fillRect(0, 0, 960, 540);
-      if (!match.paused) this.flash -= dt;
-    }
-    if (match.phase === "ready") {
-      ctx.fillStyle = "#f4f3ff";
-      ctx.textAlign = "center";
-      ctx.font = "italic bold 66px sans-serif";
-      ctx.fillText("READY", 480, 280);
-    }
-    if (match.roundEnd && match.phaseMs > ROUND_END_TIMING.total - 700) {
-      ctx.fillStyle = "#fff4e4";
-      ctx.textAlign = "center";
-      ctx.font = "italic bold 90px sans-serif";
-      ctx.fillText(match.reason, 480, 285);
-    }
+    this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    this.scene.draw(match, dt);
   }
 }

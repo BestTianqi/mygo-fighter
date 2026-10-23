@@ -1,4 +1,5 @@
 export interface Platform {
+  style?: string;
   left: number;
   right: number;
   height: number;
