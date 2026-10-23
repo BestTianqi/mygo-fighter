@@ -132,8 +132,14 @@
   }
   function prepareVoices() {
     voiceLoading ||= Promise.all(Object.entries({ ...assets.penguinVoices, ...assets.soyoVoices, ...assets.memeVoices, ...assets.summonVoices, ...assets.transformMusic }).map(async ([move, src]) => {
-      const bytes = Uint8Array.from(atob(src.split(',')[1]), c => c.charCodeAt(0));
-      return [move, await audioContext.decodeAudioData(bytes.buffer)];
+      let bytes;
+      if (src.startsWith('data:')) bytes = Uint8Array.from(atob(src.split(',')[1]), c => c.charCodeAt(0)).buffer;
+      else {
+        const response = await fetch(src);
+        if (!response.ok) throw new Error('语音加载失败：' + move + ' (' + response.status + ')');
+        bytes = await response.arrayBuffer();
+      }
+      return [move, await audioContext.decodeAudioData(bytes)];
     })).then(entries => {
       voicePlayer = MygoVoice.createVoicePlayer(audioContext, Object.fromEntries(entries));
       summonVoicePlayer = MygoVoice.createVoicePlayer(audioContext, Object.fromEntries(entries));
@@ -143,7 +149,7 @@
       summonVoicePlayer.setEnabled(soundEnabled); summonVoicePlayer.setPaused(match.paused);
       superVoicePlayer.setEnabled(soundEnabled); superVoicePlayer.setPaused(match.paused);
       transformMusicPlayer.setEnabled(soundEnabled); transformMusicPlayer.setPaused(match.paused);
-    });
+    }).catch(error => { voiceLoading = null; throw error; });
     return voiceLoading;
   }
   function stopSoyoCutins(side) {
@@ -2035,7 +2041,8 @@
       document.querySelectorAll('[data-menu-ready]').forEach(button => button.disabled = false);
       updateMode(); updateCharacterInfo(); renderMainMenu(); requestAnimationFrame(frame);
     } catch (error) {
-      $('loading').textContent = $('menu-loading').textContent = '素材加载失败，请重新打开完整的 index.html。'; console.error(error);
+      $('loading').textContent = $('menu-loading').textContent = window.MYGO_HOSTED
+        ? '网页资源加载失败，请刷新页面重试。' : '素材加载失败，请重新打开完整的 index.html。'; console.error(error);
     }
   }
   // A read-only game reference is useful for inspecting the standalone prototype.

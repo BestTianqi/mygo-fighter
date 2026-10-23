@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "host switches to 3v3, both lineups stay valid and render in the room",
+    "both clients start the same team battle with ordered lineups and relay HUD",
+    "reselect returns both to the 3v3 room with lineups intact"
+  ],
+  "errors": []
+}
