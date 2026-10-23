@@ -2,6 +2,12 @@
 
 本仓库为独立网页版，从 [AnonMagicTower](https://github.com/BestTianqi/AnonMagicTower) 拆出。游戏、源码和全部构建素材均保存在本仓库，不依赖魔塔主目录或 Qt。双击 `index.html` 即可离线游玩。仓库中的大体积 HTML 使用 Git LFS；首次克隆请安装 Git LFS 并运行 `git lfs pull` 获取完整游戏文件。
 
+## 浏览器在线游玩
+
+地址：**https://BestTianqi.github.io/mygo-fighter/**。支持单人、练习及同屏双人和3v3，无需安装 Node.js。局域网房间需要使用下方的本地服务启动方式。
+
+推送到 main 后 GitHub Actions 自动读取 Git LFS 中的完整离线游戏，将媒体抽取为去重、可缓存的静态文件并发布到 Pages。离线 index.html 保持独立可玩。网页发布目录只包含游戏 HTML、资源清单和媒体文件，不包含本地服务或制作原稿。可用 `python tools/build_pages.py` 在 `_site` 目录生成同样的发布文件。
+
 ## 局域网联机（1v1 / 3v3 车轮战）
 
 房主电脑安装 Node.js（18或以上），双击根目录的「启动局域网联机.cmd」，保持窗口开启。房主在浏览器打开 `http://localhost:8765`，点击「局域网联机 → 创建房间」。窗口也会显示本机网络地址；另一台连接同一 Wi-Fi／局域网的电脑在浏览器打开对应地址，例如 `http://192.168.1.8:8765`，点击「局域网联机 → 加入房间」，输入房间码。首次启动若 Windows 询问网络权限，允许专用网络访问。

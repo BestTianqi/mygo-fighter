@@ -1,0 +1,10 @@
+{
+  "errors": [],
+  "missing": [],
+  "checks": [
+    "project subpath loads all media",
+    "Mujica selection and battle start",
+    "static site disables local server entry",
+    "attack and pause work"
+  ]
+}
