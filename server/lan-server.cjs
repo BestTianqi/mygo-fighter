@@ -23,6 +23,7 @@ function createLanServer() {
   function reply(res,status,data) {res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));}
   const server = http.createServer(async(req,res)=>{
     const url=new URL(req.url,'http://localhost');
+    if(req.method==='GET'&&url.pathname==='/api/health'){reply(res,200,{app:'mygo-lan',ok:true});return;}
     if(req.method==='GET'&&url.pathname==='/api/stream') {
       try { const [p,r]=identify(url.searchParams.get('token'));p.stream?.end();
         res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache','Connection':'keep-alive'});res.write(': connected\n\n');p.stream=res;p.online=true;p.seen=Date.now();broadcast(r);
@@ -98,5 +99,26 @@ function createLanServer() {
   server.shutdown=()=>{for(const p of sessions.values())p.stream?.end();server.close();};
   return server;
 }
-if(require.main===module){const port=Number(process.env.PORT||8765);const server=createLanServer();server.listen(port,'0.0.0.0',()=>{console.log(`MyGO LAN: http://localhost:${port}`);for(const entries of Object.values(os.networkInterfaces()))for(const address of entries||[])if(address.family==='IPv4'&&!address.internal)console.log(`Join: http://${address.address}:${port}`);});}
+function lanAddresses(){const list=[];for(const entries of Object.values(os.networkInterfaces()))for(const address of entries||[])if(address.family==='IPv4'&&!address.internal&&!/^(169\.254\.|198\.1[89]\.)/.test(address.address))list.push(address.address);return list;}
+if(require.main===module){
+  const port=Number(process.env.PORT||8765);
+  const server=createLanServer();
+  server.on('error',e=>{
+    if(e.code!=='EADDRINUSE') throw e;
+    console.log('The server could not start: port '+port+' is already in use.');
+    console.log('');
+    console.log('MyGO LAN is most likely ALREADY RUNNING. Do not start a second copy.');
+    console.log('Open one of these addresses in your browser:');
+    console.log('  http://localhost:'+port);
+    for(const address of lanAddresses())console.log('  http://'+address+':'+port);
+    console.log('');
+    console.log('If the old server window is gone, close the process holding port '+port+' and run this launcher again.');
+    console.log('To run a second server on another port: set PORT=8766');
+    process.exit(0);
+  });
+  server.listen(port,'0.0.0.0',()=>{
+    console.log('MyGO LAN: http://localhost:'+port);
+    for(const address of lanAddresses())console.log('Join: http://'+address+':'+port);
+  });
+}
 module.exports={createLanServer};
