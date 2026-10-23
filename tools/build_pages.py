@@ -50,6 +50,8 @@ lanButton.textContent='局域网联机 · 需本地启动';
     manifest = 'window.MYGO_HOSTED=true;window.MYGO_ASSETS=' + json.dumps(assets, ensure_ascii=False, separators=(',', ':')) + ';' + hosted
     manifest_name = 'assets.' + hashlib.sha256(manifest.encode('utf-8')).hexdigest()[:16] + '.js'
     (output / manifest_name).write_text(manifest, 'utf-8')
+    # Older cached HTML referenced this stable name; keep it working across deployment.
+    (output / 'assets.js').write_text(manifest, 'utf-8')
     html = html.replace('<script>window.MYGO_HOSTED=true;</script>', '<script src="' + manifest_name + '"></script>')
     (output / 'index.html').write_text(html, 'utf-8')
     (output / '.nojekyll').touch()
