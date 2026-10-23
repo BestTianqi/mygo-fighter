@@ -13,12 +13,24 @@ from PIL import Image, ImageOps
 from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parents[1]
+MAX_OFFLINE_BYTES = 128 * 1024 * 1024
 
 
 def data_url(image, quality=90, lossless=False):
     buffer = io.BytesIO()
     image.save(buffer, format="WEBP", quality=quality, method=6, lossless=lossless)
     return "data:image/webp;base64," + base64.b64encode(buffer.getvalue()).decode()
+
+
+def render_page(assets):
+    html = (ROOT / 'src/page.html').read_text(encoding='utf-8')
+    sources = {'STYLE': 'style.css', 'PRESENTATION': 'presentation.css', 'MUJICA': 'mujica.js', 'MEWTYPE': 'mewtype.js', 'CONTROLS': 'controls.js',
+               'ENGINE': 'engine.js', 'ANIMATION': 'animation.js', 'CAMERA': 'camera.js',
+               'VOICE': 'voice.js', 'MEME_MEDIA': 'meme-media.js', 'SELECTION': 'selection.js', 'APP': 'app.js'}
+    html = html.replace('/*__ASSETS__*/', 'window.MYGO_ASSETS=' + json.dumps(assets, separators=(',', ':')) + ';')
+    for marker, filename in sources.items():
+        html = html.replace('/*__' + marker + '__*/', (ROOT / 'src' / filename).read_text(encoding='utf-8'))
+    return html
 
 
 def game_atlas(source, frames, columns):
@@ -136,14 +148,23 @@ def extra_frames(sheets, name, columns):
 
 
 def build():
+    from build_mujica_assets import DISPLAY_NAMES, KEYS, pack_all, write_preview
+    from build_mewtype_assets import (DISPLAY_NAMES as MEWTYPE_NAMES, KEYS as MEWTYPE_KEYS,
+                                     pack_all as pack_mewtype, validate_sources as validate_mewtype,
+                                     write_preview as write_mewtype_preview)
+    # A final game must have every real pose. Fail before rebuilding legacy art
+    # or touching index.html when any reviewed Mujica source is still missing.
+    validate_mewtype()
+    mewtype_forms, mewtype_characters = pack_mewtype()
+    mujica_forms, mujica_characters = pack_all()
+    write_preview([dict(id=identifier, key=key, name=DISPLAY_NAMES[key], form=form, **mujica_forms[identifier][form])
+                   for key, identifier in KEYS for form in ('normal', 'stage')])
+    write_mewtype_preview([dict(id=identifier, key=key, name=MEWTYPE_NAMES[key], form='virtual', **mewtype_forms[identifier]['virtual'])
+                          for key, identifier in MEWTYPE_KEYS])
     characters = [frames_from_sheet(name) for name in ["anon", "soyo"]]
-    backgrounds, stages = [], []
-    for entry in json.loads((ROOT / 'assets/stages.json').read_text(encoding='utf-8')):
-        bg = ImageOps.fit(Image.open(ROOT / entry['file']).convert('RGB'), (1600, 900),
-                          method=Image.Resampling.LANCZOS)
-        backgrounds.append(data_url(bg, 88))
-        thumbnail = bg.resize((320, 180), Image.Resampling.LANCZOS)
-        stages.append(dict(id=entry['id'], name=entry['name'], thumbnail=data_url(thumbnail, 78), terrain=entry['terrain']))
+    from build_stage_assets import pack_stages
+    stage_assets = pack_stages()
+    backgrounds, stages = stage_assets['backgrounds'], stage_assets['stages']
     normals = extra_frames([
         ('anon-normals-standing-v3.png', 2, 3, [235, 235, 235, 220, 235, 260]),
         ('anon-normals-crouch-v3.png', 2, 3, [155, 155, 200, 150, 155, 145]),
@@ -202,7 +223,11 @@ def build():
     for frame, name in zip(penguin['frames'], [name for g in penguin_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
-    assets = dict(characters=characters, backgrounds=backgrounds, stages=stages, anonNormals=normals, milkDragon=dragon, anonActions=actions, soyoActions=soyo_actions, soyoTensora=tensora, tomoriActions=tomori_actions, penguin=penguin)
+    characters.extend(mujica_characters)
+    characters.extend(mewtype_characters)
+    assets = dict(characters=characters, mujicaForms=mujica_forms, mewtypeForms=mewtype_forms, backgrounds=backgrounds, stages=stages, anonNormals=normals, milkDragon=dragon, anonActions=actions, soyoActions=soyo_actions, soyoTensora=tensora, tomoriActions=tomori_actions, penguin=penguin)
+    from build_meme_assets import pack_meme_assets
+    assets.update(pack_meme_assets())
     assets['ranaParfaitActions'] = parfait_actions
     assets['ranaParfait'] = dict(src=data_url(parfait_sprite, lossless=True), height=84)
     voice_folder = ROOT / 'assets/audio'
@@ -210,28 +235,24 @@ def build():
     assets['penguinVoices'] = {clip['move']: 'data:audio/mpeg;base64,' + base64.b64encode((voice_folder / clip['file']).read_bytes()).decode()
                              for clip in voice_manifest['clips']}
     soyo_folder = ROOT / 'assets/soyo-haruhikage'
-    assets['soyoVoices'] = {'soyoSuper': 'data:audio/mpeg;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-voice.mp3').read_bytes()).decode()}
+    assets.setdefault('soyoVoices', {'soyoSuper': 'data:audio/mpeg;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-voice.mp3').read_bytes()).decode()})
     assets['soyoSuperVideo'] = 'data:video/mp4;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-cutin.mp4').read_bytes()).decode()
+    assets['soyoFinishArt'] = 'data:image/webp;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-finish.webp').read_bytes()).decode()
     assets['jabActions'] = []
     for group in json.loads((ROOT / 'assets/jab-actions.json').read_text(encoding='utf-8')):
         art = extra_frames([(group['file'], 2, 3, group['heights'])], ['anon', 'soyo', 'tomori'][group['character']] + '-jab', 3)
         for frame, name in zip(art['frames'], ['jab-2-windup', 'jab-2-impact', 'jab-2-recover', 'jab-3-windup', 'jab-3-impact', 'jab-3-recover']):
             frame['name'] = name
         assets['jabActions'].append(art)
-    html = (ROOT / "src/page.html").read_text(encoding="utf-8")
-    for marker, value in {
-        "/*__STYLE__*/": (ROOT / "src/style.css").read_text(encoding="utf-8"),
-        "/*__ASSETS__*/": "window.MYGO_ASSETS=" + json.dumps(assets, separators=(",", ":")) + ";",
-        "/*__CONTROLS__*/": (ROOT / "src/controls.js").read_text(encoding="utf-8"),
-        "/*__ENGINE__*/": (ROOT / "src/engine.js").read_text(encoding="utf-8"),
-        "/*__ANIMATION__*/": (ROOT / "src/animation.js").read_text(encoding="utf-8"),
-        "/*__CAMERA__*/": (ROOT / "src/camera.js").read_text(encoding="utf-8"),
-        "/*__VOICE__*/": (ROOT / "src/voice.js").read_text(encoding="utf-8"),
-        "/*__APP__*/": (ROOT / "src/app.js").read_text(encoding="utf-8"),
-    }.items():
-        html = html.replace(marker, value)
-    (ROOT / "index.html").write_text(html, encoding="utf-8")
-    print(f"Built {ROOT / 'index.html'} ({len(html.encode()):,} bytes); {len(stages)} stages, 5 playable characters, 48 Riki poses, 200 HP and all existing art embedded.")
+    from build_portrait_assets import install_portraits
+    install_portraits(assets)
+    html = render_page(assets)
+    payload = html.encode('utf-8')
+    byte_count = len(payload)
+    if byte_count >= MAX_OFFLINE_BYTES:
+        raise ValueError(f'Offline build exceeds the {MAX_OFFLINE_BYTES / 1024 / 1024:g} MiB target: {byte_count:,} bytes; index.html was not overwritten')
+    (ROOT / "index.html").write_bytes(payload)
+    print(f"Built {ROOT / 'index.html'} ({byte_count:,} bytes); {len(stages)} stages, 15 playable characters, all 560 Mujica and 270 MewType drawings and all existing media embedded.")
 
 
 if __name__ == "__main__":

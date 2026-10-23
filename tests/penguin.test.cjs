@@ -78,11 +78,12 @@ test('hey hits once; laughter covers nearby opponents on either side and respect
   const r=fight(),q=morph(r);q.x=480;r.fighters[1].x=610;q.energy=100;r.advance(10,{sonic:true});r.fighters[1].x=350;r.advance(200);
   assert.ok(r.fighters[1].pushVx<0,'a rear shock must push away from its center');
 });
-test('gugugaga releases three real projectiles, can be blocked and stops unreleased pulses when interrupted',()=>{
+test('gugugaga rushes into three melee hits and interruption stops later impacts',()=>{
   const m=fight(),a=morph(m);a.x=300;m.fighters[1].x=470;a.energy=100;m.advance(10,{special:true});m.advance(1900);
   const hits=m.drainEvents().filter(e=>e.type==='hit'&&e.attack==='penguinCall');assert.equal(hits.length,3);assert.equal(a.hitMarks.length,3);
-  const n=fight(),p=morph(n);n.fighters[1].x=900;p.energy=100;n.advance(10,{special:true});n.advance(200);assert.equal(n.waves.length,1);
-  n.hit(1,'light');n.advance(500);assert.equal(p.hitMarks.length,1);assert.equal(n.waves.length,1);
+  assert.ok(a.x>300);assert.equal(m.waves.length,0);
+  const n=fight(),p=morph(n);p.x=300;n.fighters[1].x=470;p.energy=100;n.advance(10,{special:true});n.advance(200);assert.equal(n.waves.length,0);
+  n.hit(1,'light');n.advance(500);assert.equal(p.hitMarks.length,1);assert.equal(n.waves.length,0);
 });
 test('flying kick moves forward, can hit, lands with recovery and cannot be repeated in one jump',()=>{
   const m=fight(),a=morph(m);a.x=300;m.fighters[1].x=460;a.energy=100;m.advance(10,{thrust:true});assert.ok(a.vy>0);assert.ok(a.airUsed);

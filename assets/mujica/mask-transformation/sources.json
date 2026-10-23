@@ -1,0 +1,56 @@
+{
+  "tool": "built-in imagegen",
+  "characters": [
+    {
+      "id": 5,
+      "key": "umiri",
+      "source": "assets/mujica/mask-transformation/umiri-mask-source-v1.png",
+      "sha256": "eb7ab6ddaeeb5249d1de205a857ef0bef352de862b2bc32d2578356e05c9cd07",
+      "reference": [
+        "assets/mujica/umiri/normal-idle.webp",
+        "assets/mujica/umiri/stage-idle.webp"
+      ]
+    },
+    {
+      "id": 6,
+      "key": "sakiko",
+      "source": "assets/mujica/mask-transformation/sakiko-mask-source-v1.png",
+      "sha256": "6526c626dff3aa64450d7adea5c26d8fcba17d1c2147003e9b8b31d728b3faa5",
+      "reference": [
+        "assets/mujica/sakiko/normal-idle.webp",
+        "assets/mujica/sakiko/stage-idle.webp"
+      ]
+    },
+    {
+      "id": 7,
+      "key": "uika",
+      "source": "assets/mujica/mask-transformation/uika-mask-source-v1.png",
+      "sha256": "2e5046a465f06dd562da312a5555a2c21d78731b5477b433f0ba8cd0dd75b8de",
+      "reference": [
+        "assets/mujica/uika/normal-idle.webp",
+        "assets/mujica/uika/stage-idle.webp"
+      ]
+    },
+    {
+      "id": 8,
+      "key": "mutsumi",
+      "source": "assets/mujica/mask-transformation/mutsumi-mask-source-v1.png",
+      "sha256": "f1fe3125d4e95988b552807b68af75b6599891917f5aba477681889097298bbc",
+      "reference": [
+        "assets/mujica/mutsumi/normal-idle.webp",
+        "assets/mujica/mutsumi/stage-idle.webp"
+      ]
+    },
+    {
+      "id": 9,
+      "key": "nyamu",
+      "source": "assets/mujica/mask-transformation/nyamu-mask-source-v1.png",
+      "sha256": "970af19d8f3f0bfe62c70e4e6a9eefea7aafd8fbc72e622916bf4e599a557f32",
+      "reference": [
+        "assets/mujica/nyamu/normal-idle.webp",
+        "assets/mujica/nyamu/stage-idle.webp"
+      ]
+    }
+  ],
+  "prompt": "One transparent landscape sprite sheet per character, three full-body seven-head-tall normal-proportioned anime figures in one row. Match the supplied normal and stage outfit references. Left: normal outfit, holding lace mask at upper chest. Middle: normal outfit, both hands physically fitting mask onto face. Right: stage outfit, correct mask worn, hands releasing it. Umiri and Mutsumi masks cover nose and mouth; Sakiko Uika Nyamu masks cover eyes. All limbs and shoes visible, separated transparent margins, no instruments, backgrounds, text or effects."
+}

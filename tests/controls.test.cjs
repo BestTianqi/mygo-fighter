@@ -41,7 +41,7 @@ test('L blinks immediately on ground or in air, respects bounds, cooldown and pa
     const m = game(), f = m.fighters[0]; if (air) { f.y = 180; f.vy = 100; }
     const x = f.x; m.advance(10, { unified: true, blink: true });
     assert.ok(Math.abs(f.x - x - FEEL.dashSpeed * FEEL.dashDuration / 1000) < 1);
-    assert.equal(f.energy, 100); assert.ok(f.dashInvuln > 0); assert.equal(f.dashCooldown, FEEL.dashCooldown);
+    assert.equal(f.energy, 90); assert.ok(f.dashInvuln > 0); assert.equal(f.dashCooldown, FEEL.dashCooldown);
     const after = f.x; m.advance(200, { unified: true, blink: true }); assert.ok(Math.abs(f.x - after) < 1);
     m.setPaused(true); const state = JSON.stringify(f); m.advance(1000); assert.equal(JSON.stringify(f), state);
   }
@@ -60,7 +60,7 @@ test('a delayed skill or blink uses directions captured on its button press', ()
   n.advance(10, { unified: true, blink: true, pressDirections: { blink: { left: true } } });
   assert.ok(n.fighters[0].x < x - 240);
   const t = game(); t.advance(10, { unified: true, skill1: true, pressDirections: { skill1: { left: true } } });
-  assert.equal(t.fighters[0].attack, 'throw'); assert.equal(t.fighters[0].backThrow, true);
+  assert.equal(t.fighters[0].attack, 'anonCry'); assert.equal(t.fighters[0].backThrow, false);
 });
 test('unified physical keys are unique and every advertised direction resolves for either facing', () => {
   const { KEYS1, KEYS2, bindingList, resolveSkill } = require('../src/controls.js');

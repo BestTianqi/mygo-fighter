@@ -1,0 +1,20 @@
+{
+  "clips": [
+    {
+      "character": "penguin",
+      "slot": "p",
+      "label": "咕咕嘎嘎·南极合唱",
+      "start": 4.25,
+      "end": 7.15,
+      "duration": 2.9,
+      "audio": "meme-media/recordings/penguin-p.mp3",
+      "video": "meme-media/recordings/penguin-p.mp4",
+      "bvid": "BV1mTXKB4EjG",
+      "cid": 37022205395,
+      "page": 1,
+      "title": "🐧盘点凑企鹅各项技能🐧",
+      "author": "byd小绫",
+      "source": "https://www.bilibili.com/video/BV1mTXKB4EjG/"
+    }
+  ]
+}

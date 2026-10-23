@@ -1,0 +1,48 @@
+{
+  "complete": false,
+  "reviewed_pose_count": 32,
+  "expected_pose_count": 54,
+  "groups": [
+    {
+      "group": 1,
+      "status": "strict-pass",
+      "count": 8
+    },
+    {
+      "group": 2,
+      "status": "strict-pass",
+      "count": 8
+    },
+    {
+      "group": 3,
+      "status": "strict-pass",
+      "count": 8
+    },
+    {
+      "group": 4,
+      "status": "needs-regeneration",
+      "error": "group-4-v1.png: expected 8 complete figures; found slots [0, 1, 2, 3, 4, 5, 7]",
+      "count": 0
+    },
+    {
+      "group": 5,
+      "status": "strict-pass",
+      "count": 8
+    },
+    {
+      "group": 6,
+      "status": "missing",
+      "count": 0
+    },
+    {
+      "group": 7,
+      "status": "missing",
+      "count": 0
+    }
+  ],
+  "generation_errors": [
+    "Built-in image_gen connection failed on six successive attempts: group4 v2 x3, group6 x2, group7 x1. Includes single-reference and reference-free attempts."
+  ],
+  "full_pack_status": "blocked-by-source-validation",
+  "full_pack_error": "group-4-v1.png: expected 8 complete figures; found slots [0, 1, 2, 3, 4, 5, 7]"
+}

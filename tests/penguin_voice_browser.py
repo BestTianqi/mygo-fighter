@@ -32,7 +32,7 @@ with sync_playwright() as p:
     def morph():
         page.click('#restart');page.clock.run_for(1800)
         page.evaluate('mygoGame.match.fighters[0].energy=100;mygoGame.match.fighters[1].x=1200')
-        page.keyboard.press('g');page.clock.run_for(850)
+        page.keyboard.press('h');page.clock.run_for(850)
         page.evaluate('mygoGame.match.fighters[0].energy=100;voiceProbe.starts=[];voiceProbe.stops=[]')
     morph();page.keyboard.press('i');page.clock.run_for(600)
     assert page.evaluate('voiceProbe.starts.length')==0
@@ -40,17 +40,20 @@ with sync_playwright() as p:
     assert page.locator('#sound').get_attribute('aria-pressed')=='true'
     clips=page.evaluate('voiceProbe.decoded.filter(c=>c.name.startsWith("penguin"))')
     assert all(.5<c['duration']<4 and .025<c['rms']<.5 and c['peak']<.99 for c in clips),clips
-    for key,name in [('c','penguinKick'),('u','penguinCry'),('i','penguinHey'),('t','penguinLaugh'),('l','penguinCall')]:
-        morph();page.keyboard.press(key);page.clock.run_for(50)
+    for key,name,direction in [('u','penguinKick','d'),('u','penguinCry',None),('i','penguinHey',None),('i','penguinLaugh','s'),('o','penguinCall',None)]:
+        morph()
+        if direction: page.keyboard.down(direction)
+        page.keyboard.press(key);page.clock.run_for(50)
+        if direction: page.keyboard.up(direction)
         assert page.evaluate('voiceProbe.starts.map(s=>s.name)')==[name]
         page.clock.run_for(1100)
         assert page.evaluate('voiceProbe.starts.length')==1,'three pulses must not replay the whole recording'
     morph();page.keyboard.down('i');page.clock.run_for(900);page.keyboard.up('i')
     assert page.evaluate('voiceProbe.starts.length')==1
-    morph();page.keyboard.press('u');page.clock.run_for(100);page.keyboard.press('Space')
+    morph();page.keyboard.press('u');page.clock.run_for(100);page.click('#pause')
     assert page.evaluate('voiceProbe.stops')==['penguinCry']
     page.clock.run_for(1200);assert page.evaluate('voiceProbe.starts.length')==1
-    page.keyboard.press('Space');assert page.evaluate('voiceProbe.starts.length')==2
+    page.click('#pause');assert page.evaluate('voiceProbe.starts.length')==2
     assert page.evaluate('voiceProbe.starts[1].name')=='penguinCry'
     page.click('#sound');assert page.evaluate('voiceProbe.stops.length')==2
     page.clock.run_for(1000);page.keyboard.press('i');page.clock.run_for(50)
@@ -62,8 +65,8 @@ with sync_playwright() as p:
     morph();page.keyboard.press('u');page.clock.run_for(100);page.click('#restart')
     assert page.evaluate('voiceProbe.stops')==['penguinCry']
     morph();page.evaluate('mygoGame.match.fighters[1].energy=100')
-    page.keyboard.press('Delete');page.clock.run_for(850)
-    page.keyboard.press('u');page.keyboard.press('Numpad4');page.clock.run_for(50)
+    page.keyboard.press('Numpad7');page.clock.run_for(850)
+    page.keyboard.press('u');page.keyboard.press('Numpad5');page.clock.run_for(50)
     assert sorted(page.evaluate('voiceProbe.starts.map(s=>s.name)'))==['penguinCry','penguinHey']
     assert page.evaluate('voiceProbe.stops')==[]
     page.evaluate('mygoGame.match.fighters[0].penguin.ms=10');page.clock.run_for(30)
@@ -79,7 +82,7 @@ with sync_playwright() as p:
         b=phone.locator(f'[data-key="{key}"]').bounding_box()
         cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':b['x']+b['width']/2,'y':b['y']+b['height']/2}]})
         phone.clock.run_for(30);cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
-    tap('KeyG');phone.clock.run_for(850);tap('KeyI');phone.clock.run_for(50)
+    tap('KeyH');phone.clock.run_for(850);tap('KeyI');phone.clock.run_for(50)
     assert phone.evaluate('voiceProbe.starts.map(s=>s.name)')==['penguinHey']
     assert errors==[],errors
     assert remote==[],remote

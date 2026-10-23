@@ -1,0 +1,67 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-10-23",
+  "characters": [
+    {
+      "key": "sakiko",
+      "name": "Toyokawa Sakiko 丰川祥子",
+      "refs": [
+        "sakiko/reference/mujica_sakiko_casual_official.png",
+        "sakiko/reference/mujica_sakiko_stage_official.png",
+        "sakiko/reference/mujica_sakiko_face_official.jpg",
+        "reference/masked-five-anime-reference.jpg"
+      ],
+      "detail": "Long periwinkle-blue twin-tail hair, gold amber eyes, restrained proud expression. LEFT cream blouse, black thin bow, grey plaid knee skirt, white ankle socks, black Mary Jane shoes. RIGHT red puff sleeves, black corset, layered asymmetric cream black skirt, lace gloves, lace-up boots, ornate black lace EYE masquerade mask that leaves the gold eyes clearly readable.",
+      "prompt": "Create a polished 2D anime fighting-game character portrait sheet for Toyokawa Sakiko 丰川祥子. Use provided official reference images for identity, eye shape, fringe, costume construction and colors. Exactly TWO separated full-body illustrations of the SAME character, arranged side by side in equal left and right cells on a TRUE TRANSPARENT canvas. Left everyday outfit, right transformed Ave Mujica stage outfit. Both face slightly toward viewer/right in an elegant relaxed ready pose, head to shoes fully visible, approximately seven heads tall, natural proportions, face centered above body. Clear 10% transparent outer margin and ample transparent gap between the two. Refined clean anime lineart, carefully drawn eyes with restrained highlights, flat 2D cel shaded official visual style, coherent soft neutral light and accurate source skin tones. Preserve individuality and original face; no chibi, no generic doll face, no 3D, no painterly texture, no oversaturated glow, no text, no labels, no background, no floor shadow, no instruments. Long periwinkle-blue twin-tail hair, gold amber eyes, restrained proud expression. LEFT cream blouse, black thin bow, grey plaid knee skirt, white ankle socks, black Mary Jane shoes. RIGHT red puff sleeves, black corset, layered asymmetric cream black skirt, lace gloves, lace-up boots, ornate black lace EYE masquerade mask that leaves the gold eyes clearly readable. Reference group image is only for mask design. Deliver sharp detailed promotional standing art suitable for enlargement, character selection and idle sprite.",
+      "generatedPath": "C:\\Users\\xtqtb\\.codex\\generated_images\\01a14895-6ad8-7331-8a24-f48766a9d8d7\\exec-2f8291ca-a3a1-44f1-b21a-ca301e84edf4.png"
+    },
+    {
+      "key": "uika",
+      "name": "Misumi Uika 三角初华",
+      "refs": [
+        "uika/reference/mujica_uika_casual_official.png",
+        "uika/reference/mujica_uika_stage_official.png",
+        "reference/masked-five-anime-reference.jpg"
+      ],
+      "detail": "Pale blonde bob with faint pink underneath, violet eyes, gentle wistful smile. LEFT black baseball cap, white T-shirt, beige long skirt, black high-top sneakers. RIGHT black and ivory sleeveless high-neck top, brown lace-up corset, shorts and asymmetrical long back skirt, tall grey boots, black lace EYE masquerade mask.",
+      "prompt": "Create a polished 2D anime fighting-game character portrait sheet for Misumi Uika 三角初华. Use provided official reference images for identity, eye shape, fringe, costume construction and colors. Exactly TWO separated full-body illustrations of the SAME character, arranged side by side in equal left and right cells on a TRUE TRANSPARENT canvas. Left everyday outfit, right transformed Ave Mujica stage outfit. Both face slightly toward viewer/right in an elegant relaxed ready pose, head to shoes fully visible, approximately seven heads tall, natural proportions, face centered above body. Clear 10% transparent outer margin and ample transparent gap between the two. Refined clean anime lineart, carefully drawn eyes with restrained highlights, flat 2D cel shaded official visual style, coherent soft neutral light and accurate source skin tones. Preserve individuality and original face; no chibi, no generic doll face, no 3D, no painterly texture, no oversaturated glow, no text, no labels, no background, no floor shadow, no instruments. Pale blonde bob with faint pink underneath, violet eyes, gentle wistful smile. LEFT black baseball cap, white T-shirt, beige long skirt, black high-top sneakers. RIGHT black and ivory sleeveless high-neck top, brown lace-up corset, shorts and asymmetrical long back skirt, tall grey boots, black lace EYE masquerade mask. Reference group image is only for mask design. Deliver sharp detailed promotional standing art suitable for enlargement, character selection and idle sprite.",
+      "generatedPath": "C:\\Users\\xtqtb\\.codex\\generated_images\\01a14895-6ad8-7331-8a24-f48766a9d8d7\\exec-b26f4af0-1f75-465b-b6ce-e79d042e2f37.png"
+    },
+    {
+      "key": "umiri",
+      "name": "Yahata Umiri 八幡海铃",
+      "refs": [
+        "umiri/references/official-casual.png",
+        "umiri/references/official-stage.png",
+        "reference/masked-five-anime-reference.jpg"
+      ],
+      "detail": "Charcoal shoulder-length hair slightly flicked out, teal eyes, composed serious expression. LEFT black biker jacket, red top, grey short skirt, black lace-up boots. RIGHT red cape shoulders with gold trim, black and cream tailored waistcoat and shorts, thigh-high boots, ornate black lace LOWER FACE mask covering nose and mouth only, eyes visible.",
+      "prompt": "Create a polished 2D anime fighting-game character portrait sheet for Yahata Umiri 八幡海铃. Use provided official reference images for identity, eye shape, fringe, costume construction and colors. Exactly TWO separated full-body illustrations of the SAME character, arranged side by side in equal left and right cells on a TRUE TRANSPARENT canvas. Left everyday outfit, right transformed Ave Mujica stage outfit. Both face slightly toward viewer/right in an elegant relaxed ready pose, head to shoes fully visible, approximately seven heads tall, natural proportions, face centered above body. Clear 10% transparent outer margin and ample transparent gap between the two. Refined clean anime lineart, carefully drawn eyes with restrained highlights, flat 2D cel shaded official visual style, coherent soft neutral light and accurate source skin tones. Preserve individuality and original face; no chibi, no generic doll face, no 3D, no painterly texture, no oversaturated glow, no text, no labels, no background, no floor shadow, no instruments. Charcoal shoulder-length hair slightly flicked out, teal eyes, composed serious expression. LEFT black biker jacket, red top, grey short skirt, black lace-up boots. RIGHT red cape shoulders with gold trim, black and cream tailored waistcoat and shorts, thigh-high boots, ornate black lace LOWER FACE mask covering nose and mouth only, eyes visible. Reference group image is only for mask design. Deliver sharp detailed promotional standing art suitable for enlargement, character selection and idle sprite.",
+      "generatedPath": "C:\\Users\\xtqtb\\.codex\\generated_images\\01a14895-6ad8-7331-8a24-f48766a9d8d7\\exec-03e7997d-f29e-46e3-8a7c-ef0c4a9656c6.png"
+    },
+    {
+      "key": "mutsumi",
+      "name": "Wakaba Mutsumi 若叶睦 / Mortis",
+      "refs": [
+        "mutsumi/references/official-casual.png",
+        "mutsumi/references/official-stage.png",
+        "reference/masked-five-anime-reference.jpg"
+      ],
+      "detail": "Long straight pale sage green hair, exact blunt fringe, amber gold eyes with subdued half-lids. LEFT navy plaid long-sleeve dress, cream frilled round collar and cuffs, teal bow, small black choker, white socks and brown Mary Janes, quiet subdued expression. RIGHT wine beret, black and wine tailored theatrical dress-coat, cream neck bow, green gem, gold buttons, red shorts, dark tights and red shoes, ornate black lace LOWER FACE mask over nose and mouth only, eyes exposed with intense Mortis gaze.",
+      "prompt": "Create a polished 2D anime fighting-game character portrait sheet for Wakaba Mutsumi 若叶睦 / Mortis. Use provided official reference images for identity, eye shape, fringe, costume construction and colors. Exactly TWO separated full-body illustrations of the SAME character, arranged side by side in equal left and right cells on a TRUE TRANSPARENT canvas. Left everyday outfit, right transformed Ave Mujica stage outfit. Both face slightly toward viewer/right in an elegant relaxed ready pose, head to shoes fully visible, approximately seven heads tall, natural proportions, face centered above body. Clear 10% transparent outer margin and ample transparent gap between the two. Refined clean anime lineart, carefully drawn eyes with restrained highlights, flat 2D cel shaded official visual style, coherent soft neutral light and accurate source skin tones. Preserve individuality and original face; no chibi, no generic doll face, no 3D, no painterly texture, no oversaturated glow, no text, no labels, no background, no floor shadow, no instruments. Long straight pale sage green hair, exact blunt fringe, amber gold eyes with subdued half-lids. LEFT navy plaid long-sleeve dress, cream frilled round collar and cuffs, teal bow, small black choker, white socks and brown Mary Janes, quiet subdued expression. RIGHT wine beret, black and wine tailored theatrical dress-coat, cream neck bow, green gem, gold buttons, red shorts, dark tights and red shoes, ornate black lace LOWER FACE mask over nose and mouth only, eyes exposed with intense Mortis gaze. Reference group image is only for mask design. Deliver sharp detailed promotional standing art suitable for enlargement, character selection and idle sprite.",
+      "generatedPath": "C:\\Users\\xtqtb\\.codex\\generated_images\\01a14895-6ad8-7331-8a24-f48766a9d8d7\\exec-5ab98838-7f58-4a6d-bb7d-88057e3adcf9.png"
+    },
+    {
+      "key": "nyamu",
+      "name": "Yutenji Nyamu 祐天寺若麦",
+      "refs": [
+        "nyamu/references/official-casual.png",
+        "nyamu/references/official-stage-mask.jpg",
+        "reference/masked-five-anime-reference.jpg"
+      ],
+      "detail": "Short lavender purple bob with asymmetric long face framing strand, pink magenta eyes, confident playful expression. LEFT grey off-shoulder frill blouse, black high waist skirt and choker, black ankle-strap heels. RIGHT black gold-trimmed striped fitted sleeveless waistcoat, red short stage skirt/shorts, red thigh high stockings with black straps, red high heels, red jewel necklace and lace EYE masquerade mask.",
+      "prompt": "Create a polished 2D anime fighting-game character portrait sheet for Yutenji Nyamu 祐天寺若麦. Use provided official reference images for identity, eye shape, fringe, costume construction and colors. Exactly TWO separated full-body illustrations of the SAME character, arranged side by side in equal left and right cells on a TRUE TRANSPARENT canvas. Left everyday outfit, right transformed Ave Mujica stage outfit. Both face slightly toward viewer/right in an elegant relaxed ready pose, head to shoes fully visible, approximately seven heads tall, natural proportions, face centered above body. Clear 10% transparent outer margin and ample transparent gap between the two. Refined clean anime lineart, carefully drawn eyes with restrained highlights, flat 2D cel shaded official visual style, coherent soft neutral light and accurate source skin tones. Preserve individuality and original face; no chibi, no generic doll face, no 3D, no painterly texture, no oversaturated glow, no text, no labels, no background, no floor shadow, no instruments. Short lavender purple bob with asymmetric long face framing strand, pink magenta eyes, confident playful expression. LEFT grey off-shoulder frill blouse, black high waist skirt and choker, black ankle-strap heels. RIGHT black gold-trimmed striped fitted sleeveless waistcoat, red short stage skirt/shorts, red thigh high stockings with black straps, red high heels, red jewel necklace and lace EYE masquerade mask. Reference group image is only for mask design. Deliver sharp detailed promotional standing art suitable for enlargement, character selection and idle sprite.",
+      "generatedPath": "C:\\Users\\xtqtb\\.codex\\generated_images\\01a14895-6ad8-7331-8a24-f48766a9d8d7\\exec-5b1166f9-16bc-43de-a5d5-e0fe757e66af.png"
+    }
+  ]
+}

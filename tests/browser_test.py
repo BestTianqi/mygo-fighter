@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright, expect
-from ui_helpers import select_game_option, start_match, show_help, close_help, open_settings
+from ui_helpers import select_game_option, start_match, show_help, close_help, open_settings, set_game_sound
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "tests/artifacts"
@@ -104,7 +104,7 @@ with sync_playwright() as p:
     page.click('#close-moves')
     page.clock.run_for(50)
     assert not page.evaluate('mygoGame.match.paused')
-    page.click("#sound")
+    set_game_sound(page, True)
     expect(page.locator("#sound")).to_have_attribute("aria-pressed", "true")
     page.click("#sound")
 

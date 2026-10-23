@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-from ui_helpers import select_game_option, start_match
+from ui_helpers import select_game_option, start_match, set_game_sound
 
 ROOT=Path(__file__).resolve().parents[1]
 ART=ROOT/'tests/artifacts'
@@ -18,7 +18,7 @@ with sync_playwright() as p:
     for character in [0,1,2,3,4,0]:
         select_game_option(page,'#player-character',str(character));start_match(page)
         if not results:
-            page.click('#sound');page.wait_for_function('document.querySelector("#sound").getAttribute("aria-pressed")==="true"')
+            set_game_sound(page, True);page.wait_for_function('document.querySelector("#sound").getAttribute("aria-pressed")==="true"')
         page.wait_for_function('mygoGame.match.phase==="fighting"');page.wait_for_timeout(500)
         page.evaluate('''() => {
           mygoGame.match.fighters[1].x=1500;

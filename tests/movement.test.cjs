@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {Match,WORLD,FEEL}=require('../src/engine.js');
-function fight(character){const m=new Match({mode:'duel',characters:[character,0]});m.start();m.advance(1000);m.fighters[1].x=1600;return m;}
+function fight(character){const m=new Match({mode:'duel',characters:[character,0]});m.start();m.advance(1000);m.fighters[1].x=1600;m.fighters[0].energy=100;return m;}
 test('playable characters retain their speed ratios at reference-normalized walking speed',()=>{
   for(const [character,speed]of [[0,FEEL.walk],[1,FEEL.walk],[2,FEEL.walk*315/345],[3,FEEL.walk*390/345]]){
     const m=fight(character),a=m.fighters[0],start=a.x;m.advance(1000,{right:true});assert.ok(Math.abs(a.x-start-speed)<.01);

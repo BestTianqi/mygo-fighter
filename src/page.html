@@ -6,18 +6,21 @@
   <meta name="theme-color" content="#080d16">
   <title>MyGO!!!!! 格斗</title>
   <style>/*__STYLE__*/</style>
+  <style>/*__PRESENTATION__*/</style>
 </head>
 <body class="menu-open">
   <section id="main-menu" class="main-menu" aria-labelledby="menu-title">
     <canvas id="menu-art" class="menu-art" width="1440" height="860" aria-hidden="true"></canvas>
+    <div class="menu-marquee"><span>LIVE / 迷途回响</span><nav aria-label="主视觉乐队"><button data-menu-band="mygo" aria-pressed="true" data-menu-ready disabled>MyGO!!!!!</button><button data-menu-band="mujica" aria-pressed="false" data-menu-ready disabled>Ave Mujica</button><button data-menu-band="mewtype" aria-pressed="false" data-menu-ready disabled>梦限大</button></nav></div>
     <div class="menu-content">
-      <p class="menu-band">MyGO!!!!! <span>FIGHTING</span></p>
+      <p class="menu-band"><span id="menu-wordmark" class="menu-wordmark">MyGO!!!!!</span><span>FIGHTING</span></p>
       <h1 id="menu-title">迷途<span>回响</span></h1>
-      <p class="menu-subtitle">让下一击，接上我们的节拍。</p>
+      <p class="menu-subtitle">选择你的同伴，让回响登上舞台。</p>
       <nav class="menu-actions" aria-label="主菜单">
         <button id="menu-resume" class="menu-resume" data-menu-ready disabled hidden>继续对战 <span aria-hidden="true">↗</span></button>
         <button id="menu-start" class="menu-primary" data-menu-ready disabled>开始对战 <small>单人对战</small><span aria-hidden="true">↗</span></button>
         <button id="menu-duel" data-menu-ready disabled>本地双人 <span aria-hidden="true">↗</span></button>
+        <button id="menu-team" data-menu-ready disabled>3v3 车轮战 <span aria-hidden="true">↗</span></button>
         <button id="menu-practice" data-menu-ready disabled>自由练习 <span aria-hidden="true">↗</span></button>
         <div class="menu-secondary"><button id="menu-settings" data-menu-ready disabled>对战设置</button><button id="menu-help" data-menu-ready disabled>操作说明</button></div>
       </nav>
@@ -25,53 +28,114 @@
     </div>
     <footer class="menu-footer"><span id="menu-selection">千早爱音 × 长崎素世</span><span id="menu-stage">RiNG 舞台</span></footer>
   </section>
+  <section id="character-select" class="character-select" aria-labelledby="selection-title" hidden inert>
+    <header class="selection-header">
+      <button id="selection-back" class="selection-back" type="button">← 主菜单</button>
+      <div class="selection-heading"><p>CHARACTER SELECT</p><h1 id="selection-title">选择对战角色</h1></div>
+      <div class="selection-options">
+        <div><label for="selection-mode">对战模式</label><select id="selection-mode"><option value="cpu">单人对战</option><option value="duel">本地双人</option><option value="practice">自由练习</option></select></div>
+        <div><label for="selection-format">出战人数</label><select id="selection-format"><option value="1v1">1v1 单人战</option><option value="3v3">3v3 车轮战</option></select></div>
+      </div>
+    </header>
+    <nav class="selection-steps" aria-label="开战流程"><a href="#selection-roster" aria-current="step"><b>01</b> 选择阵容 <span id="selection-count">0 / 2</span></a><a href="#selection-setup"><b>02</b> 场地与规则</a><span><b>03</b> 登台对战</span></nav>
+    <div class="selection-lineups">
+      <section class="selection-team selection-p1" aria-label="1P 出战阵容"><h2><span id="selection-side-0">1P</span><small>出战顺序</small></h2><div id="selection-team-0" class="selection-team-slots"></div></section>
+      <span class="selection-versus" aria-hidden="true">VS</span>
+      <section class="selection-team selection-p2" aria-label="对手出战阵容"><h2><span id="selection-side-1">CPU</span><small>出战顺序</small></h2><div id="selection-team-1" class="selection-team-slots"></div></section>
+    </div>
+    <div class="selection-cast">
+      <aside id="selection-spotlight" class="selection-spotlight" aria-label="角色预览">
+        <div class="spotlight-art"><img id="spotlight-image" alt=""><span id="spotlight-alias" aria-hidden="true"></span></div>
+        <div class="spotlight-copy"><p id="spotlight-band"></p><h2 id="spotlight-name"></h2><p id="spotlight-role"></p><div id="spotlight-forms" class="spotlight-forms" aria-label="预览服装"><button data-preview-form="normal" type="button" aria-pressed="true">常态</button><button data-preview-form="stage" type="button" aria-pressed="false">演出服</button></div><small id="spotlight-transform"></small><dl id="spotlight-skills"></dl></div>
+      </aside>
+      <div id="selection-roster" class="selection-roster" aria-label="全部角色"></div>
+    </div>
+    <section id="selection-setup" class="selection-setup" aria-label="开战设置">
+      <div class="selection-stage-picker">
+        <div class="selection-stage-preview"><img id="selection-stage-image" alt=""><span>STAGE / 对战场地</span></div>
+        <div class="selection-stage-heading"><h2 id="selection-stage-label">对战场地</h2><div class="selection-stage-info"><strong id="selection-stage-name"></strong><small id="selection-stage-layout"></small></div><nav class="selection-stage-nav" aria-label="浏览地图"><button id="selection-stage-prev" type="button" aria-label="向左浏览地图">‹</button><button id="selection-stage-next" type="button" aria-label="向右浏览地图">›</button></nav></div>
+        <div id="selection-stage-choices" class="selection-stage-choices" role="group" aria-labelledby="selection-stage-label"></div>
+      </div>
+      <div class="selection-rules">
+        <div class="selection-difficulty"><label for="selection-difficulty">电脑难度</label><select id="selection-difficulty" aria-describedby="selection-difficulty-hint"><option value="0">轻松</option><option value="1" selected>标准</option><option value="2">认真</option></select><small id="selection-difficulty-hint">选择电脑对手强度</small></div>
+        <label class="selection-toggle"><span>音效与语音<small>打击音效 · 角色台词</small></span><input id="selection-sound" type="checkbox" checked></label>
+        <label class="selection-toggle"><span>地图地形<small>高低平台 · 穿台下落</small></span><input id="selection-terrain" type="checkbox" checked></label>
+        <div id="selection-practice-settings" hidden><label for="selection-dummy">练习木桩</label><select id="selection-dummy"><option value="idle">站立</option><option value="guard">站立防御</option><option value="crouch">蹲下防御</option></select></div>
+      </div>
+    </section>
+    <footer class="selection-footer"><div><p id="selection-status" role="status">请选择角色</p><p id="selection-error" role="alert"></p><small id="selection-summary">点击角色加入阵容 · 点击出战位置可更换</small></div><button id="selection-confirm" type="button" disabled>开始对战 ↗</button></footer>
+  </section>
   <main id="battle-screen" class="app" aria-label="MyGO 格斗游戏" hidden inert>
           <div id="stage" class="stage" tabindex="0" aria-label="格斗游戏。W跳跃，AD移动，J攻击，K重击，L瞬移，UIO技能，H变身，P大招。">
             <canvas id="game" width="1280" height="720" aria-label="千早爱音对战画面"></canvas>
             <div class="hud" aria-hidden="true">
-              <div class="fighter-hud p1"><div class="fighter-line"><span class="player-tag">1P</span><strong id="name1">千早爱音</strong></div><div class="health-track"><div id="hp1" class="health-fill"></div></div><div class="below-health"><div id="wins1" class="round-pips"><b></b><b></b></div><span id="hptext1">200 / 200</span></div></div>
+              <div class="fighter-hud p1"><div class="fighter-line"><span class="player-tag">1P</span><strong id="name1">千早爱音</strong></div><div class="health-track"><div id="hp1" class="health-fill"></div></div><div class="below-health"><div id="wins1" class="round-pips"><b></b><b></b></div><span id="hptext1">200 / 200</span></div><div id="team-roster-0" class="team-roster" hidden></div></div>
               <div class="timer"><span id="round-label">ROUND 01</span><strong id="timer">60</strong></div>
-              <div class="fighter-hud p2"><div class="fighter-line"><strong id="name2">长崎素世</strong><span id="p2-tag" class="player-tag">CPU</span></div><div class="health-track"><div id="hp2" class="health-fill"></div></div><div class="below-health"><span id="hptext2">200 / 200</span><div id="wins2" class="round-pips"><b></b><b></b></div></div></div>
+              <div class="fighter-hud p2"><div class="fighter-line"><strong id="name2">长崎素世</strong><span id="p2-tag" class="player-tag">CPU</span></div><div class="health-track"><div id="hp2" class="health-fill"></div></div><div class="below-health"><span id="hptext2">200 / 200</span><div id="wins2" class="round-pips"><b></b><b></b></div></div><div id="team-roster-1" class="team-roster" hidden></div></div>
             </div>
             <div id="banner" class="battle-banner" aria-live="polite"></div>
             <div id="super-title" class="super-title" hidden><span>粉色奶龙</span><strong>法天象地</strong></div>
+            <div id="mujica-super-title" class="super-title mujica-super" hidden><span id="mujica-super-role"></span><strong id="mujica-super-name"></strong></div>
+            <div id="meme-cutin-0" class="meme-cutin" hidden><video playsinline muted preload="metadata"></video><strong></strong></div>
+            <div id="meme-cutin-1" class="meme-cutin from-right" hidden><video playsinline muted preload="metadata"></video><strong></strong></div>
             <div id="soyo-cutin-0" class="soyo-cutin" hidden aria-hidden="true"><video muted playsinline preload="auto"></video><strong>为什么要演奏春日影！</strong></div>
             <div id="soyo-cutin-1" class="soyo-cutin from-right" hidden aria-hidden="true"><video muted playsinline preload="auto"></video><strong>为什么要演奏春日影！</strong></div>
             <div id="combo1" class="combo combo-left"></div><div id="combo2" class="combo combo-right"></div>
             <div class="meters" aria-hidden="true"><div class="meter"><div class="meter-label"><span>1P <b>共鸣</b></span><strong id="energytext1">0%</strong></div><div class="energy-track"><div id="energy1"></div><i></i></div><small id="special1">共鸣 60% 可释放必杀</small></div><div class="meter meter-p2"><div class="meter-label"><span><b>共鸣</b> <span id="meter-p2-label">CPU</span></span><strong id="energytext2">0%</strong></div><div class="energy-track"><div id="energy2"></div><i></i></div><small id="special2">闪耀合奏</small></div></div>
             <div class="combat-readout" aria-live="polite"><b id="last-move"></b><span id="chain-hint"></span></div>
-            <div id="overlay" class="overlay"><div class="overlay-card"><span id="overlay-kicker" class="eyebrow">准备上场</span><h2 id="overlay-title">准备对战</h2><p id="overlay-description">AD 移动 · W 跳跃 · J / K 攻击</p><button id="overlay-action" class="primary">开始对战 <span>↗</span></button><small id="overlay-hint">点击开始对战</small></div></div>
-            <div id="loading" class="loading">正在准备爱音、素世、灯、乐奈、立希与舞台…</div>
+            <div id="round-finish" class="round-finish" hidden role="status" aria-live="polite">
+              <div class="finish-ko"><strong id="finish-reason">K.O.</strong><span>胜负已分</span></div>
+              <div class="finish-card">
+                <div class="finish-streaks" aria-hidden="true"></div>
+                <canvas id="finish-art" width="640" height="640" aria-hidden="true"></canvas>
+                <div class="finish-copy"><span id="finish-side" class="finish-eyebrow"></span><strong id="finish-name"></strong><span class="finish-rule"></span><p id="finish-move"></p><b id="finish-verdict">胜 利</b></div>
+                <div id="finish-nextup" class="finish-nextup" hidden aria-label="下一战对阵">
+                  <div class="finish-contender"><img id="finish-portrait-0" alt=""><div><small id="finish-entry-0"></small><strong id="finish-contender-0"></strong><span id="finish-resources-0"></span></div></div>
+                  <b class="finish-versus">VS</b>
+                  <div class="finish-contender finish-contender-right"><img id="finish-portrait-1" alt=""><div><small id="finish-entry-1"></small><strong id="finish-contender-1"></strong><span id="finish-resources-1"></span></div></div>
+                </div>
+                <div class="finish-footer"><span id="finish-score"></span><span id="finish-next"></span></div>
+                <div class="finish-progress" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div id="round-curtain" class="round-curtain" hidden aria-hidden="true"></div>
+            <div id="overlay" class="overlay"><div class="overlay-card"><span id="overlay-kicker" class="eyebrow">准备上场</span><h2 id="overlay-title">准备对战</h2><p id="overlay-description">AD 移动 · W 跳跃 · J / K 攻击</p><button id="overlay-action" class="primary">开始对战 <span>↗</span></button><div id="overlay-options" class="overlay-options" hidden><button id="overlay-reselect" type="button">重新选人</button><button id="overlay-home" type="button">主菜单</button></div><small id="overlay-hint">点击开始对战</small></div></div>
+            <div id="loading" class="loading">正在准备角色与舞台…</div>
           </div>
 
     <nav class="game-tools" aria-label="游戏操作">
-      <button id="home">主菜单</button><button id="pause" disabled>暂停</button><button id="restart">重开</button><button id="settings">设置</button><button id="super-demo">练习</button><button id="moves">招式表</button><button id="sound" aria-label="开启音效" aria-pressed="false">音效关</button><button id="fullscreen">全屏</button>
+      <button id="home">主菜单</button><button id="pause" disabled>暂停</button><button id="restart">重开</button><button id="settings">设置</button><button id="super-demo">练习</button><button id="moves">招式表</button><button id="sound" aria-label="关闭音效" aria-pressed="true">音效开</button><button id="fullscreen">全屏</button>
     </nav>
     <span id="status" class="sr-only" role="status">等待开始</span>
-    <div class="touch-controls" aria-label="触屏操作"><div class="touch-dpad"><button data-key="KeyW" aria-label="跳跃">↑</button><div><button data-key="KeyA" aria-label="向左">←</button><button data-key="KeyS" aria-label="蹲下">↓</button><button data-key="KeyD" aria-label="向右">→</button></div></div><div class="touch-attacks"><button data-key="KeyJ">J 攻击</button><button data-key="KeyK">K 重击</button><button data-key="KeyL">L 瞬移</button><button data-key="KeyU">U 技能一</button><button data-key="KeyI">I 技能二</button><button data-key="KeyO">O 技能三</button><button data-key="KeyH">H 变身</button><button data-key="KeyP" class="super-touch">P 大招</button></div></div>
+    <div class="touch-controls" aria-label="触屏操作"><div class="touch-dpad"><button data-key="KeyW" aria-label="跳跃">↑</button><div><button data-key="KeyA" aria-label="向左">←</button><button data-key="KeyS" aria-label="蹲下">↓</button><button data-key="KeyD" aria-label="向右">→</button></div></div><div class="touch-attacks"><button data-key="KeyJ">J 攻击</button><button data-key="KeyK">K 重击</button><button data-key="KeyL">L 瞬移·10</button><button data-key="KeyU">U 技能一</button><button data-key="KeyI">I 技能二</button><button data-key="KeyO">O 技能三</button><button data-key="KeyH">H 变身</button><button data-key="KeyP" class="super-touch">P 大招</button></div></div>
   </main>
   <dialog id="settings-dialog">
     <div class="dialog-header"><h2>对战设置</h2><button id="close-settings" aria-label="关闭设置">×</button></div>
     <div class="settings-grid">
-      <div><label for="player-character">1P 角色</label><select id="player-character"><option value="0">千早爱音</option><option value="1">长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></select></div>
-      <div><label for="opponent-character">对手 / 2P</label><select id="opponent-character"><option value="0">千早爱音</option><option value="1" selected>长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></select></div>
+      <div><label for="player-character">1P 角色</label><select id="player-character"><optgroup label="MyGO!!!!!"><option value="0">千早爱音</option><option value="1">长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></optgroup><optgroup label="Ave Mujica"><option value="6">丰川祥子</option><option value="7">三角初华</option><option value="5">八幡海铃</option><option value="8">若叶睦</option><option value="9">祐天寺若麦</option></optgroup><optgroup label="梦限大 MewType"><option value="10">仲町阿拉蕾</option><option value="11">峰月律</option><option value="12">藤都子</option><option value="13">千石由乃</option><option value="14">宫永野乃花</option></optgroup></select></div>
+      <div><label for="opponent-character">对手 / 2P</label><select id="opponent-character"><optgroup label="MyGO!!!!!"><option value="0">千早爱音</option><option value="1" selected>长崎素世</option><option value="2">高松灯</option><option value="3">要乐奈</option><option value="4">椎名立希</option></optgroup><optgroup label="Ave Mujica"><option value="6">丰川祥子</option><option value="7">三角初华</option><option value="5">八幡海铃</option><option value="8">若叶睦</option><option value="9">祐天寺若麦</option></optgroup><optgroup label="梦限大 MewType"><option value="10">仲町阿拉蕾</option><option value="11">峰月律</option><option value="12">藤都子</option><option value="13">千石由乃</option><option value="14">宫永野乃花</option></optgroup></select></div>
       <div><label for="mode">对战模式</label><select id="mode"><option value="cpu">单人对战</option><option value="duel">本地双人</option><option value="practice">自由练习</option></select></div>
+      <div><label for="match-format">出战人数</label><select id="match-format"><option value="1v1">1v1 单人战</option><option value="3v3">3v3 车轮战</option></select></div>
       <div><label for="difficulty">电脑难度</label><select id="difficulty"><option value="0">轻松</option><option value="1" selected>标准</option><option value="2">认真</option></select></div>
       <div id="practice-settings" class="wide" hidden><label for="dummy">练习木桩</label><select id="dummy"><option value="idle">站立</option><option value="guard">站立防御</option><option value="crouch">蹲下防御</option></select></div>
-      <div class="wide"><label id="stage-choices-label">场景</label><div id="stage-choices" class="stage-choices" role="group" aria-labelledby="stage-choices-label"></div></div>
+      <div class="wide"><div class="stage-picker-heading"><label id="stage-choices-label">场景</label><select id="stage-filter" aria-label="筛选地图"><option value="all">全部地图</option><option value="校园">三校校园</option><option value="练习室">练习室</option><option value="街景">大台阶</option><option value="其他">其他舞台</option></select></div><div id="stage-choices" class="stage-choices" role="group" aria-labelledby="stage-choices-label"></div></div>
       <div class="wide terrain-setting"><label><input id="terrain-enabled" type="checkbox" checked> 地图地形</label><small>跳上平台 · ↓＋跳跃穿台下落</small></div>
     </div>
     <p id="setup-note" hidden>重新开始后应用新设置。</p>
     <div class="dialog-actions"><button id="help">操作说明</button><button id="start" class="primary">开始对战</button></div>
   </dialog>
-  <dialog id="help-dialog"><div class="dialog-header"><h2>操作说明</h2><button id="close-help" aria-label="关闭操作说明">×</button></div><div class="help-grid"><div><h3 id="help-player-name">1P</h3><p>AD 移动 · W 跳跃 · S 蹲下<br>J 攻击 · K 重击或腿击 · L 瞬移<br>U / I / O 三个基础技能 · H 变身 · P 大招</p></div><div><h3>2P / 本地双人</h3><p>方向键移动、跳跃与蹲下。<br>小键盘 1 攻击 · 2 重击 · 3 瞬移<br>4 / 5 / 6 基础技能 · 7 变身 · 8 大招</p></div></div><p>按住后退方向防御，后退＋蹲下挡下段。连按 J 依次打出三段普攻；站立、蹲下与空中动作不同。方向＋U/I/O 使用扩展技能，具体见招式表；前后以面朝方向为准。后＋U 或前＋O 投技。</p><div id="help-skills"></div><p class="help-note">L 可在地面或空中闪身，沿途留下人物虚影，冷却0.6秒，起步短暂无敌。W 可二段跳；↓＋W 穿台下落。触屏可同时按方向和技能。灯的 H 消耗50能量，立即变身凑企鹅20秒；变身期间不能刷新。立希普攻命中积累四拍，满四拍强化下一次基础特殊技。</p><p class="help-note">每回合60秒，生命200，共鸣上限100。F1 打开招式表。暂停、继续、重开与下一回合使用页面按钮；切换窗口自动暂停。</p></dialog>
+  <dialog id="help-dialog"><div class="dialog-header"><h2>操作说明</h2><button id="close-help" aria-label="关闭操作说明">×</button></div><div class="help-grid"><div><h3 id="help-player-name">1P</h3><p>AD 移动 · W 跳跃 · S 蹲下<br>J 攻击 · K 重击或腿击 · L 瞬移<br>U / I / O 三个基础技能 · H 变身 · P 大招</p></div><div><h3>2P / 本地双人</h3><p>方向键移动、跳跃与蹲下。<br>小键盘 1 攻击 · 2 重击 · 3 瞬移<br>4 / 5 / 6 基础技能 · 7 变身 · 8 大招</p></div></div><p>按住后退方向防御，后退＋蹲下挡下段。连按 J 依次打出三段普攻；站立、蹲下与空中动作不同。方向＋U/I/O 使用扩展技能，具体见招式表；前后以面朝方向为准。后＋U 或前＋O 投技。</p><div id="help-skills"></div><p class="help-note">L 消耗10共鸣，可在地面或空中闪身，沿途留下人物虚影，冷却0.6秒，起步短暂无敌。W 可二段跳；↓＋W 穿台下落。触屏可同时按方向和技能。灯的 H 消耗50能量，立即变身凑企鹅20秒；Mujica五人的 H 消耗50能量，立即换上演出服与面具，持续20秒并切换整套技能。变身期间不能刷新，回合结束恢复常态。梦限大五人使用虚拟服装，以 U/I/O 和 P 施放各自招式，无 H 变身。立希普攻命中积累四拍，满四拍强化下一次基础特殊技。</p><p class="help-note">每回合60秒，生命200，共鸣上限100。F1 打开招式表。暂停、继续、重开与下一回合使用页面按钮；切换窗口自动暂停。</p></dialog>
   <dialog id="moves-dialog"><div class="dialog-header"><h2 id="moves-title">招式表</h2><button id="close-moves" aria-label="关闭招式表">×</button></div><p id="moves-intro"></p><div id="moves-content"></div><p class="help-note">方向以前后表示，换边后自动反转；2P 使用小键盘。连按 J / 小键盘1 可打出三段普攻，第三段挑空。后退防御，蹲防挡下段；投技破防。命中可接后续攻击，连续命中伤害逐步衰减。技能仍受能量、施放姿态与自身冷却限制。变身与大招仅显示角色已拥有的招式。</p></dialog>
   <script>/*__ASSETS__*/</script>
+  <script>/*__MUJICA__*/</script>
+  <script>/*__MEWTYPE__*/</script>
   <script>/*__CONTROLS__*/</script>
   <script>/*__ENGINE__*/</script>
   <script>/*__ANIMATION__*/</script>
   <script>/*__CAMERA__*/</script>
   <script>/*__VOICE__*/</script>
+  <script>/*__MEME_MEDIA__*/</script>
+  <script>/*__SELECTION__*/</script>
   <script>/*__APP__*/</script>
 </body>
 </html>

@@ -3,7 +3,7 @@ import json
 import time
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
-from ui_helpers import select_game_option, start_match
+from ui_helpers import select_game_option, start_match, set_game_sound
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'tests/artifacts'
@@ -29,8 +29,8 @@ with sync_playwright() as p:
     select_game_option(page, '#player-character', '1')
     select_game_option(page, '#mode', 'duel'); page.uncheck('#terrain-enabled')
     start_match(page); page.clock.run_for(1800)
-    page.click('#sound'); expect(page.locator('#sound')).to_have_attribute('aria-pressed', 'true')
-    assert len(page.evaluate('soyoProbe.decoded')) == 6
+    set_game_sound(page, True); expect(page.locator('#sound')).to_have_attribute('aria-pressed', 'true')
+    assert len(page.evaluate('soyoProbe.decoded')) == 68
     assert page.evaluate('soyoProbe.decoded.some(c=>c.key==="soyoSuper"&&Math.abs(c.duration-2.6)<.02)')
 
     def restart():
@@ -50,7 +50,7 @@ with sync_playwright() as p:
     assert page.evaluate('document.querySelector("#soyo-cutin-0 video").currentTime') > 0
     assert page.evaluate('document.querySelector("#soyo-cutin-0 video").getVideoPlaybackQuality().totalVideoFrames') > 0
     page.locator('#stage').screenshot(path=str(ART / 'soyo-super-cutin.png'))
-    page.keyboard.press('Space')
+    page.click('#pause')
     before = page.evaluate('document.querySelector("#soyo-cutin-0 video").currentTime')
     assert page.evaluate('document.querySelector("#soyo-cutin-0 video").paused')
     assert not page.locator('#soyo-cutin-0').is_visible()
@@ -58,31 +58,35 @@ with sync_playwright() as p:
     time.sleep(.15); page.clock.run_for(1000)
     assert page.evaluate('JSON.stringify(mygoGame.match.fighters)') == state
     assert abs(page.evaluate('document.querySelector("#soyo-cutin-0 video").currentTime') - before) < .03
-    page.keyboard.press('Space'); page.clock.run_for(30)
+    page.click('#pause'); page.clock.run_for(30)
     assert page.locator('#soyo-cutin-0').is_visible()
     assert page.evaluate('soyoProbe.starts.length') == 2
     assert page.evaluate('soyoProbe.starts[1].offset') > 0
     page.clock.run_for(3900)
     hits = page.evaluate('soyoEvents.filter(e=>e.type==="hit"&&e.attack==="soyoSuper")')
-    assert [h['damage'] for h in hits] == [8, 11, 22], hits
+    assert hits == [], hits
+    controls = page.evaluate('soyoEvents.filter(e=>e.type==="hardControl")')
+    assert len(controls) == 1 and controls[0]['duration'] == 2000, controls
+    assert page.evaluate('mygoGame.match.fighters[1].hp') == 200
     assert not page.locator('#soyo-cutin-0').is_visible()
 
     restart(); page.keyboard.press('p'); page.clock.run_for(1100)
     page.evaluate('mygoGame.match.hit(1,"throw")'); page.clock.run_for(30)
-    assert not page.locator('#soyo-cutin-0').is_visible()
-    assert page.evaluate('soyoProbe.stops') == ['soyoSuper']
+    assert page.locator('#soyo-cutin-0').is_visible()
+    assert page.evaluate('mygoGame.match.fighters[0].hp<200&&mygoGame.match.fighters[0].attack===null&&!!mygoGame.match.fighters[0].soyoSuper')
+    assert page.evaluate('soyoProbe.stops') == []
     restart(); page.keyboard.press('p'); page.clock.run_for(30); page.click('#restart')
     assert not page.locator('#soyo-cutin-0').is_visible()
     assert page.evaluate('document.querySelector("#soyo-cutin-0 video").paused')
     assert page.evaluate('soyoProbe.stops') == ['soyoSuper']
     page.clock.run_for(1800); page.keyboard.press('F1')
     assert '为什么要演奏春日影' in page.locator('#moves-content').inner_text()
-    assert '小键盘−' in page.locator('#moves-content').inner_text()
+    assert page.locator('#moves-content tbody tr').filter(has_text='为什么要演奏春日影').locator('td').nth(2).inner_text() == '8'
     page.click('#close-moves')
 
     select_game_option(page, '#opponent-character', '1'); start_match(page); page.clock.run_for(1800)
     page.evaluate('mygoGame.match.fighters.forEach((f,i)=>{f.energy=100;f.x=i?1100:100});soyoProbe.starts=[];soyoProbe.stops=[]')
-    page.keyboard.press('p'); page.keyboard.press('NumpadSubtract'); page.clock.run_for(30)
+    page.keyboard.press('p'); page.keyboard.press('Numpad8'); page.clock.run_for(30)
     assert page.evaluate('mygoGame.match.fighters.every(f=>f.attack==="soyoSuper"&&f.energy===0)')
     assert all(page.locator(f'#soyo-cutin-{s}').is_visible() for s in [0, 1])
     assert page.evaluate('soyoProbe.starts.map(s=>s.key)') == ['soyoSuper', 'soyoSuper']
@@ -100,7 +104,7 @@ with sync_playwright() as p:
     select_game_option(phone, '#player-character', '1'); select_game_option(phone, '#mode', 'practice')
     phone.uncheck('#terrain-enabled'); start_match(phone); phone.clock.run_for(1800)
     button = phone.locator('[data-key="KeyP"]'); assert button.is_visible()
-    assert button.inner_text() == '春日影大招'
+    assert button.inner_text() == 'P 为什么要演奏春日影'
     phone.tap('[data-key="KeyP"]'); phone.clock.run_for(80)
     assert phone.evaluate('mygoGame.match.fighters[0].attack') == 'soyoSuper'
     assert phone.locator('#soyo-cutin-0').is_visible()
@@ -109,8 +113,8 @@ with sync_playwright() as p:
     assert errors == [], errors
     assert remote == [], remote
     report = {'P_100_energy': 'pass', 'original_video_decodes_and_plays': 'pass', 'original_voice': 'pass',
-              'three_hits': [h['damage'] for h in hits], 'pause_resume_media_offset': 'pass',
-              'interrupt_reset_round_cleanup': 'pass', 'P2_independent': 'pass', 'mute': 'pass',
+              'zero_damage_hard_control_2000ms': 'pass', 'pause_resume_media_offset': 'pass',
+              'armor_reset_round_cleanup': 'pass', 'P2_independent': 'pass', 'mute': 'pass',
               'mobile_touch': 'pass', 'offline': 'pass', 'errors': errors}
     (ART / 'soyo-super-browser-report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     print(json.dumps(report)); browser.close()

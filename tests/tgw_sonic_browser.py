@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-from ui_helpers import select_game_option, start_match
+from ui_helpers import select_game_option, start_match, set_game_sound
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'tests/artifacts'
@@ -17,7 +17,7 @@ with sync_playwright() as p:
     page.clock.install(); page.goto((ROOT / 'index.html').as_uri())
     page.wait_for_function('window.mygoGame && mygoGame.loaded')
     select_game_option(page, '#mode', 'duel'); start_match(page); page.clock.run_for(1800)
-    page.click('#sound'); page.focus('#stage')
+    set_game_sound(page, True); page.focus('#stage')
     page.evaluate('mygoGame.match.fighters[0].energy=30; mygoGame.match.fighters[1].x=700')
     page.keyboard.press('t'); page.clock.run_for(330)
     assert page.evaluate('mygoGame.match.fighters[0].attack') == 'sonic'

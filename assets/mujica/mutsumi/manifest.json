@@ -1,0 +1,257 @@
+{
+  "key": "mutsumi",
+  "id": 8,
+  "name": "若叶睦",
+  "references": [
+    {
+      "path": "mujica/mutsumi/references/official-casual.png",
+      "source": "Local official user reference"
+    },
+    {
+      "path": "mujica/mutsumi/references/official-face.jpg",
+      "source": "Official face reference"
+    },
+    {
+      "path": "mujica/mutsumi/references/official-stage.png",
+      "source": "Official character fullbody stage illustration"
+    },
+    {
+      "path": "mujica/mutsumi/references/official-mask.jpg",
+      "source": "Official TV anime mask screenshot via Natalie interview"
+    }
+  ],
+  "forms": {
+    "normal": {
+      "groups": [
+        {
+          "file": "mujica/mutsumi/normal/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER: 1 idle relaxed combat-ready instrument low; 2 walk-contact forward right foot heel plants long stride; 3 walk-pass feet pass narrow mid-stride; 4 guard-standing forearms/instrument braced diagonally chest high; 5 guard-crouch deep compact crouch guard; 6 dash-forward dramatic low forward lunge; 7 dash-back leans backward retreat left facing right; 8 jump-rise lifted bent knees rising airborne. All eight actual distinct poses."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-2-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jump-fall legs extend to descend; 2 landing deep knees with lowered torso; 3 hit-high head/shoulders recoil backward; 4 hit-low fold body at abdomen; 5 knockdown-fall body tips backward diagonal airborne; 6 knockdown-ground lie fully horizontal on back with bent knees, fit complete body within cell; 7 getup one palm pushes floor one knee planted; 8 victory head up free hand lifted. Draw 8 distinct poses. CORRECT COMPOSITION: shrink EVERY CHARACTER and instrument together by40percent relative to reference sheet, leaving VERY LARGE clean transparent gutters. Max each figure INCLUDING instrument footprint300px wide x350px high within its own384x512cell. Never touch any other figure or image edge. Center horizontally in each cell. Horizontal fallen poses can be visibly lower/smaller to fit but retain normal anime anatomy. All8 remain complete. CRITICAL no guitar headstock clips right edge, no feet touch neighboring figure/hair. Do not recreate existing overlaps."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 throw-windup shoulder pulled rear hand reaches behind for grapple; 2 throw-release shoulder twist free palm reaches strongly right; 3 jab1-windup compact fist chambers near ribs; 4 jab1-impact short straight palm jab; 5 jab1-recover hand pulls back; 6 jab2-windup wide shoulder rotation coiling for horizontal strike; 7 jab2-impact horizontal backhand strike arm extended; 8 jab2-recover backhand arm returns. JAB1 straight palm and JAB2 horizontal backhand clearly different."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jab3-windup deep coil knees loaded hand/weapon low; 2 jab3-impact rising uppercut right arm/weapon high; 3 jab3-recover uppercut arm drops; 4 heavy-windup both hands/weapon above rear shoulder; 5 heavy-impact full torso twist powerful overhead downward strike; 6 heavy-recover heavy forward down followthrough; 7 crouch-light-windup low crouch tight chamber; 8 crouch-light-impact compact crouching straight palm. JAB3 uppercut visibly different from jab1 jab2."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 crouch-light-recover low crouch hand pulls back; 2 crouch-heavy-windup kneeling torso coils rear arm; 3 crouch-heavy-impact low sweeping strike extended arm/weapon near ground; 4 crouch-heavy-recover low followthrough; 5 air-light-windup airborne bent legs fist tucked; 6 air-light-impact airborne short forward palm; 7 air-light-recover airborne palm retracts; 8 air-heavy-windup airborne both arms/weapon raised overhead."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-6-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 air-heavy-impact airborne pink guitar descending diagonal strike; 2 air-heavy-recover knees tucked guitar low; 3 skill-u-windup holds one small cucumber over shoulder, guitar hangs strap; 4 skill-u-impact cucumber throw hand fully forward cucumber just in fingers (NO detached projectile); 5 skill-u-recover empty hand lowers; 6 skill-i-windup very low guitar pluck crouch; 7 skill-i-impact kneeling powerful lowest-string stroke with guitar horizontal; 8 skill-i-recover kneel fingers settle. TARGETED COMPOSITION FIX: preserve8poses/outfit/face. Make first cell air-heavy-impact END OF DOWNWARD guitar strike, instrument BELOW chest, NEVER overhead; at least60px clear top margin around all hair and hands. Eighth cell skill-i-recover: pink guitar neck angles UP close to torso, entire headstock at least60px INSIDE right edge. Shrink all8figures30percent as necessary. No part touches neighbor or canvas edge."
+        },
+        {
+          "file": "mujica/mutsumi/normal/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi, pale mint green LONG straight hair to lower back, blunt wispy bangs, golden eyes, quiet reserved exact official face, pale skin. Clothing EXACT official reference: navy-grey plaid long sleeved midi dress below knees with flared ruffled hem, wide ivory frilled sailor/PeterPan collar, cream pintucked button-front bib, dark teal ribbon bow, navy belt waist, cream cuffs, black/cream ruffled choker, white ankle socks and brown MaryJane shoes. Pink electric guitar on strap consistent across all poses. No red cape/no mask in this NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 skill-o-windup still quiet stance fingers above strings; 2 skill-o-impact arms open outward radial-quiet gesture pink guitar stays strapped (NO VFX); 3 skill-o-recover hands return guitar; 4 super-windup eyes close head bows; 5 super-impact earnest solo-cast wide stance intense pink guitar strum; 6 super-recover gentle quiet exhale; 7 transform-prepare free hand touches choker; 8 transform-release head raised hand opens before face. KEEP SAME NORMAL PLAID DRESS no stage mask."
+        }
+      ]
+    },
+    "stage": {
+      "groups": [
+        {
+          "file": "mujica/mutsumi/stage/group-1-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER: 1 idle relaxed combat-ready instrument low; 2 walk-contact forward right foot heel plants long stride; 3 walk-pass feet pass narrow mid-stride; 4 guard-standing forearms/instrument braced diagonally chest high; 5 guard-crouch deep compact crouch guard; 6 dash-forward dramatic low forward lunge; 7 dash-back leans backward retreat left facing right; 8 jump-rise lifted bent knees rising airborne. All eight actual distinct poses. CORRECTION: make ALL EIGHT figures 18percent smaller and center each comfortably in its own 4x2cell. At least60pixels clear transparent padding around EVERY figure. Especially cell8 JUMP-RISE PINK GUITAR HEADSTOCK must be COMPLETE and far INSIDE image RIGHT EDGE. No figure cropped. Do NOT extend a guitar into neighboring cell or edge."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-2-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jump-fall legs extend to descend; 2 landing deep knees with lowered torso; 3 hit-high head/shoulders recoil backward; 4 hit-low fold body at abdomen; 5 knockdown-fall body tips backward diagonal airborne; 6 knockdown-ground lie fully horizontal on back with bent knees, fit complete body within cell; 7 getup one palm pushes floor one knee planted; 8 victory head up free hand lifted. Draw 8 distinct poses. COMPOSITION FIX: all8figures35percent SMALLER. Sixth cell KNOCKDOWN-GROUND must be a compact horizontal lying pose, both knees bent, entire hair/body/boots/guitar strictly INSIDE its OWN second bottom-row cell. At least50px TRANSPARENT gap between sixth figure and BOTH neighboring fall/getup figures. Fifth cell fall airborne diagonal with both knees tucked to avoid crossing cell. NO overlapping/connecting figures, no canvas cropping. Preserve stage costume and Mortis floral mask on all8."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 throw-windup free fingers poised above shoulder as puppet-master; 2 throw-release open hand pulls opponent as imaginary string while pink guitar hangs strap NO visible strings; 3 jab1-windup guitar neck pulls back; 4 jab1-impact short straight guitar-neck jab right; 5 jab1-recover guitar neck retracts; 6 jab2-windup free hand held beside face; 7 jab2-impact horizontal backhand puppet gesture right; 8 jab2-recover free wrist curls in. Jab1 guitar vs jab2 hand clearly different."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-4-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jab3-windup deep knees pink guitar body low; 2 jab3-impact rising pink guitar-body uppercut; 3 jab3-recover guitar pulls down; 4 heavy-windup pink guitar overhead; 5 heavy-impact powerful downward guitar swing; 6 heavy-recover low heavy followthrough; 7 crouch-light-windup compact crouch fingers near chest; 8 crouch-light-impact low crouched palm. CORRECT COMPOSITION: shrink EVERY CHARACTER and instrument together by40percent relative to reference sheet, leaving VERY LARGE clean transparent gutters. Max each figure INCLUDING instrument footprint300px wide x350px high within its own384x512cell. Never touch any other figure or image edge. Center horizontally in each cell. Horizontal fallen poses can be visibly lower/smaller to fit but retain normal anime anatomy. All8 remain complete. CRITICAL no guitar headstock clips right edge, no feet touch neighboring figure/hair. Do not recreate existing overlaps."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 crouch-light-recover low crouch hand pulls back; 2 crouch-heavy-windup kneeling torso coils rear arm; 3 crouch-heavy-impact low sweeping strike extended arm/weapon near ground; 4 crouch-heavy-recover low followthrough; 5 air-light-windup airborne bent legs fist tucked; 6 air-light-impact airborne short forward palm; 7 air-light-recover airborne palm retracts; 8 air-heavy-windup airborne both arms/weapon raised overhead."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 air-heavy-impact airborne twohand pink guitar downward strike; 2 air-heavy-recover knees tucked guitar lower; 3 skill-u-windup long string slash guitar neck coils behind shoulder; 4 skill-u-impact full long diagonal guitar-neck sweep right NO VFX/strings; 5 skill-u-recover wrist soft low followthrough; 6 skill-i-windup lean rear free hand raised defensively; 7 skill-i-impact deep backstep counter left leg retreats right hand thrusts guitar neck forward; 8 skill-i-recover guarded retreat stance."
+        },
+        {
+          "file": "mujica/mutsumi/stage/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Wakaba Mutsumi/Mortis, pale mint green long straight hair, golden eyes, quiet official face. MANDATORY official Mortis black floral lace nose/mouth mask including black bands at temples, eyes remain visible. EXACT official-stage outfit reference: crimson beret, cropped black capelet with red triangular front panels and gold trim, white jabot with green oval brooch, sheer beige long puff sleeves with black cuffs, black open-front coatdress with gold buttons and crimson shorts underneath, sheer charcoal tights, ankle ruffle black socks, crimson MaryJane heels. Pink electric guitar on strap. No invented long ball gown. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 skill-o-windup free hand above head wrist curled like puppeteer; 2 skill-o-impact overhead-puppet slam gesture free hand slams downward pink guitar on strap NO puppet prop/no VFX; 3 skill-o-recover fingers relax near waist; 4 super-windup head bowed feet together fingers raised; 5 super-impact theatre-conductor wide stance both hands flourish fingers splayed pink guitar hangs in front NO strings/no VFX; 6 super-recover arms settle guitar held; 7 transform-prepare fingers touch Mortis floral mouth mask; 8 transform-release hand opens before golden eyes. Preserve SAME STAGE outfit beret and mask ALL8."
+        }
+      ]
+    }
+  }
+}

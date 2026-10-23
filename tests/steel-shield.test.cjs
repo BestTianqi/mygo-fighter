@@ -26,12 +26,12 @@ test('steel shield costs 20, belongs to Anon, requires ground, and does not atta
 });
 test('plate absorbs frontal strikes with durability, breaks, and passes excess damage to HP', () => {
   const m = setup(); summon(m);
-  m.hit(1, 'heavy'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield.hp, 24);
-  m.hit(1, 'special'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield, null);
-  m.hit(1, 'light'); assert.equal(m.fighters[0].hp, 192);
+  m.hit(1, 'heavy'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield.hp, 28);
+  m.hit(1, 'special'); assert.equal(m.fighters[0].hp, 200); assert.equal(m.fighters[0].shield.hp, 4);
+  m.hit(1, 'light'); assert.equal(m.fighters[0].hp, 198); assert.equal(m.fighters[0].shield, null);
   const shieldEvents = m.drainEvents().filter(e => e.type === 'shieldHit');
-  assert.deepEqual(shieldEvents.map(e => e.absorbed), [16, 24]);
-  assert.equal(shieldEvents[1].broken, true);
+  assert.deepEqual(shieldEvents.map(e => e.absorbed), [12, 24, 4]);
+  assert.equal(shieldEvents[2].broken, true);
   const n = setup(); summon(n); n.fighters[0].shield.hp = 10;
   n.hit(1, 'special'); assert.equal(n.fighters[0].hp, 186); assert.equal(n.fighters[0].shield, null);
 });
@@ -43,7 +43,7 @@ test('front plate intercepts real projectiles but throws and rear attacks bypass
     const n = setup(); summon(n);
     if (attack === 'heavy') n.fighters[1].x = 300;
     n.hit(1, attack);
-    assert.equal(n.fighters[0].hp, attack === 'heavy' ? 184 : 182);
+    assert.equal(n.fighters[0].hp, attack === 'heavy' ? 188 : 182);
     assert.equal(n.fighters[0].shield.hp, 40);
   }
 });

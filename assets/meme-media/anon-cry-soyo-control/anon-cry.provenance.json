@@ -1,0 +1,94 @@
+{
+  "label": "唐哭（立石凛直播原声梗）",
+  "asset_kind": "千早爱音声优立石凛玩恐怖游戏时的非语言哭叫；以爱音哭脸传播的唐哭梗音源",
+  "source": {
+    "url": "https://www.bilibili.com/video/BV1WGS3YMEZz/",
+    "bvid": "BV1WGS3YMEZz",
+    "cid": 26537035076,
+    "page": 1,
+    "title": "[自用]爱音唐哭一分钟",
+    "uploader": "ZZZZZZZ--S",
+    "uploader_mid": 1194751548,
+    "published_unix": 1730293641,
+    "metadata_duration_seconds": 60,
+    "decoded_source_duration_seconds": 59.628875,
+    "downloaded_source_sha256": "1867298719e247fde9bc1d226ca25ea6557e751803a60e74d641572e9613c7a4"
+  },
+  "excerpt": {
+    "start_seconds": 0.95,
+    "end_seconds": 2.75,
+    "duration_seconds": 1.8,
+    "decoded_mp3_duration_seconds": 1.8,
+    "speed": 1,
+    "pitch_shift": 0
+  },
+  "processing": {
+    "audio": "mono 44100Hz MP3 160kbps; 5ms fade-in and 15ms fade-out; no time stretch, pitch shift, looping, denoising, or synthetic replacement; runtime playback copy attenuated9dB to match skill voice levels and prevent MP3 decode peak overshoot",
+    "volume_gain_db": -9
+  },
+  "review": {
+    "visual": "Primary meme upload is a still close-up of pink-haired Chihaya Anon crying. Independently retrieved CV clip shows the same station horror-game scene as the comparison explainer. Explainer introduction explicitly attributes 唐哭 to the voice-actor livestream, with Rin Tateishi/立石凛 pictured.",
+    "audio_review_method": "Decoded waveform matching across independently downloaded videos; no direct listening or human audition is claimed. This nonverbal crying excerpt was selected from the high-energy portion of the established meme loop. No ASR transcript is used as identity evidence.",
+    "identity_evidence": [
+      {
+        "url": "https://www.bilibili.com/video/BV1JGEK6PE1T/",
+        "bvid": "BV1JGEK6PE1T",
+        "cid": 38948244822,
+        "page": 1,
+        "title": "转载爱音CV立石凛唐哭",
+        "uploader": "督促感谢",
+        "matching_start_seconds": 12.0754375,
+        "matching_end_seconds": 13.8754375,
+        "normalized_waveform_correlation": 0.9759813893779508
+      },
+      {
+        "url": "https://www.bilibili.com/video/BV1To3TzmEW9/",
+        "bvid": "BV1To3TzmEW9",
+        "cid": 30824009290,
+        "page": 1,
+        "title": "唐哭和唐笑出处",
+        "uploader": "I隔壁小孩I",
+        "on_screen_attribution_at_seconds": 0,
+        "on_screen_attribution": "唐哭出自声优直播的原声大碟",
+        "matching_start_seconds": 6.089,
+        "matching_end_seconds": 7.889,
+        "normalized_waveform_correlation": 0.9648320962580784
+      }
+    ],
+    "upstream_livestream_lead": {
+      "url": "https://www.youtube.com/live/88Jzuz1Kv8U",
+      "date": "2024-06-26",
+      "reported_title": "色々プレイしたいからインディーゲームを2本立て！【2番線/ 3番線】立石凛生配信【声優e-Sports部】",
+      "references": [
+        {
+          "url": "https://www.bilibili.com/video/BV1VS421d7RG/",
+          "bvid": "BV1VS421d7RG",
+          "cid": 1598202771,
+          "title": "【直播回放/立石凛】恐怖游戏与唐叫纯享 2024.06.26"
+        },
+        {
+          "url": "https://www.bilibili.com/video/BV151421b7Dy/",
+          "bvid": "BV151421b7Dy",
+          "cid": 1617455010,
+          "title": "【熟切】玩恐怖游戏很开心的立石凛【2号线only】【声优e-Sports部】"
+        }
+      ],
+      "verification_status": "The Bilibili replay and translated clip descriptions both cite this YouTube livestream. The three-hour original stream was not downloaded or independently auditioned; no exact original livestream timestamp is claimed."
+    },
+    "distinction": "This is the established voice-actor 唐哭 meme, not an anime crying line and not Taffy. The source is a circulating meme upload, not claimed to be the first meme upload or the original livestream file."
+  },
+  "files": {
+    "anon-cry.mp3": {
+      "bytes": 37304,
+      "sha256": "3a1044d30794af019f6bcffeebb86ff8e82074f1590a27ec2216f686beb9dfca"
+    },
+    "anon-cry-review.jpg": {
+      "bytes": 112011,
+      "sha256": "7383a87379fed594ca1d08ef046d7348c7f0b003feb502e137040e1f79d6417b"
+    },
+    "anon-cry-original-excerpt.mp3": {
+      "bytes": 37304,
+      "sha256": "236b2acc6a632588a5decb55789ca933d080aa3ef089981c5160e51d2b8a3f38"
+    }
+  }
+}

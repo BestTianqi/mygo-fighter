@@ -15,10 +15,10 @@ function attack(m, action, defender = {}) {
   m.advance(300, {}, defender);
 }
 
-test('six profiles retain the mota roster with Rana tuned for agile combat', () => {
-  assert.equal(ROSTER.length, 6);
+test('fifteen profiles retain the mota roster with Rana tuned for agile combat', () => {
+  assert.equal(ROSTER.length, 15);
   assert.ok(Math.abs(ROSTER[3].speed / FEEL.walk - 390 / 345) < .00001);
-  assert.equal(ROSTER[4].heavyDamage, 20);
+  assert.equal(ROSTER[4].heavyDamage, 15);
 });
 test('ready locks movement; fight supports movement, jump, gravity and body separation', () => {
   const m = new Match({ mode: 'duel' }); m.start();
@@ -37,7 +37,7 @@ test('ready locks movement; fight supports movement, jump, gravity and body sepa
 test('a light strike hits once per button press and cannot reach across the stage', () => {
   const m = fight(); attack(m, 'light'); assert.equal(m.fighters[1].hp, 200);
   m.advance(500); close(m); attack(m, 'light');
-  assert.equal(m.fighters[1].hp, 192);
+  assert.equal(m.fighters[1].hp, 194);
   m.advance(1200, { light: true });
   const hp = m.fighters[1].hp;
   m.advance(1200, { light: true });
@@ -92,14 +92,14 @@ test('KO awards one point; next round resets combat and two wins finish the matc
   const m = fight(); close(m); m.fighters[1].hp = 1;
   attack(m, 'light'); assert.equal(m.phase, 'roundOver'); assert.deepEqual(m.wins, [1, 0]);
   m.advance(1000); assert.deepEqual(m.wins, [1, 0]);
-  m.nextRound(); assert.equal(m.fighters[1].hp, 200); assert.deepEqual(m.wins, [1, 0]);
+  m.advance(m.phaseMs); assert.equal(m.fighters[1].hp, 200); assert.deepEqual(m.wins, [1, 0]);
   m.advance(1000); close(m); m.fighters[1].hp = 1;
   attack(m, 'light'); assert.equal(m.phase, 'finished'); assert.deepEqual(m.wins, [2, 0]);
 });
 test('time over compares HP; draws replay the same round without a point', () => {
   const m = fight(); m.remaining = 10; m.advance(10);
   assert.equal(m.winner, -1); assert.deepEqual(m.wins, [0, 0]);
-  m.advance(1000); m.nextRound(); assert.equal(m.round, 1);
+  m.advance(m.phaseMs); assert.equal(m.round, 1);
   m.advance(1000); m.remaining = 10; m.fighters[0].hp = 90; m.advance(10);
   assert.equal(m.winner, 1); assert.deepEqual(m.wins, [0, 1]);
 });
@@ -127,7 +127,7 @@ test('Soyo has her own identity and a stationary long-range anti-air special', (
 });
 test('selected characters survive round transitions and match restarts', () => {
   const m = fight({ characters: [1, 0] }); close(m); m.fighters[1].hp = 1;
-  attack(m, 'light'); m.advance(1000); m.nextRound();
+  attack(m, 'light'); m.advance(m.phaseMs);
   assert.deepEqual(m.fighters.map(f => f.character), [1, 0]);
   m.restart(); assert.deepEqual(m.fighters.map(f => f.character), [1, 0]);
 });

@@ -20,7 +20,9 @@ with sync_playwright() as p:
         select_game_option(page, '#player-character', str(c))
         select_game_option(page, '#opponent-character', str(c))
         select_game_option(page, '#mode', 'duel'); page.uncheck('#terrain-enabled')
-        start_match(page); page.clock.run_for(1800)
+        start_match(page)
+        page.wait_for_function(f'mygoGame.match.fighters[0].character==={c}&&mygoGame.match.fighters[1].character==={c}&&document.querySelector("#loading").hidden')
+        page.clock.run_for(1800)
 
     def reset(penguin=False, air=False):
         page.evaluate('''({penguin, air}) => {
@@ -40,7 +42,7 @@ with sync_playwright() as p:
     bases = [['shield', 'wave', 'special'], ['summon', 'wave', 'special'],
              ['tomoriEcho', 'tomoriNote', 'tomoriChorus'], ['ranaRush', 'ranaParfait', 'ranaSolo'],
              ['rikiRoll', 'rikiShock', 'rikiEight']]
-    supers = ['super', 'soyoSuper', None, 'ranaSuper', 'rikiSuper']
+    supers = ['super', 'soyoSuper', 'tomoriSuper', 'ranaSuper', 'rikiSuper']
     for c, moves in enumerate(bases):
         setup(c)
         for slot, move in enumerate(moves):
@@ -56,6 +58,8 @@ with sync_playwright() as p:
                 delta=page.evaluate(f'mygoGame.match.fighters[{side}].x')-x
                 assert abs(delta - (242.05 if side == 0 else -242.05)) < 1, delta
         if supers[c]:
+            assert page.locator('[data-key="KeyP"]').evaluate('(button)=>!button.hidden')
+            assert page.locator('[data-key="KeyP"]').inner_text().endswith(page.evaluate('attack=>MygoFighter.MOVES[attack].name',supers[c]))
             reset(); cast('p', supers[c]); reset(); cast('Numpad8', supers[c], side=1)
         reset(); page.keyboard.press('h'); page.clock.run_for(20)
         assert page.evaluate('!!mygoGame.match.fighters[0].penguin') == (c == 2)
@@ -82,6 +86,8 @@ with sync_playwright() as p:
     reset(penguin=True); cast('u','penguinKick',direction='d')
     reset(penguin=True); cast('i','penguinLaugh',direction='s')
     reset(penguin=True,air=True); cast('o','penguinKick',direction='s')
+    reset(penguin=True); cast('p','penguinSuper')
+    reset(penguin=True); cast('Numpad8','penguinSuper',side=1)
 
     # Normal attacks still chain, including taps made entirely during hitstop.
     setup(4); reset(); page.keyboard.press('j'); page.clock.run_for(140)
@@ -163,7 +169,9 @@ with sync_playwright() as p:
     phone.clock.install(time='2026-01-01T00:00:00Z');phone.goto((ROOT/'index.html').as_uri())
     phone.wait_for_function('mygoGame.loaded');phone.clock.pause_at('2026-01-01T00:01:00Z')
     select_game_option(phone,'#player-character','1');select_game_option(phone,'#mode','duel')
-    phone.uncheck('#terrain-enabled');start_match(phone);phone.clock.run_for(1800)
+    phone.uncheck('#terrain-enabled');start_match(phone)
+    phone.wait_for_function('mygoGame.match.fighters[0].character===1&&document.querySelector("#loading").hidden')
+    phone.clock.run_for(1800)
     phone.evaluate('mygoGame.match.fighters[0].hp=100;mygoGame.match.fighters[0].energy=100;mygoGame.match.fighters[1].x=1400')
     assert phone.locator('.touch-attacks button').count()==8
     assert phone.locator('[data-key="KeyH"]').is_hidden()
@@ -181,6 +189,22 @@ with sync_playwright() as p:
     touch(['KeyL']);assert phone.evaluate('mygoGame.match.fighters[0].x')>500
     cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
     phone.screenshot(path=str(ART/'unified-controls-mobile.png'))
+    select_game_option(phone,'#player-character','2');start_match(phone)
+    phone.wait_for_function('mygoGame.match.fighters[0].character===2&&document.querySelector("#loading").hidden')
+    phone.clock.run_for(1800)
+    phone.evaluate('mygoGame.match.fighters[0].energy=100;mygoGame.match.fighters[1].x=1400')
+    assert phone.locator('[data-key="KeyP"]').is_visible()
+    assert phone.locator('[data-key="KeyP"]').inner_text().endswith('一辈子乐队')
+    touch(['KeyP']);assert phone.evaluate('mygoGame.match.fighters[0].attack')=='tomoriSuper'
+    cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+    phone.click('#restart');phone.wait_for_function('document.querySelector("#loading").hidden');phone.clock.run_for(1800)
+    phone.evaluate('mygoGame.match.fighters[0].energy=100;mygoGame.match.fighters[1].x=1400')
+    touch(['KeyH']);cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+    phone.clock.run_for(30);phone.evaluate('mygoGame.match.fighters[0].energy=100')
+    assert phone.locator('[data-key="KeyP"]').is_visible()
+    assert phone.locator('[data-key="KeyP"]').inner_text().endswith('咕咕嘎嘎·南极合唱')
+    touch(['KeyP']);assert phone.evaluate('mygoGame.match.fighters[0].attack')=='penguinSuper'
+    cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
     assert errors==[],errors
     assert remote==[],remote
     report={'characters':proof,'penguin_both_players':'pass','direction_skills':'pass',

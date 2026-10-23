@@ -1,0 +1,32 @@
+[
+  {
+    "file": "taki-p-ha-short.mp3",
+    "bytes": 70009,
+    "decoded": true
+  },
+  {
+    "file": "taki-p-ha-short.mp4",
+    "bytes": 179880,
+    "decoded": true
+  },
+  {
+    "file": "umiri-p-quarrel.mp3",
+    "bytes": 55798,
+    "decoded": true
+  },
+  {
+    "file": "umiri-p-quarrel.mp4",
+    "bytes": 85184,
+    "decoded": true
+  },
+  {
+    "file": "umiri-p-quarrel.mp4",
+    "moving_original_anime": true,
+    "evidence": "Side profile lip/eye animation at59.75-60.6; camera cut at60.8, Umiri front face and mouth movement at60.9-61.5; body descends from61.5-62.7; next overhead shot62.95. These visual changes occur outside subtitle areas.",
+    "source_bvid": "BV1s65fzcEi2",
+    "source_cid": 29512106891,
+    "source_page": 1,
+    "source_start": 59.65,
+    "source_end": 63.05
+  }
+]

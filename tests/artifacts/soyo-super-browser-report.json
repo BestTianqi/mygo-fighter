@@ -2,13 +2,9 @@
   "P_100_energy": "pass",
   "original_video_decodes_and_plays": "pass",
   "original_voice": "pass",
-  "three_hits": [
-    8,
-    11,
-    22
-  ],
+  "zero_damage_hard_control_2000ms": "pass",
   "pause_resume_media_offset": "pass",
-  "interrupt_reset_round_cleanup": "pass",
+  "armor_reset_round_cleanup": "pass",
   "P2_independent": "pass",
   "mute": "pass",
   "mobile_touch": "pass",

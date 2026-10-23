@@ -13,7 +13,7 @@ test('all characters start and reset at 200 HP; Soyo healing caps at 200', () =>
     m.hit(0, 'heavy'); assert.equal(m.fighters[1].hp, 200 - ROSTER[c].heavyDamage);
     m.restart(); assert.ok(m.fighters.every(f => f.hp === 200));
   }
-  const s = fight([1, 0]); s.fighters[0].hp = 195;
+  const s = fight([1, 0]); s.fighters[0].hp = 193;
   s.advance(10, { heal: true }); s.advance(800); assert.equal(s.fighters[0].hp, 200);
   s.advance(1300); s.fighters[0].energy = 100; s.fighters[0].healCooldown = 0;
   s.advance(10, { heal: true }); assert.equal(s.fighters[0].attack, null);
@@ -49,7 +49,7 @@ test('four beats are spent only by a legal enhanced special, independently for b
 });
 test('simultaneously traded normals award a beat to both Rikis', () => {
   const m = fight([4, 4]); m.advance(10, { light: true }, { light: true }); m.advance(100);
-  assert.deepEqual(m.fighters.map(f => f.hp), [193, 193]);
+  assert.deepEqual(m.fighters.map(f => f.hp), [195, 195]);
   assert.deepEqual(m.fighters.map(f => f.beats), [1, 1]);
 });
 test('calibration costs 25, adds two beats after 300ms, has cooldown and can be interrupted', () => {
@@ -69,11 +69,11 @@ test('overhead beats crouch guard, ground shock and enhanced second wave are rea
   s.advance(10, { sonic: true }); s.advance(500); assert.equal(s.waves.length, 2);
   assert.deepEqual(s.waves.map(w => MOVES[w.attack].damage), [18, 8]);
 });
-test('eight-beat roll and super have eight/three hits, are guardable and stop on interruption', () => {
+test('eight-beat roll and super have eight/three hits, respect guard, and the ordinary roll is interruptible', () => {
   for (const [input, attack, count] of [['special', 'rikiEight', 8], ['super', 'rikiSuper', 3]]) {
-    const m = fight(); m.advance(10, { [input]: true }); m.advance(3500);
+    const m = fight(); m.advance(10, { [input]: true }); m.advance(MOVES[attack].duration + 1800);
     assert.equal(m.drainEvents().filter(e => e.type === 'hit' && e.attack === attack).length, count);
-    const g = fight(); g.advance(10, { [input]: true }, { guard: true }); g.advance(3500, {}, { guard: true });
+    const g = fight(); g.advance(10, { [input]: true }, { guard: true }); g.advance(MOVES[attack].duration + 1800, {}, { guard: true });
     assert.ok(g.drainEvents().filter(e => e.type === 'hit').every(e => e.blocked));
   }
   const m = fight(); m.advance(10, { special: true }); m.advance(300); m.hit(1, 'heavy'); m.drainEvents(); m.advance(2000);

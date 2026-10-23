@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright,expect
-from ui_helpers import select_game_option,start_match
+from ui_helpers import select_game_option,start_match, set_game_sound
 
 ROOT=Path(__file__).resolve().parents[1]
 ART=ROOT/'tests/artifacts'
@@ -18,7 +18,7 @@ with sync_playwright() as p:
     page.goto((ROOT/'index.html').as_uri());page.wait_for_function('mygoGame.loaded')
     page.clock.pause_at('2026-01-01T00:01:00Z')
     select_game_option(page,'#mode','duel');page.uncheck('#terrain-enabled');start_match(page);page.clock.run_for(1800)
-    page.click('#sound');expect(page.locator('#sound')).to_have_attribute('aria-pressed','true')
+    set_game_sound(page, True);expect(page.locator('#sound')).to_have_attribute('aria-pressed','true')
     def restart():
         page.click('#restart');page.clock.run_for(1800)
         page.evaluate('''() => {const m=mygoGame.match;m.fighters[1].x=1200;window.feelEvents=[];impactPitches=[];

@@ -34,7 +34,7 @@ test('ceiling bounds the expanded upward range without locking the fighter in th
   const m=fight(),a=m.fighters[0];a.y=WORLD.top-1;a.vy=610;m.advance(50);
   assert.ok(a.y<=WORLD.top);assert.ok(a.vy<=0);m.advance(2000);assert.ok(m.grounded(a));
 });
-test('all six maps have reachable outer tiers, lower ground and an unchanged central spawn area', () => {
+test('all shipped maps have reachable outer tiers, lower ground and an unchanged central spawn area', () => {
   for(const stage of stages){
     const m=fight({terrain:stage.terrain}),p=stage.terrain.platforms;
     assert.ok(p.some(p=>p.left<0));assert.ok(p.some(p=>p.right>960));assert.ok(Math.max(...p.map(p=>p.height))>=400);

@@ -1,0 +1,353 @@
+{
+  "clips": [
+    {
+      "character": "rana",
+      "slot": "I",
+      "label": "抹茶芭菲",
+      "spokenJapanese": "抹茶パフェ",
+      "audio": "rana-u-parfait.mp3",
+      "start": 1.22,
+      "end": 2.07,
+      "duration": 0.8499999999999999,
+      "source": {
+        "bvid": "BV1MtayeLEgR",
+        "title": "可爱小猫😍抹茶芭菲一分钟纯享版",
+        "owner": {
+          "mid": 521324112,
+          "name": "春日影享受者",
+          "face": "https://i0.hdslb.com/bfs/face/3d9ef8fa3bbff89b47dd4e936d201452bc716f75.jpg"
+        },
+        "cid": 500001640655444,
+        "duration": 60,
+        "page": 1,
+        "part": "studio_video_1722959048186.mp4"
+      },
+      "url": "https://www.bilibili.com/video/BV1MtayeLEgR",
+      "evidence": "base ASR with no_speech_threshold=1 transcribes recurring めっちゃパフィー; loop visible original animation Rana; original pronunciation matches 抹茶パフェ",
+      "sha256": "851276d7803653ddf0eabfb8fac250e68eabe52c2c752f92315bf67ffbd16a1b",
+      "note": "Legacy filename retained. Actual Rana I parfait slot; U rush uses rana-u-do-it.mp3."
+    },
+    {
+      "character": "taki",
+      "slot": "U",
+      "label": "哈？（店员）",
+      "spokenJapanese": "は？",
+      "audio": "taki-u-ha.mp3",
+      "start": 6.65,
+      "end": 7.8,
+      "duration": 1.1499999999999995,
+      "source": {
+        "bvid": "BV1H14y1C71o",
+        "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+        "owner": {
+          "mid": 3493265865182131,
+          "name": "初初又华华",
+          "face": "https://i1.hdslb.com/bfs/face/ee96927baab002127a11f6b1ddbacde9e65b8d83.jpg"
+        },
+        "cid": 1258508881,
+        "duration": 1835,
+        "page": 1,
+        "part": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）"
+      },
+      "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+      "evidence": "Base ASR はぁ; original anime Taki talking, first café exchange",
+      "sha256": "b6a95c159df731f7fd123e89e57bf1c57bf297f56a32f7662e30b6b5f5688a78"
+    },
+    {
+      "character": "taki",
+      "slot": "I",
+      "label": "哈？（怒斥）",
+      "spokenJapanese": "は？",
+      "audio": "taki-i-ha.mp3",
+      "start": 8.85,
+      "end": 10.1,
+      "duration": 1.25,
+      "source": {
+        "bvid": "BV1H14y1C71o",
+        "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+        "owner": {
+          "mid": 3493265865182131,
+          "name": "初初又华华",
+          "face": "https://i1.hdslb.com/bfs/face/ee96927baab002127a11f6b1ddbacde9e65b8d83.jpg"
+        },
+        "cid": 1258508881,
+        "duration": 1835,
+        "page": 1,
+        "part": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）"
+      },
+      "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+      "evidence": "Base ASR はぁ; original anime Taki leaning forward at café",
+      "sha256": "f1960891d94120574d36f81bba6fc7d969348d1748fc8647c62173f099c8731b"
+    },
+    {
+      "character": "taki",
+      "slot": "O",
+      "label": "哈？（困惑）",
+      "spokenJapanese": "は？",
+      "audio": "taki-o-ha.mp3",
+      "start": 17.5,
+      "end": 18.15,
+      "duration": 0.6499999999999986,
+      "source": {
+        "bvid": "BV1H14y1C71o",
+        "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+        "owner": {
+          "mid": 3493265865182131,
+          "name": "初初又华华",
+          "face": "https://i1.hdslb.com/bfs/face/ee96927baab002127a11f6b1ddbacde9e65b8d83.jpg"
+        },
+        "cid": 1258508881,
+        "duration": 1835,
+        "page": 1,
+        "part": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）"
+      },
+      "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+      "evidence": "Base ASR はぁ; original anime Taki closeup",
+      "sha256": "80b8104fece74db39197f1a3773c5d491b7aaa1b339c00f6317f47ed9313fd15"
+    },
+    {
+      "character": "taki",
+      "slot": "P",
+      "label": "哈？连发",
+      "spokenJapanese": "は？",
+      "audio": "taki-p-ha-barrage.mp3",
+      "start": 4.15,
+      "end": 14.7,
+      "duration": 10.549999999999999,
+      "source": {
+        "bvid": "BV1H14y1C71o",
+        "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+        "owner": {
+          "mid": 3493265865182131,
+          "name": "初初又华华",
+          "face": "https://i1.hdslb.com/bfs/face/ee96927baab002127a11f6b1ddbacde9e65b8d83.jpg"
+        },
+        "cid": 1258508881,
+        "duration": 1835,
+        "page": 1,
+        "part": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）"
+      },
+      "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+      "evidence": "Four successive original anime Taki reaction shots from uploader compilation; excludes Soyo intro",
+      "sha256": "dc9a45d55a120869478771ac9dfd1ae604dfd6d6d8301f359378dbd490caafdd",
+      "video": "taki-p-ha-barrage.mp4"
+    },
+    {
+      "character": "umiri",
+      "slot": "U",
+      "label": "您意欲何为",
+      "spokenJapanese": "どういうおつもりで",
+      "audio": "umiri-u-intent.mp3",
+      "start": 9.95,
+      "end": 11.35,
+      "duration": 1.4000000000000004,
+      "source": {
+        "bvid": "BV1s65fzcEi2",
+        "title": "八幡海铃mujica动画全语音分享",
+        "owner": {
+          "mid": 588790341,
+          "name": "砂锅竹鼠",
+          "face": "https://i0.hdslb.com/bfs/face/32bf4f654817b2ac873bc9f1d33be21520ea645c.jpg"
+        },
+        "cid": 29512106891,
+        "duration": 560,
+        "page": 1,
+        "part": "八幡海铃mujica动画全语音分享"
+      },
+      "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+      "evidence": "Base ASR exact phrase; original masked Umiri speaking in anime",
+      "sha256": "a51f5a7ea6bc307996bfe1f3ab66627a65b2fc8cd2fdbd3acf42d9f22f232f34"
+    },
+    {
+      "character": "umiri",
+      "slot": "I",
+      "label": "很遗憾",
+      "spokenJapanese": "残念ですが",
+      "audio": "umiri-i-regret.mp3",
+      "start": 47.85,
+      "end": 49.25,
+      "duration": 1.3999999999999986,
+      "source": {
+        "bvid": "BV1s65fzcEi2",
+        "title": "八幡海铃mujica动画全语音分享",
+        "owner": {
+          "mid": 588790341,
+          "name": "砂锅竹鼠",
+          "face": "https://i0.hdslb.com/bfs/face/32bf4f654817b2ac873bc9f1d33be21520ea645c.jpg"
+        },
+        "cid": 29512106891,
+        "duration": 560,
+        "page": 1,
+        "part": "八幡海铃mujica动画全语音分享"
+      },
+      "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+      "evidence": "Base ASR 残念ですか; original anime Umiri with bass",
+      "sha256": "5b1da58c1f92390a9a96c0d53a950687e26b742f848b87eca4c7052775779739"
+    },
+    {
+      "character": "umiri",
+      "slot": "O",
+      "label": "我吃不胖",
+      "spokenJapanese": "私 食べても太らないので",
+      "audio": "umiri-o-no-weight.mp3",
+      "start": 116.85,
+      "end": 118.9,
+      "duration": 2.0500000000000114,
+      "source": {
+        "bvid": "BV1s65fzcEi2",
+        "title": "八幡海铃mujica动画全语音分享",
+        "owner": {
+          "mid": 588790341,
+          "name": "砂锅竹鼠",
+          "face": "https://i0.hdslb.com/bfs/face/32bf4f654817b2ac873bc9f1d33be21520ea645c.jpg"
+        },
+        "cid": 29512106891,
+        "duration": 560,
+        "page": 1,
+        "part": "八幡海铃mujica动画全语音分享"
+      },
+      "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+      "evidence": "Burned subtitle 我是吃不胖的体质 at117.6s; base ASR 私食べても二らないので",
+      "sha256": "ace603350c831232b1cd9691b7c3a80244aacad761978b112aa81a3ae6bc1e2d"
+    },
+    {
+      "character": "umiri",
+      "slot": "P",
+      "label": "吵架等练习结束后随意",
+      "spokenJapanese": "喧嘩でしたら 練習の後で好きなだけどうぞ",
+      "audio": "umiri-p-quarrel.mp3",
+      "start": 59.65,
+      "end": 63.05,
+      "duration": 3.3999999999999986,
+      "source": {
+        "bvid": "BV1s65fzcEi2",
+        "title": "八幡海铃mujica动画全语音分享",
+        "owner": {
+          "mid": 588790341,
+          "name": "砂锅竹鼠",
+          "face": "https://i0.hdslb.com/bfs/face/32bf4f654817b2ac873bc9f1d33be21520ea645c.jpg"
+        },
+        "cid": 29512106891,
+        "duration": 560,
+        "page": 1,
+        "part": "八幡海铃mujica动画全语音分享"
+      },
+      "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+      "evidence": "Burned bilingual subtitles verified at59.9 and61.5s; base ASR 健康でしたら練習の後で好きなだけどうぞ",
+      "sha256": "6a04848661b9888db7d590ce11576eff6af6ad3d554489ab02830e1c62c3aeaf",
+      "video": "umiri-p-quarrel.mp4"
+    },
+    {
+      "character": "soyo",
+      "slot": "U",
+      "label": "我为了CRYCHIC一直努力",
+      "spokenJapanese": "私は CRYCHICのために ずっと頑張ってきた",
+      "audio": "soyo-u-crychic.mp3",
+      "start": 186.8,
+      "end": 190.75,
+      "duration": 3.9499999999999886,
+      "source": {
+        "bvid": "BV1tVzbYNE8A",
+        "title": "素世与祥子对话完整版",
+        "owner": {
+          "mid": 513872003,
+          "name": "浮华せんせい",
+          "face": "https://i2.hdslb.com/bfs/face/b35cc9de6d07c7bdf5814c23d12eaa126ee505c5.jpg"
+        },
+        "cid": 27072597131,
+        "duration": 301,
+        "page": 1,
+        "part": "studio_video_1732780597150.mp4"
+      },
+      "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+      "evidence": "Original anime Soyo facing Sakiko; burned bilingual subtitle at188s; ASR184-188 close timing",
+      "sha256": "590ac6c714fbb14f2cab01f34bf211046eba2e6625602690324c098119301f5b"
+    },
+    {
+      "character": "soyo",
+      "slot": "I",
+      "label": "等一下",
+      "spokenJapanese": "待って",
+      "audio": "soyo-i-wait.mp3",
+      "start": 207.0,
+      "end": 208.95,
+      "duration": 1.9499999999999886,
+      "source": {
+        "bvid": "BV1tVzbYNE8A",
+        "title": "素世与祥子对话完整版",
+        "owner": {
+          "mid": 513872003,
+          "name": "浮华せんせい",
+          "face": "https://i2.hdslb.com/bfs/face/b35cc9de6d07c7bdf5814c23d12eaa126ee505c5.jpg"
+        },
+        "cid": 27072597131,
+        "duration": 301,
+        "page": 1,
+        "part": "studio_video_1732780597150.mp4"
+      },
+      "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+      "evidence": "Burned subtitle 等下 at208s; ASR207-208 待って",
+      "sha256": "aadf19a4c673e8d448df201e0b0054b48cfa4c4677184329dbe36d3fc43ee45d"
+    },
+    {
+      "character": "soyo",
+      "slot": "O",
+      "label": "能做到的我什么都愿意做",
+      "spokenJapanese": "私にできることなら何でもするから",
+      "audio": "soyo-o-anything.mp3",
+      "start": 228.82,
+      "end": 231.25,
+      "duration": 2.430000000000007,
+      "source": {
+        "bvid": "BV1tVzbYNE8A",
+        "title": "素世与祥子对话完整版",
+        "owner": {
+          "mid": 513872003,
+          "name": "浮华せんせい",
+          "face": "https://i2.hdslb.com/bfs/face/b35cc9de6d07c7bdf5814c23d12eaa126ee505c5.jpg"
+        },
+        "cid": 27072597131,
+        "duration": 301,
+        "page": 1,
+        "part": "studio_video_1732780597150.mp4"
+      },
+      "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+      "evidence": "Burned subtitle at229s; base ASR228-231 私にできることならないのをするから",
+      "sha256": "445646025d89eaf763e0c004035bbeced75821294e19d1bda274aecbc38d9487"
+    },
+    {
+      "character": "taki",
+      "slot": "P",
+      "label": "哈？连续反应（短版）",
+      "spokenJapanese": "は？",
+      "audio": "taki-p-ha-short.mp3",
+      "start": 4.05,
+      "end": 8.35,
+      "duration": 4.3,
+      "source": {
+        "bvid": "BV1H14y1C71o",
+        "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+        "owner": {
+          "mid": 3493265865182131,
+          "name": "初初又华华",
+          "face": "https://i1.hdslb.com/bfs/face/ee96927baab002127a11f6b1ddbacde9e65b8d83.jpg"
+        },
+        "cid": 1258508881,
+        "duration": 1835,
+        "page": 1,
+        "part": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）"
+      },
+      "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+      "evidence": "Continuous first-page source interval 4.05-8.35. Original Taki school uniform reaction, angry face closeup, and café worker reactions; no retiming or synthetic audio. See taki-p-ha-short-evidence.jpg.",
+      "sha256": "945b2b6eefb104f05b0a05b03f6a6a0e4de1624f96ad24c8f1e7bb1d0640bf94",
+      "video": "taki-p-ha-short.mp4"
+    }
+  ],
+  "notes": [
+    "Actual source anime recordings, no synthetic speech. Taki U/I/O intentionally use three original intonations of signature Ha? meme.",
+    "Soyo existing Haruhikage P is preserved and is outside this contribution.",
+    "Rana parfait transcribed phonetically by base ASR; original anime scene and loop visible.",
+    "Source times refer to first page cid only. Trimmed audio normalized; video exports silent for separate audio playback.",
+    "Soyo U/O run longer than2s to retain whole quoted phrases."
+  ]
+}

@@ -71,6 +71,9 @@ test('confirmed thrust links into rush, rush finisher into super, and whiffs can
   m.advance(10, { rush: true }); assert.equal(m.fighters[0].attack, 'rush');
   until(m, () => m.fighters[0].attackMs > 130); assert.equal(m.canCancel(m.fighters[0], 'super'), false);
   until(m, () => m.canCancel(m.fighters[0], 'super'));
+  assert.ok(m.fighters[0].energy < 100);
+  m.advance(10, { super: true }); assert.equal(m.fighters[0].attack, 'rush');
+  m.fighters[0].energy = 100; m.release();
   m.advance(10, { super: true }); assert.equal(m.fighters[0].attack, 'super');
   const n = setup(); n.fighters[1].x = 900; n.advance(10, { thrust: true }); n.advance(180);
   n.advance(10, { rush: true }); assert.equal(n.fighters[0].attack, 'thrust');
@@ -91,11 +94,12 @@ test('pause freezes a three-hit sequence and reset clears its hit history', () =
   assert.equal(JSON.stringify(m.fighters), before); m.restart();
   assert.equal(m.fighters[0].attack, null); assert.deepEqual(m.fighters[0].hitMarks, []);
 });
-test('six-action confirmed route reaches super without bypassing resource or cancel rules', () => {
+test('six-action confirmed route requires replenishment before a legal super cancel', () => {
   const m = setup(); m.fighters[1].x = 465;
   m.advance(10, { light: true });
   for (const key of ['medium', 'heavy', 'thrust', 'rush', 'super']) {
     until(m, () => m.canCancel(m.fighters[0], key));
+    if (key === 'super') { assert.ok(m.fighters[0].energy < 100); m.fighters[0].energy = 100; }
     m.advance(10, { [key]: true }); assert.equal(m.fighters[0].attack, key);
   }
   assert.equal(m.fighters[0].cancelDepth, 5); assert.equal(m.fighters[0].energy, 0);

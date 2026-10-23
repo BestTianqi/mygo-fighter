@@ -37,5 +37,14 @@
       "bytes": 244617,
       "sha256": "f5e3b429b9462ad88943da10acae1a79ab80cda59cdeb5c11ae649cea0d38aab"
     }
-  ]
+  ],
+  "finishArt": {
+    "file": "soyo-haruhikage-finish.webp",
+    "derivedFrom": "soyo-haruhikage-cutin.mp4",
+    "clipSeconds": 1.8,
+    "sourceSeconds": 60.6,
+    "note": "回合结束奥义图：从现有大招视频截取张口喊话近景，保留原始画面、色彩与字幕。",
+    "bytes": 75966,
+    "sha256": "6fd0cb27e662a4e0413a0de9bae5b0454d6e98ef56bcf345db35929aa16a83b9"
+  }
 }

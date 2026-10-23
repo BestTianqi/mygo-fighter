@@ -49,7 +49,7 @@ test('low sweep beats standing guard, is stopped by crouch guard and knocks down
   }
 });
 test('super costs a full bar, is Anon-only and cannot be activated in air', () => {
-  for (const [character, energy, y] of [[0, 99, 0], [2, 100, 0], [0, 100, 50]]) {
+  for (const [character, energy, y] of [[0, 99, 0], [0, 100, 50]]) {
     const m = setup({ characters: [character, 0] }); Object.assign(m.fighters[0], { energy, y });
     step(m, { super: true }, 0, 10); assert.equal(m.fighters[0].attack, null);
   }
@@ -57,6 +57,9 @@ test('super costs a full bar, is Anon-only and cannot be activated in air', () =
   assert.equal(m.fighters[0].attack, 'super'); assert.equal(m.fighters[0].energy, 0);
   const soyo = setup({ characters: [1, 0] }); soyo.fighters[0].energy = 100;
   step(soyo, { super: true }, 0, 10); assert.equal(soyo.fighters[0].attack, 'soyoSuper');
+  const tomori = setup({ characters: [2, 0] }); Object.assign(tomori.fighters[0], { energy: 100, buffer: 'super', bufferMs: 100 });
+  tomori.advance(10); assert.equal(tomori.fighters[0].attack, null); assert.equal(tomori.fighters[0].energy, 100);
+  step(tomori, { super: true }, 0, 10); assert.equal(tomori.fighters[0].attack, 'tomoriSuper'); assert.equal(tomori.fighters[0].energy, 0);
 });
 test('super has three real hits, block damage, recovery and no extra hits after it ends', () => {
   for (const guard of [false, true]) {
@@ -111,7 +114,7 @@ test('confirmed normals cancel up in strength and into super, whiffs cannot canc
 });
 test('double-tap directions dash, and holding back changes a throw into a side swap', () => {
   for (const direction of ['left', 'right']) {
-    const m = setup();
+    const m = setup(); m.fighters[0].energy = 100;
     step(m, { [direction]: true }, 0, 30); step(m, {}, 0, 40);
     step(m, { [direction]: true }, 0, 10);
     assert.ok(m.fighters[0].dashMs > 0);

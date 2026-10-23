@@ -5,7 +5,7 @@ const { createAnimator } = require('../src/animation.js');
 function fight(options={}) { const m=new Match({mode:'duel',characters:[2,0],...options});m.start();m.advance(1000);m.fighters.forEach(f=>f.energy=100);return m; }
 test('Tomori has a full identity, unique voice moves and none of the other girls exclusive skills',()=>{
   assert.equal(ROSTER[2].shortName,'灯');assert.equal(ROSTER[2].role,'主唱');assert.equal(ROSTER[2].skill,'迷途之歌');
-  const keys=moveList(2).map(m=>m.key);assert.deepEqual(keys.sort(),['light','heavy','throw','tomoriNote','tomoriEcho','tomoriChorus','penguinTransform'].sort());
+  const keys=moveList(2).map(m=>m.key);assert.deepEqual(keys.sort(),['light','heavy','throw','tomoriNote','tomoriEcho','tomoriChorus','tomoriSuper','penguinTransform'].sort());
   for(const character of[0,1])assert.ok(!moveList(character).some(m=>m.tomoriOnly));
   for(const [input,move,cost]of[['wave','tomoriNote',20],['sonic','tomoriEcho',30],['special','tomoriChorus',60]]){
     const m=fight();m.advance(10,{[input]:true});assert.equal(m.fighters[0].attack,move);assert.equal(m.fighters[0].energy,100-cost);
@@ -55,8 +55,10 @@ test('Tomori normal reach uses her compact profile and U remains a real throw',(
   m.fighters[1].x=360;m.advance(10,{shield:true});m.advance(120);assert.equal(m.fighters[1].hp,182);
 });
 test('CPU Tomori chooses her voice kit through ordinary input at range',()=>{
-  const m=fight({mode:'cpu',characters:[0,2],difficulty:2});m.aiThink=0;m.advance(10);
-  assert.equal(m.fighters[1].attack,'tomoriChorus');
+  for(const [energy,attack] of [[60,'tomoriChorus'],[100,'tomoriSuper']]){
+    const m=fight({mode:'cpu',characters:[0,2],difficulty:2});m.fighters[1].energy=energy;m.aiThink=0;m.advance(10);
+    assert.equal(m.fighters[1].attack,attack);assert.equal(m.fighters[1].energy,0);
+  }
 });
 test('Tomori uses microphone idle, compact strikes and all three distinct singing poses',()=>{
   const m=fight(),a=m.fighters[0],choose=createAnimator();assert.equal(choose(m,0),'idle');

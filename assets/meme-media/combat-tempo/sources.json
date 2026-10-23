@@ -1,0 +1,33 @@
+{
+  "tgw": {
+    "character": "anon",
+    "slot": "i",
+    "label": "TGW～丰川集团",
+    "audio": "assets/meme-media/combat-tempo/anon-tgw.mp3",
+    "start": 27.15,
+    "end": 30.85,
+    "bvid": "BV1srFZecETK",
+    "cid": 28169736175,
+    "page": 1,
+    "title": "【万恶之源4K60帧】爱音のTGW丰川集团",
+    "author": "编新述旧",
+    "source": "https://www.bilibili.com/video/BV1srFZecETK/",
+    "evidence": "原片爱音在灯面前唱出 TGW Group，已核对27.2–30秒画面字幕与口型；日语ASR辅助定位。",
+    "sha256": "2d45ff75438bb3d9551ac321320934b1bff23c0cc2e1e176eb5cd311ef5dcfd0"
+  },
+  "uikaFinish": {
+    "file": "assets/meme-media/combat-tempo/uika-crawl-finish.webp",
+    "derivedFrom": "assets/meme-media/recordings/uika-p.mp4",
+    "clipSeconds": 3.6,
+    "sourceSeconds": 53.8,
+    "crop": [
+      300,
+      150,
+      240,
+      160
+    ],
+    "source": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+    "sha256": "5b39fe1597b20003e393901f7ff0d14e3152558107e66ada067239c08f0f5471"
+  },
+  "tempo": "仅提速大招战斗动作与伤害段，所有大招视频及配音恢复原速原文件；演出独立于收招时长。"
+}

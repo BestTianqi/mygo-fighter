@@ -1,0 +1,74 @@
+[
+  {
+    "file": "nonoka-i.mp3",
+    "bytes": 29833,
+    "mean_dB": "-18.2",
+    "max_dB": "-2.5"
+  },
+  {
+    "file": "nonoka-o.mp3",
+    "bytes": 16667,
+    "mean_dB": "-16.4",
+    "max_dB": "-2.9"
+  },
+  {
+    "file": "nonoka-p.mp3",
+    "bytes": 73353,
+    "mean_dB": "-18.8",
+    "max_dB": "-1.7"
+  },
+  {
+    "file": "nonoka-u.mp3",
+    "bytes": 14107,
+    "mean_dB": "-21.8",
+    "max_dB": "-5.4"
+  },
+  {
+    "file": "ritsu-i.mp3",
+    "bytes": 18130,
+    "mean_dB": "-20.8",
+    "max_dB": "-1.9"
+  },
+  {
+    "file": "ritsu-o.mp3",
+    "bytes": 33856,
+    "mean_dB": "-21.0",
+    "max_dB": "-7.3"
+  },
+  {
+    "file": "ritsu-p.mp3",
+    "bytes": 44461,
+    "mean_dB": "-19.4",
+    "max_dB": "-6.6"
+  },
+  {
+    "file": "ritsu-u.mp3",
+    "bytes": 19227,
+    "mean_dB": "-22.8",
+    "max_dB": "-6.3"
+  },
+  {
+    "file": "yuno-i.mp3",
+    "bytes": 21056,
+    "mean_dB": "-22.2",
+    "max_dB": "-5.0"
+  },
+  {
+    "file": "yuno-o.mp3",
+    "bytes": 23616,
+    "mean_dB": "-19.7",
+    "max_dB": "-5.2"
+  },
+  {
+    "file": "yuno-p.mp3",
+    "bytes": 39341,
+    "mean_dB": "-21.1",
+    "max_dB": "-4.9"
+  },
+  {
+    "file": "yuno-u.mp3",
+    "bytes": 27639,
+    "mean_dB": "-24.8",
+    "max_dB": "-5.3"
+  }
+]

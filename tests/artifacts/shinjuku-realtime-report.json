@@ -2,80 +2,110 @@
   "runs": [
     {
       "character": 0,
-      "frames": 916,
-      "median_frame_ms": 4.199999999999818,
-      "p95_frame_ms": 4.399999999999636,
-      "max_frame_ms": 37.5,
+      "frames": 638,
+      "median_frame_ms": 6.099999999999454,
+      "p95_frame_ms": 6.200000000000728,
+      "max_frame_ms": 66.69999999999982,
       "movement_input_to_simulation_ms": [
-        5.900000035762787,
-        1.5
+        10,
+        5.5
       ],
-      "long_frames": [],
+      "long_frames": [
+        {
+          "ms": 66.69999999999982,
+          "attack": null,
+          "attackMs": 0,
+          "penguinMs": null,
+          "effects": [
+            {
+              "type": "blink",
+              "life": 198
+            },
+            {
+              "type": "dash",
+              "life": 98
+            }
+          ]
+        }
+      ],
       "three_real_time_hits": "pass"
     },
     {
       "character": 1,
-      "frames": 965,
-      "median_frame_ms": 4.199999999998909,
-      "p95_frame_ms": 4.300000000001091,
-      "max_frame_ms": 8.399999999999636,
+      "frames": 657,
+      "median_frame_ms": 6.099999999998545,
+      "p95_frame_ms": 6.200000000000728,
+      "max_frame_ms": 54.399999999999636,
       "movement_input_to_simulation_ms": [
-        12,
-        2.399999976158142
+        3.5,
+        3.700000047683716
       ],
-      "long_frames": [],
+      "long_frames": [
+        {
+          "ms": 54.399999999999636,
+          "attack": "soyoJab3",
+          "attackMs": 130,
+          "penguinMs": null,
+          "effects": [
+            {
+              "type": "impact",
+              "life": 241
+            }
+          ]
+        }
+      ],
       "three_real_time_hits": "pass"
     },
     {
       "character": 2,
-      "frames": 1150,
-      "median_frame_ms": 4.199999999998909,
-      "p95_frame_ms": 4.5,
-      "max_frame_ms": 41.60000000000218,
+      "frames": 796,
+      "median_frame_ms": 6.099999999998545,
+      "p95_frame_ms": 6.200000000000728,
+      "max_frame_ms": 30.30000000000291,
       "movement_input_to_simulation_ms": [
-        2.899999976158142,
-        3,
-        6.699999988079071,
-        2.100000023841858
+        12.399999976158142,
+        4.899999976158142,
+        4.100000023841858,
+        4.5
       ],
       "long_frames": [],
       "three_real_time_hits": "pass"
     },
     {
       "character": 3,
-      "frames": 962,
-      "median_frame_ms": 4.19999999999709,
-      "p95_frame_ms": 4.30000000000291,
-      "max_frame_ms": 8.30000000000291,
+      "frames": 663,
+      "median_frame_ms": 6.099999999998545,
+      "p95_frame_ms": 6.200000000000728,
+      "max_frame_ms": 12.200000000000728,
       "movement_input_to_simulation_ms": [
-        11.099999964237213,
-        1.4000000357627869
+        5.200000047683716,
+        10.200000047683716
       ],
       "long_frames": [],
       "three_real_time_hits": "pass"
     },
     {
       "character": 4,
-      "frames": 951,
-      "median_frame_ms": 4.19999999999709,
-      "p95_frame_ms": 4.30000000000291,
-      "max_frame_ms": 12.5,
+      "frames": 660,
+      "median_frame_ms": 6.099999999998545,
+      "p95_frame_ms": 6.200000000000728,
+      "max_frame_ms": 36.400000000001455,
       "movement_input_to_simulation_ms": [
-        2.800000011920929,
-        11.199999988079071
+        1.3000000715255737,
+        10.200000047683716
       ],
       "long_frames": [],
       "three_real_time_hits": "pass"
     },
     {
       "character": 0,
-      "frames": 951,
-      "median_frame_ms": 4.19999999999709,
-      "p95_frame_ms": 4.30000000000291,
-      "max_frame_ms": 8.599999999998545,
+      "frames": 665,
+      "median_frame_ms": 6.099999999998545,
+      "p95_frame_ms": 6.200000000004366,
+      "max_frame_ms": 7.19999999999709,
       "movement_input_to_simulation_ms": [
-        7.199999988079071,
-        7.100000023841858
+        11.399999976158142,
+        11.100000023841858
       ],
       "long_frames": [],
       "three_real_time_hits": "pass"

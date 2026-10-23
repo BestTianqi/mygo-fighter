@@ -1,0 +1,31 @@
+{
+  "cutline": {
+    "character": "soyo",
+    "label": "我的衣服……被剪开了！",
+    "audio": "soyo-cutline.mp3",
+    "source": "https://www.bilibili.com/video/BV19p4y1K7Lz/",
+    "bvid": "BV19p4y1K7Lz",
+    "cid": 1245707311,
+    "page": 1,
+    "author": "后藤一里-波奇酱",
+    "title": "“Soyo的衣服被剪开了，乐奈装作没事”[BanG Dream!It's MyGO!!!!!]",
+    "start": 95.5,
+    "end": 99.05,
+    "speakerVerification": "动画第11话结尾：素世拿起被剪开的蓝色演出服，96秒字幕“我的衣服”，98秒字幕“被剪开了！”。相邻镜头与人物口型核对，使用该幕角色原声，不采用歌曲剪切线或语音合成。保留原片底音。",
+    "subtitle_zh": "我的衣服……被剪开了！",
+    "sha256": "db2275b2a88fde66cc2bfde2f50735d73611918a568f10a336cf4d39fb038199",
+    "extraction": {
+      "sampleRate": 44100,
+      "channels": 1,
+      "bitrate": "64k",
+      "loudness": "-18 LUFS",
+      "truePeak": "-3 dBTP",
+      "fadeIn": 0.012,
+      "fadeOut": 0.06
+    },
+    "proof": [
+      "scene-96.jpg",
+      "scene-98.jpg"
+    ]
+  }
+}

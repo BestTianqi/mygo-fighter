@@ -1,0 +1,75 @@
+{
+  "label": "千早爱音唐笑",
+  "asset_kind": "千早爱音本人动画原声傻笑片段",
+  "source": {
+    "url": "https://www.bilibili.com/video/BV1eF411y7eK/",
+    "bvid": "BV1eF411y7eK",
+    "cid": 1235487292,
+    "title": "Mygo 圣爱音傻笑两分钟 自用",
+    "uploader": "ruiy1",
+    "uploader_mid": 2141611,
+    "published_unix": 1692115550,
+    "source_duration_seconds": 150
+  },
+  "excerpt": {
+    "start_seconds": 12.0,
+    "end_seconds": 14.4,
+    "duration_seconds": 2.4,
+    "decoded_mp3_duration_seconds": 2.4,
+    "speed": 1,
+    "pitch_shift": 0
+  },
+  "processing": {
+    "audio": "mono 44100Hz MP3 160kbps; 10ms fade-in and 30ms fade-out; original speed/pitch",
+    "video": "same 12.0–14.4sec shot, H264 yuv420p, original framing and speed, no audio"
+  },
+  "review": {
+    "visual": "Original anime bath-scene close-up of pink-haired Chihaya Anon; eyes close and mouth opens into a smug laugh. Matching video uses that exact shot. No doll, streamer avatar or Taffy game stream.",
+    "context_audio_transcription": [
+      {
+        "start": 0,
+        "end": 3,
+        "text": "変な一日だった…"
+      },
+      {
+        "start": 3,
+        "end": 6,
+        "text": "ま、バンド組めたしいいけど"
+      },
+      {
+        "start": 6,
+        "end": 11,
+        "text": "灯ちゃんとやるって知ったら、みんなどんな顔するかな…"
+      }
+    ],
+    "transcription_method": "faster-whisper base Japanese recognition; manual correction of obvious name/kanji only; nonverbal laughter is not transcribed",
+    "identity_evidence": "2023 anime-scene upload contains continuous Japanese Anon dialogue into her bath-scene laugh, before 2025 Taffy/doll meme uploads. This is actual character voice context, not a claimed original of the later Taffy soundtrack meme.",
+    "rejected_sources": [
+      {
+        "bvid": "BV1hAPieHEUr",
+        "title": "千早爱音唐笑",
+        "reason": "Anon doll visual does not establish voice identity; later meme belongs to Taffy-dubbed family"
+      },
+      {
+        "bvid": "BV1z3YCecE21",
+        "title": "小菲活全家笑声",
+        "reason": "Explicit Taffy source; current wrong game asset"
+      }
+    ],
+    "comparison_source": {
+      "url": "https://www.bilibili.com/video/BV1To3TzmEW9/",
+      "title": "唐哭和唐笑出处",
+      "evidence": "12–19sec shows Anon anime laughter; 20sec onward explicitly labels 唐笑出自永雏塔菲 and shows Taffy playing PvZ. Confirms that naming the doll meme alone does not make the audio Anon."
+    }
+  },
+  "files": {
+    "anon-original-laugh.mp3": {
+      "bytes": 49321,
+      "sha256": "601cafa7ba331e2df75dab82d5bc0d9b945bd7a41bcf75f2be91f1deefab3041"
+    },
+    "anon-original-laugh.mp4": {
+      "bytes": 45407,
+      "sha256": "5fd9f00beffaf38cfb588a80e2089ee40b932737acef4930a6ac9df166e3c3eb"
+    }
+  }
+}

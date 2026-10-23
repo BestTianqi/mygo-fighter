@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright,expect
-from ui_helpers import select_game_option,start_match
+from ui_helpers import select_game_option,start_match, set_game_sound
 
 ROOT=Path(__file__).resolve().parents[1]
 ART=ROOT/'tests/artifacts'
@@ -23,7 +23,7 @@ with sync_playwright() as p:
     select_game_option(page,'#player-character','3');select_game_option(page,'#opponent-character','1')
     select_game_option(page,'#mode','duel');page.uncheck('#terrain-enabled');start_match(page);page.clock.run_for(1800)
     assert page.locator('#name1').inner_text()=='要乐奈'
-    page.click('#sound');expect(page.locator('#sound')).to_have_attribute('aria-pressed','true')
+    set_game_sound(page, True);expect(page.locator('#sound')).to_have_attribute('aria-pressed','true')
     page.evaluate('''() => {window.ranaDraws=new Set();const ctx=document.querySelector('#game').getContext('2d'),draw=ctx.drawImage,cache=new WeakMap();
       ctx.drawImage=function(...args){const im=args[0];if(!cache.has(im))cache.set(im,im.src===MYGO_ASSETS.characters[3].atlas);
         if(cache.get(im)){const f=MYGO_ASSETS.characters[3].actionFrames.find(f=>f.x===args[1]&&f.y===args[2]);if(f)ranaDraws.add(f.name);}return draw.apply(this,args);};}''')

@@ -1,0 +1,162 @@
+{
+  "gallery": "https://bandori.fandom.com/wiki/Girls_Band_Party%21_Background_Images",
+  "locationEvidence": [
+    {
+      "story": "Scenarioband6-001",
+      "background": "bg00473",
+      "caption": "月ノ森女子学園 庭園"
+    },
+    {
+      "story": "Scenarioband8-007",
+      "background": "bg00010",
+      "caption": "羽丘女子学園 校門前"
+    },
+    {
+      "story": "Scenarioband8-008",
+      "background": "bg01007",
+      "caption": "大階段"
+    },
+    {
+      "story": "Scenarioband8-016",
+      "background": "bg00918",
+      "caption": "RiNG スタジオ"
+    }
+  ],
+  "sources": [
+    {
+      "id": "hanasakigawa",
+      "name": "花咲川女子学园",
+      "url": "https://bestdori.com/assets/jp/bg/scenario0_rip/bg00003.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario0",
+      "file": "assets/stages/campus/hanasakigawa.png",
+      "sha256": "3b19170f751df2e40601dc96cfe441d7f9db03148f8f1ca159914e6d98327bca",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "haneoka",
+      "name": "羽丘女子学园",
+      "url": "https://bestdori.com/assets/jp/bg/scenario1_rip/bg00010.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario1",
+      "file": "assets/stages/campus/haneoka.png",
+      "sha256": "f104d5bb68e09c988f37def12d6179afa9eaf83400a7bddeb869407118849007",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "tsukinomori",
+      "name": "月之森女子学园",
+      "url": "https://bestdori.com/assets/jp/bg/scenario47_rip/bg00470.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario47",
+      "file": "assets/stages/campus/tsukinomori.png",
+      "sha256": "2d632b343aa738dab00dcd04503a808af1a72631e28a7e7364a0dbc7ff2a2a3d",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "tsukinomori-garden",
+      "name": "月之森·庭院",
+      "url": "https://bestdori.com/assets/jp/bg/scenario47_rip/bg00473.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario47",
+      "file": "assets/stages/campus/tsukinomori-garden.png",
+      "sha256": "35291a2543b9543cc1331bb903527068b3a8fe0c793c90a14051e3b349589248",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "haneoka-roof",
+      "name": "羽丘·学校天台",
+      "url": "https://bestdori.com/assets/jp/bg/scenario1_rip/bg00012.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario1",
+      "file": "assets/stages/campus/haneoka-roof.png",
+      "sha256": "8816fb8e800ae56ab46b3664f0465ee791d4d20c15a269c65efeb438497567d1",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "circle-studio",
+      "name": "CiRCLE·练习室",
+      "url": "https://bestdori.com/assets/jp/bg/scenario3_rip/bg00033.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario3",
+      "file": "assets/stages/campus/circle-studio.png",
+      "sha256": "4c39aaa9623a420f10f11078bf04d16c09d2a4632c12ecb888e8d560067f2c65",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "ring-studio",
+      "name": "RiNG·练习室",
+      "url": "https://bestdori.com/assets/jp/bg/scenario91_rip/bg00918.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario91",
+      "file": "assets/stages/campus/ring-studio.png",
+      "sha256": "25992780dcc65048a8521c453333c0e399df3b1931b7f314822a7ec5aa1f5bce",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "sunshine-steps",
+      "name": "大台阶·黄昏",
+      "url": "https://bestdori.com/assets/jp/bg/scenario100_rip/bg01007.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario100",
+      "file": "assets/stages/campus/sunshine-steps.png",
+      "sha256": "12a3aa66853bbf5cfef5f5c20b1945c5e233e435a3899e68e4b4b00bb423b0c3",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    },
+    {
+      "id": "sunshine-night",
+      "name": "大台阶·夜景",
+      "url": "https://bestdori.com/assets/jp/bg/scenario100_rip/bg01008.png",
+      "explorer": "https://bestdori.com/tool/explorer/asset/jp/bg/scenario100",
+      "file": "assets/stages/campus/sunshine-night.png",
+      "sha256": "1ed0a323f5b44027474e7f7f100475ee6fa1f9d4337cfe74c3d024d37e300864",
+      "size": [
+        1024,
+        1024
+      ],
+      "retrieved": "2026-10-22",
+      "origin": "BanG Dream! Girls Band Party! background art; hosted by Bestdori",
+      "rights": "Original game artwork. Not an original illustration or a CC-licensed asset."
+    }
+  ]
+}

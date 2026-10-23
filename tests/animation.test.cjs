@@ -60,11 +60,11 @@ test('a real crouching block keeps its low guard drawing throughout blockstun', 
   const m = new Match({ mode: 'duel', characters: [0, 0] }); m.start(); m.advance(1000);
   m.fighters[0].x = 420; m.fighters[1].x = 480;
   const choose = createAnimator(); m.advance(10, { guard: true, crouch: true }); choose(m, 0);
-  let sawClearedCrouch = false;
+  let sawCrouchingBlock = false;
   for (let i = 0; i < 40; i++) {
     m.advance(10, { guard: true, crouch: true }, { crouch: true, light: true });
     const pose = choose(m, 0), f = m.fighters[0];
-    if (f.stun && f.guard) { assert.equal(pose, 'guard-crouch'); if (!f.crouch) sawClearedCrouch = true; }
+    if (f.stun && f.guard) { assert.equal(pose, 'guard-crouch'); assert.equal(f.crouch, true); sawCrouchingBlock = true; }
   }
-  assert.ok(sawClearedCrouch); assert.equal(m.fighters[0].hp, 200);
+  assert.ok(sawCrouchingBlock); assert.equal(m.fighters[0].hp, 200);
 });

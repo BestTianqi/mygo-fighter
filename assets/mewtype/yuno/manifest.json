@@ -1,0 +1,138 @@
+{
+  "key": "yuno",
+  "id": 13,
+  "name": "千石由乃",
+  "references": [
+    "mewtype/reference/yuno-initial-fullbody.jpg",
+    "mewtype/reference/pdf-page-4-image-1.jpeg",
+    "mewtype/arale/virtual/group-1-v1.png"
+  ],
+  "forms": {
+    "virtual": {
+      "groups": [
+        {
+          "file": "mewtype/yuno/virtual/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: idle: relaxed balanced DJ-ready stance, one hand at waist controller; cell 2: walk-contact: long forward walking stride, opposite arm swing; cell 3: walk-pass: passing step with rear heel lifted and forward arm; cell 4: guard-standing: both forearms raised diagonally protecting face; cell 5: guard-crouch: deep squat knees bent, forearms protecting head; cell 6: dash-forward: strong low forward lean, rear leg extended trailing; cell 7: dash-back: recoiling backward step, torso leaning back and arms braced; cell 8: jump-rise: airborne upward leap, both knees bent and arms lifted."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: jump-fall: descending airborne body, legs extended down, hair up; cell 2: landing: deep knees-bent landing crouch, one hand toward floor; cell 3: hit-high: recoil at chest/head, back arched, startled face; cell 4: hit-low: hurt abdomen, torso folded and one hand on stomach; cell 5: knockdown-fall: sideways airborne tumble, torso diagonal, both legs off ground; cell 6: knockdown-ground: fully fallen on side, whole body compact horizontal within cell; cell 7: getup: pushing up from one knee with one palm on ground; cell 8: victory: cheerful confident smile, one arm raised overhead, other at controller."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: throw-windup: open forward hand reaching to grab while rear arm drawn back, knees bent; cell 2: throw-release: powerful forward two-arm shove, front knee braced and back leg planted; cell 3: jab-1-windup: J1 fingerbeat, index finger poised high above controller, shoulders coiled; cell 4: jab-1-impact: J1 decisive downward fingertip tap on controller with short connected pink beat spark; cell 5: jab-1-recover: J1 hand lifting away after tap, hips relaxed into guard; cell 6: jab-2-windup: J2 turntable spin elbow, rear elbow tucked back and palm on turntable; cell 7: jab-2-impact: J2 rotating hips and driving bent elbow forward while other hand spins small disc; cell 8: jab-2-recover: J2 elbow withdrawing and opposite foot repositioning."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-4-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: jab-3-windup: J3 rising disc push, deep knees-bent loading, disc cupped low by hip; cell 2: jab-3-impact: J3 rising body with arm pushing vinyl disc upward diagonally, brief attached pink crescent; cell 3: jab-3-recover: J3 raised hand folding down into balanced stance; cell 4: heavy-windup: K record heavy, both hands draw large vinyl record across rear shoulder, torso twists; cell 5: heavy-impact: K wide lunging heavy downward record swing, record near forward knee, hair trailing; cell 6: heavy-recover: K body low after follow-through, record held forward and feet restoring stance; cell 7: crouch-light-windup: crouching, finger poised above low controller, rear hand guarding; cell 8: crouch-light-impact: crouching, forward hand jabbing sharply low with tiny attached beat flash.\nRecreate the entire sheet accurately with EXACTLY EIGHT figures in four columns and two rows. The original is missing bottom-row column three. MANDATORY bottom-row cells: column1 heavy-impact; column2 heavy-recover; column3 crouch-light-windup (a complete deeply crouching Yuno pulling right fist/controller close to chest); column4 crouch-light-impact (complete crouching Yuno jabbing low to RIGHT). Equal four-column grid and plenty of transparent gutters. All eight full figures must be present."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: crouch-light-recover: deep crouch, forward hand returns to chest and weight shifts back; cell 2: crouch-heavy-windup: low crouch with vinyl drawn behind hip for low sweep; cell 3: crouch-heavy-impact: low sweeping record strike, front leg extended to right, waist rotates; cell 4: crouch-heavy-recover: one knee down, record returns beside body and torso unwinds; cell 5: air-light-windup: airborne both knees tucked, elbow back ready to tap; cell 6: air-light-impact: airborne one knee lifted, finger taps forward controller with short connected beat; cell 7: air-light-recover: airborne drawing hand back, knees separated to prepare landing; cell 8: air-heavy-windup: airborne knees flexed, record raised above head with both hands."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 4 columns by 2 rows, EXACTLY 8 full-body sprites, one per equal cell. Suggested canvas 2048x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: air-heavy-impact: airborne overhead record slam, arms extend diagonally downward, legs spread bent; cell 2: air-heavy-recover: airborne after slam, arms lowered and knees pull upward; cell 3: skill-u-windup: U low disc throw, deep side lunge with vinyl held beside rear ankle; cell 4: skill-u-impact: U low disc throw release, forward arm fully extended near knee, compact vinyl touching trailing small arc; cell 5: skill-u-recover: U throwing arm retracts, torso rising from low lunge; cell 6: skill-i-windup: I beat shield, feet planted and both hands spread over waist controller; cell 7: skill-i-impact: I beat shield, crossed forearms before chest support small pink circular shield immediately before body; cell 8: skill-i-recover: I shield fades, hands opening outward and weight returning to rear foot."
+        },
+        {
+          "file": "mewtype/yuno/virtual/group-7-v1.png",
+          "columns": 3,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production asset: hand-drawn 2D anime fighting game sprite sheet of Sengoku Yuno / 千石由乃, MewType. The FIRST reference is her exact INITIAL official virtual outfit and identity; second is official face; third is rendering style ONLY, do not use its clothes/hair/megaphone. Match Yuno: long black and pink split hair, pink-red eyes, black/pink CAT EAR headphones with mic, colorful crossed hairpins, silver choker; black mesh crop top, oversized crimson-magenta bomber dropped from shoulders with purple quilted lining, short asymmetrical black skirt with white/pink panel and double buckles, mismatched loose hot-pink and black socks, iridescent ankle ring on black-sock side, black high-top boots with hot-pink laces and soles. No hood. Not casual clothes. Normal slender 6.5-7-head-tall anime anatomy, long legs, medium-small head, NOT CHIBI. Detailed clean lineart, polished cel shaded vivid costume, style matching reference3. Every sprite is a separate complete distinct drawing, three-quarter side fighting perspective facing right, well-defined hands/feet, consistent costume and identity. A small portable black/pink DJ controller is strapped at her waist and/or held near hands; NEVER a large desk or controller with floor legs. Her attacks mix finger tapping, vinyl records, rhythmic body motion. Background must be true alpha transparency, no opaque background or checker pattern drawn into pixels. No ground, no panels, no borders, no text, no labels, no watermarks. Each entire figure, all hair, all effects and controller stays completely INSIDE its assigned equal grid cell, with at least 10% EMPTY transparent gutter on ALL FOUR sides of each cell. NO overlap between adjacent cells, NO cropped tips. Head-to-toe complete body visible even for aerial, crouching, and fallen poses. Avoid sprawling hair; contain it inside the cell. Effects if any must be small and attached near hands, cannot join neighboring sprites. Lock proportions. Do not make eight standing variants: follow each distinct body action carefully. Read cells left-to-right top row then bottom row. Canvas layout: 3 columns by 2 rows, EXACTLY 6 full-body sprites, one per equal cell. Suggested canvas 1536x1536. Figures smaller than cells to ensure generous transparent margins. Poses in exact order: cell 1: skill-o-windup: O threebeat combo, low staggered stance, three fingers poised above compact DJ controller; cell 2: skill-o-impact: O threebeat combo, sharp forward leaning lunge, one hand slicing upward and other tapping, three tiny connected beat accents; cell 3: skill-o-recover: O finishing rotating step, hand drawn across torso and opposite elbow up; cell 4: super-windup: P 360 frequency drop, crouch coils tightly with both palms holding controller before abdomen; cell 5: super-impact: P 360 frequency drop, powerful upright twist with both arms outstretched, compact glowing pink sound ring encircles waist without obscuring body; cell 6: super-recover: P kneeling one knee with both hands lowered on controller, hair settling and exhausted confident expression."
+        }
+      ]
+    }
+  },
+  "review": {
+    "status": "complete: source sheets, 54-pose packed proof and actual browser rendering checked",
+    "generation": "built-in imagegen",
+    "checks": [
+      "initial virtual costume and normal anime proportions",
+      "complete figures and consistent identity/palette",
+      "three distinct normal attack stages",
+      "54 named actual drawings; no missing-frame substitution",
+      "both-player skill phases drawn in final offline game"
+    ],
+    "proof": "mewtype/yuno/virtual-proof.png"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "key": "ritsu",
+  "id": 11,
+  "name": "峰月律",
+  "references": [
+    "mewtype/reference/ritsu-official-fullbody.png",
+    "mewtype/reference/pdf-page-3-image-1.jpeg"
+  ],
+  "forms": {
+    "virtual": {
+      "groups": [
+        {
+          "file": "mewtype/ritsu/virtual/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Relaxed battle idle standing holding guitar at hip.\n2. Forward step heel contact knees slightly bent.\n3. Forward walk passing step one knee passing other leg.\n4. Standing defense guitar held diagonally across chest shoulders tense.\n5. Deep crouch defensive guard guitar shield near face.\n6. Forward sprint lean with trailing back leg guitar strapped close.\n7. Backdash retreat torso leaning backward while feet push away.\n8. Jump rising knees bent upward guitar held close.\n"
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Descending jump knees opened toes pointed downward.\n2. Low landing squat weight compressed guitar near body.\n3. Head hit reaction chin lifted torso bending back.\n4. Low body hit recoil hand over abdomen guitar still strapped.\n5. Knockdown in air falling backward legs raised.\n6. Fully downed lying horizontally on side on the invisible ground whole figure visible.\n7. Getting up from one knee pressing one palm near ground guitar strapped.\n8. Victory happy eyes raised guitar and triumphant open hand.\nAdditional reference: the supplied sprite sheet is STYLE AND CHARACTER CONSISTENCY ONLY; create the entirely new poses listed here.\n"
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-3-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Throw windup grabbing forward with one open hand guitar held on other side.\n2. Throw release vigorous torso twist with extended arm no opponent drawn.\n3. Jab one windup holding purple guitar neck back toward hip.\n4. Jab one impact short forward guitar headstock poke thrust.\n5. Jab one recovery withdrawing guitar point elbow folded.\n6. Jab two windup rotating hips winding guitar neck back horizontally.\n7. Jab two impact horizontal guitar neck swing forward chest-height.\n8. Jab two recovery guitar neck extended across body after swing.\nAdditional reference: supplied first sprite sheet establishes exact style and character ONLY; draw NEW action poses. Make the impacts visibly extended attacks, not guitar playing. Use a landscape 4 by 2 sheet with spacious separation.\n\nCOMBO DIFFERENTIATION CORRECTION: cell 7 jab-two-impact MUST be a close-range horizontal LEFT ELBOW strike to the RIGHT. Fold left forearm toward chest and lead visibly with bent elbow, twist torso and rear heel. Guitar hangs lower on strap at hip; do not thrust guitar neck forward. Cell6 winds left elbow behind torso; cell8 recovers bent elbow. First jab cells3/4/5 remain a straight right-hand guitar-neck thrust so J1 and J2 silhouettes are clearly different."
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Jab three windup low coiled stance guitar body down by knee.\n2. Jab three impact rising guitar uppercut body arched upward neck points diagonally up.\n3. Jab three recovery guitar over shoulder one foot lifted.\n4. Heavy windup two hands raise guitar body behind shoulder.\n5. Heavy impact powerful downward slam with guitar BODY thrust forward at waist height wide planted stance.\n6. Heavy recovery low followthrough guitar body low beside forward shin.\n7. Crouch light windup deep squat guitar neck pulled back.\n8. Crouch light impact low quick guitar neck poke just above ground.\nThe supplied sprite sheet is style and identity reference only. New attack actions must be dramatic and distinct: rising uppercut, heavy BODY slam, low crouching guitar poke. IMPORTANT scale figures smaller within each cell: leave 8 percent outer padding, all shoes, hair and guitar headstocks must have generous clear space from borders.\n"
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-5-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Edit target: supplied group-5-v1 sprite sheet. Recreate this SAME EIGHT POSE sheet with the same Ritsu character design, precise costume, proportions and eight poses, but FIX SPACING. The upper row third figure's outstretched guitar touches the upper row fourth figure's dress. Scale EVERY complete figure down to 80 percent inside its original grid cell; center in each cell. Keep each character and her entire purple guitar completely isolated by broad real fully transparent gaps. Exact 4 equal columns by 2 equal rows. No figure may touch another or image edge. Preserve every whole head, hand, shoe and guitar. Crisp clean anime cel shaded art and truly transparent background. No additional effects, no shadows, no labels. Keep original pose order.\n",
+          "originalPrompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Crouch light recovery squatting withdrawing guitar neck.\n2. Crouch heavy windup low twist guitar body drawn behind back hip.\n3. Crouch heavy impact low horizontal sweeping guitar BODY attack.\n4. Crouch heavy recovery low stance followthrough guitar across knees.\n5. Air light windup airborne bent knees guitar pulled back to chest.\n6. Air light impact airborne forward short guitar neck poke.\n7. Air light recovery airborne retracting neck and tucking knees.\n8. Air heavy windup airborne two hands raise guitar above shoulder.\nThe supplied first sprite sheet is style and identity reference only. Create entirely new crouching and airborne battle poses. Leave generous 8 percent outer margin around whole figures, guitar and shoes. Guitar attacks should read as fighting strikes with extended arm gestures rather than simply playing music.\n"
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 4 equal columns by 2 equal rows; exactly 8 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Air heavy impact airborne guitar body powerful downward strike feet tucked behind.\n2. Air heavy recovery airborne falling guitar recoiled to chest legs extended downward.\n3. Skill U guitar arc windup low stance winding guitar behind rear shoulder.\n4. Skill U guitar arc impact wide guitar sweep with attached small blue-purple crescent arc wrapping guitar edge.\n5. Skill U guitar arc recovery followthrough body rotated guitar low to right.\n6. Skill I bear counter guard windup squat lifting guitar across chest and forearms.\n7. Skill I bear counter guard impact firm planted braced stance compact translucent blue bear-ear shaped shield connected to guitar edge.\n8. Skill I bear counter guard recovery opening guard lowering guitar and looking forward.\nThe supplied first sprite sheet is style and identity reference only. Create entirely new airborne strikes and blue bear counter-guard skill poses. Skill I impact MUST clearly show a compact bear-ear shaped blue energy shield ATTACHED to the guitar, behind it, not a separate mascot. Skill U impact MUST show a connected blue-purple arc on the guitar sweep. Keep every body and guitar wholly inside canvas with 8 percent outer margin.\n"
+        },
+        {
+          "file": "mewtype/ritsu/virtual/group-7-v1.png",
+          "columns": 3,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Asset type: production 2D anime fighting game sprite sheet, truly transparent RGBA background. Character is MewType 峰月律 / Minetsuki Ritsu, matching the supplied official references exactly: youthful adult anime woman with NORMAL HUMAN 6.5 to 7 head proportions, long slender legs, small head, short icy pale-blue bob with pink tip accents, lavender eyes, black round bear-ear headphones with cyan rings, white/silver futuristic off-shoulder fitted zipper minidress with blue trim, separate metallic gray bell sleeves and black fingerless gloves, blue thigh-high stockings, transparent pale silver-blue shin coverings over white platform sneakers. One purple electric guitar with dark fretboard on strap, always physically connected to her hands/body. Crisp professional anime cel-shading, fine clean dark outlines, detailed face and fabric, polished Japanese 2D fighting game art. Keep outfit, hair, anatomy, and guitar identity consistent across all figures. Three-quarter SIDE VIEW facing RIGHT, whole body each time. No chibi, no super-deformed proportions, no doll heads, no extra people, no detached objects, no detached mascot robots, no labels/text, no grid lines, no stage, no floor/shadows. Each figure must be isolated in its own equally sized cell by broad fully transparent gutters. Entire head, feet and complete guitar MUST stay inside own cell and image border, at least 30 pixels margin all around each figure, no overlapping cells. Any effects remain compact and connected to guitar.\nLayout: landscape sheet 3 equal columns by 2 equal rows; exactly 6 separate FULL BODY drawings. Reading order left to right in top row, then bottom row. Preserve each pose as distinct actual artwork, never reuse a standing pose for an action. Cell poses in exact order:\n1. Skill O guitar rush windup extreme forward lean guitar held at leading shoulder rear leg cocked.\n2. Skill O guitar rush impact long lunging sliding step guitar body drives forward one foot trailing.\n3. Skill O guitar rush recovery braking low stance guitar lowered one knee bent.\n4. Super three strike rising encore windup deep crouching charge guitar pulled back two handed.\n5. Super three strike rising encore impact explosive rising guitar uppercut jumping upward with three compact connected blue-purple guitar arcs.\n6. Super three strike rising encore recovery descending balanced pose guitar across torso one knee lifted.\nThe supplied first sprite sheet is style and identity reference only. Final sheet THREE COLUMNS BY TWO ROWS, exactly six drawings. Dramatic rush and rising super attack poses with a purple guitar. Super impact is an airborne rising uppercut with three connected crescents surrounding guitar. All effects attached to guitar silhouette, no detached sparkles. Each whole figure and guitar completely visible with generous 8 percent margins.\n"
+        }
+      ]
+    }
+  },
+  "review": {
+    "status": "complete: source sheets, 54-pose packed proof and actual browser rendering checked",
+    "generation": "built-in imagegen",
+    "checks": [
+      "initial virtual costume and normal anime proportions",
+      "complete figures and consistent identity/palette",
+      "three distinct normal attack stages",
+      "54 named actual drawings; no missing-frame substitution",
+      "both-player skill phases drawn in final offline game"
+    ],
+    "proof": "mewtype/ritsu/virtual-proof.png"
+  }
+}

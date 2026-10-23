@@ -1,0 +1,153 @@
+{
+  "source": "assets/meme-media/uika-crawl/uika-crawl-sheet-raw-v1.png",
+  "sha256": "3361304742a473fe7228210a96bb309ef08b53c816e1104ac6ee53ae8e9f812c",
+  "extraction": "alpha>100 large components, independent masks, connected 2px fringe",
+  "forms": {
+    "normal": {
+      "atlas": "assets/meme-media/uika-crawl/normal-crawl-runtime.webp",
+      "frames": [
+        {
+          "name": "crawl-windup",
+          "w": 368,
+          "h": 323,
+          "height": 145,
+          "ax": 184.0,
+          "ay": 323,
+          "sourceBounds": [
+            42,
+            108,
+            410,
+            431
+          ],
+          "corePixels": 62081,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "name": "crawl-a",
+          "w": 524,
+          "h": 302,
+          "height": 141.2,
+          "ax": 262.0,
+          "ay": 302,
+          "sourceBounds": [
+            422,
+            129,
+            946,
+            431
+          ],
+          "corePixels": 72530,
+          "x": 548,
+          "y": 8
+        },
+        {
+          "name": "crawl-b",
+          "w": 464,
+          "h": 306,
+          "height": 160,
+          "ax": 232.0,
+          "ay": 306,
+          "sourceBounds": [
+            935,
+            125,
+            1399,
+            431
+          ],
+          "corePixels": 68177,
+          "x": 8,
+          "y": 386
+        },
+        {
+          "name": "crawl-recover",
+          "w": 332,
+          "h": 362,
+          "height": 160,
+          "ax": 166.0,
+          "ay": 362,
+          "sourceBounds": [
+            1409,
+            66,
+            1741,
+            428
+          ],
+          "corePixels": 58039,
+          "x": 548,
+          "y": 386
+        }
+      ]
+    },
+    "stage": {
+      "atlas": "assets/meme-media/uika-crawl/stage-crawl-runtime.webp",
+      "frames": [
+        {
+          "name": "crawl-windup",
+          "w": 392,
+          "h": 320,
+          "height": 145,
+          "ax": 196.0,
+          "ay": 320,
+          "sourceBounds": [
+            35,
+            509,
+            427,
+            829
+          ],
+          "corePixels": 70523,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "name": "crawl-a",
+          "w": 514,
+          "h": 297,
+          "height": 141.57,
+          "ax": 257.0,
+          "ay": 297,
+          "sourceBounds": [
+            440,
+            528,
+            954,
+            825
+          ],
+          "corePixels": 78195,
+          "x": 538,
+          "y": 8
+        },
+        {
+          "name": "crawl-b",
+          "w": 465,
+          "h": 309,
+          "height": 160,
+          "ax": 232.5,
+          "ay": 309,
+          "sourceBounds": [
+            944,
+            522,
+            1409,
+            831
+          ],
+          "corePixels": 74383,
+          "x": 8,
+          "y": 379
+        },
+        {
+          "name": "crawl-recover",
+          "w": 370,
+          "h": 355,
+          "height": 160,
+          "ax": 185.0,
+          "ay": 355,
+          "sourceBounds": [
+            1388,
+            474,
+            1758,
+            829
+          ],
+          "corePixels": 63990,
+          "x": 538,
+          "y": 379
+        }
+      ]
+    }
+  }
+}

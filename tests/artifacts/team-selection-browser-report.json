@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "remote_requests": [],
+  "failed_requests": [],
+  "mobile": [
+    {
+      "width": 390,
+      "height": 844,
+      "six_touch_picks": "pass",
+      "team_hud": "pass"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "six_touch_picks": "pass",
+      "team_hud": "pass"
+    }
+  ],
+  "start_selection_before_any_battle_and_1v1": "pass",
+  "automatic_tag_survivor_resources_and_loaded_stage_kit": "pass",
+  "complete_three_member_wheel_battle_and_team_victory": "pass",
+  "restart_and_selection_back_preserve_paused_intermission": "pass",
+  "CPU_controls_its_next_selected_character": "pass",
+  "status": "pass"
+}

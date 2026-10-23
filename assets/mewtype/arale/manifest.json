@@ -1,0 +1,137 @@
+{
+  "key": "arale",
+  "id": 10,
+  "name": "仲町阿拉蕾",
+  "references": [
+    "mewtype/reference/arale-official-fullbody.jpg",
+    "mewtype/reference/pdf-page-2-image-1.jpeg"
+  ],
+  "forms": {
+    "virtual": {
+      "groups": [
+        {
+          "file": "mewtype/arale/virtual/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Wide 4 columns by 2 rows, 8 equally spaced cells, target 2048x1536 or larger. Read left-to-right then next row. 1 idle balanced feet apart megaphone at hip; 2 walk contact right foot forward left foot back; 3 walk passing left knee advances with opposite arm swing; 4 standing guard forearm and megaphone raised before face; 5 crouching guard knees deeply bent balanced low; 6 forward dash leaning far right with rear leg trailing; 7 backward evasive step leaning left and front hand guarding; 8 rising jump both feet airborne knees tucked. These eight pose silhouettes must be noticeably distinct.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Use the attached earlier action sheet as color/face rendering consistency guide, redraw NEW different actions below. Wide 4 columns by 2 rows, 8 evenly spaced cells, every complete figure fits within 85% of its cell with visible transparent padding. No cropping of horizontal lying body or twin tails. Read left-to-right then next row: 1 descending jump with legs extended ready to land; 2 landing deep bend knees with one hand bracing; 3 high-hit reaction head back torso recoiling; 4 low-hit reaction bent torso hand at stomach; 5 falling knockdown body tilted backward nearly horizontal, shoes visible; 6 lying knocked down horizontally on side with both full legs and long hair inside the cell; 7 getting up one knee and one hand on ground; 8 victory cheerful smile holding megaphone overhead with free hand peace sign.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Use the attached earlier action sheet as color/face rendering consistency guide, redraw NEW different actions below. Wide 4 columns by 2 rows, 8 evenly spaced cells, every complete figure fits within 85% of its cell with visible transparent padding. No cropping of horizontal lying body or twin tails. Read left-to-right then next row: 1 throw windup left hand reaching forward to grab unseen opponent, megaphone tucked back; 2 throw release twisting waist arms pulling across body, no second character; 3 jab-one windup megaphone pulled near chest; 4 jab-one impact compact straight megaphone jab right at chest height; 5 jab-one recovery drawing megaphone back with balanced knees; 6 jab-two windup free elbow drawn backward and hips rotated; 7 jab-two impact elbow strike to right, megaphone held low on other hand; 8 jab-two recovery arm lowers torso unwinds.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-4-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Use the attached earlier action sheet as color/face rendering consistency guide, redraw NEW different actions below. Wide 4 columns by 2 rows, 8 evenly spaced cells, every complete figure fits within 85% of its cell with visible transparent padding. No cropping of horizontal lying body or twin tails. Read left-to-right then next row: 1 jab-three windup lowered hips and megaphone below waist; 2 jab-three impact rising uppercut with megaphone above face rightward; 3 jab-three recovery arm overhead settling back down; 4 heavy windup megaphone raised behind shoulder torso twisted left; 5 heavy impact powerful wide megaphone swing to right with forward lunge; 6 heavy recovery follow-through arm crosses chest; 7 crouch-light windup low squat megaphone at chest; 8 crouch-light impact low straight megaphone poke right while staying crouched.\nMANDATORY COMPOSITION CORRECTION: keep each entire character at only 65 percent of each cell width and height; leave a LARGE empty margin on ALL four sides of EVERY sprite, especially long twin tails and extended legs. Uniform grid 4 columns and 2 rows. Absolutely plain EMPTY TRANSPARENT ALPHA BACKGROUND, no colored background, no blur, no gradient, no shadow or glow. Transparent pixels must separate all eight silhouettes. Draw eight small full-body sprites, not large cropped portraits.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-5-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Use the attached earlier action sheet as color/face rendering consistency guide, redraw NEW different actions below. Wide 4 columns by 2 rows, 8 evenly spaced cells, every complete figure fits within 85% of its cell with visible transparent padding. No cropping of horizontal lying body or twin tails. Read left-to-right then next row: 1 crouch-light recovery low squat megaphone retracts; 2 crouch-heavy windup one knee deeply bent twisting hips; 3 crouch-heavy impact low sweeping extended leg kick toward right; 4 crouch-heavy recovery pulling sweeping leg back under body; 5 air-light windup airborne both knees bent and megaphone close; 6 air-light impact jumping straight megaphone thrust to right; 7 air-light recovery airborne arm retracts and legs drop; 8 air-heavy windup airborne with one knee lifted preparing downward heel kick.\nMANDATORY COMPOSITION CORRECTION: keep each entire character at only 65 percent of each cell width and height; leave a LARGE empty margin on ALL four sides of EVERY sprite, especially long twin tails and extended legs. Uniform grid 4 columns and 2 rows. Absolutely plain EMPTY TRANSPARENT ALPHA BACKGROUND, no colored background, no blur, no gradient, no shadow or glow. Transparent pixels must separate all eight silhouettes. Draw eight small full-body sprites, not large cropped portraits.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Create production 2D anime fighting-game sprite sheet of Nakamachi Arale 仲町あられ from Mugendai MewType, using attached official references for exact identity and costume. Normal slender anime body proportions ~6.8 heads, not chibi, no photorealism or 3D. Crisp refined lineart, flat cel shading, delicate official 2D face, pink eyes; pale blonde high twin tails with pink inside and cyan-blue tips, black cat ear headband edged yellow, colorful small hairpins. White sleeveless collar vest with black gold mini necktie, colorful buttons, yellow corset belt, flared pale yellow skirt with colorful Memphis triangles/squiggles and pale ruffle hem, black side bow tails with yellow edging, black long detached arm sleeve/fingerless gloves, pink/cyan wrist bangles, asymmetrical pink shorter sock and white thigh-high sock, yellow legwarmers and white sneakers. Pink/blue/yellow megaphone, NOT a simple microphone. Preserve identical outfit and hair colors in EVERY pose, no tint changes. Entire body and shoes and ALL hair/equipment inside each cell, generous transparent margins, no figure touches image border or neighboring sprite. Orthographic side-view fighter facing RIGHT with face slightly three-quarter visible, consistent camera/scale. Transparent alpha background, no panels, grid lines, captions, labels, text, shadows, ground or unrelated objects. Each cell exactly ONE complete distinct character drawing. No big detached magic VFX. Use the attached earlier action sheet as color/face rendering consistency guide, redraw NEW different actions below. Wide 4 columns by 2 rows, 8 evenly spaced cells, every complete figure fits within 85% of its cell with visible transparent padding. No cropping of horizontal lying body or twin tails. Read left-to-right then next row: 1 air-heavy impact airborne rightward downward extended heel kick, other leg tucked; 2 air-heavy recovery airborne legs gathering beneath hips; 3 U candy soundwave windup megaphone raised toward mouth; 4 U impact singing into megaphone pointed directly right free hand firmly extended; 5 U recovery lowering megaphone and exhaling; 6 I layered cheering windup raising free index finger at ear as if listening; 7 I impact lively megaphone chant with free arm raised overhead and weight on front foot; 8 I recovery lowering free hand while holding megaphone at shoulder.\n"
+        },
+        {
+          "file": "mewtype/arale/virtual/group-7-v2.png",
+          "columns": 3,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover"
+          ],
+          "prompt": "Edit this 6-pose anime sprite sheet with 3 columns and 2 rows. 1) Completely remove the blurry brown/blue backdrop and all glow, use true transparent alpha background, keep white clothes opaque. 2) Correct row2 column2 character anatomy: she must have exactly TWO arms, one extends up-right holding the megaphone and one raises a cheering fist overhead; REMOVE the erroneous extra bent arm/fist near her left shoulder. Preserve every other face, pose, costume, color, size and placement exactly. Keep each full-body figure and all hair and shoes within frame. No background, shadows, grid or captions.\n"
+        }
+      ]
+    }
+  },
+  "review": {
+    "status": "complete: source sheets, 54-pose packed proof and actual browser rendering checked",
+    "generation": "built-in imagegen",
+    "checks": [
+      "initial virtual costume and normal anime proportions",
+      "complete figures and consistent identity/palette",
+      "three distinct normal attack stages",
+      "54 named actual drawings; no missing-frame substitution",
+      "both-player skill phases drawn in final offline game"
+    ],
+    "proof": "mewtype/arale/virtual-proof.png"
+  }
+}

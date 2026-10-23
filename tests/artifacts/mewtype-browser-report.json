@@ -1,0 +1,81 @@
+{
+  "file": "index.html",
+  "characters": [
+    {
+      "id": 10,
+      "skills_all_three_phases": 4,
+      "J3_crouch_air_JK": "pass",
+      "H_absent": "pass",
+      "2p_skills": 4,
+      "blink_both_players": "pass",
+      "pause_menu_reset": "pass",
+      "KO_draw_next_round": "pass",
+      "CPU": "pass"
+    },
+    {
+      "id": 11,
+      "skills_all_three_phases": 4,
+      "J3_crouch_air_JK": "pass",
+      "H_absent": "pass",
+      "2p_skills": 4,
+      "blink_both_players": "pass",
+      "pause_menu_reset": "pass",
+      "KO_draw_next_round": "pass",
+      "CPU": "pass"
+    },
+    {
+      "id": 12,
+      "skills_all_three_phases": 4,
+      "J3_crouch_air_JK": "pass",
+      "H_absent": "pass",
+      "2p_skills": 4,
+      "blink_both_players": "pass",
+      "pause_menu_reset": "pass",
+      "KO_draw_next_round": "pass",
+      "CPU": "pass"
+    },
+    {
+      "id": 13,
+      "skills_all_three_phases": 4,
+      "J3_crouch_air_JK": "pass",
+      "H_absent": "pass",
+      "2p_skills": 4,
+      "blink_both_players": "pass",
+      "pause_menu_reset": "pass",
+      "KO_draw_next_round": "pass",
+      "CPU": "pass"
+    },
+    {
+      "id": 14,
+      "skills_all_three_phases": 4,
+      "J3_crouch_air_JK": "pass",
+      "H_absent": "pass",
+      "2p_skills": 4,
+      "blink_both_players": "pass",
+      "pause_menu_reset": "pass",
+      "KO_draw_next_round": "pass",
+      "CPU": "pass"
+    }
+  ],
+  "mobile": [
+    {
+      "width": 844,
+      "height": 390,
+      "touch_skills": 4,
+      "no_H": true,
+      "menu_resume": "pass"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "touch_skills": 4,
+      "no_H": true,
+      "menu_resume": "pass"
+    }
+  ],
+  "embedded_frames_per_character": 54,
+  "offline": true,
+  "errors": [],
+  "remote_requests": [],
+  "failed_requests": []
+}

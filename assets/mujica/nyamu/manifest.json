@@ -1,0 +1,253 @@
+{
+  "key": "nyamu",
+  "id": 9,
+  "name": "祐天寺若麦",
+  "references": [
+    {
+      "path": "mujica/nyamu/references/official-casual.png",
+      "source": "Local official user reference"
+    },
+    {
+      "path": "mujica/nyamu/references/official-face.jpg",
+      "source": "Official face reference"
+    },
+    {
+      "path": "mujica/nyamu/references/official-stage-mask.jpg",
+      "source": "Official Amoris stage character card shared by voice actress https://x.com/AkaneY_banu/status/1869728260164288944"
+    }
+  ],
+  "forms": {
+    "normal": {
+      "groups": [
+        {
+          "file": "mujica/nyamu/normal/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER: 1 idle relaxed combat-ready instrument low; 2 walk-contact forward right foot heel plants long stride; 3 walk-pass feet pass narrow mid-stride; 4 guard-standing forearms/instrument braced diagonally chest high; 5 guard-crouch deep compact crouch guard; 6 dash-forward dramatic low forward lunge; 7 dash-back leans backward retreat left facing right; 8 jump-rise lifted bent knees rising airborne. All eight actual distinct poses."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jump-fall legs extend to descend; 2 landing deep knees with lowered torso; 3 hit-high head/shoulders recoil backward; 4 hit-low fold body at abdomen; 5 knockdown-fall body tips backward diagonal airborne; 6 knockdown-ground lie fully horizontal on back with bent knees, fit complete body within cell; 7 getup one palm pushes floor one knee planted; 8 victory head up free hand lifted. Draw 8 distinct poses."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 throw-windup left arm reaches behind free hand gathers opponent; 2 throw-release twisting confident open palm shove; 3 jab1-windup right palm tight near chest; 4 jab1-impact fast straight right palm thrust; 5 jab1-recover retract right hand; 6 jab2-windup left shoulder coils free wrist turns; 7 jab2-impact sweeping left backhand across chest; 8 jab2-recover left hand pulls back. Jabs have different hand and trajectory."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jab3-windup knees dip right fist low; 2 jab3-impact rising right uppercut with lifted heel; 3 jab3-recover right fist lowers; 4 heavy-windup high rear elbow twist; 5 heavy-impact long palm strike with huge forward step; 6 heavy-recover palm low forward followthrough; 7 crouch-light-windup deep crouch left palm chambered; 8 crouch-light-impact crouched low left palm."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 crouch-light-recover low crouch hand pulls back; 2 crouch-heavy-windup kneeling torso coils rear arm; 3 crouch-heavy-impact low sweeping strike extended arm/weapon near ground; 4 crouch-heavy-recover low followthrough; 5 air-light-windup airborne bent legs fist tucked; 6 air-light-impact airborne short forward palm; 7 air-light-recover airborne palm retracts; 8 air-heavy-windup airborne both arms/weapon raised overhead."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 air-heavy-impact airborne twohand downward hammerpalm; 2 air-heavy-recover hands pull back knees curl; 3 skill-u-windup holds smartphone near cheek camera faces right; 4 skill-u-impact smartphone extended toward opponent photographer stance NO flash/VFX; 5 skill-u-recover phone returns to waist; 6 skill-i-windup palms crossed near sternum knees loaded; 7 skill-i-impact fast forward rush with both palms extended; 8 skill-i-recover forward rush settles one palm guarding."
+        },
+        {
+          "file": "mujica/nyamu/normal/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu, adult fashionable anime woman, lavender short bob with asymmetrical long side strand, warm pink-magenta eyes and confident playful official face. EXACT official casual outfit: black choker, grey offshoulder ruffled puffshortsleeve blouse with thin spaghetti shoulder straps, front pearl buttons, fitted black high-waisted mini skirt, bare legs, black ankle-strap heels, thin gold bracelet. Smartphone in free hand when relevant, no drumsticks/no mask in NORMAL form. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 skill-o-windup smartphone held upright in left hand right finger poised; 2 skill-o-impact threehit streaming finale right hand thrusts toward viewer while phone aims right NO VFX; 3 skill-o-recover finger taps phone with sly smile; 4 super-windup phone above head both feet planted; 5 super-impact wide confident camera-flash pose smartphone aimed outward free palm open NO flash; 6 super-recover phone lowers playful wink; 7 transform-prepare free hand touches choker; 8 transform-release dramatic open hand before eyes. KEEP NORMAL grey blouse/black skirt no mask."
+        }
+      ]
+    },
+    "stage": {
+      "groups": [
+        {
+          "file": "mujica/nyamu/stage/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER: 1 idle relaxed combat-ready instrument low; 2 walk-contact forward right foot heel plants long stride; 3 walk-pass feet pass narrow mid-stride; 4 guard-standing forearms/instrument braced diagonally chest high; 5 guard-crouch deep compact crouch guard; 6 dash-forward dramatic low forward lunge; 7 dash-back leans backward retreat left facing right; 8 jump-rise lifted bent knees rising airborne. All eight actual distinct poses."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jump-fall legs extend to descend; 2 landing deep knees with lowered torso; 3 hit-high head/shoulders recoil backward; 4 hit-low fold body at abdomen; 5 knockdown-fall body tips backward diagonal airborne; 6 knockdown-ground lie fully horizontal on back with bent knees, fit complete body within cell; 7 getup one palm pushes floor one knee planted; 8 victory head up free hand lifted. Draw 8 distinct poses."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 throw-windup both drumsticks rear elbows pulled back; 2 throw-release free arm pushes right one drumstick in each hand; 3 jab1-windup right stick beside shoulder; 4 jab1-impact fast right stick horizontal poke; 5 jab1-recover right stick retracts; 6 jab2-windup left stick above opposite shoulder; 7 jab2-impact left stick diagonal cross-body sweep; 8 jab2-recover left stick retracts. Distinct right poke vs left sweep."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jab3-windup both sticks high crossed; 2 jab3-impact both sticks rising double uppercut; 3 jab3-recover sticks open to sides; 4 heavy-windup both sticks far above head; 5 heavy-impact heavy two-stick downward chop; 6 heavy-recover sticks down forward knees bent; 7 crouch-light-windup deep crouch right stick tucked; 8 crouch-light-impact low crouching stick poke."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 crouch-light-recover low crouch hand pulls back; 2 crouch-heavy-windup kneeling torso coils rear arm; 3 crouch-heavy-impact low sweeping strike extended drumstick near ground; 4 crouch-heavy-recover low followthrough; 5 air-light-windup airborne bent legs right stick tucked; 6 air-light-impact airborne short forward stick poke; 7 air-light-recover airborne stick retracts; 8 air-heavy-windup airborne both drumsticks raised overhead."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 air-heavy-impact airborne both sticks downward dramatic double strike; 2 air-heavy-recover sticks pull back knees tucked; 3 skill-u-windup right stick points up left stick across waist; 4 skill-u-impact rapid two-stick hits one down one forward, dynamic shoulders NO VFX; 5 skill-u-recover both sticks return guard; 6 skill-i-windup low crouch legs prepare hop; 7 skill-i-impact hop-stomp right foot forcefully extends downward both sticks lifted; 8 skill-i-recover land low with left knee bent."
+        },
+        {
+          "file": "mujica/nyamu/stage/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character Yutenji Nyamu/Amoris, adult fashionable anime woman, lavender bob with asymmetrical longer side strand and warm pink eyes. MANDATORY official Amoris ornate black lace masquerade EYE mask, eyes visible through holes, nose tip and mouth uncovered. EXACT official-stage-card costume: fitted black/gold corset waistcoat with vertical gold pinstripes high collar, red rose detail across chest, red gemstone brooch, sheer wide pale chiffon sleeves, crimson short shorts, long black split coattails, garter bands and sheer red thighhigh stockings, crimson heels. Two wooden drumsticks, one in each hand. NO physical drumset. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 skill-o-windup two drumsticks cross high above head; 2 skill-o-impact fourhit drum combo finale sticks stretched opposite diagonals torso twist NO drumset/no VFX; 3 skill-o-recover sticks lift chestheight; 4 super-windup legs wide both sticks lift symmetrically high; 5 super-impact eighth-hit finale powerful double downward stick strike with forward lunge NO VFX/no drumset; 6 super-recover arms spread triumphant; 7 transform-prepare one stick lowers hand touches ornate EYE mask; 8 transform-release open hand flourish beside face. Preserve SAME STAGE shorts stockings mask all8."
+        }
+      ]
+    }
+  }
+}

@@ -1,20 +1,22 @@
 (function (root) {
   'use strict';
+  const mujica = typeof module !== 'undefined' && module.exports ? require('./mujica.js') : root.MygoMujica;
+  const mewtype = typeof module !== 'undefined' && module.exports ? require('./mewtype.js') : root.MygoMewtype;
   const KEYS1 = Object.freeze({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', crouch: 'KeyS', light: 'KeyJ', heavy: 'KeyK', blink: 'KeyL', skill1: 'KeyU', skill2: 'KeyI', skill3: 'KeyO', transform: 'KeyH', super: 'KeyP' });
   const KEYS2 = Object.freeze({ left: 'ArrowLeft', right: 'ArrowRight', jump: 'ArrowUp', crouch: 'ArrowDown', light: 'Numpad1', heavy: 'Numpad2', blink: 'Numpad3', skill1: 'Numpad4', skill2: 'Numpad5', skill3: 'Numpad6', transform: 'Numpad7', super: 'Numpad8' });
   const schemes = [
-    { base: ['shield', 'wave', 'special'], super: 'super', variants: { down1: 'rising', forward1: 'thrust', down2: 'sonic', back2: 'waveLight', forward2: 'waveHeavy', down3: 'rush', back3: 'spin', airDown3: 'dive' } },
-    { base: ['summon', 'wave', 'special'], super: 'soyoSuper', variants: { down2: 'heal' } },
-    { base: ['tomoriEcho', 'tomoriNote', 'tomoriChorus'], transform: 'penguinTransform', variants: {} },
+    { base: ['shield', 'wave', 'special'], super: 'super', variants: { down1: 'rising', forward1: 'thrust', back1: 'anonCry', down2: 'sonic', back2: 'waveLight', forward2: 'waveHeavy', down3: 'rush', back3: 'spin', airDown3: 'dive' } },
+    { base: ['summon', 'wave', 'special'], super: 'soyoSuper', variants: { down2: 'heal', forward2: 'soyoCutline' } },
+    { base: ['tomoriEcho', 'tomoriNote', 'tomoriChorus'], super: 'tomoriSuper', transform: 'penguinTransform', variants: {} },
     { base: ['ranaRush', 'ranaParfait', 'ranaSolo'], super: 'ranaSuper', variants: { down1: 'ranaRise', forward1: 'ranaSlide', down2: 'ranaTune', forward2: 'ranaChord', down3: 'ranaPick', airDown3: 'ranaDive' } },
     { base: ['rikiRoll', 'rikiShock', 'rikiEight'], super: 'rikiSuper', variants: { down1: 'rikiOverhead', forward1: 'rikiRush', down2: 'rikiCalibrate', forward2: 'rikiRise' } },
   ];
-  const penguin = { base: ['penguinCry', 'penguinHey', 'penguinCall'], transform: 'penguinTransform', variants: { forward1: 'penguinKick', down2: 'penguinLaugh', airDown3: 'penguinKick' } };
-  function schemeFor(f) { return f.character === 2 && f.penguin ? penguin : schemes[f.character]; }
+  const penguin = { base: ['penguinCry', 'penguinHey', 'penguinCall'], super: 'penguinSuper', variants: { forward1: 'penguinKick', down2: 'penguinLaugh', airDown3: 'penguinKick' } };
+  function schemeFor(f) { return f.character >= 10 ? mewtype.schemeFor(f) : f.character >= 5 ? mujica.schemeFor(f) : f.character === 2 && f.penguin ? penguin : schemes[f.character]; }
   function resolveSkill(f, input, pressed, airborne) {
     const scheme = schemeFor(f);
     if (pressed('super')) return scheme.super || null;
-    if (pressed('transform')) return !f.penguin && scheme.transform || null;
+    if (pressed('transform') && scheme.transform) return !f.penguin && scheme.transform || null;
     for (let i = 1; i <= 3; i++) if (pressed('skill' + i)) {
       const gesture = input.pressDirections?.['skill' + i] || input;
       const horizontal = (Number(!!gesture.right) - Number(!!gesture.left)) * f.facing;
@@ -36,7 +38,7 @@
       const n = Number(variant.slice(-1)); const prefix = directions[variant.slice(0, -1)];
       rows.push({ move, key: prefix + '＋' + ['U', 'I', 'O'][n - 1], key2: prefix + '＋' + (n + 3) });
     }
-    rows.push({ move: 'throw', key: '后＋U / 前＋O', key2: '后＋4 / 前＋6' });
+    rows.push({ move: 'throw', key: s.variants.back1 ? '前＋O' : '后＋U / 前＋O', key2: s.variants.back1 ? '前＋6' : '后＋4 / 前＋6' });
     if (f.character === 0) rows.push({ move: 'overhead', key: '前＋K', key2: '前＋2' });
     if (s.transform) rows.push({ move: s.transform, key: 'H', key2: '7' });
     if (s.super) rows.push({ move: s.super, key: 'P', key2: '8' });

@@ -1,0 +1,137 @@
+{
+  "key": "nonoka",
+  "id": 14,
+  "name": "宫永野乃花",
+  "references": [
+    "mewtype/reference/nonoka-initial-fullbody.jpg",
+    "mewtype/arale/virtual/group-1-v1.png"
+  ],
+  "forms": {
+    "virtual": {
+      "groups": [
+        {
+          "file": "mewtype/nonoka/virtual/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 1 of 7. Top row: 1 idle standing feet apart guitar at waist calm ready; 2 walk contact long forward step heel down guitar held; 3 walk pass rear leg lifted passing front knee guitar steady; 4 standing guard bent knees guitar held vertically protect chest. Bottom row: 5 deep crouching guard guitar shields face; 6 forward dash low running lunge guitar behind torso hair streams back; 7 backward dash recoiling step body upright guitar raised defensive; 8 jumping rise both feet airborne knees tucked guitar diagonally lifted. These named poses are metadata only, DO NOT WRITE TEXT: idle,walk-contact,walk-pass,guard-standing,guard-crouch,dash-forward,dash-back,jump-rise."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-2-v3.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 2 of 7. Top row: 1 falling from jump one leg extended down guitar close; 2 deep landing squat one hand balances guitar; 3 hit high upper torso recoils head backward guitar clutched; 4 hit low torso folded forward one knee buckles. Bottom row: 5 knockdown falling sideways both feet off ground guitar held across body; 6 knocked down lying fully horizontal on side legs and guitar entirely within cell; 7 getting up one knee on ground pushing with free hand guitar supported; 8 victory standing tall smiling and raising guitar neck triumphantly. These named poses are metadata only, DO NOT WRITE TEXT: jump-fall,landing,hit-high,hit-low,knockdown-fall,knockdown-ground,getup,victory.\nANATOMY AND INSTRUMENT CORRECTION: exactly ONE intact guitar per figure. In final victory cell she holds her single pink guitar on its strap across waist with left hand supporting its ONE continuous neck; her raised right hand makes a peace sign and holds NO guitar headstock, NO extra neck, NO instrument fragment. All other actions match earlier description.\nMANDATORY SPACING REVISION: draw SMALL complete figures occupying only 58 percent of each cell WIDTH AND HEIGHT. LARGE TRANSPARENT blank margin on all FOUR sides. Exactly four columns by two rows, eight independent silhouettes. No figure crosses cell midpoint borders or touches a neighbor. The horizontal kicking or lying body must be tiny enough to fit its own cell entirely. NO cropping. Scale all eight figures down. Exactly ONE stylus or guitar per character, no duplicate held prop. Miyako uppercut cell2: only right arm raised holding single stylus, left arm holds puppet at chest and holds NO stylus."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 3 of 7. Top row: 1 throw windup low stance left arm reaches to grab opponent empty space right hand holds guitar; 2 throw release wide lunge left arm fully flings forward guitar strapped on back; 3 light pluck jab windup fingers drawn above guitar strings body turns back; 4 light pluck jab impact stepping forward strong pluck fingertips on strings guitar neck points right. Bottom row: 5 light pluck recover hand recoils chest height weight back; 6 hopping elbow windup low spring squat elbow bent forward guitar at hip; 7 hopping elbow impact airborne right elbow extended forward and upward knees tucked guitar on strap; 8 hopping elbow recover landing on lead leg elbow pulled inward torso returns. These named poses are metadata only, DO NOT WRITE TEXT: throw-windup,throw-release,jab-1-windup,jab-1-impact,jab-1-recover,jab-2-windup,jab-2-impact,jab-2-recover."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 4 of 7. Top row: 1 guitar-neck uppercut windup crouched twisting guitar held low; 2 uppercut impact rising on toe guitar neck thrust high right above head in steep diagonal; 3 uppercut recover guitar descending to waist torso leaning slightly forward; 4 heavy sweep windup deep twist guitar drawn far behind left hip but within cell. Bottom row: 5 heavy impact broad horizontal guitar sweep to right torso fully rotated legs spread; 6 heavy recover followthrough guitar low at right side rear heel lifted; 7 crouching light windup low kneel plucking hand poised back; 8 crouching light impact low lunge palm plucks strings guitar neck reaches forward low. These named poses are metadata only, DO NOT WRITE TEXT: jab-3-windup,jab-3-impact,jab-3-recover,heavy-windup,heavy-impact,heavy-recover,crouch-light-windup,crouch-light-impact."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 5 of 7. Top row: 1 crouch light recover squat weight pulled back plucking hand lowered; 2 crouch heavy windup kneeling guitar raised back over shoulder; 3 crouch heavy impact deep low sweeping lunge guitar blade-like across front near ankle level; 4 crouch heavy recover low seated squat guitar returning upright. Bottom row: 5 air light windup airborne knees bent hand pulled to strings guitar waist; 6 air light impact airborne forward leg extended pick hand plucks strongly guitar forward; 7 air light recover airborne knees folding hand back guitar close; 8 air heavy windup airborne body arches back guitar raised over shoulder. These named poses are metadata only, DO NOT WRITE TEXT: crouch-light-recover,crouch-heavy-windup,crouch-heavy-impact,crouch-heavy-recover,air-light-windup,air-light-impact,air-light-recover,air-heavy-windup."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 4 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 6 of 7. Top row: 1 air heavy impact airborne descending overhead guitar swing two hands guitar low forward legs curled behind; 2 air heavy recover airborne torso folds guitar across knees; 3 U double swipe windup wide grounded stance guitar drawn behind shoulder; 4 U double swipe impact strong second diagonal guitar slash forward body twisted both arms extended no loose FX. Bottom row: 5 U recover hips rotate back guitar low beside leg; 6 I sliding strum windup deep crouch back leg compressed guitar held waist-high pick hand cocked; 7 I impact powerful forward sliding lunge front foot extended rear knee almost floor body low strumming guitar held horizontally; 8 I recovery rises from low slide one knee bent guitar settling chest. These named poses are metadata only, DO NOT WRITE TEXT: air-heavy-impact,air-heavy-recover,skill-u-windup,skill-u-impact,skill-u-recover,skill-i-windup,skill-i-impact,skill-i-recover."
+        },
+        {
+          "file": "mewtype/nonoka/virtual/group-7-v1.png",
+          "columns": 3,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production 2D anime fighting-game sprite sheet. Character: Miyanaga Nonoka / 宫永野乃花 from BanG Dream MewType, in her INITIAL official virtual outfit. Reference image 1 defines identity and costume precisely: long flowing silver-lavender hair with braided side sections, large pink eyes, pink checked cap with black/pink bunny ears, black pink-trim choker, pink cropped button top with pink/white shoulder frills, pastel blue apron straps and waistband, pink gingham flared skirt with asymmetric white laced apron panel and blue ruffle hem, mismatched white and pink gloves, colorful wrist ring, knee bandages, pink/blue high-top sneakers and socks. Add one solid pink electric guitar on strap in every pose for fighting. Reference image 2 is rendering style only, never copy her character or clothes. Crisp polished anime linework, rich clean cel shading. ADULT normal 6.5-7 heads body proportions, long legs, NOT chibi. Side-view 3/4 fighter facing RIGHT. Transparent alpha background, no colored backdrop, no ground or shadows, no labels, no borders, no typography, no loose particles or disconnected effects. Every cell has exactly ONE complete character holding ONE guitar, all anatomy hair ears shoes and entire guitar visibly inside its own cell with generous margin. No touching across cells, no overlapping figures. Keep entire outline as one connected silhouette. Large 1536x1024 or higher landscape sheet, 3 equal columns and 2 equal rows, exact row-major sequence. Each figure occupies about 75% cell height, width <=80% of cell with transparent gutters. Distinct fully redrawn action silhouettes. Sheet 7 of 7. Top row: 1 O hopping overhead windup compress into squat guitar raised vertically behind shoulder; 2 O impact airborne leap overhead guitar blow both arms extend downward-right and one knee raised; 3 O recovery deep bent-knee landing guitar low forward. Bottom row: 4 super six hit rainbow guitar finale windup wide grounded stance guitar lifted upright face concentrated; 5 super impact powerful final concert strum arched torso guitar diagonal across front legs spread pick hand fully extended upward, rainbow colors only as bright connected glow hugging guitar strings; 6 super recovery victorious exhausted one knee bent guitar settled low hair still sweeping behind. These named poses are metadata only, DO NOT WRITE TEXT: skill-o-windup,skill-o-impact,skill-o-recover,super-windup,super-impact,super-recover."
+        }
+      ]
+    }
+  },
+  "review": {
+    "status": "complete: source sheets, 54-pose packed proof and actual browser rendering checked",
+    "generation": "built-in imagegen",
+    "checks": [
+      "initial virtual costume and normal anime proportions",
+      "complete figures and consistent identity/palette",
+      "three distinct normal attack stages",
+      "54 named actual drawings; no missing-frame substitution",
+      "both-player skill phases drawn in final offline game"
+    ],
+    "proof": "mewtype/nonoka/virtual-proof.png"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "file": "index.html",
+  "characters": [
+    {
+      "id": 6,
+      "normal_and_stage_skills": 4,
+      "normals_and_blink": "pass",
+      "2p": "pass",
+      "cpu": "pass",
+      "menu_freeze_expiry": "pass"
+    },
+    {
+      "id": 7,
+      "normal_and_stage_skills": 4,
+      "normals_and_blink": "pass",
+      "2p": "pass",
+      "cpu": "pass",
+      "menu_freeze_expiry": "pass"
+    },
+    {
+      "id": 5,
+      "normal_and_stage_skills": 4,
+      "normals_and_blink": "pass",
+      "2p": "pass",
+      "cpu": "pass",
+      "menu_freeze_expiry": "pass"
+    },
+    {
+      "id": 8,
+      "normal_and_stage_skills": 4,
+      "normals_and_blink": "pass",
+      "2p": "pass",
+      "cpu": "pass",
+      "menu_freeze_expiry": "pass"
+    },
+    {
+      "id": 9,
+      "normal_and_stage_skills": 4,
+      "normals_and_blink": "pass",
+      "2p": "pass",
+      "cpu": "pass",
+      "menu_freeze_expiry": "pass"
+    }
+  ],
+  "touch_transform_skill": "pass",
+  "mobile_sizes": [
+    844,
+    390
+  ],
+  "offline": true,
+  "errors": []
+}

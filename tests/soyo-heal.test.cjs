@@ -28,7 +28,7 @@ test('heal caps health, rejects full health, insufficient energy, airborne and n
 test('incoming hits interrupt channel and spend the cost without granting delayed healing or invulnerability', () => {
   const m = fight(), a = m.fighters[0]; a.x = 420; m.fighters[1].x = 485;
   m.advance(10, { heal: true }, { light: true }); m.advance(1000);
-  assert.equal(a.hp, 40); assert.ok(a.healCooldown > 0); assert.equal(a.attack, null); // Startup takes the existing counter-hit bonus.
+  assert.equal(a.hp, 43); assert.ok(a.healCooldown > 0); assert.equal(a.attack, null); // Startup takes the existing counter-hit bonus.
   assert.ok(!m.drainEvents().some(e => e.type === 'heal'));
 });
 test('independent cooldown forbids repeat heals even with practice energy recovery', () => {

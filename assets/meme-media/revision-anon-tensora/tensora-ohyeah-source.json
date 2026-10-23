@@ -1,0 +1,96 @@
+{
+  "asset": "tensora-ohyeah.mp3",
+  "source": {
+    "platform": "bilibili",
+    "url": "https://www.bilibili.com/video/BV1WA9kBfEbx/",
+    "bvid": "BV1WA9kBfEbx",
+    "cid": 37917557795,
+    "page": 1,
+    "title": "欧耶欧耶单手运球超级感谢@欧耶玩偶工坊 制作出的可爱肥肥天素罗[打call]",
+    "uploader": "PastelPlushPuppy",
+    "uploader_mid": 10047520,
+    "description": "欧耶欧耶单手运球\n超级感谢@欧耶玩偶工坊 制作出的可爱肥肥天素罗[打call]",
+    "start_seconds": 1.9,
+    "end_seconds": 2.87
+  },
+  "processing": {
+    "origin": "Direct excerpt of original published video audio, not synthesized speech",
+    "source_audio_codec": "AAC 44100Hz stereo",
+    "output_audio_codec": "MP3 44100Hz mono 128kbps",
+    "gain_db": 5,
+    "fade_in_seconds": 0.005,
+    "fade_out_seconds": 0.015,
+    "speed_change": false,
+    "pitch_change": false,
+    "triple_preview_call_offsets_seconds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "verification": {
+    "source_visual": "Reviewed source video contact sheet: chunky yellow chick-suit Soyo plush bounced by hand. Source uploader and title explicitly identify 天素罗 and 欧耶.",
+    "waveform": "Selected exactly one two-syllable unit from source 1.90 to 2.87 seconds, with quiet boundaries.",
+    "asr_supplementary": [
+      {
+        "model": "faster-whisper small int8",
+        "context": "first 15 seconds, prompt 天素罗宝宝说：欧耶，欧耶。",
+        "text": "欧耶，欧耶，欧耶，欧耶。",
+        "selected_word_interval_seconds": [
+          1.88,
+          2.62
+        ]
+      },
+      {
+        "model": "faster-whisper base int8",
+        "context": "single selected excerpt, no prompt",
+        "text": "哎呀",
+        "note": "Short stylized syllables are phonetically ambiguous to ASR; source title/description and repeated waveform provide context."
+      }
+    ],
+    "auditory_review": "No listening-capable perception tool was exposed to this agent; no claim of human audition.",
+    "recommended_runtime_call_gap_ms": 1000,
+    "decode_checks": {
+      "tensora-ohyeah.mp3": {
+        "decoded_duration_seconds": 0.97,
+        "samples": 42777,
+        "sample_rate": 44100,
+        "peak": 0.768583,
+        "rms": 0.207794,
+        "sha256": "693c7ab54ca60687caf2123275a69c55a0eb5a4f587f4d3e63d4082c7ebb76ea",
+        "bytes": 16761
+      },
+      "tensora-ohyeah-three.mp3": {
+        "decoded_duration_seconds": 2.97,
+        "samples": 130977,
+        "sample_rate": 44100,
+        "peak": 0.730272,
+        "rms": 0.195412,
+        "sha256": "075eb6c2896b0ffb5af1a38fafa52949cbfab164e5b22ccf68ede6a1ef9b6ea2",
+        "bytes": 48526
+      }
+    }
+  },
+  "evidence_files": [
+    "tensora-ohyeah-source-evidence.json",
+    "tensora-ohyeah-source-frame.jpg",
+    "tensora-ohyeah-source-waveform.png"
+  ],
+  "related_sources": [
+    {
+      "bvid": "BV18rxAzGErU",
+      "title": "天素罗欧耶一分钟",
+      "note": "Independent plush video and 欧耶 identification; includes introductory speech, not used for output."
+    },
+    {
+      "bvid": "BV1MjWbzBEtd",
+      "title": "小天素罗欧耶（纯享版）",
+      "note": "Description credits BV1PeWWzDENU; not used for output."
+    },
+    {
+      "bvid": "BV1PeWWzDENU",
+      "title": "和soyo玩得非常开心的小天素罗们",
+      "note": "Visually reviewed actual multiple yellow chick mini-plush summons next to large Soyo doll; not used for output."
+    }
+  ]
+}

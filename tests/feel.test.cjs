@@ -1,7 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {Match,FEEL}=require('../src/engine.js');
-function fight(character=0,terrain=null){const m=new Match({mode:'duel',characters:[character,0],terrain});m.start();m.advance(1000);m.fighters[1].x=1200;return m;}
+function fight(character=0,terrain=null){const m=new Match({mode:'duel',characters:[character,0],terrain});m.start();m.advance(1000);m.fighters[1].x=1200;m.fighters[0].energy=100;return m;}
 
 test('players can reverse direction and stop drifting in the air with normal attacks still available',()=>{
   for(const character of [0,1,2,'penguin']){

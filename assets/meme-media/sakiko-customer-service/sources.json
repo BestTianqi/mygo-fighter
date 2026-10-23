@@ -1,0 +1,25 @@
+{
+  "clips": [
+    {
+      "character": "sakiko",
+      "move": "mujica_6_normal_customer",
+      "slot": "u",
+      "voice": "meme_6_customer",
+      "label": "客服小祥·请稍候",
+      "audio": "assets/meme-media/sakiko-customer-service/sakiko-please-wait.mp3",
+      "start": 69.25,
+      "end": 70.95,
+      "bvid": "BV1sGZbY6E8H",
+      "cid": 25779115564,
+      "page": 1,
+      "title": "【中字】愚人节客服小祥全流程全结局",
+      "author": "Naohito_futa",
+      "source": "https://www.bilibili.com/video/BV1sGZbY6E8H/",
+      "official": "https://bang-dream.com/mineralnaturallife/",
+      "spokenJapanese": "今しばらくお待ちください",
+      "subtitle_zh": "请稍候",
+      "evidence": "官方2025愚人节矿泉天然生活活动的客服祥子电话语音；核对录屏字幕及日语转写，截取等待提示，原速原调。",
+      "sha256": "8c3cbc6a0b8d444e8419edd08da1c2c37b4db98b1a766e6310b0467d02b9da2d"
+    }
+  ]
+}

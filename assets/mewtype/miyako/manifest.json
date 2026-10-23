@@ -1,0 +1,139 @@
+{
+  "key": "miyako",
+  "id": 12,
+  "name": "藤都子",
+  "references": [
+    "mewtype/reference/miyako-initial-fullbody.jpg",
+    "mewtype/reference/miyako-official-draft.jpg",
+    "mewtype/reference/mewtype-initial-kv.png"
+  ],
+  "referenceSource": "https://note.com/miyako_yumemita/n/naa530bf6f31f",
+  "forms": {
+    "virtual": {
+      "groups": [
+        {
+          "file": "mewtype/miyako/virtual/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 idle feet apart puppet at chest and stylus down; 2 walk contact right foot ahead and left back; 3 walk passing left knee advancing opposite arm swing; 4 standing guard puppet and forearm cover face; 5 crouching guard knees deep bent torso low; 6 forward dash lean strongly right rear leg trailing; 7 backward evade lean left front hand guarding; 8 rising jump both feet airborne knees tucked."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 descending jump legs extend toward landing; 2 landing deep knees one hand braces; 3 high hit reaction head and chest recoil backward; 4 low hit reaction bending torso one hand at stomach; 5 knockdown falling almost horizontal backwards; 6 lying on side full horizontal body including both shoes fits inside cell; 7 getup one knee down right hand supporting ground; 8 victory smiling stylus raised and puppet near cheek."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 throw windup reach right hand forward puppet tucked left; 2 throw release twist waist and pull arms across body no opponent; 3 jab1 windup stylus held close chest; 4 jab1 impact quick straight right-hand stylus poke right; 5 jab1 recovery retract wrist elbow bent; 6 jab2 windup puppet arm pulled back and hips twisted; 7 jab2 impact wide left-hand puppet backhand to right chest height; 8 jab2 recovery left arm folds across torso after swing."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-4-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 jab3 windup hips lowered stylus below waist; 2 jab3 impact rising stylus uppercut right arm high; 3 jab3 recovery elbow high settling down; 4 heavy windup right knee raised lean backward puppet arm balanced; 5 heavy impact long standing right side kick to right waist height; 6 heavy recovery retract kicked knee torso twists back; 7 crouch light windup deep crouch stylus at shoulder; 8 crouch light impact low straight stylus poke at opponent shin height.\nMANDATORY SPACING REVISION: draw SMALL complete figures occupying only 58 percent of each cell WIDTH AND HEIGHT. LARGE TRANSPARENT blank margin on all FOUR sides. Exactly four columns by two rows, eight independent silhouettes. No figure crosses cell midpoint borders or touches a neighbor. The horizontal kicking or lying body must be tiny enough to fit its own cell entirely. NO cropping. Scale all eight figures down. Exactly ONE stylus or guitar per character, no duplicate held prop. Miyako uppercut cell2: only right arm raised holding single stylus, left arm holds puppet at chest and holds NO stylus."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 crouch light recovery crouched wrist retracts; 2 crouch heavy windup one knee folded low and hips twist; 3 crouch heavy impact extended leg low sweeping kick right; 4 crouch heavy recovery sweeping leg folds back under hips; 5 air light windup airborne knees tucked stylus at chest; 6 air light impact airborne stylus thrust forward-right; 7 air light recovery airborne wrist returns legs extend down; 8 air heavy windup airborne one knee raised heel prepared above."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 4 columns by 2 rows, exactly 8 complete drawings. Read left to right top row then bottom row. 1 air heavy impact airborne downward heel kick right other knee tucked; 2 air heavy recovery airborne both knees regroup; 3 U flying comic pages windup stylus at cheek left puppet cradles small book; 4 U impact sharp right wrist forward casting drawing gesture wide stance with one tiny page attached to stylus tip; 5 U recovery stylus lowers torso relaxes; 6 I foreshadow trap windup deep crouch stylus points toward ground; 7 I impact one knee down right hand traces small panel connected near stylus on floor; 8 I recovery standing rises puppet held forward and right hand drawn back."
+        },
+        {
+          "file": "mewtype/miyako/virtual/group-7-v1.png",
+          "columns": 3,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover"
+          ],
+          "prompt": "Production 2D anime fighting-game sprite sheet of Fuji Miyako 藤都子 from Mugendai MewType. Exact INITIAL virtual avatar from references: first image defines face and upper costume colors; second image defines entire body including tights and shoes, third image final official colored illustration confirms design. Draw ONLY Miyako, not other people. Normal slender 6.8-head anime proportions, long legs, NOT chibi. Short dark-purple bob hair, soft violet eyes, white pale-pink headband, black translucent cat-eared veil edged violet with gold stars, small white angel wings, pink frilled choker with gold star, white off-shoulder collar panel over black corset with gold crisscross laces, black split flared skirt and cape panels with gold stars, pale pink layered frilled underskirt, crossed dark thigh straps, lavender/dark translucent star-patterned tights with gold crisscross shin accents, dark-purple flat ankle shoes. Fluffy white and pale pink Marukun puppet with star decorations attached on left hand/forearm in every pose; right hand holds short dark drawing stylus. Exactly two arms and two legs per figure. Keep identical costume and hair colors all frames. Side-view fighter facing RIGHT, face slightly 3/4 visible. Polished crisp anime linework and clean cel shading matching official 2D face. Entire body, veil, wings, shoes, puppet and stylus inside each cell. Transparent alpha background, no backdrop, no gradient, no floor, no cast shadow, no labels/text/panels/grid. No detached magic particles; all props connected to body. One complete character per equal cell, large transparent margins on all four sides. Figures occupy at most 70% cell width and 78% cell height; never touch neighbors. All poses are freshly drawn distinctly, not copies of one standing pose. Wide landscape sheet 3 columns by 2 rows, exactly 6 complete drawings. Read left to right top row then bottom row. 1 O deadline line windup stylus pulled behind shoulder body twists; 2 O impact long rightward stylus slash lunge right arm fully extended left puppet close chest; 3 O recovery arm follows across waist rear heel lifted; 4 P final chapter windup deep wide crouch stylus raised above head and puppet held forward; 5 P impact dramatic upright drawing gesture right stylus arm sweeps high and left puppet arm extends diagonally low, exactly two arms, small connected rectangular page outline around stylus only; 6 P recovery kneeling one knee stylus lowered and puppet at shoulder tired smile."
+        }
+      ]
+    }
+  },
+  "review": {
+    "status": "complete: source sheets, 54-pose packed proof and actual browser rendering checked",
+    "generation": "built-in imagegen",
+    "checks": [
+      "initial virtual costume and normal anime proportions",
+      "complete figures and consistent identity/palette",
+      "three distinct normal attack stages",
+      "54 named actual drawings; no missing-frame substitution",
+      "both-player skill phases drawn in final offline game"
+    ],
+    "proof": "mewtype/miyako/virtual-proof.png"
+  }
+}

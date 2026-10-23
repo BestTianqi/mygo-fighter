@@ -1,0 +1,50 @@
+[
+  {
+    "file": "anon-u-effort.mp3",
+    "decoded": true,
+    "duration": 2.76,
+    "asr": "またダメにならないように頑張ればよくない"
+  },
+  {
+    "file": "anon-i-retry.mp3",
+    "decoded": true,
+    "duration": 4.12,
+    "asr": "一回ダメになってもやり直せるって思わないと"
+  },
+  {
+    "file": "anon-o-long-life.mp3",
+    "decoded": true,
+    "duration": 1.33,
+    "asr": "人生長いなし"
+  },
+  {
+    "file": "tomori-u-lifetime.mp3",
+    "decoded": true,
+    "duration": 3.55,
+    "asr": "遺症…満度してくれる…"
+  },
+  {
+    "file": "tomori-i-our-song.mp3",
+    "decoded": true,
+    "duration": 2.75,
+    "asr": "あ、みんなで作った曲だから"
+  },
+  {
+    "file": "tomori-o-my-fault.mp3",
+    "decoded": true,
+    "duration": 2.8,
+    "asr": "多分、私のせい"
+  },
+  {
+    "file": "rana-u-do-it.mp3",
+    "decoded": true,
+    "duration": 1.05,
+    "asr": "やる"
+  },
+  {
+    "file": "rana-o-interesting.mp3",
+    "decoded": true,
+    "duration": 2.04,
+    "asr": "面白い音"
+  }
+]

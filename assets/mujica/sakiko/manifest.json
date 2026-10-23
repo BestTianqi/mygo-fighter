@@ -1,0 +1,265 @@
+{
+  "key": "sakiko",
+  "id": 6,
+  "name": "丰川祥子",
+  "references": [
+    {
+      "path": "mujica/sakiko/reference/mujica_sakiko_casual_official.png",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/sakiko/reference/mujica_sakiko_stage_official.png",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/sakiko/reference/mujica_sakiko_face_official.jpg",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/sakiko/reference/masked-five-anime-reference.jpg",
+      "source": "Shared local mask shape reference D:/workspace/mygo-fighter/assets/mujica/reference/masked-five-anime-reference.jpg; bottom-right Sakiko black lace eye mask only; NOT style or hair color reference."
+    },
+    {
+      "path": "mujica/sakiko/reference/masked-five-keyvisual.jpg",
+      "source": "Official TV key visual shared local D:/workspace/mygo-fighter/assets/mujica/reference/masked-five-keyvisual.jpg; https://anime.bang-dream.com/avemujica/"
+    }
+  ],
+  "forms": {
+    "normal": {
+      "groups": [
+        {
+          "file": "mujica/sakiko/normal/group-1-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Recreate presence sheet with ALL character silhouettes fully inside canvas and plenty top margin. Eight poses in strict order: 1 idle hands ready dignified; 2 walk-contact right foot forward planted; 3 walk-pass left foot passing lifted heel and different arms; 4 standing guard two palms before chest; 5 crouch guard low; 6 forward dash long stride lean right; 7 backdash lean left palms out; 8 jump rise knees curled hair upward."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 descending jump knees open arms wide; 2 deep landing one hand near ground knees bent; 3 high hit upper torso recoils head back hands thrown; 4 low hit doubles forward abdomen gripped; 5 knockdown falling backward diagonal body feet flung up; 6 knocked down lying horizontal on side knees bent; 7 getup pushing off ground on one palm one foot; 8 victory standing elegant slight bow one hand at heart."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 throw windup both hands drawn back palm claws ready to push; 2 throw release lunging two palms forward high-low; 3 jab1 windup right hand near shoulder left guarding; 4 jab1 impact quick straight right open-palm thrust chest height; 5 jab1 recover right wrist withdrawing torso upright; 6 jab2 windup left elbow coiled hips turned; 7 jab2 impact LEFT backhand strike across shoulder height hips pivoted; 8 jab2 recover left arm across chest regaining stance. J1 straight palm and J2 turning backhand visibly DIFFERENT."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 jab3 windup BOTH elbows high body lowering weight back; 2 jab3 impact lunging BOTH palms extending together at chest and waist; 3 jab3 recover hands open descending weight forward; 4 heavy windup right palm raised overhead left reaching; 5 heavy impact dramatic downward diagonal chopping right palm full torso bend; 6 heavy recover low extended right arm exhale; 7 crouch light windup low squat right wrist near ribs; 8 crouch light impact short low right palm to shin height."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 crouch light recover low squat right hand returns chest; 2 crouch heavy windup crouched both palms coiled at left hip; 3 crouch heavy impact low sweeping two-palm outward thrust; 4 crouch heavy recover kneeling palms relax downward; 5 air light windup floating bent knees right palm coiled; 6 air light impact floating single short palm thrust right; 7 air light recover legs tucking right hand pulled back; 8 air heavy windup airborne two hands raised overhead back arched."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 air heavy impact airborne two-handed downward palm slam legs trailing; 2 air heavy recover airborne arms down knees tucked for descent; 3 skill U windup piano greeting BOTH hands hovering like keyboard playing fingers curved waist height; 4 skill U impact poised upright right fingers sharply pressing outward in pianist flourish; 5 skill U recover fingers lifting left hand balanced; 6 skill I windup tea-party refusal chin proud left hand touching chest right palm rising; 7 skill I impact BOTH open palms refusing before face torso low grounded defensive stance; 8 skill I recover one palm maintained other returns to heart."
+        },
+        {
+          "file": "mujica/sakiko/normal/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. NORMAL form cream long puff sleeve blouse, black neck bow ribbon, dark waistband, grey diamond-plaid flared below-knee skirt, white ankle socks, black Mary Janes. No mask. Pianist using graceful open palms and conductor fingers, no instrument prop. Eight poses in strict order: 1 skill O windup cold expression one palm near shoulder body leaning away; 2 skill O impact emphatic firm one-hand outward PUSH full arm extended and forward step; 3 skill O recover turns face aside right wrist lowered; 4 super windup nostalgic piano both hands close at heart closed eyes; 5 super impact past piano melody BOTH arms gracefully spread out conductor gesture weight lifted on toes; 6 super recover hands lowering resigned refined look; 7 transform prepare upright both hands crossed at heart hair rising gently; 8 transform release same NORMAL outfit arms sweep wide face determined. No VFX no alternate clothes on normal form."
+        }
+      ]
+    },
+    "stage": {
+      "groups": [
+        {
+          "file": "mujica/sakiko/stage/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Reference3 masked collage bottom-right blue-haired girl gives ONLY eye-mask shape; preserve own blue hair and official costume from reference1. Eight poses in strict order: 1 idle hands ready dignified; 2 walk-contact right foot forward planted; 3 walk-pass left foot passing lifted heel and different arms; 4 standing guard two palms before chest; 5 crouch guard low; 6 forward dash long stride lean right; 7 backdash lean left palms out; 8 jump rise knees curled hair upward."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 descending jump knees open arms wide; 2 deep landing one hand near ground knees bent; 3 high hit upper torso recoils head back hands thrown; 4 low hit doubles forward abdomen gripped; 5 knockdown falling backward diagonal body feet flung up; 6 knocked down lying horizontal on side knees bent; 7 getup pushing off ground on one palm one foot; 8 victory standing elegant slight bow one hand at heart."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 throw windup both hands drawn back palm claws ready to push; 2 throw release lunging two palms forward high-low; 3 jab1 windup right hand near shoulder left guarding; 4 jab1 impact quick straight right open-palm thrust chest height; 5 jab1 recover right wrist withdrawing torso upright; 6 jab2 windup left elbow coiled hips turned; 7 jab2 impact LEFT backhand strike across shoulder height hips pivoted; 8 jab2 recover left arm across chest regaining stance. J1 straight palm and J2 turning backhand visibly DIFFERENT."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 jab3 windup BOTH elbows high body lowering weight back; 2 jab3 impact lunging BOTH palms extending together at chest and waist; 3 jab3 recover hands open descending weight forward; 4 heavy windup right palm raised overhead left reaching; 5 heavy impact dramatic downward diagonal chopping right palm full torso bend; 6 heavy recover low extended right arm exhale; 7 crouch light windup low squat right wrist near ribs; 8 crouch light impact short low right palm to shin height."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 crouch light recover low squat right hand returns chest; 2 crouch heavy windup crouched both palms coiled at left hip; 3 crouch heavy impact low sweeping two-palm outward thrust; 4 crouch heavy recover kneeling palms relax downward; 5 air light windup floating bent knees right palm coiled; 6 air light impact floating single short palm thrust right; 7 air light recover legs tucking right hand pulled back; 8 air heavy windup airborne two hands raised overhead back arched."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 air heavy impact airborne BOTH gloved hands slice down together legs trailing; 2 air heavy recover airborne arms retract and knees bend; 3 skill U black-key rupture windup fingers splayed two hands at left hip body wound; 4 skill U impact BOTH gloved palms play two emphatic simultaneous keyboard chords outward right at different heights, severe expression lunge; 5 skill U recover wrists lift fingers release; 6 skill I forgotten prison windup hands raised together interlaced above face; 7 skill I impact casting trap hands separated palms inward fingers framing a cage stern eyes forward grounded wide stance; 8 skill I recover one hand closes downward controlled."
+        },
+        {
+          "file": "mujica/sakiko/stage/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Toyokawa Sakiko, long powder periwinkle-blue twin tails with curled face-framing locks and small black ribbons, golden amber eyes, refined official serious 2D face. STAGE form classical Oblivionis costume exact reference: burgundy/red puff-sleeve top black large neck bow with blue oval gem, brown-laced black corset, layered asymmetric black charcoal cream gothic skirt with gold edgework, dark tights, tall black lace-up boots, black lace gloves. Mandatory official BLACK LACE MASQUERADE EYE MASK around both eyes across nose bridge, pointed scalloped eye edges, golden eyes visible through cutouts, mouth uncovered, mask visible in ALL eight poses including ground/transform. Do not use medical mouth mask. Conductor pianist gestures, no prop. Strictly match stage presence reference3 including BLACK EYE MASK in all eight. Eight poses in strict order: 1 skill O puppeteer's edict windup both gloved hands raised to head height fingers pinching imaginary threads; 2 skill O impact forcefully PULLS both hands back to torso elbows bent chest proud fingers tightly curling, wider stance; 3 skill O recover one hand held high curled other lowers; 4 super oracle finale windup BOTH arms crossed above head chin bowed knees bend; 5 super impact imposing upright conductor arms massively spread then one palm elevated to heavens severe commanding gaze; 6 super recover elegant gloved wrist lowered chest forward; 7 transform prepare gloved hands crossed at blue oval breast gem head bowed; 8 transform release STAGE MASK STAYS ON arms sweeping outward with confident open palm classic gothic skirt flared. No effects or threads actually drawn."
+        }
+      ]
+    }
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "qa": "All112 actual drawn poses visually inspected. Both56-pose forms pass strict transparent background, eight independent character extraction and source-edge audit. Stage all56 retain official black lace eye mask. Built-in image_gen original PNGs retained; selected corrected versions eliminate clipped hair/guitar edges. Normal and stage keep official identity and distinct clothing/actions."
+  }
+}

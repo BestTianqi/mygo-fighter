@@ -1,0 +1,38 @@
+{
+  "clips": [
+    {
+      "character": "mutsumi",
+      "move": "mujica_8_stage_toddler",
+      "voice": "meme_8_toddler",
+      "label": "我只有两岁",
+      "audio": "assets/meme-media/mortis-toddler/meme_8_toddler.mp3",
+      "start": 0,
+      "end": 1.5,
+      "bvid": "BV17uug6JEza",
+      "cid": 40714699317,
+      "page": 1,
+      "title": "我只有两岁！我要吃汉堡！",
+      "author": "埴安神袿姫",
+      "source": "https://www.bilibili.com/video/BV17uug6JEza/",
+      "evidence": "已核对原视频睦子米面部、字幕及语音，中文ASR确认0–1.48秒为我只有两岁，1.48–3秒为我要吃汉堡，后接哭喊。",
+      "sha256": "9440103a2941b826e6b59d1887b26ad9f98089d817ffa49de0dec178321f47c9"
+    },
+    {
+      "character": "mutsumi",
+      "move": "mujica_8_stage_burger",
+      "voice": "meme_8_burger",
+      "label": "我要吃汉堡",
+      "audio": "assets/meme-media/mortis-toddler/meme_8_burger.mp3",
+      "start": 1.5,
+      "end": 4.3,
+      "bvid": "BV17uug6JEza",
+      "cid": 40714699317,
+      "page": 1,
+      "title": "我只有两岁！我要吃汉堡！",
+      "author": "埴安神袿姫",
+      "source": "https://www.bilibili.com/video/BV17uug6JEza/",
+      "evidence": "已核对原视频睦子米面部、字幕及语音，中文ASR确认0–1.48秒为我只有两岁，1.48–3秒为我要吃汉堡，后接哭喊。",
+      "sha256": "ed903d2395dfedc95e4e4a292a18c62edece28bf4a647c7808486ae6028920ca"
+    }
+  ]
+}

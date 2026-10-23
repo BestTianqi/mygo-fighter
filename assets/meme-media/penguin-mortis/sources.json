@@ -1,0 +1,43 @@
+{
+  "penguinSuper": {
+    "character": "tomori",
+    "slot": "p",
+    "label": "司凤版春日影演唱",
+    "audio": "assets/meme-media/penguin-mortis/penguin-sifeng-haruhikage.mp3",
+    "start": 80,
+    "end": 88.1,
+    "bvid": "BV1XTad6oE8F",
+    "cid": 42329377775,
+    "page": 1,
+    "title": "🐧春日影 | 司凤版🐧",
+    "author": "川崎仁仁菜",
+    "source": "https://www.bilibili.com/video/BV1XTad6oE8F/?p=1",
+    "evidence": "第1分P明确标注司凤版；第2分P为高松灯翻唱版，本次未使用。保留企鹅原有视频插图与奥义动作，仅替换音源。",
+    "bytes": 98318,
+    "sha256": "1f514f70d53103760f808b6d059fc81a5bf5a4d4a40c4282760f23f6f0e2665b"
+  },
+  "references": [
+    "https://anime.bang-dream.com/avemujica/character/mutsumi/",
+    "https://bushiroad.com/media/36ab2fe8e377b1ba"
+  ],
+  "mortisSuper": {
+    "character": "mutsumi",
+    "slot": "p",
+    "label": "睦和她的乐队由我守护",
+    "audio": "assets/meme-media/penguin-mortis/mortis-stage-p.mp3",
+    "video": "assets/meme-media/penguin-mortis/mortis-stage-p.mp4",
+    "start": 39.29,
+    "end": 46.28,
+    "bvid": "BV1j8f5YdE6n",
+    "cid": 28038924686,
+    "page": 2,
+    "title": "Ave Mujica Mortis：「小睦已经死掉了」",
+    "author": "月夜-涙",
+    "source": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
+    "evidence": "第2分P中 Mortis 对祥子表示会保护睦和她的乐队；ASR 辅助定位，画面另做截帧核对。",
+    "sha256": {
+      "mortis-stage-p.mp3": "243d67bd402e3ed7e285df3257f8eacb914ffd95d423ac964b9f0aec80169438",
+      "mortis-stage-p.mp4": "38175c6abfafcb94b2d4e65e7456e9bea8ab6f0350eb936aeb645485e3a62ce2"
+    }
+  }
+}

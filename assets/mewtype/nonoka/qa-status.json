@@ -1,0 +1,51 @@
+{
+  "key": "nonoka",
+  "status": "incomplete-generation-service-unavailable",
+  "generatedSheets": 6,
+  "generatedDrawings": 48,
+  "requiredDrawings": 54,
+  "initialOutfitReference": "mewtype/reference/nonoka-initial-fullbody.jpg",
+  "sourceTool": "built-in image_gen",
+  "strictExtraction": {
+    "groups": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "drawingsPerGroup": 8,
+    "alphaVerifiedOnNeutralBacking": true
+  },
+  "visuallyAcceptedGroups": [
+    1,
+    4,
+    5
+  ],
+  "issues": [
+    {
+      "group": 2,
+      "pose": "victory",
+      "issue": "Detached headstock above raised hand; built-in redraw required."
+    },
+    {
+      "group": 3,
+      "pose": "jab-2-impact",
+      "issue": "Airborne silhouette is drawn with forward fist rather than clearly exposed bent striking elbow; targeted redraw recommended."
+    },
+    {
+      "group": 6,
+      "pose": "skill-u-windup",
+      "issue": "Doubled guitar neck; built-in redraw required."
+    },
+    {
+      "group": 7,
+      "issue": "Source sheet missing. Built-in imagegen connection failed repeatedly, including sequential retry and no-reference retry."
+    }
+  ],
+  "preview": "virtual-partial-proof.png",
+  "runtime": "virtual-partial-runtime.webp",
+  "fullPackStatus": "Not run: missing group 7; partial preview only.",
+  "doNotUseAsFinal": true
+}

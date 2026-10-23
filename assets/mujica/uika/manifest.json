@@ -1,0 +1,265 @@
+{
+  "key": "uika",
+  "id": 7,
+  "name": "三角初华",
+  "references": [
+    {
+      "path": "mujica/uika/reference/mujica_uika_casual_official.png",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/uika/reference/mujica_uika_stage_official.png",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/uika/reference/mujica_uika_face_official.jpg",
+      "source": "https://anime.bang-dream.com/avemujica/character/ ; original local reference D:/workspace/mota/images/candidates/official_redesign_20260920/official_refs/"
+    },
+    {
+      "path": "mujica/uika/reference/masked-five-anime-reference.jpg",
+      "source": "Shared local mask shape reference D:/workspace/mygo-fighter/assets/mujica/reference/masked-five-anime-reference.jpg; top-left Uika eye mask only; NOT style/hair color reference."
+    },
+    {
+      "path": "mujica/uika/reference/masked-five-keyvisual.jpg",
+      "source": "Official TV poster shared local D:/workspace/mygo-fighter/assets/mujica/reference/masked-five-keyvisual.jpg; https://anime.bang-dream.com/avemujica/"
+    }
+  ],
+  "forms": {
+    "normal": {
+      "groups": [
+        {
+          "file": "mujica/uika/normal/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Reference1 exact costume and hair; reference2 exact eyes face; reference3 drawing style only. Strict eight poses: 1 idle confident relaxed white guitar held across hips right hand near strings; 2 walk-contact right leg forward guitar balanced; 3 walk-pass left heel lifted knees passing different strumming hand; 4 standing guard guitar angled up diagonal across torso protects face; 5 crouch guard very low squat guitar neck tilted up; 6 dash forward leaning right running fast guitar trails diagonally; 7 dash back withdrawing left guitar pulled in front guard; 8 rising jump knees tucked guitar held diagonally neck high. Ensure cap and complete shoes/guitar tips INSIDE canvas."
+        },
+        {
+          "file": "mujica/uika/normal/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 descending jump legs drop guitar neck horizontal; 2 low landing knees deep one foot ahead guitar braced; 3 high hit shoulders recoil head back guitar swivels on strap but held; 4 low hit folding torso abdomen strain guitar lowered; 5 falling knockdown diagonal backward body legs raised guitar held securely; 6 lying knocked down horizontal on side guitar resting against torso still attached; 7 getup one hand pushes ground one knee planted guitar on strap held with other; 8 victory upright smile tilts head one hand waving idol greeting other holding guitar."
+        },
+        {
+          "file": "mujica/uika/normal/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 throw windup drawing guitar inward like hook close to chest feet planted; 2 throw release two hands pushing guitar BODY outward right with forward lunge no opponent; 3 jab1 windup right hand draws pick close to strings; 4 jab1 impact quick short downward STRUM one right wrist while left hand frets neck standing; 5 jab1 recover right pick hand rebounds above strings; 6 jab2 windup hips coil left guitar neck angled back; 7 jab2 impact guitar NECK quick short horizontal thrust to right chest height with left leg forward; 8 jab2 recover neck withdrawn torso rotates back. Clearly J1 strum and J2 neck thrust different poses."
+        },
+        {
+          "file": "mujica/uika/normal/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 jab3 windup entire guitar raised diagonally near left shoulder torso coiled; 2 jab3 impact broad forward guitar BODY sweep across right waist hip turning full follow-through; 3 jab3 recover guitar returns diagonally low front body; 4 heavy windup guitar raised over left shoulder two hands grip safe; 5 heavy impact heavy downward diagonal guitar-body strike lunge low; 6 heavy recover low guitar body right near knee neck left; 7 crouch light windup squat guitar neck close to right shoulder; 8 crouch light impact low short guitar-neck poke forward shin height."
+        },
+        {
+          "file": "mujica/uika/normal/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 crouch light recover squat neck retracts guitar near knees; 2 crouch heavy windup low torso twisting guitar body at back-left; 3 crouch heavy impact low wide guitar BODY sweep out right near ground one leg stretched; 4 crouch heavy recover low crouch guitar held before knees; 5 air light windup airborne bent knees guitar close torso pick hand back; 6 air light impact airborne quick downward STRUM with right wrist guitar neck right; 7 air light recover floating legs tuck pick hand withdraws; 8 air heavy windup airborne guitar raised overhead diagonally two hands."
+        },
+        {
+          "file": "mujica/uika/normal/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 air heavy impact airborne guitar BODY slam downward legs trail upward; 2 air heavy recover airborne guitar lowered knees tucked landing preparation; 3 skill U stardust chord windup upright guitar raised waist left fingers form chord right pick raised; 4 skill U impact expansive clear STRUM guitar white body forward right hand swings low fingers extended after pick; 5 skill U recover strum hand gently floats back smile; 6 skill I idol steps windup one heel lifted torso leans forward guitar close; 7 skill I impact long quick sideways dancing dash to RIGHT one leg extended behind guitar balanced body angled; 8 skill I recover elegant sliding stop feet cross guitar close body."
+        },
+        {
+          "file": "mujica/uika/normal/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. NORMAL CASUAL form exactly reference: black baseball cap, simple white short sleeve t-shirt tucked in long beige-grey A-line calf length skirt, white ankle socks, black high top canvas sneakers with white soles. NO mask. Idol quickstep graceful guitar combat. Strict eight poses: 1 skill O chasing stars combo windup neck angled high fingers ready pick hand coiled; 2 skill O impact fast energetic guitar solo torso twists one knee lifts right pick hand active; 3 skill O recover guitar solo resolves pick raised head lifts; 4 super to that star windup eyes lift sky right hand touches heart other supports guitar; 5 super impact guitar held diagonally one arm pointing far UP right index finger to distant star face hopeful eyes open; 6 super recover hand softly drops to strings tender smile; 7 transform prepare white guitar held close both hands touch body cap stays; 8 transform release NORMAL CASUAL outfit cap stays hair swings right hand extended in confident gesture guitar attached. No VFX stars or symbols drawn."
+        }
+      ]
+    },
+    "stage": {
+      "groups": [
+        {
+          "file": "mujica/uika/stage/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Reference1 costume exact, reference2 face and violet eyes, reference3 masked collage TOP-LEFT blonde character gives ONLY official eye-mask shape. DO NOT copy grey/white lighting hair from collage. Reference4 style only. Eight presence poses: 1 idle guitar ready; 2 walk contact; 3 walk pass; 4 standing guard guitar up; 5 crouch guard; 6 dash forward; 7 dash back; 8 jump rise.. Guitar and all hands complete; no cap, stage costume and eye mask in ALL eight."
+        },
+        {
+          "file": "mujica/uika/stage/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 descending jump legs drop guitar neck horizontal; 2 low landing knees deep one foot ahead guitar braced; 3 high hit shoulders recoil head back guitar swivels on strap but held; 4 low hit folding torso abdomen strain guitar lowered; 5 falling knockdown diagonal backward body legs raised guitar held securely; 6 lying knocked down horizontal on side guitar resting against torso still attached; 7 getup one hand pushes ground one knee planted guitar on strap held with other; 8 victory upright smile tilts head one hand waving idol greeting other holding guitar."
+        },
+        {
+          "file": "mujica/uika/stage/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 throw windup drawing guitar inward like hook close to chest feet planted; 2 throw release two hands pushing guitar BODY outward right with forward lunge no opponent; 3 jab1 windup right hand draws pick close to strings; 4 jab1 impact quick short downward STRUM one right wrist while left hand frets neck standing; 5 jab1 recover right pick hand rebounds above strings; 6 jab2 windup hips coil left guitar neck angled back; 7 jab2 impact guitar NECK quick short horizontal thrust to right chest height with left leg forward; 8 jab2 recover neck withdrawn torso rotates back. Clearly J1 strum and J2 neck thrust different poses."
+        },
+        {
+          "file": "mujica/uika/stage/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 jab3 windup entire guitar raised diagonally near left shoulder torso coiled; 2 jab3 impact broad forward guitar BODY sweep across right waist hip turning full follow-through; 3 jab3 recover guitar returns diagonally low front body; 4 heavy windup guitar raised over left shoulder two hands grip safe; 5 heavy impact heavy downward diagonal guitar-body strike lunge low; 6 heavy recover low guitar body right near knee neck left; 7 crouch light windup squat guitar neck close to right shoulder; 8 crouch light impact low short guitar-neck poke forward shin height."
+        },
+        {
+          "file": "mujica/uika/stage/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 crouch light recover squat neck retracts guitar near knees; 2 crouch heavy windup low torso twisting guitar body at back-left; 3 crouch heavy impact low wide guitar BODY sweep out right near ground one leg stretched; 4 crouch heavy recover low crouch guitar held before knees; 5 air light windup airborne bent knees guitar close torso pick hand back; 6 air light impact airborne quick downward STRUM with right wrist guitar neck right; 7 air light recover floating legs tuck pick hand withdraws; 8 air heavy windup airborne guitar raised overhead diagonally two hands."
+        },
+        {
+          "file": "mujica/uika/stage/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 air heavy impact airborne aggressive guitar BODY chop downward arms fully extending legs trail; 2 air heavy recover floating knees tuck guitar drawn down diagonally; 3 skill U crescent slash windup guitar raised high over left shoulder torso twisting; 4 skill U impact wide aggressive diagonal guitar BODY SLASH to right hip with deep lunge head low and white guitar crossing body; 5 skill U recover guitar held low right after slash body pivots; 6 skill I sliding solo windup very low knees bent guitar horizontal ready strum; 7 skill I impact extreme forward slide RIGHT long low right leg left leg trailing right hand powerfully strumming guitar; 8 skill I recover low slide stop neck tilts high pick hand returns."
+        },
+        {
+          "file": "mujica/uika/stage/group-7-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: stylized-concept. Production transparent 2D fighting game sprite sheet, normal anime 6.5-7 heads tall with slender long limbs, NEVER chibi. EXACTLY EIGHT original full-body poses in regular FOUR columns TWO rows equal cells, landscape. Read left to right top then bottom. All poses face screen RIGHT, three-quarter side view. Each cell is independent and all heads,hair,hands,feet,clothes must remain INSIDE its cell, large EMPTY TRANSPARENT margins on ALL FOUR sides, 10% padding above every hair strand and below shoes, no clipping even dynamic motion. Same character proportions and scale in every cell, crouch lies physically lower, fall/ground body may be horizontal but remains in cell. Official 2D anime clean thin lineart detailed face and cel shading. EXACT same identity and costume as refs, secondary sheet locks palette and style. No background, cast shadows, text, labels, borders, effects, weapons except specified instrument, glow, projectiles, floating symbols or motion trails. Truly transparent alpha. Each pose anatomically distinctly drawn, not translated repeats. CRITICAL FRAMING: draw each figure SMALLER in its tile, maximum upright height 74% of one row and maximum width 76% of one column. Leave generous empty TRANSPARENT gutters between rows and columns and around every figure, at least 12% at top and bottom. Canvas requested 2048 by 1536. NO body, bow, hair or shoe can touch canvas edges. Lighting clean neutral anime flat colors: do NOT add cyan/blue/white colored glow outlines or sparkles around hair; retain clean dark thin lineart with natural alpha antialias only. Misumi Uika / Doloris from Ave Mujica, official chin-to-shoulder length pale creamy blonde straight bob with soft pale peach-pink undersides, side swept fringe, violet-purple eyes, official graceful idol face, slender normal 6.5-7 head tall anime body. WHITE modern electric GUITAR with black pickups on black shoulder strap always physically attached, same guitar shape in all poses. STAGE form exactly classic Doloris reference: blonde bob no cap, black choker, cream yoke and black sweetheart bodice gold button row, dark brown laced waist corset, black asymmetric draped tailcoat dress with burgundy lining cream panel, black knee shorts with gold trim, pale gray knee boots with black laces/heels, black long flowing detached sleeves. Mandatory BLACK LACE MASQUERADE EYE MASK around BOTH eyes and nose bridge, pointed outer tips and eye cutouts revealing VIOLET eyes, NO mouth mask; uncovered mouth. Mask stays on in EVERY pose. White electric guitar attached by black shoulder strap. Strictly match STAGE presence reference3 eye mask/costume/hair/guitar. Eye mask stays on in ALL eight. CORRECTIVE REDRAW: ALL EIGHT figures smaller with large 15% transparent margins on every outer edge. Especially final bottom-right figure must be centrally placed in last cell with white guitar VERTICAL and guitar headstock well inside canvas; reserve a VERY WIDE empty transparent band at the RIGHT edge. No cropping. Stage movements sharper and more aggressive with wide stances. Strict eight poses: 1 skill O dirge soundwave windup head bows right pick hand close to heart guitar neck high; 2 skill O impact impassioned powerful STRUM white guitar thrust forward mouth open singing emphatically knees wide; 3 skill O recover solemn playing fingers return eyes narrowed; 4 super falling star dirge windup guitar lifted overhead diagonally both hands grip neck torso arch; 5 super impact massive descending guitar BODY strike two hands swing forward DOWN neck left torso deeply leaning forward one knee forward stance wide all full body visible; 6 super recover kneeling low guitar held near floor face up mouth slightly open; 7 transform prepare STAGE EYE MASK STAYS ON guitar hugged close right hand at breast; 8 transform release STAGE EYE MASK STAYS ON upright confident right hand high near her own head in expressive singer palm, other hand holds white guitar VERTICALLY CLOSE AGAINST CHEST, guitar neck points straight UP INSIDE her own body-width silhouette. No instrument or hand extends horizontally toward right edge. No drawn stars waves arcs projectiles or VFX."
+        }
+      ]
+    }
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "qa": "All112 actual drawn poses visually inspected. Both56-pose forms pass strict transparent background, eight independent character extraction and source-edge audit. Stage all56 retain official black lace eye mask. Built-in image_gen original PNGs retained; selected corrected versions eliminate clipped hair/guitar edges. Normal and stage keep official identity and distinct clothing/actions."
+  }
+}

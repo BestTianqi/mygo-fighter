@@ -1,0 +1,144 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "selected": "uika-crawl-sheet-raw-v1.png",
+  "canvas": {
+    "width": 1774,
+    "height": 887,
+    "mode": "RGBA"
+  },
+  "layout": {
+    "columns": 4,
+    "rows": 2,
+    "uniformGridExtractionSafe": false
+  },
+  "references": [
+    "D:/workspace/mygo-fighter/assets/mujica/uika/normal-idle.webp",
+    "D:/workspace/mygo-fighter/assets/mujica/uika/stage-idle.webp",
+    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_casual_official.png",
+    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_stage_official.png",
+    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_face_official.jpg"
+  ],
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "outfit": "normal",
+      "pose": "windup",
+      "approximateBounds": [
+        25,
+        100,
+        419,
+        442
+      ]
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "outfit": "normal",
+      "pose": "crawl-a",
+      "approximateBounds": [
+        418,
+        115,
+        958,
+        442
+      ]
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "outfit": "normal",
+      "pose": "crawl-b",
+      "approximateBounds": [
+        926,
+        112,
+        1418,
+        442
+      ]
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "outfit": "normal",
+      "pose": "recover",
+      "approximateBounds": [
+        1402,
+        55,
+        1765,
+        442
+      ]
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "outfit": "stage",
+      "pose": "windup",
+      "approximateBounds": [
+        26,
+        490,
+        432,
+        840
+      ]
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "outfit": "stage",
+      "pose": "crawl-a",
+      "approximateBounds": [
+        431,
+        510,
+        958,
+        842
+      ]
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "outfit": "stage",
+      "pose": "crawl-b",
+      "approximateBounds": [
+        940,
+        510,
+        1422,
+        842
+      ]
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "outfit": "stage",
+      "pose": "recover",
+      "approximateBounds": [
+        1382,
+        456,
+        1774,
+        844
+      ]
+    }
+  ],
+  "qa": {
+    "pass": [
+      "eight full-body 2D anime pose sprites",
+      "actual horizontal hands-and-knees crawl",
+      "reference casual outfit retained",
+      "reference stage shorts/corset/red-lined drape/boots retained",
+      "ornate stage eye mask retained",
+      "right-facing and expressive calling mouth",
+      "transparent alpha present",
+      "no guitar or captions",
+      "no conspicuous extra head or limbs"
+    ],
+    "unresolved": [
+      "crawl A/B visible arm silhouettes remain too similar after one targeted refinement",
+      "gutter alpha speckles and small neighboring bounds overlap require component-aware extraction/cleanup",
+      "far arms/legs partially occluded so exact opposite limb assignment is not guaranteed",
+      "generated scale differs across columns; align by actual character/ground during extraction"
+    ]
+  },
+  "refinement": {
+    "performed": true,
+    "selected": false,
+    "reason": "did not improve alternating arm stride or safe margins; original retained",
+    "source": "C:/Users/xtqtb/.codex/generated_images/01a15e92-32d6-7222-886e-3a332d50fd1d/exec-2b905e9e-93ba-42d0-8670-33042303154a.png"
+  }
+}

@@ -1,0 +1,2272 @@
+TAP version 13
+# Subtest: both approved idles remain; Anon movement and each dash direction have distinct poses
+ok 1 - both approved idles remain; Anon movement and each dash direction have distinct poses
+  ---
+  duration_ms: 3.2652
+  type: 'test'
+  ...
+# Subtest: jump art progresses through takeoff, rise, fall and landing, including elevated surfaces
+ok 2 - jump art progresses through takeoff, rise, fall and landing, including elevated surfaces
+  ---
+  duration_ms: 8.7545
+  type: 'test'
+  ...
+# Subtest: a normal keeps the existing impact drawing between new preparation and recovery frames
+ok 3 - a normal keeps the existing impact drawing between new preparation and recovery frames
+  ---
+  duration_ms: 0.3714
+  type: 'test'
+  ...
+# Subtest: guarding, high/body hit reactions and knockdown/getup have separate silhouettes
+ok 4 - guarding, high/body hit reactions and knockdown/getup have separate silhouettes
+  ---
+  duration_ms: 0.3228
+  type: 'test'
+  ...
+# Subtest: dedicated special poses are used at impact, while the yellow dragon super keeps its own atlas
+ok 5 - dedicated special poses are used at impact, while the yellow dragon super keeps its own atlas
+  ---
+  duration_ms: 0.2821
+  type: 'test'
+  ...
+# Subtest: selecting art is read-only and a paused match holds the same pose
+ok 6 - selecting art is read-only and a paused match holds the same pose
+  ---
+  duration_ms: 0.771
+  type: 'test'
+  ...
+# Subtest: a real crouching block keeps its low guard drawing throughout blockstun
+ok 7 - a real crouching block keeps its low guard drawing throughout blockstun
+  ---
+  duration_ms: 2.2807
+  type: 'test'
+  ...
+# Subtest: Anon back U is the new cry wave on either facing, with accurate throw help
+ok 8 - Anon back U is the new cry wave on either facing, with accurate throw help
+  ---
+  duration_ms: 1.9391
+  type: 'test'
+  ...
+# Subtest: other characters retain their own back U throw and Anon retains three base skills
+ok 9 - other characters retain their own back U throw and Anon retains three base skills
+  ---
+  duration_ms: 2.3253
+  type: 'test'
+  ...
+# Subtest: Anon cry is a separate affordable forward projectile for either player
+ok 10 - Anon cry is a separate affordable forward projectile for either player
+  ---
+  duration_ms: 12.5514
+  type: 'test'
+  ...
+# Subtest: Anon cry respects cost, ground, ownership and pause
+ok 11 - Anon cry respects cost, ground, ownership and pause
+  ---
+  duration_ms: 8.1509
+  type: 'test'
+  ...
+# Subtest: Anon cry physically hits guard and steel, misses a target behind, and does not hit friendly minions
+ok 12 - Anon cry physically hits guard and steel, misses a target behind, and does not hit friendly minions
+  ---
+  duration_ms: 9.5298
+  type: 'test'
+  ...
+# Subtest: Soyo radial control reaches front, back, above and below for player 1
+ok 13 - Soyo radial control reaches front, back, above and below for player 1
+  ---
+  duration_ms: 17.9634
+  type: 'test'
+  ...
+# Subtest: Soyo radial control reaches front, back, above and below for player 2
+ok 14 - Soyo radial control reaches front, back, above and below for player 2
+  ---
+  duration_ms: 8.902
+  type: 'test'
+  ...
+# Subtest: Soyo releases recovery at 430ms while presentation and fixed circular wave remain independent
+ok 15 - Soyo releases recovery at 430ms while presentation and fixed circular wave remain independent
+  ---
+  duration_ms: 2.5151
+  type: 'test'
+  ...
+# Subtest: control bypasses guard, steel and super armor while dealing no damage or push
+ok 16 - control bypasses guard, steel and super armor while dealing no damage or push
+  ---
+  duration_ms: 3.2276
+  type: 'test'
+  ...
+# Subtest: true invulnerability delays control until protection expires inside the wave
+ok 17 - true invulnerability delays control until protection expires inside the wave
+  ---
+  duration_ms: 1.8778
+  type: 'test'
+  ...
+# Subtest: hard control locks all actions for two active seconds and followup damage cannot shorten it
+ok 18 - hard control locks all actions for two active seconds and followup damage cannot shorten it
+  ---
+  duration_ms: 5.4387
+  type: 'test'
+  ...
+# Subtest: Soyo can jump and blink after release; new skills keep normal energy gates
+ok 19 - Soyo can jump and blink after release; new skills keep normal energy gates
+  ---
+  duration_ms: 3.1491
+  type: 'test'
+  ...
+# Subtest: independent wave survives ordinary hits, clears on KO/reset, and IDs identify each cast
+ok 20 - independent wave survives ordinary hits, clears on KO/reset, and IDs identify each cast
+  ---
+  duration_ms: 3.0171
+  type: 'test'
+  ...
+# Subtest: simultaneous Soyo P releases fairly and each fighter is controlled once
+ok 21 - simultaneous Soyo P releases fairly and each fighter is controlled once
+  ---
+  duration_ms: 2.6221
+  type: 'test'
+  ...
+# Subtest: the visible wave ends after 350ms and cannot control a late entrant
+ok 22 - the visible wave ends after 350ms and cannot control a late entrant
+  ---
+  duration_ms: 2.6647
+  type: 'test'
+  ...
+# Subtest: a forced interruption before release cancels the pending Soyo wave
+ok 23 - a forced interruption before release cancels the pending Soyo wave
+  ---
+  duration_ms: 4.4685
+  type: 'test'
+  ...
+# Subtest: hard control discards cancelled move recovery and does not keep a fighter locked beyond two seconds
+ok 24 - hard control discards cancelled move recovery and does not keep a fighter locked beyond two seconds
+  ---
+  duration_ms: 5.6259
+  type: 'test'
+  ...
+# Subtest: Anon cry damages the first hostile minion and has a finite horizontal reach
+ok 25 - Anon cry damages the first hostile minion and has a finite horizontal reach
+  ---
+  duration_ms: 3.2319
+  type: 'test'
+  ...
+# Subtest: Anon gets three distinct named offensive moves with proper costs and stance restrictions
+ok 26 - Anon gets three distinct named offensive moves with proper costs and stance restrictions
+  ---
+  duration_ms: 9.2317
+  type: 'test'
+  ...
+# Subtest: thrust advances, hits once, and quarter-circle kick works facing either direction
+ok 27 - thrust advances, hits once, and quarter-circle kick works facing either direction
+  ---
+  duration_ms: 5.498
+  type: 'test'
+  ...
+# Subtest: rush lands exactly three real hits; guard and steel can stop all three
+ok 28 - rush lands exactly three real hits; guard and steel can stop all three
+  ---
+  duration_ms: 11.8263
+  type: 'test'
+  ...
+# Subtest: dive descends and hits high, standing guard stops it, crouch guard does not, and landing has recovery
+ok 29 - dive descends and hits high, standing guard stops it, crouch guard does not, and landing has recovery
+  ---
+  duration_ms: 3.7696
+  type: 'test'
+  ...
+# Subtest: confirmed thrust links into rush, rush finisher into super, and whiffs cannot cancel
+ok 30 - confirmed thrust links into rush, rush finisher into super, and whiffs cannot cancel
+  ---
+  duration_ms: 3.0664
+  type: 'test'
+  ...
+# Subtest: air normal can confirm into a dive once, while an air whiff cannot
+ok 31 - air normal can confirm into a dive once, while an air whiff cannot
+  ---
+  duration_ms: 1.3662
+  type: 'test'
+  ...
+# Subtest: pause freezes a three-hit sequence and reset clears its hit history
+ok 32 - pause freezes a three-hit sequence and reset clears its hit history
+  ---
+  duration_ms: 2.3914
+  type: 'test'
+  ...
+# Subtest: six-action confirmed route requires replenishment before a legal super cancel
+ok 33 - six-action confirmed route requires replenishment before a legal super cancel
+  ---
+  duration_ms: 7.9347
+  type: 'test'
+  ...
+# Subtest: dive landing recovery locks movement, jump, dash, guard and attacks until it ends
+ok 34 - dive landing recovery locks movement, jump, dash, guard and attacks until it ends
+  ---
+  duration_ms: 7.617
+  type: 'test'
+  ...
+# Subtest: Anon has eighteen stance normals and a complete named move list
+ok 35 - Anon has eighteen stance normals and a complete named move list
+  ---
+  duration_ms: 9.7833
+  type: 'test'
+  ...
+# Subtest: quarter circles, dragon punch and double quarter circles resolve relative to facing
+ok 36 - quarter circles, dragon punch and double quarter circles resolve relative to facing
+  ---
+  duration_ms: 2.8723
+  type: 'test'
+  ...
+# Subtest: back quarter circle kick becomes spin kick and forward heavy kick becomes overhead
+ok 37 - back quarter circle kick becomes spin kick and forward heavy kick becomes overhead
+  ---
+  duration_ms: 0.7566
+  type: 'test'
+  ...
+# Subtest: low sweep beats standing guard, is stopped by crouch guard and knocks down
+ok 38 - low sweep beats standing guard, is stopped by crouch guard and knocks down
+  ---
+  duration_ms: 2.4676
+  type: 'test'
+  ...
+# Subtest: super costs a full bar, is Anon-only and cannot be activated in air
+ok 39 - super costs a full bar, is Anon-only and cannot be activated in air
+  ---
+  duration_ms: 1.3038
+  type: 'test'
+  ...
+# Subtest: super has three real hits, block damage, recovery and no extra hits after it ends
+ok 40 - super has three real hits, block damage, recovery and no extra hits after it ends
+  ---
+  duration_ms: 20.0368
+  type: 'test'
+  ...
+# Subtest: super can whiff and only protects its invulnerable startup
+ok 41 - super can whiff and only protects its invulnerable startup
+  ---
+  duration_ms: 7.8576
+  type: 'test'
+  ...
+# Subtest: each super pulse can connect late within its active window after initially missing
+ok 42 - each super pulse can connect late within its active window after initially missing
+  ---
+  duration_ms: 3.2682
+  type: 'test'
+  ...
+# Subtest: pause freezes super stage, waves and timers; restart clears the transformation
+ok 43 - pause freezes super stage, waves and timers; restart clears the transformation
+  ---
+  duration_ms: 1.0127
+  type: 'test'
+  ...
+# Subtest: practice gives a reusable full bar, freezes time and prevents dummy KO
+ok 44 - practice gives a reusable full bar, freezes time and prevents dummy KO
+  ---
+  duration_ms: 4.9373
+  type: 'test'
+  ...
+# Subtest: confirmed normals cancel up in strength and into super, whiffs cannot cancel
+ok 45 - confirmed normals cancel up in strength and into super, whiffs cannot cancel
+  ---
+  duration_ms: 1.9831
+  type: 'test'
+  ...
+# Subtest: double-tap directions dash, and holding back changes a throw into a side swap
+ok 46 - double-tap directions dash, and holding back changes a throw into a side swap
+  ---
+  duration_ms: 2.2365
+  type: 'test'
+  ...
+# Subtest: camera zooms out for separated fighters and smoothly zooms back in for close combat
+ok 47 - camera zooms out for separated fighters and smoothly zooms back in for close combat
+  ---
+  duration_ms: 4.184
+  type: 'test'
+  ...
+# Subtest: camera follows horizontal and vertical movement while keeping fighters clear of the HUD
+ok 48 - camera follows horizontal and vertical movement while keeping fighters clear of the HUD
+  ---
+  duration_ms: 0.5656
+  type: 'test'
+  ...
+# Subtest: a settled wide view keeps feet near the meters instead of filling half the view with underground
+ok 49 - a settled wide view keeps feet near the meters instead of filling half the view with underground
+  ---
+  duration_ms: 1.0241
+  type: 'test'
+  ...
+# Subtest: opposite world corners and the giant dragon remain visible on the very next frame
+ok 50 - opposite world corners and the giant dragon remain visible on the very next frame
+  ---
+  duration_ms: 0.8654
+  type: 'test'
+  ...
+# Subtest: pausing holds the camera and reset returns to the current fighters without changing combat
+ok 51 - pausing holds the camera and reset returns to the current fighters without changing combat
+  ---
+  duration_ms: 1.2331
+  type: 'test'
+  ...
+# Subtest: camera smoothing is stable across frame rates and selecting a view is read-only
+ok 52 - camera smoothing is stable across frame rates and selecting a view is read-only
+  ---
+  duration_ms: 0.7555
+  type: 'test'
+  ...
+# Subtest: normal attacks trade lower damage for a longer recovery
+ok 53 - normal attacks trade lower damage for a longer recovery
+  ---
+  duration_ms: 3.6574
+  type: 'test'
+  ...
+# Subtest: normal hits gain twelve resonance and skills gain only two
+ok 54 - normal hits gain twelve resonance and skills gain only two
+  ---
+  duration_ms: 0.982
+  type: 'test'
+  ...
+# Subtest: blink and dash cost ten once and fail without enough resonance
+ok 55 - blink and dash cost ten once and fail without enough resonance
+  ---
+  duration_ms: 4.5041
+  type: 'test'
+  ...
+# Subtest: penguin releases all five radial waves within one real second even when they connect
+ok 56 - penguin releases all five radial waves within one real second even when they connect
+  ---
+  duration_ms: 5.1347
+  type: 'test'
+  ...
+# Subtest: Uika crawls forward for one second, hits five times for exactly ten, and then recovers
+ok 57 - Uika crawls forward for one second, hits five times for exactly ten, and then recovers
+  ---
+  duration_ms: 8.0696
+  type: 'test'
+  ...
+# Subtest: supers speed up while Anon and Soyo hard-control duration retain their authored timing
+ok 58 - supers speed up while Anon and Soyo hard-control duration retain their authored timing
+  ---
+  duration_ms: 0.217
+  type: 'test'
+  ...
+# Subtest: all six forms resolve U/I/O to three specific base skills
+ok 59 - all six forms resolve U/I/O to three specific base skills
+  ---
+  duration_ms: 6.5463
+  type: 'test'
+  ...
+# Subtest: directions keep existing heal, sonic, rising, parfait and beat support accessible
+ok 60 - directions keep existing heal, sonic, rising, parfait and beat support accessible
+  ---
+  duration_ms: 0.8083
+  type: 'test'
+  ...
+# Subtest: H alone transforms Tomori once; P selects character-specific supers
+ok 61 - H alone transforms Tomori once; P selects character-specific supers
+  ---
+  duration_ms: 1.552
+  type: 'test'
+  ...
+# Subtest: L blinks immediately on ground or in air, respects bounds, cooldown and pause
+ok 62 - L blinks immediately on ground or in air, respects bounds, cooldown and pause
+  ---
+  duration_ms: 2.6243
+  type: 'test'
+  ...
+# Subtest: holding a skill while changing directions cannot create another button press
+ok 63 - holding a skill while changing directions cannot create another button press
+  ---
+  duration_ms: 6.4585
+  type: 'test'
+  ...
+# Subtest: a delayed skill or blink uses directions captured on its button press
+ok 64 - a delayed skill or blink uses directions captured on its button press
+  ---
+  duration_ms: 0.5988
+  type: 'test'
+  ...
+# Subtest: unified physical keys are unique and every advertised direction resolves for either facing
+ok 65 - unified physical keys are unique and every advertised direction resolves for either facing
+  ---
+  duration_ms: 1.7553
+  type: 'test'
+  ...
+# Subtest: fifteen profiles retain the mota roster with Rana tuned for agile combat
+ok 66 - fifteen profiles retain the mota roster with Rana tuned for agile combat
+  ---
+  duration_ms: 1.1719
+  type: 'test'
+  ...
+# Subtest: ready locks movement; fight supports movement, jump, gravity and body separation
+ok 67 - ready locks movement; fight supports movement, jump, gravity and body separation
+  ---
+  duration_ms: 12.0123
+  type: 'test'
+  ...
+# Subtest: a light strike hits once per button press and cannot reach across the stage
+ok 68 - a light strike hits once per button press and cannot reach across the stage
+  ---
+  duration_ms: 8.0411
+  type: 'test'
+  ...
+# Subtest: holding back allows retreat, backward jumps and backward dashes
+ok 69 - holding back allows retreat, backward jumps and backward dashes
+  ---
+  duration_ms: 4.3793
+  type: 'test'
+  ...
+# Subtest: guard prevents normal damage and throws beat guard
+ok 70 - guard prevents normal damage and throws beat guard
+  ---
+  duration_ms: 3.3032
+  type: 'test'
+  ...
+# Subtest: energy gates specials, projectiles spend energy and hit or clash
+ok 71 - energy gates specials, projectiles spend energy and hit or clash
+  ---
+  duration_ms: 7.8998
+  type: 'test'
+  ...
+# Subtest: pause freezes every combat timer and release clears held attacks
+ok 72 - pause freezes every combat timer and release clears held attacks
+  ---
+  duration_ms: 1.275
+  type: 'test'
+  ...
+# Subtest: KO awards one point; next round resets combat and two wins finish the match
+ok 73 - KO awards one point; next round resets combat and two wins finish the match
+  ---
+  duration_ms: 3.1542
+  type: 'test'
+  ...
+# Subtest: time over compares HP; draws replay the same round without a point
+ok 74 - time over compares HP; draws replay the same round without a point
+  ---
+  duration_ms: 0.6745
+  type: 'test'
+  ...
+# Subtest: AI closes distance and lands real attacks
+ok 75 - AI closes distance and lands real attacks
+  ---
+  duration_ms: 30.6381
+  type: 'test'
+  ...
+# Subtest: Soyo has her own identity and a stationary long-range anti-air special
+ok 76 - Soyo has her own identity and a stationary long-range anti-air special
+  ---
+  duration_ms: 1.6602
+  type: 'test'
+  ...
+# Subtest: selected characters survive round transitions and match restarts
+ok 77 - selected characters survive round transitions and match restarts
+  ---
+  duration_ms: 0.8265
+  type: 'test'
+  ...
+# Subtest: players can reverse direction and stop drifting in the air with normal attacks still available
+ok 78 - players can reverse direction and stop drifting in the air with normal attacks still available
+  ---
+  duration_ms: 9.7756
+  type: 'test'
+  ...
+# Subtest: a jump requested during dash is retained until its eleven-tick movement completes
+ok 79 - a jump requested during dash is retained until its eleven-tick movement completes
+  ---
+  duration_ms: 1.6684
+  type: 'test'
+  ...
+# Subtest: a jump tapped just before landing is buffered once without auto-hopping while held
+ok 80 - a jump tapped just before landing is buffered once without auto-hopping while held
+  ---
+  duration_ms: 2.7728
+  type: 'test'
+  ...
+# Subtest: coyote jump keeps full takeoff speed, while intentional drop and late jumps use the air jump
+ok 81 - coyote jump keeps full takeoff speed, while intentional drop and late jumps use the air jump
+  ---
+  duration_ms: 1.0861
+  type: 'test'
+  ...
+# Subtest: a dash tapped before landing or just before its cooldown expires activates when legal
+ok 82 - a dash tapped before landing or just before its cooldown expires activates when legal
+  ---
+  duration_ms: 1.9535
+  type: 'test'
+  ...
+# Subtest: pausing and taking a hit discard queued movement, and specials keep their authored air motion
+ok 83 - pausing and taking a hit discard queued movement, and specials keep their authored air motion
+  ---
+  duration_ms: 2.3233
+  type: 'test'
+  ...
+# Subtest: hitstop differentiates light, medium, heavy and guard and keeps the strongest simultaneous impact
+ok 84 - hitstop differentiates light, medium, heavy and guard and keeps the strongest simultaneous impact
+  ---
+  duration_ms: 1.2149
+  type: 'test'
+  ...
+# Subtest: each human without a guitar has six dedicated drawings for normal chain stages two and three
+ok 85 - each human without a guitar has six dedicated drawings for normal chain stages two and three
+  ---
+  duration_ms: 3.2585
+  type: 'test'
+  ...
+# Subtest: Rana and penguin visibly change the strike silhouette for each normal chain hit
+ok 86 - Rana and penguin visibly change the strike silhouette for each normal chain hit
+  ---
+  duration_ms: 2.1073
+  type: 'test'
+  ...
+# Subtest: real repeated light input enters distinct new chain drawings without changing combat timing
+ok 87 - real repeated light input enters distinct new chain drawings without changing combat timing
+  ---
+  duration_ms: 10.1656
+  type: 'test'
+  ...
+# Subtest: fast combat recovers independently of each original-speed recording
+ok 88 - fast combat recovers independently of each original-speed recording
+  ---
+  duration_ms: 4.017
+  type: 'test'
+  ...
+# Subtest: Rana encore keeps the real recorded phrase visible through its recovery
+ok 89 - Rana encore keeps the real recorded phrase visible through its recovery
+  ---
+  duration_ms: 8.2458
+  type: 'test'
+  ...
+# Subtest: Tomori super is listed for its own form and CPU can cast both recorded encores
+ok 90 - Tomori super is listed for its own form and CPU can cast both recorded encores
+  ---
+  duration_ms: 4.3583
+  type: 'test'
+  ...
+# Subtest: Tomori and penguin P are separate owned full-cost ground supers on either player
+ok 91 - Tomori and penguin P are separate owned full-cost ground supers on either player
+  ---
+  duration_ms: 2.8662
+  type: 'test'
+  ...
+# Subtest: Tomori P sings three separated damaging waves, penguin P emits its own chorus, and guard works
+ok 92 - Tomori P sings three separated damaging waves, penguin P emits its own chorus, and guard works
+  ---
+  duration_ms: 68.3805
+  type: 'test'
+  ...
+# Subtest: new Tomori P poses use existing art and pause preserves chorus timers and emitted waves
+ok 93 - new Tomori P poses use existing art and pause preserves chorus timers and emitted waves
+  ---
+  duration_ms: 1.5028
+  type: 'test'
+  ...
+# Subtest: Mujica and MewType meme supers preserve the full clip and spread real pulses through it
+ok 94 - Mujica and MewType meme supers preserve the full clip and spread real pulses through it
+  ---
+  duration_ms: 1.905
+  type: 'test'
+  ...
+# Subtest: Uika P really crawls 480 to 560 units in either direction with two alternating low poses
+ok 95 - Uika P really crawls 480 to 560 units in either direction with two alternating low poses
+  ---
+  duration_ms: 10.8528
+  type: 'test'
+  ...
+# Subtest: Uika crawl advances forward, hits low multiple times and crouch guard stops it
+ok 96 - Uika crawl advances forward, hits low multiple times and crouch guard stops it
+  ---
+  duration_ms: 24.6001
+  type: 'test'
+  ...
+# Subtest: Uika low hurtbox evades a high projectile but remains vulnerable to a ground note
+ok 97 - Uika low hurtbox evades a high projectile but remains vulnerable to a ground note
+  ---
+  duration_ms: 0.6542
+  type: 'test'
+  ...
+# Subtest: crawl respects world and platform edges through armored hits and ends on reset
+ok 98 - crawl respects world and platform edges through armored hits and ends on reset
+  ---
+  duration_ms: 9.6631
+  type: 'test'
+  ...
+# Subtest: body separation at a platform edge cannot push an active crawl into the air
+ok 99 - body separation at a platform edge cannot push an active crawl into the air
+  ---
+  duration_ms: 0.5095
+  type: 'test'
+  ...
+# Subtest: Miyako nine-character mantra emits nine marked hits with a raw budget of forty eight
+ok 100 - Miyako nine-character mantra emits nine marked hits with a raw budget of forty eight
+  ---
+  duration_ms: 33.4241
+  type: 'test'
+  ...
+# Subtest: Miyako mantra is a fixed bounded area, can be guarded or escaped, and armor preserves all nine runes
+ok 101 - Miyako mantra is a fixed bounded area, can be guarded or escaped, and armor preserves all nine runes
+  ---
+  duration_ms: 54.4498
+  type: 'test'
+  ...
+# Subtest: every character base skill and directional variant uses its own recorded slot
+ok 102 - every character base skill and directional variant uses its own recorded slot
+  ---
+  duration_ms: 3.5418
+  type: 'test'
+  ...
+# Subtest: legacy Soyo video references resolve without embedding the movie twice
+ok 103 - legacy Soyo video references resolve without embedding the movie twice
+  ---
+  duration_ms: 0.9318
+  type: 'test'
+  ...
+# Subtest: shared wave chooses character and the explicit event attack even after interruption
+ok 104 - shared wave chooses character and the explicit event attack even after interruption
+  ---
+  duration_ms: 2.4112
+  type: 'test'
+  ...
+# Subtest: explicit variant recordings override base fallback, supers carry video and H is optional
+ok 105 - explicit variant recordings override base fallback, supers carry video and H is optional
+  ---
+  duration_ms: 3.3674
+  type: 'test'
+  ...
+# Subtest: both players can show different muted nonlooping cutins and stopping one preserves the other
+ok 106 - both players can show different muted nonlooping cutins and stopping one preserves the other
+  ---
+  duration_ms: 2.4832
+  type: 'test'
+  ...
+# Subtest: pause hides cutins and resume preserves progress without repeated play requests
+ok 107 - pause hides cutins and resume preserves progress without repeated play requests
+  ---
+  duration_ms: 0.5887
+  type: 'test'
+  ...
+# Subtest: all cutins retain original speed even if legacy data contains an accelerated rate
+ok 108 - all cutins retain original speed even if legacy data contains an accelerated rate
+  ---
+  duration_ms: 0.4154
+  type: 'test'
+  ...
+# Subtest: cutin ownership snapshots detect character changes and match reset
+ok 109 - cutin ownership snapshots detect character changes and match reset
+  ---
+  duration_ms: 0.4853
+  type: 'test'
+  ...
+# Subtest: restarting a cutin rewinds it without reloading the same video; stop clears both sides
+ok 110 - restarting a cutin rewinds it without reloading the same video; stop clears both sides
+  ---
+  duration_ms: 0.4633
+  type: 'test'
+  ...
+# Subtest: natural completion hides a cutin and an old completion cannot stop its replacement
+ok 111 - natural completion hides a cutin and an old completion cannot stop its replacement
+  ---
+  duration_ms: 0.4308
+  type: 'test'
+  ...
+# Subtest: rejected or synchronously blocked video playback is contained
+ok 112 - rejected or synchronously blocked video playback is contained
+  ---
+  duration_ms: 7.9652
+  type: 'test'
+  ...
+# Subtest: a recovered fighter can move and use another attack while her original-speed cutin continues
+ok 113 - a recovered fighter can move and use another attack while her original-speed cutin continues
+  ---
+  duration_ms: 0.7204
+  type: 'test'
+  ...
+# Subtest: all five MewType characters choose the complete 54-frame virtual vocabulary for both players
+ok 114 - all five MewType characters choose the complete 54-frame virtual vocabulary for both players
+  ---
+  duration_ms: 4.259
+  type: 'test'
+  ...
+# Subtest: MewType movement, reactions, landing and throw poses stay inside the 54 authored drawings
+ok 115 - MewType movement, reactions, landing and throw poses stay inside the 54 authored drawings
+  ---
+  duration_ms: 1.42
+  type: 'test'
+  ...
+# Subtest: MewType H has no form or animation, real J presses branch through three drawings, and pause freezes selection
+ok 116 - MewType H has no form or animation, real J presses branch through three drawings, and pause freezes selection
+  ---
+  duration_ms: 11.3808
+  type: 'test'
+  ...
+# Subtest: MewType KO, time-over loss and draws always select authored result drawings
+ok 117 - MewType KO, time-over loss and draws always select authored result drawings
+  ---
+  duration_ms: 0.6383
+  type: 'test'
+  ...
+# Subtest: a projectile emission retains its sound identity when interrupted on the same tick
+ok 118 - a projectile emission retains its sound identity when interrupted on the same tick
+  ---
+  duration_ms: 5.5778
+  type: 'test'
+  ...
+# Subtest: MewType expands the roster to fifteen and exposes a single isolated virtual kit
+ok 119 - MewType expands the roster to fifteen and exposes a single isolated virtual kit
+  ---
+  duration_ms: 13.8003
+  type: 'test'
+  ...
+# Subtest: both players get owned stance normals, distinct J-chain slots and no transformation
+ok 120 - both players get owned stance normals, distinct J-chain slots and no transformation
+  ---
+  duration_ms: 11.0664
+  type: 'test'
+  ...
+# Subtest: all MewType skills obey costs, ground gates and both player input on decks
+ok 121 - all MewType skills obey costs, ground gates and both player input on decks
+  ---
+  duration_ms: 8.4533
+  type: 'test'
+  ...
+# Subtest: new and existing bands reject foreign moves and MewType cannot queue a Mujica transformation
+ok 122 - new and existing bands reject foreign moves and MewType cannot queue a Mujica transformation
+  ---
+  duration_ms: 2.7977
+  type: 'test'
+  ...
+# Subtest: base skills and common directional throws resolve for either facing without introducing H or changing keys
+ok 123 - base skills and common directional throws resolve for either facing without introducing H or changing keys
+  ---
+  duration_ms: 0.6883
+  type: 'test'
+  ...
+# Subtest: all fifteen characters retain 200 HP and MewType uses ordinary jump, blink and guarded throws
+ok 124 - all fifteen characters retain 200 HP and MewType uses ordinary jump, blink and guarded throws
+  ---
+  duration_ms: 38.1622
+  type: 'test'
+  ...
+# Subtest: Arale emits one U and two I notes, Miyako paper follows a parabola, and Yuno disc stays on its deck
+ok 125 - Arale emits one U and two I notes, Miyako paper follows a parabola, and Yuno disc stays on its deck
+  ---
+  duration_ms: 6.184
+  type: 'test'
+  ...
+# Subtest: Ritsu counters front strikes only in her window and loses to rear, startup and throws
+ok 126 - Ritsu counters front strikes only in her window and loses to rear, startup and throws
+  ---
+  duration_ms: 0.6172
+  type: 'test'
+  ...
+# Subtest: Yuno shield has independent durability and cooldown and throws or rear hits bypass it
+ok 127 - Yuno shield has independent durability and cooldown and throws or rear hits bypass it
+  ---
+  duration_ms: 0.9395
+  type: 'test'
+  ...
+# Subtest: Miyako trap is owned, warned, limited to one and stays on the appropriate terrain layer
+ok 128 - Miyako trap is owned, warned, limited to one and stays on the appropriate terrain layer
+  ---
+  duration_ms: 10.2381
+  type: 'test'
+  ...
+# Subtest: Miyako pulls only on an unblocked hit; Yuno low disc and Nonoka overhead use the correct guard
+ok 129 - Miyako pulls only on an unblocked hit; Yuno low disc and Nonoka overhead use the correct guard
+  ---
+  duration_ms: 0.8046
+  type: 'test'
+  ...
+# Subtest: Nonoka and Ritsu movement travels its authored distance and respects bounds
+ok 130 - Nonoka and Ritsu movement travels its authored distance and respects bounds
+  ---
+  duration_ms: 6.0385
+  type: 'test'
+  ...
+# Subtest: authored multi-hit skills and supers strike the expected times in either direction with normal scaling
+ok 131 - authored multi-hit skills and supers strike the expected times in either direction with normal scaling
+  ---
+  duration_ms: 92.8186
+  type: 'test'
+  ...
+# Subtest: every offensive U/I/O causes its authored real hits in both directions
+ok 132 - every offensive U/I/O causes its authored real hits in both directions
+  ---
+  duration_ms: 156.2419
+  type: 'test'
+  ...
+# Subtest: the five supers express projectile, rising guitar, nine marked runes, radial DJ and six-hit rabbit mechanics
+ok 133 - the five supers express projectile, rising guitar, nine marked runes, radial DJ and six-hit rabbit mechanics
+  ---
+  duration_ms: 10.3327
+  type: 'test'
+  ...
+# Subtest: supers can be guarded, obey strict 420 by 300 bounds, and reach legal elevated targets
+ok 134 - supers can be guarded, obey strict 420 by 300 bounds, and reach legal elevated targets
+  ---
+  duration_ms: 124.5933
+  type: 'test'
+  ...
+# Subtest: interruptions stop unfinished skills, preserve already emitted notes, and round/reset clears resources
+ok 135 - interruptions stop unfinished skills, preserve already emitted notes, and round/reset clears resources
+  ---
+  duration_ms: 4.6077
+  type: 'test'
+  ...
+# Subtest: confirmed normals can cancel into owned MewType specials/supers and pause freezes every timer
+ok 136 - confirmed normals can cancel into owned MewType specials/supers and pause freezes every timer
+  ---
+  duration_ms: 0.698
+  type: 'test'
+  ...
+# Subtest: both players have independent traps/shields/cooldowns and combat never mutates shared move data
+ok 137 - both players have independent traps/shields/cooldowns and combat never mutates shared move data
+  ---
+  duration_ms: 6.1892
+  type: 'test'
+  ...
+# Subtest: CPU uses all four owned skills without H or unsupported normals on all maps and climbs every highest deck
+ok 138 - CPU uses all four owned skills without H or unsupported normals on all maps and climbs every highest deck
+  ---
+  duration_ms: 825.2633
+  type: 'test'
+  ...
+# Subtest: normal hits restore twelve resonance while specials restore only two
+ok 139 - normal hits restore twelve resonance while specials restore only two
+  ---
+  duration_ms: 13.747
+  type: 'test'
+  ...
+# Subtest: Mortis down U and down I are stage-only additions preserving her three base skills
+ok 140 - Mortis down U and down I are stage-only additions preserving her three base skills
+  ---
+  duration_ms: 3.0428
+  type: 'test'
+  ...
+# Subtest: toddler cry hits front and rear once while the burger is a real forward projectile
+ok 141 - toddler cry hits front and rear once while the burger is a real forward projectile
+  ---
+  duration_ms: 14.311
+  type: 'test'
+  ...
+# Subtest: all five H transformations show take, raise and settle mask drawings without delaying attacks
+ok 142 - all five H transformations show take, raise and settle mask drawings without delaying attacks
+  ---
+  duration_ms: 7.506
+  type: 'test'
+  ...
+# Subtest: playable characters retain their speed ratios at reference-normalized walking speed
+ok 143 - playable characters retain their speed ratios at reference-normalized walking speed
+  ---
+  duration_ms: 20.6202
+  type: 'test'
+  ...
+# Subtest: forward and backward dashes travel 5.15 reference units for eleven ticks and recover after 600ms
+ok 144 - forward and backward dashes travel 5.15 reference units for eleven ticks and recover after 600ms
+  ---
+  duration_ms: 2.195
+  type: 'test'
+  ...
+# Subtest: fast movement and dashes still stop at world edges and opponent collision
+ok 145 - fast movement and dashes still stop at world edges and opponent collision
+  ---
+  duration_ms: 14.8548
+  type: 'test'
+  ...
+# Subtest: all ten Mujica forms select distinct windup, impact and recovery art for every combat input
+ok 146 - all ten Mujica forms select distinct windup, impact and recovery art for every combat input
+  ---
+  duration_ms: 5.978
+  type: 'test'
+  ...
+# Subtest: Mujica movement, guard, hit and knockdown select actual named poses
+ok 147 - Mujica movement, guard, hit and knockdown select actual named poses
+  ---
+  duration_ms: 0.4327
+  type: 'test'
+  ...
+# Subtest: round results keep a named drawing for both Mujica fighters, including a draw
+ok 148 - round results keep a named drawing for both Mujica fighters, including a draw
+  ---
+  duration_ms: 0.542
+  type: 'test'
+  ...
+# Subtest: Mujica keeps its complete profiles and isolated kits within the expanded roster
+ok 149 - Mujica keeps its complete profiles and isolated kits within the expanded roster
+  ---
+  duration_ms: 6.316
+  type: 'test'
+  ...
+# Subtest: H changes either player immediately, costs fifty and never refreshes
+ok 150 - H changes either player immediately, costs fifty and never refreshes
+  ---
+  duration_ms: 8.6041
+  type: 'test'
+  ...
+# Subtest: H rejects air, stun, knockdown and attacks without a buffered transformation
+ok 151 - H rejects air, stun, knockdown and attacks without a buffered transformation
+  ---
+  duration_ms: 7.3823
+  type: 'test'
+  ...
+# Subtest: form clock freezes during pause and hitstop; expiry cancels attacks and buffers
+ok 152 - form clock freezes during pause and hitstop; expiry cancels attacks and buffers
+  ---
+  duration_ms: 0.519
+  type: 'test'
+  ...
+# Subtest: all kits have exact energy prices, six stance normals and a three hit J chain
+ok 153 - all kits have exact energy prices, six stance normals and a three hit J chain
+  ---
+  duration_ms: 9.4873
+  type: 'test'
+  ...
+# Subtest: Sakiko shield absorbs from the front and throws bypass it
+ok 154 - Sakiko shield absorbs from the front and throws bypass it
+  ---
+  duration_ms: 1.8779
+  type: 'test'
+  ...
+# Subtest: stage traps and missiles retain ownership after form expiry
+ok 155 - stage traps and missiles retain ownership after form expiry
+  ---
+  duration_ms: 2.3148
+  type: 'test'
+  ...
+# Subtest: a ground trap stays on its cast platform and cannot strike through a different floor
+ok 156 - a ground trap stays on its cast platform and cannot strike through a different floor
+  ---
+  duration_ms: 11.2894
+  type: 'test'
+  ...
+# Subtest: two Mujica fighters keep form clocks, cooldowns, traps and spawned hits independent
+ok 157 - two Mujica fighters keep form clocks, cooldowns, traps and spawned hits independent
+  ---
+  duration_ms: 9.1952
+  type: 'test'
+  ...
+# Subtest: every U/I/O/P is legal for either player on an elevated platform and rejects insufficient energy
+ok 158 - every U/I/O/P is legal for either player on an elevated platform and rejects insufficient energy
+  ---
+  duration_ms: 12.1995
+  type: 'test'
+  ...
+# Subtest: normal and stage ownership gates reject injected foreign and expired form attacks
+ok 159 - normal and stage ownership gates reject injected foreign and expired form attacks
+  ---
+  duration_ms: 2.2229
+  type: 'test'
+  ...
+# Subtest: idol step travels 280 without dealing damage, stun or granting invulnerability
+ok 160 - idol step travels 280 without dealing damage, stun or granting invulnerability
+  ---
+  duration_ms: 3.395
+  type: 'test'
+  ...
+# Subtest: Mujica counter windows use authored return damage and lose to startup, rear attacks and throws
+ok 161 - Mujica counter windows use authored return damage and lose to startup, rear attacks and throws
+  ---
+  duration_ms: 1.453
+  type: 'test'
+  ...
+# Subtest: pull moves exactly 100 only on an unblocked hit and command grabs bypass guard and steel
+ok 162 - pull moves exactly 100 only on an unblocked hit and command grabs bypass guard and steel
+  ---
+  duration_ms: 1.3616
+  type: 'test'
+  ...
+# Subtest: Mujica low and overhead attacks use standing and crouch guard rules
+ok 163 - Mujica low and overhead attacks use standing and crouch guard rules
+  ---
+  duration_ms: 0.5284
+  type: 'test'
+  ...
+# Subtest: all supers deal authored hit counts, scale normally and continue through armored hits
+ok 164 - all supers deal authored hit counts, scale normally and continue through armored hits
+  ---
+  duration_ms: 238.937
+  type: 'test'
+  ...
+# Subtest: supers miss beyond their full stationary range or crawl travel and vertical separation
+ok 165 - supers miss beyond their full stationary range or crawl travel and vertical separation
+  ---
+  duration_ms: 126.0962
+  type: 'test'
+  ...
+# Subtest: ranged supers reach a legal elevated target while Uika crawl remains a ground attack
+ok 166 - ranged supers reach a legal elevated target while Uika crawl remains a ground attack
+  ---
+  duration_ms: 76.3575
+  type: 'test'
+  ...
+# Subtest: cooldowns and one-trap limit cannot be bypassed by a fresh button edge; pause freezes warning and reset clears
+ok 167 - cooldowns and one-trap limit cannot be bypassed by a fresh button edge; pause freezes warning and reset clears
+  ---
+  duration_ms: 1.9814
+  type: 'test'
+  ...
+# Subtest: projectiles survive expiry, travel in either direction and ground waves follow slopes/platform edges
+ok 168 - projectiles survive expiry, travel in either direction and ground waves follow slopes/platform edges
+  ---
+  duration_ms: 5.0997
+  type: 'test'
+  ...
+# Subtest: normal confirms cancel into owned specials and supers, whiffs and H do not cancel
+ok 169 - normal confirms cancel into owned specials and supers, whiffs and H do not cancel
+  ---
+  duration_ms: 0.5795
+  type: 'test'
+  ...
+# Subtest: H allows a simultaneous stage attack or movement and common throws keep the same keys in both forms
+ok 170 - H allows a simultaneous stage attack or movement and common throws keep the same keys in both forms
+  ---
+  duration_ms: 1.4487
+  type: 'test'
+  ...
+# Subtest: every super respects its matching guard and shields absorb frontal pulses
+ok 171 - every super respects its matching guard and shields absorb frontal pulses
+  ---
+  duration_ms: 70.0349
+  type: 'test'
+  ...
+# Subtest: CPU reaches the highest deck on every map with all five normalized movement profiles
+ok 172 - CPU reaches the highest deck on every map with all five normalized movement profiles
+  ---
+  duration_ms: 137.9492
+  type: 'test'
+  ...
+# Subtest: CPU uses each owned kit and both forms without illegal attacks on all shipped maps
+ok 173 - CPU uses each owned kit and both forms without illegal attacks on all shipped maps
+  ---
+  duration_ms: 687.472
+  type: 'test'
+  ...
+# Subtest: Mujica supers share bounded reach and exact raw pulse damage
+ok 174 - Mujica supers share bounded reach and exact raw pulse damage
+  ---
+  duration_ms: 1.0714
+  type: 'test'
+  ...
+# Subtest: each offensive base skill actually lands its authored hits from either side
+ok 175 - each offensive base skill actually lands its authored hits from either side
+  ---
+  duration_ms: 127.5039
+  type: 'test'
+  ...
+# Subtest: Tomori forms have disjoint native skills and no human skills leak into penguin move lists
+ok 176 - Tomori forms have disjoint native skills and no human skills leak into penguin move lists
+  ---
+  duration_ms: 6.5084
+  type: 'test'
+  ...
+# Subtest: penguin P emits five circular waves and deals exactly ten per wave in either direction
+ok 177 - penguin P emits five circular waves and deals exactly ten per wave in either direction
+  ---
+  duration_ms: 30.7587
+  type: 'test'
+  ...
+# Subtest: radial waves reach an upper platform, persist after interception and never hit a body twice
+ok 178 - radial waves reach an upper platform, persist after interception and never hit a body twice
+  ---
+  duration_ms: 8.5197
+  type: 'test'
+  ...
+# Subtest: penguin waves retain ten damage during an existing combo and a counter hit
+ok 179 - penguin waves retain ten damage during an existing combo and a counter hit
+  ---
+  duration_ms: 0.5127
+  type: 'test'
+  ...
+# Subtest: CPU penguin recognizes its circular encore reach beyond the human singing range
+ok 180 - CPU penguin recognizes its circular encore reach beyond the human singing range
+  ---
+  duration_ms: 1.4945
+  type: 'test'
+  ...
+# Subtest: Mortis stage skills replace the silent guitar kit with a double, a parry and a delayed snare
+ok 181 - Mortis stage skills replace the silent guitar kit with a double, a parry and a delayed snare
+  ---
+  duration_ms: 0.7221
+  type: 'test'
+  ...
+# Subtest: Mortis counter retaliates and the stage snare pulls its target without changing the normal kit
+ok 182 - Mortis counter retaliates and the stage snare pulls its target without changing the normal kit
+  ---
+  duration_ms: 10.0492
+  type: 'test'
+  ...
+# Subtest: G transforms Tomori immediately, costs 50, lasts 20 seconds and cannot refresh the form
+ok 183 - G transforms Tomori immediately, costs 50, lasts 20 seconds and cannot refresh the form
+  ---
+  duration_ms: 35.3456
+  type: 'test'
+  ...
+# Subtest: morph requires enough energy and ground; incoming hits no longer interrupt a transformation startup
+ok 184 - morph requires enough energy and ground; incoming hits no longer interrupt a transformation startup
+  ---
+  duration_ms: 6.293
+  type: 'test'
+  ...
+# Subtest: instant transformation allows movement, dash, jump and an immediate follow-up skill
+ok 185 - instant transformation allows movement, dash, jump and an immediate follow-up skill
+  ---
+  duration_ms: 0.9015
+  type: 'test'
+  ...
+# Subtest: pause freezes form and attacks, while expiry cancels form-only attacks without changing resources
+ok 186 - pause freezes form and attacks, while expiry cancels form-only attacks without changing resources
+  ---
+  duration_ms: 2.0621
+  type: 'test'
+  ...
+# Subtest: restart and round end clear the form; two Tomoris have independent forms and timers
+ok 187 - restart and round end clear the form; two Tomoris have independent forms and timers
+  ---
+  duration_ms: 3.5773
+  type: 'test'
+  ...
+# Subtest: form has eighteen stance normals plus five video-inspired skills, isolated from other characters
+ok 188 - form has eighteen stance normals plus five video-inspired skills, isolated from other characters
+  ---
+  duration_ms: 3.0388
+  type: 'test'
+  ...
+# Subtest: all six buttons resolve standing, crouching and airborne penguin normals
+ok 189 - all six buttons resolve standing, crouching and airborne penguin normals
+  ---
+  duration_ms: 22.22
+  type: 'test'
+  ...
+# Subtest: penguin controls map to the five skills with distinct costs, leaving normal Tomori intact
+ok 190 - penguin controls map to the five skills with distinct costs, leaving normal Tomori intact
+  ---
+  duration_ms: 4.3065
+  type: 'test'
+  ...
+# Subtest: cry counters one frontal strike with a returning wave, but startup, rear hits and throws beat it
+ok 191 - cry counters one frontal strike with a returning wave, but startup, rear hits and throws beat it
+  ---
+  duration_ms: 7.608
+  type: 'test'
+  ...
+# Subtest: hey hits once; laughter covers nearby opponents on either side and respects guard
+ok 192 - hey hits once; laughter covers nearby opponents on either side and respects guard
+  ---
+  duration_ms: 13.8084
+  type: 'test'
+  ...
+# Subtest: gugugaga rushes into three melee hits and interruption stops later impacts
+ok 193 - gugugaga rushes into three melee hits and interruption stops later impacts
+  ---
+  duration_ms: 9.842
+  type: 'test'
+  ...
+# Subtest: flying kick moves forward, can hit, lands with recovery and cannot be repeated in one jump
+ok 194 - flying kick moves forward, can hit, lands with recovery and cannot be repeated in one jump
+  ---
+  duration_ms: 5.5346
+  type: 'test'
+  ...
+# Subtest: landing after a full penguin jump restores the air action for the next jump
+ok 195 - landing after a full penguin jump restores the air action for the next jump
+  ---
+  duration_ms: 5.4074
+  type: 'test'
+  ...
+# Subtest: the form moves faster, supports low ground and elevated platforms, and is usable by CPU
+ok 196 - the form moves faster, supports low ground and elevated platforms, and is usable by CPU
+  ---
+  duration_ms: 4.5092
+  type: 'test'
+  ...
+# Subtest: penguin uses a separate animated silhouette and returns to the normal microphone idle on expiry
+ok 197 - penguin uses a separate animated silhouette and returns to the normal microphone idle on expiry
+  ---
+  duration_ms: 1.9272
+  type: 'test'
+  ...
+# Subtest: Rana has eighteen owned normals and her own complete move list
+ok 198 - Rana has eighteen owned normals and her own complete move list
+  ---
+  duration_ms: 3.242
+  type: 'test'
+  ...
+# Subtest: all six buttons resolve for every Rana stance and animate their own impact
+ok 199 - all six buttons resolve for every Rana stance and animate their own impact
+  ---
+  duration_ms: 7.2567
+  type: 'test'
+  ...
+# Subtest: Rana shortcuts have distinct costs, only owner can use them, and insufficient energy rejects
+ok 200 - Rana shortcuts have distinct costs, only owner can use them, and insufficient energy rejects
+  ---
+  duration_ms: 2.1266
+  type: 'test'
+  ...
+# Subtest: Rana pick, chord and four-shot solo hit, block and clash as projectiles
+ok 201 - Rana pick, chord and four-shot solo hit, block and clash as projectiles
+  ---
+  duration_ms: 32.841
+  type: 'test'
+  ...
+# Subtest: Rana rush moves, rise launches, slide is low, dive has air gate and landing recovery
+ok 202 - Rana rush moves, rise launches, slide is low, dive has air gate and landing recovery
+  ---
+  duration_ms: 3.7125
+  type: 'test'
+  ...
+# Subtest: Rana tune grants energy at release, has cooldown, is interruptible and pause freezes progress
+ok 203 - Rana tune grants energy at release, has cooldown, is interruptible and pause freezes progress
+  ---
+  duration_ms: 6.2003
+  type: 'test'
+  ...
+# Subtest: Rana super consumes 100, deals three hits, has guard chip and follows 2P input
+ok 204 - Rana super consumes 100, deals three hits, has guard chip and follows 2P input
+  ---
+  duration_ms: 10.2275
+  type: 'test'
+  ...
+# Subtest: parfait belongs to Rana, V costs 25, requires ground and appears with 2P End
+ok 205 - parfait belongs to Rana, V costs 25, requires ground and appears with 2P End
+  ---
+  duration_ms: 8.9549
+  type: 'test'
+  ...
+# Subtest: parfait rises then falls, hits exactly once for 18 in both directions and explodes once
+ok 206 - parfait rises then falls, hits exactly once for 18 in both directions and explodes once
+  ---
+  duration_ms: 62.0398
+  type: 'test'
+  ...
+# Subtest: parfait can be guarded, intercepted by frontal steel and clashed by another projectile
+ok 207 - parfait can be guarded, intercepted by frontal steel and clashed by another projectile
+  ---
+  duration_ms: 6.2102
+  type: 'test'
+  ...
+# Subtest: whiff lands on terrain, clears without damage and does not alter straight projectiles
+ok 208 - whiff lands on terrain, clears without damage and does not alter straight projectiles
+  ---
+  duration_ms: 6.8462
+  type: 'test'
+  ...
+# Subtest: pause freezes parabola and restart clears cup; interruption before release emits nothing
+ok 209 - pause freezes parabola and restart clears cup; interruption before release emits nothing
+  ---
+  duration_ms: 2.4792
+  type: 'test'
+  ...
+# Subtest: throw animation has ready, windup, release, recovery; CPU can cast from range
+ok 210 - throw animation has ready, windup, release, recovery; CPU can cast from range
+  ---
+  duration_ms: 2.2097
+  type: 'test'
+  ...
+# Subtest: all characters start and reset at 200 HP; Soyo healing caps at 200
+ok 211 - all characters start and reset at 200 HP; Soyo healing caps at 200
+  ---
+  duration_ms: 16.7008
+  type: 'test'
+  ...
+# Subtest: Riki has 18 stance normals, eight skills and her own three-hit chain
+ok 212 - Riki has 18 stance normals, eight skills and her own three-hit chain
+  ---
+  duration_ms: 11.0915
+  type: 'test'
+  ...
+# Subtest: only real normal hits add one beat each; guard, whiff and specials add none
+ok 213 - only real normal hits add one beat each; guard, whiff and specials add none
+  ---
+  duration_ms: 7.5037
+  type: 'test'
+  ...
+# Subtest: four beats are spent only by a legal enhanced special, independently for both Rikis
+ok 214 - four beats are spent only by a legal enhanced special, independently for both Rikis
+  ---
+  duration_ms: 1.1408
+  type: 'test'
+  ...
+# Subtest: simultaneously traded normals award a beat to both Rikis
+ok 215 - simultaneously traded normals award a beat to both Rikis
+  ---
+  duration_ms: 2.4472
+  type: 'test'
+  ...
+# Subtest: calibration costs 25, adds two beats after 300ms, has cooldown and can be interrupted
+ok 216 - calibration costs 25, adds two beats after 300ms, has cooldown and can be interrupted
+  ---
+  duration_ms: 5.2995
+  type: 'test'
+  ...
+# Subtest: overhead beats crouch guard, ground shock and enhanced second wave are real projectiles
+ok 217 - overhead beats crouch guard, ground shock and enhanced second wave are real projectiles
+  ---
+  duration_ms: 6.9264
+  type: 'test'
+  ...
+# Subtest: eight-beat roll and super have eight/three hits, respect guard, and the ordinary roll is interruptible
+ok 218 - eight-beat roll and super have eight/three hits, respect guard, and the ordinary roll is interruptible
+  ---
+  duration_ms: 26.1931
+  type: 'test'
+  ...
+# Subtest: Riki uses distinct stick combo/skill poses and pause/reset freezes or clears beat state
+ok 219 - Riki uses distinct stick combo/skill poses and pause/reset freezes or clears beat state
+  ---
+  duration_ms: 2.5255
+  type: 'test'
+  ...
+# Subtest: KO plays its entire sequence before automatically starting a solo round
+ok 220 - KO plays its entire sequence before automatically starting a solo round
+  ---
+  duration_ms: 3.8801
+  type: 'test'
+  ...
+# Subtest: ending snapshot preserves the winning transformation after combat cleanup
+ok 221 - ending snapshot preserves the winning transformation after combat cleanup
+  ---
+  duration_ms: 0.6578
+  type: 'test'
+  ...
+# Subtest: KO falls onto the stage while combat and pause cannot change the result
+ok 222 - KO falls onto the stage while combat and pause cannot change the result
+  ---
+  duration_ms: 1.1257
+  type: 'test'
+  ...
+# Subtest: the final impact holds both fighters before the KO fall begins
+ok 223 - the final impact holds both fighters before the KO fall begins
+  ---
+  duration_ms: 0.3999
+  type: 'test'
+  ...
+# Subtest: final match plays the ending but never automatically restarts
+ok 224 - final match plays the ending but never automatically restarts
+  ---
+  duration_ms: 0.6874
+  type: 'test'
+  ...
+# Subtest: a timed draw has no winning portrait and automatically replays the round
+ok 225 - a timed draw has no winning portrait and automatically replays the round
+  ---
+  duration_ms: 0.392
+  type: 'test'
+  ...
+# Subtest: all requested campus and MyGO locations are selectable with distinct terrain routes
+ok 226 - all requested campus and MyGO locations are selectable with distinct terrain routes
+  ---
+  duration_ms: 1.3489
+  type: 'test'
+  ...
+# Subtest: new scene decks support landing and down+jump drops onto a lower surface
+ok 227 - new scene decks support landing and down+jump drops onto a lower surface
+  ---
+  duration_ms: 25.6892
+  type: 'test'
+  ...
+# Subtest: Sunshine steps form actual rising and descending ground levels that can be walked
+ok 228 - Sunshine steps form actual rising and descending ground levels that can be walked
+  ---
+  duration_ms: 7.5615
+  type: 'test'
+  ...
+# Subtest: selection carries match settings independently of lineup and mode changes
+ok 229 - selection carries match settings independently of lineup and mode changes
+  ---
+  duration_ms: 2.3588
+  type: 'test'
+  ...
+# Subtest: settings drafts do not modify their seed or later openings
+ok 230 - settings drafts do not modify their seed or later openings
+  ---
+  duration_ms: 0.8958
+  type: 'test'
+  ...
+# Subtest: selection opens with empty slots even when current fighters are provided
+ok 231 - selection opens with empty slots even when current fighters are provided
+  ---
+  duration_ms: 0.3455
+  type: 'test'
+  ...
+# Subtest: three ordered picks per side advance through both teams and allow mirrored teams
+ok 232 - three ordered picks per side advance through both teams and allow mirrored teams
+  ---
+  duration_ms: 0.2866
+  type: 'test'
+  ...
+# Subtest: a duplicate within one side is rejected without moving the active slot
+ok 233 - a duplicate within one side is rejected without moving the active slot
+  ---
+  duration_ms: 0.5168
+  type: 'test'
+  ...
+# Subtest: filled slots can be edited or cleared and confirmation requires a full lineup
+ok 234 - filled slots can be edited or cleared and confirmation requires a full lineup
+  ---
+  duration_ms: 0.3062
+  type: 'test'
+  ...
+# Subtest: practice always uses one slot and switching formats never silently fills teammates
+ok 235 - practice always uses one slot and switching formats never silently fills teammates
+  ---
+  duration_ms: 0.1961
+  type: 'test'
+  ...
+# Subtest: explicit seeds validate IDs and duplicates; snapshots cannot mutate picks
+ok 236 - explicit seeds validate IDs and duplicates; snapshots cannot mutate picks
+  ---
+  duration_ms: 0.2464
+  type: 'test'
+  ...
+# Subtest: baseline walking, air speed and screen scale match reference body-normalized values
+ok 237 - baseline walking, air speed and screen scale match reference body-normalized values
+  ---
+  duration_ms: 8.5496
+  type: 'test'
+  ...
+# Subtest: jump height and flight time match reference and a second press gives exactly one air jump
+ok 238 - jump height and flight time match reference and a second press gives exactly one air jump
+  ---
+  duration_ms: 5.0855
+  type: 'test'
+  ...
+# Subtest: air dash has reference distance, cooldown and initial invulnerability without defying gravity
+ok 239 - air dash has reference distance, cooldown and initial invulnerability without defying gravity
+  ---
+  duration_ms: 3.4807
+  type: 'test'
+  ...
+# Subtest: successive light presses branch into three attacks on whiff and on hit
+ok 240 - successive light presses branch into three attacks on whiff and on hit
+  ---
+  duration_ms: 19.5475
+  type: 'test'
+  ...
+# Subtest: special input buffers for 300ms while a whiff recovers, without re-triggering held keyboard attacks
+ok 241 - special input buffers for 300ms while a whiff recovers, without re-triggering held keyboard attacks
+  ---
+  duration_ms: 3.8874
+  type: 'test'
+  ...
+# Subtest: hitstop matches four/five/eight reference frames and stronger simultaneous impacts win
+ok 242 - hitstop matches four/five/eight reference frames and stronger simultaneous impacts win
+  ---
+  duration_ms: 1.8106
+  type: 'test'
+  ...
+# Subtest: ground recoil stops linearly, while air recoil survives hitstun and air hits relaunch
+ok 243 - ground recoil stops linearly, while air recoil survives hitstun and air hits relaunch
+  ---
+  duration_ms: 0.8674
+  type: 'test'
+  ...
+# Subtest: launched third hit creates heavy landing, down protection and a wakeup window
+ok 244 - launched third hit creates heavy landing, down protection and a wakeup window
+  ---
+  duration_ms: 3.6205
+  type: 'test'
+  ...
+# Subtest: standing jab advances into range and body separation is skipped only during a dash
+ok 245 - standing jab advances into range and body separation is skipped only during a dash
+  ---
+  duration_ms: 0.7642
+  type: 'test'
+  ...
+# Subtest: air normals can recover into a second air normal and held touch light chains without keyboard autorepeat
+ok 246 - air normals can recover into a second air normal and held touch light chains without keyboard autorepeat
+  ---
+  duration_ms: 4.1358
+  type: 'test'
+  ...
+# Subtest: strong impact camera briefly focuses, recovers, stays inside bounds and pauses exactly
+ok 247 - strong impact camera briefly focuses, recovers, stays inside bounds and pauses exactly
+  ---
+  duration_ms: 0.9788
+  type: 'test'
+  ...
+# Subtest: landing during air dash retains its remaining travel
+ok 248 - landing during air dash retains its remaining travel
+  ---
+  duration_ms: 1.4865
+  type: 'test'
+  ...
+# Subtest: a fresh same-button edge survives frozen held input and is consumed only once
+ok 249 - a fresh same-button edge survives frozen held input and is consumed only once
+  ---
+  duration_ms: 1.6956
+  type: 'test'
+  ...
+# Subtest: Soyo forward I selects cutline in either direction and retains base I and down I heal
+ok 250 - Soyo forward I selects cutline in either direction and retains base I and down I heal
+  ---
+  duration_ms: 4.228
+  type: 'test'
+  ...
+# Subtest: player 1 spends 25 energy for exactly two forward cuts and a final push
+ok 251 - player 1 spends 25 energy for exactly two forward cuts and a final push
+  ---
+  duration_ms: 9.647
+  type: 'test'
+  ...
+# Subtest: player 2 spends 25 energy for exactly two forward cuts and a final push
+ok 252 - player 2 spends 25 energy for exactly two forward cuts and a final push
+  ---
+  duration_ms: 3.412
+  type: 'test'
+  ...
+# Subtest: cutline rejects insufficient energy, airborne casting and every other character
+ok 253 - cutline rejects insufficient energy, airborne casting and every other character
+  ---
+  duration_ms: 8.0745
+  type: 'test'
+  ...
+# Subtest: cutline has bounded forward and vertical reach, respects guard and steel
+ok 254 - cutline has bounded forward and vertical reach, respects guard and steel
+  ---
+  duration_ms: 9.488
+  type: 'test'
+  ...
+# Subtest: a hit interrupts cutline, pause freezes it, and round cleanup prevents late cuts
+ok 255 - a hit interrupts cutline, pause freezes it, and round cleanup prevents late cuts
+  ---
+  duration_ms: 2.3811
+  type: 'test'
+  ...
+# Subtest: cutline damages enemy summons with both cuts but leaves friendly summons intact
+ok 256 - cutline damages enemy summons with both cuts but leaves friendly summons intact
+  ---
+  duration_ms: 3.7316
+  type: 'test'
+  ...
+# Subtest: CPU Soyo selects cutline at medium range when she has enough energy
+ok 257 - CPU Soyo selects cutline at medium range when she has enough energy
+  ---
+  duration_ms: 3.6393
+  type: 'test'
+  ...
+# Subtest: cutline uses windup, two different existing hand poses, then recovery
+ok 258 - cutline uses windup, two different existing hand poses, then recovery
+  ---
+  duration_ms: 1.5716
+  type: 'test'
+  ...
+# Subtest: Soyo self heal spends 35, channels before restoring 24 and never damages the opponent
+ok 259 - Soyo self heal spends 35, channels before restoring 24 and never damages the opponent
+  ---
+  duration_ms: 11.5887
+  type: 'test'
+  ...
+# Subtest: heal caps health, rejects full health, insufficient energy, airborne and non-Soyo casts
+ok 260 - heal caps health, rejects full health, insufficient energy, airborne and non-Soyo casts
+  ---
+  duration_ms: 11.2442
+  type: 'test'
+  ...
+# Subtest: incoming hits interrupt channel and spend the cost without granting delayed healing or invulnerability
+ok 261 - incoming hits interrupt channel and spend the cost without granting delayed healing or invulnerability
+  ---
+  duration_ms: 6.7077
+  type: 'test'
+  ...
+# Subtest: independent cooldown forbids repeat heals even with practice energy recovery
+ok 262 - independent cooldown forbids repeat heals even with practice energy recovery
+  ---
+  duration_ms: 24.5903
+  type: 'test'
+  ...
+# Subtest: pause freezes cast and cooldown, restart clears them, and a lost round cannot heal afterward
+ok 263 - pause freezes cast and cooldown, restart clears them, and a lost round cannot heal afterward
+  ---
+  duration_ms: 2.5226
+  type: 'test'
+  ...
+# Subtest: both players can heal independently while standing on raised platforms
+ok 264 - both players can heal independently while standing on raised platforms
+  ---
+  duration_ms: 3.7073
+  type: 'test'
+  ...
+# Subtest: CPU heals when wounded at distance and keeps attacking at full health or on cooldown
+ok 265 - CPU heals when wounded at distance and keeps attacking at full health or on cooldown
+  ---
+  duration_ms: 5.8776
+  type: 'test'
+  ...
+# Subtest: Soyo heal has four distinct timed drawings and is replaced immediately by a hit reaction
+ok 266 - Soyo heal has four distinct timed drawings and is replaced immediately by a hit reaction
+  ---
+  duration_ms: 1.2635
+  type: 'test'
+  ...
+# Subtest: Soyo palms, beckoning cast, restrained movement and defense use her dedicated atlas names
+ok 267 - Soyo palms, beckoning cast, restrained movement and defense use her dedicated atlas names
+  ---
+  duration_ms: 0.7306
+  type: 'test'
+  ...
+# Subtest: Soyo T costs 50 and summons exactly three units, while Anon T remains TGW
+ok 268 - Soyo T costs 50 and summons exactly three units, while Anon T remains TGW
+  ---
+  duration_ms: 11.0756
+  type: 'test'
+  ...
+# Subtest: summoning requires ground, enough energy and Soyo, and startup can be interrupted
+ok 269 - summoning requires ground, enough energy and Soyo, and startup can be interrupted
+  ---
+  duration_ms: 7.2272
+  type: 'test'
+  ...
+# Subtest: the group lasts ten active combat seconds and cannot be stacked or refreshed while active
+ok 270 - the group lasts ten active combat seconds and cannot be stacked or refreshed while active
+  ---
+  duration_ms: 20.912
+  type: 'test'
+  ...
+# Subtest: all three independently strike the opponent without hurting their owner or farming owner energy
+ok 271 - all three independently strike the opponent without hurting their owner or farming owner energy
+  ---
+  duration_ms: 11.3364
+  type: 'test'
+  ...
+# Subtest: standing and crouching guard stop the rush damage except one chip per hit
+ok 272 - standing and crouching guard stop the rush damage except one chip per hit
+  ---
+  duration_ms: 9.6784
+  type: 'test'
+  ...
+# Subtest: Anon steel intercepts frontal minion strikes with real durability loss
+ok 273 - Anon steel intercepts frontal minion strikes with real durability loss
+  ---
+  duration_ms: 4.8534
+  type: 'test'
+  ...
+# Subtest: pause freezes all minion timers and positions; restart and round result clear them
+ok 274 - pause freezes all minion timers and positions; restart and round result clear them
+  ---
+  duration_ms: 4.1244
+  type: 'test'
+  ...
+# Subtest: both players can own three units independently, including on platforms
+ok 275 - both players can own three units independently, including on platforms
+  ---
+  duration_ms: 3.471
+  type: 'test'
+  ...
+# Subtest: CPU Soyo can invoke the new summon through normal game input
+ok 276 - CPU Soyo can invoke the new summon through normal game input
+  ---
+  duration_ms: 6.6401
+  type: 'test'
+  ...
+# Subtest: each summon starts with independent 20 HP and a stable three-unit identity
+ok 277 - each summon starts with independent 20 HP and a stable three-unit identity
+  ---
+  duration_ms: 1.5258
+  type: 'test'
+  ...
+# Subtest: real melee damages a hostile minion only once per cast and reports its remaining HP
+ok 278 - real melee damages a hostile minion only once per cast and reports its remaining HP
+  ---
+  duration_ms: 4.7916
+  type: 'test'
+  ...
+# Subtest: one melee cast can hit multiple units and the fighter without consuming later unit contacts
+ok 279 - one melee cast can hit multiple units and the fighter without consuming later unit contacts
+  ---
+  duration_ms: 1.4783
+  type: 'test'
+  ...
+# Subtest: melee respects facing, horizontal range and vertical separation; throws skip minions
+ok 280 - melee respects facing, horizontal range and vertical separation; throws skip minions
+  ---
+  duration_ms: 3.8234
+  type: 'test'
+  ...
+# Subtest: each legitimate super pulse damages units once while dead units disappear and survivors keep stable strikes
+ok 281 - each legitimate super pulse damages units once while dead units disappear and survivors keep stable strikes
+  ---
+  duration_ms: 1.4387
+  type: 'test'
+  ...
+# Subtest: defeating every unit immediately clears the group and permits another paid summon
+ok 282 - defeating every unit immediately clears the group and permits another paid summon
+  ---
+  duration_ms: 1.509
+  type: 'test'
+  ...
+# Subtest: a real projectile is intercepted by the first hostile body, damages one unit, and cannot pass through
+ok 283 - a real projectile is intercepted by the first hostile body, damages one unit, and cannot pass through
+  ---
+  duration_ms: 1.1933
+  type: 'test'
+  ...
+# Subtest: projectiles miss elevated minions, cannot hit friendly summons, and still expire against terrain
+ok 284 - projectiles miss elevated minions, cannot hit friendly summons, and still expire against terrain
+  ---
+  duration_ms: 2.2419
+  type: 'test'
+  ...
+# Subtest: delayed area damage hits hostile units only on its terrain surface and fires only once
+ok 285 - delayed area damage hits hostile units only on its terrain surface and fires only once
+  ---
+  duration_ms: 0.987
+  type: 'test'
+  ...
+# Subtest: summon calls each living unit once at 0/1000/2000ms, never on attack, and pause freezes the schedule
+ok 286 - summon calls each living unit once at 0/1000/2000ms, never on attack, and pause freezes the schedule
+  ---
+  duration_ms: 12.6559
+  type: 'test'
+  ...
+# Subtest: a unit defeated before its scheduled call never speaks or strikes later
+ok 287 - a unit defeated before its scheduled call never speaks or strikes later
+  ---
+  duration_ms: 5.6094
+  type: 'test'
+  ...
+# Subtest: own melee and area pulses leave friendly summons intact while damaging the opposing group
+ok 288 - own melee and area pulses leave friendly summons intact while damaging the opposing group
+  ---
+  duration_ms: 1.246
+  type: 'test'
+  ...
+# Subtest: real projectile emission damages minions on either side and each super shot keeps its own pulse damage
+ok 289 - real projectile emission damages minions on either side and each super shot keeps its own pulse damage
+  ---
+  duration_ms: 4.4608
+  type: 'test'
+  ...
+# Subtest: targeted area super pulses can hit minions independently when the opposing fighter already took the pulse
+ok 290 - targeted area super pulses can hit minions independently when the opposing fighter already took the pulse
+  ---
+  duration_ms: 1.3975
+  type: 'test'
+  ...
+# Subtest: Soyo P spends 100 and exposes her named super only in her move list
+ok 291 - Soyo P spends 100 and exposes her named super only in her move list
+  ---
+  duration_ms: 8.433
+  type: 'test'
+  ...
+# Subtest: super rejects insufficient energy and airborne casts without spending energy
+ok 292 - super rejects insufficient energy and airborne casts without spending energy
+  ---
+  duration_ms: 5.0042
+  type: 'test'
+  ...
+# Subtest: Soyo super controls once without damage, knockdown or energy gain
+ok 293 - Soyo super controls once without damage, knockdown or energy gain
+  ---
+  duration_ms: 12.9662
+  type: 'test'
+  ...
+# Subtest: super bypasses guard and steel while distant targets remain outside its circle
+ok 294 - super bypasses guard and steel while distant targets remain outside its circle
+  ---
+  duration_ms: 36.4704
+  type: 'test'
+  ...
+# Subtest: startup protects Soyo briefly; after release hits stagger her while her wave persists
+ok 295 - startup protects Soyo briefly; after release hits stagger her while her wave persists
+  ---
+  duration_ms: 8.7138
+  type: 'test'
+  ...
+# Subtest: pause freezes the cast, restart clears it and 2P can cast independently
+ok 296 - pause freezes the cast, restart clears it and 2P can cast independently
+  ---
+  duration_ms: 1.0776
+  type: 'test'
+  ...
+# Subtest: a confirmed normal can cancel into Soyo super
+ok 297 - a confirmed normal can cancel into Soyo super
+  ---
+  duration_ms: 1.3985
+  type: 'test'
+  ...
+# Subtest: Soyo super selects preparation, release and recovery poses
+ok 298 - Soyo super selects preparation, release and recovery poses
+  ---
+  duration_ms: 0.9782
+  type: 'test'
+  ...
+# Subtest: every stage asset is inside this standalone repository
+ok 299 - every stage asset is inside this standalone repository
+  ---
+  duration_ms: 2.891
+  type: 'test'
+  ...
+# Subtest: steel shield costs 20, belongs to Anon, requires ground, and does not attack
+ok 300 - steel shield costs 20, belongs to Anon, requires ground, and does not attack
+  ---
+  duration_ms: 8.3066
+  type: 'test'
+  ...
+# Subtest: plate absorbs frontal strikes with durability, breaks, and passes excess damage to HP
+ok 301 - plate absorbs frontal strikes with durability, breaks, and passes excess damage to HP
+  ---
+  duration_ms: 2.5687
+  type: 'test'
+  ...
+# Subtest: front plate intercepts real projectiles but throws and rear attacks bypass it
+ok 302 - front plate intercepts real projectiles but throws and rear attacks bypass it
+  ---
+  duration_ms: 3.7121
+  type: 'test'
+  ...
+# Subtest: guard chip after steel breaks cannot exceed the damage left over
+ok 303 - guard chip after steel breaks cannot exceed the damage left over
+  ---
+  duration_ms: 1.7342
+  type: 'test'
+  ...
+# Subtest: shield can stay up while acting, refreshes without stacking, freezes on pause and resets
+ok 304 - shield can stay up while acting, refreshes without stacking, freezes on pause and resets
+  ---
+  duration_ms: 16.2967
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 0/normal, both players
+ok 305 - P armor preserves damage, action and position: character 0/normal, both players
+  ---
+  duration_ms: 20.0588
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 2/normal, both players
+ok 306 - P armor preserves damage, action and position: character 2/normal, both players
+  ---
+  duration_ms: 3.1776
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 2/penguin, both players
+ok 307 - P armor preserves damage, action and position: character 2/penguin, both players
+  ---
+  duration_ms: 3.7491
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 3/normal, both players
+ok 308 - P armor preserves damage, action and position: character 3/normal, both players
+  ---
+  duration_ms: 2.8379
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 4/normal, both players
+ok 309 - P armor preserves damage, action and position: character 4/normal, both players
+  ---
+  duration_ms: 2.8331
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 5/normal, both players
+ok 310 - P armor preserves damage, action and position: character 5/normal, both players
+  ---
+  duration_ms: 2.8676
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 5/stage, both players
+ok 311 - P armor preserves damage, action and position: character 5/stage, both players
+  ---
+  duration_ms: 3.0417
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 6/normal, both players
+ok 312 - P armor preserves damage, action and position: character 6/normal, both players
+  ---
+  duration_ms: 2.3162
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 6/stage, both players
+ok 313 - P armor preserves damage, action and position: character 6/stage, both players
+  ---
+  duration_ms: 2.3429
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 7/normal, both players
+ok 314 - P armor preserves damage, action and position: character 7/normal, both players
+  ---
+  duration_ms: 3.0864
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 7/stage, both players
+ok 315 - P armor preserves damage, action and position: character 7/stage, both players
+  ---
+  duration_ms: 2.3264
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 8/normal, both players
+ok 316 - P armor preserves damage, action and position: character 8/normal, both players
+  ---
+  duration_ms: 1.6037
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 8/stage, both players
+ok 317 - P armor preserves damage, action and position: character 8/stage, both players
+  ---
+  duration_ms: 1.5079
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 9/normal, both players
+ok 318 - P armor preserves damage, action and position: character 9/normal, both players
+  ---
+  duration_ms: 1.2456
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 9/stage, both players
+ok 319 - P armor preserves damage, action and position: character 9/stage, both players
+  ---
+  duration_ms: 3.5572
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 10/normal, both players
+ok 320 - P armor preserves damage, action and position: character 10/normal, both players
+  ---
+  duration_ms: 4.4466
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 11/normal, both players
+ok 321 - P armor preserves damage, action and position: character 11/normal, both players
+  ---
+  duration_ms: 2.1948
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 12/normal, both players
+ok 322 - P armor preserves damage, action and position: character 12/normal, both players
+  ---
+  duration_ms: 3.9736
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 13/normal, both players
+ok 323 - P armor preserves damage, action and position: character 13/normal, both players
+  ---
+  duration_ms: 1.6535
+  type: 'test'
+  ...
+# Subtest: P armor preserves damage, action and position: character 14/normal, both players
+ok 324 - P armor preserves damage, action and position: character 14/normal, both players
+  ---
+  duration_ms: 1.7571
+  type: 'test'
+  ...
+# Subtest: armor survives real melee and projectile collision and the super continues emitting
+ok 325 - armor survives real melee and projectile collision and the super continues emitting
+  ---
+  duration_ms: 15.0814
+  type: 'test'
+  ...
+# Subtest: armor ends with the move, ordinary skills still stagger, and lethal damage still ends the round
+ok 326 - armor ends with the move, ordinary skills still stagger, and lethal damage still ends the round
+  ---
+  duration_ms: 9.4799
+  type: 'test'
+  ...
+# Subtest: 3v3 copies two ordered teams and starts their first members independently of control mode
+ok 327 - 3v3 copies two ordered teams and starts their first members independently of control mode
+  ---
+  duration_ms: 3.1864
+  type: 'test'
+  ...
+# Subtest: 3v3 rejects malformed, duplicate and out of roster teams
+ok 328 - 3v3 rejects malformed, duplicate and out of roster teams
+  ---
+  duration_ms: 1.3868
+  type: 'test'
+  ...
+# Subtest: side 0 replaces only its defeated fighter; survivor HP and energy carry
+ok 329 - side 0 replaces only its defeated fighter; survivor HP and energy carry
+  ---
+  duration_ms: 4.8998
+  type: 'test'
+  ...
+# Subtest: side 1 replaces only its defeated fighter; survivor HP and energy carry
+ok 330 - side 1 replaces only its defeated fighter; survivor HP and energy carry
+  ---
+  duration_ms: 0.806
+  type: 'test'
+  ...
+# Subtest: two wins do not end a team battle and the third defeated opponent ends it
+ok 331 - two wins do not end a team battle and the third defeated opponent ends it
+  ---
+  duration_ms: 2.2331
+  type: 'test'
+  ...
+# Subtest: a final survivor can win after both teams have lost members
+ok 332 - a final survivor can win after both teams have lost members
+  ---
+  duration_ms: 1.2311
+  type: 'test'
+  ...
+# Subtest: equal timeout and double KO advance both queues, with a draw when both are exhausted
+ok 333 - equal timeout and double KO advance both queues, with a draw when both are exhausted
+  ---
+  duration_ms: 1.6218
+  type: 'test'
+  ...
+# Subtest: unequal timeout removes the lower HP fighter and preserves the winner resources
+ok 334 - unequal timeout removes the lower HP fighter and preserves the winner resources
+  ---
+  duration_ms: 0.447
+  type: 'test'
+  ...
+# Subtest: team intermission lasts for the complete victory presentation; pause freezes it and ready countdown follows
+ok 335 - team intermission lasts for the complete victory presentation; pause freezes it and ready countdown follows
+  ---
+  duration_ms: 0.4924
+  type: 'test'
+  ...
+# Subtest: a bulk advance consumes remaining time after automatic team advancement
+ok 336 - a bulk advance consumes remaining time after automatic team advancement
+  ---
+  duration_ms: 0.5482
+  type: 'test'
+  ...
+# Subtest: tagging clears transient statuses, projectiles, Soyo control and summons without hitstop ghosts
+ok 337 - tagging clears transient statuses, projectiles, Soyo control and summons without hitstop ghosts
+  ---
+  duration_ms: 0.9044
+  type: 'test'
+  ...
+# Subtest: a surviving Riki carries four beats but a fresh Riki starts with none
+ok 338 - a surviving Riki carries four beats but a fresh Riki starts with none
+  ---
+  duration_ms: 0.5436
+  type: 'test'
+  ...
+# Subtest: tagged Mujica and Mewtype fighters use their original kits and forms
+ok 339 - tagged Mujica and Mewtype fighters use their original kits and forms
+  ---
+  duration_ms: 1.1946
+  type: 'test'
+  ...
+# Subtest: CPU continues controlling the newly tagged fighter
+ok 340 - CPU continues controlling the newly tagged fighter
+  ---
+  duration_ms: 39.7758
+  type: 'test'
+  ...
+# Subtest: restart resets team queues and resources while keeping the original team choices
+ok 341 - restart resets team queues and resources while keeping the original team choices
+  ---
+  duration_ms: 2.5195
+  type: 'test'
+  ...
+# Subtest: default solo rounds automatically continue and finish at two wins
+ok 342 - default solo rounds automatically continue and finish at two wins
+  ---
+  duration_ms: 1.2451
+  type: 'test'
+  ...
+# Subtest: jump passes upward through a deck, lands on top and walks off into a fall
+ok 343 - jump passes upward through a deck, lands on top and walks off into a fall
+  ---
+  duration_ms: 10.348
+  type: 'test'
+  ...
+# Subtest: a platform supports standing/crouching attacks, guard and steel shield
+ok 344 - a platform supports standing/crouching attacks, guard and steel shield
+  ---
+  duration_ms: 7.4247
+  type: 'test'
+  ...
+# Subtest: jump, rising and spin start from the elevated surface without snapping to the bottom
+ok 345 - jump, rising and spin start from the elevated surface without snapping to the bottom
+  ---
+  duration_ms: 19.4966
+  type: 'test'
+  ...
+# Subtest: down+jump drops through a platform, cannot loop jumps while held, and works for P2
+ok 346 - down+jump drops through a platform, cannot loop jumps while held, and works for P2
+  ---
+  duration_ms: 3.1686
+  type: 'test'
+  ...
+# Subtest: dive height is measured above the supporting surface, and platform landing finishes the dive
+ok 347 - dive height is measured above the supporting surface, and platform landing finishes the dive
+  ---
+  duration_ms: 4.7001
+  type: 'test'
+  ...
+# Subtest: throws work on a shared elevated surface but cannot grab a fighter on another level
+ok 348 - throws work on a shared elevated surface but cannot grab a fighter on another level
+  ---
+  duration_ms: 1.5802
+  type: 'test'
+  ...
+# Subtest: sloped ground sets spawn height, follows walking and receives a jump correctly
+ok 349 - sloped ground sets spawn height, follows walking and receives a jump correctly
+  ---
+  duration_ms: 4.9603
+  type: 'test'
+  ...
+# Subtest: solid ground intercepts a projectile while a high projectile can pass over it
+ok 350 - solid ground intercepts a projectile while a high projectile can pass over it
+  ---
+  duration_ms: 6.5454
+  type: 'test'
+  ...
+# Subtest: switching terrain preserves combat resources, removes support naturally and pause freezes a drop
+ok 351 - switching terrain preserves combat resources, removes support naturally and pause freezes a drop
+  ---
+  duration_ms: 4.5605
+  type: 'test'
+  ...
+# Subtest: CPU climbs reachable platforms using the same jump speed and gravity as a player
+ok 352 - CPU climbs reachable platforms using the same jump speed and gravity as a player
+  ---
+  duration_ms: 2.2904
+  type: 'test'
+  ...
+# Subtest: the CPU can reach the highest deck in every shipped map
+ok 353 - the CPU can reach the highest deck in every shipped map
+  ---
+  duration_ms: 54.378
+  type: 'test'
+  ...
+# Subtest: a raised floor finishes airborne attacks and refreshes the next jump when switching maps
+ok 354 - a raised floor finishes airborne attacks and refreshes the next jump when switching maps
+  ---
+  duration_ms: 1.1916
+  type: 'test'
+  ...
+# Subtest: TGW is an Anon ground special costing 30 and appears in the command list
+ok 355 - TGW is an Anon ground special costing 30 and appears in the command list
+  ---
+  duration_ms: 8.5495
+  type: 'test'
+  ...
+# Subtest: one expanding sonic wave travels forward, hits once and pushes on either side
+ok 356 - one expanding sonic wave travels forward, hits once and pushes on either side
+  ---
+  duration_ms: 10.6472
+  type: 'test'
+  ...
+# Subtest: TGW can be guarded, absorbed by steel, and cancelled by an opposing projectile
+ok 357 - TGW can be guarded, absorbed by steel, and cancelled by an opposing projectile
+  ---
+  duration_ms: 10.7878
+  type: 'test'
+  ...
+# Subtest: sonic has finite range, recovers on whiff, freezes with pause and clears on restart
+ok 358 - sonic has finite range, recovers on whiff, freezes with pause and clears on restart
+  ---
+  duration_ms: 5.11
+  type: 'test'
+  ...
+# Subtest: jumping with steel still intercepts the overlapping height of an expanded TGW wave
+ok 359 - jumping with steel still intercepts the overlapping height of an expanded TGW wave
+  ---
+  duration_ms: 3.6532
+  type: 'test'
+  ...
+# Subtest: Tomori has a full identity, unique voice moves and none of the other girls exclusive skills
+ok 360 - Tomori has a full identity, unique voice moves and none of the other girls exclusive skills
+  ---
+  duration_ms: 9.3752
+  type: 'test'
+  ...
+# Subtest: voice casts require Tomori, enough energy and ground, including elevated platforms
+ok 361 - voice casts require Tomori, enough energy and ground, including elevated platforms
+  ---
+  duration_ms: 1.576
+  type: 'test'
+  ...
+# Subtest: I and T produce distinct single projectiles, deal their own damage and travel on either side
+ok 362 - I and T produce distinct single projectiles, deal their own damage and travel on either side
+  ---
+  duration_ms: 11.8167
+  type: 'test'
+  ...
+# Subtest: L sings three separate travelling pulses for one cost, including after the first pulse connects
+ok 363 - L sings three separate travelling pulses for one cost, including after the first pulse connects
+  ---
+  duration_ms: 3.3808
+  type: 'test'
+  ...
+# Subtest: interrupting singing stops remaining emissions without deleting already released notes
+ok 364 - interrupting singing stops remaining emissions without deleting already released notes
+  ---
+  duration_ms: 1.5918
+  type: 'test'
+  ...
+# Subtest: voice projectiles can be guarded, intercepted by steel and cancelled by another projectile
+ok 365 - voice projectiles can be guarded, intercepted by steel and cancelled by another projectile
+  ---
+  duration_ms: 10.7921
+  type: 'test'
+  ...
+# Subtest: pause freezes the full chorus and restart clears waves while preserving Tomori selection
+ok 366 - pause freezes the full chorus and restart clears waves while preserving Tomori selection
+  ---
+  duration_ms: 2.4231
+  type: 'test'
+  ...
+# Subtest: Tomori normal reach uses her compact profile and U remains a real throw
+ok 367 - Tomori normal reach uses her compact profile and U remains a real throw
+  ---
+  duration_ms: 1.7884
+  type: 'test'
+  ...
+# Subtest: CPU Tomori chooses her voice kit through ordinary input at range
+ok 368 - CPU Tomori chooses her voice kit through ordinary input at range
+  ---
+  duration_ms: 1.6473
+  type: 'test'
+  ...
+# Subtest: Tomori uses microphone idle, compact strikes and all three distinct singing poses
+ok 369 - Tomori uses microphone idle, compact strikes and all three distinct singing poses
+  ---
+  duration_ms: 1.5459
+  type: 'test'
+  ...
+# Subtest: each penguin skill plays its recorded buffer, once, only while sound is enabled
+ok 370 - each penguin skill plays its recorded buffer, once, only while sound is enabled
+  ---
+  duration_ms: 2.9139
+  type: 'test'
+  ...
+# Subtest: players have independent voice channels; pause resumes the remaining clip, mute clears it
+ok 371 - players have independent voice channels; pause resumes the remaining clip, mute clears it
+  ---
+  duration_ms: 0.4673
+  type: 'test'
+  ...
+# Subtest: natural completion, interruption and reset cannot leave a delayed or stale voice
+ok 372 - natural completion, interruption and reset cannot leave a delayed or stale voice
+  ---
+  duration_ms: 0.3629
+  type: 'test'
+  ...
+# Subtest: both players can move beyond the former screen and stop at the expanded world edges
+ok 373 - both players can move beyond the former screen and stop at the expanded world edges
+  ---
+  duration_ms: 17.4539
+  type: 'test'
+  ...
+# Subtest: lower ground interpolates ramps, supports jumps, downward drops and low-altitude knockdown
+ok 374 - lower ground interpolates ramps, supports jumps, downward drops and low-altitude knockdown
+  ---
+  duration_ms: 7.591
+  type: 'test'
+  ...
+# Subtest: projectiles and all three Soyo summons keep working outside the original screen
+ok 375 - projectiles and all three Soyo summons keep working outside the original screen
+  ---
+  duration_ms: 8.4685
+  type: 'test'
+  ...
+# Subtest: ceiling bounds the expanded upward range without locking the fighter in the air
+ok 376 - ceiling bounds the expanded upward range without locking the fighter in the air
+  ---
+  duration_ms: 5.5264
+  type: 'test'
+  ...
+# Subtest: all shipped maps have reachable outer tiers, lower ground and an unchanged central spawn area
+ok 377 - all shipped maps have reachable outer tiers, lower ground and an unchanged central spawn area
+  ---
+  duration_ms: 1.4904
+  type: 'test'
+  ...
+1..377
+# tests 377
+# suites 0
+# pass 377
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1944.2629

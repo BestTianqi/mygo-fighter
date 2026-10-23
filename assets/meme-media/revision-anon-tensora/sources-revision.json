@@ -1,0 +1,39 @@
+{
+  "clips": [
+    {
+      "character": "anon",
+      "slot": "p",
+      "label": "千早爱音唐笑",
+      "audio": "assets/meme-media/revision-anon-tensora/anon-original-laugh.mp3",
+      "start": 12,
+      "end": 14.4,
+      "url": "https://www.bilibili.com/video/BV1eF411y7eK/",
+      "bvid": "BV1eF411y7eK",
+      "cid": 1235487292,
+      "page": 1,
+      "title": "Mygo 圣爱音傻笑两分钟 自用",
+      "author": "ruiy1",
+      "speakerVerification": "2023 anime-scene upload contains continuous Japanese Anon dialogue into her bath-scene laugh, before 2025 Taffy/doll meme uploads. This is actual character voice context, not a claimed original of the later Taffy soundtrack meme.",
+      "video": "assets/meme-media/revision-anon-tensora/anon-original-laugh.mp4"
+    }
+  ],
+  "summonCall": {
+    "character": "soyo",
+    "slot": "summonCall",
+    "label": "哦也！",
+    "audio": "assets/meme-media/revision-anon-tensora/tensora-ohyeah.mp3",
+    "start": 1.9,
+    "end": 2.87,
+    "url": "https://www.bilibili.com/video/BV1WA9kBfEbx/",
+    "bvid": "BV1WA9kBfEbx",
+    "cid": 37917557795,
+    "page": 1,
+    "title": "欧耶欧耶单手运球超级感谢@欧耶玩偶工坊 制作出的可爱肥肥天素罗[打call]",
+    "author": "PastelPlushPuppy",
+    "speakerVerification": "Reviewed source video contact sheet: chunky yellow chick-suit Soyo plush bounced by hand. Source uploader and title explicitly identify 天素罗 and 欧耶. Selected exactly one two-syllable unit from source 1.90 to 2.87 seconds, with quiet boundaries."
+  },
+  "notes": [
+    "Replaces the superseded Taffy dub with the actual Anon anime voice.",
+    "Each surviving familiar calls once at0/1000/2000ms in its own channel."
+  ]
+}

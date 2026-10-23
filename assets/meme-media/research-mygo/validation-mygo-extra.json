@@ -1,0 +1,72 @@
+[
+  {
+    "file": "rana-u-parfait.mp3",
+    "bytes": 14838,
+    "decoded": true
+  },
+  {
+    "file": "taki-u-ha.mp3",
+    "bytes": 19854,
+    "decoded": true
+  },
+  {
+    "file": "taki-i-ha.mp3",
+    "bytes": 21108,
+    "decoded": true
+  },
+  {
+    "file": "taki-o-ha.mp3",
+    "bytes": 11494,
+    "decoded": true
+  },
+  {
+    "file": "taki-p-ha-barrage.mp3",
+    "bytes": 169901,
+    "decoded": true
+  },
+  {
+    "file": "taki-p-ha-barrage.mp4",
+    "bytes": 474028,
+    "decoded": true
+  },
+  {
+    "file": "umiri-u-intent.mp3",
+    "bytes": 23615,
+    "decoded": true
+  },
+  {
+    "file": "umiri-i-regret.mp3",
+    "bytes": 23615,
+    "decoded": true
+  },
+  {
+    "file": "umiri-o-no-weight.mp3",
+    "bytes": 34064,
+    "decoded": true
+  },
+  {
+    "file": "umiri-p-quarrel.mp3",
+    "bytes": 55798,
+    "decoded": true
+  },
+  {
+    "file": "umiri-p-quarrel.mp4",
+    "bytes": 85184,
+    "decoded": true
+  },
+  {
+    "file": "soyo-u-crychic.mp3",
+    "bytes": 64574,
+    "decoded": true
+  },
+  {
+    "file": "soyo-i-wait.mp3",
+    "bytes": 32391,
+    "decoded": true
+  },
+  {
+    "file": "soyo-o-anything.mp3",
+    "bytes": 40333,
+    "decoded": true
+  }
+]

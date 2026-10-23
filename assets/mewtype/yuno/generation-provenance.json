@@ -1,0 +1,34 @@
+{
+  "outputs": [
+    {
+      "group": 1,
+      "tool": "built-in image_gen",
+      "output_hint": "Generated images are saved to C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea as C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea\\exec-0a3e5e75-f8af-4485-b093-fb0f78260223.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "workspace_file": "mewtype/yuno/virtual/group-1-v1.png"
+    },
+    {
+      "group": 2,
+      "tool": "built-in image_gen",
+      "output_hint": "Generated images are saved to C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea as C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea\\exec-284cb3d7-8973-4066-ac04-bb0b1246c558.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "workspace_file": "mewtype/yuno/virtual/group-2-v1.png"
+    },
+    {
+      "group": 3,
+      "tool": "built-in image_gen",
+      "output_hint": "Generated images are saved to C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea as C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea\\exec-5d325aee-527f-409b-ad16-c673b30dabd3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "workspace_file": "mewtype/yuno/virtual/group-3-v1.png"
+    },
+    {
+      "group": 4,
+      "tool": "built-in image_gen",
+      "output_hint": "Generated images are saved to C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea as C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea\\exec-ee45ff79-ded9-4555-95f6-de1f3f8b080e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "workspace_file": "mewtype/yuno/virtual/group-4-v1.png"
+    },
+    {
+      "group": 5,
+      "tool": "built-in image_gen",
+      "output_hint": "Generated images are saved to C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea as C:\\Users\\xtqtb\\.codex\\generated_images\\01a15cfc-71ad-7952-80ab-58174ffc99ea\\exec-35182bb2-6938-4338-8671-cb5b2080e044.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "workspace_file": "mewtype/yuno/virtual/group-5-v1.png"
+    }
+  ]
+}

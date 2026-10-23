@@ -1,0 +1,2286 @@
+{
+  "version": 1,
+  "characters": {
+    "0": {
+      "id": 0,
+      "key": "anon",
+      "slots": {
+        "p": {
+          "voice": "meme_0_p",
+          "label": "千早爱音唐笑",
+          "slot": "p",
+          "audio": "assets/meme-media/revision-anon-tensora/anon-original-laugh.mp3",
+          "duration": 2.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1eF411y7eK/",
+            "uploader": "ruiy1",
+            "bvid": "BV1eF411y7eK",
+            "cid": 1235487292,
+            "page": 1,
+            "title": "Mygo 圣爱音傻笑两分钟 自用",
+            "start": 12,
+            "end": 14.4,
+            "proof": "2023 anime-scene upload contains continuous Japanese Anon dialogue into her bath-scene laugh, before 2025 Taffy/doll meme uploads. This is actual character voice context, not a claimed original of the later Taffy soundtrack meme.",
+            "catalog": "assets/meme-media/revision-anon-tensora/sources-revision.json"
+          },
+          "video": "assets/meme-media/revision-anon-tensora/anon-original-laugh.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_0_u",
+          "label": "下次别失败就努力呀",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/anon-u-effort.mp3",
+          "duration": 2.76,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 53.02,
+            "end": 55.78,
+            "proof": "Original uninterrupted dialogue, Anon speaks while Tomori reaction closeup; adjacent Anon face/lip shots57.5-65; small Whisper words53.10-55.62.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "またダメにならないように頑張ればよくない"
+        },
+        "i": {
+          "voice": "meme_0_i",
+          "label": "失败也能重来",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/anon-i-retry.mp3",
+          "duration": 4.12,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 57.58,
+            "end": 61.7,
+            "proof": "Anon front-face lip movements at59.0/60.5; burned subtitle 就算失败一次也要有重来的信心; small Whisper exact words57.68-61.54.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "一回ダメになってもやり直せるって思わないと"
+        },
+        "o": {
+          "voice": "meme_0_o",
+          "label": "人生还长着呢",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/anon-o-long-life.mp3",
+          "duration": 1.33,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 63.12,
+            "end": 64.45,
+            "proof": "Anon smiling face and lip movements at63/64; burned subtitle 人生这么长; small word timestamps63.22-64.36; ends before next phraseやってけないよ.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "人生長いんだし"
+        }
+      },
+      "variants": {
+        "anonCry": {
+          "voice": "meme_0_cry",
+          "label": "唐哭",
+          "slot": "cry",
+          "audio": "assets/meme-media/anon-cry-soyo-control/anon-cry.mp3",
+          "duration": 1.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1WGS3YMEZz/",
+            "uploader": "ZZZZZZZ--S",
+            "bvid": "BV1WGS3YMEZz",
+            "cid": 26537035076,
+            "page": 1,
+            "title": "[自用]爱音唐哭一分钟",
+            "start": 0.95,
+            "end": 2.75,
+            "proof": "千早爱音声优立石凛直播唐哭梗；与声优实录和出处讲解片分别波形相关0.976/0.965，非动画哭戏、非塔菲。",
+            "catalog": "assets/meme-media/anon-cry-soyo-control/sources.json"
+          }
+        },
+        "throw": {
+          "voice": "meme_0_o",
+          "label": "人生还长着呢",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/anon-o-long-life.mp3",
+          "duration": 1.33,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 63.12,
+            "end": 64.45,
+            "proof": "Anon smiling face and lip movements at63/64; burned subtitle 人生这么长; small word timestamps63.22-64.36; ends before next phraseやってけないよ.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "人生長いんだし"
+        },
+        "sonic": {
+          "voice": "meme_0_tgw",
+          "label": "TGW～丰川集团",
+          "slot": "i",
+          "audio": "assets/meme-media/combat-tempo/anon-tgw.mp3",
+          "duration": 3.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1srFZecETK/",
+            "uploader": "编新述旧",
+            "bvid": "BV1srFZecETK",
+            "cid": 28169736175,
+            "page": 1,
+            "title": "【万恶之源4K60帧】爱音のTGW丰川集团",
+            "start": 27.15,
+            "end": 30.85,
+            "proof": "原片爱音在灯面前唱出 TGW Group，已核对27.2–30秒画面字幕与口型；日语ASR辅助定位。",
+            "catalog": "assets/meme-media/combat-tempo/sources.json"
+          }
+        }
+      }
+    },
+    "1": {
+      "id": 1,
+      "key": "soyo",
+      "slots": {
+        "u": {
+          "voice": "meme_1_u",
+          "label": "我为了CRYCHIC一直努力",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/soyo-u-crychic.mp3",
+          "duration": 3.95,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+            "uploader": "浮华せんせい",
+            "bvid": "BV1tVzbYNE8A",
+            "cid": 27072597131,
+            "page": 1,
+            "title": "素世与祥子对话完整版",
+            "start": 186.8,
+            "end": 190.75,
+            "proof": "Original anime Soyo facing Sakiko; burned bilingual subtitle at188s; ASR184-188 close timing",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私は CRYCHICのために ずっと頑張ってきた"
+        },
+        "i": {
+          "voice": "meme_1_i",
+          "label": "等一下",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/soyo-i-wait.mp3",
+          "duration": 1.95,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+            "uploader": "浮华せんせい",
+            "bvid": "BV1tVzbYNE8A",
+            "cid": 27072597131,
+            "page": 1,
+            "title": "素世与祥子对话完整版",
+            "start": 207.0,
+            "end": 208.95,
+            "proof": "Burned subtitle 等下 at208s; ASR207-208 待って",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "待って"
+        },
+        "o": {
+          "voice": "meme_1_o",
+          "label": "能做到的我什么都愿意做",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/soyo-o-anything.mp3",
+          "duration": 2.43,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+            "uploader": "浮华せんせい",
+            "bvid": "BV1tVzbYNE8A",
+            "cid": 27072597131,
+            "page": 1,
+            "title": "素世与祥子对话完整版",
+            "start": 228.82,
+            "end": 231.25,
+            "proof": "Burned subtitle at229s; base ASR228-231 私にできることならないのをするから",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私にできることなら何でもするから"
+        },
+        "p": {
+          "voice": "soyoSuper",
+          "label": "为什么要演奏春日影",
+          "slot": "p",
+          "audio": "assets/soyo-haruhikage/soyo-haruhikage-voice.mp3",
+          "duration": 2.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Va67YjEPr/",
+            "uploader": "编新述旧",
+            "bvid": "BV1Va67YjEPr",
+            "cid": null,
+            "page": 1,
+            "title": null,
+            "start": 58.8,
+            "end": 61.4,
+            "proof": "Existing verified Haruhikage cut; legacy sidecar does not record cid.",
+            "catalog": "assets/soyo-haruhikage/sources.json"
+          },
+          "video": "assets/soyo-haruhikage/soyo-haruhikage-cutin.mp4",
+          "voiceRef": "soyoSuper",
+          "videoRef": "soyoSuperVideo",
+          "videoRate": 1
+        }
+      },
+      "variants": {
+        "soyoCutline": {
+          "voice": "meme_1_cutline",
+          "label": "我的衣服……被剪开了！",
+          "slot": "i",
+          "audio": "assets/meme-media/soyo-cutline/soyo-cutline.mp3",
+          "duration": 3.55,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV19p4y1K7Lz/",
+            "uploader": "后藤一里-波奇酱",
+            "bvid": "BV19p4y1K7Lz",
+            "cid": 1245707311,
+            "page": 1,
+            "title": "“Soyo的衣服被剪开了，乐奈装作没事”[BanG Dream!It's MyGO!!!!!]",
+            "start": 95.5,
+            "end": 99.05,
+            "proof": "动画第11话结尾：素世拿起被剪开的蓝色演出服，96秒字幕“我的衣服”，98秒字幕“被剪开了！”。相邻镜头与人物口型核对，使用该幕角色原声，不采用歌曲剪切线或语音合成。保留原片底音。",
+            "catalog": "assets/meme-media/soyo-cutline/sources.json"
+          },
+          "subtitle_zh": "我的衣服……被剪开了！"
+        },
+        "throw": {
+          "voice": "meme_1_o",
+          "label": "能做到的我什么都愿意做",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/soyo-o-anything.mp3",
+          "duration": 2.43,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1tVzbYNE8A",
+            "uploader": "浮华せんせい",
+            "bvid": "BV1tVzbYNE8A",
+            "cid": 27072597131,
+            "page": 1,
+            "title": "素世与祥子对话完整版",
+            "start": 228.82,
+            "end": 231.25,
+            "proof": "Burned subtitle at229s; base ASR228-231 私にできることならないのをするから",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私にできることなら何でもするから"
+        }
+      }
+    },
+    "2": {
+      "id": 2,
+      "key": "tomori",
+      "slots": {
+        "p": {
+          "voice": "meme_2_p",
+          "label": "一辈子乐队",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/tomori-p.mp3",
+          "duration": 7.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 0.25,
+            "end": 7.35,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/tomori-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_2_u",
+          "label": "组一辈子乐队吗",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/tomori-u-lifetime.mp3",
+          "duration": 3.55,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 3.8,
+            "end": 7.35,
+            "proof": "Tomori face and mouth closeups at3/5/7; burned subtitle 能一辈子陪我组乐队吗; small Whisper exact words3.86-7.24.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "一生、バンドしてくれる"
+        },
+        "i": {
+          "voice": "meme_2_i",
+          "label": "这是大家一起写的歌",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/tomori-i-our-song.mp3",
+          "duration": 2.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 17.45,
+            "end": 20.2,
+            "proof": "Tomori front-face lip movement17.8/18.8/19.7; burned bilingual subtitle 那是我们大家一起写的歌; small exact words17.52-20.10.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "みんなで作った曲だから"
+        },
+        "o": {
+          "voice": "meme_2_o",
+          "label": "可能是我的错",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/tomori-o-my-fault.mp3",
+          "duration": 2.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 42.1,
+            "end": 44.9,
+            "proof": "Original scene cuts to microphone while Tomori continues; burned subtitle 多分私のせい42.8/44; recognizable original Tomori voice and small exact words42.20-44.76. Camera is microphone, not Tomori face.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "多分、私のせい"
+        },
+        "h": {
+          "voice": "penguinCall",
+          "label": "咕咕嘎嘎",
+          "slot": "penguinCall",
+          "audio": "assets/audio/penguin-call.mp3",
+          "duration": 2.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 14.4,
+            "end": 16.85,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinCall"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_2_o",
+          "label": "可能是我的错",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/tomori-o-my-fault.mp3",
+          "duration": 2.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 42.1,
+            "end": 44.9,
+            "proof": "Original scene cuts to microphone while Tomori continues; burned subtitle 多分私のせい42.8/44; recognizable original Tomori voice and small exact words42.20-44.76. Camera is microphone, not Tomori face.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "多分、私のせい"
+        },
+        "penguinSuper": {
+          "voice": "meme_2_penguin_p",
+          "label": "春日影·企鹅演唱",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/penguin-p.mp3",
+          "duration": 2.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 4.25,
+            "end": 7.15,
+            "proof": null,
+            "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
+          },
+          "video": "assets/meme-media/recordings/penguin-p.mp4",
+          "videoRate": 1
+        },
+        "penguinKick": {
+          "voice": "penguinKick",
+          "label": "飞踢",
+          "slot": "penguinKick",
+          "audio": "assets/audio/penguin-kick.mp3",
+          "duration": 2.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 1.55,
+            "end": 3.65,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinKick"
+        },
+        "penguinCry": {
+          "voice": "penguinCry",
+          "label": "糖哭",
+          "slot": "penguinCry",
+          "audio": "assets/audio/penguin-cry.mp3",
+          "duration": 3.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 4.25,
+            "end": 7.4,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinCry"
+        },
+        "penguinHey": {
+          "voice": "penguinHey",
+          "label": "hey?",
+          "slot": "penguinHey",
+          "audio": "assets/audio/penguin-hey.mp3",
+          "duration": 2.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 9.65,
+            "end": 11.65,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinHey"
+        },
+        "penguinLaugh": {
+          "voice": "penguinLaugh",
+          "label": "唐笑",
+          "slot": "penguinLaugh",
+          "audio": "assets/audio/penguin-laugh.mp3",
+          "duration": 2.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 11.8,
+            "end": 14.25,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinLaugh"
+        },
+        "penguinCall": {
+          "voice": "penguinCall",
+          "label": "咕咕嘎嘎",
+          "slot": "penguinCall",
+          "audio": "assets/audio/penguin-call.mp3",
+          "duration": 2.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 14.4,
+            "end": 16.85,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinCall"
+        },
+        "penguinCryWave": {
+          "voice": "penguinCry",
+          "label": "糖哭",
+          "slot": "penguinCry",
+          "audio": "assets/audio/penguin-cry.mp3",
+          "duration": 3.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
+            "page": 1,
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 4.25,
+            "end": 7.4,
+            "proof": null,
+            "catalog": "assets/audio/penguin-voices.json"
+          },
+          "voiceRef": "penguinCry"
+        }
+      }
+    },
+    "3": {
+      "id": 3,
+      "key": "rana",
+      "slots": {
+        "p": {
+          "voice": "meme_3_p",
+          "label": "有趣的女人",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/rana-p.mp3",
+          "duration": 2.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+            "uploader": "青逸尤",
+            "bvid": "BV13z4y1M7GR",
+            "cid": 1248421747,
+            "page": 1,
+            "title": "猫猫(有趣/无聊的女生)合集",
+            "start": 34.85,
+            "end": 37.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/rana-p.mp4",
+          "videoRate": 1
+        },
+        "i": {
+          "voice": "meme_3_i",
+          "label": "抹茶芭菲",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/rana-u-parfait.mp3",
+          "duration": 0.85,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1MtayeLEgR",
+            "uploader": "春日影享受者",
+            "bvid": "BV1MtayeLEgR",
+            "cid": 500001640655444,
+            "page": 1,
+            "title": "可爱小猫😍抹茶芭菲一分钟纯享版",
+            "start": 1.22,
+            "end": 2.07,
+            "proof": "base ASR with no_speech_threshold=1 transcribes recurring めっちゃパフィー; loop visible original animation Rana; original pronunciation matches 抹茶パフェ",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "抹茶パフェ"
+        },
+        "u": {
+          "voice": "meme_3_u",
+          "label": "要",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/rana-u-do-it.mp3",
+          "duration": 1.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+            "uploader": "青逸尤",
+            "bvid": "BV13z4y1M7GR",
+            "cid": 1248421747,
+            "page": 1,
+            "title": "猫猫(有趣/无聊的女生)合集",
+            "start": 10.15,
+            "end": 11.2,
+            "proof": "Rana face/lips and burned subtitle 要/やる at10.25/10.75/11; small exact words10.24-11.02.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "やる"
+        },
+        "o": {
+          "voice": "meme_3_o",
+          "label": "有趣的女人",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/rana-o-interesting.mp3",
+          "duration": 2.04,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+            "uploader": "青逸尤",
+            "bvid": "BV13z4y1M7GR",
+            "cid": 1248421747,
+            "page": 1,
+            "title": "猫猫(有趣/无聊的女生)合集",
+            "start": 34.88,
+            "end": 36.92,
+            "proof": "Rana face/lips and burned subtitle 有趣的女人/おもしれー女 at35/36/37; small exact phrase34.94-36.92.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "おもしれえ女"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_3_o",
+          "label": "有趣的女人",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/rana-o-interesting.mp3",
+          "duration": 2.04,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+            "uploader": "青逸尤",
+            "bvid": "BV13z4y1M7GR",
+            "cid": 1248421747,
+            "page": 1,
+            "title": "猫猫(有趣/无聊的女生)合集",
+            "start": 34.88,
+            "end": 36.92,
+            "proof": "Rana face/lips and burned subtitle 有趣的女人/おもしれー女 at35/36/37; small exact phrase34.94-36.92.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-additional.json"
+          },
+          "spokenJapanese": "おもしれえ女"
+        }
+      }
+    },
+    "4": {
+      "id": 4,
+      "key": "taki",
+      "slots": {
+        "u": {
+          "voice": "meme_4_u",
+          "label": "哈？（店员）",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/taki-u-ha.mp3",
+          "duration": 1.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 6.65,
+            "end": 7.8,
+            "proof": "Base ASR はぁ; original anime Taki talking, first café exchange",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "i": {
+          "voice": "meme_4_i",
+          "label": "哈？（怒斥）",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/taki-i-ha.mp3",
+          "duration": 1.25,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 8.85,
+            "end": 10.1,
+            "proof": "Base ASR はぁ; original anime Taki leaning forward at café",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "o": {
+          "voice": "meme_4_o",
+          "label": "哈？（困惑）",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/taki-o-ha.mp3",
+          "duration": 0.65,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 17.5,
+            "end": 18.15,
+            "proof": "Base ASR はぁ; original anime Taki closeup",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "p": {
+          "voice": "meme_4_p",
+          "label": "哈？哈？哈？",
+          "slot": "p",
+          "audio": "assets/meme-media/research-mygo/taki-p-ha-short.mp3",
+          "duration": 4.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 4.05,
+            "end": 8.35,
+            "proof": "Continuous first-page source interval 4.05-8.35. Original Taki school uniform reaction, angry face closeup, and café worker reactions; no retiming or synthetic audio. See taki-p-ha-short-evidence.jpg.",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "video": "assets/meme-media/research-mygo/taki-p-ha-short.mp4",
+          "spokenJapanese": "は？",
+          "videoRate": 1
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_4_o",
+          "label": "哈？（困惑）",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/taki-o-ha.mp3",
+          "duration": 0.65,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 17.5,
+            "end": 18.15,
+            "proof": "Base ASR はぁ; original anime Taki closeup",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiRollBoost": {
+          "voice": "meme_4_u",
+          "label": "哈？（店员）",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/taki-u-ha.mp3",
+          "duration": 1.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 6.65,
+            "end": 7.8,
+            "proof": "Base ASR はぁ; original anime Taki talking, first café exchange",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiRushBoost": {
+          "voice": "meme_4_u",
+          "label": "哈？（店员）",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/taki-u-ha.mp3",
+          "duration": 1.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 6.65,
+            "end": 7.8,
+            "proof": "Base ASR はぁ; original anime Taki talking, first café exchange",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiOverheadBoost": {
+          "voice": "meme_4_u",
+          "label": "哈？（店员）",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/taki-u-ha.mp3",
+          "duration": 1.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 6.65,
+            "end": 7.8,
+            "proof": "Base ASR はぁ; original anime Taki talking, first café exchange",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiShockBoost": {
+          "voice": "meme_4_i",
+          "label": "哈？（怒斥）",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/taki-i-ha.mp3",
+          "duration": 1.25,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 8.85,
+            "end": 10.1,
+            "proof": "Base ASR はぁ; original anime Taki leaning forward at café",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiShockExtra": {
+          "voice": "meme_4_i",
+          "label": "哈？（怒斥）",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/taki-i-ha.mp3",
+          "duration": 1.25,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 8.85,
+            "end": 10.1,
+            "proof": "Base ASR はぁ; original anime Taki leaning forward at café",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        },
+        "rikiRiseBoost": {
+          "voice": "meme_4_i",
+          "label": "哈？（怒斥）",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/taki-i-ha.mp3",
+          "duration": 1.25,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1H14y1C71o",
+            "uploader": "初初又华华",
+            "bvid": "BV1H14y1C71o",
+            "cid": 1258508881,
+            "page": 1,
+            "title": "【MyGO】立希女士 \"哈?\" 30分钟纯享版 （自用）",
+            "start": 8.85,
+            "end": 10.1,
+            "proof": "Base ASR はぁ; original anime Taki leaning forward at café",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "は？"
+        }
+      }
+    },
+    "5": {
+      "id": 5,
+      "key": "umiri",
+      "slots": {
+        "u": {
+          "voice": "meme_5_u",
+          "label": "您意欲何为",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/umiri-u-intent.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 9.95,
+            "end": 11.35,
+            "proof": "Base ASR exact phrase; original masked Umiri speaking in anime",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "どういうおつもりで"
+        },
+        "i": {
+          "voice": "meme_5_i",
+          "label": "很遗憾",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/umiri-i-regret.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 47.85,
+            "end": 49.25,
+            "proof": "Base ASR 残念ですか; original anime Umiri with bass",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "残念ですが"
+        },
+        "o": {
+          "voice": "meme_5_o",
+          "label": "我吃不胖",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/umiri-o-no-weight.mp3",
+          "duration": 2.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 116.85,
+            "end": 118.9,
+            "proof": "Burned subtitle 我是吃不胖的体质 at117.6s; base ASR 私食べても二らないので",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私 食べても太らないので"
+        },
+        "p": {
+          "voice": "meme_5_p",
+          "label": "吵架等练习结束后随意",
+          "slot": "p",
+          "audio": "assets/meme-media/research-mygo/umiri-p-quarrel.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 59.65,
+            "end": 63.05,
+            "proof": "Burned bilingual subtitles verified at59.9 and61.5s; base ASR 健康でしたら練習の後で好きなだけどうぞ",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "video": "assets/meme-media/research-mygo/umiri-p-quarrel.mp4",
+          "spokenJapanese": "喧嘩でしたら 練習の後で好きなだけどうぞ",
+          "videoRate": 1
+        },
+        "h": {
+          "voice": "meme_5_i",
+          "label": "很遗憾",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/umiri-i-regret.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 47.85,
+            "end": 49.25,
+            "proof": "Base ASR 残念ですか; original anime Umiri with bass",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "残念ですが"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_5_o",
+          "label": "我吃不胖",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/umiri-o-no-weight.mp3",
+          "duration": 2.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 116.85,
+            "end": 118.9,
+            "proof": "Burned subtitle 我是吃不胖的体质 at117.6s; base ASR 私食べても二らないので",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私 食べても太らないので"
+        }
+      }
+    },
+    "6": {
+      "id": 6,
+      "key": "sakiko",
+      "slots": {
+        "p": {
+          "voice": "meme_6_p",
+          "label": "我来成为神明",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/sakiko-p.mp3",
+          "duration": 6.2,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 33.1,
+            "end": 39.3,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/sakiko-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_6_u",
+          "label": "为了Ave Mujica",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/sakiko-u.mp3",
+          "duration": 2.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 40.2,
+            "end": 42.25,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_6_i",
+          "label": "什么都可以利用",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/sakiko-i.mp3",
+          "duration": 2.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 42.25,
+            "end": 44.25,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_6_o",
+          "label": "没有那个必要",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/sakiko-o.mp3",
+          "duration": 1.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 76.1,
+            "end": 78.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "h": {
+          "voice": "meme_6_i",
+          "label": "什么都可以利用",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/sakiko-i.mp3",
+          "duration": 2.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 42.25,
+            "end": 44.25,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_6_o",
+          "label": "没有那个必要",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/sakiko-o.mp3",
+          "duration": 1.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 76.1,
+            "end": 78.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_6_normal_customer": {
+          "voice": "meme_6_customer",
+          "label": "客服小祥·请稍候",
+          "slot": "u",
+          "audio": "assets/meme-media/sakiko-customer-service/sakiko-please-wait.mp3",
+          "duration": 1.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1sGZbY6E8H/",
+            "uploader": "Naohito_futa",
+            "bvid": "BV1sGZbY6E8H",
+            "cid": 25779115564,
+            "page": 1,
+            "title": "【中字】愚人节客服小祥全流程全结局",
+            "start": 69.25,
+            "end": 70.95,
+            "proof": "官方2025愚人节矿泉天然生活活动的客服祥子电话语音；核对录屏字幕及日语转写，截取等待提示，原速原调。",
+            "catalog": "assets/meme-media/sakiko-customer-service/sources.json"
+          },
+          "spokenJapanese": "今しばらくお待ちください",
+          "subtitle_zh": "请稍候"
+        }
+      }
+    },
+    "7": {
+      "id": 7,
+      "key": "uika",
+      "slots": {
+        "p": {
+          "voice": "meme_7_p",
+          "label": "Saki酱！Saki酱！",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/uika-p.mp3",
+          "duration": 4.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 50.2,
+            "end": 54.9,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/uika-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_7_u",
+          "label": "想见Saki酱",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/uika-u.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 46.5,
+            "end": 49.9,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_7_i",
+          "label": "不是不是不是",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/uika-i.mp3",
+          "duration": 2.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 41.6,
+            "end": 44.5,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_7_o",
+          "label": "不是的",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/uika-o.mp3",
+          "duration": 0.85,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 28.15,
+            "end": 29.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "h": {
+          "voice": "meme_7_i",
+          "label": "不是不是不是",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/uika-i.mp3",
+          "duration": 2.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 41.6,
+            "end": 44.5,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_7_o",
+          "label": "不是的",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/uika-o.mp3",
+          "duration": 0.85,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 28.15,
+            "end": 29.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      }
+    },
+    "8": {
+      "id": 8,
+      "key": "mutsumi",
+      "slots": {
+        "p": {
+          "voice": "meme_8_p",
+          "label": "从来没觉得玩乐队开心过",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/mutsumi-p.mp3",
+          "duration": 8.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 7.1,
+            "end": 15.2,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/mutsumi-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_8_u",
+          "label": "我…",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/mutsumi-u.mp3",
+          "duration": 1.35,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 7.1,
+            "end": 8.45,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_8_i",
+          "label": "觉得开心",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/mutsumi-i.mp3",
+          "duration": 2.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 10.4,
+            "end": 13.15,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_8_o",
+          "label": "从来没有",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/mutsumi-o.mp3",
+          "duration": 1.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 13.9,
+            "end": 15.2,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "h": {
+          "voice": "meme_8_i",
+          "label": "觉得开心",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/mutsumi-i.mp3",
+          "duration": 2.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 10.4,
+            "end": 13.15,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_8_o",
+          "label": "从来没有",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/mutsumi-o.mp3",
+          "duration": 1.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 13.9,
+            "end": 15.2,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_8_stage_super": {
+          "voice": "meme_8_stage_p",
+          "label": "睦和她的乐队由我守护",
+          "slot": "p",
+          "audio": "assets/meme-media/penguin-mortis/mortis-stage-p.mp3",
+          "duration": 6.99,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
+            "uploader": "月夜-涙",
+            "bvid": "BV1j8f5YdE6n",
+            "cid": 28038924686,
+            "page": 2,
+            "title": "Ave Mujica Mortis：「小睦已经死掉了」",
+            "start": 39.29,
+            "end": 46.28,
+            "proof": "第2分P中 Mortis 对祥子表示会保护睦和她的乐队；ASR 辅助定位，画面另做截帧核对。",
+            "catalog": "assets/meme-media/penguin-mortis/sources.json"
+          },
+          "video": "assets/meme-media/penguin-mortis/mortis-stage-p.mp4",
+          "videoRate": 1
+        },
+        "mujica_8_stage_toddler": {
+          "voice": "meme_8_toddler",
+          "label": "我只有两岁",
+          "slot": "u",
+          "audio": "assets/meme-media/mortis-toddler/meme_8_toddler.mp3",
+          "duration": 1.5,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV17uug6JEza/",
+            "uploader": "埴安神袿姫",
+            "bvid": "BV17uug6JEza",
+            "cid": 40714699317,
+            "page": 1,
+            "title": "我只有两岁！我要吃汉堡！",
+            "start": 0,
+            "end": 1.5,
+            "proof": "已核对原视频睦子米面部、字幕及语音，中文ASR确认0–1.48秒为我只有两岁，1.48–3秒为我要吃汉堡，后接哭喊。",
+            "catalog": "assets/meme-media/mortis-toddler/sources.json"
+          }
+        },
+        "mujica_8_stage_burger": {
+          "voice": "meme_8_burger",
+          "label": "我要吃汉堡",
+          "slot": "i",
+          "audio": "assets/meme-media/mortis-toddler/meme_8_burger.mp3",
+          "duration": 2.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV17uug6JEza/",
+            "uploader": "埴安神袿姫",
+            "bvid": "BV17uug6JEza",
+            "cid": 40714699317,
+            "page": 1,
+            "title": "我只有两岁！我要吃汉堡！",
+            "start": 1.5,
+            "end": 4.3,
+            "proof": "已核对原视频睦子米面部、字幕及语音，中文ASR确认0–1.48秒为我只有两岁，1.48–3秒为我要吃汉堡，后接哭喊。",
+            "catalog": "assets/meme-media/mortis-toddler/sources.json"
+          }
+        },
+        "mujica_8_stage_u": {
+          "voice": "meme_8_stage_u",
+          "label": "Mortis·短促尖叫",
+          "slot": "u",
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_u.mp3",
+          "duration": 0.95,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+            "uploader": "mayWishuponASTar",
+            "bvid": "BV1uPf5YCE73",
+            "cid": 28039907968,
+            "page": 1,
+            "title": "睦头人尖叫一小时纯享",
+            "start": 0,
+            "end": 0.95,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          }
+        },
+        "mujica_8_stage_i": {
+          "voice": "meme_8_stage_i",
+          "label": "Mortis·放心吧",
+          "slot": "i",
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_i.mp3",
+          "duration": 1.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
+            "uploader": "月夜-涙",
+            "bvid": "BV1j8f5YdE6n",
+            "cid": 28038924686,
+            "page": 2,
+            "title": "Ave Mujica Mortis：「小睦已经死掉了」",
+            "start": 40.7,
+            "end": 42.45,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          }
+        },
+        "mujica_8_stage_o": {
+          "voice": "meme_8_stage_o",
+          "label": "Mortis·失控长啸",
+          "slot": "o",
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_o.mp3",
+          "duration": 2.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+            "uploader": "mayWishuponASTar",
+            "bvid": "BV1uPf5YCE73",
+            "cid": 28039907968,
+            "page": 1,
+            "title": "睦头人尖叫一小时纯享",
+            "start": 0.95,
+            "end": 3.05,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          }
+        },
+        "stage_mujicaTransform": {
+          "voice": "meme_8_stage_h",
+          "label": "Mortis·我讨厌你",
+          "slot": "h",
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_h.mp3",
+          "duration": 3.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
+            "uploader": "月夜-涙",
+            "bvid": "BV1j8f5YdE6n",
+            "cid": 28038924686,
+            "page": 2,
+            "title": "Ave Mujica Mortis：「小睦已经死掉了」",
+            "start": 36.5,
+            "end": 39.8,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          }
+        },
+        "stage_throw": {
+          "voice": "meme_8_stage_o",
+          "label": "Mortis·失控长啸",
+          "slot": "o",
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_o.mp3",
+          "duration": 2.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+            "uploader": "mayWishuponASTar",
+            "bvid": "BV1uPf5YCE73",
+            "cid": 28039907968,
+            "page": 1,
+            "title": "睦头人尖叫一小时纯享",
+            "start": 0.95,
+            "end": 3.05,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          }
+        }
+      }
+    },
+    "9": {
+      "id": 9,
+      "key": "nyamu",
+      "slots": {
+        "p": {
+          "voice": "meme_9_p",
+          "label": "完美笑容",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/nyamu-p.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 0.35,
+            "end": 3.75,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/nyamu-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_9_u",
+          "label": "请看清楚",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/nyamu-u.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 0.35,
+            "end": 1.75,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_9_i",
+          "label": "要发自内心笑",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/nyamu-i.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 13.95,
+            "end": 16.65,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_9_o",
+          "label": "呐，Mortis",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/nyamu-o.mp3",
+          "duration": 1.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 30.55,
+            "end": 32.35,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "h": {
+          "voice": "meme_9_i",
+          "label": "要发自内心笑",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/nyamu-i.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 13.95,
+            "end": 16.65,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_9_o",
+          "label": "呐，Mortis",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/nyamu-o.mp3",
+          "duration": 1.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 30.55,
+            "end": 32.35,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      }
+    },
+    "10": {
+      "id": 10,
+      "key": "arale",
+      "slots": {
+        "p": {
+          "voice": "meme_10_p",
+          "label": "U咩哇帕瓦",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/arale-p.mp3",
+          "duration": 2.85,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Wg3b6EEAF/",
+            "uploader": "一杯续命水_",
+            "bvid": "BV1Wg3b6EEAF",
+            "cid": 40449278463,
+            "page": 1,
+            "title": "最爽的一句U咩哇帕瓦（自用）",
+            "start": 0.0,
+            "end": 2.85,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/arale-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_10_u",
+          "label": "梦想即力量",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/arale-u.mp3",
+          "duration": 1.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Wg3b6EEAF/",
+            "uploader": "一杯续命水_",
+            "bvid": "BV1Wg3b6EEAF",
+            "cid": 40449278463,
+            "page": 1,
+            "title": "最爽的一句U咩哇帕瓦（自用）",
+            "start": 0.0,
+            "end": 1.45,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_10_i",
+          "label": "U咩哇帕瓦",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/arale-i.mp3",
+          "duration": 1.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Wg3b6EEAF/",
+            "uploader": "一杯续命水_",
+            "bvid": "BV1Wg3b6EEAF",
+            "cid": 40449278463,
+            "page": 1,
+            "title": "最爽的一句U咩哇帕瓦（自用）",
+            "start": 1.45,
+            "end": 2.9,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_10_o",
+          "label": "梦想即力量",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/arale-o.mp3",
+          "duration": 1.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Wg3b6EEAF/",
+            "uploader": "一杯续命水_",
+            "bvid": "BV1Wg3b6EEAF",
+            "cid": 40449278463,
+            "page": 1,
+            "title": "最爽的一句U咩哇帕瓦（自用）",
+            "start": 3.0,
+            "end": 4.45,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_10_o",
+          "label": "梦想即力量",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/arale-o.mp3",
+          "duration": 1.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Wg3b6EEAF/",
+            "uploader": "一杯续命水_",
+            "bvid": "BV1Wg3b6EEAF",
+            "cid": 40449278463,
+            "page": 1,
+            "title": "最爽的一句U咩哇帕瓦（自用）",
+            "start": 3.0,
+            "end": 4.45,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      }
+    },
+    "11": {
+      "id": 11,
+      "key": "ritsu",
+      "slots": {
+        "p": {
+          "voice": "meme_11_p",
+          "label": "杂鱼优等生",
+          "slot": "p",
+          "audio": "assets/meme-media/research-mewtype/ritsu-p.mp3",
+          "duration": 3.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bWnc6MEXm/",
+            "uploader": "小さな魂",
+            "bvid": "BV1bWnc6MEXm",
+            "cid": 42897246514,
+            "page": 1,
+            "title": "【梦限大/熟切】进来听优等生喊你杂鱼【峰月律】",
+            "start": 28.84,
+            "end": 31.94,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "video": "assets/meme-media/research-mewtype/ritsu-p.mp4",
+          "transcript_ja": "ざぁこ〜ざぁこ〜 よわ〜",
+          "subtitle_zh": "杂鱼～杂鱼～太弱了～",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_11_u",
+          "label": "真丢人",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mewtype/ritsu-u.mp3",
+          "duration": 1.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bWnc6MEXm/",
+            "uploader": "小さな魂",
+            "bvid": "BV1bWnc6MEXm",
+            "cid": 42897246514,
+            "page": 1,
+            "title": "【梦限大/熟切】进来听优等生喊你杂鱼【峰月律】",
+            "start": 35.05,
+            "end": 36.35,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "なさけな〜い",
+          "subtitle_zh": "真丢人～"
+        },
+        "i": {
+          "voice": "meme_11_i",
+          "label": "不害臊吗",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mewtype/ritsu-i.mp3",
+          "duration": 1.22,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bWnc6MEXm/",
+            "uploader": "小さな魂",
+            "bvid": "BV1bWnc6MEXm",
+            "cid": 42897246514,
+            "page": 1,
+            "title": "【梦限大/熟切】进来听优等生喊你杂鱼【峰月律】",
+            "start": 41.0,
+            "end": 42.22,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "恥ずかしくないのぉ？",
+          "subtitle_zh": "不觉得害臊吗？"
+        },
+        "o": {
+          "voice": "meme_11_o",
+          "label": "弱弱胃袋",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/ritsu-o.mp3",
+          "duration": 2.33,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bWnc6MEXm/",
+            "uploader": "小さな魂",
+            "bvid": "BV1bWnc6MEXm",
+            "cid": 42897246514,
+            "page": 1,
+            "title": "【梦限大/熟切】进来听优等生喊你杂鱼【峰月律】",
+            "start": 48.42,
+            "end": 50.75,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "胃袋よわよわ〜",
+          "subtitle_zh": "胃袋太弱太弱～"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_11_o",
+          "label": "弱弱胃袋",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/ritsu-o.mp3",
+          "duration": 2.33,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1bWnc6MEXm/",
+            "uploader": "小さな魂",
+            "bvid": "BV1bWnc6MEXm",
+            "cid": 42897246514,
+            "page": 1,
+            "title": "【梦限大/熟切】进来听优等生喊你杂鱼【峰月律】",
+            "start": 48.42,
+            "end": 50.75,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "胃袋よわよわ〜",
+          "subtitle_zh": "胃袋太弱太弱～"
+        }
+      }
+    },
+    "12": {
+      "id": 12,
+      "key": "miyako",
+      "slots": {
+        "p": {
+          "voice": "meme_12_p",
+          "label": "临兵斗者皆阵列在前",
+          "slot": "p",
+          "audio": "assets/meme-media/recordings/miyako-p.mp3",
+          "duration": 11.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 0.1,
+            "end": 11.4,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          },
+          "video": "assets/meme-media/recordings/miyako-p.mp4",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_12_u",
+          "label": "临兵斗者",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/miyako-u.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 0.1,
+            "end": 2.8,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "i": {
+          "voice": "meme_12_i",
+          "label": "皆阵列在",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/miyako-i.mp3",
+          "duration": 2.3,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 3.2,
+            "end": 5.5,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "o": {
+          "voice": "meme_12_o",
+          "label": "前！",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/miyako-o.mp3",
+          "duration": 2.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 9.0,
+            "end": 11.4,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_12_o",
+          "label": "前！",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/miyako-o.mp3",
+          "duration": 2.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 9.0,
+            "end": 11.4,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        }
+      }
+    },
+    "13": {
+      "id": 13,
+      "key": "yuno",
+      "slots": {
+        "p": {
+          "voice": "meme_13_p",
+          "label": "别丢下我",
+          "slot": "p",
+          "audio": "assets/meme-media/research-mewtype/yuno-p.mp3",
+          "duration": 2.78,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
+            "uploader": "graten_",
+            "bvid": "BV1xknT6JEUC",
+            "cid": 42910355334,
+            "page": 1,
+            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
+            "start": 82.72,
+            "end": 85.5,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "video": "assets/meme-media/research-mewtype/yuno-p.mp4",
+          "transcript_ja": "ほんと置いてかないでください。勘弁して。",
+          "subtitle_zh": "拜托以后不要丢下我，饶了我吧。",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_13_u",
+          "label": "怎么先走了",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mewtype/yuno-u.mp3",
+          "duration": 1.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
+            "uploader": "graten_",
+            "bvid": "BV1xknT6JEUC",
+            "cid": 42910355334,
+            "page": 1,
+            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
+            "start": 49.85,
+            "end": 51.75,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "なんで先行っちゃったの",
+          "subtitle_zh": "为什么一个人先走了"
+        },
+        "i": {
+          "voice": "meme_13_i",
+          "label": "有惊无险",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mewtype/yuno-i.mp3",
+          "duration": 1.42,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
+            "uploader": "graten_",
+            "bvid": "BV1xknT6JEUC",
+            "cid": 42910355334,
+            "page": 1,
+            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
+            "start": 61.6,
+            "end": 63.02,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "事なきを得ました",
+          "subtitle_zh": "有惊无险"
+        },
+        "o": {
+          "voice": "meme_13_o",
+          "label": "真不敢信",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/yuno-o.mp3",
+          "duration": 1.6,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
+            "uploader": "graten_",
+            "bvid": "BV1xknT6JEUC",
+            "cid": 42910355334,
+            "page": 1,
+            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
+            "start": 30.25,
+            "end": 31.85,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "本当にありえなくて",
+          "subtitle_zh": "真是不敢相信"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_13_o",
+          "label": "真不敢信",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/yuno-o.mp3",
+          "duration": 1.6,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
+            "uploader": "graten_",
+            "bvid": "BV1xknT6JEUC",
+            "cid": 42910355334,
+            "page": 1,
+            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
+            "start": 30.25,
+            "end": 31.85,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "本当にありえなくて",
+          "subtitle_zh": "真是不敢相信"
+        }
+      }
+    },
+    "14": {
+      "id": 14,
+      "key": "nonoka",
+      "slots": {
+        "p": {
+          "voice": "meme_14_p",
+          "label": "病娇国王",
+          "slot": "p",
+          "audio": "assets/meme-media/research-mewtype/nonoka-p.mp3",
+          "duration": 5.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
+            "uploader": "宮永ののか",
+            "bvid": "BV1aDpZeeEan",
+            "cid": 500001652611888,
+            "page": 1,
+            "title": "【宫永野乃花】只有服务精神呢。",
+            "start": 5.85,
+            "end": 11.0,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "video": "assets/meme-media/research-mewtype/nonoka-p.mp4",
+          "transcript_ja": "ののちゃんが居るのに、その女の子に会いに行く意味ってなーに？",
+          "subtitle_zh": "明明有野乃酱，却要去见那个女孩，是什么意思？",
+          "videoRate": 1
+        },
+        "u": {
+          "voice": "meme_14_u",
+          "label": "完成了",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mewtype/nonoka-u.mp3",
+          "duration": 0.92,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
+            "uploader": "宮永ののか",
+            "bvid": "BV1aDpZeeEan",
+            "cid": 500001652611888,
+            "page": 1,
+            "title": "【宫永野乃花】只有服务精神呢。",
+            "start": 14.9,
+            "end": 15.82,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "できた",
+          "subtitle_zh": "完成了"
+        },
+        "i": {
+          "voice": "meme_14_i",
+          "label": "头像通缉",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mewtype/nonoka-i.mp3",
+          "duration": 2.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
+            "uploader": "宮永ののか",
+            "bvid": "BV1aDpZeeEan",
+            "cid": 500001652611888,
+            "page": 1,
+            "title": "【宫永野乃花】只有服务精神呢。",
+            "start": 20.83,
+            "end": 22.88,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "みんなこれアイコンにする？",
+          "subtitle_zh": "大家要把这个当头像吗？"
+        },
+        "o": {
+          "voice": "meme_14_o",
+          "label": "病娇野乃",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/nonoka-o.mp3",
+          "duration": 1.11,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
+            "uploader": "宮永ののか",
+            "bvid": "BV1aDpZeeEan",
+            "cid": 500001652611888,
+            "page": 1,
+            "title": "【宫永野乃花】只有服务精神呢。",
+            "start": 24.25,
+            "end": 25.36,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "ヤンデレののちゃん",
+          "subtitle_zh": "病娇野乃酱"
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "meme_14_o",
+          "label": "病娇野乃",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mewtype/nonoka-o.mp3",
+          "duration": 1.11,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
+            "uploader": "宮永ののか",
+            "bvid": "BV1aDpZeeEan",
+            "cid": 500001652611888,
+            "page": 1,
+            "title": "【宫永野乃花】只有服务精神呢。",
+            "start": 24.25,
+            "end": 25.36,
+            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
+            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+          },
+          "transcript_ja": "ヤンデレののちゃん",
+          "subtitle_zh": "病娇野乃酱"
+        }
+      }
+    }
+  },
+  "sourceCatalogs": [
+    "assets/meme-media/recordings/sources-recordings.json",
+    "assets/meme-media/research-mygo/sources-mygo-extra.json",
+    "assets/meme-media/research-mygo/sources-mygo-additional.json",
+    "assets/meme-media/research-mewtype/manifest.json",
+    "assets/meme-media/revision-anon-tensora/sources-revision.json",
+    "assets/meme-media/anon-cry-soyo-control/sources.json",
+    "assets/meme-media/soyo-cutline/sources.json",
+    "assets/meme-media/penguin-mortis/sources.json",
+    "assets/meme-media/combat-tempo/sources.json",
+    "assets/meme-media/mortis-toddler/sources.json",
+    "assets/meme-media/mortis-stage-voices/sources.json",
+    "assets/meme-media/sakiko-customer-service/sources.json"
+  ],
+  "notes": [
+    "Mujica normal/stage forms share recordings except the dedicated Mortis stage kit, transformation, throw and super.",
+    "Penguin variants use existing penguinVoices; ordinary Tomori keeps her own slots.",
+    "Soyo legacy cid is unknown and is preserved as null rather than fabricated."
+  ],
+  "summonCall": {
+    "voice": "tensoraOhYeah",
+    "label": "哦也！",
+    "slot": "summonCall",
+    "audio": "assets/meme-media/revision-anon-tensora/tensora-ohyeah.mp3",
+    "duration": 0.97,
+    "source": {
+      "url": "https://www.bilibili.com/video/BV1WA9kBfEbx/",
+      "uploader": "PastelPlushPuppy",
+      "bvid": "BV1WA9kBfEbx",
+      "cid": 37917557795,
+      "page": 1,
+      "title": "欧耶欧耶单手运球超级感谢@欧耶玩偶工坊 制作出的可爱肥肥天素罗[打call]",
+      "start": 1.9,
+      "end": 2.87,
+      "proof": "Reviewed source video contact sheet: chunky yellow chick-suit Soyo plush bounced by hand. Source uploader and title explicitly identify 天素罗 and 欧耶. Selected exactly one two-syllable unit from source 1.90 to 2.87 seconds, with quiet boundaries.",
+      "catalog": "assets/meme-media/revision-anon-tensora/sources-revision.json"
+    }
+  }
+}

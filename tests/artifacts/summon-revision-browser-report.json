@@ -1,0 +1,23 @@
+{
+  "errors": [],
+  "remote_requests": [],
+  "failed_requests": [],
+  "anon_original_laugh_and_matching_movie": "pass",
+  "three_original_ohyeah_sources_independent_of_soyo_P": "pass",
+  "actual_projectile_damages_minion": {
+    "type": "minionHit",
+    "side": 1,
+    "owner": 0,
+    "unit": 0,
+    "damage": 12,
+    "hp": 8,
+    "defeated": false,
+    "x": 495,
+    "y": 44.2
+  },
+  "defeated_unit_disappears_and_count_updates": "pass",
+  "physical_P2_J_damages_hostile_familiar": "pass",
+  "pause_freezes_pending_calls_and_resumes_recording": "pass",
+  "two_players_six_calls_mute_and_restart": "pass",
+  "status": "pass"
+}

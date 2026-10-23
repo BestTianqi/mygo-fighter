@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const {Match,ROSTER,MOVES,FEEL}=require('../src/engine.js');
 const {Camera}=require('../src/camera.js');
 const scale=235/54;
-function setup(character=0){const m=new Match({mode:'duel',characters:[character,0]});m.start();m.advance(1000);m.fighters[1].x=1500;return m;}
+function setup(character=0){const m=new Match({mode:'duel',characters:[character,0]});m.start();m.advance(1000);m.fighters[1].x=1500;m.fighters[0].energy=100;return m;}
 test('baseline walking, air speed and screen scale match reference body-normalized values',()=>{
   const m=setup(),a=m.fighters[0],x=a.x;m.advance(1000,{right:true});
   assert.ok(Math.abs((a.x-x)/(109.2*scale)-1)<.025);
@@ -22,7 +22,7 @@ test('jump height and flight time match reference and a second press gives exact
 test('air dash has reference distance, cooldown and initial invulnerability without defying gravity',()=>{
   const m=setup(),a=m.fighters[0];m.advance(10,{jump:true});m.advance(130);const x=a.x,y=a.y;
   m.advance(10,{dash:true,right:true});assert.ok(a.dashMs>0);m.hit(1,'light');assert.equal(a.hp,200);
-  m.advance(120);m.hit(1,'light');assert.equal(a.hp,192,'late dash recovery can be punished');
+  m.advance(120);m.hit(1,'light');assert.equal(a.hp,194,'late dash recovery can be punished');
   const n=setup(),b=n.fighters[0];n.advance(10,{jump:true});n.advance(130);const start=b.x;n.advance(10,{dash:true,right:true});n.advance(170);
   assert.ok(Math.abs((b.x-start)/(5.15*11*scale)-1)<.05);assert.notEqual(b.y,y);assert.ok(b.dashCooldown>=400&&b.dashCooldown<=440);
 });
@@ -45,7 +45,7 @@ test('successive light presses branch into three attacks on whiff and on hit',()
   }
 });
 test('special input buffers for 300ms while a whiff recovers, without re-triggering held keyboard attacks',()=>{
-  const m=setup(),a=m.fighters[0];a.energy=100;m.advance(10,{light:true});m.advance(150);m.advance(10,{wave:true});m.advance(180);
+  const m=setup(),a=m.fighters[0];a.energy=100;m.advance(10,{light:true});m.advance(150);m.advance(10,{wave:true});m.advance(260);
   assert.equal(a.attack,'wave');
   const n=setup();n.advance(900,{light:true});assert.equal(n.drainEvents().filter(e=>e.type==='attack').length,1);
 });
@@ -73,7 +73,7 @@ test('launched third hit creates heavy landing, down protection and a wakeup win
 });
 test('standing jab advances into range and body separation is skipped only during a dash',()=>{
   const m=setup(),a=m.fighters[0],b=m.fighters[1],x=a.x;b.x=x+205;
-  m.advance(10,{light:true});m.advance(100);assert.ok(a.x>x+15);assert.equal(b.hp,192);
+  m.advance(10,{light:true});m.advance(100);assert.ok(a.x>x+15);assert.equal(b.hp,194);
   const n=setup(),c=n.fighters[0],d=n.fighters[1];d.x=c.x+10;n.advance(10);assert.ok(d.x-c.x>=FEEL.bodyGap-.001);
   c.dashMs=100;c.dashInvuln=100;c.x=d.x-10;n.separate();assert.equal(d.x-c.x,10);
 });

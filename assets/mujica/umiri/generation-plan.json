@@ -1,0 +1,253 @@
+{
+  "key": "umiri",
+  "id": 5,
+  "name": "八幡海铃",
+  "references": [
+    {
+      "path": "mujica/umiri/references/official-casual.png",
+      "source": "Local official 20260922 mujica_umiri_official_1.png"
+    },
+    {
+      "path": "mujica/umiri/references/official-stage.png",
+      "source": "Local official 20260922 mujica_umiri_official_2.png"
+    },
+    {
+      "path": "mujica/umiri/references/official-mask-keyvisual.jpg",
+      "source": "Official Ave Mujica TV key visual, top-left Timoris"
+    }
+  ],
+  "forms": {
+    "normal": {
+      "groups": [
+        {
+          "file": "mujica/umiri/normal/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right: 1 idle bass held ready; 2 walk-contact long step right heel plants; 3 walk-pass legs pass mid-stride; 4 guard-standing brace bass diagonally; 5 guard-crouch compact crouch shield bass; 6 dash-forward low leaning fast rightward step; 7 dash-back retreat left while facing right; 8 jump-rise knees bend body rising. Draw all eight as distinct actual poses, not reused idle shifted."
+        },
+        {
+          "file": "mujica/umiri/normal/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right: 1 falling jump legs extend for landing; 2 landing deep knee bend one hand stabilizing bass; 3 hit-high recoil head and shoulders back; 4 hit-low fold at abdomen; 5 knockdown-fall backward airborne horizontal body; 6 knockdown-ground lie fully horizontal on back with bent leg; 7 getup one knee and palm pushing off floor; 8 victory calm one hand raised bass lowered. Render actual different skeletal poses."
+        },
+        {
+          "file": "mujica/umiri/normal/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right:  Keep EACH COMPLETE FIGURE strictly contained in its own equal 4x2 grid cell, at least 25 pixels clear around each. 1 throw-windup reach free palm behind toward opponent preparing grapple; 2 throw-release full arm forward shoulder twist; 3 jab-1-windup free fist chambers at ribs; 4 jab-1-impact straight quick forward palm jab with bass held low; 5 jab-1-recover palm retracts guard; 6 jab-2-windup shoulder twist backswing bass neck; 7 jab-2-impact short horizontal bass neck poke right; 8 jab-2-recover bass neck retracts."
+        },
+        {
+          "file": "mujica/umiri/normal/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right:  Keep EACH COMPLETE FIGURE strictly contained in its own equal 4x2 grid cell, at least 25 pixels clear around each. 1 jab-3-windup deep knees coil bass body low; 2 jab-3-impact rising bass-body uppercut, chest arched arm up; 3 jab-3-recover regain stance bass lowered; 4 heavy-windup turn shoulders bass above left shoulder; 5 heavy-impact long twohand bass downward diagonal swing right; 6 heavy-recover lower followthrough weight forward; 7 crouch-light-windup low crouch free hand tucked; 8 crouch-light-impact crouched short palm thrust forward. Jab3 visibly distinct rising uppercut from jab1 palm and jab2 neck poke."
+        },
+        {
+          "file": "mujica/umiri/normal/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right:  Keep EACH COMPLETE FIGURE strictly contained in its own equal 4x2 grid cell, at least 25 pixels clear around each. 1 crouch-light-recover crouched hand retract; 2 crouch-heavy-windup low kneel bass pulled rear; 3 crouch-heavy-impact sweeping low bass neck forward near floor; 4 crouch-heavy-recover low sweep stops; 5 air-light-windup airborne bent legs free hand chambered; 6 air-light-impact airborne horizontal palm strike; 7 air-light-recover airborne hand retracts knees lift; 8 air-heavy-windup airborne overhead bass raised."
+        },
+        {
+          "file": "mujica/umiri/normal/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right:  Keep EACH COMPLETE FIGURE strictly contained in its own equal 4x2 grid cell, at least 25 pixels clear around each. 1 air-heavy-impact airborne heavy bass downward slam with both legs curled; 2 air-heavy-recover airborne bass low followthrough; 3 skill-u-windup right fingers hover strings ready to pluck; 4 skill-u-impact powerful bass string pluck right arm crosses body (projectile generated by game, draw NO VFX); 5 skill-u-recover fingers lift calm stance; 6 skill-i-windup brace bass upright close to body; 7 skill-i-impact precise parry bass angled outward free arm pushes forward; 8 skill-i-recover counter hand pulled in."
+        },
+        {
+          "file": "mujica/umiri/normal/group-7-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Transform the supplied official Yahata Umiri character reference into an animation pose sheet. Preserve EXACT face, hair color/style, cool blue-green eyes and outfit. Short shoulder-length charcoal bob with side bangs, black choker, black cropped leather motorcycle jacket, dark red cropped top, grey fitted miniskirt with black belt, black knee-high lace-up platform boots. Tall normal anime body 6.5-7 heads; NEVER chibi/pixel. Clean official BanG Dream 2D cel shaded face, fine clear outlines. Black/red bass guitar on strap, stays identical through all poses. TRANSPARENT EMPTY CLEAR CANVAS. No dark background, no grey background, no spotlight, no cast shadow or halo. Copy ONLY the character drawing style of the reference sheet, NOT its background. Pure transparent background, no shadows/glow/motion lines/text/VFX/grid lines. Layout EXACT 4 columns 2 rows, equal-sized cells. Exactly eight SEPARATED complete full-body figures including boots and instrument; generous transparent gutters between cells and edges, no touching/overlap/cropping. Neutral side-view combat facing screen right, with face three-quarter visible. All frames same character scale and anatomy; crouching/jumping changes pose, not body scale. Order row-major top left to bottom right:  Keep EACH COMPLETE FIGURE strictly contained in its own equal 4x2 grid cell, at least 25 pixels clear around each. 1 skill-o-windup low bass body coils beside hip; 2 skill-o-impact strong rising bass uppercut with arm fully raised; 3 skill-o-recover bass returns diagonally; 4 super-windup calm eyes closed right hand on strings; 5 super-impact wide confident stance fierce support riff plucking strings; 6 super-recover controlled exhale bass lowers; 7 transform-prepare free hand approaches choker head down; 8 transform-release upright dramatic hand opening toward face but SAME NORMAL CLOTHES, don't draw stage mask until next form."
+        }
+      ]
+    },
+    "stage": {
+      "groups": [
+        {
+          "file": "mujica/umiri/stage/group-1-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "idle",
+            "walk-contact",
+            "walk-pass",
+            "guard-standing",
+            "guard-crouch",
+            "dash-forward",
+            "dash-back",
+            "jump-rise"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER: 1 idle relaxed combat-ready instrument low; 2 walk-contact forward right foot heel plants long stride; 3 walk-pass feet pass narrow mid-stride; 4 guard-standing forearms/instrument braced diagonally chest high; 5 guard-crouch deep compact crouch guard; 6 dash-forward dramatic low forward lunge; 7 dash-back leans backward retreat left facing right; 8 jump-rise lifted bent knees rising airborne. All eight actual distinct poses."
+        },
+        {
+          "file": "mujica/umiri/stage/group-2-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jump-fall",
+            "landing",
+            "hit-high",
+            "hit-low",
+            "knockdown-fall",
+            "knockdown-ground",
+            "getup",
+            "victory"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jump-fall legs extend to descend; 2 landing deep knees with lowered torso; 3 hit-high head/shoulders recoil backward; 4 hit-low fold body at abdomen; 5 knockdown-fall body tips backward diagonal airborne; 6 knockdown-ground lie fully horizontal on back with bent knees, fit complete body within cell; 7 getup one palm pushes floor one knee planted; 8 victory head up free hand lifted. Draw 8 distinct poses."
+        },
+        {
+          "file": "mujica/umiri/stage/group-3-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "throw-windup",
+            "throw-release",
+            "jab-1-windup",
+            "jab-1-impact",
+            "jab-1-recover",
+            "jab-2-windup",
+            "jab-2-impact",
+            "jab-2-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 throw-windup bass tucked under left arm free hand rear; 2 throw-release long forward grab while bass hangs strap; 3 jab1-windup bass neck pulls back; 4 jab1-impact short bass neck thrust forward at chestheight; 5 jab1-recover neck retracts; 6 jab2-windup body coils with free elbow back; 7 jab2-impact horizontal free elbow strike with bass held low; 8 jab2-recover elbow retracts. Distinct jab1 bass thrust vs jab2 elbow."
+        },
+        {
+          "file": "mujica/umiri/stage/group-4-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "jab-3-windup",
+            "jab-3-impact",
+            "jab-3-recover",
+            "heavy-windup",
+            "heavy-impact",
+            "heavy-recover",
+            "crouch-light-windup",
+            "crouch-light-impact"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 jab3-windup deep knees bass low; 2 jab3-impact rising bass body uppercut; 3 jab3-recover bass lowered; 4 heavy-windup bass overhead; 5 heavy-impact twohand descending bass swing diagonally right; 6 heavy-recover bass low long followthrough; 7 crouch-light-windup crouch elbow tucked; 8 crouch-light-impact low free palm strike."
+        },
+        {
+          "file": "mujica/umiri/stage/group-5-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "crouch-light-recover",
+            "crouch-heavy-windup",
+            "crouch-heavy-impact",
+            "crouch-heavy-recover",
+            "air-light-windup",
+            "air-light-impact",
+            "air-light-recover",
+            "air-heavy-windup"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 crouch-light-recover low crouch hand pulls back; 2 crouch-heavy-windup kneeling torso coils rear arm; 3 crouch-heavy-impact low sweeping strike extended arm/weapon near ground; 4 crouch-heavy-recover low followthrough; 5 air-light-windup airborne bent legs fist tucked; 6 air-light-impact airborne short forward palm; 7 air-light-recover airborne palm retracts; 8 air-heavy-windup airborne both arms/weapon raised overhead."
+        },
+        {
+          "file": "mujica/umiri/stage/group-6-v1.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "air-heavy-impact",
+            "air-heavy-recover",
+            "skill-u-windup",
+            "skill-u-impact",
+            "skill-u-recover",
+            "skill-i-windup",
+            "skill-i-impact",
+            "skill-i-recover"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 air-heavy-impact airborne twohand downward bass strike; 2 air-heavy-recover legs tucked bass low; 3 skill-u-windup crouched prepare lowest bass string pluck; 4 skill-u-impact deep low stance pluck bass violently outward (NO waveform/VFX); 5 skill-u-recover low riff ends; 6 skill-i-windup bass neck points forward hook gesture; 7 skill-i-impact forward reach then pulling hand at shoulder as if reeling enemy; 8 skill-i-recover bass hooks back to hip."
+        },
+        {
+          "file": "mujica/umiri/stage/group-7-v2.png",
+          "columns": 4,
+          "rows": 2,
+          "names": [
+            "skill-o-windup",
+            "skill-o-impact",
+            "skill-o-recover",
+            "super-windup",
+            "super-impact",
+            "super-recover",
+            "transform-prepare",
+            "transform-release"
+          ],
+          "prompt": "Use case: identity-preserve. Asset: 2D fighting game fullbody animation pose sheet. EXACTLY 8 separate complete fullbody figures arranged 4columns x2rows, row-major. Equal imaginary cell widths, each figure fits INSIDE own cell with generous clear gutters at least 35px, nothing touches any image edge. Figure tall normal anime6.5-7heads, consistent anatomy and head size, not chibi/pixel. Clean official anime 2D cel-shaded face and crisp detailed linework. Screen-right facing side-view combat with 3/4 face visible. Background is genuinely TRANSPARENT EMPTY CLEAR, no opaque fill, no spotlight/halo/cast shadow/glow, no VFX, no text, no grid lines. Standing figures only370px tall on1536x1024canvas to leave space for dynamic poses. Keep full boots/hair/limbs/instrument visible. Never merge neighboring figures. Character: Yahata Umiri/Timoris, preserve official shoulderlength charcoal-black hair and blue-green eyes. Outfit from official-stage reference: black/ivory tailored sleeveless highcollar vest with gold buttons/trimming and ivory long center panel, black tailored shorts, short crimson capelet over shoulders with gold trim, beige sheer sleeves/gloves, black thigh-high heeled boots. Teal gem brooch. MANDATORY official Timoris black floral lace MASK covering nose and mouth, eyes remain fully visible. Black/red bass guitar on strap consistent all poses. Reference keyvisual top-left shows correct mask/costume; ignore its stylized paper texture and use official2Dface. ORDER:  Preserve exact appearance/instrument from locked presence sheet. No costume swaps. 1 skill-o-windup free left palm open chesthigh command grab approach; 2 skill-o-impact strong forward lunge free fist grasped then pulling down, bass hangs strap; 3 skill-o-recover withdraw grabbed arm; 4 super-windup bowed head hands rest on lowest strings; 5 super-impact extreme wide low stance abyssal bass riff both hands engaged (NO VFX); 6 super-recover straighten after riff; 7 transform-prepare fingers touch floral mouth mask; 8 transform-release free palm opens dramatically away from face. KEEP SAME STAGE OUTFIT AND MASK ALL8. CORRECT COMPOSITION: shrink EVERY CHARACTER and instrument together by40percent relative to reference sheet, leaving VERY LARGE clean transparent gutters. Max each figure INCLUDING instrument footprint300px wide x350px high within its own384x512cell. Never touch any other figure or image edge. Center horizontally in each cell. Horizontal fallen poses can be visibly lower/smaller to fit but retain normal anime anatomy. All8 remain complete. CRITICAL no guitar headstock clips right edge, no feet touch neighboring figure/hair. Do not recreate existing overlaps."
+        }
+      ]
+    }
+  }
+}

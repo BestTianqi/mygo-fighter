@@ -1,0 +1,188 @@
+{
+  "clips": [
+    {
+      "character": "anon",
+      "characterId": 0,
+      "slot": "U",
+      "label": "下次别失败就努力呀",
+      "spokenJapanese": "またダメにならないように頑張ればよくない",
+      "audio": "anon-u-effort.mp3",
+      "start": 53.02,
+      "end": 55.78,
+      "duration": 2.76,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Original uninterrupted dialogue, Anon speaks while Tomori reaction closeup; adjacent Anon face/lip shots57.5-65; small Whisper words53.10-55.62.",
+      "sha256": "8a3c818d065c46ab6901eaec907a8a33ff3cfbdacb038920235dc10aed23ceea"
+    },
+    {
+      "character": "anon",
+      "characterId": 0,
+      "slot": "I",
+      "label": "失败也能重来",
+      "spokenJapanese": "一回ダメになってもやり直せるって思わないと",
+      "audio": "anon-i-retry.mp3",
+      "start": 57.58,
+      "end": 61.7,
+      "duration": 4.12,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Anon front-face lip movements at59.0/60.5; burned subtitle 就算失败一次也要有重来的信心; small Whisper exact words57.68-61.54.",
+      "sha256": "97f0fdd82fd5a84219ddf1551f3d6ac100a6ab487e11ac30b7cf0842c4bde327"
+    },
+    {
+      "character": "anon",
+      "characterId": 0,
+      "slot": "O",
+      "label": "人生还长着呢",
+      "spokenJapanese": "人生長いんだし",
+      "audio": "anon-o-long-life.mp3",
+      "start": 63.12,
+      "end": 64.45,
+      "duration": 1.33,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Anon smiling face and lip movements at63/64; burned subtitle 人生这么长; small word timestamps63.22-64.36; ends before next phraseやってけないよ.",
+      "sha256": "296f3eb89063aa891205a668b7776001c368c1090b3fa71aa208188b8e9c3b78"
+    },
+    {
+      "character": "tomori",
+      "characterId": 2,
+      "slot": "U",
+      "label": "组一辈子乐队吗",
+      "spokenJapanese": "一生、バンドしてくれる",
+      "audio": "tomori-u-lifetime.mp3",
+      "start": 3.8,
+      "end": 7.35,
+      "duration": 3.55,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Tomori face and mouth closeups at3/5/7; burned subtitle 能一辈子陪我组乐队吗; small Whisper exact words3.86-7.24.",
+      "sha256": "c41845af21038217549608ac2b01d6dbe13ff085dc2b7e9c19cb70e28e974642"
+    },
+    {
+      "character": "tomori",
+      "characterId": 2,
+      "slot": "I",
+      "label": "这是大家一起写的歌",
+      "spokenJapanese": "みんなで作った曲だから",
+      "audio": "tomori-i-our-song.mp3",
+      "start": 17.45,
+      "end": 20.2,
+      "duration": 2.75,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Tomori front-face lip movement17.8/18.8/19.7; burned bilingual subtitle 那是我们大家一起写的歌; small exact words17.52-20.10.",
+      "sha256": "08bba16039f12cf91f82f6501aff89ed0c7275779fbc6f0932357035a7087f1d"
+    },
+    {
+      "character": "tomori",
+      "characterId": 2,
+      "slot": "O",
+      "label": "可能是我的错",
+      "spokenJapanese": "多分、私のせい",
+      "audio": "tomori-o-my-fault.mp3",
+      "start": 42.1,
+      "end": 44.9,
+      "duration": 2.8,
+      "source": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 102,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "page": 1
+      },
+      "evidence": "Original scene cuts to microphone while Tomori continues; burned subtitle 多分私のせい42.8/44; recognizable original Tomori voice and small exact words42.20-44.76. Camera is microphone, not Tomori face.",
+      "sha256": "e6a6df3ceb6a5065ffae6c580ce5e8e96149602996f16455589398ec3fcd0252"
+    },
+    {
+      "character": "rana",
+      "characterId": 3,
+      "slot": "U",
+      "label": "要",
+      "spokenJapanese": "やる",
+      "audio": "rana-u-do-it.mp3",
+      "start": 10.15,
+      "end": 11.2,
+      "duration": 1.05,
+      "source": {
+        "bvid": "BV13z4y1M7GR",
+        "title": "猫猫(有趣/无聊的女生)合集",
+        "author": "青逸尤",
+        "cid": 1248421747,
+        "duration": 47,
+        "source": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+        "total_duration": 71,
+        "page": 1
+      },
+      "evidence": "Rana face/lips and burned subtitle 要/やる at10.25/10.75/11; small exact words10.24-11.02.",
+      "sha256": "f9099bacd8dcf6e6b19a2253698ca46c85765032c813f482cbed7845edab1660"
+    },
+    {
+      "character": "rana",
+      "characterId": 3,
+      "slot": "O",
+      "label": "有趣的女人",
+      "spokenJapanese": "おもしれえ女",
+      "audio": "rana-o-interesting.mp3",
+      "start": 34.88,
+      "end": 36.92,
+      "duration": 2.04,
+      "source": {
+        "bvid": "BV13z4y1M7GR",
+        "title": "猫猫(有趣/无聊的女生)合集",
+        "author": "青逸尤",
+        "cid": 1248421747,
+        "duration": 47,
+        "source": "https://www.bilibili.com/video/BV13z4y1M7GR/",
+        "total_duration": 71,
+        "page": 1
+      },
+      "evidence": "Rana face/lips and burned subtitle 有趣的女人/おもしれー女 at35/36/37; small exact phrase34.94-36.92.",
+      "sha256": "be1d14ee50b00533ae26aefab82dd5e4d057ef139b3732c96c69fe2b223cd4fd"
+    }
+  ],
+  "notes": [
+    "Only actual anime recordings; no synthetic speech.",
+    "Anon phrases U/I/O are same uninterrupted original dialogue; U uses Tomori reaction shot while Anon speaks offscreen.",
+    "Tomori O shot is microphone: no mismatched character portrait is supplied.",
+    "Rana I uses existing rana-u-parfait.mp3 despite legacy filename; U=やる, I=抹茶パフェ, O=おもしれえ女."
+  ]
+}
