@@ -6,7 +6,7 @@ import { Button } from "../../../components/ui/Button";
 import { ROSTER } from "../../../game/engine";
 import { TouchControls } from "./TouchControls";
 
-function VideoCutin({
+function UltimateBackgroundVideo({
   media,
   paused,
   onEnd,
@@ -17,28 +17,28 @@ function VideoCutin({
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    if (paused) ref.current?.pause();
-    else void ref.current?.play().catch(() => {});
+    const video = ref.current;
+    if (!video) return;
+    video.currentTime = 0;
+    video.playbackRate = media.videoRate ?? 1;
+  }, [media]);
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    if (paused) video.pause();
+    else void video.play().catch(() => {});
+    return () => video.pause();
   }, [paused, media]);
   return (
-    <div
-      hidden={paused}
-      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-slate-950/60"
-    >
-      <video
-        key={media.video}
-        ref={ref}
-        src={media.video}
-        autoPlay
-        muted
-        playsInline
-        onEnded={onEnd}
-        className="max-h-36 w-full object-contain sm:max-h-56"
-      />
-      <p className="absolute bottom-3 left-4 text-xs font-bold text-white">
-        {media.label}
-      </p>
-    </div>
+    <video
+      ref={ref}
+      src={media.video}
+      muted
+      playsInline
+      onEnded={onEnd}
+      onError={onEnd}
+      className="h-full min-w-0 w-full object-cover"
+    />
   );
 }
 
@@ -53,6 +53,9 @@ export function BattlePanel({
   runtime: GameRuntime | null;
   view: GameView;
 }) {
+  const videos = view.cutins.flatMap((media, side) =>
+    media?.video ? [{ media, side }] : [],
+  );
   const finish =
     view.roundEnd && view.phaseMs > 0 && view.phaseMs < 2500
       ? view.roundEnd
@@ -88,11 +91,27 @@ export function BattlePanel({
         )}
       </header>
       <div className="relative overflow-hidden rounded-xl border border-white/15 bg-slate-950 sm:rounded-3xl">
+        {videos.length > 0 && (
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
+          >
+            {videos.map(({ media, side }) => (
+              <UltimateBackgroundVideo
+                key={`${side}:${media.video}`}
+                media={media}
+                paused={view.paused}
+                onEnd={() => runtime?.clearCutin(side)}
+              />
+            ))}
+            <div className="absolute inset-0 bg-slate-950/25" />
+          </div>
+        )}
         <canvas
           ref={canvas}
           tabIndex={-1}
           aria-label="MyGO 格斗对战画面"
-          className="block aspect-video w-full outline-none"
+          className="relative block aspect-video w-full outline-none"
           width={960}
           height={540}
         />
@@ -114,17 +133,6 @@ export function BattlePanel({
             <FighterHUD side={1} view={view} assets={assets} />
           )}
         </div>
-        {view.cutins.map(
-          (media, side) =>
-            media?.video && (
-              <VideoCutin
-                key={`${side}:${media.video}`}
-                media={media}
-                paused={view.paused}
-                onEnd={() => runtime?.clearCutin(side)}
-              />
-            ),
-        )}
         {finish && !view.paused && (
           <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center overflow-hidden bg-slate-950/85">
             {winner && (

@@ -28,7 +28,7 @@ export class CanvasRenderer {
     private readonly assets: Assets,
     private readonly canvas: HTMLCanvasElement,
   ) {
-    const context = canvas.getContext("2d", { alpha: false });
+    const context = canvas.getContext("2d");
     if (!context) throw new Error("浏览器无法启用游戏画布。");
     this.context = context;
     this.scene = createBattleScene(
@@ -250,7 +250,7 @@ export class CanvasRenderer {
     this.scene.consume(match, events);
   }
 
-  draw(match: Match, dt: number) {
+  draw(match: Match, dt: number, videoBackground = false) {
     const ratio = Math.min(2, window.devicePixelRatio || 1);
     const width = Math.round(960 * ratio),
       height = Math.round(540 * ratio);
@@ -259,6 +259,7 @@ export class CanvasRenderer {
       this.canvas.height = height;
     }
     this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
-    this.scene.draw(match, dt);
+    this.context.clearRect(0, 0, 960, 540);
+    this.scene.draw(match, dt, videoBackground);
   }
 }

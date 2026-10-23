@@ -332,7 +332,11 @@ export class GameRuntime {
         this.consume(this.match.drainEvents());
       }
       if (previous !== this.match.inputTick) this.input.consumed();
-      this.renderer.draw(this.match, dt);
+      this.renderer.draw(
+        this.match,
+        dt,
+        this.view.cutins.some((media) => !!media?.video),
+      );
       if (now - this.lastPublish > 32) {
         this.lastPublish = now;
         this.publishMatch();

@@ -1630,7 +1630,7 @@ export function createBattleScene(
     }
     fx = fx.filter((e) => e.life > 0);
   }
-  function draw(dt: number) {
+  function draw(dt: number, videoBackground: boolean) {
     if (cameraFighter !== match.fighters[0]) {
       cameraFighter = match.fighters[0];
       camera.reset(match);
@@ -1647,7 +1647,7 @@ export function createBattleScene(
       );
       if (p === 1) impactMotion = null;
     }
-    stageRenderer.background(battleArena, visualTime);
+    if (!videoBackground) stageRenderer.background(battleArena, visualTime);
     if (inkMs > 0) {
       ctx.fillStyle =
         "rgba(7,8,18," +
@@ -1798,10 +1798,10 @@ export function createBattleScene(
       match = value;
       events.forEach(consumeEvent);
     },
-    draw(value: Match, dt: number) {
+    draw(value: Match, dt: number, videoBackground = false) {
       match = value;
       if (!match.paused) visualTime += dt;
-      draw(dt);
+      draw(dt, videoBackground);
     },
   };
 }
