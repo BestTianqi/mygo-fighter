@@ -40,7 +40,7 @@ def build():
         background=data_url(Image.open(ROOT/'assets/stages/ring-v1.png').convert('RGB').resize((1280,720)),85),
         comparisons=[dict(name=name,src=data_url(Image.open(ROOT/f'assets/{key}-idle.png'),lossless=True))
             for key,name in [('anon','千早爱音'),('soyo','长崎素世'),('tomori','高松灯')]])
-    template=(ROOT/'src/riki-preview.html').read_text(encoding='utf-8')
+    template=(ROOT/'tools/templates/riki-preview.html').read_text(encoding='utf-8')
     html=template.replace('/*__RIKI_ASSETS__*/','window.RIKI_ASSETS='+json.dumps(assets,ensure_ascii=False,separators=(',',':'))+';')
     (ROOT/'riki-preview.html').write_text(html,encoding='utf-8')
     print(f'Built {len(frames)} Riki poses and offline riki-preview.html; atlas {atlas.size}.')

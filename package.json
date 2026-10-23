@@ -1,0 +1,27 @@
+{
+  "name": "mygo-fighter",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend && node scripts/build-simulation.mjs",
+    "typecheck": "npm run typecheck --workspace frontend",
+    "format": "prettier --write frontend/src scripts docs/*.md README.md",
+    "format:backend": "node scripts/scala.mjs scalafmtAll",
+    "start": "node scripts/start.mjs",
+    "check": "npm run typecheck && node scripts/check-assets.mjs",
+    "check:backend": "node scripts/build-simulation.mjs && node scripts/scala.mjs compile scalafmtCheckAll",
+    "lan": "npm run build && npm start"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

@@ -1,373 +1,73 @@
-# 迷途回响 · MyGO!!!!! × Ave Mujica × MewType 格斗舞台
+# MyGO!!!!! Fighter
 
-本仓库为独立网页版，从 [AnonMagicTower](https://github.com/BestTianqi/AnonMagicTower) 拆出。游戏、源码和全部构建素材均保存在本仓库，不依赖魔塔主目录或 Qt。双击 `index.html` 即可离线游玩。仓库中的大体积 HTML 使用 Git LFS；首次克隆请安装 Git LFS 并运行 `git lfs pull` 获取完整游戏文件。
+A TypeScript + React fighting game with a Scala 3 LAN server. The rewrite preserves the 15-character combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. LAN battles support two devices in 1v1.
 
-## 局域网联机（1v1 试用版）
+## Run
 
-房主电脑安装 Node.js（18或以上），双击根目录的「启动局域网联机.cmd」，保持窗口开启。房主在浏览器打开 `http://localhost:8765`，点击「局域网联机 → 创建房间」。窗口也会显示本机网络地址；另一台连接同一 Wi-Fi／局域网的电脑在浏览器打开对应地址，例如 `http://192.168.1.8:8765`，点击「局域网联机 → 加入房间」，输入房间码。首次启动若 Windows 询问网络权限，允许专用网络访问。
+Install Node.js 24 LTS (22.12+ also works), a JDK 21 or newer, and sbt. Then, from this folder:
 
-双方各选自己的角色，房主选择地图和地形，双方点击「准备开战」。双方都使用 WASD＋JKL/UIO/H/P，也支持触屏。暂停、招式表和切出窗口会暂停双方，任意一方可继续；房主可重开，双方均可返回房间重新选人。断线自动暂停，网络恢复后可继续；离开房间释放位置。联机暂为1v1，单机与本地3v3继续通过原菜单使用。
-
-服务端统一计算位置、血量、技能和回合，通过浏览器接收双方输入并下发状态，避免两边的模拟各自分叉。无需 npm 安装，也不需要外网服务器。端口默认8765，可在启动前设置环境变量 `PORT`。服务只提供游戏页面与房间接口。直接双击 HTML 的离线方式可继续使用；联机须从服务地址打开。两端浏览器实测通过；跨实体设备的延迟取决于本地网络。
-
-## 选人与3v3车轮战
-
-点击开始游戏后，先进入独立选人界面，支持十五名角色；可选择1v1或3v3、电脑对战或同屏双人。练习模式保持1v1。
-
-选人页也可直接设置十五张地图、电脑难度、音效与语音、地图地形，练习模式另有木桩行为。地图缩略图支持横向滚动及左右浏览按钮，手机可滑动选择。音效默认开启，在点击开始对战时激活；可在选人页或对战操作栏关闭。电脑难度仅单人对战启用。选人设置作为临时方案，确认开战才应用；取消后保留原来的暂停对局。确认后的设置与原设置面板同步，重开和3v3后续场次沿用。
-
-选人设置验证：`node --test tests/selection.test.cjs`、`python tests/selection_settings_browser.py`。
-
-3v3双方各选三人，按选择顺序出场，同队角色不能重复，双方可以选择相同角色。败者退场后自动换下一人，胜者保留当前血量与能量；新角色以200生命、0能量登场。每场计时60秒，击败对方全部三人获胜。双方同时倒下或时间结束血量相同时，双方均换下一人。
-
-队伍头像显示当前出场者、候补与已退场角色。开战前准备全队素材，换人时无需重新加载。返回选人后取消仍可继续原来的暂停对局，重启会保留阵容并重新开始。规则与验证见[车轮战说明](assets/TEAM_BATTLE_IMPLEMENTATION.md)。
-
-## 唐哭音波与春日影控场
-
-素世新增**前＋I · 剪切线**（2P：前＋小键盘5），消耗25共鸣，在身前360范围内交叉斩出两道浅金琴弦，180/360毫秒分别命中，第二段击退。使用横掌与双掌动作衔接，地面施放，可格挡、被钢板抵消，也可在准备时打断；可攻击敌方召唤物。I音符弹、↓＋I自愈和其他原有技能保留，电脑会在中距离使用。伤害沿用连击衰减规则；手机同时按前方向与I即可施放。现已独立配上动画第11话素世发现衣服被剪开的原声，起手播放约3.55秒；I音符弹仍使用“等一下”。片段来源与处理见[语音说明](assets/SOYO_CUTLINE_VOICE.md)。
-
-爱音新增**后＋U（面向右时A＋U）·唐哭**，消耗20共鸣，向前发出浅蓝音波，接入立石凛直播唐哭原声。前＋O仍可投技，原有基础技能保留。
-
-素世P改为从释放点向四周扩散的圆形音波，命中后**强制硬直2秒**，不再造成原来的三段伤害。准备850毫秒后即可自由移动、跳跃、瞬移和接其他攻击；技能能量与冷却规则保留。后续轻攻击不会缩短控制时间，接招不会截断春日影配音或视频。细节与来源见[本次制作说明](assets/ANON_CRY_SOYO_CONTROL.md)。
-
-## 剧情梗与原声演出
-
-本轮战斗调整：全员普通攻击伤害约降低25%（整数四舍五入，含三段普攻、重击、蹲下与空中攻击），收招延长80ms；普攻实际命中回复12共鸣，技能实际命中回复2共鸣，格挡回复1，大招与召唤物不回能。L瞬移和旧冲刺统一消耗10共鸣，冷却与虚影保持原设定。
-
-除爱音外，大招出招与攻击段整体加速至2倍，视频及配音保持原速，独立于战斗时长继续播放；素世的硬控仍为2秒。初华两形态大招总时长1秒，固定朝前爬行推进，100/280/460/640/820ms打出五段各10伤害，奥义结算采用大招视频的爬行画面。企鹅P在50/230/410/590/770ms释放五层音波，恢复旧原声并保持其音调与原速。爱音TGW增加独立的原片配音，不与普通音符弹共用。来源与具体参数见 [战斗节奏调整](assets/meme-media/combat-tempo/README.md)。
-
-十五人已加入剧情梗／社区梗配音，71段角色技能录音另加1段召唤物原声；所有角色的P都有视频与原声演出，Mujica双形态和灯的企鹅形态也已覆盖。配音随音效默认开启，可在选人页或页面音效按钮切换，P仍消耗100共鸣。
-
-高松灯普通与企鹅形态使用分离的技能：普通灯远程歌声，企鹅 U 反击、I 近身震慑、O 冲撞三连，另有飞踢与唐笑。企鹅 P 恢复原先的企鹅大招音频，保留原有插图，在1秒内发出五道以自身为中心的圆形音波，每道未防御时固定伤害10、范围650，可覆盖高低层。若叶睦的 Mortis 演出形态重做为替身代演、装死反击、牵线留人、双生剧场；校服形态保留原技能。素材来源与招式数值见 [企鹅与 Mortis 调整](assets/meme-media/penguin-mortis/README.md)。
-
-爱音使用本人动画原声唐笑与对应画面；祥子“我来成为神明”；初华喊Saki酱并实际低姿爬行追击，两套服装各有四张新动作；阿拉蕾“U咩哇帕瓦”；藤都子九字真言对应九次法阵打击。灯和企鹅新增各自P，其他人包括立希的“哈？”、乐奈的“有趣的女人”、海铃的练习后再吵、律的杂鱼台词练习、由乃的别丢下我和野乃花的病娇国王。
-
-素世按 **U** 召唤三个小天素罗，各自拥有 **20点生命**和血条，可被敌方近战、弹体、范围技能或大招击败；友军免伤，击败后立即消失，全灭后可重新花费50能量召唤。仍持续10秒。三只依次各喊一声原视频里的“哦也”，声音独立，不会被素世后续出招截断。
-
-攻击型P施放全程霸体：受击仍扣血，但不受硬直、击退、拉拽、投技换位或击飞影响，语音和视频继续播放；血量归零仍会被击倒。素世的控场P保留准备阶段保护，释放后恢复普通受击规则并允许自由行动。普通技能仍可打断，变身到期仍结束该形态的大招。
-
-U/I/O与方向派生也接入本人短句，双人音轨独立，暂停和返回菜单会保留进度，重开、回合结束、普通技能被打断和变身到期会清理对应演出。完整角色表与原视频链接见 [技能与配音说明](assets/MEME_SKILLS_IMPLEMENTATION.md)，剪辑时码与素材路径见 [来源清单](assets/meme-media/manifest.json)。
-
-## 梦限大 MewType 五人
-
-新增仲町阿拉蕾、峰月律、藤都子、千石由乃、宫永野乃花，全部采用初始官方虚拟服装与正常动画身材。双方选人、电脑对战、本地双人和练习均可使用；角色总数为15人。每人54张独立动作，共270张，包含三段不同普攻、重击、蹲伏与空中攻击、移动受击及技能准备/命中/收招。
-
-五人为单一虚拟形态，**J**三段普攻、**K**重击、**L**虚影瞬移、**U/I/O**三个技能、**P**大招；技能依次消耗20/25/30/100共鸣，生命200。2P使用原小键盘方案。该组无H变身，触屏隐藏变身按钮。
-
-| 角色 | U | I | O | P |
-| --- | --- | --- | --- | --- |
-| 阿拉蕾 | 糖果声浪 | 应援叠唱 | 全场跟唱 | U咩哇帕瓦 |
-| 律 | 真丢人·蓝熊拨弦 | 不害臊吗·守拍 | 弱弱胃袋·破蓝重奏 | 杂鱼～杂鱼～ |
-| 藤都子 | 分镜飞页 | 伏笔机关 | 截稿线 | 临兵斗者皆阵列在前 |
-| 由乃 | 怎么先走了·低频唱片 | 有惊无险·节拍屏障 | 真不敢信·混音过门 | 不要丢下我 |
-| 野乃花 | 完成了·兔耳扫弦 | 头像通缉·跃兔滑奏 | 病娇野乃·跳拍尾奏 | 病娇国王 |
-
-阿拉蕾以声浪压制，律使用正面反击与吉他突进，藤都子设置漫画机关并拉近对手，由乃通过贴地唱片与屏障控场，野乃花擅长跃起和连续吉他攻击。主菜单随所选乐队展示对应五人。动作可在 [MewType离线图鉴](mewtype-preview.html) 逐张查看，规则、参考和验收记录见 [制作说明](assets/MEWTYPE_IMPLEMENTATION.md)。
-
-## Ave Mujica 五人双形态
-
-丰川祥子、三角初华、八幡海铃、若叶睦、祐天寺若麦已接入双方选人、电脑、本地双人和练习。正常形态穿校服或常服，地面按 **H / 2P 小键盘7** 消耗50共鸣，立即换上各自Mujica演出服与面具，持续20秒；期间不能刷新，暂停与菜单冻结计时，到期或回合结束恢复常态。
-
-Mortis 演出形态已独立配音：U短促尖叫、I「放心吧」、O失控长啸、H「我讨厌你」，演出形态投技也使用尖叫。均来自动画原片／尖叫剪辑并保持原速；校服语音、两岁／汉堡派生原声和大招视频原声保留。来源见 [Mortis独立语音](assets/meme-media/mortis-stage-voices/README.md)。
-
-Mujica五人的H新增三段真实戴面具动作：常服持面具、抬手戴上、换装完成，配合暗场、环形冲击与上涌气场；保持50共鸣、20秒变身与即时出招。睦的演出形态新增 **↓U「我只有两岁」**（20共鸣、周围哭喊震退、14伤害）及 **↓I「我要吃汉堡」**（25共鸣、向前汉堡弹、18伤害），使用对应网络视频的原声，保留原有UIO与双生剧场。来源见 [睦的两岁与汉堡技能](assets/meme-media/mortis-toddler/README.md)，动作见 [面具变身素材](assets/mujica/mask-transformation/README.md)。
-
-初华 H 变身后播放《Imprisoned XII》官方MV的20秒音乐片段，独立于攻击语音；暂停时接续，变身结束或回合结束停止，支持双人及静音。来源见 [初华变身音乐](assets/meme-media/uika-imprisoned/README.md)。
-
-两形态分别拥有独立的 **U / I / O / P** 技能，消耗依次为20 / 25 / 30 / 100共鸣。J三连、K重击、L虚影瞬移及站立、蹲下、空中攻击继续使用统一键位，2P对应小键盘1—8，手机提供同名按钮。每形态56张真实动作，共新增560张；开局前准备双方所选角色的双形态图集，3v3会准备全部六名成员。
-
-| 角色 | 战斗特色 | 演出名 |
-| --- | --- | --- |
-| 丰川祥子 | 琴键弹、茶会护盾、预警阵法与傀儡拉拽 | Oblivionis |
-| 三角初华 | 和弦飞行物、快速位移、双月突进与锁定星落 | Doloris |
-| 八幡海铃 | 远程低音、正面反拨、沉锚拉近与近身指令投 | Timoris |
-| 若叶睦 | 青瓜抛掷、低段拨弦、人偶切线与后撤反击 | Mortis |
-| 祐天寺若麦 | 闪拍、突进连打、跃起踩踏与八段狂爱谢幕 | Amoris |
-
-主菜单随1P所选乐队切换五人立绘。完整40个技能、持续时间与素材规范见 [Mujica制作说明](assets/MUJICA_IMPLEMENTATION.md)；原稿、完整内置imagegen提示词与参考来源保存在 `assets/mujica/<角色>/manifest.json`，全部动作可在 [离线动作预览](mujica-preview.html) 中查看。
-
-六场景版。千早爱音与长崎素世的普通形态均以正常动画头身比重新绘制，每人保留 16 个基础动作；爱音另有 18 个拳脚命中动作、24 个动作扩展关键帧和 4 个黄色奶龙变身动作，共62张动作素材。素世新增24张专属动作，另有4张小天素罗召唤物姿势。
-
-当前使用 v3 面部修订图集，以用户指定的官方 2D 立绘为准。先制作大尺寸面部基准，再按每张四个动作分别绘制，提高每张脸的清晰度和五官辨识度。v1/v2 原稿保留。提示词与制作方式见 `assets/FACE_REVISION_V3.md`；面部放大对照见 `tests/artifacts/faces-v3-comparison.png`。
-
-普通形态以当前待机立绘为配色基准：柔和粉发、浅灰紫外套、暗橄榄绿格裙、浅桃色肤色及灰绿色长袜。新增18个站立/蹲下/空中拳脚动作已用内置ImageGen统一校色为 `anon-normals-*-v3.png`；基础16帧、角色预览与新动作在相同中性背景下统一检查，避免出招时突然变成更艳的粉发或更深的制服。源稿及提示词见 `assets/ANON_PALETTE_V3.md`，色调对照见 `tests/artifacts/anon-palette-proof.png`。黄色奶龙属于独立变身形态，保留其黄色皮肤。
-
-## 移动与打击节奏
-
-按《新宿决战》公开网页版的常态人物身高比例校准：爱音地面约475、空中约360世界单位/秒，其他角色保留原有速度差异；二段跳、L地空闪身与五道人物虚影、0.6秒瞬移冷却与起步闪避窗口。站立连按J有三段派生，落空/格挡同样可接，末段挑空；手机长按轻击自动连按。普攻与技能分别保留150/300毫秒输入，命中停顿中输入不会丢失。
-
-进入对战前预解码并预热所选图集；游戏内嵌图集按实际显示比例打包，保留高分辨率原稿和预览，以减少首次动作栅格化卡顿。
-
-命中有按轻重区分的停顿、独立击退惯性、定向震动、碎屑和叠层合成打击音。重击短暂聚焦与压暗背景，重落地有冲击、倒地与起身保护；系统减少动态效果设置会减弱演出。常态镜头人物高约占画面四分之一，大地图继续缩放跟随。参考参数和验证记录见 [SHINJUKU_FEEL.md](docs/SHINJUKU_FEEL.md)。
-
-## 直接游玩
-
-现可在双方选人中选择第三位角色 **高松灯**，支持电脑、同屏双人、同角色对战及练习，沿用六张大地图、上下层地形与动态镜头。
-
-灯按官方2D立绘参考新绘24张正常身材动作，短灰紫发、粉棕色眼睛、灰色校服与黑色手持麦克风。动作包括拘谨待机、谨慎迈步、前后冲刺、跳跃/落地、站防/蹲防、轻重近身攻击、三种歌声施放、受击、倒地/起身及含蓄胜利。完整内置imagegen提示词与原稿见 `assets/TOMORI_CHARACTER.md`；动作图集见 `assets/tomori-actions.json`。
-
-| 灯的初版招式 | 1P / 2P | 共鸣 | 原始伤害 |
-| --- | --- | --- | --- |
-| 轻击 / 重击 | J / K；小键盘1 / 2 | 无 | 8 / 16 |
-| 微光音符 | I；小键盘5 | 20% | 12 |
-| 诗句回声 | U；小键盘4 | 30% | 18 |
-| 迷途之歌 | O；小键盘6 | 60% | 三段，每段8 |
-| 投技 | 后＋U或前＋O；后＋4或前＋6 | 无 | 18 |
-
-三种歌声均在地面或平台上发动。微光音符是较快的小型音符，诗句回声较慢但范围更宽；迷途之歌原地演唱，分三次发出独立飞行的音波，命中存在连段衰减。施法受击会停止后续歌声，已发出的音符继续前进；各段均可被防御、钢板或对方飞行物抵消。手机有对应按钮，电脑灯也会按距离使用歌声。当前音效为可关闭的合成音。
-
-灯新增 **凑企鹅变身**：地面按 **H / 2P 小键盘7 / 手机「H 凑企鹅」** 消耗50共鸣，立即变身，无变身前摇或收招锁定，能马上移动和接招；持续20秒，到期自动恢复人形。暂停冻结计时，变身中不能刷新持续时间，变身不回复生命。
-
-形态采用用户动图的黑色企鹅身躯、奶油色腹部、橙色蹼脚和灯的脸，新增32张动作图。J普攻三段为鳍拍→蹬脚→顶撞，K重击；站立、蹲下、空中动作不同，后＋U或前＋O投技。企鹅移动与跳跃略快于人形。
-
-| 企鹅技能 | 1P / 2P | 共鸣 | 作用 |
-| --- | --- | --- | --- |
-| 飞踢 | 前＋U或空中↓＋O；前＋4或空中↓＋6 | 10 | 前跃踢击，命中击倒，落地收招 |
-| 糖哭·反击 | U；小键盘4 | 15 | 抵挡一次正面打击并回击，投技和背后攻击可破 |
-| hey? | I；小键盘5 | 10 | 快速短程音波 |
-| 唐笑·震荡 | ↓＋I；↓＋小键盘5 | 20 | 向四周震荡并推开对手 |
-| 咕咕嘎嘎 | O；小键盘6 | 40 | 连续三段音波 |
-
-动作参考用户提供的[《🐧盘点凑企鹅各项技能🐧》](https://www.bilibili.com/video/BV1mTXKB4EjG/)，格斗判定与数值为游戏改编。按F1查看当前形态招式表。完整规则、参考和绘图提示词见 [TOMORI_PENGUIN.md](assets/TOMORI_PENGUIN.md)，动作总览见 [企鹅动作预览](tests/artifacts/tomori-penguin-proof.png)。
-
-五个企鹅技能配有该视频截取的对应原声，已统一音量并嵌入离线HTML，保留原片段中的背景声。点击舞台下方「音效」开启；每次施法播放一次，支持双方独立播放、暂停续播、静音及重开清理。片段清单与起止时间见 `assets/audio/penguin-voices.json`。
-
-双击本目录的 **index.html**，使用 Edge、Chrome 或 Firefox 打开。所有图片、样式与脚本已嵌入同一个 HTML，离线可玩，无需安装依赖或启动服务器。分享时只需发送这个文件。
-
-打开游戏先进入独立主菜单，展示五人立绘与当前角色、舞台；可直接进入单人对战、本地双人或自由练习，也可打开对战设置与操作说明。战斗操作栏的「主菜单」会暂停并保留当前对战，点击「继续对战」恢复血量、能量、位置和回合；开始新模式会新开一场。菜单期间停止战斗计时和输入，语音与视频同步暂停。菜单内新选的角色、地图和地形仅在新开局应用，「继续对战」保留原局地图。
-
-进入对战后，主界面只保留对战舞台、生命/共鸣状态和紧凑操作栏，手机保留触屏按键。默认爱音对战电脑素世；点击「设置」可选双方角色、双人/练习模式、电脑难度和场景，也支持同角色对战。对战中打开设置自动暂停，更换角色或模式后点击「应用并重开」生效，关闭设置继续当前对战。操作说明位于设置内，音效在舞台下方开启。
-
-爱音的「闪耀合奏」是突进必杀；素世的「回响终章」保持原地，水平范围 230、垂直范围 160，可拦截跳跃中的对手。两者均消耗 60% 共鸣，基础伤害 24。角色名、动作、操作说明和必杀提示随选人同步。
-
-## 要乐奈人物素材
-
-新增 **I / 2P 小键盘5：抹茶芭菲投掷**（25能量、18基础伤害），沿抛物线飞出，可防御、被钢板拦截或与飞行物抵消，落地/命中有配料溅射。网上找到的MyGO第4话芭菲参考已保存在项目，新画四帧准备/蓄势/投出/收招，总计52张人物动作。原图来源与提示词见 [RANA_PARFAIT.md](assets/RANA_PARFAIT.md)。
-
-乐奈已作为第四位角色接入选人、单人、双人和练习。48张正常身材动作参考官方2D脸、银白短发、金蓝异色瞳及黑白舞台服，使用统一酒红色吉他。包含18种基础攻击，另有↓＋O拨弦、前＋I强奏、U突进、↓＋U上挑、前＋U滑踢、空中↓＋O俯冲、↓＋I调弦、O四段独奏和P三段大招；技能消耗与规则见 [RANA_SKILLS.md](assets/RANA_SKILLS.md)。
-
-双击 [rana-preview.html](rana-preview.html) 离线查看，可分组选择、轮播、翻转及与现有角色对照。总览为 `tests/artifacts/rana-actions-proof.png`，待机图为 `assets/rana-idle.png`，原稿、参考与内置imagegen完整提示词见 [RANA_CHARACTER.md](assets/RANA_CHARACTER.md)。重新打包使用 `python tools/build_rana_assets.py`，验收使用 `python tests/rana_materials_browser.py`。
-
-## 椎名立希人物素材
-
-已制作立希首批48张正常身材动作素材：官方2D脸参考、米灰褐色水手服、红领结、长深棕紫发、淡紫眼和双鼓棒。包含移动防御、受击倒地、投技、18种拳脚以及八个技能所需的动作姿势。已接入实战，可在双方选人中选择。
-
-双击 [riki-preview.html](riki-preview.html) 离线查看，可分组选择动作、左右翻转、轮播及与现有角色对照。动作总览为 `tests/artifacts/riki-actions-proof.png`，待机图为 `assets/riki-idle.png`，完整原稿和内置imagegen提示词见 [RIKI_CHARACTER.md](assets/RIKI_CHARACTER.md)，技能设计见 [RIKI_SKILL_DESIGN.md](assets/RIKI_SKILL_DESIGN.md)。重新打包素材预览使用 `python tools/build_riki_assets.py`，验收使用 `python tests/riki_materials_browser.py`。
-
-## 背景地图
-
-在「设置 → 场景」中通过缩略图切换六张地图：RiNG 舞台、月夜剧场、黄昏天台、雨夜街头、樱花河畔、乐队练习室。新增四张采用日系音乐/校园动画背景风格，覆盖夕阳、雨夜、春日日景和室内练团氛围。切换地图即时生效，保留当前对战状态，关闭设置继续；重开也沿用所选地图。
-
-新增背景原稿与内置 ImageGen 的完整提示词见 `assets/stages/ART_DIRECTION.md`。图片及场景缩略图全部嵌入离线 HTML。
-
-## 素世专属动作与归心·自愈
-
-新增24张动作：从容迈步、前滑与后撤、轻盈跳跃与落地、开掌站防与低防、上段/腹部受击、掌击起手与收招、单掌试探、双掌推拍、招手施法、四段回血、跌落/倒地/起身、含蓄胜利。素世使用开放掌与稳重步伐，区别于爱音的拳脚和突进；基础待机及正常身材、2D面部与制服配色沿用现有基准。
-
-**↓＋I / 2P ↓＋小键盘5 / 手机同时按↓和I**：消耗35%共鸣，地面施法0.7秒后回复24生命，上限200；总施法1.2秒，施放起独立冷却12秒。配有按胸起手、闭眼凝神、恢复释放与舒缓收招四张专用动作，淡绿色回复环、上升粒子与实际回血数字。满血不消耗，空中不可施放；起手受击会打断，能量和冷却仍消耗。暂停冻结、重开清除，练习回满能量不会跳过冷却。电脑素世会在低血量且有安全距离时尝试使用。
-
-动作与配色总览：`tests/artifacts/soyo-actions-expansion-proof.png`。原稿、完整内置imagegen提示词与规则见 `assets/SOYO_ACTIONS_EXPANSION.md`；帧序与显示高度见 `assets/soyo-extra-actions.json`。全部无损内嵌离线HTML。
-
-## 素世 · 小天素罗召唤
-
-选择长崎素世后，按 **U** / 2P **小键盘4** / 手机「U 小天素罗召唤」，消耗50%共鸣，在地面起手220ms后召唤三个小天素罗，持续10秒有效战斗时间。按用户动图新绘金黄色圆滚滚的天妇罗外壳、浅棕发素世小脸，提供待机、跳动、冲刺、攻击四种姿势。
-
-三只会错开追击，命中或突进结束后返回素世附近。每次突袭原始伤害4，可被站防/蹲防挡住（磨血1），也会被爱音的正面钢板吸收；召唤物不给素世积攒共鸣。持续期间不能叠加或刷新，起手可以被打断；暂停与命中停顿冻结计时，到期或回合结束、重开时消失。状态栏显示数量和剩余秒数。爱音↓＋I为TGW音波。
-
-「练习」按钮沿用当前角色，选择素世后即可试招。素材与内置ImageGen提示词见 `assets/SOYO_TENSORA.md`，用户参考动图保存在 `assets/reference/soyo-tensora-reference.gif`。召唤物原稿 `assets/soyo-tensora-v1.png` 与无损图集一并嵌入离线HTML。
-
-## 爱音动作图扩展
-
-新绘24张透明动作图，沿用已确认的待机立绘、官方2D面部基准、正常身材比例和统一配色，分为六组：
-
-- 移动与冲刺：前移迈步、换步、前冲、后撤。
-- 跳跃与落地：蓄力、上升、下降、落地缓冲。
-- 防御与受击：站防、蹲防、上段受击、腹部受击。
-- 普通技过渡：站立/蹲下拳脚的起手与收招，命中阶段仍使用原有18张拳脚图。
-- 特殊技：突刺、升龙、TGW/音符释放、回旋踢专属姿势。
-- 倒地与结算：失衡跌落、倒地、起身、胜利。
-
-动作随实际状态播放，支持双方爱音与左右镜像，暂停保持当前阶段；地形上的跳跃/落地同样适用。此轮只修改绘制与动作素材，战斗数值和技能时序不变。待机立绘、素世和黄色奶龙素材保留。
-
-动作与配色总览：`tests/artifacts/anon-actions-expansion-proof.png`。源图、参考和内置ImageGen提示词见 `assets/ANON_ACTIONS_EXPANSION.md`；动作命名/显示高度见 `assets/anon-extra-actions.json`。`src/animation.js`只选择视觉姿势，不改战斗状态。所有新增图片无损内嵌至单文件HTML。
-
-## 地图地形
-
-六张地图现在使用2400宽的连续场地（原画面宽度的2.5倍）：可从中央区域向左右两侧移动，两侧新增下沉坡道（最低-160）与八层交错平台（最高480），通过原有跳跃和向下穿台探索；最高活动边界1120。双方出生在原中央区域，技能距离、消耗与角色跳跃手感保持原有设置。
-
-镜头自动跟随双方位置，横向与纵向共同取景：靠近时平滑拉近，分离、高低差增大或奶龙变身时拉远。快速冲刺与击飞会及时调整范围，人物留在生命条、能量条之间；远景把脚下地面放在能量条上方，背景有视差移动。地形、人物、音符弹、钢板、召唤物与特效共用镜头，界面固定；暂停冻结，重开/下一回合重置。关闭地形后仍保留大场地与动态镜头。
-
-相关模块：`src/camera.js`、`tests/camera.test.cjs`、`tests/world.test.cjs`。离线浏览器验证与截图：`tests/world_camera_browser.py`、`tests/artifacts/expanded-map-*.png`。
-
-六张地图默认开启各自的坡地与单向平台：RiNG 两侧金属台、剧场三层石台、天台高低台、街头坡道、河畔木台、练习室音箱平台。高台间距按角色真实跳高与移动速度配置，电脑也能分步跳到最高台。
-
-跳跃可向上穿过平台，下降时落在台面；走出边缘会自然下落。按 **S＋W**（2P **↓＋↑**）穿台下落，手机同时按↓和↑。在平台与坡地上可使用站立/蹲下拳脚、投技、钢板与地面必杀；投技要求双方都着地且高度接近。俯冲按距离当前支撑面的高度判定，落台时正常收招。坡地会挡住撞入实体地面的音符弹，单向平台不挡飞行物。
-
-设置中可随时关闭「地图地形」回到平地，重开沿用该开关。换地图保留生命、共鸣与比分，角色适应新地面高度；取消支撑后自然下落。渲染、阴影与碰撞使用同一份地形数据，地形布局位于 `assets/stages.json`，不改人物素材色调。
-
-## 爱音新招式
-
-站立、蹲下、空中各有轻中重拳和轻中重脚，共 18 种普通技。另有三种速度/伤害的音符弹、闪耀升龙、旋律回旋踢、越拍踢、前后投、L瞬移，以及「粉色奶龙·法天象地」。当前J/K保留站立、蹲下与空中普攻，额外技能使用方向＋U/I/O。舞台下方「招式表」或 F1 可查看完整指令、伤害和共鸣消耗。
-
-点击「练习」，进入无限时间练习。木桩默认在大招三段攻击范围内，收招后共鸣自动回满，木桩最低保留1生命。可以切换站立、站防或蹲防。
-
-奶龙大招按 **P**，或 **↓↘→↓↘→ + 拳**，消耗100%共鸣。参照用户动图：**黄色皮肤、奶白色肚皮**，露出爱音粉色头发；粉色用于能量特效。大招包含变大、蓄力、三段震击、砸地与缩回普通形态。三段原始伤害为8/10/30，实际受连段衰减影响；可以格挡、远距离躲开，收招期间可受击。仅爱音拥有该大招。
-
-这是以传统六键格斗为目标的首轮招式扩展，尚未达到商业格斗游戏完整的动画量和平衡深度。素世在保留原有招式的基础上加入小天素罗召唤。
-
-爱音新增 **U · 钢板防护**：消耗20%共鸣，起手100ms后在身前召唤钢板，持续3秒，具有40点耐久。钢板跟随角色及朝向，可抵消正面打击和音符弹；耐久用完会破碎，超出耐久的部分按通常防御规则结算伤害。投技和背后攻击可以绕过钢板。召唤后可以继续移动、跳跃、出招；重复召唤刷新耐久和时间，不叠加。暂停冻结钢板状态，重开或新回合清除。画面显示剩余耐久与受击火花。
-
-所有角色投技统一为后＋U或前＋O，2P对应后＋4或前＋6；爱音钢板为U / 小键盘4。
-
-爱音新增 **↓＋I · TGW 音波攻击**：消耗30%共鸣，地面发动，起手180ms后向前发出一团逐渐扩散的音波，单次基础伤害22，带强击退。波速560、持续950ms，射程有限；可被站防或蹲防挡住（磨血3），被钢板吸收，或与对方飞行物抵消。带独立的粉蓝色声波环、TGW字样和合成音效（需开启音效）。2P爱音使用↓＋小键盘5，手机同时按↓和I。
-
-## 爱音进攻模组 · 第二轮
-
-| 招式 | 按键 / 指令 | 共鸣 | 原始伤害 | 用途 |
-| --- | --- | --- | --- | --- |
-| 闪光突刺 | 前＋U | 15% | 14 | 向前冲刺出拳，命中可接三连击 |
-| 切分三连击 | ↓＋O | 25% | 6 + 6 + 10 | 近身三段连打，末段命中可接大招 |
-| 流星俯冲踢 | 空中↓＋O | 15% | 16 | 从空中斜向下踢击，高段攻击，需要站防 |
-
-俯冲需离地至少45高度才能发动，每跳只允许一次空中行动；空中普通技确认命中后，可以取消转俯冲。俯冲落地后，命中恢复100ms，落空或被挡恢复240ms，恢复期间不能移动、跳跃、冲刺、防御或出招，可以被对手反击。
-
-推荐满共鸣、贴身起手练习 **J → J → J → 前＋U → ↓＋O → P**：逐次确认命中后接下一招，三连击计入真实三段命中；整套路线可达10次命中。空挥不能取消，三连击必须末段命中才能接大招，共鸣不足也不能发动。爱音最多允许5次取消，连段伤害沿用递减规则。舞台内会显示当前可接招式，完整指令按需打开招式表查看。
-
-新招式有各自的姿势切换、冲刺残影、三拍攻击轨迹和俯冲效果。2P使用前＋4（突刺）/ ↓＋6（三连击）/ 空中↓＋6（俯冲），手机同时按方向和技能。电脑爱音也会按距离和空中状态选择突刺、三连击、俯冲与TGW音波。
-
-## 操作
-
-所有角色使用同一组按键；额外技能通过方向＋U/I/O 保留。前后以角色面朝方向为准。键位唯一来源是 `src/controls.js`，游戏说明、招式表和触屏同步生成。
-
-| 动作 | 1P | 2P（实体小键盘） |
-| --- | --- | --- |
-| 左右移动 | A / D | ← / → |
-| 跳跃 / 蹲下 | W / S | ↑ / ↓ |
-| 普攻（三段连按） | J | 1 |
-| 重击或腿击 | K | 2 |
-| 地面 / 空中瞬移 | L | 3 |
-| 三个基础技能 | U / I / O | 4 / 5 / 6 |
-| 变身（高松灯） | H | 7 |
-| 大招（已有大招的角色） | P | 8 |
-| 前投 / 后投 | 前＋O / 后＋U | 前＋6 / 后＋4 |
-| 防御 / 蹲防 | 后退 / 后退＋S | 后退 / 后退＋↓ |
-| 招式表 | F1 或页面按钮 | 共用 |
-| 暂停 / 继续 / 重开 / 下一回合 | 页面按钮 | 页面按钮 |
-
-| 角色 | U | I | O | H | P |
-| --- | --- | --- | --- | --- | --- |
-| 爱音 | 钢板防护 | 音符弹 | 闪耀合奏 | — | 粉色奶龙·法天象地 |
-| 素世 | 三只小天素罗 | 音符弹 | 回响终章 | — | 为什么要演奏春日影 |
-| 灯 | 诗句回声 | 微光音符 | 迷途之歌 | 凑企鹅变身 | — |
-| 凑企鹅 | 糖哭反击 | hey? | 咕咕嘎嘎 | 变身中不能刷新 | — |
-| 乐奈 | 野猫突进 | 抹茶芭菲 | 即兴独奏 | — | 全力独奏 |
-| 立希 | 滚奏连打 | 低音落震 | 八拍过门 | — | 全场共振 |
-
-常用扩展技能：素世↓＋I自愈；乐奈↓＋I调弦；立希↓＋I校拍。爱音↓＋I为TGW，↓＋U升龙、前＋U突刺、↓＋O三连、后＋O回旋、空中↓＋O俯冲，前＋I/后＋I为重/轻音符，前＋K越拍踢。乐奈↓＋U上挑、前＋U滑踢、前＋I强奏、↓＋O拨弦、空中↓＋O俯冲。立希↓＋U砸击、前＋U抢拍、前＋I上挑。企鹅前＋U或空中↓＋O飞踢，↓＋I唐笑。
-
-旧的空格、Esc、R、Enter全局管理快捷键和多余战斗字母键已取消；页面按钮仍可操作。切换窗口自动暂停。
-
-爱音/素世步行移速约475，灯434，企鹅517，乐奈537；常态跳跃初速分别约1197、1139、1235、1332。空中移速为地面约75.8%，松手停止。L / 2P小键盘3地空瞬移约242世界单位，冷却600ms，起步120ms无敌，消耗10共鸣；方向控制前后闪现，边界自动截停。主体用90毫秒完成视觉过渡，起点至路径留下五道当前角色动作残像，260毫秒内逐步淡出；地空、前后方向、双人和企鹅形态均适用。受击或出招立即对齐战斗位置；暂停冻结虚影，重开与回合结束清理。
-
-移动手感：跳跃后可左右修正，松开即停止；再次按跳跃可二段跳，二跳初速为首跳约83.6%。位移必杀保留自身轨迹。跳跃/瞬移与技能可提前300ms输入，普攻为150ms；瞬移后的跳跃与攻击按正常时序衔接。普通离台有80ms起跳宽限，主动穿台不触发宽限，但仍可用空中跳跃。暂停、重开与受击清除待执行输入。同键在命中停顿中松开重按也能保留。
-
-打击反馈：轻/中/重命中停顿70/80/130ms，爱音大招220ms，其他大招100ms（初华和企鹅为0），格挡50ms，召唤物20ms；同帧保留最强停顿。站立连按J有三段派生，空挥、格挡也能衔接，末段挑空。击退独立于主动移动；重落地400ms倒地，起身另有约370ms保护。重击有白芯、放射线、碎屑、定向震动、短暂镜头聚焦与背景墨底，音效叠加瞬态噪音和低频冲击，格挡用金属音与蓝色护圈。减少动态效果设置下关闭残影、震动、聚焦并减弱墨底与放射线。
-
-手机页面提供 1P 方向与攻击触屏按键，支持同时按方向与攻击。切到其他窗口或标签页自动暂停。
-
-正式对战每回合 60 秒，三局两胜。KO 或时间耗尽后比较生命，平局不加分并重打当前回合；每回合重置生命、能量、飞行物和输入。命中与格挡积累共鸣。普通技命中可取消接更重拳脚或必杀，普通技/必杀命中可接大招；投技克制防御，音符弹可以互相抵消。站防挡空中攻击和中段，蹲防挡下段；蹲重脚可扫倒对手。
-
-## 实现与来源
-
-- `src/engine.js`：独立的固定 10ms 步长战斗状态机。参考 `Game/StageFighterState.h` 的位移、跳跃、攻击起手/生效/收招、格挡、投技、连段和共鸣规则，及 `Game/FighterMatchState.h` 的回合流程。首版是网页基础框架，并非整个 Qt 模块的完整移植。
-- `src/app.js`：Canvas 绘制、输入缓冲、人机与双人交互、触屏、暂停、音效与页面状态。
-- `src/page.html`、`src/style.css`：页面源文件；`index.html` 为已经生成的可玩成品。
-- `assets/anon-normal-actions-v1.png`：通过内置 ImageGen 新绘制的 16 动作透明原图；参考项目中的爱音官方形象。提示词与来源见 `assets/ART_DIRECTION.md`。
-- `assets/soyo-normal-actions-v1.png`：与爱音同风格的正常身材素世 16 动作透明原图；参考素世官方形象与爱音新图集。提示词与来源见 `assets/SOYO_ART_DIRECTION.md`。
-- `assets/anon-normal-actions-v2.png`、`assets/soyo-normal-actions-v2.png`：上一版面部修订原图，保留作为姿势高度与美术对照。
-- `assets/faces-v3-guide.png`：只从两人的官方立绘生成的近正面、轻微右转面部基准。
-- `assets/anon-actions-v3-1.png` 至 `anon-actions-v3-4.png`、`assets/soyo-actions-v3-1.png` 至 `soyo-actions-v3-4.png`：当前采用的分组源图，每张 2×2 共四个完整动作。
-- `assets/anon-normal-actions-v3.png`、`assets/soyo-normal-actions-v3.png`：从分组源图统一显示比例后打包的完整动作图集；运行图集、预览与离线 HTML 同步生成。人物以无损 WebP 保存。
-- `assets/anon-runtime.webp`、`assets/anon-idle.png`：从新动作图提取的运行图集与待机预览。参考原模块的连通区域提取及脚底锚点，不按格子生硬裁图。
-- 背景清单来自 `assets/stages.json`：项目原有 RiNG / 剧场背景，加上 `assets/stages/*-v1.png` 四张新绘场景，打包时与缩略图一同嵌入 HTML。
-- `assets/anon-normals-*-v3.png`：站立、蹲下、空中各六个已统一配色的拳脚透明原稿，v1/v2保留；`anon-milkdragon-v1.png`：四个黄色奶龙动作。参考、提示词及最终配色见 `assets/ANON_SKILLS_ART.md`、`assets/ANON_PALETTE_V3.md`。运行图集与角色素材一样以无损 WebP 嵌入。
-
-当前可选角色为千早爱音、长崎素世、高松灯、要乐奈和椎名立希，全员生命上限200，共鸣上限100。原有 Qt 游戏、素材和存档保持原样。
-
-## 修改后重新打包
-
-仅开发时需要 Python 的 Pillow、numpy、scipy。运行成品不需要 Python。在本仓库根目录执行：
-
-```powershell
-python -m pip install -r requirements.txt
-python tools/build.py
-node --test tests/*.test.cjs
+```sh
+npm ci
+npm run lan
 ```
 
-浏览器验收使用 Python Playwright 和本机 Edge：
+The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher prints the local address and the computer's LAN addresses. The default port is **8080**.
 
-```powershell
-python -m pip install -r requirements-dev.txt
-python tests/main_menu_browser.py
-python tests/unified_controls_browser.py
-python tests/mujica_assets_test.py
-python tests/mujica_offline_test.py
-python tests/mujica_browser.py
-python tests/blink_afterimage_browser.py
-python tests/shinjuku_realtime_browser.py
-python tests/rana_materials_browser.py
-python tests/riki_materials_browser.py
+On Windows, double-click `启动局域网联机.cmd`. On macOS/Linux, run `./start-lan.sh`. Both launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
+
+After building once, `npm start` starts the server without rebuilding. It detects an existing MyGO server and explains a port conflict. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
+
+## LAN play
+
+1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
+2. Choose **局域网联机**. One player creates a room; the other enters its six-character code.
+3. Each player chooses a character. The host chooses the stage and terrain. Both press **准备开战**. The server waits for both clients to finish loading their artwork.
+4. Both players use the **1P keys** to control their own character.
+
+Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
+
+A disconnect pauses both players. The page reconnects automatically, and refreshing the same tab restores its session. Resume after both players reconnect. Leaving a room revokes that session. Rooms are temporary and disappear after a server restart or 30 minutes without player activity.
+
+## Controls
+
+| Action                    | 1P / LAN          | 2P on the same keyboard |
+| ------------------------- | ----------------- | ----------------------- |
+| Move                      | A / D             | ← / →                   |
+| Jump / crouch             | W / S             | ↑ / ↓                   |
+| Three-hit light chain     | J                 | Numpad 1                |
+| Heavy attack              | K                 | Numpad 2                |
+| Blink                     | L                 | Numpad 3                |
+| Base skills               | U / I / O         | Numpad 4 / 5 / 6        |
+| Transform, when available | H                 | Numpad 7                |
+| Super                     | P                 | Numpad 8                |
+| Move list                 | F1 or page button | Shared                  |
+
+Hold back to guard, back + crouch to guard low, and back + U or forward + O to throw. Direction + skill selects character-specific variants. Jump twice for a double jump; down + jump drops through platforms. Touch controls support simultaneous directions and attacks. Page buttons pause, restart and return to selection.
+
+## Development
+
+```sh
+npm run dev            # Vite frontend, port 5173; API/WebSocket proxy to port 8080
+npm run build          # Strict TypeScript check, production UI and shared combat kernel
+npm start              # Scala server serving the production build
+npm run check          # TypeScript and runtime media integrity checks
+npm run check:backend  # Scala compilation and formatting checks
+npm run format         # Format frontend, scripts and documentation
+npm run format:backend # Format Scala sources
 ```
 
-菜单验收覆盖初始入口、CPU/双人/练习、选人和舞台、说明角色预览、保留对战与继续、三种手机尺寸及离线运行。
+Use a second terminal running `npm start` for the API while developing with Vite. Rebuild after editing shared combat rules to update the kernel embedded by the JVM, then restart the backend.
 
-Mujica验收覆盖五人十形态全部UIO/P、动作起手与释放、三段普攻、双人变身与技能、虚影瞬移、菜单冻结/到期恢复、K.O.及下一回合、电脑实际攻击、横竖屏触控，以及560张动作与当前源码完整嵌入同一HTML。最终离线文件保留旧五人的所有媒体，体积门禁为95MiB。
+## Review map
 
-统一键位验收覆盖五角色与企鹅形态、双方UIO/H/P键位、J/K攻击、地空L瞬移、方向派生、连段与命中停顿中的短按、长按不重复出招、旧按键不再触发技能、暂停/重开仅用按钮、招式表，以及手机多点触控自愈和瞬移。实时验收覆盖五角色与返回爱音后的动作流畅度、输入响应和三段普攻。结果和截图保存在 `tests/artifacts/`。
+- `frontend/src/pages/GamePage/index.tsx`: page skeleton. Page components, hooks, state objects and effects live nearby.
+- `frontend/src/game/`: the complete deterministic combat kernel, typed move data, animation and camera. It has no browser globals, network calls or Node dependencies.
+- `frontend/src/apis/rooms/`: one HTTP caller per registered Scala room message, plus the persistent socket connection.
+- `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration and private runtime helpers.
+- `backend/src/main/scala/services/system/`: Cats Effect startup, application resources, shared routing and static serving.
+- `frontend/public/`: media manifest and cacheable runtime assets. The 121 MB embedded HTML and old Node server have been removed.
+- `assets/` and `tools/`: original artwork, attribution, editable source sheets and optional artwork generation. See [artwork workflow](docs/ARTWORK.md).
 
-其余战斗逻辑由 `node --test tests/*.test.cjs` 验证，包含旧逻辑动作接口供电脑使用。早期浏览器脚本中的旧字母按键属于历史版本；当前输入回归使用 `unified_controls_browser.py`。
+The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 15 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
 
-## 素世大招：为什么要演奏春日影
-
-素世满100共鸣后按 P（2P 小键盘8；触屏“春日影大招”），释放三段逐渐扩大的音波，末段击倒。限地面/平台，起手0.85秒无敌，此后可打断；可防御和钢板抵挡。原始总伤害48，通常连击衰减后合计41。开启音效可听到名台词原声，横屏视频同时播放；暂停、重开与回合清理同步处理。来源与裁剪记录见 `assets/soyo-haruhikage/README.md`。视频和语音已内嵌进离线 HTML。
-
-验收：`node --test tests/soyo-super.test.cjs`、`python tests/unified_controls_browser.py`。
-
-## 普攻三连段动作
-
-连续按 J（2P 小键盘1，触屏可长按轻击）进入三连段。爱音为直拳→侧踢→上勾拳；素世为轻掌→横掌→双掌上挑；灯为轻拳→肘击→麦克风上挑；乐奈为探掌→琴身撞击→琴锋上挑；凑企鹅为鳍拍→蹬脚→顶撞。爱音、素世、灯新增18张二/三段准备、出手和收招图。绘图来源与动作表见 `assets/JAB_ACTIONS.md`。
-
-验收：`node --test tests/jab-animation.test.cjs`、`python tests/unified_controls_browser.py`。
-
-## 200生命与立希实战接入
-
-所有角色起始/回合重置生命200，血条按200归一化，素世回血上限200（每次仍24），共鸣仍为100。乐奈保留完整选人、三段普攻、抹茶芭菲及独奏技能。
-
-椎名立希现可用于CPU对战、本地双人和练习：18种站立/蹲下/空中普攻，J三段轻棒→交叉双棒→上挑；U滚奏、前＋U抢拍、↓＋U破蹲防砸击、I沿地短波、前＋I上挑、↓＋I校拍、O八拍过门、P全场共振，后＋U或前＋O投技。普攻命中积累四拍，下一次滚奏/抢拍/砸击/落震/上挑消耗四拍强化。技能和素材说明见 `assets/RIKI_SKILL_DESIGN.md`、`assets/RIKI_CHARACTER.md`。
-
-验收：`node --test tests/*.test.cjs`、`python tests/unified_controls_browser.py`。
-## 回合结束演出与自动续战
-
-击倒后先保留 0.7 秒落地收尾，再展示 1.9 秒胜者奥义特写与 0.6 秒比分收尾。特写使用角色现有的大招动作图，显示角色名、大招名、角色配色和胜利文字，覆盖全部 15 人以及凑企鹅、Mujica 演出服形态。变身形态按击倒瞬间保留，演出不再产生伤害。
-
-1v1 演出结束自动进入下一回合准备，仍为先赢两回合获胜；平局自动重赛。3v3 自动替换落败角色，保留胜者血量、能量及立希节拍。整场结束则在演出结束后显示最终结果。暂停和返回菜单会冻结演出计时，重开会清理旧演出；所有画面离线内嵌。
-
-验收：`node --test tests/*.test.cjs`、`python tests/round_finish_browser.py`、`python tests/team_selection_browser.py`。
-
-结束演出补充：击倒瞬间停顿 0.12 秒后落地，奥义特写配有分层入场和胜利音效。3v3 收尾显示下一战双方角色、接力状态及保留资源，短暂暗场遮住换人重置；暂停和静音与演出同步。
-
-## 三校校园地图与高低分层
-
-地图扩展为十五张。在设置的场景列表中选择花咲川、羽丘、月之森校门、月之森庭院、羽丘天台、CiRCLE／RiNG练习室，以及黄昏／夜间大台阶；可按校园、练习室、大台阶筛选。新增背景来自原游戏网络素材并离线打包，来源和校对记录见 `assets/stages/campus/README.md`。
-
-新地图分别配置花坛、走廊、设备台、音箱与阶梯等高低层。大台阶具有实际可行走的升降地面，其余高台可跳上或按↓＋跳跃下落。切图保留战斗资源，地形开关可切回平地对战。
-
-验收：`node --test tests/*.test.cjs`、`python tests/school_stage_assets_test.py`、`python tests/stages_browser.py`。
-
-## 2026-10-23 立绘、页面与客服小祥
-
-Mujica五人新增常服/演出服高清立绘、居中脸部头像与实战待机图。主菜单可切换三支乐队的舞台主视觉；选人页可预览角色的两套服装和对应技能，场地预览与开战按钮更明确。暂停和赛后增加重新选人、返回菜单；原阵容再战直接重新开局。
-
-十五张地图增加对应的灯光、树影、雨线、云层与平台材质。Mujica步伐按移动距离切帧，加入脚底固定的轻微上身呼吸与出招回收，减少动态效果设置下停用。
-
-祥子常态新增 ↓＋U「客服小祥·请稍候」：消耗20共鸣，电话音波14伤害、550ms硬直、2.4秒冷却，普通命中+2共鸣；配扶耳麦/示意等待/鞠躬三张新动作与官方活动原声。来源见 [客服小祥制作说明](assets/meme-media/sakiko-customer-service/README.md)，立绘参考与提示词见 [Mujica立绘说明](assets/mujica/portraits-v2/README.md)。
+See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).

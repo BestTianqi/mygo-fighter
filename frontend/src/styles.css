@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #080e1c;
+  }
+  button,
+  select,
+  input {
+    font: inherit;
+  }
+  button:not(:disabled),
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+  input[type="checkbox"] {
+    accent-color: #fbcfe8;
+  }
+}

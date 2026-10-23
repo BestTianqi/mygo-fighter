@@ -124,7 +124,7 @@ def pack_all():
 
 def write_preview(forms, partial=False):
     payload = dict(partial=partial, forms=forms, expected=270)
-    template = (ROOT / 'src/mewtype-preview.html').read_text(encoding='utf-8')
+    template = (ROOT / 'tools/templates/mewtype-preview.html').read_text(encoding='utf-8')
     html = template.replace('/*__MEWTYPE_PREVIEW__*/', 'window.MEWTYPE_PREVIEW=' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';')
     target = ROOT / 'mewtype-preview.html'
     target.write_bytes(html.encode('utf-8'))

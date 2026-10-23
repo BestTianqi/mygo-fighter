@@ -1,0 +1,22 @@
+# Course guidance used for the rewrite
+
+The user requested a project rewrite. The five lecture decks and `rules.txt` supplied architecture and style guidance. Unrelated lecture exercises, account setup instructions, VPN configuration and attendance questions were treated as document content, not additional tasks.
+
+| Material                          | Relevant guidance                                                                                           | Application                                                                                                                 |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Lecture 1, slides 25–29           | Declarative structure, strong types, modularity                                                             | A visible React page skeleton; explicit game and network types; message-oriented backend                                    |
+| Lecture 2, slides 23, 28–34       | TypeScript/React frontend; Scala backend; readable declarations and immutable values                        | React components and hooks; Scala 3 case classes, immutable room state, `Ref` and effect composition                        |
+| Lecture 3, slides 11–15, 17–25    | Model the domain; keep effects at the boundary; compose `IO`                                                | Pure domain objects, public `plan(connection): IO[Response]`, scoped room locks and resource cleanup                        |
+| Lecture 4, slides 2–6             | Cohesive service ownership; serialization; logical services may share one process                           | `services/rooms` and `services/system` in one JVM; Circe codecs and trusted session resolution                              |
+| Lecture 5, slides 3–10, 13, 18–19 | React views derived from state; hooks; colocated modules; Tailwind; Vite                                    | Page-local controller/hook/view state, UI regions as components, utility styling and Vite                                   |
+| Supplied rules.txt                | Small executable messages; private service helpers; service API registration; frontend/backend traceability | Separate API files, derived route names, trusted identity before constructing room operations, minimal shared UI primitives |
+
+## Deliberate choices
+
+- **One JVM, logical service boundaries.** Separate deployed microservices would add network hops to a two-player LAN game without improving its domain boundaries.
+- **No database.** Rooms, inputs and live matches are temporary. Putting a database in the input path would add work with no persistence requirement to satisfy. No unused SQL tables or placeholder initializers were added.
+- **Connection is an application resource connection.** The required `plan(connection)` shape remains. Its `Connection` contains live room/session resources and configuration, rather than an unused JDBC connection.
+- **The combat kernel is shared TypeScript.** Scala owns the server and executes the complete battle kernel through an embedded, restricted GraalJS context. This preserves character-specific mechanics and keeps local and LAN play on the same rules. There is no Node server or subprocess for simulation.
+- **Canvas and Web Audio are effects.** They are page-local adapters with cleanup. React owns menus, selection, dialogs, loading/error states, controls, HUD and video cutins. The combat clock runs outside React renders.
+- **No global frontend store was needed.** This is one cohesive game page. Its external runtime snapshot is consumed through a page-level hook. There is no unrelated global state scaffold.
+- **Infrastructure objects differ from domain objects.** Session, room and public response data are immutable records. Connection, Peer and RoomRuntime hold effect resources and live under their owning infrastructure/runtime modules.

@@ -1,6 +1,6 @@
-"""Pack the redrawn character frames and local stage assets into an offline HTML.
+"""Regenerate game artwork and export the cacheable React media manifest.
 
-Build dependencies: Pillow, numpy, scipy (game itself has no dependencies).
+Build dependencies: Pillow, numpy, scipy (optional artwork workflow only).
 Usage: python tools/build.py
 """
 import base64
@@ -13,7 +13,6 @@ from PIL import Image, ImageOps
 from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parents[1]
-MAX_OFFLINE_BYTES = 128 * 1024 * 1024
 
 
 def data_url(image, quality=90, lossless=False):
@@ -22,16 +21,36 @@ def data_url(image, quality=90, lossless=False):
     return "data:image/webp;base64," + base64.b64encode(buffer.getvalue()).decode()
 
 
-def render_page(assets):
-    html = (ROOT / 'src/page.html').read_text(encoding='utf-8')
-    sources = {'STYLE': 'style.css', 'PRESENTATION': 'presentation.css', 'MUJICA': 'mujica.js', 'MEWTYPE': 'mewtype.js', 'CONTROLS': 'controls.js',
-               'ENGINE': 'engine.js', 'ANIMATION': 'animation.js', 'CAMERA': 'camera.js',
-               'VOICE': 'voice.js', 'MEME_MEDIA': 'meme-media.js', 'SELECTION': 'selection.js', 'LAN': 'lan.js', 'APP': 'app.js'}
-    (ROOT / 'server/stages.json').write_text(json.dumps([dict(terrain=s['terrain']) for s in assets['stages']], separators=(',', ':')), encoding='utf-8')
-    html = html.replace('/*__ASSETS__*/', 'window.MYGO_ASSETS=' + json.dumps(assets, separators=(',', ':')) + ';')
-    for marker, filename in sources.items():
-        html = html.replace('/*__' + marker + '__*/', (ROOT / 'src' / filename).read_text(encoding='utf-8'))
-    return html
+def export_assets(assets):
+    """Write cacheable, content-addressed assets for the React application."""
+    import hashlib
+    output = ROOT / 'frontend/public'
+    media = output / 'media'
+    media.mkdir(parents=True, exist_ok=True)
+    emitted = set()
+    def externalize(value):
+        if isinstance(value, dict):
+            return {key: externalize(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [externalize(item) for item in value]
+        if isinstance(value, str) and value.startswith('data:'):
+            header, encoded = value.split(',', 1)
+            payload = base64.b64decode(encoded)
+            suffix = {'image/webp': 'webp', 'image/png': 'png', 'audio/mpeg': 'mp3', 'video/mp4': 'mp4'}[header[5:].split(';')[0]]
+            filename = hashlib.sha256(payload).hexdigest()[:20] + '.' + suffix
+            emitted.add(filename)
+            (media / filename).write_bytes(payload)
+            return '/media/' + filename
+        return value
+    manifest = externalize(assets)
+    # Only retire generated content-addressed files, never unrelated source artwork.
+    import re
+    for old in media.iterdir():
+        if re.fullmatch(r'[0-9a-f]{20}\.(webp|png|mp3|mp4)', old.name) and old.name not in emitted:
+            old.unlink()
+    (output / 'assets.json').write_text(json.dumps(manifest, separators=(',', ':')), encoding='utf-8')
+    (ROOT / 'scripts/stages.json').write_text(json.dumps([{'terrain': stage['terrain']} for stage in assets['stages']], separators=(',', ':')), encoding='utf-8')
+    print(f"Exported {len(assets['characters'])} characters and {len(assets['stages'])} stages to {output}")
 
 
 def game_atlas(source, frames, columns):
@@ -149,19 +168,13 @@ def extra_frames(sheets, name, columns):
 
 
 def build():
-    from build_mujica_assets import DISPLAY_NAMES, KEYS, pack_all, write_preview
-    from build_mewtype_assets import (DISPLAY_NAMES as MEWTYPE_NAMES, KEYS as MEWTYPE_KEYS,
-                                     pack_all as pack_mewtype, validate_sources as validate_mewtype,
-                                     write_preview as write_mewtype_preview)
+    from build_mujica_assets import pack_all
+    from build_mewtype_assets import pack_all as pack_mewtype, validate_sources as validate_mewtype
     # A final game must have every real pose. Fail before rebuilding legacy art
-    # or touching index.html when any reviewed Mujica source is still missing.
+    # when any reviewed Mujica source is still missing.
     validate_mewtype()
     mewtype_forms, mewtype_characters = pack_mewtype()
     mujica_forms, mujica_characters = pack_all()
-    write_preview([dict(id=identifier, key=key, name=DISPLAY_NAMES[key], form=form, **mujica_forms[identifier][form])
-                   for key, identifier in KEYS for form in ('normal', 'stage')])
-    write_mewtype_preview([dict(id=identifier, key=key, name=MEWTYPE_NAMES[key], form='virtual', **mewtype_forms[identifier]['virtual'])
-                          for key, identifier in MEWTYPE_KEYS])
     characters = [frames_from_sheet(name) for name in ["anon", "soyo"]]
     from build_stage_assets import pack_stages
     stage_assets = pack_stages()
@@ -247,13 +260,7 @@ def build():
         assets['jabActions'].append(art)
     from build_portrait_assets import install_portraits
     install_portraits(assets)
-    html = render_page(assets)
-    payload = html.encode('utf-8')
-    byte_count = len(payload)
-    if byte_count >= MAX_OFFLINE_BYTES:
-        raise ValueError(f'Offline build exceeds the {MAX_OFFLINE_BYTES / 1024 / 1024:g} MiB target: {byte_count:,} bytes; index.html was not overwritten')
-    (ROOT / "index.html").write_bytes(payload)
-    print(f"Built {ROOT / 'index.html'} ({byte_count:,} bytes); {len(stages)} stages, 15 playable characters, all 560 Mujica and 270 MewType drawings and all existing media embedded.")
+    export_assets(assets)
 
 
 if __name__ == "__main__":
