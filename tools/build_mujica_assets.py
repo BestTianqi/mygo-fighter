@@ -195,7 +195,7 @@ def pack_all():
 
 def write_preview(forms, partial=False):
     payload = dict(partial=partial, forms=forms, expected=560)
-    template = (ROOT / 'src/mujica-preview.html').read_text(encoding='utf-8')
+    template = (ROOT / 'tools/templates/mujica-preview.html').read_text(encoding='utf-8')
     html = template.replace('/*__MUJICA_PREVIEW__*/', 'window.MUJICA_PREVIEW=' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';')
     (ROOT / 'mujica-preview.html').write_text(html, encoding='utf-8')
     print(f'Offline preview: {len(html.encode()):,} bytes; {sum(len(f["frames"]) for f in forms)} actual drawings', flush=True)

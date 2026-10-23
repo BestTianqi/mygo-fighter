@@ -1,0 +1,686 @@
+1. 跨服务的公开 API 和公开 Table 方法都是允许的调用边界。表的维护归属、内部 SQL、私有辅助实现、身份信任边界及事务要求仍应明确。
+
+2. 后端每个微服务应集中放在 services/ 下的一个文件夹。每个服务应拥有明确的业务领域，代码应清楚表明 API、对象、路由、表和内部实现归哪个模块负责。
+
+3. 服务文件夹尽量只包含 api/、objects/、routes/、tables/、utils/。如需增加其他目录，例如存放脚本的目录，应说明原因。逻辑复杂时，可以在 api/、objects/、tables/、utils/ 下继续创建子路径分类。
+
+4. 共享基础设施也应在 services/ 下有明确归属，可以集中到独立的系统模块，例如 services/system/。数据库连接设置、服务器配置、系统默认值、事务／会话基础工具、应用启动和共享路由机制应与业务职责分开。系统模块需要额外目录时，同样应说明理由。
+
+5.服务归属规定的是维护责任与内部实现边界。所有后端 API 都可以调用任意服务公开且封装好的 Table 方法；SQL 和私有辅助实现仍由所属模块管理。
+    services/
+      service-a/
+        api/
+        objects/
+        routes/
+        tables/
+        utils/
+      service-b/
+        api/
+        objects/
+        routes/
+        tables/
+        utils/
+
+上述目录按实际需要使用；services/system/ 是共享基础设施归属的示例名称。
+
+6.服务可以公开 API 消息和封装好的表方法。公开的 Table def 应能被整个后端的 API 调用。
+
+7.表方法应封装 SQL、参数绑定、执行过程和行映射，提供含义明确的方法名、类型清楚的输入以及 IO[T] 返回值。调用方通过这些方法完成表操作，不应取得 SQL 值后自行执行，也不应借助任意 SQL 入参绕过封装。
+
+8. SQL 值、行映射辅助实现和其他内部细节应使用适当的私有可见性。每个服务的 utils 工具函数均应采用 private[service名称] def，仅供本服务使用。
+
+    private val findByIdSql = "..."
+    def findById(connection: Connection, id: TextbookId): IO[Option[Textbook]] = ...
+
+    // 服务内部工具函数的可见性示例：
+    private[books] def buildSummary(...): ... = ...
+
+9. 一个后端 API 的执行逻辑可以调用：
+  - 整个后端中任意 API 消息的 plan。
+  - 整个后端中任意服务的 Table 所公开的、非 SQL 值的表方法。
+  - 当前服务 utils 中的工具函数。
+
+10. 调用 API 时，先以构造参数形成消息实例，再调用 plan(connection)。调用表方法时，使用该表提供的 def；不要求为了跨服务访问，再套一层只做转发的 API 或 Service。
+
+    // 调用其他 API：
+    XXXMessage(入参1, 入参2, ...).plan(connection)
+
+    // 调用任意服务已封装的表方法：
+    TextbookTable.findById(connection, id)
+
+    允许的结构：
+      service-b API -> service-a API 消息的 plan
+      service-b API -> service-a Table 的公开方法
+
+跨服务调用不改变表的维护归属，也不开放对方服务的私有 utils、SQL 值或其他未公开实现。
+
+11. 明确权限与身份逻辑的归属
+用户／账户服务负责定义和维护角色、权限、登录状态、会话及令牌解析等规则。其他服务需要“用户是否有效”“是否拥有管理员权限”“令牌对应哪个可信用户 ID”等结论时，可以调用相应 API。
+
+其他服务也允许调用用户表、会话表等已封装的公开 Table 方法取得所需数据，并使用公开的角色或身份类型。允许表调用不代表这些数据自动满足授权条件，调用方仍应按明确的业务权限规则处理。
+
+12. 将 utils 限制在所属服务内，并按复用与可读性提取
+utils/ 放仅供当前服务内部使用的工具函数，每个工具函数应采用 private[service名称] def 的形式。
+
+通常在以下两种情况下提取工具函数：
+  - 同一段逻辑出现在多个 API 或工具函数中，需要复用。
+  - 一个 API 的 plan 过长，需要拆成多个函数以改善可读性。
+
+如果其他服务需要这段业务能力，应提供可调用的 API 消息；如果需要的是持久化操作，可以提供封装好的公开 Table 方法。不要将服务内部辅助对象改造成能绕过封装的全局工具。
+
+提取辅助函数后，API 文件仍应清楚展示主要业务步骤和重要副作用。
+
+13. 保持 objects 层纯粹、精简，并统一数据结构模板
+
+objects/ 存放前后端可以使用的数据结构、枚举、领域值类型及序列化逻辑。它应易于浏览，避免无必要地增加类型，不应成为业务逻辑堆积的位置。
+
+其中不应包含无关业务行为、随机 ID 生成、数据库访问、服务调用、权限检查、有状态工作流，或本应属于其他层的映射逻辑。
+
+除非确实属于序列化或值本身的定义，否则应避免在领域对象中加入 random()、fromStored()、fromDatabaseRow() 和 toDatabaseRow() 等方法。
+
+14. 数据结构使用 final case class，在同名伴生对象中提供派生的 Encoder 和 Decoder。
+
+    final case class UserProfile(
+      id: UserId,
+      username: String,
+      role: UserRole,
+      createdAt: Instant
+    )
+
+    object UserProfile:
+      given Encoder[UserProfile] = deriveEncoder[UserProfile]
+      given Decoder[UserProfile] = deriveDecoder[UserProfile]
+
+
+15. 每个对象使用一个文件
+
+避免使用包含许多无关类型的大型聚合模型文件。当 Models.scala 或 DomainObjects.scala 同时包含 ID、记录、枚举、请求类型、响应类型和辅助工具时，很快就会变得难以检查。
+
+每个有明确意义的领域对象都应有自己的文件。如果某个类型有伴生对象，应将该类型及其伴生对象保留在同一文件中。这样更便于导航、审查和重构代码。
+
+    优先采用：
+      objects/
+        UserId.scala
+        UserProfile.scala
+        UserRole.scala
+        BookId.scala
+        BookRecord.scala
+
+    而不是：
+      objects/
+        Models.scala
+
+
+16. 将导入放在文件顶部
+
+应尽可能将 import 语句放在文件顶部。这样可以让依赖关系一目了然，并保持文件在视觉上的一致性。
+
+17. 保持枚举序列化简单，并明确输入处理
+
+对于枚举，采用简单、一致的序列化接口。如果 API 表示与数据库表示相同，一个 toString 和一个 fromString 就足够。
+
+除非各种表示确实不同，否则不要引入 toApi、fromApi、toDatabase、fromDatabase 和 fromStock 之类不必要的并行命名体系。
+
+18. 将枚举转换与编解码器放在伴生对象中
+枚举实例主要承载数据。字符串转换方法和 Encoder/Decoder 放在伴生对象中，避免在每个枚举成员上增加不必要的方法。
+
+编码器复用 toString，解码器复用 fromString，统一字符串表示、输入规范化和非法值处理。
+
+    enum UserRole:
+      case Admin
+      case Reader
+
+    object UserRole:
+      def toString(role: UserRole): String =
+        role match
+          case UserRole.Admin => "admin"
+          case UserRole.Reader => "reader"
+
+      def fromString(value: String): Either[String, UserRole] =
+        value.trim.toLowerCase match
+          case "admin" => Right(UserRole.Admin)
+          case "reader" => Right(UserRole.Reader)
+          case other => Left(s"Unsupported UserRole value: $other")
+
+      given Encoder[UserRole] = Encoder.encodeString.contramap(toString)
+      given Decoder[UserRole] = Decoder.decodeString.emap(fromString)
+
+    UserRole.toString(value)
+    UserRole.fromString(raw)
+
+
+19. 有意识地使用类型完整覆盖有限状态
+
+当某个概念只有固定的一组可能状态时，应使用明确的类型结构表示，而不是使用宽泛的字符串或取值不受限制的值。
+
+例如：用户角色、图书库存状态、借阅记录状态、API 消息类别、前端加载状态以及权限状态。
+
+应根据情况使用枚举、密封特征（sealed trait）、可辨识联合类型、字面量联合类型或等价的类型结构。处理这些状态的代码应使遗漏分支难以被忽视。
+
+编写 switch、match 或其他分支逻辑时，应使新增状态所产生的未处理情况在实现过程中显现出来。不要无谓地引入复杂的类型机制；但如果领域显然只有一组封闭的可能取值，就应在类型系统中保留这种封闭性。
+
+    type BorrowStatus = "borrowed" | "returned" | "overdue"
+
+    // 这比允许任意字符串更好。
+
+20. 每个 API 使用独立、可执行的消息类
+
+每个 API 操作放在自己的文件中，作为业务行为的主要可执行单元。api/ 中包含供其他后端模块或前端使用的接口，名称以 Message 结尾。
+
+API 使用 final case class 定义，输入放在构造参数中，继承只有返回类型参数的 APIMessage[Response]，通过 plan(connection: Connection): IO[Response] 执行。
+
+    final case class SomeActionMessage(
+      userId: UserId,
+      itemId: ItemId
+    ) extends APIMessage[SomeResponse]:
+      override def plan(connection: Connection): IO[SomeResponse] =
+        ...
+
+每个文件应清楚说明输入字段、返回结果、业务操作，以及使用的表方法或其他 API。读者打开一个文件，就应能理解该操作，而不必穿过多个仅做转发的薄层。
+
+
+21. 使用 plan 作为唯一必要的公共执行入口
+
+每个 API 消息应提供明确的 plan(connection: Connection): IO[Response] 方法。业务输入已经包含在消息实例中，执行时传入连接。
+
+    SomeActionMessage(userId, itemId).plan(connection)
+
+如果 plan 已经代表公共执行入口，就不要为了调用它再增加 execute 等方法。只有当额外方法落实真实边界或执行必要共享机制时，才有引入的理由。
+
+
+22. 显式组合 API 的副作用
+
+API plan 统一返回 IO[Response]。数据库访问、校验、权限检查和业务操作应在 IO 中组合，不要将带有副作用的行为隐藏在看起来像纯函数的辅助工具中。
+
+    def plan(connection: Connection): IO[Response]
+
+对其他消息 plan 和公开 Table 方法的调用，也应作为当前操作的可见步骤组合，保持业务顺序、错误处理及事务预期清晰。
+
+
+23. 避免只负责转发调用的服务层
+
+在 API 消息架构中，应避免创建一个仅将 API 消息转发到表层的服务层。
+
+只有当服务层确实能够集中可复用的领域逻辑，并且不会削弱服务边界时，它才有价值。如果 API 消息被设计为业务行为的基本单元，转发层通常就是多余的。
+
+    避免：
+      APIMessage -> Service -> Table
+
+    在适当情况下，优先采用：
+      APIMessage -> Table
+
+
+24. 分离传输类型与领域对象，并统一 API 返回结果
+
+主 objects/ 放核心领域类型，API 专用的传输结构放在 objects/apiTypes/。领域对象表示系统概念，传输类型表示跨越特定 API 边界的数据形态。
+
+每个 API 只有一个返回结果；如果需要同时返回多个结果字段，应将这些字段组织为一个响应数据结构，放在 objects/apiTypes/ 下，并以该类型作为 APIMessage[Response] 的返回类型参数。
+
+    objects/
+      apiTypes/
+        CreateThingResponse.scala
+
+
+25. 避免无意义的空请求类
+
+不要仅为满足泛型抽象而创建空请求类。API 没有业务请求输入时，直接使用无请求消息表达该操作，不要额外定义空的 GetCurrentUserRequest、LogoutRequest 或 RequireAdminRequest 充当输入。
+
+无参数但包含 plan 行为的消息类，是一个可执行操作；仅为凑输入而创建的空请求包装类则没有必要。
+
+
+26. 在统一消息模型下直接支持无请求 API
+
+没有业务请求输入的操作使用 NoRequestMessage[Response]。该抽象遵循 APIMessage[Response] 的单一返回类型模型，执行入口同样是 plan(connection)，不再引入请求类型参数。
+
+    final case class ListPublicItemsMessage() extends NoRequestMessage[List[Item]]:
+      override def plan(connection: Connection): IO[List[Item]] =
+        ...
+
+
+27. 按真实依赖建模，不默认向每个 API 注入上下文
+
+API 的业务输入由消息构造参数表达，plan 默认只接收 connection。
+
+    final case class SomeActionMessage(itemId: ItemId) extends APIMessage[SomeResponse]:
+      override def plan(connection: Connection): IO[SomeResponse] =
+        ...
+
+不要强制每个消息或 plan 都带上通用 Context、planContext、请求元数据或认证元数据。需要额外信息时，按实际依赖显式表达；不需要时，不应为了统一外观而添加参数或字段。
+
+
+28. 在路由器边界将外部令牌转换为可信内部身份
+
+前端提供的身份不应直接成为后端信任的身份。如果前端发送令牌，路由器应通过用户／账户服务提供的 API 或封装好的表方法完成令牌校验与解析，在构造业务消息并执行 plan 之前得到可信 userId。
+
+后端业务消息应接收可信身份数据，而不是前端未经验证的声明。不能将前端自报的 userId 直接当作已验证身份。
+
+    携带 userToken 的外部请求
+      -> 路由器完成令牌校验与解析
+      -> 使用可信 userId 构造内部消息
+      -> message.plan(connection)
+
+
+29. 允许前后端消息在信任边界采用不同的数据形态
+
+前后端 API 消息定义不必始终完全相同。路由器进行安全转换时，两者可以有意保持差异。
+
+例如，前端发送 userToken，路由器完成校验与解析后，以可信 userId 构造后端消息。这种差异体现了明确的信任边界，不应为强求两端字段完全相同而直接信任前端 userId。
+
+
+30. 保持 API 类别精简，并按场景使用令牌消息
+
+使用较小的 API 模型表达真实差异，不要无必要地增加需要身份认证的 API、管理员 API、认证无请求 API、管理员无请求 API 等大量类别。
+
+普通消息采用 APIMessage[Response]；无请求操作采用相应无请求消息抽象。确实需要令牌相关处理时，可以使用 APIWithTokenMessage，并与单一返回类型、消息字段承载输入和 plan(connection) 的模型保持一致。
+
+当前数据标注场景基本用不到 APIWithTokenMessage 时，可以暂不使用，不必为了形式完整强行增加。场景中确有身份或权限要求时，仍应明确处理；管理员权限可以通过用户／账户服务 API 查询，可信 userId 可以作为内部消息字段。
+
+    APIMessage[Response]
+    APIWithTokenMessage[Response]
+    NoRequestMessage[Response]
+
+
+
+
+31. 从消息类型自动推导 API 路由名称
+
+对于能够从 API 消息类型名称推导的路由名称，不要在每个消息中手动重复填写字符串。消息名称以 Message 结尾，具体路由名称由统一规则推导。
+
+例如，采用移除末尾 Message 后转小写的统一规则时：
+
+    BorrowBookAPIMessage -> borrowbookapi
+    ListItemsAPIMessage -> listitemsapi
+    SomeActionMessage -> someaction
+
+前后端必须使用相同的命名规则，避免路由名称与消息定义失去同步。
+
+
+
+
+32. 保持路由器精简且声明式
+
+路由器主要负责将请求分发给已注册的 API 消息，不应包含业务逻辑。业务行为放在消息类的 plan 中，使路由器简短、可预测、易于扩展。
+
+路由器的主要职责：
+  - 接收 API 名称。
+  - 查找对应的 API 注册信息。
+  - 反序列化请求数据。
+  - 按 API 类别完成所需的令牌校验与 userId 转换。
+  - 根据输入构造消息实例，调用 plan(connection)。
+  - 序列化执行结果。
+
+
+33. 每个服务以一个 XXRoutes 注册前端 API，并在顶层合并
+
+每个服务的 routes/ 只需一个 XXRoutes，用于登记前端会使用的 API。仅供后端模块调用的 API 无需注册到 routes，也不需要为其创建前端调用文件。
+
+全局路由器合并服务级注册列表，不要手动重复列出每个服务中的每个 API。注册信息用于定位消息类型及其解码／构造方式，实际消息实例由请求数据生成。
+
+    APIMessageRouter.routes(
+      ServiceARoutes.apiMessages ++ ServiceBRoutes.apiMessages,
+      resolveToken
+    )
+
+这样可以保持服务注册的模块化，让顶层路由器展现系统组成，而不是各端点的实现细节。
+
+
+
+34. 明确表的服务归属，并将初始化留在所属表模块
+
+tables/ 存放当前服务负责的数据库表。一般而言，一张表在业务流程中最早出现于哪个服务，就放在哪个服务。其他服务可以调用其公开表方法，维护归属仍保持明确。
+
+每张表的建表语句和初始化方法放在本表文件夹的 XXTableInitializer.scala 中，索引和约束也由该表模块维护。不要将初始化放在 API 文件中，也不要用一个大型初始化文件堆放许多无关表的定义。
+
+表模块应包含：
+  - 该表的建表 SQL、索引和约束。
+  - 该表的初始化方法。
+  - 该表的公开表函数。
+  - 该表内部的行映射和专用辅助实现。
+
+
+35. 每张表使用独立文件夹，并区分表定义与初始化
+
+每张表都应有自己的文件夹，包含一个表定义文件 XXTable.scala 和一个初始化文件 XXTableInitializer.scala。
+
+XXTable.scala 以 object XXTable 为主体，定义表函数及相关 SQL。XXTableInitializer.scala 包含建表语句和初始化逻辑。查询、行映射和辅助实现仍就近组织在所属表模块中。
+
+    tables/
+      XXTable/
+        XXTable.scala
+        XXTableInitializer.scala
+
+逻辑复杂时可以在 tables/ 下进一步分类，但每张表的定义与初始化应容易一起找到。
+
+
+36. 将每个 SQL 值与表函数成对封装，并统一返回 IO[T]
+
+一个表函数配套一个 val 和一个 def。val 名称以 Sql 结尾，值为 SQL 字符串；def 执行对应的表操作，供整个后端的 API 调用。
+
+SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方法堆在底部。SQL 值保持私有，公开方法封装参数处理、执行与行映射。
+
+    object TextbookTable:
+      private val findByIdSql = "..."
+      def findById(connection: Connection, id: TextbookId): IO[Option[Textbook]] = ...
+
+      private val insertSql = "..."
+      def insert(connection: Connection, textbook: Textbook): IO[TextbookId] = ...
+
+表函数返回类型统一为 IO[T]，例如 IO[SomeObject]、IO[List[SomeObject]]、IO[Option[SomeObject]]；T 不必一定是领域对象。
+
+37. 表函数不应包含过多业务处理。复杂逻辑放在 API 或相应服务的 utils 中，表函数保持职责清晰。跨服务调用者使用公开 def，不访问其 SQL 值和私有辅助函数。
+
+
+38. 将 SQL 放在对应方法之前
+
+将 SQL 与方法成对组织时，应把 SQL 语句放在使用它的方法之前，而不是之后。
+
+读者应先看到查询，再紧接着看到如何执行该查询。这种顺序可以减少在表文件中来回查找的成本。
+
+
+
+39. 将共享前端组件限制为真正的 UI 基础组件
+
+前端的共享 components 文件夹应只包含可广泛复用的 UI 基础组件，例如供多个页面使用的组件。
+
+页面专用组件不应留在全局共享 components 文件夹中。如果一个组件只用于某个页面，就应将它放在该页面附近。
+
+    components/
+      ui/
+
+
+40. 将页面专用的前端代码放在页面附近
+
+如果某个组件、hook、store、函数或对象只属于一个页面，就应将它放在该页面的文件夹内。这样可以让相关代码更集中，并减少全局目录的杂乱。
+
+应优先就近组织代码，而不是把内容堆进全局目录。用于说明某个页面如何工作的代码，应放在该页面附近。
+
+    pages/
+      SomePage/
+        index.tsx
+        components/
+        hooks/
+        functions/
+        stores/
+        objects/
+
+
+41. 按可见的业务区域拆分前端页面
+
+复杂的前端页面应按照有意义的业务区域拆分，而不是随意按视觉片段拆分。文件结构应体现面向用户的工作流程，以及读者需要理解的主要区域。
+
+每个主要页面区域都应对应一个明确的组件或组件文件夹。例如，一个页面可能包含阅读面板、选择面板、草稿区、规则检查区、确认区和记录区。
+
+    SomePage/
+      index.tsx
+      components/
+        ReaderPanel/
+        SelectionPanel/
+        DraftPanel/
+        RulePanel.tsx
+        ConfirmPanel.tsx
+
+
+42. 使用页面级 hooks、objects 和 functions 承载页面共享逻辑
+
+当多个业务区域依赖相同的状态、数据结构或纯计算时，复杂页面可以设置页面级的 hooks、objects 和 functions。
+
+页面级 hooks 用于多个区域共享的状态，例如选中的实体、草稿、筛选条件、记录、加载状态或页面级协调逻辑。
+
+页面级 objects 用于属于整个页面的数据结构，例如草稿、摘要、规则检查结果、筛选条件或页面专用视图模型。
+
+页面级 functions 用于整个页面共享的纯逻辑，例如构建摘要、筛选记录、计算规则检查结果或转换页面数据。当多个区域都依赖某段页面共享逻辑时，不要将它埋在某一个子组件内部。
+
+    SomePage/
+      index.tsx
+      hooks/
+        useSomePage.ts
+      objects/
+        SomeDraft.ts
+        SomeSummary.ts
+      functions/
+        buildRuleChecks.ts
+        buildSummary.ts
+      components/
+
+
+43. 为功能丰富的前端页面采用通用的复杂页面结构
+
+对于复杂前端页面，应优先采用一种页面级结构，分别组织页面骨架、页面共享状态、页面专用对象、页面纯函数和业务区域组件。这样既能让页面具有可预测的结构，又不必使每个页面完全相同。
+
+具体名称应与业务领域匹配，但总体模式应保持稳定：index.tsx 展示页面的高层结构；页面级 hooks 协调共享状态；页面级 objects 定义页面级数据结构；页面级 functions 保存页面纯逻辑；components 包含页面中可见的区域。
+
+复杂业务区域可以递归地包含自己的 index.tsx、hooks、objects、functions 和 components，但只有在内部复杂度确实需要这一额外层次时才这样做。结构应帮助读者理解页面如何工作，而不是迫使他们穿梭于不必要的文件夹。
+
+    SomeComplexPage/
+      index.tsx
+
+      hooks/
+        useSomeComplexPage.ts
+        useSomePageState.ts
+
+      objects/
+        PageDraft.ts
+        PageSummary.ts
+        PageRuleCheck.ts
+
+      functions/
+        buildPageSummary.ts
+        buildRuleChecks.ts
+        filterPageRecords.ts
+
+      components/
+        PageHeader.tsx
+        SimplePanel.tsx
+
+        MajorBusinessRegion/
+          index.tsx
+          RegionToolbar.tsx
+          hooks/
+            useMajorBusinessRegion.ts
+          objects/
+            RegionFilter.ts
+            RegionViewModel.ts
+          components/
+            RegionList/
+              index.tsx
+              RegionRow.tsx
+              RegionStatusBadge.tsx
+              RegionActions.tsx
+
+
+44. 让复杂页面的入口文件保持为骨架
+
+对于复杂前端页面，index.tsx 应展示页面的主要结构，而不是所有实现细节。
+
+将详细的 UI 区块、辅助函数、局部状态逻辑、stores 和子组件移到附近的文件中。页面入口文件应回答：这个页面有哪些主要区域？
+
+这样可以让页面布局易于检查，就像精简的路由器能让后端 API 结构易于检查一样。
+
+
+45. 不要将页面主结构隐藏在含义模糊的布局包装器中
+
+页面入口文件应明确展示页面的主要业务区域。如果一个含义模糊的布局包装器会掩盖页面实际包含的内容，就不要把页面主结构移进该包装器。
+
+只有当布局包装器能说明布局、同时不掩盖业务结构时，才可以使用。读者打开 index.tsx 后，应能立即看到主要的页面区域。
+
+    避免将所有内容隐藏在以下包装器后面：
+      <SomePageLayout page={page} />
+
+    优先采用清晰可见的骨架：
+      <ReaderPanel />
+      <RulePanel />
+      <SelectionPanel />
+      <DraftPanel />
+      <ConfirmPanel />
+
+
+46. 只有复杂度确实需要时，才递归拆分复杂区域
+
+复杂业务区域可以拥有自己的局部 hooks、objects、functions 和子组件。当该区域具有多个相互协作的子模块，或其内部状态会使单个文件难以阅读时，采用这种方式是合适的。
+
+不要只是为了看起来有结构而创建嵌套文件夹。如果某个区域只有一个简单组件，就应将它保留为当前层级中的单个 .tsx 文件。
+
+每增加一个文件夹，都应让代码更易于阅读、测试、复用或定位。
+
+    复杂区域：
+      SelectionPanel/
+        index.tsx
+        SearchToolbar.tsx
+        hooks/
+        objects/
+        components/
+          CandidateList/
+
+    简单区域：
+      RulePanel.tsx
+
+
+47. 避免增加查找成本的形式化模块拆分
+
+模块化应降低认知负担，而不是增加它。不要只是为了让项目看起来模块化，就创建文件夹和子组件。
+
+如果拆分迫使读者打开更多文件，却没有帮助他们形成更清晰的理解，就应保持更扁平的实现。
+
+与仅为形式一致而存在的文件夹层级相比，单个文件通常更清楚。
+
+    对于简单组件，优先采用：
+      components/
+        RulePanel.tsx
+
+    如果没有必要，应避免：
+      components/
+        RulePanel/
+          index.tsx
+          components/
+            RuleCheckList.tsx
+
+
+
+48. 按服务创建前端 API 文件夹
+
+在可行的情况下，前端 API 的组织应对应后端服务边界。
+
+每个前端 API 文件夹都应对应一个后端服务。这样更容易从前端调用追踪到处理该调用的后端 API。
+
+    src/
+      apis/
+        service-a/
+        service-b/
+
+
+
+49. 对面向前端的 API，尽量保持前后端文件一一对应
+
+后端面向前端提供的 API 消息，通常应有相应的前端调用文件或类，便于从前端追踪到后端实现。
+
+仅供后端模块使用、没有注册到 routes 的内部 API，不需要对应的前端调用文件。平台专用实现和信任边界转换也可以形成合理差异；应避免无法解释的不对应。
+
+    前端 API 文件
+      -> 后端 API 消息
+      -> 公开表方法／领域逻辑
+
+
+50. 将通用 API 基础设施放在服务专用文件夹之外
+
+通用的前端 API 基础设施不应放在某个特定服务的文件夹中。如果某个工具适用于所有 API 调用，就应将它放在共享 API 发送基础设施旁边。
+
+服务文件夹应包含服务专用的 API 类和对象，而不是全局 API 机制。
+
+通用 API 基础设施包括：
+  - 令牌存储
+  - API 名称计算
+  - 通用发送逻辑
+  - API 基类
+  - 共享的请求／响应处理
+
+
+51. 按职责拆分大型前端 API 工具
+
+避免使用定义了过多无关内容的大型 API 工具文件。当职责变得明显不同时，就应将其拆分。
+
+这样可以使每个基础设施文件都易于检查，并防止单个工具演变成一个隐藏的框架。
+
+可以按以下职责拆分：
+  - API 基类
+  - API 名称计算
+  - 发送函数
+  - 令牌处理
+  - 错误处理
+  - 序列化辅助工具
+
+
+52. 使用带 send 方法的简洁前端 API 类
+
+前端 API 定义应易于阅读。一种推荐风格是将每个 API 定义为一个类，具有明确的输入字段和一个发送请求的方法。
+
+这样可以让每个前端 API 调用器具体、易于检查，而不是把行为隐藏在大型通用工具中。
+
+    class SomeAPI {
+      // 输入字段
+      send(): Promise<Response> {
+        ...
+      }
+    }
+
+
+53. 通过统一方法推导前端 API 名称
+
+如果一个共享的命名工具可以一致地推导路由名称，就不要让每个前端 API 类各自重复定义 apiName 方法。
+
+这与后端规则相对应：只要可以安全做到，就应消除重复的路由名称。统一的推导方法可以防止前端调用器与后端 API 消息之间出现命名偏差。
+
+
+54. 移除未使用的应用脚手架、资源和库文件
+
+模板项目通常包含一些在重构后用途变得不明确的文件夹。当 app、assets 和 lib 等文件夹看起来未被使用时，应重新审视保留它们的必要性。
+
+如果它们没有被引用，也不支持当前架构，就应移除。不要仅因为它们随模板附带，就保留已经无用的脚手架。
+
+
+55. 严格遵守已声明的样式体系
+
+项目标准要求使用 Tailwind，除非确有必要，否则应避免自定义 CSS。应移除或减少与仅使用 Tailwind 的要求相冲突的 CSS 文件和面向 CSS 的工具。
+
+只有当类名工具支持 Tailwind 的使用方式且确实有需要时，才可以保留。样式基础设施应与项目声明的标准一致。
+
+
+56. 优先使用清晰的文件夹名称
+
+文件夹名称应传达用途。如果文件夹包含工具，应将其命名为 utils，而不是 internal 之类含义模糊的名称，除非 internal 在项目中具有精确的架构含义。
+
+名称应帮助未来的读者理解归属和意图，而不必打开每个文件。
+
+
+57. 将共享页面对象放在明确的页面级位置
+
+如果存在页面级共享对象，应将它们放在 pages/objects 之类清晰的文件夹中。
+
+避免使用使归属不明确的隐晦共享路径。路径应说明某个对象是全局的、服务专用的，还是页面专用的。
+
+
+58. 优先采用简单的 TypeScript 风格，避免不必要的复杂性
+
+当适合项目时，应使用清晰、直接的 TypeScript。不要仅为了理论上的优雅，让前端类型结构变得不必要地复杂。
+
+强类型很有价值，但抽象应改善可维护性或安全性。如果现有 TypeScript 风格已经易读且足够，应保留这种简单性。
+
+
+
+59. 将文档产物与源码逻辑分开
+
+生成的文档应放在要求的文档文件夹中，而不是混入后端或前端源码文件夹。
+
+源码目录应包含应用代码。在要求生成相应产物时，文档目录应包含生成的报告、PDF、架构说明和对话历史。
+
+60. 有意识地建模复杂页面状态
+
+依赖 API 的复杂页面应显式建模加载中、就绪、空、错误以及相关操作状态。这对仪表盘、搜索界面、详情视图、预订或消息流程、上传功能，以及具有多个相互依赖区域的页面尤其有用。
+
+简单的独立表单可以保持简单。如果局部提交状态和错误状态仍然清晰，而且不会允许令人困惑的状态组合，小型表单就可以采用这种局部状态。不要仅为了理论上的优雅而引入庞大的联合类型。
+
+    type PageState =
+      | { status: "loading" }
+      | { status: "ready"; data: Data }
+      | { status: "empty" }
+      | { status: "error"; message: string }
+      | { status: "submitting" }

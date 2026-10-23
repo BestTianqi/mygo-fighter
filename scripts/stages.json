@@ -1,0 +1,524 @@
+[
+  {
+    "terrain": {
+      "material": "metal",
+      "colors": ["#617e94", "#263a4a", "#122131"],
+      "hills": [],
+      "platforms": [
+        { "left": 90, "right": 230, "height": 56 },
+        { "left": 730, "right": 870, "height": 56 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#baa9b5", "#514459", "#2a2336"],
+      "hills": [
+        { "left": 100, "peak": 230, "right": 360, "height": 26 },
+        { "left": 600, "peak": 730, "right": 860, "height": 26 }
+      ],
+      "platforms": [
+        { "left": 100, "right": 255, "height": 84 },
+        { "left": 350, "right": 610, "height": 148 },
+        { "left": 705, "right": 860, "height": 84 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "concrete",
+      "colors": ["#d0b2a2", "#796d7c", "#434453"],
+      "hills": [
+        { "left": 70, "peak": 180, "right": 300, "height": 32 },
+        { "left": 620, "peak": 750, "right": 890, "height": 44 }
+      ],
+      "platforms": [
+        { "left": 105, "right": 255, "height": 84 },
+        { "left": 350, "right": 610, "height": 138 },
+        { "left": 700, "right": 850, "height": 100 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "metal",
+      "colors": ["#7398ae", "#2e485c", "#172636"],
+      "hills": [{ "left": 320, "peak": 480, "right": 640, "height": 32 }],
+      "platforms": [
+        { "left": 120, "right": 260, "height": 64 },
+        { "left": 360, "right": 600, "height": 128 },
+        { "left": 680, "right": 840, "height": 64 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "wood",
+      "colors": ["#dec7a4", "#8b7962", "#4c4e42"],
+      "hills": [
+        { "left": 80, "peak": 250, "right": 420, "height": 30 },
+        { "left": 550, "peak": 720, "right": 890, "height": 36 }
+      ],
+      "platforms": [
+        { "left": 130, "right": 300, "height": 88 },
+        { "left": 400, "right": 560, "height": 152 },
+        { "left": 640, "right": 815, "height": 104 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "speaker",
+      "colors": ["#b5a18b", "#4e4947", "#252b31"],
+      "hills": [
+        { "left": 120, "peak": 230, "right": 340, "height": 20 },
+        { "left": 620, "peak": 730, "right": 840, "height": 20 }
+      ],
+      "platforms": [
+        { "left": 140, "right": 280, "height": 56 },
+        { "left": 410, "right": 550, "height": 112 },
+        { "left": 680, "right": 820, "height": 56 },
+        { "left": -610, "right": -390, "height": -80 },
+        { "left": -420, "right": -220, "height": 0 },
+        { "left": -300, "right": -100, "height": 80 },
+        { "left": -180, "right": 20, "height": 160 },
+        { "left": -340, "right": -140, "height": 240 },
+        { "left": -500, "right": -300, "height": 320 },
+        { "left": -620, "right": -420, "height": 400 },
+        { "left": -620, "right": -400, "height": 480 },
+        { "left": 1350, "right": 1570, "height": -80 },
+        { "left": 1180, "right": 1380, "height": 0 },
+        { "left": 1060, "right": 1260, "height": 80 },
+        { "left": 940, "right": 1140, "height": 160 },
+        { "left": 1100, "right": 1300, "height": 240 },
+        { "left": 1260, "right": 1460, "height": 320 },
+        { "left": 1380, "right": 1580, "height": 400 },
+        { "left": 1360, "right": 1580, "height": 480 }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#d8c6b0", "#827766", "#444b43"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 40, "style": "stone" },
+        { "left": -240, "right": -20, "height": 150, "style": "stone" },
+        { "left": -440, "right": -220, "height": 260, "style": "stone" },
+        { "left": -620, "right": -400, "height": 420, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 40, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 150, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 260, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 420, "style": "stone" },
+        { "left": 100, "right": 310, "height": 72, "style": "planter" },
+        { "left": 380, "right": 580, "height": 196, "style": "rail" },
+        { "left": 670, "right": 870, "height": 104, "style": "planter" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#c3d1d7", "#73838f", "#354956"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 52, "style": "stone" },
+        { "left": -240, "right": -20, "height": 162, "style": "stone" },
+        { "left": -440, "right": -220, "height": 272, "style": "stone" },
+        { "left": -620, "right": -400, "height": 432, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 52, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 162, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 272, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 432, "style": "stone" },
+        { "left": 80, "right": 290, "height": 104, "style": "stone" },
+        { "left": 360, "right": 600, "height": 224, "style": "rail" },
+        { "left": 700, "right": 920, "height": 160, "style": "stone" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#d7c3aa", "#9b826a", "#4e554c"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 64, "style": "stone" },
+        { "left": -240, "right": -20, "height": 174, "style": "stone" },
+        { "left": -440, "right": -220, "height": 284, "style": "stone" },
+        { "left": -620, "right": -400, "height": 444, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 64, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 174, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 284, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 444, "style": "stone" },
+        { "left": 80, "right": 310, "height": 96, "style": "stone" },
+        { "left": 340, "right": 620, "height": 240, "style": "rail" },
+        { "left": 670, "right": 900, "height": 96, "style": "stone" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#d3d9bc", "#82906a", "#374d43"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 40, "style": "stone" },
+        { "left": -240, "right": -20, "height": 150, "style": "stone" },
+        { "left": -440, "right": -220, "height": 260, "style": "stone" },
+        { "left": -620, "right": -400, "height": 420, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 40, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 150, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 260, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 420, "style": "stone" },
+        { "left": 120, "right": 320, "height": 64, "style": "planter" },
+        { "left": 390, "right": 570, "height": 180, "style": "stone" },
+        { "left": 650, "right": 840, "height": 128, "style": "planter" },
+        { "left": 420, "right": 540, "height": 330, "style": "rail" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "concrete",
+      "colors": ["#d6d7c4", "#8b958e", "#465e69"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "roof" },
+        { "left": -400, "right": -180, "height": 52, "style": "roof" },
+        { "left": -240, "right": -20, "height": 162, "style": "roof" },
+        { "left": -440, "right": -220, "height": 272, "style": "roof" },
+        { "left": -620, "right": -400, "height": 432, "style": "roof" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "roof" },
+        { "left": 1140, "right": 1360, "height": 52, "style": "roof" },
+        { "left": 980, "right": 1200, "height": 162, "style": "roof" },
+        { "left": 1180, "right": 1400, "height": 272, "style": "roof" },
+        { "left": 1360, "right": 1580, "height": 432, "style": "roof" },
+        { "left": 60, "right": 260, "height": 160, "style": "roof" },
+        { "left": 370, "right": 590, "height": 280, "style": "roof" },
+        { "left": 700, "right": 900, "height": 112, "style": "roof" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "speaker",
+      "colors": ["#c7a78c", "#7e5e51", "#3e3540"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "speaker" },
+        { "left": -400, "right": -180, "height": 64, "style": "speaker" },
+        { "left": -240, "right": -20, "height": 174, "style": "speaker" },
+        { "left": -440, "right": -220, "height": 284, "style": "speaker" },
+        { "left": -620, "right": -400, "height": 444, "style": "speaker" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "speaker" },
+        { "left": 1140, "right": 1360, "height": 64, "style": "speaker" },
+        { "left": 980, "right": 1200, "height": 174, "style": "speaker" },
+        { "left": 1180, "right": 1400, "height": 284, "style": "speaker" },
+        { "left": 1360, "right": 1580, "height": 444, "style": "speaker" },
+        { "left": 100, "right": 310, "height": 80, "style": "speaker" },
+        { "left": 390, "right": 570, "height": 160, "style": "wood" },
+        { "left": 650, "right": 860, "height": 80, "style": "speaker" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "speaker",
+      "colors": ["#b7c9ce", "#627887", "#2c3b4b"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "speaker" },
+        { "left": -400, "right": -180, "height": 40, "style": "speaker" },
+        { "left": -240, "right": -20, "height": 150, "style": "speaker" },
+        { "left": -440, "right": -220, "height": 260, "style": "speaker" },
+        { "left": -620, "right": -400, "height": 420, "style": "speaker" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "speaker" },
+        { "left": 1140, "right": 1360, "height": 40, "style": "speaker" },
+        { "left": 980, "right": 1200, "height": 150, "style": "speaker" },
+        { "left": 1180, "right": 1400, "height": 260, "style": "speaker" },
+        { "left": 1360, "right": 1580, "height": 420, "style": "speaker" },
+        { "left": 80, "right": 290, "height": 112, "style": "speaker" },
+        { "left": 330, "right": 530, "height": 240, "style": "wood" },
+        { "left": 640, "right": 880, "height": 152, "style": "speaker" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -80, "y": 0 },
+        { "x": 1040, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#e5b987", "#9a7a69", "#534f5f"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 52, "style": "stone" },
+        { "left": -240, "right": -20, "height": 162, "style": "stone" },
+        { "left": -440, "right": -220, "height": 272, "style": "stone" },
+        { "left": -620, "right": -400, "height": 432, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 52, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 162, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 272, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 432, "style": "stone" },
+        { "left": 160, "right": 330, "height": 160, "style": "stone" },
+        { "left": 380, "right": 580, "height": 360, "style": "rail" },
+        { "left": 650, "right": 820, "height": 208, "style": "stone" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -400, "y": -160 },
+        { "x": -160, "y": 0 },
+        { "x": 220, "y": 0 },
+        { "x": 221, "y": 48 },
+        { "x": 300, "y": 48 },
+        { "x": 301, "y": 96 },
+        { "x": 380, "y": 96 },
+        { "x": 381, "y": 144 },
+        { "x": 579, "y": 144 },
+        { "x": 580, "y": 96 },
+        { "x": 659, "y": 96 },
+        { "x": 660, "y": 48 },
+        { "x": 739, "y": 48 },
+        { "x": 740, "y": 0 },
+        { "x": 1120, "y": 0 },
+        { "x": 1360, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  },
+  {
+    "terrain": {
+      "material": "stone",
+      "colors": ["#b8cadf", "#5e6c8b", "#303b58"],
+      "hills": [],
+      "platforms": [
+        { "left": -640, "right": -420, "height": -72, "style": "stone" },
+        { "left": -400, "right": -180, "height": 64, "style": "stone" },
+        { "left": -240, "right": -20, "height": 174, "style": "stone" },
+        { "left": -440, "right": -220, "height": 284, "style": "stone" },
+        { "left": -620, "right": -400, "height": 444, "style": "stone" },
+        { "left": 1380, "right": 1600, "height": -72, "style": "stone" },
+        { "left": 1140, "right": 1360, "height": 64, "style": "stone" },
+        { "left": 980, "right": 1200, "height": 174, "style": "stone" },
+        { "left": 1180, "right": 1400, "height": 284, "style": "stone" },
+        { "left": 1360, "right": 1580, "height": 444, "style": "stone" },
+        { "left": 100, "right": 290, "height": 184, "style": "stone" },
+        { "left": 350, "right": 620, "height": 320, "style": "rail" },
+        { "left": 700, "right": 920, "height": 136, "style": "stone" }
+      ],
+      "ground": [
+        { "x": -720, "y": -160 },
+        { "x": -440, "y": -160 },
+        { "x": -180, "y": 0 },
+        { "x": 180, "y": 0 },
+        { "x": 181, "y": 56 },
+        { "x": 290, "y": 56 },
+        { "x": 291, "y": 112 },
+        { "x": 400, "y": 112 },
+        { "x": 401, "y": 168 },
+        { "x": 559, "y": 168 },
+        { "x": 560, "y": 112 },
+        { "x": 669, "y": 112 },
+        { "x": 670, "y": 56 },
+        { "x": 779, "y": 56 },
+        { "x": 780, "y": 0 },
+        { "x": 1120, "y": 0 },
+        { "x": 1400, "y": -160 },
+        { "x": 1680, "y": -160 }
+      ]
+    }
+  }
+]
