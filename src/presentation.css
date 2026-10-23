@@ -40,5 +40,11 @@ dialog{background:linear-gradient(135deg,#292133,#141d2b);border-color:#806a70;b
 @media(prefers-reduced-motion:reduce){.selection-character{transition:none}}
 #lan-battle-status:empty{display:none}#lan-battle-status{text-align:center;margin:5px 0;font-size:11px;color:var(--brass)}
 #lan-dialog{max-width:560px}#lan-status{color:var(--brass);min-height:24px}#lan-code{font:700 24px var(--display);letter-spacing:4px;color:var(--brass)}.lan-join{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:20px}.lan-join label{width:100%}.lan-join input{min-width:0;flex:1;background:#151522;color:var(--ink);border:1px solid var(--line);padding:10px;text-transform:uppercase;font:18px var(--display);letter-spacing:3px}.lan-join button{padding:10px 15px}#lan-room select{margin-bottom:12px}.lan-terrain{display:flex;align-items:center;gap:10px;margin-top:8px}#lan-players{font-size:12px;color:var(--brass)}
+.lan-team-label{display:block;color:var(--muted);font-size:11px;line-height:1.6;margin:2px 0 7px}
+.lan-team-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.lan-team-slot{display:flex;align-items:center;gap:6px;min-width:0}
+.lan-team-slot b{flex:none;color:var(--brass);font:700 13px var(--display)}
+.lan-team-slot select{min-width:0;margin-bottom:0}
+#lan-solo,#lan-team,#lan-format{margin-bottom:12px}
 @media(max-width:900px){.selection-options select,.selection-rules select{min-height:44px}.selection-stage-nav button{min-height:44px}.menu-footer{bottom:auto;left:auto;right:auto}}
 @media(max-height:650px) and (orientation:landscape){.menu-footer{bottom:auto;left:auto;right:auto}.menu-content{margin-bottom:20px}}
