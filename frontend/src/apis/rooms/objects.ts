@@ -3,11 +3,13 @@ import type { CombatEvent } from "../../game/objects/CombatEvent";
 import type { Input } from "../../game/objects/Input";
 export interface RoomPlayer {
   character: number;
+  team: number[];
   ready: boolean;
   connected: boolean;
 }
 export interface RoomView {
   code: string;
+  format: "1v1" | "3v3";
   arena: number;
   terrain: boolean;
   generation: number;

@@ -100,7 +100,8 @@ export class RoomConnection {
       this.session = session;
       this.update({
         status: "connecting",
-        room: session.room,
+        // Wait for the current server view; saved room fields may belong to an older version.
+        room: null,
         side: session.side,
       });
       this.openSocket();
@@ -156,7 +157,9 @@ export class RoomConnection {
         const backToLobby =
           !room.playing &&
           !room.preparing &&
-          ["playing", "preparing"].includes(this.view.status);
+          (this.view.room?.playing ||
+            this.view.room?.preparing ||
+            ["playing", "preparing"].includes(this.view.status));
         this.update({
           room,
           error: "",

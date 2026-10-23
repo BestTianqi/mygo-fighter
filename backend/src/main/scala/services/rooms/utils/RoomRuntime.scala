@@ -94,10 +94,11 @@ object RoomRuntime:
   private[rooms] def publicView(s: RoomState): RoomView =
     RoomView(
       s.code,
+      s.format,
       s.arena,
       s.terrain,
       s.generation,
-      s.players.map(_.map(p => PlayerView(p.character, p.ready, p.connected))),
+      s.players.map(_.map(p => PlayerView(p.character, p.team, p.ready, p.connected))),
       s.phase == RoomPhase.Playing,
       s.phase == RoomPhase.Preparing
     )

@@ -8,6 +8,7 @@ import io.circe.Json
 final case class RoomState(
     code: String,
     players: Vector[Option[Player]],
+    format: String = "1v1",
     arena: Int = 0,
     terrain: Boolean = true,
     generation: Int = 0,

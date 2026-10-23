@@ -48,3 +48,13 @@ Closing a socket releases inputs and pauses the match. A silent peer is consider
 Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
 
 The server is intended for a trusted local network. It has temporary room sessions rather than an account system, and plain HTTP on the default LAN deployment.
+
+## 3v3 relay
+
+The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an ordered `team` array through ChooseRoomMessage. Teams contain distinct character IDs (0–14), with one or three required before ready. Partial teams can be edited, but cannot ready. Any selection or rule change clears both ready flags and increments the generation. Only the host can change format, arena or terrain.
+
+The prepare configuration includes both teams and the format; clients preload all six fighters and forms. The shared server simulation advances the defeated side after the finish animation, retains the surviving fighter’s HP and energy, and ends only when one team is exhausted. Snapshots carry team indices, reserves and the current fighters. Restart resets both teams; returning to the lobby preserves selections for editing and clears readiness. Reconnect restores the existing authoritative match and its team progression.
+
+Run `node tests/lan-relay.mjs` for combat carry-over/relay packet checks. After `node scripts/build-simulation.mjs`, run `sbt "Test / runMain services.rooms.RelayRoomCheck"` from `backend/` to exercise Scala room authorization, readiness, ordered teams, the loading barrier and GraalJS creation.
+
+For the two-browser smoke test, start the normal local build with `npm run lan`, install Python Playwright with `python -m pip install playwright`, then run `python tests/lan_browser.py` from the repository root. Windows uses installed Microsoft Edge; on other systems first run `python -m playwright install chromium`. The test defaults to `http://localhost:8080`; set `MYGO_TEST_URL` to test another running server. It checks creation/joining, host-only rules, ordered teams, shared movement, pause/restart, reconnect and returning to the lobby, and saves both browser screenshots under `output/`.

@@ -224,6 +224,7 @@ export function CharacterSelection({
               >
                 <img
                   src={
+                    assets.mygoPortraits?.[id]?.face ??
                     assets.mujicaPortraits[id]?.normal.face ??
                     assets.characters[id].portrait
                   }
