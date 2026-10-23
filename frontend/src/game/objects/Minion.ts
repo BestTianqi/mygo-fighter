@@ -1,6 +1,7 @@
 export interface Minion {
   id: number;
   hp: number;
+  maxHp: number;
   x: number;
   y: number;
   facing: number;
