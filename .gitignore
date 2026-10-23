@@ -4,9 +4,6 @@ _site/
 .venv/
 venv/
 node_modules/
-.pytest_cache/
-playwright-report/
-test-results/
 *.log
 *.zip
 .DS_Store
@@ -14,3 +11,20 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Tooling and generated outputs
+.idea/
+.build/
+.playwright-cli/
+output/
+frontend/dist/
+backend/target/
+backend/project/target/
+backend/project/project/
+backend/.bsp/
+backend/.bloop/
+backend/.metals/
+backend/src/main/resources/simulation.js
+backend/src/main/resources/stages.json
+*-preview.html
+mujica-development.html
