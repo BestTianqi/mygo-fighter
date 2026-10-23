@@ -102,7 +102,19 @@ export function MainMenu({
               3v3 车轮战
             </Button>
             <Button onClick={() => runtime?.begin("practice")}>自由练习</Button>
-            <Button onClick={() => runtime?.openLobby()}>局域网联机</Button>
+            <Button
+              disabled={import.meta.env.MODE === "pages" || !runtime}
+              title={
+                import.meta.env.MODE === "pages"
+                  ? "局域网联机请下载游戏并本地启动"
+                  : undefined
+              }
+              onClick={() => runtime?.openLobby()}
+            >
+              {import.meta.env.MODE === "pages"
+                ? "局域网联机 · 需本地启动"
+                : "局域网联机"}
+            </Button>
           </div>
           <div className="mt-6 flex gap-6 text-xs text-slate-400">
             <button

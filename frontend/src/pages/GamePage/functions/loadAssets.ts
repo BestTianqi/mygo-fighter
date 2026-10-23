@@ -21,7 +21,17 @@ export function hydrateAssets(value: AssetManifest): Assets {
   return { ...value, characters };
 }
 export async function loadAssets(signal: AbortSignal): Promise<Assets> {
-  const response = await fetch("/assets.json", { signal });
+  const base = new URL(import.meta.env.BASE_URL, document.baseURI);
+  const response = await fetch(new URL("assets.json", base), { signal });
   if (!response.ok) throw new Error("无法读取角色与场地素材。");
-  return hydrateAssets((await response.json()) as AssetManifest);
+  // The source manifest keeps stable root-relative media names. Resolve every
+  // nested atlas, portrait, recording and video against the deployed app path.
+  const manifest: AssetManifest = JSON.parse(
+    await response.text(),
+    (_key, value: unknown) =>
+      typeof value === "string" && value.startsWith("/media/")
+        ? new URL(value.slice(1), base).href
+        : value,
+  );
+  return hydrateAssets(manifest);
 }

@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace frontend",
+    "build:pages": "npm run build --workspace frontend -- --mode pages",
     "build": "npm run build --workspace frontend && node scripts/build-simulation.mjs",
     "typecheck": "npm run typecheck --workspace frontend",
     "format": "prettier --write frontend/src scripts docs/*.md README.md",

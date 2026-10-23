@@ -18,18 +18,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
         with:
-          lfs: true
-          sparse-checkout-cone-mode: false
-          sparse-checkout: |
-            /index.html
-            /tools/build_pages.py
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Build React game with original media
+        run: npm run build:pages
       - uses: actions/configure-pages@v5
-      - name: Prepare static game and cacheable media
-        run: python3 tools/build_pages.py
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: frontend/dist
       - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4

@@ -49,6 +49,7 @@ Hold back to guard, back + crouch to guard low, and back + U or forward + O to t
 ```sh
 npm run dev            # Vite frontend, port 5173; API/WebSocket proxy to port 8080
 npm run build          # Strict TypeScript check, production UI and shared combat kernel
+npm run build:pages    # Static browser version for GitHub Pages; no JVM server required
 npm start              # Scala server serving the production build
 npm run check          # TypeScript and runtime media integrity checks
 npm run check:backend  # Scala compilation and formatting checks
@@ -71,3 +72,7 @@ Use a second terminal running `npm start` for the API while developing with Vite
 The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 15 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
 
 See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
+
+GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3; LAN rooms require the local Scala server. All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
+
+After `npm run build:pages`, run `python tests/pages_browser.py` with Python Playwright installed to check project-path loading, recorded audio, character transformations, supers and menu flow. Reports and screenshots go to the ignored `output/pages-check/` folder.
