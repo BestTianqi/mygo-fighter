@@ -1,21 +1,21 @@
 /* Concert lobby: midnight velvet, parchment lettering and restrained brass rules. */
 :root{--bg:#0d101a;--panel:#1c1d2d;--line:#383948;--ink:#f1eae3;--muted:#aaa8b8;--brass:#d9bc83;--velvet:#38202f;--display:"Bahnschrift","Microsoft YaHei",sans-serif}
 body{background:radial-gradient(ellipse at 75% 0,#332235 0,transparent 65%),var(--bg)}
-.main-menu{border-color:#66515b;background:#151522;min-height:690px}
+.main-menu{display:flex;flex-direction:column;border-color:#66515b;background:#151522;height:auto;min-height:clamp(690px,calc(100svh - 32px),860px)}
 .menu-marquee{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 4% 0 6%;padding-bottom:13px;border-bottom:1px solid #c6a77750;font:600 10px var(--display);letter-spacing:2px;color:var(--brass)}
 .menu-marquee nav{display:flex;gap:7px}.menu-marquee button{padding:7px 14px;border-radius:20px;background:#1214219c;border-color:transparent;color:#c5bfce;font-size:11px;letter-spacing:0}
 .menu-marquee button[aria-pressed=true]{border-color:var(--brass);color:#f6deb4;background:#473144b0}
 .main-menu::before{background:linear-gradient(90deg,#151522fa 0%,#151522ed 26%,#15152225 60%,transparent 80%),linear-gradient(0deg,#151522,transparent 35%)}
-.menu-content{margin-top:clamp(24px,5vh,60px)}.menu-content h1{font-family:"STZhongsong","SimSun",serif;font-weight:800;letter-spacing:1px;transform:none;text-shadow:0 3px 24px #090b17}
+.menu-content{flex:1;margin-top:clamp(24px,5vh,60px);margin-bottom:24px}.menu-content h1{font-family:"STZhongsong","SimSun",serif;font-weight:800;letter-spacing:1px;transform:none;text-shadow:0 3px 24px #090b17}
 .menu-content h1 span{color:#e9c7d6}.menu-band .menu-wordmark{color:var(--brass)}.menu-subtitle{letter-spacing:2px;color:#bdb2c4}
 .menu-actions>button{border-color:#6e5e6c70;background:#1f2031c9;min-height:47px}.menu-actions>button.menu-primary{background:#e0c598;border-color:#f2d9b0;color:#271f2a;border-left-width:1px}.menu-actions>button.menu-primary:hover:not(:disabled){background:#f4dfb7}
-.menu-actions>button>span{color:var(--brass)}.menu-secondary button{background:#151522b0;border-color:#6e5e6c70}.menu-footer{border-color:#c6a77750;color:#c2b7c6}
+.menu-actions>button>span{color:var(--brass)}.menu-secondary button{background:#151522b0;border-color:#6e5e6c70}.menu-footer{position:relative;bottom:auto;left:auto;right:auto;flex:none;margin:0 4% 23px 6%;border-color:#c6a77750;color:#c2b7c6}
 .character-select{width:min(1380px,calc(100% - 40px));background:linear-gradient(135deg,#201c2a,#121a29 68%);border:1px solid #61515d;padding:22px 28px 0;margin:20px auto;position:relative}
 .selection-header{padding-bottom:16px;gap:18px;grid-template-columns:105px 1fr auto}.selection-heading p{color:var(--brass);font-size:9px;letter-spacing:3px}.selection-heading h1{font-family:"STZhongsong","SimSun",serif;font-size:28px;font-weight:600}
 .selection-options select,.selection-rules select{background:#191c2a;border-color:#514b5c;border-radius:3px;min-height:40px}
 .selection-steps{display:flex;align-items:center;gap:28px;padding:15px 0 0;color:#88889c;font-size:11px}.selection-steps a{color:inherit;text-decoration:none;padding:4px 0}.selection-steps b{font-family:var(--display);font-weight:400;margin-right:5px}.selection-steps [aria-current=step]{color:#f0d9b4}.selection-steps a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}#selection-count{font:10px var(--display);padding:3px 7px;background:#383043;border-radius:3px;margin-left:5px}
 .selection-lineups{margin:14px 0 20px;gap:18px;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr)}.selection-team h2{font-size:13px;margin-bottom:6px}.selection-slot{height:90px;background:linear-gradient(120deg,#282134,#1a2331);border-color:#50465d;border-radius:3px}.selection-slot.active{box-shadow:inset 3px 0 var(--team-accent)}.selection-slot.active::after{height:2px}.selection-slot-order{top:8px;font-size:9px}.selection-slot-pick>strong{padding-bottom:6px}.character-select[data-format="1v1"] .selection-slot-pick>strong{font-size:15px}.selection-versus{padding-top:20px;color:var(--brass);font-size:22px}
-.selection-cast{display:grid;grid-template-columns:minmax(290px,.9fr) minmax(0,1.6fr);gap:28px;align-items:stretch}
+.selection-cast{display:grid;grid-template-columns:minmax(290px,1fr) minmax(0,610px);gap:28px;align-items:stretch}
 .selection-spotlight{min-height:440px;position:relative;isolation:isolate;overflow:hidden;border:1px solid #71627460;background:radial-gradient(ellipse at 35% 25%,color-mix(in srgb,var(--cast-color) 27%,#171726),#171726 70%);border-radius:4px}
 .spotlight-art{position:absolute;inset:12px 35% 0 -12px;z-index:-1}.spotlight-art img{height:100%;width:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 10px 15px #08081088)}
 .spotlight-art span{position:absolute;bottom:12px;left:20px;writing-mode:vertical-rl;color:#f3dfbc88;font:italic 16px Georgia,serif;letter-spacing:2px}
@@ -38,3 +38,5 @@ dialog{background:linear-gradient(135deg,#292133,#141d2b);border-color:#806a70;b
 @media(max-width:360px){.selection-band-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.selection-character>strong{font-size:10px}.selection-spotlight{min-height:290px}.spotlight-copy h2{font-size:22px}.selection-steps{gap:8px}.selection-stage-picker{grid-template-columns:80px minmax(0,1fr)}}
 @media(max-height:650px) and (orientation:landscape){.main-menu{min-height:420px;height:auto}.menu-marquee{margin-top:12px;padding-bottom:7px}.menu-content{margin-top:16px;margin-bottom:60px;max-width:43%}.menu-content h1{font-size:38px}.menu-actions>button{min-height:36px}.menu-subtitle{font-size:9px;margin:8px 0 12px}.menu-footer{bottom:10px}.selection-spotlight{min-height:390px}.overlay-card{padding:14px 25px}.overlay h2{font-size:26px}}
 @media(prefers-reduced-motion:reduce){.selection-character{transition:none}}
+@media(max-width:900px){.selection-options select,.selection-rules select{min-height:44px}.selection-stage-nav button{min-height:44px}.menu-footer{bottom:auto;left:auto;right:auto}}
+@media(max-height:650px) and (orientation:landscape){.menu-footer{bottom:auto;left:auto;right:auto}.menu-content{margin-bottom:20px}}

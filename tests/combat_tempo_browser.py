@@ -41,7 +41,7 @@ with sync_playwright() as p:
         page.clock.pause_at('2026-01-01T00:01:00Z')
         begin(page,0)
         deadline=time.monotonic()+30
-        while page.evaluate('memeProbe.decoded.length')<78:
+        while page.evaluate('memeProbe.decoded.length')<79:
             assert time.monotonic()<deadline,'all recorded audio must preload'
             time.sleep(.025)
         page.keyboard.down('s');page.keyboard.press('i');page.keyboard.up('s');page.clock.run_for(350)

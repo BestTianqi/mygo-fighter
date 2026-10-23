@@ -1,0 +1,26 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-23",
+  "finalSources": {
+    "sakiko": "sakiko-source-v3.png",
+    "mutsumi": "mutsumi-source-v4.png",
+    "uika": "uika-source-v2.png",
+    "umiri": "umiri-source-v2.png",
+    "nyamu": "nyamu-source-v2.png"
+  },
+  "revisions": [
+    {
+      "characters": [
+        "sakiko",
+        "mutsumi"
+      ],
+      "prompt": "Edit this exact two-character portrait sheet. Preserve both character identities, exact faces, outfits, poses, colors and drawing quality. Remove ALL background, blurred glow, shadows and atmosphere. Deliver isolated character cutouts on TRUE TRANSPARENT ALPHA background, including space between hair strands and between figures. Expand canvas on all sides to provide 8% clear transparent margin: every shoe, hand, hair strand and dress edge must be completely in frame. The two full-body figures must be completely separated with a clear transparent gap, left normal form and right stage form. No colored matte, no gradient backdrop, no checkered fake transparency, no words. Do not redraw their facial features."
+    },
+    {
+      "characters": [
+        "mutsumi"
+      ],
+      "prompt": "Re-layout these TWO exact full-body character drawings into a WIDE LANDSCAPE sprite sheet, width twice the height. Keep the exact faces, costumes, poses and all drawn details. Move the entire normal blue-plaid-dress character to the LEFT QUARTER and entire red-and-black masked character to the RIGHT QUARTER. The gap between any part of their bodies, skirts, hands and hair MUST be at least 150 pixels of fully transparent EMPTY SPACE. Their silhouettes must NEVER touch. Include entire figures with generous transparent margin at all edges. Background removal: actual PNG alpha=0 outside the two characters, no glow, no color backdrop, no drop shadows, no text. Keep the face and official-style cel-shaded art exactly the same; only separate and reposition the characters, preserving complete full bodies and shoes."
+    }
+  ]
+}
