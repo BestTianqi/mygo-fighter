@@ -11,23 +11,10 @@ final case class TickRoomsMessage() extends NoRequestMessage[Unit]:
     IO.monotonic.flatMap { now =>
       connection.rooms.get.flatMap(_.toList.parTraverse_ { (code, room) =>
         room.lastActivity.get.flatMap { active =>
-          if now - active < 30.minutes then
-            room.tick(now).handleErrorWith { error =>
-              room.lock.permit.use(_ =>
-                room.resetLobby *> room.peers.get.flatMap(
-                  _.values.toList.traverse_(
-                    _.send(
-                      "error",
-                      io.circe.Json.obj("message" -> io.circe.Json.fromString("对战已停止，请重新准备"))
-                    )
-                  )
-                )
-              ) *>
-                IO.println(s"Room $code stopped: ${error.getClass.getSimpleName}")
-            }
+          if now - active < 30.minutes then IO.unit
           else
             room.lock.permit.use { _ =>
-              room.resetLobby *> room.peers.get.flatMap(
+              room.stop *> room.resetLobby *> room.peers.get.flatMap(
                 _.values.toList
                   .traverse_(_.control.tryOffer(org.http4s.websocket.WebSocketFrame.Close()).void)
               ) *>

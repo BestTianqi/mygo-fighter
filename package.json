@@ -16,7 +16,8 @@
     "start": "node scripts/start.mjs",
     "check": "npm run typecheck && node scripts/check-assets.mjs",
     "check:backend": "node scripts/build-simulation.mjs && node scripts/scala.mjs compile scalafmtCheckAll",
-    "lan": "npm run build && npm start"
+    "lan": "npm run build && npm start",
+    "check:lan": "node tests/lan_prediction.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

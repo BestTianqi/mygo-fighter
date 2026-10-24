@@ -1,3 +1,4 @@
+import { NETWORK_PROTOCOL } from "../../game/networkProtocol";
 import { compactInput } from "../../game/inputCodec";
 import { CreateRoomMessage } from "./CreateRoomMessage";
 import { JoinRoomMessage } from "./JoinRoomMessage";
@@ -18,6 +19,7 @@ interface Callbacks {
   onState: (packet: StatePacket) => void;
   onDisconnect: () => void;
   onLobby: () => void;
+  onInput: (seq: number, input: Input, now: number, changed: boolean) => void;
 }
 
 /** One ordered duplex socket, with immediate input and no HTTP request per key. */
@@ -30,6 +32,9 @@ export class RoomConnection {
   private attempts = 0;
   private connectId = 0;
   private generation = -1;
+  private stateEpoch = -1;
+  private stateTick = -1;
+  private smoothedRtt = 0;
   private prepared = false;
   private authenticated = false;
   private seq = Date.now() * 1000;
@@ -45,6 +50,9 @@ export class RoomConnection {
   };
 
   constructor(private readonly callbacks: Callbacks) {}
+  get rtt() {
+    return this.smoothedRtt;
+  }
   get token() {
     return this.session?.token ?? "";
   }
@@ -116,9 +124,16 @@ export class RoomConnection {
     const socket = new WebSocket(`${protocol}//${location.host}/ws`);
     this.socket = socket;
     this.authenticated = false;
+    this.smoothedRtt = 0;
     socket.onopen = () => {
       this.attempts = 0;
-      socket.send(JSON.stringify({ type: "authenticate", token: this.token }));
+      socket.send(
+        JSON.stringify({
+          type: "authenticate",
+          token: this.token,
+          protocol: NETWORK_PROTOCOL,
+        }),
+      );
       this.heartbeat = setInterval(() => {
         if (socket.readyState === WebSocket.OPEN)
           socket.send(
@@ -178,6 +193,7 @@ export class RoomConnection {
           resume?: boolean;
         };
         this.generation = data.generation;
+        this.stateEpoch = this.stateTick = -1;
         this.prepared = false;
         this.update({ status: "preparing", error: "" });
         const session = this.session,
@@ -196,8 +212,26 @@ export class RoomConnection {
           await new LoadedRoomMessage(this.token, data.generation).send();
       } else if (packet.type === "state") {
         const data = packet.data as StatePacket;
-        this.seq = Math.max(this.seq, data.acks[this.side] ?? 0);
+        if (data.protocol !== NETWORK_PROTOCOL) {
+          this.session = null;
+          sessionStorage.removeItem("mygo-room-v2");
+          this.socket?.close();
+          this.callbacks.onDisconnect();
+          this.update({
+            status: "error",
+            error: "联机版本已更新，请刷新页面。",
+          });
+          return;
+        }
+        this.seq = Math.max(this.seq, data.received[this.side] ?? 0);
         if (!this.prepared || data.generation !== this.generation) return;
+        if (
+          data.epoch < this.stateEpoch ||
+          (data.epoch === this.stateEpoch && data.tick < this.stateTick)
+        )
+          return;
+        this.stateEpoch = data.epoch;
+        this.stateTick = data.tick;
         if (this.view.status !== "playing") {
           this.lastInput = "";
           this.update({ status: "playing", error: "" });
@@ -205,8 +239,13 @@ export class RoomConnection {
         this.callbacks.onState(data);
       } else if (packet.type === "pong") {
         const { sentAt } = packet.data as { sentAt: number };
-        if (Number.isFinite(sentAt))
-          this.update({ rtt: Math.round(performance.now() - sentAt) });
+        if (Number.isFinite(sentAt)) {
+          const measured = Math.max(0, performance.now() - sentAt);
+          this.smoothedRtt = this.smoothedRtt
+            ? this.smoothedRtt * 0.8 + measured * 0.2
+            : measured;
+          this.update({ rtt: Math.round(this.smoothedRtt) });
+        }
       } else if (packet.type === "error") {
         const { message } = packet.data as { message: string };
         if (!this.authenticated) {
@@ -236,11 +275,12 @@ export class RoomConnection {
       this.socket.close();
       return;
     }
+    const changed = encoded !== this.lastInput;
     this.lastInput = encoded;
     this.lastSent = now;
-    this.socket.send(
-      JSON.stringify({ type: "input", seq: ++this.seq, input: compact }),
-    );
+    const seq = ++this.seq;
+    this.socket.send(JSON.stringify({ type: "input", seq, input: compact }));
+    this.callbacks.onInput(seq, compact, now, changed);
   }
 
   async leave() {

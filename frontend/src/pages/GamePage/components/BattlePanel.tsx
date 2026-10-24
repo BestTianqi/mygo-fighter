@@ -77,6 +77,21 @@ export function BattlePanel({
       className="mx-auto flex min-h-dvh max-w-[1440px] flex-col px-2 py-3 sm:px-6 sm:py-6"
       aria-label="对战舞台"
     >
+      {view.network.status === "error" && view.network.error && (
+        <p role="alert" className="text-center text-pink-200">
+          {view.network.error}
+        </p>
+      )}
+      {view.connectionStalled && (
+        <p role="status" className="text-center text-amber-200">
+          网络更新延迟，正在等待同步…
+        </p>
+      )}
+      {view.diagnostics && (
+        <output className="text-xs text-slate-400" aria-label="联机性能">
+          {view.diagnostics}
+        </output>
+      )}
       <header className="mb-3 flex items-center justify-between px-2 text-[10px] tracking-widest text-slate-500">
         <span>MYGO!!!!! / {view.config?.format ?? "1v1"}</span>
         <span>{assets.stages[view.config?.settings.arena ?? 0].name}</span>

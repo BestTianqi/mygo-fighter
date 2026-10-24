@@ -1,7 +1,7 @@
 package services.rooms.utils
 
 import cats.effect.IO
-import io.circe.{parser, Json}
+import io.circe.Json
 import org.graalvm.polyglot.{Context, HostAccess, Source, Value}
 
 /** All calls are serialized by the owning room lock. No host access or Node runtime. */
@@ -11,15 +11,15 @@ final class Simulation private (context: Context, kernel: Value):
       kernel.invokeMember("input", Int.box(side), Long.box(packet.seq), packet.input.noSpaces)
     ).void
 
-  private[rooms] def advance(ms: Double): IO[Unit] = IO(
-    kernel.invokeMember("advance", Double.box(ms))
+  private[rooms] def advance(ms: Double, now: Double): IO[Unit] = IO(
+    kernel.invokeMember("advance", Double.box(ms), Double.box(now))
   ).void
   private[rooms] def pause(value: Boolean): IO[Unit] = IO(
     kernel.invokeMember("pause", Boolean.box(value))
   ).void
   private[rooms] def restart: IO[Unit] = IO(kernel.invokeMember("restart")).void
-  private[rooms] def packet: IO[Json] =
-    IO(kernel.invokeMember("packet").asString()).flatMap(raw => IO.fromEither(parser.parse(raw)))
+  private[rooms] def packet: IO[String] =
+    IO(kernel.invokeMember("packet").asString())
   private[rooms] def close: IO[Unit] = IO.blocking(context.close())
 
 object Simulation:

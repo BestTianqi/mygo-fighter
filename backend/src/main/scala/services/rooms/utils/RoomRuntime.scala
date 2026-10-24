@@ -1,7 +1,8 @@
 package services.rooms.utils
 
-import cats.effect.{IO, Ref}
-import cats.effect.std.Semaphore
+import cats.effect.{Deferred, IO, Ref}
+import cats.effect.std.{Semaphore, Supervisor}
+import fs2.Stream
 import cats.syntax.all.*
 import io.circe.Json
 import io.circe.syntax.*
@@ -16,8 +17,33 @@ final case class RoomRuntime(
     lock: Semaphore[IO],
     lastTick: Ref[IO, FiniteDuration],
     lastSend: Ref[IO, FiniteDuration],
-    lastActivity: Ref[IO, FiniteDuration]
+    lastActivity: Ref[IO, FiniteDuration],
+    stopped: Deferred[IO, Unit]
 ):
+  private[rooms] def stop: IO[Unit] = stopped.complete(()).void
+
+  private[rooms] def start(supervisor: Supervisor[IO]): IO[Unit] =
+    supervisor
+      .supervise(
+        Stream
+          .awakeEvery[IO](8333333.nanos)
+          .evalMap(_ =>
+            IO.monotonic.flatMap(tick).handleErrorWith { error =>
+              lock.permit.use(_ =>
+                resetLobby *> peers.get.flatMap(
+                  _.values.toList.traverse_(
+                    _.send("error", Json.obj("message" -> Json.fromString("对战已停止，请重新准备")))
+                  )
+                )
+              ) *> IO.println(s"Room stopped: ${error.getClass.getSimpleName}")
+            }
+          )
+          .interruptWhen(stopped.get.attempt)
+          .compile
+          .drain
+      )
+      .void
+
   private[rooms] def view: IO[RoomView] = state.get.map(RoomRuntime.publicView)
   private[rooms] def broadcast: IO[Unit] =
     (view, peers.get).tupled.flatMap((room, clients) =>
@@ -72,17 +98,24 @@ final case class RoomRuntime(
         }) *>
           lastTick.getAndSet(now).flatMap { previous =>
             simulation.get.flatMap(_.traverse_ { engine =>
-              engine.advance(math.min(50d, (now - previous).toNanos.toDouble / 1000000d)) *>
+              engine.advance(
+                math.min(50d, (now - previous).toNanos.toDouble / 1000000d),
+                now.toNanos.toDouble / 1000000d
+              ) *>
                 lastSend.get.flatMap { sent =>
                   if now - sent < 16666666.nanos then IO.unit
                   else
                     (engine.packet, state.get, peers.get).tupled.flatMap {
                       (packet, room, clients) =>
-                        val data =
-                          packet.deepMerge(Json.obj("generation" -> room.generation.asJson))
-                        val frame = Json.obj("type" -> "state".asJson, "data" -> data).noSpaces
-                        clients.values.toList.traverse_(_.latest.set(Some(frame))) *> lastSend
-                          .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
+                        IO.monotonic.flatMap { finished =>
+                          val updateMs = (finished - now).toNanos.toDouble / 1000000d
+                          // The kernel is trusted and already serialized. Add transport metadata once.
+                          val frame =
+                            s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
+                                .drop(1)}}"""
+                          clients.values.toList.traverse_(_.latest.set(Some(frame))) *> lastSend
+                            .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
+                        }
                     }
                 }
             })
@@ -111,7 +144,8 @@ object RoomRuntime:
         Semaphore[IO](1),
         Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),
-        Ref.of[IO, FiniteDuration](now)
+        Ref.of[IO, FiniteDuration](now),
+        Deferred[IO, Unit]
       ).mapN(RoomRuntime.apply)
     }
 

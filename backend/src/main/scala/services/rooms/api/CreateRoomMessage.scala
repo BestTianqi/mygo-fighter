@@ -19,6 +19,8 @@ final case class CreateRoomMessage() extends NoRequestMessage[SessionResponse]:
             else (rooms.updated(code, room), Right(()))
           }
           .flatMap(IO.fromEither)
-          .flatMap(_ => JoinRoomMessage(code).plan(connection))
+          .flatMap(_ =>
+            room.start(connection.roomSupervisor) *> JoinRoomMessage(code).plan(connection)
+          )
       }
     }

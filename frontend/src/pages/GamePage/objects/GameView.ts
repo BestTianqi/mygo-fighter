@@ -27,6 +27,8 @@ export interface GameView {
   teamRemaining: number[];
   config: MatchConfig | null;
   lastMove: string;
+  connectionStalled: boolean;
+  diagnostics: string;
   error: string;
   sound: boolean;
   network: ConnectionView;
@@ -49,6 +51,8 @@ export const initialView: GameView = {
   teamRemaining: [1, 1],
   config: null,
   lastMove: "",
+  connectionStalled: false,
+  diagnostics: "",
   error: "",
   sound: true,
   network: { status: "offline", room: null, side: 0, rtt: null, error: "" },

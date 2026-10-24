@@ -21,6 +21,37 @@ export class CanvasRenderer {
   private readonly images = new Map<string, HTMLImageElement>();
   private readonly loading = new Map<string, Promise<HTMLImageElement>>();
   private readonly animate = createAnimator();
+  private offsets = [
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+  ];
+  private correctionMs = 0;
+  private visualFighters: Fighter[] = [];
+  private sourceFighter: Fighter | null = null;
+  resetCorrection() {
+    this.offsets = [
+      { x: 0, y: 0 },
+      { x: 0, y: 0 },
+    ];
+    this.correctionMs = 0;
+  }
+  positions(match: Match) {
+    return match.fighters.map((f, i) => ({
+      x: f.x + this.offsets[i].x,
+      y: f.y + this.offsets[i].y,
+    }));
+  }
+  correct(match: Match, before: { x: number; y: number }[], snap: boolean) {
+    let distance = 0;
+    this.offsets = match.fighters.map((f, i) => {
+      const x = before[i].x - f.x,
+        y = before[i].y - f.y;
+      distance = Math.max(distance, Math.hypot(x, y));
+      return snap || Math.hypot(x, y) > 80 ? { x: 0, y: 0 } : { x, y };
+    });
+    this.correctionMs = 80;
+    return distance;
+  }
   private readonly context: CanvasRenderingContext2D;
   private readonly scene: ReturnType<typeof createBattleScene>;
 
@@ -64,6 +95,8 @@ export class CanvasRenderer {
 
   async prepare(config: MatchConfig) {
     this.scene.reset(config.settings.arena);
+    this.visualFighters = [];
+    this.resetCorrection();
     const ids = [...new Set(config.teams?.flat() ?? config.characters)];
     const atlases = ids.flatMap((id) => {
       if (id >= 5)
@@ -250,7 +283,16 @@ export class CanvasRenderer {
     this.scene.consume(match, events);
   }
 
-  draw(match: Match, dt: number, videoBackground = false) {
+  draw(
+    match: Match,
+    dt: number,
+    videoBackground = false,
+    authority: Match | null = null,
+  ) {
+    if (this.sourceFighter !== match.fighters[0]) {
+      this.sourceFighter = match.fighters[0];
+      this.visualFighters = [];
+    }
     const ratio = Math.min(2, window.devicePixelRatio || 1);
     const width = Math.round(960 * ratio),
       height = Math.round(540 * ratio);
@@ -260,6 +302,33 @@ export class CanvasRenderer {
     }
     this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
     this.context.clearRect(0, 0, 960, 540);
-    this.scene.draw(match, dt, videoBackground);
+    if (this.correctionMs > 0) {
+      const next = Math.max(0, this.correctionMs - dt);
+      for (const offset of this.offsets) {
+        offset.x *= next / this.correctionMs;
+        offset.y *= next / this.correctionMs;
+      }
+      this.correctionMs = next;
+    }
+    // Only the render projection moves: authoritative and predicted hitboxes remain untouched.
+    const visual = Object.create(match) as Match;
+    if (authority)
+      Object.assign(visual, {
+        phase: authority.phase,
+        phaseMs:
+          authority.phase === match.phase ? match.phaseMs : authority.phaseMs,
+        reason: authority.reason,
+        roundEnd: authority.roundEnd,
+        winner: authority.winner,
+      });
+    visual.fighters = match.fighters.map((f, i) => {
+      const target = (this.visualFighters[i] ??= { ...f });
+      return Object.assign(target, f, {
+        hp: authority?.fighters[i].hp ?? f.hp,
+        x: f.x + this.offsets[i].x,
+        y: f.y + this.offsets[i].y,
+      });
+    });
+    this.scene.draw(visual, dt, videoBackground);
   }
 }

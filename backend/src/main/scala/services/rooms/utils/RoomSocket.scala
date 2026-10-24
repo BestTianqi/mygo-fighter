@@ -58,7 +58,9 @@ object RoomSocket:
               IO.fromEither(parser.parse(raw)).flatMap { json =>
                 IO.fromEither(json.hcursor.get[String]("type")).flatMap {
                   case "authenticate" =>
-                    identity.get.flatMap(current =>
+                    IO.raiseUnless(json.hcursor.get[Int]("protocol").toOption.contains(3))(
+                      IllegalArgumentException("联机版本已更新，请刷新页面。")
+                    ) *> identity.get.flatMap(current =>
                       IO.raiseWhen(current.nonEmpty)(IllegalArgumentException("连接已认证"))
                     ) *>
                       IO.fromEither(json.hcursor.get[String]("token"))

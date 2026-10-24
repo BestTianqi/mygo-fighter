@@ -5,7 +5,9 @@ import { RestartRoomMessage } from "../../../apis/rooms/RestartRoomMessage";
 import { LobbyRoomMessage } from "../../../apis/rooms/LobbyRoomMessage";
 import type { StatePacket } from "../../../apis/rooms/objects";
 import type { Assets } from "../../../game/objects/Assets";
-import type { Input } from "../../../game/objects/Input";
+import { Prediction } from "../../../game/Prediction";
+import { PresentationEvents } from "../../../game/PresentationEvents";
+import { NetworkDiagnostics } from "./NetworkDiagnostics";
 import type {
   MatchConfig,
   Mode,
@@ -31,9 +33,10 @@ export class GameRuntime {
   private frameId = 0;
   private lastTime = 0;
   private lastPublish = 0;
-  private authoritativeAt = 0;
-  private predictedAt = 0;
-  private remoteInput: Input = {};
+  private readonly prediction = new Prediction();
+  private readonly diagnostics = new NetworkDiagnostics();
+  private authoritativeMatch: Match | null = null;
+  private readonly presentationEvents = new PresentationEvents();
   private request = 0;
   private disposed = false;
   private dialogWasPaused = false;
@@ -56,8 +59,23 @@ export class GameRuntime {
       onView: (network) => this.publish({ network }),
       onPrepare: (config) => this.start(config, true),
       onState: (packet) => this.receive(packet),
+      onInput: (seq, input, now, changed) => {
+        if (this.match)
+          this.prediction.record(this.match, this.lan.side, seq, input, now);
+        if (changed) {
+          this.diagnostics.input(now);
+          if (this.match && (input.left || input.right || input.jump))
+            this.diagnostics.motionInput(
+              now,
+              this.match.fighters[this.lan.side],
+            );
+        }
+      },
       onDisconnect: () => {
+        this.prediction.reset();
+        this.renderer.resetCorrection();
         this.match?.setPaused(true);
+        this.authoritativeMatch?.setPaused(true);
         this.input.clear();
         this.audio.pause(true);
         this.publishMatch();
@@ -94,7 +112,9 @@ export class GameRuntime {
   }
   private publishMatch() {
     if (!this.match) return;
-    const m = this.match;
+    const m = this.lan.connected
+      ? (this.authoritativeMatch ?? this.match)
+      : this.match;
     this.publish({
       fighters: m.fighters.map((f) => ({
         character: f.character,
@@ -180,7 +200,11 @@ export class GameRuntime {
       });
       this.match.start();
       this.lastTime = performance.now();
-      this.remoteInput = {};
+      this.prediction.reset();
+      this.authoritativeMatch = null;
+      this.presentationEvents.reset();
+      this.publish({ connectionStalled: false });
+      this.renderer.resetCorrection();
       this.audio.pause(false);
       this.publish({
         screen: "battle",
@@ -221,6 +245,7 @@ export class GameRuntime {
       }
     }
     this.match?.setPaused(paused);
+    this.authoritativeMatch?.setPaused(paused);
     this.audio.pause(paused);
     this.publishMatch();
     if (!paused) this.canvas.focus({ preventScroll: true });
@@ -268,18 +293,46 @@ export class GameRuntime {
 
   private receive(packet: StatePacket) {
     if (!this.match || this.view.screen !== "battle") return;
-    const fighters = this.match.fighters;
-    Object.assign(this.match, packet.state);
-    this.match.fighters = packet.state.fighters.map((state, side) =>
-      Object.assign(fighters[side], state),
+    const now = performance.now();
+    const before = this.renderer.positions(this.match);
+    const priorPhase = this.authoritativeMatch?.phase;
+    const priorPause = this.authoritativeMatch?.paused;
+    const reset = this.prediction.receive(
+      this.match,
+      packet,
+      this.lan.side,
+      now,
+      this.lan.rtt,
     );
-    this.match.events = [];
-    this.remoteInput = packet.inputs[1 - this.lan.side] ?? {};
-    this.authoritativeAt = this.predictedAt = performance.now();
+    this.authoritativeMatch = Object.assign(
+      Object.create(this.match),
+      structuredClone(packet.state),
+    );
+    const events = this.presentationEvents.consume(packet, now, this.lan.rtt);
+    const snap =
+      reset ||
+      this.match.paused ||
+      this.match.phase !== "fighting" ||
+      events.some((e) =>
+        ["blink", "roundAdvance", "teamAdvance", "result"].includes(e.type),
+      );
+    const correction = this.renderer.correct(this.match, before, snap);
+    this.diagnostics.add("correctionPx", correction);
+    if (this.diagnostics.enabled)
+      this.diagnostics.snapshot(
+        now,
+        packet.serverUpdateMs,
+        new TextEncoder().encode(JSON.stringify(packet)).length,
+      );
     this.audio.pause(this.match.paused);
-    this.consume(packet.events);
+    this.consume(events);
     if (this.view.lobbyOpen) this.publish({ lobbyOpen: false });
-    this.publishMatch();
+    if (
+      reset ||
+      priorPhase !== packet.state.phase ||
+      priorPause !== packet.state.paused
+    )
+      this.publishMatch();
   }
   private consume(events: CombatEvent[]) {
     if (!this.match) return;
@@ -309,39 +362,44 @@ export class GameRuntime {
   }
   private frame = (now: number) => {
     if (this.disposed) return;
-    const dt = Math.min(50, Math.max(0, now - (this.lastTime || now)));
+    const elapsed = Math.max(0, now - (this.lastTime || now));
+    const dt = Math.min(50, elapsed);
+    if (this.view.screen === "battle") this.diagnostics.add("frameMs", elapsed);
     this.lastTime = now;
     if (this.match && this.view.screen === "battle" && !this.view.lobbyOpen) {
       const previous = this.match.inputTick;
       if (this.lan.connected) {
         this.sendInput();
-        // Predict between authoritative packets. Only server events produce sound or cutins.
-        if (this.lan.active && now - this.authoritativeAt < 100) {
-          const input = this.match.paused ? {} : this.input.input(0);
-          this.match.advance(
-            Math.min(dt, Math.max(0, now - this.predictedAt)),
-            ...(this.lan.side === 0
-              ? ([input, this.remoteInput] as const)
-              : ([this.remoteInput, input] as const)),
-          );
-          this.predictedAt = now;
-          this.match.drainEvents();
-        }
+        if (this.lan.active) this.prediction.advance(this.match, now, dt);
+        const stalled = this.lan.active && this.prediction.stale(now);
+        if (stalled !== this.view.connectionStalled)
+          this.publish({ connectionStalled: stalled });
       } else {
         this.match.advance(dt, this.input.input(0), this.input.input(1));
         this.consume(this.match.drainEvents());
       }
-      if (previous !== this.match.inputTick) this.input.consumed();
+      if (previous !== this.match.inputTick) {
+        this.input.consumed();
+        this.diagnostics.simulated(now);
+      }
+      if (this.lan.active)
+        this.diagnostics.motion(
+          now,
+          this.renderer.positions(this.match)[this.lan.side],
+        );
       this.renderer.draw(
         this.match,
         dt,
         this.view.cutins.some((media) => !!media?.video),
+        this.lan.connected ? this.authoritativeMatch : null,
       );
-      if (now - this.lastPublish > 32) {
+      if (now - this.lastPublish >= 1000 / 30) {
         this.lastPublish = now;
         this.publishMatch();
       }
     }
+    if (this.diagnostics.report(now))
+      this.publish({ diagnostics: this.diagnostics.text });
     this.frameId = requestAnimationFrame(this.frame);
   };
   dispose() {

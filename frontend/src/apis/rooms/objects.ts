@@ -1,6 +1,4 @@
-import type { Match } from "../../game/engine";
-import type { CombatEvent } from "../../game/objects/CombatEvent";
-import type { Input } from "../../game/objects/Input";
+import type { SimulationPacket } from "../../game/networkProtocol";
 export interface RoomPlayer {
   character: number;
   ready: boolean;
@@ -20,13 +18,9 @@ export interface SessionResponse {
   side: number;
   room: RoomView;
 }
-export interface StatePacket {
+export interface StatePacket extends SimulationPacket {
   generation: number;
-  state: Partial<Match> &
-    Pick<Match, "fighters" | "phase" | "paused" | "inputTick">;
-  events: CombatEvent[];
-  acks: number[];
-  inputs: Input[];
+  serverUpdateMs: number;
 }
 export type ConnectionStatus =
   | "offline"

@@ -2,6 +2,7 @@ package services.system.objects
 
 import cats.effect.{IO, Ref}
 import io.circe.Json
+import cats.effect.std.Supervisor
 import services.rooms.objects.Session
 import services.rooms.utils.RoomRuntime
 
@@ -11,5 +12,6 @@ final case class Connection(
     sessions: Ref[IO, Map[String, Session]],
     simulationSource: String,
     stages: Vector[Json],
-    config: ServerConfig
+    config: ServerConfig,
+    roomSupervisor: Supervisor[IO]
 )

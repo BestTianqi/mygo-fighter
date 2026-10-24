@@ -27,7 +27,11 @@ class ProjectHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass
 
-server = http.server.ThreadingHTTPServer(
+class AssetServer(http.server.ThreadingHTTPServer):
+    # Artwork and 79 recordings load concurrently; avoid local-server accept queue resets.
+    request_queue_size = 128
+
+server = AssetServer(
     ('127.0.0.1', 0),
     functools.partial(ProjectHandler, directory=str(ROOT / 'frontend/dist')),
 )
@@ -44,6 +48,7 @@ try:
           AudioContext.prototype.decodeAudioData=function(bytes){return decode.call(this,bytes).then(buffer=>{pagesAudio.decoded++;return buffer})};
           AudioContext.prototype.createBufferSource=function(){const s=create.call(this),start=s.start;s.start=function(...args){pagesAudio.starts++;return start.apply(this,args)};return s};''')
         page.on('pageerror', lambda e: report['errors'].append(str(e)))
+        page.on('requestfailed', lambda r: report['missing'].append(f'{r.url}: {r.failure}'))
         page.on('response', lambda r: report['missing'].append(r.url) if r.status >= 400 else None)
         page.goto(f'http://127.0.0.1:{server.server_port}{PREFIX}', timeout=120000)
         page.wait_for_load_state('networkidle')

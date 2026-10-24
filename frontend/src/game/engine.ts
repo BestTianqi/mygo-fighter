@@ -50,6 +50,7 @@ class Match {
   areas: Area[] = [];
   freeze = 0;
   inputTick = 0;
+  simulationTick = 0;
   previous: Input[] = [{}, {}];
   aiThink = 0;
   aiGuard = 0;
@@ -688,6 +689,7 @@ class Match {
     return input;
   }
   step(p1: Input, p2: Input) {
+    this.simulationTick++;
     this.elapsed += 10;
     if (this.phase === "ready") {
       this.phaseMs -= 10;
