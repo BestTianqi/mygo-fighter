@@ -1217,6 +1217,7 @@ MOVES.rikiShockExtra = {
   ...MOVES.rikiShock,
   name: "四拍·追加低音",
   internal: true,
+  resonanceHits: MOVES.rikiShockBoost.shots!.length,
   damage: 8,
   chip: 1,
 };

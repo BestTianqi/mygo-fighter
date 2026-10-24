@@ -72,6 +72,8 @@ export interface Move {
   projectileVy?: number;
   projectileGravity?: number;
   energyGain?: number;
+  // Internal follow-up projectiles share their parent skill's hit count.
+  resonanceHits?: number;
   penguinNormal?: boolean;
   rikiOnly?: boolean;
   dashSpeed?: number;

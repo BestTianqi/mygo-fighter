@@ -61,7 +61,12 @@ export interface Fighter {
   shield: { hp: number; ms: number; hitMs: number } | null;
   penguin: { ms: number } | null;
   stageForm: { ms: number } | null;
-  summons: { ms: number; bornAt: number; units: Minion[] } | null;
+  summons: {
+    ms: number;
+    bornAt: number;
+    units: Minion[];
+    resonanceGranted?: number;
+  } | null;
   soyoSuper: {
     id: number;
     ms: number;

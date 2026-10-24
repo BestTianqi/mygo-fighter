@@ -119,7 +119,8 @@ export class GameRuntime {
       fighters: m.fighters.map((f) => ({
         character: f.character,
         hp: f.hp,
-        energy: f.energy,
+        // Display one decimal without implying an unavailable spend threshold.
+        energy: Math.floor(f.energy * 10) / 10,
         combo: f.combo,
         beats: f.beats,
         transformed: !!(f.stageForm || f.penguin),

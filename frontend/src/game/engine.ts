@@ -27,6 +27,9 @@ import {
   verticalScale,
 } from "./combatData";
 const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x));
+// Common denominator of authored 2/3/4/5/6/8/9-hit skills. Full strings reach
+// exact whole resonance values, including spend thresholds such as 50.
+const RESONANCE_UNITS = 360;
 const outgoingMultiplier = (f: Fighter, attack: string) =>
   isMujica(f.character) && f.stageForm && attack !== "mujicaTransform"
     ? STAGE_FORM.damageMultiplier
@@ -881,6 +884,7 @@ class Match {
         f.summons = {
           ms: move.lifetime!,
           bornAt: this.elapsed,
+          resonanceGranted: 0,
           units: [0, 1, 2].map((i) => ({
             id: i,
             hp: 20,
@@ -2595,7 +2599,26 @@ class Match {
         0,
         100,
       );
-    b.energy = clamp(b.energy + (move.minion ? 2 : blocked ? 3 : 8), 0, 100);
+    const receivedBudget = blocked ? 3 : 8;
+    const hitCount = Math.max(
+      1,
+      move.pulses?.length ?? 0,
+      move.shots?.length ?? 0,
+      move.resonanceHits ?? 0,
+    );
+    let received = receivedBudget / hitCount;
+    if (move.minion) {
+      // All three units and their repeated charges belong to one summon cast.
+      const group = a.summons;
+      const granted = group?.resonanceGranted ?? 0;
+      received = Math.min(2, Math.max(0, receivedBudget - granted));
+      if (group) group.resonanceGranted = granted + received;
+    }
+    b.energy = clamp(
+      Math.round((b.energy + received) * RESONANCE_UNITS) / RESONANCE_UNITS,
+      0,
+      100,
+    );
     // Super armor absorbs the reaction, not damage. Lethal hits still interrupt.
     const armored = superArmor && b.hp > 0;
     if (!armored) {
