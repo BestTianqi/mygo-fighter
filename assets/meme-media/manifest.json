@@ -2509,25 +2509,153 @@
       },
       "variants": {
         "throw": {
-          "voice": "meme_14_o",
-          "label": "病娇野乃",
-          "slot": "o",
-          "audio": "assets/meme-media/research-mewtype/nonoka-o.mp3",
-          "duration": 1.11,
+          "voice": "nonokaAnimeHug",
+          "label": "抱抱还是亲亲·抱击",
+          "slot": "u",
+          "audio": "assets/meme-media/nonoka-story/nonoka-hug.mp3",
+          "duration": 3.4,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1aDpZeeEan/",
-            "uploader": "宮永ののか",
-            "bvid": "BV1aDpZeeEan",
-            "cid": 500001652611888,
+            "url": "https://www.bilibili.com/video/BV16bK46fENN/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV16bK46fENN",
+            "cid": 40151613761,
             "page": 1,
-            "title": "【宫永野乃花】只有服务精神呢。",
-            "start": 24.25,
-            "end": 25.36,
-            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
-            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+            "title": "ぎゅ〜かちゅ〜！（要抱抱~还是亲亲~！）",
+            "start": 1.5,
+            "end": 4.9,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
           },
-          "transcript_ja": "ヤンデレののちゃん",
-          "subtitle_zh": "病娇野乃酱"
+          "spokenJapanese": "ぎゅ〜かちゅ〜！",
+          "subtitle_zh": "要抱抱还是亲亲！"
+        },
+        "mewtype_14_virtual_u": {
+          "voice": "nonokaAnimeHug",
+          "label": "抱抱还是亲亲·强制手当",
+          "slot": "u",
+          "audio": "assets/meme-media/nonoka-story/nonoka-hug.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV16bK46fENN/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV16bK46fENN",
+            "cid": 40151613761,
+            "page": 1,
+            "title": "ぎゅ〜かちゅ〜！（要抱抱~还是亲亲~！）",
+            "start": 1.5,
+            "end": 4.9,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ぎゅ〜かちゅ〜！",
+          "subtitle_zh": "要抱抱还是亲亲！"
+        },
+        "mewtype_14_virtual_i": {
+          "voice": "nonokaAnimeStay",
+          "label": "海边搜寻·找到由乃亲",
+          "slot": "i",
+          "audio": "assets/meme-media/nonoka-story/nonoka-stay.mp3",
+          "duration": 4.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV166tA6SExy/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV166tA6SExy",
+            "cid": 41361148885,
+            "page": 1,
+            "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+            "start": 7.0,
+            "end": 11.0,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ののちゃんはユノちゃんを離さな〜い！",
+          "subtitle_zh": "小野乃不会放开小由乃！"
+        },
+        "mewtype_14_virtual_o": {
+          "voice": "nonokaAnimeFine",
+          "label": "金枪鱼小黑·认真一拳",
+          "slot": "o",
+          "audio": "assets/meme-media/nonoka-story/nonoka-fine.mp3",
+          "duration": 2.65,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Mi8g6WEGV/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1Mi8g6WEGV",
+            "cid": 41020033738,
+            "page": 1,
+            "title": "ののちゃんは大丈夫ですよ？ （小野乃 没事哦）",
+            "start": 4.95,
+            "end": 7.6,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ののちゃんは大丈夫ですよ？",
+          "subtitle_zh": "小野乃没事哦？"
+        },
+        "mewtype_14_virtual_wave": {
+          "voice": "nonokaAnimeHug",
+          "label": "兔食者·咬咬波",
+          "slot": "u",
+          "audio": "assets/meme-media/nonoka-story/nonoka-hug.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV16bK46fENN/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV16bK46fENN",
+            "cid": 40151613761,
+            "page": 1,
+            "title": "ぎゅ〜かちゅ〜！（要抱抱~还是亲亲~！）",
+            "start": 1.5,
+            "end": 4.9,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ぎゅ〜かちゅ〜！",
+          "subtitle_zh": "要抱抱还是亲亲！"
+        },
+        "mewtype_14_virtual_comfort": {
+          "voice": "nonokaAnimeFine",
+          "label": "我没事哦·元气护身",
+          "slot": "o",
+          "audio": "assets/meme-media/nonoka-story/nonoka-fine.mp3",
+          "duration": 2.65,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Mi8g6WEGV/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1Mi8g6WEGV",
+            "cid": 41020033738,
+            "page": 1,
+            "title": "ののちゃんは大丈夫ですよ？ （小野乃 没事哦）",
+            "start": 4.95,
+            "end": 7.6,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ののちゃんは大丈夫ですよ？",
+          "subtitle_zh": "小野乃没事哦？"
+        },
+        "mewtype_14_virtual_super": {
+          "voice": "nonokaAnimeStay",
+          "label": "兔食者·不会放开由乃亲",
+          "slot": "p",
+          "audio": "assets/meme-media/nonoka-story/nonoka-stay.mp3",
+          "duration": 4.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV166tA6SExy/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV166tA6SExy",
+            "cid": 41361148885,
+            "page": 1,
+            "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+            "start": 7.0,
+            "end": 11.0,
+            "proof": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/nonoka-story/sources.json"
+          },
+          "spokenJapanese": "ののちゃんはユノちゃんを離さな〜い！",
+          "subtitle_zh": "小野乃不会放开小由乃！",
+          "video": "assets/meme-media/nonoka-story/nonoka-stay-cutin.mp4",
+          "videoRate": 1
         }
       }
     }
@@ -2545,7 +2673,8 @@
     "assets/meme-media/combat-tempo/sources.json",
     "assets/meme-media/mortis-toddler/sources.json",
     "assets/meme-media/mortis-stage-voices/sources.json",
-    "assets/meme-media/sakiko-customer-service/sources.json"
+    "assets/meme-media/sakiko-customer-service/sources.json",
+    "assets/meme-media/nonoka-story/sources.json"
   ],
   "notes": [
     "Mujica normal/stage forms share recordings except the dedicated Mortis stage kit, transformation, throw and super.",

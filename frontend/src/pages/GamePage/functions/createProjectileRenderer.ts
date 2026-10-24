@@ -5,6 +5,7 @@ import { drawBurger } from "./drawBurger";
 import { drawNyamuProjectile } from "./drawNyamuSkills";
 import { drawUmiriProjectile } from "./drawUmiriSkills";
 import { drawUikaProjectile } from "./drawUikaSkills";
+import { drawNonokaProjectile } from "./drawNonokaSkills";
 
 /** Keep each character's authored projectile silhouette and trail. */
 export function createProjectileRenderer(
@@ -96,7 +97,9 @@ export function createProjectileRenderer(
     ctx.shadowColor = color;
     ctx.shadowBlur = reducedMotion ? 0 : 12;
     ctx.lineWidth = 3;
-    if (w.attack.endsWith("_wave")) {
+    if (MOVES[w.attack].nonoka === "bite") {
+      drawNonokaProjectile(ctx);
+    } else if (w.attack.endsWith("_wave")) {
       const opacity = ctx.globalAlpha;
       // Trailing crescents show direction while the core identifies the character.
       for (let i = 2; i >= 0; i--) {

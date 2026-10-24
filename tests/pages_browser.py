@@ -28,7 +28,7 @@ class ProjectHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 class AssetServer(http.server.ThreadingHTTPServer):
-    # Artwork and 79 recordings load concurrently; avoid local-server accept queue resets.
+    # Artwork and recordings load concurrently; avoid local-server accept queue resets.
     request_queue_size = 128
 
 server = AssetServer(
@@ -37,6 +37,11 @@ server = AssetServer(
 )
 threading.Thread(target=server.serve_forever, daemon=True).start()
 report = {'errors': [], 'missing': [], 'checks': []}
+assets = json.loads((ROOT / 'frontend/public/assets.json').read_text('utf-8'))
+recordings = {}
+for group in ['penguinVoices', 'soyoVoices', 'memeVoices', 'summonVoices', 'transformMusic']:
+    recordings.update(assets[group])
+recording_count = len(recordings)
 
 def wait_game_time(page, milliseconds):
     # The runtime caps each frame at 50 ms. On a busy renderer, wall-clock
@@ -83,7 +88,7 @@ try:
         page.get_by_role('button', name='登台对战').click()
         canvas = page.get_by_label('MyGO 格斗对战画面')
         expect(canvas).to_be_visible(timeout=30000)
-        page.wait_for_function('pagesAudio.decoded === 79', timeout=45000)
+        page.wait_for_function('count => pagesAudio.decoded === count', arg=recording_count, timeout=45000)
         page.wait_for_timeout(2000)
         expect(page.get_by_role('meter', name='1P 生命')).to_have_attribute('aria-valuenow', '200')
         canvas.focus()
@@ -151,7 +156,7 @@ try:
             'production UI and original media load under a project subpath',
             'static hosting disables the unavailable LAN server',
             '15 characters and Mujica normal/stage artwork',
-            '79 recordings decode and skills play recorded audio',
+            f'{recording_count} recordings decode and skills play recorded audio',
             'transformation, Anon super, pause and character reselect',
             'all 15 characters and 15 stages; normal skills and transformation families',
             '3v3 team selection and battle HUD',

@@ -105,7 +105,7 @@ for (const id of [10, 11, 12, 13, 14]) {
     );
     assert.equal(
       presentationFor(assets, f, key).voice,
-      assets.memeSkills[id].slots.u.voice,
+      id === 14 ? "nonokaAnimeHug" : assets.memeSkills[id].slots.u.voice,
     );
     const frames = assets.mewtypeForms[id].virtual.frames;
     for (const phase of ["windup", "impact", "recover"])

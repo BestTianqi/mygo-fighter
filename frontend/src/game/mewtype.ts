@@ -57,8 +57,8 @@ const CHARACTERS: Character[] = [
     en: "MIYANAGA NONOKA",
     color: "#a7d7c3",
     role: "吉他",
-    archetype: "跃兔连击型",
-    skill: "虹兔疾奏",
+    archetype: "兔食者追击型",
+    skill: "不会放开由乃亲",
   },
 ].map((c) => ({
   ...c,
@@ -81,7 +81,10 @@ const normalFor = (f: FighterIdentity, button: string, stance = "standing") =>
 const schemeFor = (f: FighterIdentity): Scheme => ({
   base: ["u", "i", "o"].map((slot) => `${prefixFor(f)}_${slot}`),
   super: `${prefixFor(f)}_super`,
-  variants: { down1: `${prefixFor(f)}_wave` },
+  variants: {
+    down1: `${prefixFor(f)}_wave`,
+    ...(f.character === 14 ? { down2: `${prefixFor(f)}_comfort` } : {}),
+  },
 });
 const normalNames: Record<number, string[]> = {
   10: ["扩音点拍", "抬肘应援", "高音上挑", "扩音重唱"],
@@ -283,25 +286,64 @@ add(13, "i", "有惊无险·节拍屏障", {
   end: 140,
 });
 add(13, "o", "真不敢信·混音过门", combo([6, 6, 10]));
-add(14, "u", "完成了·兔耳扫弦", combo([8, 8]));
-add(14, "i", "头像通缉·跃兔滑奏", {
+add(14, "u", "抱抱还是亲亲·强制手当", {
+  nonoka: "hug",
+  category: "throw",
+  damage: 14,
+  reach: 110,
+  movement: 70,
+  movementEnd: 140,
+  start: 160,
+  end: 230,
+  duration: 700,
+  stun: 600,
+  push: 40,
+  recast: 2000,
+});
+add(14, "i", "海边搜寻·找到由乃亲", {
+  nonoka: "search",
   damage: 18,
-  movement: 240,
+  movement: 300,
   movementEnd: 300,
   start: 200,
-  end: 330,
+  end: 340,
+  duration: 700,
   reach: 165,
+  recast: 1600,
 });
-add(14, "o", "病娇野乃·跳拍尾奏", {
-  hop: 380,
-  movement: 100,
-  movementEnd: 300,
-  duration: 750,
-  start: 300,
-  end: 540,
-  vertical: 230,
-  level: "high",
+add(14, "o", "金枪鱼小黑·认真一拳", {
+  nonoka: "tuna",
+  damage: 24,
+  reach: 240,
+  vertical: 210,
+  start: 230,
+  end: 330,
+  duration: 740,
+  stun: 400,
+  push: 300,
+  launch: 160,
+  knockdown: 450,
+  recast: 1800,
 });
+MOVES.mewtype_14_virtual_comfort = {
+  ownerCharacter: 14,
+  form: "virtual",
+  nonoka: "comfort",
+  name: "我没事哦·元气护身",
+  slot: "i",
+  visualSlot: "skill-u",
+  command: "↓＋I",
+  category: "defense",
+  ground: true,
+  cost: 25,
+  damage: 0,
+  durability: 24,
+  lifetime: 1800,
+  recast: 6000,
+  start: 140,
+  end: 170,
+  duration: 450,
+};
 // A shared down-U command adds ranged options without replacing the three base skills.
 for (const wave of [
   {
@@ -350,7 +392,7 @@ for (const wave of [
   },
   {
     id: 14,
-    name: "兔耳拨片波",
+    name: "兔食者·咬咬波",
     damage: 13,
     speed: 760,
     radiusX: 26,
@@ -377,6 +419,7 @@ for (const wave of [
     stun: 320,
     push: 150,
     ...spec,
+    ...(id === 14 ? { nonoka: "bite" as const } : {}),
     end: spec.start + 80,
   };
 }
@@ -385,7 +428,7 @@ const superNames: Record<number, string> = {
   11: "杂鱼～杂鱼～",
   12: "临兵斗者皆阵列在前",
   13: "不要丢下我",
-  14: "病娇国王",
+  14: "兔食者·不会放开由乃亲",
 };
 const superDurations: Record<number, number> = {
   10: 3000,
@@ -449,6 +492,7 @@ for (const c of CHARACTERS) {
           hitstop: 40,
         }
       : {}),
+    ...(c.id === 14 ? { nonoka: "eater" as const } : {}),
   });
   if (c.id === 13) MOVES[`mewtype_${c.id}_virtual_super`].omni = true;
 }

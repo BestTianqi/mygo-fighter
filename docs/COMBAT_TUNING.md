@@ -31,7 +31,7 @@ Short-range approaches and slower committed strikes gain 2–3 base damage (abou
 | 海铃（常服）· 零卡路里·收工重拍      | 22 → 25                    |
 | 初华（变身）· 逐星突进（原双月滑奏） | 16 → 18                    |
 | 律 · 弱弱胃袋·破蓝重奏               | 22 → 25                    |
-| 野乃花 · 头像通缉·跃兔滑奏           | 16 → 18                    |
+| 野乃花 · 海边搜寻·找到由乃亲         | 16 → 18                    |
 
 Mujica's stage damage multiplier applies once: Uika's transformed strike deals 21.6 damage before combo scaling or guard. Nyamu's former stage melee I was subsequently replaced by the two-projectile skill below. Restart an already-running LAN host after rebuilding so it loads the updated simulation.
 
@@ -93,3 +93,20 @@ The cage stays at its original warning position and can be escaped. Multi-hit U 
 The denial bursts alternate existing whole-body impact poses. Star trails, an expanding star cage and a musical crescent use code-drawn overlays without replacing the original art. Stage voice aliases map U to the original “不是不是不是” clip, I to “想见Saki酱”, O to “不是的”, and the extra crescent to “想见Saki酱”; normal-form and super media remain unchanged, including original playback speed.
 
 The guitar/vocalist, stargazing and childhood connection motifs follow the [official character profile](https://anime.bang-dream.com/avemujica/character/uika/). Pursuit/denial motifs reuse the existing [verified source clip](https://www.bilibili.com/video/BV1oLVXzFEUW/) with reviewed timestamps in the asset manifest. Star-cage and crescent names describe game-designed effects rather than new recorded dialogue.
+
+## Nonoka — anime-only skill motifs, 2026-10-25
+
+All active Nonoka skills, the regular throw and the super now select anime recordings rather than livestream memes. The existing full-body virtual outfit remains. The former “头像通缉” / “病娇国王” names and active presentations are replaced; original source media remains preserved.
+
+| Command | Skill                 | Cost | Behavior                                                                                                                                   |
+| ------- | --------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| U       | 抱抱还是亲亲·强制手当 | 20   | Short approaching hug/command throw: advances 70, reaches 110, 14 damage and 600 ms stun. Beats grounded guard, can whiff; 2 s recast.     |
+| I       | 海边搜寻·找到由乃亲   | 25   | Binocular search gesture into a continuous forward approach up to 300; retains 18 damage, 1.6 s recast.                                    |
+| O       | 金枪鱼小黑·认真一拳   | 30   | A visible tuna prop accompanies the heavy punch: 24 damage, reach 240, launches and knocks down; 1.8 s recast.                             |
+| ↓＋U    | 兔食者·咬咬波         | 20   | Forward cartoon jaws; retains the prior wave's 13 damage, speed 760 and maximum reach 900.                                                 |
+| ↓＋I    | 我没事哦·元气护身     | 25   | Summons a frontal 24-HP heart shield for 1.8 s; 6 s recast. No healing or free resonance is granted.                                       |
+| P       | 兔食者·不会放开由乃亲 | 100  | Retains the six-hit super, existing damage scaling, armor and shared 8-point defender resonance budget; adds bite effects and anime media. |
+
+The “うさイーター” childhood identity is documented in the [official anime profile](https://anime.bang-dream.com/yumemita/character/nonoka/). The hug motif is visible in the [official episode 5 clip](https://www.bilibili.com/video/BV16bK46fENN/); the pursuit/holding motif and new super scene come from the [official episode 11 clip](https://www.bilibili.com/video/BV166tA6SExy/). The shield uses her line in the [official episode 9 clip](https://www.bilibili.com/video/BV1Mi8g6WEGV/). The tuna punch in episode 12 is independently described in [this episode review](https://note.com/crow_o/n/n33d5badb117e) and [this recap](https://blog.livedoor.jp/gosaber/archives/52292162.html). Combat effects are game adaptations of these scenes.
+
+Three original anime recordings are cut at 1.50–4.90 s (hug), 7.00–11.00 s (holding Yuno) and 4.95–7.60 s (I'm fine), respectively. The 4-second super video and finish illustration are from the same holding-Yuno scene, with video playback rate 1. All active move aliases and timestamps are recorded in `assets/meme-media/nonoka-story/sources.json`; no new synthetic dialogue is used.

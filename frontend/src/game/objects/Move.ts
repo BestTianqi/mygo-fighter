@@ -98,6 +98,7 @@ export interface Move {
   nyamu?: "reveal" | "sticks" | "encore" | "smile";
   umiri?: "bass" | "hook" | "toss" | "schedule";
   uika?: "denial" | "pursuit" | "cage" | "crescent";
+  nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

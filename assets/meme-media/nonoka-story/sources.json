@@ -1,0 +1,68 @@
+{
+  "clips": [
+    {
+      "character": "nonoka",
+      "slot": "u",
+      "voice": "nonokaAnimeHug",
+      "move": "mewtype_14_virtual_u",
+      "label": "抱抱还是亲亲·强制手当",
+      "audio": "nonoka-hug.mp3",
+      "start": 1.5,
+      "end": 4.9,
+      "spokenJapanese": "ぎゅ〜かちゅ〜！",
+      "subtitle_zh": "要抱抱还是亲亲！",
+      "sourceURL": "https://www.bilibili.com/video/BV16bK46fENN/",
+      "bvid": "BV16bK46fENN",
+      "cid": 40151613761,
+      "title": "ぎゅ〜かちゅ〜！（要抱抱~还是亲亲~！）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    },
+    {
+      "character": "nonoka",
+      "slot": "i",
+      "voice": "nonokaAnimeStay",
+      "move": "mewtype_14_virtual_i",
+      "label": "海边搜寻·找到由乃亲",
+      "audio": "nonoka-stay.mp3",
+      "start": 7.0,
+      "end": 11.0,
+      "spokenJapanese": "ののちゃんはユノちゃんを離さな〜い！",
+      "subtitle_zh": "小野乃不会放开小由乃！",
+      "sourceURL": "https://www.bilibili.com/video/BV166tA6SExy/",
+      "bvid": "BV166tA6SExy",
+      "cid": 41361148885,
+      "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    },
+    {
+      "character": "nonoka",
+      "slot": "o",
+      "voice": "nonokaAnimeFine",
+      "move": "mewtype_14_virtual_o",
+      "label": "金枪鱼小黑·认真一拳",
+      "audio": "nonoka-fine.mp3",
+      "start": 4.95,
+      "end": 7.6,
+      "spokenJapanese": "ののちゃんは大丈夫ですよ？",
+      "subtitle_zh": "小野乃没事哦？",
+      "sourceURL": "https://www.bilibili.com/video/BV1Mi8g6WEGV/",
+      "bvid": "BV1Mi8g6WEGV",
+      "cid": 41020033738,
+      "title": "ののちゃんは大丈夫ですよ？ （小野乃 没事哦）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, single Nonoka close-up/visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    }
+  ],
+  "finishArt": {
+    "file": "assets/finish-art/nonoka-anime-stay.webp",
+    "source": "https://www.bilibili.com/video/BV166tA6SExy/",
+    "atSeconds": 8.2
+  },
+  "notes": [
+    "Anime-only active skills and throw. Original livestream files remain preserved as source/legacy media but are not selected by Nonoka moves.",
+    "P cutin is the original 7–11 s anime scene at playback rate 1; audio is played by the recorded voice channel.",
+    "The portrait cutin has solid side margins for the 16:9 battle canvas, preserving the full original frame without cropping."
+  ]
+}

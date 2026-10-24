@@ -137,6 +137,15 @@ def build_catalog():
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]
     profiles['6']['variants'][row['move']] = normalize_clip(row, customer_catalog, 6, 'u', row['voice'])
+    nonoka_catalog = MEDIA / 'nonoka-story/sources.json'
+    for row in read_json(nonoka_catalog)['clips']:
+        profiles['14']['variants'][row['move']] = normalize_clip(row, nonoka_catalog, 14, row['slot'], row['voice'])
+    nonoka = profiles['14']['variants']
+    nonoka['mewtype_14_virtual_wave'] = dict(nonoka['mewtype_14_virtual_u'], label='兔食者·咬咬波')
+    nonoka['mewtype_14_virtual_comfort'] = dict(nonoka['mewtype_14_virtual_o'], label='我没事哦·元气护身')
+    nonoka['mewtype_14_virtual_super'] = dict(nonoka['mewtype_14_virtual_i'],
+        label='兔食者·不会放开由乃亲', slot='p', video='assets/meme-media/nonoka-story/nonoka-stay-cutin.mp4', videoRate=1)
+    nonoka['throw'] = dict(nonoka['mewtype_14_virtual_u'], label='抱抱还是亲亲·抱击')
     # Stage-only Uika aliases keep the spoken phrase aligned with its action.
     for move, slot, label in [
         ('mujica_7_stage_u', 'i', '不是不是不是·三重否认'),
@@ -189,6 +198,7 @@ def build_catalog():
                           'Soyo legacy cid is unknown and is preserved as null rather than fabricated.'])
     revision = MEDIA / 'revision-anon-tensora/sources-revision.json'
     catalog['sourceCatalogs'].append(customer_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(nonoka_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog

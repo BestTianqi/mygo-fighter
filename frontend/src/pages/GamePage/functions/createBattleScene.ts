@@ -20,6 +20,7 @@ import { drawHeavySwing } from "./drawHeavySwing";
 import { drawNyamuSkill } from "./drawNyamuSkills";
 import { drawUmiriSkill } from "./drawUmiriSkills";
 import { drawUikaSkill, drawUikaArea } from "./drawUikaSkills";
+import { drawNonokaSkill, drawNonokaShield } from "./drawNonokaSkills";
 
 type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
 type ParticleKind =
@@ -287,9 +288,11 @@ export function createBattleScene(
         text:
           (f.character === 13
             ? "节拍屏障"
-            : f.character >= 5
-              ? "茶会护盾"
-              : "钢板") + (event.broken ? "破碎" : " −" + event.absorbed),
+            : f.character === 14
+              ? "元气护盾"
+              : f.character >= 5
+                ? "茶会护盾"
+                : "钢板") + (event.broken ? "破碎" : " −" + event.absorbed),
       });
     if (event.type === "hit" || event.type === "clash") {
       const tint = event.blocked
@@ -894,6 +897,11 @@ export function createBattleScene(
       ctx.fillStyle = "#adbbef25";
       ctx.shadowColor = "#d4caff";
       ctx.shadowBlur = reducedMotion ? 0 : steel.hitMs ? 22 : 8;
+      if (f.character === 14) {
+        drawNonokaShield(ctx, steel.hp);
+        ctx.restore();
+        return;
+      }
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.ellipse(0, 0, 28, 106, 0, 0, Math.PI * 2);
@@ -1235,7 +1243,8 @@ export function createBattleScene(
         !move ||
         move.ownerCharacter! !== f.character ||
         f.stun ||
-        !move.slot
+        !move.slot ||
+        move.nonoka
       ) {
         ctx.restore();
         continue;
@@ -1855,6 +1864,17 @@ export function createBattleScene(
       }
     drawBlinkTrails(dt);
     for (const side of [0, 1]) drawFighter(side);
+    // Keep Nonoka's held props and gestures visible in front of the original artwork.
+    for (const f of match.fighters) {
+      const move = MOVES[f.attack ?? ""];
+      if (match.phase !== "fighting" || !move?.nonoka || f.stun || f.knockdown)
+        continue;
+      ctx.save();
+      ctx.translate(f.x, 438 - f.y);
+      ctx.scale(f.facing, 1);
+      drawNonokaSkill(ctx, move, f.attackMs, reducedMotion);
+      ctx.restore();
+    }
     drawSummons();
     for (const side of [0, 1]) drawShield(side);
     match.waves.forEach(drawWave);

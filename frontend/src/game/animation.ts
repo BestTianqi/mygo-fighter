@@ -276,6 +276,20 @@ function createAnimator() {
               ? "crawl-b"
               : "crawl-a";
       if (isHeavyAttack(move)) return heavyPose(f, move);
+      if (move.nonoka === "hug")
+        return t < move.start
+          ? "throw-windup"
+          : t <= move.end
+            ? "throw-release"
+            : "skill-u-recover";
+      if (move.nonoka === "tuna")
+        return t < move.start
+          ? "heavy-windup"
+          : t <= move.end
+            ? "heavy-impact"
+            : "skill-o-recover";
+      if (move.nonoka === "comfort" && t >= move.start && t <= move.end)
+        return "guard-standing";
       if (
         (move.nyamu === "smile" || move.umiri === "schedule") &&
         t >= move.start &&
