@@ -1333,7 +1333,7 @@ for (const [key, move] of Object.entries(MOVES)) {
       ...p,
       at: Math.round(p.at / 20) * 10,
     }));
-  move.hitstop = 100;
+  move.hitstop ??= 100;
 }
 Object.assign(MOVES.penguinSuper, {
   name: "春日影·企鹅演唱",

@@ -155,7 +155,11 @@ export function BattlePanel({
               <img
                 src={finishArt}
                 alt={`${ROSTER[winner.character].name}奥义图`}
-                className="absolute inset-y-0 right-0 h-full w-2/3 object-contain opacity-75"
+                className={
+                  winner.character === 12
+                    ? "absolute inset-0 h-full w-full object-cover opacity-75"
+                    : "absolute inset-y-0 right-0 h-full w-2/3 object-contain opacity-75"
+                }
               />
             )}
             <div className="relative mr-auto px-8 sm:px-16">

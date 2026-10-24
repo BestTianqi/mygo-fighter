@@ -321,6 +321,7 @@ class Match {
       stageForm: null,
       moveCooldowns: {},
       attackTarget: null,
+      binding: null,
       runeMarks: [],
     }));
     if (this.options.mode === "practice") {
@@ -754,11 +755,19 @@ class Match {
       inputs[1].guard = true;
       inputs[1].left = inputs[1].right = false;
     }
+    this.updateBindings();
     for (let side = 0; side < 2; side++) this.updateFighter(side, inputs[side]);
     this.separate();
+    this.updateBindings();
     this.updateSoyoSupers();
     // Resolve both active strikes together so simultaneous attacks can trade.
-    const hits = [];
+    const hits: {
+      side: number;
+      attack: string;
+      impact: Partial<Move>;
+      x?: number;
+      y?: number;
+    }[] = [];
     for (let side = 0; side < 2; side++) {
       const f = this.fighters[side],
         other = this.fighters[1 - side],
@@ -775,6 +784,46 @@ class Match {
       )
         continue;
       if (move.counter) continue;
+      if (move.targetLock) {
+        // Acquisition happens once. Moving into a missed seal later cannot capture you.
+        if (!f.hit) {
+          f.hit = true;
+          const forward = (other.x - f.x) * f.facing;
+          if (
+            other.hp > 0 &&
+            forward >= 0 &&
+            forward <= move.reach! &&
+            Math.abs(other.y - f.y) <= move.vertical! &&
+            !this.invulnerable(other)
+          ) {
+            f.binding = { target: 1 - side, x: other.x, y: other.y };
+            this.updateBindings();
+          }
+        }
+        for (const [pulse, impact] of move.pulses!.entries()) {
+          if (f.attackMs < impact.at || f.hitMarks.includes(pulse)) continue;
+          f.hitMarks.push(pulse);
+          this.events.push({
+            type: "memePulse",
+            side,
+            attack: f.attack!,
+            pulse,
+            glyph: impact.glyph,
+            x: f.binding?.x ?? f.attackTarget!.x,
+            y: f.binding?.y ?? f.attackTarget!.y,
+            radius: f.binding ? 125 : move.areaRadius,
+          });
+          if (f.binding)
+            hits.push({
+              side,
+              attack: f.attack!,
+              x: f.binding.x,
+              y: f.binding.y + 100,
+              impact: { ...impact, stun: 30, push: 0, launch: 0, knockdown: 0 },
+            });
+        }
+        continue;
+      }
       if (f.attack === "ranaTune") {
         const amount = Math.min(move.energyGain!, 100 - f.energy);
         f.energy += amount;
@@ -953,7 +1002,7 @@ class Match {
       if (!move.pulses) f.hit = true;
       hits.push({
         side,
-        attack: f.attack,
+        attack: f.attack!,
         impact: {
           ...impact,
           beatEligible:
@@ -962,10 +1011,11 @@ class Match {
       });
     }
     for (const hit of hits)
-      this.hit(hit.side, hit.attack!, undefined!, undefined!, hit.impact);
+      this.hit(hit.side, hit.attack, hit.x!, hit.y!, hit.impact);
     this.updateSummons();
     this.updateAreas();
     this.updateWaves();
+    this.updateBindings();
     this.previous = inputs.map((input) => ({ ...input }));
     if (
       this.options.mode !== "practice" &&
@@ -981,6 +1031,39 @@ class Match {
     f.motion = f.motion.filter((e) => f.controlMs - e.t <= 500);
     if (f.motion.at(-1)?.d !== direction)
       f.motion.push({ d: direction, t: f.controlMs });
+  }
+  updateBindings() {
+    for (const source of this.fighters) {
+      const lock = source.binding;
+      if (!lock) continue;
+      const target = this.fighters[lock.target];
+      if (
+        source.hp <= 0 ||
+        target.hp <= 0 ||
+        !MOVES[source.attack ?? ""]?.targetLock ||
+        this.phase !== "fighting"
+      ) {
+        source.binding = null;
+        continue;
+      }
+      // Reapply after physics and impacts as well as before inputs. Airborne targets,
+      // terrain landings, body separation and projectile pushes cannot break the seal.
+      target.x = lock.x;
+      target.y = lock.y;
+      target.vx = target.vy = target.pushVx = 0;
+      target.attack = null;
+      target.binding = null;
+      target.guard = target.crouch = target.launched = false;
+      target.buffer = null;
+      target.bufferMs = target.jumpBufferMs = target.dashBufferMs = 0;
+      target.blinkBuffer = false;
+      target.dashMs = target.dashInvuln = target.wakeInvuln = 0;
+      target.knockdown = target.landingRecovery = target.coyoteMs = 0;
+      target.motion = [];
+      // A short refreshed timer releases promptly if the caster is defeated.
+      target.hardStun = Math.max(target.hardStun, 30);
+      target.stun = Math.max(target.stun, target.hardStun);
+    }
   }
   motionMatches(f: Fighter, pattern: number[]) {
     const history = f.motion.filter(
@@ -1508,6 +1591,7 @@ class Match {
           f.hitMarks = [];
           f.minionHitMarks = [];
           f.runeMarks = [];
+          f.binding = null;
           f.attackCrouch =
             ground &&
             (move.stance === "crouch" || !!move.crawl || !!input.crouch);
@@ -1523,14 +1607,19 @@ class Match {
           if (move.recast && move.ownerCharacter !== undefined)
             f.moveCooldowns[name] = move.recast;
           if (move.delayedArea || move.targetArea) {
-            const targetX = clamp(
-              other.x,
-              f.facing > 0 ? f.x : f.x - 420,
-              f.facing > 0 ? f.x + 420 : f.x,
-            );
+            const targetX = move.targetLock
+              ? f.x + (f.facing * move.reach!) / 2
+              : clamp(
+                  other.x,
+                  f.facing > 0 ? f.x : f.x - 420,
+                  f.facing > 0 ? f.x + 420 : f.x,
+                );
             f.attackTarget = {
               x: clamp(targetX, WORLD.left + 45, WORLD.right - 45),
-              y: this.surfaceBelow(targetX, move.delayedArea ? f.y : other.y),
+              y: this.surfaceBelow(
+                targetX,
+                move.delayedArea || move.targetLock ? f.y : other.y,
+              ),
             };
           }
           if (move.hop) {
@@ -2449,9 +2538,11 @@ class Match {
         if (!move.pulses && !move.shots) a.hit = true;
       }
     }
+    const reduction = MOVES[b.attack ?? ""]?.damageReduction;
+    if (reduction) damage = Math.round(damage * (1 - reduction) * 10) / 10;
     b.hp = Math.max(
       this.options.mode === "practice" && side === 0 ? 1 : 0,
-      b.hp - damage,
+      Math.round((b.hp - damage) * 10) / 10,
     );
     if (move.category !== "super" && !move.minion)
       a.energy = clamp(
@@ -2608,6 +2699,7 @@ class Match {
       f.summons = null;
       f.soyoSuper = null;
       f.hardStun = 0;
+      f.binding = null;
     });
     this.fighters.forEach((f, side) => {
       if (f.penguin) this.endPenguin(side);

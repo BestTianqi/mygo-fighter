@@ -791,7 +791,14 @@ export function createBattleScene(
           const a = visualTime / 250 + (i * Math.PI * 2) / 3;
           ctx.fillText("✦", Math.cos(a) * 30, Math.sin(a) * 9 + 4);
         }
-        ctx.fillText("硬直 " + (f.hardStun / 1000).toFixed(1) + "s", 0, -15);
+        const sealed = match.fighters.some(
+          (source) => source.binding?.target === match.fighters.indexOf(f),
+        );
+        ctx.fillText(
+          sealed ? "封印锁定" : "硬直 " + (f.hardStun / 1000).toFixed(1) + "s",
+          0,
+          -15,
+        );
         ctx.restore();
       }
       if (f.soyoSuper && match.phase === "fighting") {
@@ -1305,18 +1312,63 @@ export function createBattleScene(
       } else if (move.targetArea && f.attackTarget) {
         ctx.save();
         ctx.scale(f.facing, 1);
-        const tx = f.attackTarget.x - f.x,
-          ty = f.y - f.attackTarget.y;
-        ctx.beginPath();
-        ctx.ellipse(tx, ty, move.areaRadius!, 16, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        if (active)
-          for (let i = -1; i <= 1; i++) {
+        const center = f.binding ?? f.attackTarget,
+          tx = center.x - f.x,
+          ty = f.y - center.y,
+          radius = f.binding ? 125 : move.areaRadius!,
+          progress = Math.min(1, age / move.start),
+          glyphs = "临兵斗者皆阵列在前",
+          pulseAge = age - (move.pulses?.[f.hitMarks.at(-1) ?? 0]?.at ?? 0),
+          flash = pulseAge >= 0 ? Math.max(0, 1 - pulseAge / 220) : 0;
+        ctx.strokeStyle = "#e3a6ff";
+        ctx.fillStyle = "#bc63fb";
+        ctx.shadowColor = "#ce78ff";
+        ctx.globalAlpha = f.binding ? 0.85 : 0.25 + progress * 0.2;
+        // Two rings and eight surrounding talismans give the seal depth on every side.
+        for (const height of [0, -255 * progress]) {
+          ctx.beginPath();
+          ctx.ellipse(tx, ty + height, radius, 26, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.font = "bold 24px serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        for (let i = 0; i < 8; i++) {
+          const angle = (i * Math.PI) / 4 + Math.PI / 8,
+            px = tx + Math.cos(angle) * radius,
+            py = ty - 125 * progress + Math.sin(angle) * 30;
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.fillStyle = "#280e3bb8";
+          ctx.fillRect(-18, -105 * progress, 36, 210 * progress);
+          ctx.strokeRect(-18, -105 * progress, 36, 210 * progress);
+          ctx.fillStyle = "#f3d8ff";
+          ctx.fillText(glyphs[i], 0, 0);
+          ctx.restore();
+        }
+        if (f.binding) {
+          ctx.globalAlpha = 0.35 + flash * 0.6;
+          ctx.lineWidth = 2 + flash * 3;
+          // A different direction closes inward on each of the nine strikes.
+          for (let i = 0; i < 4; i++) {
+            const angle = ((f.hitMarks.length + i * 2) * Math.PI) / 4,
+              dx = Math.cos(angle) * radius,
+              dy = Math.sin(angle) * 115;
             ctx.beginPath();
-            ctx.moveTo(tx + i * 60, ty - 280);
-            ctx.lineTo(tx + i * 60, ty - 10);
+            ctx.moveTo(tx + dx, ty - 120 + dy);
+            ctx.lineTo(tx + dx * (1 - flash), ty - 120 + dy * (1 - flash));
             ctx.stroke();
           }
+        }
+        // The caster's ward lasts for the entire animation, including startup/recovery.
+        ctx.globalAlpha = 0.7;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(0, -115, 57, 125, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "#f3d8ff";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText("减伤 80%", 0, -260);
         ctx.restore();
       } else if (!move.delayedArea && !move.durability!) {
         const reach = Math.min(move.reach || 170, 420),

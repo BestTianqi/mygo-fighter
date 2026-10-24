@@ -54,6 +54,7 @@ export interface Fighter {
   calibrateCooldown: number;
   moveCooldowns: Record<string, number>;
   attackTarget: { x: number; y: number } | null;
+  binding: { target: number; x: number; y: number } | null;
   runeMarks: number[];
   bufferBackThrow?: boolean | null;
   crawlFacing?: number;

@@ -320,7 +320,7 @@ for (const c of CHARACTERS) {
     c.id === 14
       ? Array(6).fill(8)
       : c.id === 12
-        ? [...Array(8).fill(5), 8]
+        ? [...Array(8).fill(5), 10]
         : [8, 12, 28];
   const pulses: Pulse[] = damages.map((damage, i) => ({
     at:
@@ -357,7 +357,18 @@ for (const c of CHARACTERS) {
           radiusY: 250,
         }
       : {}),
-    ...(c.id === 12 ? { targetArea: true, areaRadius: 150 } : {}),
+    ...(c.id === 12
+      ? {
+          damage: 50,
+          targetArea: true,
+          targetLock: true,
+          areaRadius: 210,
+          fixedDamage: true,
+          damageReduction: 0.8,
+          invuln: 0,
+          hitstop: 40,
+        }
+      : {}),
   });
   if (c.id === 13) MOVES[`mewtype_${c.id}_virtual_super`].omni = true;
 }

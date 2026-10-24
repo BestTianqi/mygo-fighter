@@ -5,14 +5,18 @@ from PIL import Image
 from build import ROOT, data_url, export_assets
 
 FOLDER = ROOT / 'assets/finish-art'
-ART = {'0': 'anon-milk-dragon-v1.png', '2': 'tomori-penguin-v1.png'}
+ART = {
+    '0': 'anon-milk-dragon-v1.png',
+    '2': 'tomori-penguin-v1.png',
+    '12': 'miyako-super-background-v1.webp',
+}
 
 
 def install_finish_art(assets):
     finishes = assets.setdefault('finishArts', {})
     for character, filename in ART.items():
         with Image.open(FOLDER / filename) as source:
-            if source.mode != 'RGBA' or source.getextrema()[3][0] != 0:
+            if character != '12' and (source.mode != 'RGBA' or source.getextrema()[3][0] != 0):
                 raise ValueError(f'{filename}: expected transparent illustration')
             image = source.copy()
         image.thumbnail((1000, 1200), Image.Resampling.LANCZOS)

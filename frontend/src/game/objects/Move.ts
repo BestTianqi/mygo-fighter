@@ -98,6 +98,8 @@ export interface Move {
   crawlSpeed?: number;
   forwardCrawl?: boolean;
   targetArea?: boolean;
+  targetLock?: boolean;
+  damageReduction?: number;
 }
 export interface Pulse {
   at: number;
