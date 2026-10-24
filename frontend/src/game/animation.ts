@@ -1,5 +1,6 @@
 import type { Match } from "./engine";
 import type { Fighter } from "./objects/Fighter";
+import { heavyPose, isHeavyAttack } from "./heavyAnimation";
 /* Visual pose selection only. Combat timing and movement stay in engine.ts. */
 
 import { MOVES, FEEL, ROUND_END_TIMING } from "./engine";
@@ -274,6 +275,7 @@ function createAnimator() {
             : Math.floor((t - move.start) / 160) % 2
               ? "crawl-b"
               : "crawl-a";
+      if (isHeavyAttack(move)) return heavyPose(f, move);
       if (f.character >= 5) {
         if (f.attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";

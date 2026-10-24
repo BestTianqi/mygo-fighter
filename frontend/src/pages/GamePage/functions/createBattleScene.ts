@@ -1,6 +1,7 @@
 import { Camera } from "../../../game/camera";
 import { STAGE_FORM } from "../../../game/mujica";
 import { createMujicaMotion } from "../../../game/animation";
+import { heavyMotion } from "../../../game/heavyAnimation";
 import {
   MOVES,
   ROSTER,
@@ -15,6 +16,7 @@ import { presentationFor } from "./presentationFor";
 import { createStageRenderer } from "./createStageRenderer";
 import { createProjectileRenderer } from "./createProjectileRenderer";
 import { drawBurger } from "./drawBurger";
+import { drawHeavySwing } from "./drawHeavySwing";
 
 type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
 type ParticleKind =
@@ -370,7 +372,7 @@ export function createBattleScene(
         }
       }
   }
-  function drawMujicaBody(
+  function drawBodyMotion(
     atlas: HTMLImageElement,
     frame: SpriteFrame,
     scale: number,
@@ -450,7 +452,8 @@ export function createBattleScene(
     ctx.ellipse(renderX, shadowY + 1, 31, 6, 0, 0, Math.PI * 2);
     ctx.stroke();
     ctx.globalAlpha = 1;
-    const motion = mujicaMotion(match, side, animation, reducedMotion);
+    const heavy = acting ? heavyMotion(f, move, reducedMotion) : null;
+    const motion = heavy ?? mujicaMotion(match, side, animation, reducedMotion);
     const isMujica = f.character >= 5 && f.character < 10;
     const bob =
       !isMujica && !f.attack && !f.stun && !f.vx
@@ -493,7 +496,7 @@ export function createBattleScene(
     if (traveling) ctx.globalAlpha = 0.7 + 0.3 * progress;
     if (f.wakeInvuln > 0 && !reducedMotion && Math.floor(visualTime / 50) % 2)
       ctx.globalAlpha = 0.65;
-    if (motion && !traveling) drawMujicaBody(atlas, frame, scale, motion);
+    if (motion && !traveling) drawBodyMotion(atlas, frame, scale, motion);
     else
       ctx.drawImage(
         atlas,
@@ -507,6 +510,8 @@ export function createBattleScene(
         frame.h,
       );
     ctx.restore();
+    if (heavy && !traveling)
+      drawHeavySwing(ctx, f, move, heavy, ROSTER[f.character].color);
     if (
       f.character === 4 &&
       acting &&
@@ -680,7 +685,7 @@ export function createBattleScene(
         ctx.fillRect(x - 4, y - 1, 8, 2);
       }
     } else if (
-      ["light", "heavy", "special", "summon"].includes(f.attack ?? "") &&
+      ["light", "special", "summon"].includes(f.attack ?? "") &&
       t >= move.start &&
       t < move.end + 110
     ) {
@@ -688,7 +693,7 @@ export function createBattleScene(
       ctx.scale(f.facing, 1);
       ctx.strokeStyle = f.attack === "summon" ? "#f2d398" : "#b2dce4";
       ctx.globalAlpha = (1 - phase) * 0.7;
-      ctx.lineWidth = f.attack === "heavy" ? 3 : 1.5;
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.ellipse(
         65 + phase * 45,
