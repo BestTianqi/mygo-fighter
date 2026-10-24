@@ -1411,11 +1411,24 @@
         },
         "mujica_8_stage_super": {
           "voice": "meme_8_stage_p",
-          "label": "睦和她的乐队由我守护",
+          "label": "Mortis·失控尖叫",
           "slot": "p",
-          "audio": "assets/meme-media/penguin-mortis/mortis-stage-p.mp3",
-          "duration": 6.99,
+          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_o.mp3",
+          "duration": 2.1,
           "source": {
+            "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+            "uploader": "mayWishuponASTar",
+            "bvid": "BV1uPf5YCE73",
+            "cid": 28039907968,
+            "page": 1,
+            "title": "睦头人尖叫一小时纯享",
+            "start": 0.95,
+            "end": 3.05,
+            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+          },
+          "video": "assets/meme-media/penguin-mortis/mortis-stage-p.mp4",
+          "videoSource": {
             "url": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
             "uploader": "月夜-涙",
             "bvid": "BV1j8f5YdE6n",
@@ -1427,7 +1440,6 @@
             "proof": "第2分P中 Mortis 对祥子表示会保护睦和她的乐队；ASR 辅助定位，画面另做截帧核对。",
             "catalog": "assets/meme-media/penguin-mortis/sources.json"
           },
-          "video": "assets/meme-media/penguin-mortis/mortis-stage-p.mp4",
           "videoRate": 1
         },
         "mujica_8_stage_toddler": {

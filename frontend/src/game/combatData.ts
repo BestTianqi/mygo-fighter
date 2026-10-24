@@ -1371,6 +1371,29 @@ Object.assign(MOVES.penguinSuper, {
   speed: 650,
   lifetime: 1100,
 });
+// Mortis releases the same five expanding wavefronts as transformed Tomori.
+const penguinSong = MOVES.penguinSuper;
+Object.assign(MOVES.mujica_8_stage_super, {
+  name: "Mortis·失控尖叫",
+  mortis: "scream",
+  projectile: true,
+  radial: true,
+  fixedDamage: true,
+  omni: true,
+  duration: penguinSong.duration,
+  start: penguinSong.start,
+  end: penguinSong.end,
+  hitstop: penguinSong.hitstop,
+  damage: penguinSong.damage,
+  shots: [...penguinSong.shots!],
+  pulses: penguinSong.pulses!.map((pulse) => ({ ...pulse })),
+  reach: penguinSong.reach,
+  speed: penguinSong.speed,
+  lifetime: penguinSong.lifetime,
+  height: penguinSong.height,
+  stun: penguinSong.stun,
+  push: penguinSong.push,
+});
 for (const form of ["normal", "stage"])
   Object.assign(MOVES["mujica_7_" + form + "_super"], {
     duration: 1000,

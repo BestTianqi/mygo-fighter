@@ -278,6 +278,53 @@ export function createProjectileRenderer(
       ctx.save();
       ctx.translate(w.x, 438 - w.y);
       ctx.globalAlpha = Math.min(1, w.life / 220);
+      if (MOVES[w.attack].mortis === "scream") {
+        ctx.strokeStyle = "#c4edb4";
+        ctx.shadowColor = "#83ad80";
+        ctx.shadowBlur = reducedMotion ? 0 : 14;
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, w.radius!, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.strokeStyle = "#bba3ef";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i <= 96; i++) {
+          const angle = (i * Math.PI * 2) / 96,
+            vibration = reducedMotion ? 0 : Math.sin(w.age * 0.04 + i) * 2,
+            radius = Math.max(
+              0,
+              w.radius! - 12 + (i % 3 === 0 ? 9 : -3) + vibration,
+            ),
+            x = Math.cos(angle) * radius,
+            y = Math.sin(angle) * radius;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+        // Broken mask fragments travel with the wave instead of musical notes.
+        ctx.fillStyle = "#e4e8d8";
+        for (let i = 0; i < 8; i++) {
+          const angle =
+              (i * Math.PI) / 4 + (reducedMotion ? 0 : w.age * 0.0003),
+            x = Math.cos(angle) * w.radius!,
+            y = Math.sin(angle) * w.radius!;
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(angle);
+          ctx.beginPath();
+          ctx.moveTo(-7, -3);
+          ctx.lineTo(4, -7);
+          ctx.lineTo(8, 2);
+          ctx.lineTo(-3, 5);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+        ctx.restore();
+        return;
+      }
       ctx.strokeStyle = "#c4ebff";
       ctx.lineWidth = 4;
       ctx.shadowColor = "#a7dfff";

@@ -126,6 +126,13 @@ def build_catalog():
     stage_voice_catalog = MEDIA / 'mortis-stage-voices/sources.json'
     for row in read_json(stage_voice_catalog)['clips']:
         profiles['8']['variants'][row['move']] = normalize_clip(row, stage_voice_catalog, 8, row['slot'], row['voice'])
+    # The stage ultimate now uses the reviewed Mortis scream; keep the original
+    # video and its provenance independently, at its original playback rate.
+    mortis_super = profiles['8']['variants']['mujica_8_stage_super']
+    scream = profiles['8']['variants']['mujica_8_stage_o']
+    mortis_super['videoSource'] = mortis_super['source']
+    mortis_super.update(label='Mortis·失控尖叫', audio=scream['audio'],
+                        duration=scream['duration'], source=scream['source'])
     profiles['8']['variants']['stage_throw'] = profiles['8']['variants']['mujica_8_stage_o']
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]

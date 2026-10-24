@@ -1275,6 +1275,17 @@ export function createBattleScene(
             );
             ctx.stroke();
           }
+        } else if (move.mortis === "scream") {
+          ctx.strokeStyle = "#c4edb4";
+          ctx.lineWidth = 2;
+          for (let i = 0; i < 3; i++) {
+            const radius =
+              24 + i * 17 + (reducedMotion ? 0 : (age * 0.08) % 17);
+            ctx.globalAlpha = (active ? 0.65 : 0.2) * (1 - i * 0.2);
+            ctx.beginPath();
+            ctx.ellipse(0, -145, radius, radius * 1.2, 0, 0, Math.PI * 2);
+            ctx.stroke();
+          }
         } else if (move.mortis === "burger") {
           if (age < move.start) drawBurger(ctx, 65, -150, 0.6);
         } else if (move.mortis === "double" || move.mortis === "theater") {
