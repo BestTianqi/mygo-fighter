@@ -1,6 +1,12 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+rem JLine needs a writable directory to extract its Windows console DLL.
+set "MYGO_JAVA_TMP=%CD%\output\java-tmp"
+if not exist "%MYGO_JAVA_TMP%" mkdir "%MYGO_JAVA_TMP%"
+if not exist "%MYGO_JAVA_TMP%" goto failed
+set "TEMP=%MYGO_JAVA_TMP%"
+set "TMP=%MYGO_JAVA_TMP%"
 where node >nul 2>nul
 if errorlevel 1 (
   echo Install Node.js 22 or 24 LTS, Java 21+, and sbt before running this launcher.
@@ -32,7 +38,7 @@ echo Keep this window open while playing.
 echo.
 ipconfig | findstr /i "IPv4"
 cd backend
-"%MYGO_PORTABLE_JAVA%" "-Dsbt.boot.directory=%MYGO_TOOLCHAIN%\sbt-boot" "-Dsbt.global.base=%MYGO_TOOLCHAIN%\sbt-global" "-Dsbt.repository.config=%MYGO_TOOLCHAIN%\repositories" -Dsbt.override.build.repos=true -jar "%MYGO_TOOLCHAIN%\sbt-launch.jar" run
+"%MYGO_PORTABLE_JAVA%" "-Djava.io.tmpdir=%MYGO_JAVA_TMP%" "-Dsbt.boot.directory=%MYGO_TOOLCHAIN%\sbt-boot" "-Dsbt.global.base=%MYGO_TOOLCHAIN%\sbt-global" "-Dsbt.repository.config=%MYGO_TOOLCHAIN%\repositories" -Dsbt.override.build.repos=true -jar "%MYGO_TOOLCHAIN%\sbt-launch.jar" run
 if errorlevel 1 goto failed
 pause
 exit /b 0
