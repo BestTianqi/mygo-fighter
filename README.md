@@ -13,13 +13,13 @@ npm run lan
 
 The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher prints the local address and the computer's LAN addresses. The default port is **8080**.
 
-On Windows, double-click `启动局域网联机.cmd`. On macOS/Linux, run `./start-lan.sh`. Both launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
+On Windows, double-click `启动局域网联机.cmd` or `start-lan.cmd`. Both use the same launcher and keep the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
 
-The Windows launcher also reuses an existing portable JDK and sbt launcher under `output/toolchain/`, when available. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.
+All launch commands, including `npm start`, reuse an existing portable JDK and sbt launcher under `output/toolchain/`, when available. A compatible `JAVA_HOME` takes priority; an older system Java does not prevent use of the portable JDK. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.
 
 Windows launchers use `output/java-tmp/` for Java temporary files, including JLine's console DLL. This avoids startup errors when the Windows user temporary folder denies access; no administrator launch or system folder permission changes are needed.
 
-After building once, `npm start` starts the server without rebuilding. It detects an existing MyGO server and explains a port conflict. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
+After building once, `npm start` starts the server without rebuilding. It prints playable addresses after the backend responds. If a MyGO server already exists, it prints its addresses and leaves that backend running in its original window. Close the original server before restarting to load changed combat rules. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
 
 ## LAN play
 
@@ -29,6 +29,8 @@ After building once, `npm start` starts the server without rebuilding. It detect
 4. Both players use the **1P keys** to control their own character.
 
 Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
+
+On Windows, the firewall must allow the **Java executable that actually runs the backend**, on the active network profile and game TCP port. Allowing Node alone does not cover the Scala server. Campus and dorm networks may isolate devices even on the same Wi-Fi; if the host can open its LAN address but the other device cannot, try connecting both devices to the same phone hotspot or personal router.
 
 A disconnect pauses both players. The page reconnects automatically, and refreshing the same tab restores its session. Resume after both players reconnect. Leaving a room revokes that session. Rooms are temporary and disappear after a server restart or 30 minutes without player activity.
 

@@ -1,9 +1,19 @@
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 export function javaEnvironment() {
+  const toolchain = fileURLToPath(
+    new URL("../output/toolchain/", import.meta.url),
+  );
   const candidates = [
     process.env.JAVA_HOME,
+    ...(existsSync(toolchain)
+      ? readdirSync(toolchain)
+          .filter((name) => name.startsWith("jdk-"))
+          .sort()
+          .reverse()
+          .map((name) => `${toolchain}/${name}`)
+      : []),
     ...(process.platform === "darwin"
       ? [
           "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
