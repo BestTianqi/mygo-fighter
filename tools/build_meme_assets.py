@@ -137,6 +137,15 @@ def build_catalog():
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]
     profiles['6']['variants'][row['move']] = normalize_clip(row, customer_catalog, 6, 'u', row['voice'])
+    # Stage-only aliases reuse the verified Umiri recordings.
+    for move, slot, label in [
+        ('mujica_5_stage_u', 'u', '意欲何为·三连低鸣'),
+        ('mujica_5_stage_i', 'i', '很遗憾·强制返场'),
+        ('mujica_5_stage_o', 'o', '我吃不胖·零卡重摔'),
+        ('mujica_5_stage_schedule', 'i', '排期已满·准点反拨'),
+        ('mujica_5_stage_schedule_counter', 'i', '排期已满·准点反拨·反击'),
+    ]:
+        profiles['5']['variants'][move] = dict(profiles['5']['slots'][slot], label=label)
     # Reuse the verified Nyamu recordings; normal-form slots and the super video
     # keep their original entries. These labels describe the new stage actions.
     for move, slot, label in [

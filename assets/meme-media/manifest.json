@@ -1015,6 +1015,106 @@
             "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
           },
           "spokenJapanese": "私 食べても太らないので"
+        },
+        "mujica_5_stage_u": {
+          "voice": "meme_5_u",
+          "label": "意欲何为·三连低鸣",
+          "slot": "u",
+          "audio": "assets/meme-media/research-mygo/umiri-u-intent.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 9.95,
+            "end": 11.35,
+            "proof": "Base ASR exact phrase; original masked Umiri speaking in anime",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "どういうおつもりで"
+        },
+        "mujica_5_stage_i": {
+          "voice": "meme_5_i",
+          "label": "很遗憾·强制返场",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/umiri-i-regret.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 47.85,
+            "end": 49.25,
+            "proof": "Base ASR 残念ですか; original anime Umiri with bass",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "残念ですが"
+        },
+        "mujica_5_stage_o": {
+          "voice": "meme_5_o",
+          "label": "我吃不胖·零卡重摔",
+          "slot": "o",
+          "audio": "assets/meme-media/research-mygo/umiri-o-no-weight.mp3",
+          "duration": 2.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 116.85,
+            "end": 118.9,
+            "proof": "Burned subtitle 我是吃不胖的体质 at117.6s; base ASR 私食べても二らないので",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "私 食べても太らないので"
+        },
+        "mujica_5_stage_schedule": {
+          "voice": "meme_5_i",
+          "label": "排期已满·准点反拨",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/umiri-i-regret.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 47.85,
+            "end": 49.25,
+            "proof": "Base ASR 残念ですか; original anime Umiri with bass",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "残念ですが"
+        },
+        "mujica_5_stage_schedule_counter": {
+          "voice": "meme_5_i",
+          "label": "排期已满·准点反拨·反击",
+          "slot": "i",
+          "audio": "assets/meme-media/research-mygo/umiri-i-regret.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
+            "uploader": "砂锅竹鼠",
+            "bvid": "BV1s65fzcEi2",
+            "cid": 29512106891,
+            "page": 1,
+            "title": "八幡海铃mujica动画全语音分享",
+            "start": 47.85,
+            "end": 49.25,
+            "proof": "Base ASR 残念ですか; original anime Umiri with bass",
+            "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
+          },
+          "spokenJapanese": "残念ですが"
         }
       }
     },

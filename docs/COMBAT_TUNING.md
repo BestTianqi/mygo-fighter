@@ -59,3 +59,20 @@ Stage damage and ordinary combo scaling apply once. Each full damaging skill sti
 Camera framing, mask fragments, wooden drumsticks and drum-hit arcs accompany the retained full-body artwork. No character costume is removed by U. The extra counter is listed only in stage form. Media aliases reuse Nyamu's existing verified original recordings, without changing super-video playback speed; skill names are not claims of new spoken dialogue.
 
 The unmasking motif follows [official episode 2](https://anime.bang-dream.com/avemujica/story/), and the ambidextrous drummer / video creator motifs follow the [official character profile](https://anime.bang-dream.com/avemujica/character/nyamu/). The episode 10 line used for O's name is transcribed in [this episode review](https://note.com/isihida_nori/n/n87a3a663db6a). Existing original recordings retain their [source clip](https://www.bilibili.com/video/BV1XM62YsEgE/) and timestamps in the asset manifest.
+
+## Umiri / Timoris stage skills — 2026-10-25
+
+Umiri's stage form emphasizes low zoning, pulling opponents into range and a committed advancing throw. Normal-form skills and the P super remain intact; the existing 50-resonance / 20-second H transformation and stage multipliers are unchanged.
+
+| Command | Stage skill       | Cost | Behavior                                                                                                                                      |
+| ------- | ----------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| U       | 意欲何为·三连低鸣 | 20   | Three low ground waves at 120/260/400 ms; 6 base damage each, 700 maximum reach, 1.8 s recast. Crouch guard or a timed jump can avoid damage. |
+| I       | 很遗憾·强制返场   | 25   | First strike at 180 ms reaches 350 and pulls up to 170; second at 420 ms reaches 240, lifts and knocks down. 7/13 base damage, 2.2 s recast.  |
+| O       | 我吃不胖·零卡重摔 | 30   | Steps forward up to 120 before a short-range command throw at 180 ms. 26 base damage, 600 ms knockdown, 2.4 s recast; whiffs at long range.   |
+| ↓＋U    | 排期已满·准点反拨 | 20   | Frontal counter window at 100–420 ms; success launches a 20-base-damage clock-shaped bass wave; 4.2 s recast.                                 |
+
+All damage receives the existing stage ×1.2 multiplier and combo scaling. A full three-wave U or two-hit I grants the defender 8 resonance total (3 when fully guarded). Attacker gains stay at 2 per skill hit. Counter windows still lose to throws and attacks from behind.
+
+Five vibrating strings, a retracting hook, lifting arcs, throw trails and a timetable/clock cue accompany retained whole-body drawings. I switches to a different authored pose for its second hit; O uses the existing throw windup/release. Stage-only voice aliases reuse the verified Umiri recordings and preserve original normal-form media and super-video playback speed.
+
+The professional support bassist and scheduling motifs follow the [official character profile](https://bang-dream.com/artist/avemujica/yahata-umiri/). “意欲何为”, “很遗憾” and “我吃不胖” reuse the existing [original anime voice compilation](https://www.bilibili.com/video/BV1s65fzcEi2/) with reviewed timestamps in the asset manifest; “排期已满” is the move name, not a newly recorded line.

@@ -83,13 +83,15 @@ const schemeFor = (f: FighterIdentity): Scheme => ({
   super: `${prefixFor(f)}_super`,
   transform: "mujicaTransform",
   variants:
-    f.character === 6 && formFor(f) === "normal"
-      ? { down1: "mujica_6_normal_customer" }
-      : f.character === 8 && formFor(f) === "stage"
-        ? { down1: "mujica_8_stage_toddler", down2: "mujica_8_stage_burger" }
-        : f.character === 9 && formFor(f) === "stage"
-          ? { down1: "mujica_9_stage_smile" }
-          : {},
+    f.character === 5 && formFor(f) === "stage"
+      ? { down1: "mujica_5_stage_schedule" }
+      : f.character === 6 && formFor(f) === "normal"
+        ? { down1: "mujica_6_normal_customer" }
+        : f.character === 8 && formFor(f) === "stage"
+          ? { down1: "mujica_8_stage_toddler", down2: "mujica_8_stage_burger" }
+          : f.character === 9 && formFor(f) === "stage"
+            ? { down1: "mujica_9_stage_smile" }
+            : {},
 });
 const normalNames: Record<number, string[][]> = {
   5: [
@@ -288,19 +290,76 @@ add(5, "normal", "o", "零卡路里·收工重拍", {
   reach: 150,
   launch: 350,
 });
-add(5, "stage", "u", "意欲何为·重低音", {
+add(5, "stage", "u", "意欲何为·三连低鸣", {
   ...missile,
+  umiri: "bass",
   groundShock: true,
   level: "low",
-  height: 40,
+  damage: 6,
+  shots: [120, 260, 400],
+  start: 120,
+  end: 420,
+  duration: 720,
+  speed: 560,
+  maxReach: 700,
+  lifetime: 1400,
+  height: 36,
+  radiusX: 34,
   radiusY: 30,
+  recast: 1800,
 });
-add(5, "stage", "i", "很遗憾·沉锚弦钩", { reach: 300, pull: 100 });
-add(5, "stage", "o", "零卡路里·铁壁重拍", {
+add(5, "stage", "i", "很遗憾·强制返场", {
+  umiri: "hook",
+  damage: 20,
+  reach: 350,
+  vertical: 190,
+  start: 180,
+  end: 480,
+  duration: 840,
+  recast: 2200,
+  pulses: [
+    { at: 180, damage: 7, reach: 350, pull: 170, push: 0, stun: 400 },
+    {
+      at: 420,
+      damage: 13,
+      reach: 240,
+      push: 150,
+      stun: 360,
+      launch: 140,
+      knockdown: 450,
+    },
+  ],
+});
+add(5, "stage", "o", "我吃不胖·零卡重摔", {
+  umiri: "toss",
   category: "throw",
-  reach: 90,
+  damage: 26,
+  reach: 110,
+  movement: 120,
+  movementEnd: 150,
+  start: 180,
+  end: 240,
+  duration: 760,
+  recast: 2400,
   stun: 500,
-  knockdown: 550,
+  push: 350,
+  launch: 220,
+  knockdown: 600,
+});
+add(5, "stage", "schedule", "排期已满·准点反拨", {
+  umiri: "schedule",
+  slot: "u",
+  visualSlot: "skill-i",
+  command: "↓＋U",
+  category: "defense",
+  cost: 20,
+  counter: true,
+  counterDamage: 20,
+  damage: 0,
+  start: 100,
+  end: 420,
+  duration: 680,
+  recast: 4200,
 });
 add(6, "normal", "u", "琴键问候", missile);
 add(6, "normal", "customer", "客服小祥·请稍候", {
@@ -603,6 +662,7 @@ for (const [key, move] of Object.entries(MOVES))
       name: move.name + "·反击",
       category: "special",
       ...(move.nyamu ? { nyamu: move.nyamu } : {}),
+      ...(move.umiri ? { umiri: move.umiri } : {}),
       damage: move.counterDamage,
       chip: 0,
       stun: 340,
