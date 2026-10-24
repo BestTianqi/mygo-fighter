@@ -87,11 +87,16 @@ const schemeFor = (f: FighterIdentity): Scheme => ({
       ? { down1: "mujica_5_stage_schedule" }
       : f.character === 6 && formFor(f) === "normal"
         ? { down1: "mujica_6_normal_customer" }
-        : f.character === 8 && formFor(f) === "stage"
-          ? { down1: "mujica_8_stage_toddler", down2: "mujica_8_stage_burger" }
-          : f.character === 9 && formFor(f) === "stage"
-            ? { down1: "mujica_9_stage_smile" }
-            : {},
+        : f.character === 7 && formFor(f) === "stage"
+          ? { down1: "mujica_7_stage_crescent" }
+          : f.character === 8 && formFor(f) === "stage"
+            ? {
+                down1: "mujica_8_stage_toddler",
+                down2: "mujica_8_stage_burger",
+              }
+            : f.character === 9 && formFor(f) === "stage"
+              ? { down1: "mujica_9_stage_smile" }
+              : {},
 });
 const normalNames: Record<number, string[][]> = {
   5: [
@@ -420,21 +425,70 @@ add(7, "normal", "i", "偶像步伐", {
   end: 310,
 });
 add(7, "normal", "o", "追星连奏", combo([6, 6, 10]));
-add(7, "stage", "u", "悲恸斩弦", { reach: 220, vertical: 210 });
-add(7, "stage", "i", "双月滑奏", {
-  damage: 18,
-  movement: 240,
-  movementEnd: 300,
-  start: 200,
-  end: 330,
-  reach: 150,
+add(7, "stage", "u", "不是不是不是·三重否认", {
+  uika: "denial",
+  omni: true,
+  damage: 16,
+  reach: 260,
+  vertical: 210,
+  movement: -90,
+  movementEnd: 240,
+  start: 120,
+  end: 440,
+  duration: 720,
+  recast: 1800,
+  pulses: [4, 4, 8].map((damage, i) => ({
+    at: 120 + i * 130,
+    damage,
+    reach: 190 + i * 35,
+    stun: i === 2 ? 420 : 300,
+    push: i === 2 ? 320 : 20,
+  })),
 });
-add(7, "stage", "o", "哀歌回响", {
+add(7, "stage", "i", "想见Saki酱·逐星突进", {
+  uika: "pursuit",
+  damage: 18,
+  movement: 280,
+  movementEnd: 260,
+  start: 140,
+  end: 280,
+  duration: 650,
+  reach: 165,
+  recast: 1400,
+});
+add(7, "stage", "o", "Imprisoned·囚爱星笼", {
+  uika: "cage",
+  delayedArea: true,
+  warning: 550,
+  areaRadius: 145,
+  reach: 420,
+  vertical: 240,
+  damage: 20,
+  stun: 700,
+  push: 40,
+  start: 160,
+  end: 180,
+  duration: 480,
+  recast: 3200,
+});
+add(7, "stage", "crescent", "同一片星空·弦月回响", {
   ...missile,
-  speed: 280,
-  radiusX: 55,
-  radiusY: 90,
-  lifetime: 1700,
+  uika: "crescent",
+  slot: "u",
+  visualSlot: "skill-o",
+  command: "↓＋U",
+  cost: 20,
+  damage: 14,
+  speed: 300,
+  maxReach: 520,
+  radiusX: 44,
+  radiusY: 65,
+  height: 110,
+  lifetime: 1900,
+  start: 180,
+  end: 220,
+  duration: 600,
+  recast: 2200,
 });
 add(8, "normal", "u", "青瓜投掷", {
   ...missile,

@@ -97,6 +97,7 @@ export interface Move {
   mortis?: string;
   nyamu?: "reveal" | "sticks" | "encore" | "smile";
   umiri?: "bass" | "hook" | "toss" | "schedule";
+  uika?: "denial" | "pursuit" | "cage" | "crescent";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

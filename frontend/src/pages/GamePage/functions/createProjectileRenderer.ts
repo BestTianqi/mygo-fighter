@@ -4,6 +4,7 @@ import type { Wave } from "../../../game/objects/Wave";
 import { drawBurger } from "./drawBurger";
 import { drawNyamuProjectile } from "./drawNyamuSkills";
 import { drawUmiriProjectile } from "./drawUmiriSkills";
+import { drawUikaProjectile } from "./drawUikaSkills";
 
 /** Keep each character's authored projectile silhouette and trail. */
 export function createProjectileRenderer(
@@ -25,7 +26,9 @@ export function createProjectileRenderer(
     ctx.shadowColor = profile.color;
     ctx.shadowBlur = reducedMotion ? 0 : 10;
     ctx.lineWidth = 3;
-    if (move.umiri) {
+    if (move.uika) {
+      drawUikaProjectile(ctx, w.age, reducedMotion);
+    } else if (move.umiri) {
       drawUmiriProjectile(ctx, move, w.age, reducedMotion);
     } else if (move.nyamu) {
       drawNyamuProjectile(ctx, move, w.age, reducedMotion);

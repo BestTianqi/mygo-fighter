@@ -1384,6 +1384,82 @@
             "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           }
+        },
+        "mujica_7_stage_u": {
+          "voice": "meme_7_i",
+          "label": "不是不是不是·三重否认",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/uika-i.mp3",
+          "duration": 2.9,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 41.6,
+            "end": 44.5,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_7_stage_i": {
+          "voice": "meme_7_u",
+          "label": "想见Saki酱·逐星突进",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/uika-u.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 46.5,
+            "end": 49.9,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_7_stage_o": {
+          "voice": "meme_7_o",
+          "label": "Imprisoned·囚爱星笼",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/uika-o.mp3",
+          "duration": 0.85,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 28.15,
+            "end": 29.0,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_7_stage_crescent": {
+          "voice": "meme_7_u",
+          "label": "同一片星空·弦月回响",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/uika-u.mp3",
+          "duration": 3.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+            "uploader": "编新述旧",
+            "bvid": "BV1oLVXzFEUW",
+            "cid": 29880811985,
+            "page": 1,
+            "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+            "start": 46.5,
+            "end": 49.9,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
         }
       }
     },

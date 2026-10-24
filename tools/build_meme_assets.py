@@ -137,6 +137,14 @@ def build_catalog():
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]
     profiles['6']['variants'][row['move']] = normalize_clip(row, customer_catalog, 6, 'u', row['voice'])
+    # Stage-only Uika aliases keep the spoken phrase aligned with its action.
+    for move, slot, label in [
+        ('mujica_7_stage_u', 'i', '不是不是不是·三重否认'),
+        ('mujica_7_stage_i', 'u', '想见Saki酱·逐星突进'),
+        ('mujica_7_stage_o', 'o', 'Imprisoned·囚爱星笼'),
+        ('mujica_7_stage_crescent', 'u', '同一片星空·弦月回响'),
+    ]:
+        profiles['7']['variants'][move] = dict(profiles['7']['slots'][slot], label=label)
     # Stage-only aliases reuse the verified Umiri recordings.
     for move, slot, label in [
         ('mujica_5_stage_u', 'u', '意欲何为·三连低鸣'),

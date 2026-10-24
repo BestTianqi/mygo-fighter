@@ -290,6 +290,10 @@ function createAnimator() {
             : "skill-o-recover";
       if (move.umiri === "hook" && t >= move.pulses![1].at && t <= move.end)
         return "skill-o-impact";
+      if (move.uika === "denial" && t >= move.start && t <= move.end)
+        return Math.floor((t - move.start) / 130) % 2
+          ? "skill-o-impact"
+          : "skill-u-impact";
       if (f.character >= 5) {
         if (f.attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";
