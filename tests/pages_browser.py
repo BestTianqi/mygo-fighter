@@ -63,7 +63,13 @@ try:
           AudioContext.prototype.decodeAudioData=function(bytes){return decode.call(this,bytes).then(buffer=>{pagesAudio.decoded++;return buffer})};
           AudioContext.prototype.createBufferSource=function(){const s=create.call(this),start=s.start;s.start=function(...args){pagesAudio.starts++;return start.apply(this,args)};return s};''')
         page.on('pageerror', lambda e: report['errors'].append(str(e)))
-        page.on('requestfailed', lambda r: report['missing'].append(f'{r.url}: {r.failure}'))
+        def record_failed_request(request):
+            # Reselecting a character closes the active super video mid-download.
+            # Chromium reports this normal media cancellation as ERR_ABORTED.
+            if request.resource_type == 'media' and request.failure == 'net::ERR_ABORTED':
+                return
+            report['missing'].append(f'{request.url}: {request.failure}')
+        page.on('requestfailed', record_failed_request)
         page.on('response', lambda r: report['missing'].append(r.url) if r.status >= 400 else None)
         page.goto(f'http://127.0.0.1:{server.server_port}{PREFIX}', timeout=120000)
         page.wait_for_load_state('networkidle')

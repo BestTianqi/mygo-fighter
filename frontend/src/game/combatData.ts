@@ -150,8 +150,13 @@ const PENGUIN_PROFILE = {
   speed: (375 * FEEL.walk) / 345,
   jump: (640 * FEEL.jump) / 620,
 };
-const profileFor = (f: FighterIdentity) =>
-  f.character === 2 && f.penguin ? PENGUIN_PROFILE : ROSTER[f.character];
+const profileFor = (f: FighterIdentity) => {
+  const profile =
+    f.character === 2 && f.penguin ? PENGUIN_PROFILE : ROSTER[f.character];
+  return isMujica(f.character) && f.stageForm
+    ? { ...profile, speed: profile.speed * mujica.STAGE_FORM.speedMultiplier }
+    : profile;
+};
 const NORMAL_KEYS = ["J", "H", "K", "N", "M", ","];
 const verticalScale = Math.sqrt(FEEL.gravity / 1600);
 const MOVES: Record<string, Move> = {};

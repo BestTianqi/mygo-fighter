@@ -61,7 +61,13 @@ for (const [id, form, distance] of contacts)
     assert(b.hp < 200);
     const formerDamage =
       id === 4 ? 15 : id === 3 || form === "penguin" ? 11 : 12;
-    assert(hits[0].damage < formerDamage, "Normal damage is slightly lower");
+    if (form === "stage")
+      assert.equal(
+        hits[0].damage,
+        Math.round(MOVES[attack].damage * 1.2 * 10) / 10,
+      );
+    else
+      assert(hits[0].damage < formerDamage, "Normal damage is slightly lower");
   });
 test("light attacks and followups deal lower damage without changing skill damage", () => {
   assert.equal(MOVES.light.damage, 5);

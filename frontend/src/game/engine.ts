@@ -9,6 +9,7 @@ import type { CombatEvent } from "./objects/CombatEvent";
 import type { RoundEnd } from "./objects/RoundEnd";
 import type { Terrain } from "./objects/Terrain";
 import * as controls from "./controls";
+import { STAGE_FORM } from "./mujica";
 import {
   ROSTER,
   MOVES,
@@ -26,6 +27,10 @@ import {
   verticalScale,
 } from "./combatData";
 const clamp = (x: number, a: number, b: number) => Math.max(a, Math.min(b, x));
+const outgoingMultiplier = (f: Fighter, attack: string) =>
+  isMujica(f.character) && f.stageForm && attack !== "mujicaTransform"
+    ? STAGE_FORM.damageMultiplier
+    : 1;
 class Match {
   options: Required<
     Pick<MatchOptions, "mode" | "format" | "difficulty" | "characters" | "seed">
@@ -783,6 +788,15 @@ class Match {
       const f = this.fighters[side],
         other = this.fighters[1 - side],
         move = MOVES[f.attack ?? ""];
+      // Birth is observed after both inputs resolve, so simultaneous H casts trade.
+      if (isMujica(f.character) && f.stageForm?.ms === STAGE_FORM.duration) {
+        const burst = MOVES.mujicaTransform;
+        if (this.meleeConnects(f, other, burst, burst.reach!, burst.vertical!))
+          hits.push({ side, attack: "mujicaTransform", impact: {} });
+        for (const unit of [...(other.summons?.units ?? [])])
+          if (this.meleeConnects(f, unit, burst, burst.reach!, burst.vertical!))
+            this.hitMinion(side, unit, "mujicaTransform");
+      }
       if (
         !move ||
         f.attackMs < move.start ||
@@ -1460,7 +1474,8 @@ class Match {
         f.energy >= 50
       ) {
         f.energy -= 50;
-        f.stageForm = { ms: 20000 };
+        f.stageForm = { ms: STAGE_FORM.duration };
+        profile = profileFor(f);
         f.buffer = null;
         f.bufferMs = 0;
         f.cooldown = 0;
@@ -1998,12 +2013,16 @@ class Match {
       move.category === "throw"
     )
       return;
-    const damage =
+    const baseDamage =
       attack === "heavy"
         ? ROSTER[this.fighters[side].character].heavyDamage
         : move.damage;
+    const damage =
+      Math.round(
+        baseDamage * outgoingMultiplier(this.fighters[side], attack) * 10,
+      ) / 10;
     if (!(damage > 0)) return;
-    unit.hp = Math.max(0, unit.hp - damage);
+    unit.hp = Math.max(0, Math.round((unit.hp - damage) * 10) / 10);
     this.events.push({
       type: "minionHit",
       side,
@@ -2444,8 +2463,10 @@ class Match {
       b = this.fighters[1 - side],
       move = { ...MOVES[attack], ...impact };
     if (this.invulnerable(b)) return;
+    const multiplier = outgoingMultiplier(a, attack);
     let damage =
-      attack === "heavy" ? ROSTER[a.character].heavyDamage : move.damage;
+      (attack === "heavy" ? ROSTER[a.character].heavyDamage : move.damage) *
+      multiplier;
     const sourceX = x ?? a.x,
       sourceY = y ?? a.y + 100;
     const radiusY = move.projectileRadiusY || 0;
@@ -2519,14 +2540,14 @@ class Match {
     if (blocked)
       damage = Math.min(
         damage,
-        move.chip ??
+        (move.chip ??
           (move.category === "super"
             ? impact.knockdown
               ? 6
               : 2
             : move.category === "special"
               ? 3
-              : 0),
+              : 0)) * multiplier,
       );
     else {
       a.combo = a.comboMs > 0 ? a.combo + 1 : 1;
@@ -2541,10 +2562,16 @@ class Match {
         a.beatGranted = true;
         this.events.push({ type: "beat", side, beats: a.beats });
       }
-      if (!move.fixedDamage)
-        damage = Math.round(
-          damage * Math.max(0.5, 1 - (a.combo - 1) * 0.1) * (counter ? 1.2 : 1),
-        );
+      if (!move.fixedDamage) {
+        const precision = multiplier > 1 ? 10 : 1;
+        damage =
+          Math.round(
+            damage *
+              Math.max(0.5, 1 - (a.combo - 1) * 0.1) *
+              (counter ? 1.2 : 1) *
+              precision,
+          ) / precision;
+      }
       if (a.attack === attack) {
         a.contact = true;
         a.lastHitAt = a.attackMs;
@@ -2557,7 +2584,11 @@ class Match {
       this.options.mode === "practice" && side === 0 ? 1 : 0,
       Math.round((b.hp - damage) * 10) / 10,
     );
-    if (move.category !== "super" && !move.minion)
+    if (
+      move.category !== "super" &&
+      move.category !== "transformation" &&
+      !move.minion
+    )
       a.energy = clamp(
         a.energy + (blocked ? 1 : move.category === "normal" ? 12 : 2),
         0,

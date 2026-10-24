@@ -1,4 +1,5 @@
 import { Camera } from "../../../game/camera";
+import { STAGE_FORM } from "../../../game/mujica";
 import { createMujicaMotion, mujicaBodyOffset } from "../../../game/animation";
 import {
   MOVES,
@@ -1066,66 +1067,90 @@ export function createBattleScene(
       !f.stageForm
     )
       return;
-    const age = 20000 - f.stageForm.ms;
-    if (age < 0 || age > 1100) return;
-    const charge = Math.min(1, age / 440),
-      burst = Math.max(0, (age - 440) / 660);
+    const age = STAGE_FORM.duration - f.stageForm.ms;
+    if (age < 0 || f.hp <= 0) return;
+    const fade = Math.min(1, f.stageForm.ms / 700),
+      pulse = reducedMotion ? 0 : Math.sin(visualTime * 0.003 + f.character),
+      burst = Math.min(1, age / 650);
     const color = ROSTER[f.character].color,
-      strength = (1 - burst) * (reducedMotion ? 0.28 : 1);
+      strength = (1 - burst) * (reducedMotion ? 0.35 : 1);
     ctx.save();
     ctx.translate(f.x, 438 - f.y);
     ctx.strokeStyle = color;
     ctx.lineWidth = 3;
-    const glow = ctx.createRadialGradient(
-      0,
-      -120,
-      20,
-      0,
-      -120,
-      200 + burst * 140,
-    );
-    glow.addColorStop(0, color + "90");
-    glow.addColorStop(0.5, color + "3a");
+    // A restrained aura stays behind the art for the full transformed state.
+    const glow = ctx.createRadialGradient(0, -110, 20, 0, -110, 175);
+    glow.addColorStop(0, color + "00");
+    glow.addColorStop(0.5, color + "28");
     glow.addColorStop(1, color + "00");
-    ctx.globalAlpha = strength;
+    ctx.globalAlpha = fade * (0.8 + pulse * 0.15);
     ctx.fillStyle = glow;
-    ctx.fillRect(-350, -420, 700, 450);
+    ctx.fillRect(-180, -290, 360, 300);
     ctx.shadowColor = color;
-    ctx.shadowBlur = reducedMotion ? 0 : 20;
-    for (let i = 0; i < 3; i++) {
-      const radius =
-        age < 440 ? 40 + charge * 35 + i * 12 : 70 + burst * (210 + i * 70);
-      ctx.globalAlpha = strength * (1 - i * 0.18);
+    ctx.shadowBlur = reducedMotion ? 0 : 12;
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = fade * 0.55;
+    for (const radius of [52, 65]) {
       ctx.beginPath();
-      ctx.ellipse(0, -3, radius, radius * 0.18, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, -2, radius, radius * 0.22, 0, 0, Math.PI * 2);
       ctx.stroke();
     }
-    if (age >= 440)
-      for (let i = 0; i < 18; i++) {
-        const angle = i * 2.39996,
-          near = 40 + burst * 60,
-          far = near + 80 + (i % 4) * 30;
-        ctx.globalAlpha = strength * 0.75;
-        ctx.strokeStyle = i % 3 ? color : "#fff0dd";
-        ctx.lineWidth = i % 2 ? 2 : 4;
+    ctx.beginPath();
+    for (let i = 0; i <= 5; i++) {
+      const angle =
+        -Math.PI / 2 +
+        (i * 4 * Math.PI) / 5 +
+        (reducedMotion ? 0 : visualTime * 0.00015);
+      const x = Math.cos(angle) * 50,
+        y = Math.sin(angle) * 11 - 2;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    // Rising ribbons frame the silhouette and fade out with the form timer.
+    if (!reducedMotion) {
+      for (let i = 0; i < 6; i++) {
+        const rise = (age * 0.09 + i * 41) % 240,
+          x = (i % 2 ? 1 : -1) * (48 + Math.sin(rise * 0.018 + i) * 12);
+        ctx.globalAlpha = fade * Math.sin((rise / 240) * Math.PI) * 0.5;
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(Math.cos(angle) * near, -125 + Math.sin(angle) * near);
-        ctx.lineTo(Math.cos(angle) * far, -125 + Math.sin(angle) * far);
+        ctx.moveTo(x, -rise);
+        ctx.quadraticCurveTo(x + (i % 2 ? 18 : -18), -rise - 25, x, -rise - 52);
         ctx.stroke();
       }
-    if (!reducedMotion)
-      for (let i = 0; i < 7; i++) {
-        const x = (i - 3) * 30,
-          rise = (age * 0.16 + i * 37) % 250;
-        ctx.globalAlpha = strength * 0.55;
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.moveTo(x - 14, -rise);
-        ctx.quadraticCurveTo(x - 26, -rise - 60, x + 10, -rise - 105);
-        ctx.quadraticCurveTo(x, -rise - 38, x + 14, -rise);
-        ctx.closePath();
-        ctx.fill();
-      }
+    }
+    // The opening shockwave matches the immediate, single damaging H burst.
+    if (age < 650) {
+      ctx.globalAlpha = strength;
+      ctx.lineWidth = 5 * (1 - burst) + 1;
+      const radius = 35 + burst * (MOVES.mujicaTransform.reach! - 35);
+      ctx.beginPath();
+      ctx.ellipse(0, -100, radius, radius * 0.82, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = strength * 0.65;
+      ctx.beginPath();
+      ctx.ellipse(0, -2, radius * 1.2, radius * 0.22, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      if (!reducedMotion)
+        for (let i = 0; i < 16; i++) {
+          const angle = i * 2.39996,
+            near = 40 + burst * 110,
+            far = near + 30 + (i % 4) * 12;
+          ctx.strokeStyle = i % 3 ? color : "#fff0dd";
+          ctx.lineWidth = i % 2 ? 2 : 3;
+          ctx.beginPath();
+          ctx.moveTo(
+            Math.cos(angle) * near,
+            -100 + Math.sin(angle) * near * 0.82,
+          );
+          ctx.lineTo(
+            Math.cos(angle) * far,
+            -100 + Math.sin(angle) * far * 0.82,
+          );
+          ctx.stroke();
+        }
+    }
     ctx.restore();
   }
   function drawMujicaEffects() {
@@ -1191,21 +1216,6 @@ export function createBattleScene(
       ctx.translate(f.x, 438 - f.y);
       ctx.strokeStyle = profile.color;
       ctx.fillStyle = profile.color;
-      if (f.stageForm) {
-        ctx.globalAlpha = 0.3;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.ellipse(
-          0,
-          0,
-          43 + Math.sin(visualTime * 0.004) * 3,
-          8,
-          0,
-          0,
-          Math.PI * 2,
-        );
-        ctx.stroke();
-      }
       if (
         !move ||
         move.ownerCharacter! !== f.character ||

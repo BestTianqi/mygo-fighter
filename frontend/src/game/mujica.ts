@@ -111,6 +111,11 @@ const normalNames: Record<number, string[][]> = {
     ["绯红轻敲", "狂爱重拍"],
   ],
 };
+const STAGE_FORM = Object.freeze({
+  duration: 20000,
+  damageMultiplier: 1.2,
+  speedMultiplier: 1.1,
+});
 for (const c of CHARACTERS)
   for (const [formIndex, form] of ["normal", "stage"].entries()) {
     const prefix = `mujica_${c.id}_${form}`,
@@ -197,8 +202,16 @@ MOVES.mujicaTransform = {
   duration: 0,
   start: 0,
   end: 0,
-  damage: 0,
-  lifetime: 20000,
+  damage: 10,
+  fixedDamage: true,
+  omni: true,
+  reach: 220,
+  vertical: 180,
+  stun: 300,
+  push: 150,
+  chip: 2,
+  hitstop: 80,
+  lifetime: STAGE_FORM.duration,
 };
 function add(
   id: number,
@@ -556,4 +569,12 @@ Object.assign(MOVES.mujica_8_stage_super, {
     { at: 7200, damage: 28, reach: 420, stun: 650, push: 240, launch: 240 },
   ],
 });
-export { CHARACTERS, MOVES, schemeFor, prefixFor, normalFor, formFor };
+export {
+  CHARACTERS,
+  MOVES,
+  STAGE_FORM,
+  schemeFor,
+  prefixFor,
+  normalFor,
+  formFor,
+};
