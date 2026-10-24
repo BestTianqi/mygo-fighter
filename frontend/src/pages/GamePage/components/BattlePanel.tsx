@@ -287,6 +287,7 @@ function FighterHUD({
       >
         <img
           src={
+            assets.mygoPortraits?.[fighter.character]?.face ??
             assets.mujicaPortraits[fighter.character]?.normal.face ??
             assets.characters[fighter.character].portrait
           }

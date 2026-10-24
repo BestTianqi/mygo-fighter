@@ -33,6 +33,9 @@ def export_assets(assets):
             return {key: externalize(item) for key, item in value.items()}
         if isinstance(value, list):
             return [externalize(item) for item in value]
+        if isinstance(value, str) and value.startswith('/media/'):
+            emitted.add(value.removeprefix('/media/'))
+            return value
         if isinstance(value, str) and value.startswith('data:'):
             header, encoded = value.split(',', 1)
             payload = base64.b64decode(encoded)
@@ -260,6 +263,8 @@ def build():
         assets['jabActions'].append(art)
     from build_portrait_assets import install_portraits
     install_portraits(assets)
+    from build_mygo_portraits import install_mygo_portraits
+    install_mygo_portraits(assets)
     export_assets(assets)
 
 

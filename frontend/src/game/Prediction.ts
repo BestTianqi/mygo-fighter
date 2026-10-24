@@ -74,6 +74,10 @@ export class Prediction {
     match.fighters = state.fighters.map((f, i) =>
       Object.assign(fighters[i], f),
     );
+    // Relay snapshots can restore a reserve fighter after local prediction advanced a round.
+    // Keep the kernel's current-character configuration consistent with restored fighters.
+    if (match.isTeamBattle)
+      match.options.characters = match.fighters.map((f) => f.character);
     match.events = [];
     this.inputs.state = structuredClone(packet.inputState);
     if (!reset && !match.paused) {

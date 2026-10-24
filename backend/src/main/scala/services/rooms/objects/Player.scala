@@ -6,6 +6,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 final case class Player(
     id: String,
     character: Int,
+    team: Vector[Int] = Vector.empty,
     ready: Boolean = false,
     connected: Boolean = false
 )

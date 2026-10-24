@@ -458,7 +458,7 @@ function createAnimator() {
           : "walk-pass";
       return Math.floor(now / 110) % 2 ? "walk-pass" : "walk-contact";
     }
-    return f.character >= 2 ? "idle" : null; // Preserve the approved Anon/Soyo idle exactly.
+    return "idle"; // All normal forms can use their reviewed portrait idle atlas.
   };
 }
 export { createAnimator, createMujicaMotion, mujicaBodyOffset };

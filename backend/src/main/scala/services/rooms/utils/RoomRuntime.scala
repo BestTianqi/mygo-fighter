@@ -78,59 +78,64 @@ final case class RoomRuntime(
     }
   }
 
-  private[rooms] def tick(now: FiniteDuration): IO[Unit] = lock.tryAcquire.flatMap { acquired =>
-    if !acquired then IO.unit
-    else
-      (
-        peers.get.flatMap(_.toList.traverse_ { (side, peer) =>
-          peer.seenAt.get.flatMap { seen =>
-            if now - seen <= 3.seconds then IO.unit
-            else
-              peers.update(_ - side) *>
-                state.update(s =>
-                  s.copy(players =
-                    s.players.updated(side, s.players(side).map(_.copy(connected = false)))
-                  )
+  private[rooms] def tick(now: FiniteDuration): IO[Unit] = IO.uncancelable { poll =>
+    lock.tryAcquire.flatMap { acquired =>
+      if !acquired then IO.unit
+      else
+        poll(
+          peers.get.flatMap(_.toList.traverse_ { (side, peer) =>
+            peer.seenAt.get.flatMap { seen =>
+              if now - seen <= 3.seconds then IO.unit
+              else
+                peers.update(_ - side) *>
+                  state.update(s =>
+                    s.copy(players =
+                      s.players.updated(side, s.players(side).map(_.copy(connected = false)))
+                    )
+                  ) *>
+                  simulation.get.flatMap(_.traverse_(_.pause(true))) *>
+                  peer.control
+                    .tryOffer(org.http4s.websocket.WebSocketFrame.Close())
+                    .void *> broadcast
+            }
+          }) *>
+            lastTick.getAndSet(now).flatMap { previous =>
+              simulation.get.flatMap(_.traverse_ { engine =>
+                engine.advance(
+                  math.min(50d, (now - previous).toNanos.toDouble / 1000000d),
+                  now.toNanos.toDouble / 1000000d
                 ) *>
-                simulation.get.flatMap(_.traverse_(_.pause(true))) *>
-                peer.control.tryOffer(org.http4s.websocket.WebSocketFrame.Close()).void *> broadcast
-          }
-        }) *>
-          lastTick.getAndSet(now).flatMap { previous =>
-            simulation.get.flatMap(_.traverse_ { engine =>
-              engine.advance(
-                math.min(50d, (now - previous).toNanos.toDouble / 1000000d),
-                now.toNanos.toDouble / 1000000d
-              ) *>
-                lastSend.get.flatMap { sent =>
-                  if now - sent < 16666666.nanos then IO.unit
-                  else
-                    (engine.packet, state.get, peers.get).tupled.flatMap {
-                      (packet, room, clients) =>
-                        IO.monotonic.flatMap { finished =>
-                          val updateMs = (finished - now).toNanos.toDouble / 1000000d
-                          // The kernel is trusted and already serialized. Add transport metadata once.
-                          val frame =
-                            s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
-                                .drop(1)}}"""
-                          clients.values.toList.traverse_(_.latest.set(Some(frame))) *> lastSend
-                            .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
-                        }
-                    }
-                }
-            })
-          }
-      ).guarantee(lock.release)
+                  lastSend.get.flatMap { sent =>
+                    if now - sent < 16666666.nanos then IO.unit
+                    else
+                      (engine.packet, state.get, peers.get).tupled.flatMap {
+                        (packet, room, clients) =>
+                          IO.monotonic.flatMap { finished =>
+                            val updateMs = (finished - now).toNanos.toDouble / 1000000d
+                            // The kernel is trusted and already serialized. Add transport metadata once.
+                            val frame =
+                              s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
+                                  .drop(1)}}"""
+                            clients.values.toList.traverse_(_.latest.set(Some(frame))) *> lastSend
+                              .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
+                          }
+                      }
+                  }
+              })
+            }
+        ).guarantee(lock.release)
+    }
   }
 
 object RoomRuntime:
   private[rooms] def publicView(s: RoomState): RoomView =
     RoomView(
       s.code,
+      s.format,
       s.arena,
       s.terrain,
       s.generation,
-      s.players.map(_.map(p => PlayerView(p.character, p.ready, p.connected))),
+      s.players.map(_.map(p => PlayerView(p.character, p.team, p.ready, p.connected))),
       s.phase == RoomPhase.Playing,
       s.phase == RoomPhase.Preparing
     )

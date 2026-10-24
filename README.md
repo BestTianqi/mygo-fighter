@@ -1,6 +1,6 @@
 # MyGO!!!!! Fighter
 
-A TypeScript + React fighting game with a Scala 3 LAN server. The rewrite preserves the 15-character combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. LAN battles support two devices in 1v1.
+A TypeScript + React fighting game with a Scala 3 LAN server. The rewrite preserves the 15-character combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. LAN battles support two devices in 1v1 or 3v3 relay.
 
 ## Run
 
@@ -21,7 +21,7 @@ After building once, `npm start` starts the server without rebuilding. It detect
 
 1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
 2. Choose **局域网联机**. One player creates a room; the other enters its six-character code.
-3. Each player chooses a character. The host chooses the stage and terrain. Both press **准备开战**. The server waits for both clients to finish loading their artwork.
+3. The host chooses 1v1 or 3v3, stage and terrain. Each player selects one character, or three different characters in fighting order. Both press **准备开战**. The server waits for both clients to finish loading their artwork.
 4. Both players use the **1P keys** to control their own character.
 
 Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.

@@ -18,7 +18,9 @@ final case class JoinRoomMessage(code: String) extends APIMessage[SessionRespons
             RoomAccess.nonce(24).flatMap { token =>
               val session = Session(java.util.UUID.randomUUID().toString, token, state.code, side)
               room.state.update(s =>
-                s.copy(players = s.players.updated(side, Some(Player(session.id, side))))
+                s.copy(players =
+                  s.players.updated(side, Some(Player(session.id, side, Vector(side))))
+                )
               ) *>
                 connection.sessions.update(_.updated(token, session)) *> room.broadcast *>
                 room.view.map(view => SessionResponse(token, side, view))

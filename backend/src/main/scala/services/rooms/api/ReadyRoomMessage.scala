@@ -14,6 +14,16 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
     RoomAccess.withPlayer(connection, session) { room =>
       room.state.get.flatMap { state =>
         IO.raiseUnless(state.phase == RoomPhase.Lobby)(IllegalArgumentException("对战正在准备或进行")) *>
+          IO.raiseWhen(
+            ready && !state
+              .players(session.side)
+              .exists(p =>
+                p.connected && p.team.size == (if state.format == "3v3" then 3
+                                               else
+                                                 1) && p.team.distinct.size == p.team.size && p.team
+                  .forall(n => n >= 0 && n < 15)
+              )
+          )(IllegalArgumentException("请先选满不重复的出战角色")) *>
           room.state.update(s =>
             s.copy(players =
               s.players.updated(session.side, s.players(session.side).map(_.copy(ready = ready)))
@@ -25,7 +35,8 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
               RoomAccess.nonce(4).flatMap { seed =>
                 val config = Json.obj(
                   "mode" -> "duel".asJson,
-                  "format" -> "1v1".asJson,
+                  "format" -> next.format.asJson,
+                  "teams" -> next.players.flatten.map(_.team).asJson,
                   "characters" -> next.players.flatten.map(_.character).asJson,
                   "seed" -> (java.lang.Long.parseLong(seed, 16) % 2147483646L + 1).asJson,
                   "settings" -> Json.obj(

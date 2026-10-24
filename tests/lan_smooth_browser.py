@@ -64,8 +64,8 @@ with sync_playwright() as pw:
             for page in pages:
                 expect(page.get_by_role('button', name='准备开战', exact=True)).to_be_enabled()
             # Exercise authored transformation and ultimate video assets in LAN play.
-            host.get_by_role('combobox').nth(0).select_option('6')
-            guest.get_by_role('combobox').nth(0).select_option('8')
+            host.get_by_label('我的角色').select_option('6')
+            guest.get_by_label('我的角色').select_option('8')
             for page in pages:
                 page.get_by_role('button', name='准备开战', exact=True).click()
             for page in pages:

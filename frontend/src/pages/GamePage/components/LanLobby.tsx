@@ -31,6 +31,20 @@ export function LanLobby({
       setBusy(false);
     }
   }
+  const teamSize = room?.format === "3v3" ? 3 : 1;
+  const team = room?.players[side]?.team ?? [];
+  function chooseTeam(next: number[]) {
+    void run(
+      new ChooseRoomMessage(
+        runtime.lan.token,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        next,
+      ).send(),
+    );
+  }
   return (
     <Dialog title="局域网联机" onClose={() => runtime.closeLobby()}>
       <p className="mb-5 text-sm leading-6 text-slate-400">
@@ -96,7 +110,11 @@ export function LanLobby({
               <div key={i} className="rounded-xl border border-white/10 p-3">
                 <p className="text-xs text-slate-500">{i + 1}P</p>
                 <p className="mt-1 text-sm">
-                  {player ? ROSTER[player.character].name : "等待加入"}
+                  {player
+                    ? player.team
+                        .map((id, slot) => `${slot + 1}. ${ROSTER[id].name}`)
+                        .join(" / ")
+                    : "等待加入"}
                 </p>
                 <small
                   className={
@@ -113,27 +131,60 @@ export function LanLobby({
             ))}
           </div>
           <label className="block text-xs text-slate-400">
-            我的角色
+            对战模式 · 房主选择
             <select
               className={selectClass}
-              disabled={working || room.playing}
-              value={room.players[side]?.character ?? side}
+              disabled={side !== 0 || working || room.playing}
+              value={room.format}
               onChange={(event) =>
                 void run(
                   new ChooseRoomMessage(
                     runtime.lan.token,
-                    Number(event.target.value),
+                    undefined,
+                    undefined,
+                    undefined,
+                    event.target.value as "1v1" | "3v3",
                   ).send(),
                 )
               }
             >
-              {ROSTER.map((p, id) => (
-                <option key={id} value={id}>
-                  {p.name}
-                </option>
-              ))}
+              <option value="1v1">1v1 对战</option>
+              <option value="3v3">3v3 车轮战</option>
             </select>
           </label>
+          <p className="mt-4 text-xs text-slate-400">
+            {teamSize === 3
+              ? "依次选择三名不同角色。败者换人，胜者保留血量和共鸣。"
+              : "选择出战角色。"}
+          </p>
+          {Array.from({ length: teamSize }, (_, slot) => (
+            <label key={slot} className="mt-3 block text-xs text-slate-400">
+              {teamSize === 3 ? `第 ${slot + 1} 位出战` : "我的角色"}
+              <select
+                className={selectClass}
+                disabled={working || room.playing || slot > team.length}
+                value={team[slot] ?? ""}
+                onChange={(event) => {
+                  const next = [...team];
+                  next[slot] = Number(event.target.value);
+                  chooseTeam(next);
+                }}
+              >
+                <option value="" disabled>
+                  请选择角色
+                </option>
+                {ROSTER.map((p, id) => (
+                  <option
+                    key={id}
+                    value={id}
+                    disabled={team.includes(id) && team[slot] !== id}
+                  >
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ))}
           <label className="mt-4 block text-xs text-slate-400">
             对战地图 · 房主选择
             <select
@@ -184,6 +235,7 @@ export function LanLobby({
               disabled={
                 working ||
                 room.playing ||
+                team.length !== teamSize ||
                 !room.players.every((player) => player?.connected)
               }
               onClick={() =>

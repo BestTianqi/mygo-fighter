@@ -79,10 +79,16 @@ export class CanvasRenderer {
           const image = new Image();
           image.decoding = "async";
           image.onload = () =>
-            image.decode().then(() => {
-              this.images.set(url, image);
-              resolve(image);
-            }, reject);
+            image.decode().then(
+              () => {
+                this.images.set(url, image);
+                resolve(image);
+              },
+              (error: unknown) => {
+                this.loading.delete(url);
+                reject(error);
+              },
+            );
           image.onerror = () => {
             this.loading.delete(url);
             reject(new Error("角色素材加载失败，请重试。"));
@@ -115,6 +121,9 @@ export class CanvasRenderer {
         ];
       return [
         this.assets.characters[id],
+        ...(this.assets.mygoPortraits?.[id]
+          ? [this.assets.mygoPortraits[id].idle]
+          : []),
         ...[
           [
             this.assets.anonActions,
@@ -142,7 +151,11 @@ export class CanvasRenderer {
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),
     ]);
-    await Promise.all([...urls].map((url) => this.load(url)));
+    // Six fighters include large normal, action and transformation atlases.
+    // Limit simultaneous decoder allocations while still warming every reserve.
+    const pending = [...urls];
+    for (let i = 0; i < pending.length; i += 2)
+      await Promise.all(pending.slice(i, i + 2).map((url) => this.load(url)));
     // Decode and rasterize before the ready countdown starts.
     for (const art of atlases) {
       const frame = art.frames[0];
@@ -251,8 +264,18 @@ export class CanvasRenderer {
           art.frames[f.attack === "thrust" && f.attackMs < 60 ? 0 : index];
         height = frame.height ?? 235;
       }
-      if (animation) {
+      if (
+        animation &&
+        !(
+          animation === "idle" &&
+          !f.penguin &&
+          !a.mygoPortraits?.[f.character] &&
+          f.character < 2
+        )
+      ) {
         if (f.penguin) art = a.penguin;
+        else if (animation === "idle" && a.mygoPortraits?.[f.character])
+          art = a.mygoPortraits[f.character].idle;
         else if (animation.startsWith("jab-") && f.character < 3)
           art = a.jabActions[f.character];
         else if (f.character === 3 && animation.startsWith("parfait-"))

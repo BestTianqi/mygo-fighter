@@ -5,6 +5,7 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 
 final case class RoomView(
     code: String,
+    format: String,
     arena: Int,
     terrain: Boolean,
     generation: Int,

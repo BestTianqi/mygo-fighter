@@ -39,9 +39,11 @@ object RoomRoutes:
       (
         field[Option[Int]](j, "character"),
         field[Option[Int]](j, "arena"),
-        field[Option[Boolean]](j, "terrain")
-      ).tupled.flatMap((character, arena, terrain) =>
-        ChooseRoomMessage(s, character, arena, terrain).plan(c)
+        field[Option[Boolean]](j, "terrain"),
+        field[Option[String]](j, "format"),
+        field[Option[Vector[Int]]](j, "team")
+      ).tupled.flatMap((character, arena, terrain, format, team) =>
+        ChooseRoomMessage(s, character, arena, terrain, format, team).plan(c)
       )
     ),
     authenticated[ReadyRoomMessage]((j, s, c) =>

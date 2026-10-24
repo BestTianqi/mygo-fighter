@@ -98,6 +98,39 @@ assert.equal(
   5,
   "Hit freeze retains input until consumed",
 );
+// Restoring an authoritative relay reserve must also restore the kernel's active roster.
+const relayOptions = {
+  mode: "duel",
+  format: "3v3",
+  teams: [
+    [0, 2, 4],
+    [1, 3, 5],
+  ],
+};
+const relay = new Match(relayOptions);
+relay.start();
+relay.advance(2000);
+relay.fighters[1].hp = 0;
+relay.endRound();
+relay.advance(6000);
+const { options: _options, events: _events, ...relayState } = relay;
+const relayClient = new Match(relayOptions);
+relayClient.start();
+const relayPrediction = new Prediction();
+relayPrediction.receive(
+  relayClient,
+  {
+    ...packet(server()),
+    state: structuredClone(relayState),
+    tick: relay.simulationTick,
+    epoch: 10,
+  },
+  0,
+  10000,
+  0,
+);
+assert.deepEqual(relayClient.options.characters, [0, 3]);
+assert.deepEqual(relayClient.teamRemaining, relay.teamRemaining);
 const stats = (a) => {
   a = [...a].sort((a, b) => a - b);
   return {
