@@ -22,6 +22,7 @@ import { drawUmiriSkill } from "./drawUmiriSkills";
 import { drawUikaSkill, drawUikaArea } from "./drawUikaSkills";
 import { drawNonokaSkill, drawNonokaShield } from "./drawNonokaSkills";
 import { drawYunoSkill, drawYunoArea } from "./drawYunoSkills";
+import { drawRitsuSkill } from "./drawRitsuSkills";
 
 type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
 type ParticleKind =
@@ -1251,7 +1252,8 @@ export function createBattleScene(
         f.stun ||
         !move.slot ||
         move.nonoka ||
-        move.yuno
+        move.yuno ||
+        move.ritsu
       ) {
         ctx.restore();
         continue;
@@ -1876,7 +1878,7 @@ export function createBattleScene(
       const move = MOVES[f.attack ?? ""];
       if (
         match.phase !== "fighting" ||
-        !(move?.nonoka || move?.yuno) ||
+        !(move?.nonoka || move?.yuno || move?.ritsu) ||
         f.stun ||
         f.knockdown
       )
@@ -1885,7 +1887,8 @@ export function createBattleScene(
       ctx.translate(f.x, 438 - f.y);
       ctx.scale(f.facing, 1);
       if (move.nonoka) drawNonokaSkill(ctx, move, f.attackMs, reducedMotion);
-      else drawYunoSkill(ctx, move, f.attackMs, reducedMotion);
+      else if (move.yuno) drawYunoSkill(ctx, move, f.attackMs, reducedMotion);
+      else drawRitsuSkill(ctx, move, f.attackMs, reducedMotion);
       ctx.restore();
     }
     drawSummons();

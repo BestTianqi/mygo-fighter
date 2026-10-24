@@ -6,6 +6,7 @@ import { drawNyamuProjectile } from "./drawNyamuSkills";
 import { drawUmiriProjectile } from "./drawUmiriSkills";
 import { drawUikaProjectile } from "./drawUikaSkills";
 import { drawNonokaProjectile } from "./drawNonokaSkills";
+import { drawRitsuProjectile } from "./drawRitsuSkills";
 
 /** Keep each character's authored projectile silhouette and trail. */
 export function createProjectileRenderer(
@@ -97,7 +98,9 @@ export function createProjectileRenderer(
     ctx.shadowColor = color;
     ctx.shadowBlur = reducedMotion ? 0 : 12;
     ctx.lineWidth = 3;
-    if (MOVES[w.attack].nonoka === "bite") {
+    if (MOVES[w.attack].ritsu) {
+      drawRitsuProjectile(ctx, w.age, reducedMotion);
+    } else if (MOVES[w.attack].nonoka === "bite") {
       drawNonokaProjectile(ctx);
     } else if (w.attack.endsWith("_wave")) {
       const opacity = ctx.globalAlpha;

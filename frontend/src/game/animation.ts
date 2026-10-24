@@ -276,6 +276,20 @@ function createAnimator() {
               ? "crawl-b"
               : "crawl-a";
       if (isHeavyAttack(move)) return heavyPose(f, move);
+      if (move.ritsu === "polite" && t >= move.start && t <= move.end)
+        return "guard-standing";
+      if (move.ritsu === "meat" && t >= move.pulses![1].at && t <= move.end)
+        return "skill-o-impact";
+      if (move.ritsu === "steak")
+        return t < move.start
+          ? "heavy-windup"
+          : t <= move.end
+            ? "heavy-impact"
+            : "skill-o-recover";
+      if (move.ritsu === "hungry" && t >= move.start && t <= move.end)
+        return Math.floor((t - move.start) / 180) % 2
+          ? "skill-o-impact"
+          : "skill-u-impact";
       if (move.yuno === "release" && t <= move.end) return "dash-back";
       if (move.yuno === "band" && t >= move.start && t <= move.end)
         return "guard-standing";

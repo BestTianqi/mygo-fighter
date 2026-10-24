@@ -25,7 +25,7 @@ const CHARACTERS: Character[] = [
     color: "#6b9de8",
     role: "吉他",
     archetype: "蓝熊防反型",
-    skill: "极光熊奏",
+    skill: "饥饿狂战士",
   },
   {
     id: 12,
@@ -204,13 +204,29 @@ add(10, "i", "应援叠唱", {
   radiusY: 65,
 });
 add(10, "o", "全场跟唱", { omni: true, reach: 210, vertical: 210, push: 360 });
-add(11, "u", "真丢人·蓝熊拨弦", { reach: 240, vertical: 210 });
-const counter = add(11, "i", "不害臊吗·熊抱守拍", {
+add(11, "u", "两磅肉排·双重横扫", {
+  ritsu: "meat",
+  reach: 240,
+  vertical: 210,
+  damage: 18,
+  movement: 90,
+  movementEnd: 240,
+  duration: 700,
+  start: 140,
+  end: 390,
+  recast: 1500,
+  pulses: [
+    { at: 140, damage: 7, reach: 220, push: 15, stun: 320 },
+    { at: 330, damage: 11, reach: 260, push: 240, stun: 400 },
+  ],
+});
+const counter = add(11, "i", "请多关照·优等生防反", {
+  ritsu: "polite",
   category: "defense",
   counter: true,
   counterAttack: "mewtype_11_virtual_counter",
-  start: 120,
-  end: 300,
+  start: 100,
+  end: 420,
   duration: 600,
   damage: 0,
   recast: 4000,
@@ -219,6 +235,7 @@ MOVES.mewtype_11_virtual_counter = {
   ...missile,
   ownerCharacter: 11,
   form: "virtual",
+  ritsu: "polite",
   internal: true,
   duration: 0,
   start: 0,
@@ -232,7 +249,8 @@ MOVES.mewtype_11_virtual_counter = {
   speed: 700,
   lifetime: 500,
 };
-add(11, "o", "弱弱胃袋·破蓝重奏", {
+add(11, "o", "七分熟·厚切重奏", {
+  ritsu: "steak",
   damage: 25,
   movement: 220,
   movementEnd: 300,
@@ -394,7 +412,7 @@ for (const wave of [
   },
   {
     id: 11,
-    name: "蓝熊弦压波",
+    name: "七分熟·炙烤弦波",
     damage: 16,
     speed: 700,
     radiusX: 30,
@@ -456,19 +474,20 @@ for (const wave of [
     ...spec,
     ...(id === 14 ? { nonoka: "bite" as const } : {}),
     ...(id === 13 ? { yuno: "wave" as const } : {}),
+    ...(id === 11 ? { ritsu: "wave" as const } : {}),
     end: spec.start + 80,
   };
 }
 const superNames: Record<number, string> = {
   10: "U咩哇帕瓦",
-  11: "杂鱼～杂鱼～",
+  11: "饥饿狂战士·开饭啦",
   12: "临兵斗者皆阵列在前",
   13: "最高のバンド·世界へ",
   14: "兔食者·不会放开由乃亲",
 };
 const superDurations: Record<number, number> = {
   10: 3000,
-  11: 3100,
+  11: 2200,
   12: 11500,
   13: 2800,
   14: 5150,
@@ -476,11 +495,13 @@ const superDurations: Record<number, number> = {
 for (const c of CHARACTERS) {
   const duration = superDurations[c.id!];
   const damages =
-    c.id === 14
-      ? Array(6).fill(8)
-      : c.id === 12
-        ? [...Array(8).fill(5), 10]
-        : [8, 12, 28];
+    c.id === 11
+      ? Array(5).fill(10)
+      : c.id === 14
+        ? Array(6).fill(8)
+        : c.id === 12
+          ? [...Array(8).fill(5), 10]
+          : [8, 12, 28];
   const pulses: Pulse[] = damages.map((damage, i) => ({
     at:
       Math.round((500 + (i * (duration - 1100)) / (damages.length - 1)) / 10) *
@@ -492,8 +513,13 @@ for (const c of CHARACTERS) {
     ...(c.id === 12 ? { glyph: "临兵斗者皆阵列在前"[i] } : {}),
   }));
   if (c.id === 11) {
-    pulses.forEach((pulse, i) => (pulse.reach = [240, 300, 360][i]));
-    pulses.at(-1)!.launch = 360;
+    pulses.forEach((pulse, i) => {
+      pulse.at = 200 + i * 360;
+      pulse.reach = 230 + i * 30;
+      pulse.stun = 300;
+      pulse.push = i === 4 ? 240 : 8;
+    });
+    pulses.at(-1)!.launch = 300;
   }
   add(c.id!, "super", superNames[c.id!], {
     category: "super",
@@ -530,6 +556,16 @@ for (const c of CHARACTERS) {
       : {}),
     ...(c.id === 14 ? { nonoka: "eater" as const } : {}),
     ...(c.id === 13 ? { yuno: "world" as const } : {}),
+    ...(c.id === 11
+      ? {
+          ritsu: "hungry" as const,
+          damage: 50,
+          start: 200,
+          movement: 180,
+          movementEnd: 1800,
+          hitstop: 50,
+        }
+      : {}),
   });
   if (c.id === 13) MOVES[`mewtype_${c.id}_virtual_super`].omni = true;
 }

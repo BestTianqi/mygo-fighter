@@ -105,11 +105,13 @@ for (const id of [10, 11, 12, 13, 14]) {
     );
     assert.equal(
       presentationFor(assets, f, key).voice,
-      id === 14
-        ? "nonokaAnimeHug"
-        : id === 13
-          ? "yunoAnimeWorld"
-          : assets.memeSkills[id].slots.u.voice,
+      id === 11
+        ? "ritsuAnimeMedium"
+        : id === 14
+          ? "nonokaAnimeHug"
+          : id === 13
+            ? "yunoAnimeWorld"
+            : assets.memeSkills[id].slots.u.voice,
     );
     const frames = assets.mewtypeForms[id].virtual.frames;
     for (const phase of ["windup", "impact", "recover"])

@@ -100,6 +100,7 @@ export interface Move {
   uika?: "denial" | "pursuit" | "cage" | "crescent";
   nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
+  ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

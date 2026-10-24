@@ -155,6 +155,14 @@ def build_catalog():
     yuno['mewtype_13_virtual_super'] = dict(yuno['mewtype_13_virtual_o'],
         label='最高のバンド·世界へ', slot='p', video='assets/meme-media/yuno-story/yuno-band-cutin.mp4', videoRate=1)
     yuno['throw'] = dict(yuno['mewtype_13_virtual_i'], label='放开我·摔投')
+    ritsu_catalog = MEDIA / 'ritsu-story/sources.json'
+    for row in read_json(ritsu_catalog)['clips']:
+        profiles['11']['variants'][row['move']] = normalize_clip(row, ritsu_catalog, 11, row['slot'], row['voice'])
+    ritsu = profiles['11']['variants']
+    ritsu['mewtype_11_virtual_wave'] = dict(ritsu['mewtype_11_virtual_o'], label='七分熟·炙烤弦波', slot='u')
+    ritsu['mewtype_11_virtual_counter'] = dict(ritsu['mewtype_11_virtual_i'], label='请多关照·优等生防反·反击')
+    ritsu['mewtype_11_virtual_super'].update(video='assets/meme-media/ritsu-story/ritsu-hungry-cutin.mp4', videoRate=1)
+    ritsu['throw'] = dict(ritsu['mewtype_11_virtual_u'], label='两磅肉排·摔投')
     # Stage-only Uika aliases keep the spoken phrase aligned with its action.
     for move, slot, label in [
         ('mujica_7_stage_u', 'i', '不是不是不是·三重否认'),
@@ -209,6 +217,7 @@ def build_catalog():
     catalog['sourceCatalogs'].append(customer_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(nonoka_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog
