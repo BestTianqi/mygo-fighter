@@ -15,6 +15,8 @@ The first build downloads JavaScript and JVM dependencies. Keep the server windo
 
 On Windows, double-click `启动局域网联机.cmd`. On macOS/Linux, run `./start-lan.sh`. Both launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
 
+The Windows launcher also reuses an existing portable JDK and sbt launcher under `output/toolchain/`, when available. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.
+
 After building once, `npm start` starts the server without rebuilding. It detects an existing MyGO server and explains a port conflict. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
 
 ## LAN play
