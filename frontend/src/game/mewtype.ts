@@ -258,23 +258,50 @@ add(11, "o", "七分熟·厚切重奏", {
   end: 340,
   reach: 175,
 });
-add(12, "u", "分镜飞页", {
+add(12, "u", "富士见夜子·双页分镜", {
   ...missile,
+  miyako: "draft",
+  damage: 8,
+  shots: [150, 330],
+  start: 150,
+  end: 450,
+  duration: 700,
+  speed: 560,
+  lifetime: 1300,
+  maxReach: 760,
+  push: 80,
   height: 135,
-  projectileVy: 230,
-  projectileGravity: 580,
+  projectileVy: 200,
+  projectileGravity: 560,
 });
-add(12, "i", "伏笔机关", {
+add(12, "i", "百次参拜·赎罪印", {
+  miyako: "stamp",
   delayedArea: true,
   damage: 24,
-  warning: 600,
-  areaRadius: 115,
+  warning: 650,
+  areaRadius: 135,
+  reach: 420,
+  stun: 650,
+  push: 40,
   recast: 4000,
   duration: 450,
   start: 120,
-  end: 140,
+  end: 260,
 });
-add(12, "o", "截稿线", { reach: 350, pull: 100 });
+add(12, "o", "秋叶原马拉松·赶稿突进", {
+  miyako: "marathon",
+  movement: 320,
+  movementEnd: 300,
+  duration: 680,
+  start: 190,
+  end: 330,
+  reach: 165,
+  vertical: 190,
+  damage: 22,
+  stun: 400,
+  push: 220,
+  recast: 1800,
+});
 add(13, "u", "迈向世界·双重低音", {
   ...missile,
   yuno: "bass",
@@ -423,7 +450,7 @@ for (const wave of [
   },
   {
     id: 12,
-    name: "墨线分镜波",
+    name: "不会停笔·墨线声波",
     damage: 15,
     speed: 640,
     radiusX: 32,
@@ -475,6 +502,7 @@ for (const wave of [
     ...(id === 14 ? { nonoka: "bite" as const } : {}),
     ...(id === 13 ? { yuno: "wave" as const } : {}),
     ...(id === 11 ? { ritsu: "wave" as const } : {}),
+    ...(id === 12 ? { miyako: "ink" as const } : {}),
     end: spec.start + 80,
   };
 }

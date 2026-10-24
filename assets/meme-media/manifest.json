@@ -2408,24 +2408,109 @@
       },
       "variants": {
         "throw": {
-          "voice": "meme_12_o",
-          "label": "太棒了！",
-          "slot": "o",
-          "audio": "assets/meme-media/miyako-skill-voices/miyako-o.mp3",
-          "duration": 1.68,
+          "voice": "miyakoAnimeWork",
+          "label": "原稿交付·摔投",
+          "slot": "u",
+          "audio": "assets/meme-media/miyako-story/miyakoAnimeWork.mp3",
+          "duration": 3.45,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1Cbn66MEPj/",
-            "uploader": "草女士家的耳廓狐",
-            "bvid": "BV1Cbn66MEPj",
-            "cid": 42936436063,
+            "url": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SEtG6dECK",
+            "cid": 41489334915,
             "page": 1,
-            "title": "【中字/藤都子】直播画了波堤巧克酱，对自己最新力作发表感想",
-            "start": 111.62,
-            "end": 113.3,
-            "proof": "同一段藤都子本人虚拟直播的连续发言；以虚拟形象、中文字幕和上下文核对说话人，ASR只用于辅助定位；保留原速。",
-            "catalog": "assets/meme-media/miyako-skill-voices/sources.json"
+            "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+            "start": 5.0,
+            "end": 8.45,
+            "proof": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/miyako-story/sources.json"
           },
-          "subtitle_zh": "太棒了！"
+          "spokenJapanese": "その前に、やるべきことをやります。",
+          "subtitle_zh": "在那之前，先做该做的事。"
+        },
+        "mewtype_12_virtual_u": {
+          "voice": "miyakoAnimeWork",
+          "label": "富士见夜子·双页分镜",
+          "slot": "u",
+          "audio": "assets/meme-media/miyako-story/miyakoAnimeWork.mp3",
+          "duration": 3.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SEtG6dECK",
+            "cid": 41489334915,
+            "page": 1,
+            "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+            "start": 5.0,
+            "end": 8.45,
+            "proof": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/miyako-story/sources.json"
+          },
+          "spokenJapanese": "その前に、やるべきことをやります。",
+          "subtitle_zh": "在那之前，先做该做的事。"
+        },
+        "mewtype_12_virtual_i": {
+          "voice": "miyakoAnimePenance",
+          "label": "百次参拜·赎罪印",
+          "slot": "i",
+          "audio": "assets/meme-media/miyako-story/miyakoAnimePenance.mp3",
+          "duration": 2.1,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SEtG6dECK",
+            "cid": 41489334915,
+            "page": 1,
+            "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+            "start": 16.8,
+            "end": 18.9,
+            "proof": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/miyako-story/sources.json"
+          },
+          "spokenJapanese": "お百度参り！",
+          "subtitle_zh": "百次参拜！"
+        },
+        "mewtype_12_virtual_o": {
+          "voice": "miyakoAnimeMarathon",
+          "label": "秋叶原马拉松·赶稿突进",
+          "slot": "o",
+          "audio": "assets/meme-media/miyako-story/miyakoAnimeMarathon.mp3",
+          "duration": 2.65,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SEtG6dECK",
+            "cid": 41489334915,
+            "page": 1,
+            "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+            "start": 14.1,
+            "end": 16.75,
+            "proof": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/miyako-story/sources.json"
+          },
+          "spokenJapanese": "秋葉原マラソン！",
+          "subtitle_zh": "秋叶原马拉松！"
+        },
+        "mewtype_12_virtual_wave": {
+          "voice": "miyakoAnimeResolve",
+          "label": "不会停笔·墨线声波",
+          "slot": "wave",
+          "audio": "assets/meme-media/miyako-story/miyakoAnimeResolve.mp3",
+          "duration": 3.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SEtG6dECK",
+            "cid": 41489334915,
+            "page": 1,
+            "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+            "start": 0.0,
+            "end": 3.45,
+            "proof": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/miyako-story/sources.json"
+          },
+          "spokenJapanese": "私も、やりたいように生きてやりますよ。",
+          "subtitle_zh": "我也要按自己的想法活下去。"
         }
       }
     },
@@ -2932,7 +3017,8 @@
     "assets/meme-media/sakiko-customer-service/sources.json",
     "assets/meme-media/nonoka-story/sources.json",
     "assets/meme-media/yuno-story/sources.json",
-    "assets/meme-media/ritsu-story/sources.json"
+    "assets/meme-media/ritsu-story/sources.json",
+    "assets/meme-media/miyako-story/sources.json"
   ],
   "notes": [
     "Mujica normal/stage forms share recordings except the dedicated Mortis stage kit, transformation, throw and super.",

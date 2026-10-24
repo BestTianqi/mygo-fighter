@@ -276,6 +276,11 @@ function createAnimator() {
               ? "crawl-b"
               : "crawl-a";
       if (isHeavyAttack(move)) return heavyPose(f, move);
+      if (move.miyako === "draft" && t >= move.shots![1] && t <= move.end)
+        return "skill-o-impact";
+      if (move.miyako === "stamp" && t >= move.start && t <= move.end)
+        return "crouch-heavy-impact";
+      if (move.miyako === "marathon" && t < move.start) return "dash-forward";
       if (move.ritsu === "polite" && t >= move.start && t <= move.end)
         return "guard-standing";
       if (move.ritsu === "meat" && t >= move.pulses![1].at && t <= move.end)

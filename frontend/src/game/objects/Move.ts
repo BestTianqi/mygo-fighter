@@ -101,6 +101,7 @@ export interface Move {
   nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
   ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
+  miyako?: "draft" | "stamp" | "marathon" | "ink";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

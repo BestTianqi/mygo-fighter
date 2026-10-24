@@ -1,0 +1,80 @@
+{
+  "clips": [
+    {
+      "character": "miyako",
+      "slot": "u",
+      "voice": "miyakoAnimeWork",
+      "move": "mewtype_12_virtual_u",
+      "label": "富士见夜子·双页分镜",
+      "audio": "miyakoAnimeWork.mp3",
+      "start": 5.0,
+      "end": 8.45,
+      "spokenJapanese": "その前に、やるべきことをやります。",
+      "subtitle_zh": "在那之前，先做该做的事。",
+      "sourceURL": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+      "bvid": "BV1SEtG6dECK",
+      "cid": 41489334915,
+      "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech."
+    },
+    {
+      "character": "miyako",
+      "slot": "i",
+      "voice": "miyakoAnimePenance",
+      "move": "mewtype_12_virtual_i",
+      "label": "百次参拜·赎罪印",
+      "audio": "miyakoAnimePenance.mp3",
+      "start": 16.8,
+      "end": 18.9,
+      "spokenJapanese": "お百度参り！",
+      "subtitle_zh": "百次参拜！",
+      "sourceURL": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+      "bvid": "BV1SEtG6dECK",
+      "cid": 41489334915,
+      "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech."
+    },
+    {
+      "character": "miyako",
+      "slot": "o",
+      "voice": "miyakoAnimeMarathon",
+      "move": "mewtype_12_virtual_o",
+      "label": "秋叶原马拉松·赶稿突进",
+      "audio": "miyakoAnimeMarathon.mp3",
+      "start": 14.1,
+      "end": 16.75,
+      "spokenJapanese": "秋葉原マラソン！",
+      "subtitle_zh": "秋叶原马拉松！",
+      "sourceURL": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+      "bvid": "BV1SEtG6dECK",
+      "cid": 41489334915,
+      "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech."
+    },
+    {
+      "character": "miyako",
+      "slot": "wave",
+      "voice": "miyakoAnimeResolve",
+      "move": "mewtype_12_virtual_wave",
+      "label": "不会停笔·墨线声波",
+      "audio": "miyakoAnimeResolve.mp3",
+      "start": 0.0,
+      "end": 3.45,
+      "spokenJapanese": "私も、やりたいように生きてやりますよ。",
+      "subtitle_zh": "我也要按自己的想法活下去。",
+      "sourceURL": "https://www.bilibili.com/video/BV1SEtG6dECK/",
+      "bvid": "BV1SEtG6dECK",
+      "cid": 41489334915,
+      "title": "贖罪の秋葉原マラソン、お百度参り（赎罪的秋叶原马拉松 百次参拜）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Miyako (short dark hair and purple eyes, black dress) speaks in close-up at 0–3.45 and 5–8.45 s, then announces her marathon and penance while starting to run; verified against the official clip title, visible speaker and cached Japanese ASR. No synthesized or sped-up speech."
+    }
+  ],
+  "notes": [
+    "Only the small skills and throw are reassigned. The original nine-hit super, its recording, video, finish art and timing remain intact.",
+    "All recordings come from Miyako in official anime episode 11 at their original speed. Comic-page effects adapt her weekly manga career, documented in her official character profile."
+  ]
+}
