@@ -1936,81 +1936,85 @@
         },
         "u": {
           "voice": "meme_12_u",
-          "label": "临兵斗者",
+          "label": "完成啦！",
           "slot": "u",
-          "audio": "assets/meme-media/recordings/miyako-u.mp3",
-          "duration": 2.7,
+          "audio": "assets/meme-media/miyako-skill-voices/miyako-u.mp3",
+          "duration": 2.78,
           "source": {
-            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
-            "uploader": "宇田川亚子Ako",
-            "bvid": "BV14Utf6QEfW",
-            "cid": 41556836755,
+            "url": "https://www.bilibili.com/video/BV1Cbn66MEPj/",
+            "uploader": "草女士家的耳廓狐",
+            "bvid": "BV1Cbn66MEPj",
+            "cid": 42936436063,
             "page": 1,
-            "title": "临兵斗者皆阵列在前——！",
-            "start": 0.1,
-            "end": 2.8,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "title": "【中字/藤都子】直播画了波堤巧克酱，对自己最新力作发表感想",
+            "start": 1.6,
+            "end": 4.38,
+            "proof": "同一段藤都子本人虚拟直播的连续发言；以虚拟形象、中文字幕和上下文核对说话人，ASR只用于辅助定位；保留原速。",
+            "catalog": "assets/meme-media/miyako-skill-voices/sources.json"
+          },
+          "subtitle_zh": "完成啦！"
         },
         "i": {
           "voice": "meme_12_i",
-          "label": "皆阵列在",
+          "label": "原谅一下啦～",
           "slot": "i",
-          "audio": "assets/meme-media/recordings/miyako-i.mp3",
-          "duration": 2.3,
+          "audio": "assets/meme-media/miyako-skill-voices/miyako-i.mp3",
+          "duration": 1.42,
           "source": {
-            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
-            "uploader": "宇田川亚子Ako",
-            "bvid": "BV14Utf6QEfW",
-            "cid": 41556836755,
+            "url": "https://www.bilibili.com/video/BV1Cbn66MEPj/",
+            "uploader": "草女士家的耳廓狐",
+            "bvid": "BV1Cbn66MEPj",
+            "cid": 42936436063,
             "page": 1,
-            "title": "临兵斗者皆阵列在前——！",
-            "start": 3.2,
-            "end": 5.5,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "title": "【中字/藤都子】直播画了波堤巧克酱，对自己最新力作发表感想",
+            "start": 66.7,
+            "end": 68.12,
+            "proof": "同一段藤都子本人虚拟直播的连续发言；以虚拟形象、中文字幕和上下文核对说话人，ASR只用于辅助定位；保留原速。",
+            "catalog": "assets/meme-media/miyako-skill-voices/sources.json"
+          },
+          "subtitle_zh": "原谅一下啦～"
         },
         "o": {
           "voice": "meme_12_o",
-          "label": "前！",
+          "label": "太棒了！",
           "slot": "o",
-          "audio": "assets/meme-media/recordings/miyako-o.mp3",
-          "duration": 2.4,
+          "audio": "assets/meme-media/miyako-skill-voices/miyako-o.mp3",
+          "duration": 1.68,
           "source": {
-            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
-            "uploader": "宇田川亚子Ako",
-            "bvid": "BV14Utf6QEfW",
-            "cid": 41556836755,
+            "url": "https://www.bilibili.com/video/BV1Cbn66MEPj/",
+            "uploader": "草女士家的耳廓狐",
+            "bvid": "BV1Cbn66MEPj",
+            "cid": 42936436063,
             "page": 1,
-            "title": "临兵斗者皆阵列在前——！",
-            "start": 9.0,
-            "end": 11.4,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "title": "【中字/藤都子】直播画了波堤巧克酱，对自己最新力作发表感想",
+            "start": 111.62,
+            "end": 113.3,
+            "proof": "同一段藤都子本人虚拟直播的连续发言；以虚拟形象、中文字幕和上下文核对说话人，ASR只用于辅助定位；保留原速。",
+            "catalog": "assets/meme-media/miyako-skill-voices/sources.json"
+          },
+          "subtitle_zh": "太棒了！"
         }
       },
       "variants": {
         "throw": {
           "voice": "meme_12_o",
-          "label": "前！",
+          "label": "太棒了！",
           "slot": "o",
-          "audio": "assets/meme-media/recordings/miyako-o.mp3",
-          "duration": 2.4,
+          "audio": "assets/meme-media/miyako-skill-voices/miyako-o.mp3",
+          "duration": 1.68,
           "source": {
-            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
-            "uploader": "宇田川亚子Ako",
-            "bvid": "BV14Utf6QEfW",
-            "cid": 41556836755,
+            "url": "https://www.bilibili.com/video/BV1Cbn66MEPj/",
+            "uploader": "草女士家的耳廓狐",
+            "bvid": "BV1Cbn66MEPj",
+            "cid": 42936436063,
             "page": 1,
-            "title": "临兵斗者皆阵列在前——！",
-            "start": 9.0,
-            "end": 11.4,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "title": "【中字/藤都子】直播画了波堤巧克酱，对自己最新力作发表感想",
+            "start": 111.62,
+            "end": 113.3,
+            "proof": "同一段藤都子本人虚拟直播的连续发言；以虚拟形象、中文字幕和上下文核对说话人，ASR只用于辅助定位；保留原速。",
+            "catalog": "assets/meme-media/miyako-skill-voices/sources.json"
+          },
+          "subtitle_zh": "太棒了！"
         }
       }
     },
@@ -2251,6 +2255,7 @@
     "assets/meme-media/research-mygo/sources-mygo-additional.json",
     "assets/meme-media/research-mewtype/manifest.json",
     "assets/meme-media/revision-anon-tensora/sources-revision.json",
+    "assets/meme-media/miyako-skill-voices/sources.json",
     "assets/meme-media/anon-cry-soyo-control/sources.json",
     "assets/meme-media/soyo-cutline/sources.json",
     "assets/meme-media/penguin-mortis/sources.json",

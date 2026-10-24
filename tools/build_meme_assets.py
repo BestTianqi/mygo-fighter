@@ -20,7 +20,8 @@ CHARACTERS = ['anon', 'soyo', 'tomori', 'rana', 'taki', 'umiri', 'sakiko',
               'uika', 'mutsumi', 'nyamu', 'arale', 'ritsu', 'miyako', 'yuno', 'nonoka']
 CATALOGS = ['recordings/sources-recordings.json', 'research-mygo/sources-mygo-extra.json',
             'research-mygo/sources-mygo-additional.json', 'research-mewtype/manifest.json',
-            'revision-anon-tensora/sources-revision.json']
+            'revision-anon-tensora/sources-revision.json',
+            'miyako-skill-voices/sources.json']
 CRAWL_NAMES = ['crawl-windup', 'crawl-a', 'crawl-b', 'crawl-recover']
 
 
