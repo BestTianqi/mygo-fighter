@@ -1347,6 +1347,19 @@ for (const [key, move] of Object.entries(MOVES)) {
     }));
   move.hitstop ??= 100;
 }
+// Sakiko's combat timing is independent of the recorded super video's length.
+for (const form of ["normal", "stage"]) {
+  const move = MOVES[`mujica_6_${form}_super`];
+  Object.assign(move, {
+    duration: 900,
+    start: 100,
+    end: 690,
+    hitstop: 50,
+    // Compact hits must retain the damage of the formerly separated strikes.
+    fixedDamage: true,
+    pulses: move.pulses!.map((pulse, i) => ({ ...pulse, at: 100 + i * 250 })),
+  });
+}
 Object.assign(MOVES.penguinSuper, {
   name: "春日影·企鹅演唱",
   duration: 1500,

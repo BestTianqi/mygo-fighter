@@ -2580,6 +2580,7 @@ class Match {
     }
     const reduction = MOVES[b.attack ?? ""]?.damageReduction;
     if (reduction) damage = Math.round(damage * (1 - reduction) * 10) / 10;
+    damage = Math.round(damage * 10) / 10;
     b.hp = Math.max(
       this.options.mode === "practice" && side === 0 ? 1 : 0,
       Math.round((b.hp - damage) * 10) / 10,
