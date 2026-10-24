@@ -1,6 +1,6 @@
 import { Camera } from "../../../game/camera";
 import { STAGE_FORM } from "../../../game/mujica";
-import { createMujicaMotion, mujicaBodyOffset } from "../../../game/animation";
+import { createMujicaMotion } from "../../../game/animation";
 import {
   MOVES,
   ROSTER,
@@ -376,29 +376,31 @@ export function createBattleScene(
     scale: number,
     motion: { lean: number; lift: number },
   ) {
-    // Narrow contiguous bands keep the face intact while the torso follows through.
-    // This supplements the authored poses; the bottom quarter is never displaced.
-    const strips = 40,
-      step = frame.h / strips;
+    // Transform the complete drawing once. Separate translucent strips produce
+    // horizontal seams when the camera scales them onto fractional pixels.
+    const bodyHeight = frame.ay * scale;
     ctx.save();
     ctx.shadowBlur = 0;
-    for (let n = 0; n < strips; n++) {
-      const top = n * step,
-        bottom = Math.min(frame.h, (n + 1) * step);
-      const a = mujicaBodyOffset(motion, (frame.ay - top) / frame.ay);
-      const b = mujicaBodyOffset(motion, (frame.ay - bottom) / frame.ay);
-      ctx.drawImage(
-        atlas,
-        frame.x,
-        frame.y + top,
-        frame.w,
-        bottom - top,
-        -frame.ax + (a.x + b.x) / (2 * scale),
-        -frame.ay + top + a.y / scale,
-        frame.w,
-        bottom - top + (b.y - a.y) / scale,
-      );
-    }
+    // Shear and breathing scale pivot around the existing foot anchor (0, 0).
+    ctx.transform(
+      1,
+      0,
+      -motion.lean / bodyHeight,
+      1 + motion.lift / bodyHeight,
+      0,
+      0,
+    );
+    ctx.drawImage(
+      atlas,
+      frame.x,
+      frame.y,
+      frame.w,
+      frame.h,
+      -frame.ax,
+      -frame.ay,
+      frame.w,
+      frame.h,
+    );
     ctx.restore();
   }
   function drawFighter(side: number) {

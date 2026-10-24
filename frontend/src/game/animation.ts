@@ -96,15 +96,6 @@ function createMujicaMotion() {
     return { lean, lift };
   };
 }
-// Deform only the torso; shoes and the complete lower leg remain planted.
-function mujicaBodyOffset(
-  motion: { lean: number; lift: number } | null,
-  height: number,
-) {
-  if (!motion) return { x: 0, y: 0 };
-  const upper = smooth((height - 0.24) / 0.65);
-  return { x: motion.lean * upper, y: -motion.lift * upper };
-}
 function createAnimator() {
   const states = new WeakMap();
   return function choose(match: Match, side: number) {
@@ -461,4 +452,4 @@ function createAnimator() {
     return "idle"; // All normal forms can use their reviewed portrait idle atlas.
   };
 }
-export { createAnimator, createMujicaMotion, mujicaBodyOffset };
+export { createAnimator, createMujicaMotion };
