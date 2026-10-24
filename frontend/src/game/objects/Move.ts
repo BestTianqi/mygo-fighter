@@ -99,6 +99,7 @@ export interface Move {
   umiri?: "bass" | "hook" | "toss" | "schedule";
   uika?: "denial" | "pursuit" | "cage" | "crescent";
   nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
+  yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

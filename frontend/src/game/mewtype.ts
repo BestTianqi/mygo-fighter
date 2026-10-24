@@ -47,7 +47,7 @@ const CHARACTERS: Character[] = [
     color: "#ee79c8",
     role: "DJ",
     archetype: "节拍控场型",
-    skill: "全域Drop",
+    skill: "最高のバンド·世界へ",
   },
   {
     id: 14,
@@ -83,6 +83,7 @@ const schemeFor = (f: FighterIdentity): Scheme => ({
   super: `${prefixFor(f)}_super`,
   variants: {
     down1: `${prefixFor(f)}_wave`,
+    ...(f.character === 13 ? { down2: `${prefixFor(f)}_guard` } : {}),
     ...(f.character === 14 ? { down2: `${prefixFor(f)}_comfort` } : {}),
   },
 });
@@ -193,18 +194,6 @@ const missile = {
   radiusX: 24,
   radiusY: 45,
 };
-const combo = (damages: number[], interval = 160) => ({
-  duration: 120 + interval * (damages.length - 1) + 360,
-  start: 120,
-  end: 200 + interval * (damages.length - 1),
-  pulses: damages.map((damage, i) => ({
-    at: 120 + i * interval,
-    damage,
-    reach: 200,
-    stun: 330,
-    push: i === damages.length - 1 ? 220 : 25,
-  })),
-});
 add(10, "u", "糖果声浪", missile);
 add(10, "i", "应援叠唱", {
   ...missile,
@@ -268,14 +257,61 @@ add(12, "i", "伏笔机关", {
   end: 140,
 });
 add(12, "o", "截稿线", { reach: 350, pull: 100 });
-add(13, "u", "怎么先走·低频唱片", {
+add(13, "u", "迈向世界·双重低音", {
   ...missile,
+  yuno: "bass",
+  damage: 8,
+  shots: [120, 300],
+  start: 120,
+  end: 320,
+  duration: 650,
+  speed: 620,
+  push: 80,
   groundShock: true,
   level: "low",
   height: 40,
   radiusY: 30,
 });
-add(13, "i", "有惊无险·节拍屏障", {
+add(13, "i", "放开我·拒绝贴贴", {
+  yuno: "release",
+  omni: true,
+  damage: 14,
+  reach: 225,
+  vertical: 200,
+  movement: -130,
+  movementEnd: 220,
+  start: 120,
+  end: 190,
+  duration: 580,
+  push: 420,
+  stun: 450,
+  recast: 1800,
+});
+add(13, "o", "supremacy·海边重奏", {
+  yuno: "seaside",
+  delayedArea: true,
+  damage: 22,
+  warning: 500,
+  areaRadius: 135,
+  reach: 420,
+  vertical: 240,
+  stun: 650,
+  push: 60,
+  start: 160,
+  end: 180,
+  duration: 480,
+  recast: 3200,
+});
+MOVES.mewtype_13_virtual_guard = {
+  ownerCharacter: 13,
+  form: "virtual",
+  yuno: "band",
+  name: "最棒的乐队·合奏屏障",
+  command: "↓＋I",
+  slot: "i",
+  visualSlot: "skill-i",
+  ground: true,
+  cost: 25,
   category: "defense",
   durability: 24,
   lifetime: 2000,
@@ -284,8 +320,7 @@ add(13, "i", "有惊无险·节拍屏障", {
   duration: 400,
   start: 120,
   end: 140,
-});
-add(13, "o", "真不敢信·混音过门", combo([6, 6, 10]));
+};
 add(14, "u", "抱抱还是亲亲·强制手当", {
   nonoka: "hug",
   category: "throw",
@@ -381,7 +416,7 @@ for (const wave of [
   },
   {
     id: 13,
-    name: "霓虹脉冲波",
+    name: "迈向世界·混音声波",
     damage: 14,
     speed: 560,
     radiusX: 28,
@@ -420,6 +455,7 @@ for (const wave of [
     push: 150,
     ...spec,
     ...(id === 14 ? { nonoka: "bite" as const } : {}),
+    ...(id === 13 ? { yuno: "wave" as const } : {}),
     end: spec.start + 80,
   };
 }
@@ -427,7 +463,7 @@ const superNames: Record<number, string> = {
   10: "U咩哇帕瓦",
   11: "杂鱼～杂鱼～",
   12: "临兵斗者皆阵列在前",
-  13: "不要丢下我",
+  13: "最高のバンド·世界へ",
   14: "兔食者·不会放开由乃亲",
 };
 const superDurations: Record<number, number> = {
@@ -493,6 +529,7 @@ for (const c of CHARACTERS) {
         }
       : {}),
     ...(c.id === 14 ? { nonoka: "eater" as const } : {}),
+    ...(c.id === 13 ? { yuno: "world" as const } : {}),
   });
   if (c.id === 13) MOVES[`mewtype_${c.id}_virtual_super`].omni = true;
 }

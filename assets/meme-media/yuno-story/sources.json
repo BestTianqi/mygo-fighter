@@ -1,0 +1,67 @@
+{
+  "clips": [
+    {
+      "character": "yuno",
+      "slot": "u",
+      "voice": "yunoAnimeWorld",
+      "move": "mewtype_13_virtual_u",
+      "label": "迈向世界·双重低音",
+      "audio": "yuno-yunoAnimeWorld.mp3",
+      "start": 8.0,
+      "end": 12.2,
+      "spokenJapanese": "メジャーシーンに出たら絶対売れる。世界にも行けるはずだし。",
+      "subtitle_zh": "进入主流舞台一定会走红，也能走向世界。",
+      "sourceURL": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+      "bvid": "BV13HhG6vEJu",
+      "cid": 41251441252,
+      "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    },
+    {
+      "character": "yuno",
+      "slot": "i",
+      "voice": "yunoAnimeLetGo",
+      "move": "mewtype_13_virtual_i",
+      "label": "放开我·拒绝贴贴",
+      "audio": "yuno-yunoAnimeLetGo.mp3",
+      "start": 4.9,
+      "end": 6.9,
+      "spokenJapanese": "いや、離して。",
+      "subtitle_zh": "不要，放开我。",
+      "sourceURL": "https://www.bilibili.com/video/BV166tA6SExy/",
+      "bvid": "BV166tA6SExy",
+      "cid": 41361148885,
+      "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    },
+    {
+      "character": "yuno",
+      "slot": "o",
+      "voice": "yunoAnimeBand",
+      "move": "mewtype_13_virtual_o",
+      "label": "supremacy·海边重奏",
+      "audio": "yuno-yunoAnimeBand.mp3",
+      "start": 0.0,
+      "end": 5.75,
+      "spokenJapanese": "あたしたち、最高のバンドでしょ。",
+      "subtitle_zh": "我们是最棒的乐队吧。",
+      "sourceURL": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+      "bvid": "BV13HhG6vEJu",
+      "cid": 41251441252,
+      "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+      "uploader": "梦限大MewType",
+      "speakerVerification": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech."
+    }
+  ],
+  "finishArt": {
+    "file": "assets/finish-art/yuno-anime-band.webp",
+    "source": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+    "atSeconds": 26.0
+  },
+  "notes": [
+    "Anime-only active skills and throw. Original livestream files remain preserved as source/legacy media but are not selected by Yuno moves.",
+    "P cutin is the original 0–5.75 s anime scene at playback rate 1; audio is played by the recorded voice channel."
+  ]
+}

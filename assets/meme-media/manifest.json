@@ -2394,25 +2394,153 @@
       },
       "variants": {
         "throw": {
-          "voice": "meme_13_o",
-          "label": "真不敢信",
-          "slot": "o",
-          "audio": "assets/meme-media/research-mewtype/yuno-o.mp3",
-          "duration": 1.6,
+          "voice": "yunoAnimeLetGo",
+          "label": "放开我·摔投",
+          "slot": "i",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeLetGo.mp3",
+          "duration": 2.0,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1xknT6JEUC/",
-            "uploader": "graten_",
-            "bvid": "BV1xknT6JEUC",
-            "cid": 42910355334,
+            "url": "https://www.bilibili.com/video/BV166tA6SExy/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV166tA6SExy",
+            "cid": 41361148885,
             "page": 1,
-            "title": "【梦限大/千石由乃】被姐姐丢下后很难过（请自行调节音量）",
-            "start": 30.25,
-            "end": 31.85,
-            "proof": "单人虚拟直播/本人账号短视频；已逐帧核对字幕，ASR仅辅助对齐。",
-            "catalog": "assets/meme-media/research-mewtype/manifest.json"
+            "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+            "start": 4.9,
+            "end": 6.9,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
           },
-          "transcript_ja": "本当にありえなくて",
-          "subtitle_zh": "真是不敢相信"
+          "spokenJapanese": "いや、離して。",
+          "subtitle_zh": "不要，放开我。"
+        },
+        "mewtype_13_virtual_u": {
+          "voice": "yunoAnimeWorld",
+          "label": "迈向世界·双重低音",
+          "slot": "u",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeWorld.mp3",
+          "duration": 4.2,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV13HhG6vEJu",
+            "cid": 41251441252,
+            "page": 1,
+            "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+            "start": 8.0,
+            "end": 12.2,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "メジャーシーンに出たら絶対売れる。世界にも行けるはずだし。",
+          "subtitle_zh": "进入主流舞台一定会走红，也能走向世界。"
+        },
+        "mewtype_13_virtual_i": {
+          "voice": "yunoAnimeLetGo",
+          "label": "放开我·拒绝贴贴",
+          "slot": "i",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeLetGo.mp3",
+          "duration": 2.0,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV166tA6SExy/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV166tA6SExy",
+            "cid": 41361148885,
+            "page": 1,
+            "title": "ののちゃんはユノちゃんを離さな〜い！（小野乃是不会放开小由乃的~！）",
+            "start": 4.9,
+            "end": 6.9,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "いや、離して。",
+          "subtitle_zh": "不要，放开我。"
+        },
+        "mewtype_13_virtual_o": {
+          "voice": "yunoAnimeBand",
+          "label": "supremacy·海边重奏",
+          "slot": "o",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeBand.mp3",
+          "duration": 5.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV13HhG6vEJu",
+            "cid": 41251441252,
+            "page": 1,
+            "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+            "start": 0.0,
+            "end": 5.75,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "あたしたち、最高のバンドでしょ。",
+          "subtitle_zh": "我们是最棒的乐队吧。"
+        },
+        "mewtype_13_virtual_wave": {
+          "voice": "yunoAnimeWorld",
+          "label": "迈向世界·混音声波",
+          "slot": "u",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeWorld.mp3",
+          "duration": 4.2,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV13HhG6vEJu",
+            "cid": 41251441252,
+            "page": 1,
+            "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+            "start": 8.0,
+            "end": 12.2,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "メジャーシーンに出たら絶対売れる。世界にも行けるはずだし。",
+          "subtitle_zh": "进入主流舞台一定会走红，也能走向世界。"
+        },
+        "mewtype_13_virtual_guard": {
+          "voice": "yunoAnimeBand",
+          "label": "最棒的乐队·合奏屏障",
+          "slot": "i",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeBand.mp3",
+          "duration": 5.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV13HhG6vEJu",
+            "cid": 41251441252,
+            "page": 1,
+            "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+            "start": 0.0,
+            "end": 5.75,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "あたしたち、最高のバンドでしょ。",
+          "subtitle_zh": "我们是最棒的乐队吧。"
+        },
+        "mewtype_13_virtual_super": {
+          "voice": "yunoAnimeBand",
+          "label": "最高のバンド·世界へ",
+          "slot": "p",
+          "audio": "assets/meme-media/yuno-story/yuno-yunoAnimeBand.mp3",
+          "duration": 5.75,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13HhG6vEJu/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV13HhG6vEJu",
+            "cid": 41251441252,
+            "page": 1,
+            "title": "最高のバンドなんでしょ？あたしたち（我们是最棒的乐队吧）",
+            "start": 0.0,
+            "end": 5.75,
+            "proof": "Official anime clip, Yuno (red hair/red eyes, glasses in episode 11) speaking or continuous dialogue with her visible lip movement at these timestamps; source title and cached Japanese ASR used together. No synthesized or sped-up speech.",
+            "catalog": "assets/meme-media/yuno-story/sources.json"
+          },
+          "spokenJapanese": "あたしたち、最高のバンドでしょ。",
+          "subtitle_zh": "我们是最棒的乐队吧。",
+          "video": "assets/meme-media/yuno-story/yuno-band-cutin.mp4",
+          "videoRate": 1
         }
       }
     },
@@ -2674,7 +2802,8 @@
     "assets/meme-media/mortis-toddler/sources.json",
     "assets/meme-media/mortis-stage-voices/sources.json",
     "assets/meme-media/sakiko-customer-service/sources.json",
-    "assets/meme-media/nonoka-story/sources.json"
+    "assets/meme-media/nonoka-story/sources.json",
+    "assets/meme-media/yuno-story/sources.json"
   ],
   "notes": [
     "Mujica normal/stage forms share recordings except the dedicated Mortis stage kit, transformation, throw and super.",

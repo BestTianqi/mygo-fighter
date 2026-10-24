@@ -146,6 +146,15 @@ def build_catalog():
     nonoka['mewtype_14_virtual_super'] = dict(nonoka['mewtype_14_virtual_i'],
         label='兔食者·不会放开由乃亲', slot='p', video='assets/meme-media/nonoka-story/nonoka-stay-cutin.mp4', videoRate=1)
     nonoka['throw'] = dict(nonoka['mewtype_14_virtual_u'], label='抱抱还是亲亲·抱击')
+    yuno_catalog = MEDIA / 'yuno-story/sources.json'
+    for row in read_json(yuno_catalog)['clips']:
+        profiles['13']['variants'][row['move']] = normalize_clip(row, yuno_catalog, 13, row['slot'], row['voice'])
+    yuno = profiles['13']['variants']
+    yuno['mewtype_13_virtual_wave'] = dict(yuno['mewtype_13_virtual_u'], label='迈向世界·混音声波')
+    yuno['mewtype_13_virtual_guard'] = dict(yuno['mewtype_13_virtual_o'], label='最棒的乐队·合奏屏障', slot='i')
+    yuno['mewtype_13_virtual_super'] = dict(yuno['mewtype_13_virtual_o'],
+        label='最高のバンド·世界へ', slot='p', video='assets/meme-media/yuno-story/yuno-band-cutin.mp4', videoRate=1)
+    yuno['throw'] = dict(yuno['mewtype_13_virtual_i'], label='放开我·摔投')
     # Stage-only Uika aliases keep the spoken phrase aligned with its action.
     for move, slot, label in [
         ('mujica_7_stage_u', 'i', '不是不是不是·三重否认'),
@@ -199,6 +208,7 @@ def build_catalog():
     revision = MEDIA / 'revision-anon-tensora/sources-revision.json'
     catalog['sourceCatalogs'].append(customer_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(nonoka_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog

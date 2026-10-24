@@ -21,6 +21,7 @@ import { drawNyamuSkill } from "./drawNyamuSkills";
 import { drawUmiriSkill } from "./drawUmiriSkills";
 import { drawUikaSkill, drawUikaArea } from "./drawUikaSkills";
 import { drawNonokaSkill, drawNonokaShield } from "./drawNonokaSkills";
+import { drawYunoSkill, drawYunoArea } from "./drawYunoSkills";
 
 type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
 type ParticleKind =
@@ -287,7 +288,7 @@ export function createBattleScene(
         color: "#c4e9ff",
         text:
           (f.character === 13
-            ? "节拍屏障"
+            ? "合奏屏障"
             : f.character === 14
               ? "元气护盾"
               : f.character >= 5
@@ -925,7 +926,7 @@ export function createBattleScene(
       ctx.fillRect(-27, -130, (54 * steel.hp) / 24, 5);
       ctx.font = 'bold 10px "Segoe UI",sans-serif';
       ctx.fillText(
-        (f.character === 13 ? "节拍 " : "茶会 ") + steel.hp,
+        (f.character === 13 ? "合奏 " : "茶会 ") + steel.hp,
         0,
         -138,
       );
@@ -1188,6 +1189,11 @@ export function createBattleScene(
         ctx.restore();
         continue;
       }
+      if (MOVES[area.attack].yuno === "seaside") {
+        drawYunoArea(ctx, area);
+        ctx.restore();
+        continue;
+      }
       if (MOVES[area.attack].mortis === "snare") {
         ctx.strokeStyle = "#d8eab4";
         ctx.beginPath();
@@ -1244,7 +1250,8 @@ export function createBattleScene(
         move.ownerCharacter! !== f.character ||
         f.stun ||
         !move.slot ||
-        move.nonoka
+        move.nonoka ||
+        move.yuno
       ) {
         ctx.restore();
         continue;
@@ -1864,15 +1871,21 @@ export function createBattleScene(
       }
     drawBlinkTrails(dt);
     for (const side of [0, 1]) drawFighter(side);
-    // Keep Nonoka's held props and gestures visible in front of the original artwork.
+    // Held props and gestures remain visible in front of the original artwork.
     for (const f of match.fighters) {
       const move = MOVES[f.attack ?? ""];
-      if (match.phase !== "fighting" || !move?.nonoka || f.stun || f.knockdown)
+      if (
+        match.phase !== "fighting" ||
+        !(move?.nonoka || move?.yuno) ||
+        f.stun ||
+        f.knockdown
+      )
         continue;
       ctx.save();
       ctx.translate(f.x, 438 - f.y);
       ctx.scale(f.facing, 1);
-      drawNonokaSkill(ctx, move, f.attackMs, reducedMotion);
+      if (move.nonoka) drawNonokaSkill(ctx, move, f.attackMs, reducedMotion);
+      else drawYunoSkill(ctx, move, f.attackMs, reducedMotion);
       ctx.restore();
     }
     drawSummons();
