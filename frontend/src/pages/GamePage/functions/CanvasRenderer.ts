@@ -113,6 +113,9 @@ export class CanvasRenderer {
           ...Object.values(this.assets.mujicaPortraits[id] ?? {}).map(
             (p) => p.idle,
           ),
+          ...(this.assets.mewtypePortraits?.[id]
+            ? [this.assets.mewtypePortraits[id].idle]
+            : []),
           ...(this.assets.mujicaMaskForms[id]
             ? [this.assets.mujicaMaskForms[id]]
             : []),
@@ -219,6 +222,8 @@ export class CanvasRenderer {
         art = a.sakikoCustomerActions;
       else if (animation?.startsWith("crawl-"))
         art = a.memeCrawlForms[form] ?? art;
+      else if (animation === "idle" && a.mewtypePortraits?.[f.character])
+        art = a.mewtypePortraits[f.character].idle;
       else if (animation === "idle" && a.mujicaPortraits[f.character]?.[form])
         art = a.mujicaPortraits[f.character][form].idle;
       frame =

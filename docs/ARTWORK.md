@@ -30,3 +30,5 @@ node scripts/check-assets.mjs
 ```
 
 The exporter preserves every existing referenced runtime file, adds content-addressed portrait files and retires only generated media no longer referenced by the manifest. The regular full artwork build also includes these portraits. Menu, selection preview and ordinary finish portraits use the character portrait; selection cards and HUD use the explicit face crop. Soyo's and Uika's video finish stills remain in place.
+
+MewType follows the same workflow under `assets/mewtype/portraits-v1/`, using each character's initial virtual outfit. Run `python tools/build_mewtype_portraits.py` to update those five portraits, square face crops and idle atlases. Existing movement and attack sheets remain independently authored assets.

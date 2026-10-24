@@ -49,6 +49,7 @@ export interface Assets {
   mujicaMaskForms: Record<string, Atlas>;
   memeCrawlForms: Record<string, Atlas>;
   mygoPortraits?: Record<string, Portrait>;
+  mewtypePortraits?: Record<string, Portrait>;
   mujicaPortraits: Record<string, Record<string, Portrait>>;
   anonNormals: Atlas;
   milkDragon: Atlas;
