@@ -37,6 +37,21 @@ server = AssetServer(
 )
 threading.Thread(target=server.serve_forever, daemon=True).start()
 report = {'errors': [], 'missing': [], 'checks': []}
+
+def wait_game_time(page, milliseconds):
+    # The runtime caps each frame at 50 ms. On a busy renderer, wall-clock
+    # sleeps can finish before an attack's recovery has advanced in-game.
+    page.evaluate('''duration => new Promise(resolve => {
+      let previous = performance.now(), elapsed = 0;
+      function frame(now) {
+        elapsed += Math.min(50, now - previous);
+        previous = now;
+        if (elapsed >= duration) resolve();
+        else requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })''', milliseconds)
+
 try:
     with sync_playwright() as p:
         browser = p.chromium.launch(
@@ -68,7 +83,7 @@ try:
         canvas.focus()
         page.keyboard.press('u')
         page.wait_for_function('pagesAudio.starts > 0', timeout=5000)
-        page.wait_for_timeout(900)
+        wait_game_time(page, 1000)
         page.keyboard.press('h')
         page.wait_for_timeout(800)
         expect(page.get_by_label('对战舞台')).to_contain_text('✦')
@@ -102,7 +117,7 @@ try:
             page.wait_for_timeout(2000)
             canvas.focus()
             page.keyboard.press('j')
-            page.wait_for_timeout(700)
+            wait_game_time(page, 1000)
             if character == 2 or 5 <= character <= 9:
                 page.keyboard.press('h')
                 page.wait_for_timeout(900)

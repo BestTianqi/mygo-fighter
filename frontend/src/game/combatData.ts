@@ -1302,16 +1302,23 @@ for (const [prefix, source] of [
     };
 }
 // Shared balance pass covers every roster member, stance, chain and transformation.
-for (const profile of ROSTER)
-  profile.heavyDamage = Math.max(1, Math.round(profile.heavyDamage * 0.75));
+const normalDamage = (damage: number) =>
+  Math.max(1, Math.round(Math.round(damage * 0.75) * 0.9));
+for (const profile of ROSTER) {
+  profile.heavyDamage = normalDamage(profile.heavyDamage);
+  profile.heavyReach = Math.round(profile.heavyReach * 1.2);
+}
 for (const [key, move] of Object.entries(MOVES)) {
   if (move.category === "normal") {
-    move.damage = Math.max(1, Math.round(move.damage * 0.75));
+    move.damage = normalDamage(move.damage);
     move.duration += 80;
+    const strong = move.strength === 3 && !move.jab;
+    if (strong && move.reach) move.reach = Math.round(move.reach * 1.2);
     if (move.pulses)
       move.pulses = move.pulses.map((p) => ({
         ...p,
-        damage: Math.max(1, Math.round(p.damage * 0.75)),
+        damage: normalDamage(p.damage),
+        ...(strong && p.reach ? { reach: Math.round(p.reach * 1.2) } : {}),
       }));
   }
   if (move.category !== "super" || key === "super") continue;

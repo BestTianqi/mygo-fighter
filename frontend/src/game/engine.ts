@@ -474,6 +474,17 @@ class Match {
     if (kitFor(a)) {
       const scheme = controls.schemeFor(a);
       if (this.grounded(a)) {
+        const ranged = MOVES[scheme.variants.down1];
+        if (
+          a.character >= 10 &&
+          ranged?.projectile &&
+          a.energy >= ranged.cost! &&
+          d >= 260 &&
+          d <= ranged.maxReach! &&
+          Math.abs(a.y - b.y) < 100 &&
+          this.random() < 0.6
+        )
+          return { unified: true, crouch: true, skill1: true };
         if (
           isMujica(a.character) &&
           !a.stageForm &&
@@ -2250,7 +2261,9 @@ class Match {
             originY: f.y,
             maxReach:
               move.maxReach || (move.category === "super" ? 420 : undefined),
-            maxVertical: move.category === "super" ? 300 : Infinity,
+            // Snapshots are JSON: Infinity would become null and reject airborne hits.
+            maxVertical:
+              move.category === "super" ? 300 : WORLD.top - WORLD.bottom,
           }
         : {}),
       ...(move.projectileGravity

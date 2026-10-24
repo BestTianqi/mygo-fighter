@@ -48,6 +48,8 @@ A disconnect pauses both players. The page reconnects automatically, and refresh
 
 Hold back to guard, back + crouch to guard low, and back + U or forward + O to throw. Direction + skill selects character-specific variants. Jump twice for a double jump; down + jump drops through platforms. Touch controls support simultaneous directions and attacks. Page buttons pause, restart and return to selection.
 
+All five MewType characters have an additional **down + U** projectile costing **20 resonance** (2P: down + Numpad 4). Arale fires a heart sound wave, Ritsu a blue bear chord, Miyako an ink-panel wave, Yuno an electronic pulse and Nonoka a rabbit-ear pick. Their base U/I/O skills remain available. Waves can be guarded, collide with opposing projectiles and stop at raised ground. A skill hit restores 2 resonance; both HUD bars show the current value out of 100.
+
 ## Development
 
 ```sh

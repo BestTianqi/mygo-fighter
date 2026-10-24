@@ -332,12 +332,20 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={fighter.energy}
-        className="mt-1 h-1 overflow-hidden rounded-sm bg-slate-700"
+        className={`mt-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
       >
-        <div
-          className={`h-full ${side ? "ml-auto bg-cyan-100" : "bg-pink-100"}`}
-          style={{ width: `${fighter.energy}%` }}
-        />
+        <div className="h-1 flex-1 overflow-hidden rounded-sm bg-slate-700">
+          <div
+            className={`h-full ${side ? "ml-auto bg-cyan-100" : "bg-pink-100"}`}
+            style={{ width: `${fighter.energy}%` }}
+          />
+        </div>
+        <span
+          aria-hidden="true"
+          className="shrink-0 whitespace-nowrap font-mono text-[8px] tabular-nums text-slate-200 sm:text-[10px]"
+        >
+          {fighter.energy} / 100
+        </span>
       </div>
       <p className="mt-1 text-[8px] text-slate-400 sm:text-[10px]">
         {view.config?.format === "3v3"

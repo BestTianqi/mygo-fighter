@@ -81,7 +81,7 @@ const normalFor = (f: FighterIdentity, button: string, stance = "standing") =>
 const schemeFor = (f: FighterIdentity): Scheme => ({
   base: ["u", "i", "o"].map((slot) => `${prefixFor(f)}_${slot}`),
   super: `${prefixFor(f)}_super`,
-  variants: {},
+  variants: { down1: `${prefixFor(f)}_wave` },
 });
 const normalNames: Record<number, string[]> = {
   10: ["扩音点拍", "抬肘应援", "高音上挑", "扩音重唱"],
@@ -300,6 +300,84 @@ add(14, "o", "病娇野乃·跳拍尾奏", {
   vertical: 230,
   level: "high",
 });
+// A shared down-U command adds ranged options without replacing the three base skills.
+for (const wave of [
+  {
+    id: 10,
+    name: "心糖扩音波",
+    damage: 14,
+    speed: 600,
+    radiusX: 34,
+    radiusY: 48,
+    maxReach: 850,
+    start: 170,
+    duration: 640,
+  },
+  {
+    id: 11,
+    name: "蓝熊弦压波",
+    damage: 16,
+    speed: 700,
+    radiusX: 30,
+    radiusY: 42,
+    maxReach: 780,
+    start: 190,
+    duration: 660,
+  },
+  {
+    id: 12,
+    name: "墨线分镜波",
+    damage: 15,
+    speed: 640,
+    radiusX: 32,
+    radiusY: 44,
+    maxReach: 820,
+    start: 170,
+    duration: 620,
+  },
+  {
+    id: 13,
+    name: "霓虹脉冲波",
+    damage: 14,
+    speed: 560,
+    radiusX: 28,
+    radiusY: 60,
+    maxReach: 780,
+    start: 210,
+    duration: 680,
+  },
+  {
+    id: 14,
+    name: "兔耳拨片波",
+    damage: 13,
+    speed: 760,
+    radiusX: 26,
+    radiusY: 36,
+    maxReach: 900,
+    start: 160,
+    duration: 600,
+  },
+]) {
+  const { id, ...spec } = wave;
+  MOVES[`${prefixFor({ character: id })}_wave`] = {
+    ...missile,
+    ownerCharacter: id,
+    form: "virtual",
+    slot: "u",
+    visualSlot: "skill-u",
+    command: "↓＋U",
+    category: "special",
+    ground: true,
+    cost: 20,
+    height: 100,
+    lifetime: 1500,
+    chip: 2,
+    stun: 320,
+    push: 150,
+    ...spec,
+    end: spec.start + 80,
+  };
+}
 const superNames: Record<number, string> = {
   10: "U咩哇帕瓦",
   11: "杂鱼～杂鱼～",

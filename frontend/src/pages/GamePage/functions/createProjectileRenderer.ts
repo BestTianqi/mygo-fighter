@@ -87,7 +87,115 @@ export function createProjectileRenderer(
     ctx.shadowColor = color;
     ctx.shadowBlur = reducedMotion ? 0 : 12;
     ctx.lineWidth = 3;
-    if (owner === 12) {
+    if (w.attack.endsWith("_wave")) {
+      const opacity = ctx.globalAlpha;
+      // Trailing crescents show direction while the core identifies the character.
+      for (let i = 2; i >= 0; i--) {
+        ctx.globalAlpha = opacity * (0.18 + (2 - i) * 0.12);
+        ctx.beginPath();
+        ctx.ellipse(-18 - i * 15, 0, w.rx!, w.ry! * 0.85, 0, -1.25, 1.25);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = opacity;
+      if (owner === 10) {
+        ctx.fillStyle = "#ffd7e8";
+        ctx.beginPath();
+        ctx.moveTo(0, 25);
+        ctx.bezierCurveTo(-50, -5, -28, -40, 0, -20);
+        ctx.bezierCurveTo(28, -40, 50, -5, 0, 25);
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(4, -5);
+        ctx.lineTo(4, -23);
+        ctx.lineTo(15, -18);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(0, -3, 6, 4, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      } else if (owner === 11) {
+        ctx.fillStyle = "#d5eaff";
+        ctx.beginPath();
+        ctx.ellipse(2, 10, 22, 17, 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath();
+          ctx.ellipse(
+            -22 + i * 15,
+            -17 - Math.sin((i * Math.PI) / 3) * 8,
+            7,
+            10,
+            (i - 1.5) * 0.2,
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        for (let i = 0; i < 3; i++) {
+          ctx.moveTo(12, -4 + i * 9);
+          ctx.lineTo(35, -10 + i * 9);
+        }
+        ctx.stroke();
+      } else if (owner === 12) {
+        for (let i = 2; i >= 0; i--) {
+          ctx.save();
+          ctx.translate(-i * 14, i * 5);
+          ctx.rotate(-0.18 + i * 0.1);
+          ctx.globalAlpha = opacity * (1 - i * 0.22);
+          ctx.fillStyle = "#fff8ef";
+          ctx.fillRect(-20, -29, 40, 58);
+          ctx.strokeRect(-20, -29, 40, 58);
+          ctx.strokeRect(-14, -23, 28, 18);
+          ctx.strokeRect(-14, 2, 12, 20);
+          ctx.strokeRect(4, 2, 10, 20);
+          ctx.restore();
+        }
+        ctx.beginPath();
+        ctx.moveTo(-33, 14);
+        ctx.quadraticCurveTo(3, -25, 35, -4);
+        ctx.stroke();
+      } else if (owner === 13) {
+        ctx.beginPath();
+        ctx.ellipse(10, 0, 22, w.ry!, 0, -1.4, 1.4);
+        ctx.stroke();
+        for (let i = 0; i < 7; i++) {
+          const h = 14 + (1 + Math.sin(w.age * 0.02 + i * 1.2)) * 18;
+          ctx.fillRect(-28 + i * 8, -h / 2, 4, h);
+        }
+        ctx.strokeStyle = "#ffe5fa";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = -30; x <= 30; x += 3) {
+          const y = Math.sin(x * 0.16 - w.age * 0.02) * 15;
+          if (x === -30) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      } else if (owner === 14) {
+        ctx.fillStyle = "#edfff6";
+        ctx.beginPath();
+        ctx.moveTo(29, 1);
+        ctx.quadraticCurveTo(-23, 41, -22, 0);
+        ctx.quadraticCurveTo(-23, -35, 29, 1);
+        ctx.fill();
+        ctx.stroke();
+        for (const x of [-10, 6]) {
+          ctx.beginPath();
+          ctx.ellipse(x, -24, 5, 15, x < 0 ? -0.25 : 0.25, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.moveTo(0, -6);
+        ctx.lineTo(10, 2);
+        ctx.lineTo(0, 10);
+        ctx.stroke();
+      }
+    } else if (owner === 12) {
       ctx.rotate(w.age * 0.006);
       ctx.fillStyle = "#fff8ef";
       ctx.fillRect(-21, -28, 42, 56);
