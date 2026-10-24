@@ -25,15 +25,28 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 server = Server(('127.0.0.1', 0), functools.partial(Handler, directory=str(ROOT / 'frontend/dist')))
 threading.Thread(target=server.serve_forever, daemon=True).start()
 report = {'errors': [], 'forms': []}
+
+def wait_game_time(page, duration):
+    page.evaluate('''duration=>new Promise(resolve=>{
+      let previous=performance.now(),elapsed=0;
+      function frame(now){elapsed+=Math.min(50,now-previous);previous=now;
+        if(elapsed>=duration)resolve();else requestAnimationFrame(frame);}
+      requestAnimationFrame(frame);
+    })''', duration)
+
 try:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True, **({'channel': 'msedge'} if os.name == 'nt' else {}))
         page = browser.new_page(viewport={'width': 1366, 'height': 900})
         page.add_init_script('''window.idleTrace=[];window.idleAtlas='';
+          window.actionTrace=[];window.actionAtlas='';
           const draw=CanvasRenderingContext2D.prototype.drawImage;
           CanvasRenderingContext2D.prototype.drawImage=function(...args){
             if(window.idleAtlas&&args[0]?.src?.endsWith(window.idleAtlas)){
               idleTrace.push({height:args[4],y:args[2]});if(idleTrace.length>500)idleTrace.shift();
+            }
+            if(window.actionAtlas&&args[0]?.src?.endsWith(window.actionAtlas)){
+              actionTrace.push(args.slice(1,5));
             }
             return draw.apply(this,args);
           };''')
@@ -48,6 +61,7 @@ try:
             page.get_by_role('button', name='登台对战').click()
             canvas = page.get_by_label('MyGO 格斗对战画面')
             expect(canvas).to_be_visible(timeout=30000)
+            wait_game_time(page, 1200)
             for form in ['normal', 'stage']:
                 art = assets['mujicaPortraits'][str(character)][form]['idle']
                 page.evaluate('path=>{window.idleAtlas=path;window.idleTrace=[]}', art['atlas'])
@@ -63,6 +77,31 @@ try:
                 report['forms'].append({'character': character, 'form': form,
                                         'intact': intact, 'sampleHeights': sorted(set(s['height'] for s in samples))})
                 page.screenshot(path=str(OUTPUT / f'{character}-{form}.png'))
+                action_art = assets['mujicaForms'][str(character)][form]
+                page.evaluate('path=>{window.actionAtlas=path;window.actionTrace=[]}', action_art['atlas'])
+                canvas.focus()
+                page.keyboard.down('d')
+                wait_game_time(page, 190)
+                page.keyboard.up('d')
+                wait_game_time(page, 30)
+                page.screenshot(path=str(OUTPUT / f'{character}-{form}-stop.png'))
+                page.keyboard.press('w')
+                wait_game_time(page, 1400)
+                page.keyboard.press('j')
+                wait_game_time(page, 750)
+                page.keyboard.press('k')
+                wait_game_time(page, 110)
+                page.screenshot(path=str(OUTPUT / f'{character}-{form}-heavy.png'))
+                wait_game_time(page, 1000)
+                frames = {(f['x'], f['y'], f['w'], f['h']): f['name'] for f in action_art['frames']}
+                samples = page.evaluate('actionTrace')
+                assert samples, 'Movement must draw authored action frames'
+                assert all(tuple(rect) in frames for rect in samples), 'Action drawings must also remain intact'
+                poses = sorted(set(frames[tuple(rect)] for rect in samples))
+                report['forms'][-1]['actions'] = poses
+                required = {'walk-contact', 'walk-pass', 'jump-fall', 'landing', 'jab-1-impact', 'heavy-impact'}
+                assert required.issubset(poses), (character, form, poses)
+                page.evaluate("window.actionAtlas=''")
             page.evaluate("window.idleAtlas=''")
             page.get_by_role('button', name='暂停', exact=True).click()
             page.get_by_role('button', name='重新选人', exact=True).click()

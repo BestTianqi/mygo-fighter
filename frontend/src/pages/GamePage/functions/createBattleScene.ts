@@ -374,7 +374,7 @@ export function createBattleScene(
     atlas: HTMLImageElement,
     frame: SpriteFrame,
     scale: number,
-    motion: { lean: number; lift: number },
+    motion: { lean: number; lift: number; width: number },
   ) {
     // Transform the complete drawing once. Separate translucent strips produce
     // horizontal seams when the camera scales them onto fractional pixels.
@@ -383,7 +383,7 @@ export function createBattleScene(
     ctx.shadowBlur = 0;
     // Shear and breathing scale pivot around the existing foot anchor (0, 0).
     ctx.transform(
-      1,
+      motion.width,
       0,
       -motion.lean / bodyHeight,
       1 + motion.lift / bodyHeight,
