@@ -95,6 +95,7 @@ export interface Move {
   warning?: number;
   areaRadius?: number;
   mortis?: string;
+  nyamu?: "reveal" | "sticks" | "encore" | "smile";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

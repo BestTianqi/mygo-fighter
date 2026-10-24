@@ -1698,6 +1698,101 @@
             "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           }
+        },
+        "mujica_9_stage_u": {
+          "voice": "meme_9_u",
+          "label": "素颜公开·摘下面具",
+          "slot": "u",
+          "audio": "assets/meme-media/recordings/nyamu-u.mp3",
+          "duration": 1.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 0.35,
+            "end": 1.75,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_9_stage_i": {
+          "voice": "meme_9_i",
+          "label": "双利手·交叉飞棒",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/nyamu-i.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 13.95,
+            "end": 16.65,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_9_stage_o": {
+          "voice": "meme_9_o",
+          "label": "我只有Ave Mujica了·绝境鼓点",
+          "slot": "o",
+          "audio": "assets/meme-media/recordings/nyamu-o.mp3",
+          "duration": 1.8,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 30.55,
+            "end": 32.35,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_9_stage_smile": {
+          "voice": "meme_9_i",
+          "label": "完美笑容·营业反击",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/nyamu-i.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 13.95,
+            "end": 16.65,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
+        },
+        "mujica_9_stage_smile_counter": {
+          "voice": "meme_9_i",
+          "label": "完美笑容·营业反击·反击",
+          "slot": "i",
+          "audio": "assets/meme-media/recordings/nyamu-i.mp3",
+          "duration": 2.7,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
+            "uploader": "丰川祥子ObIivionis",
+            "bvid": "BV1XM62YsEgE",
+            "cid": 27679326900,
+            "page": 1,
+            "title": "mujica第一话喵梦摘面具名场面",
+            "start": 13.95,
+            "end": 16.65,
+            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+          }
         }
       }
     },

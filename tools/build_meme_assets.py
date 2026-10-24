@@ -137,6 +137,16 @@ def build_catalog():
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]
     profiles['6']['variants'][row['move']] = normalize_clip(row, customer_catalog, 6, 'u', row['voice'])
+    # Reuse the verified Nyamu recordings; normal-form slots and the super video
+    # keep their original entries. These labels describe the new stage actions.
+    for move, slot, label in [
+        ('mujica_9_stage_u', 'u', '素颜公开·摘下面具'),
+        ('mujica_9_stage_i', 'i', '双利手·交叉飞棒'),
+        ('mujica_9_stage_o', 'o', '我只有Ave Mujica了·绝境鼓点'),
+        ('mujica_9_stage_smile', 'i', '完美笑容·营业反击'),
+        ('mujica_9_stage_smile_counter', 'i', '完美笑容·营业反击·反击'),
+    ]:
+        profiles['9']['variants'][move] = dict(profiles['9']['slots'][slot], label=label)
     for profile in profiles.values():
         for clip in [*profile['slots'].values(), *profile['variants'].values()]:
             if clip['slot'] == 'p':

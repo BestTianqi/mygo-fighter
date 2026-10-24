@@ -46,14 +46,6 @@ const cases = [
     stage: true,
   },
   {
-    id: 9,
-    key: "mujica_9_stage_i",
-    damage: 18,
-    cost: 25,
-    button: "skill2",
-    stage: true,
-  },
-  {
     id: 11,
     key: "mewtype_11_virtual_o",
     damage: 25,

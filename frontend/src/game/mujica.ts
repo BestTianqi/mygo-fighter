@@ -87,7 +87,9 @@ const schemeFor = (f: FighterIdentity): Scheme => ({
       ? { down1: "mujica_6_normal_customer" }
       : f.character === 8 && formFor(f) === "stage"
         ? { down1: "mujica_8_stage_toddler", down2: "mujica_8_stage_burger" }
-        : {},
+        : f.character === 9 && formFor(f) === "stage"
+          ? { down1: "mujica_9_stage_smile" }
+          : {},
 });
 const normalNames: Record<number, string[][]> = {
   5: [
@@ -468,19 +470,66 @@ add(9, "normal", "i", "流量冲刺", {
   end: 280,
 });
 add(9, "normal", "o", "开播连击", combo([6, 6, 10]));
-add(9, "stage", "u", "绯红双击", combo([8, 8]));
-add(9, "stage", "i", "踏碎节拍", {
-  damage: 18,
-  hop: 380,
-  movement: 100,
-  movementEnd: 300,
-  duration: 750,
-  start: 300,
-  end: 540,
-  vertical: 230,
-  level: "high",
+add(9, "stage", "u", "素颜公开·摘下面具", {
+  nyamu: "reveal",
+  damage: 14,
+  omni: true,
+  reach: 240,
+  vertical: 210,
+  stun: 540,
+  push: 180,
+  start: 140,
+  end: 200,
+  duration: 560,
+  recast: 1800,
 });
-add(9, "stage", "o", "狂欢过门", combo([4, 4, 4, 10], 130));
+add(9, "stage", "i", "双利手·交叉飞棒", {
+  ...missile,
+  nyamu: "sticks",
+  damage: 8,
+  shots: [130, 280],
+  start: 130,
+  end: 300,
+  duration: 620,
+  speed: 660,
+  maxReach: 680,
+  height: 110,
+  radiusX: 22,
+  radiusY: 30,
+  recast: 1200,
+});
+add(9, "stage", "o", "我只有Ave Mujica了·绝境鼓点", {
+  ...combo([4, 4, 6, 10], 140, 160),
+  nyamu: "encore",
+  damage: 24,
+  movement: 160,
+  movementEnd: 250,
+  duration: 980,
+  recast: 1700,
+  pulses: [4, 4, 6, 10].map((damage, n) => ({
+    at: 160 + n * 140,
+    damage,
+    reach: 190 + n * 30,
+    stun: 330,
+    push: n === 3 ? 240 : 25,
+    knockdown: n === 3 ? 500 : 0,
+  })),
+});
+add(9, "stage", "smile", "完美笑容·营业反击", {
+  nyamu: "smile",
+  slot: "u",
+  visualSlot: "skill-u",
+  command: "↓＋U",
+  category: "defense",
+  counter: true,
+  counterDamage: 18,
+  damage: 0,
+  cost: 20,
+  start: 100,
+  end: 400,
+  duration: 640,
+  recast: 4200,
+});
 const superNames: Record<number, string> = {
   5: "练习结束后再吵",
   6: "我来成为神明",
@@ -553,6 +602,7 @@ for (const [key, move] of Object.entries(MOVES))
       end: 0,
       name: move.name + "·反击",
       category: "special",
+      ...(move.nyamu ? { nyamu: move.nyamu } : {}),
       damage: move.counterDamage,
       chip: 0,
       stun: 340,

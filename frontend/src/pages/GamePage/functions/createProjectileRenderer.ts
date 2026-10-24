@@ -2,6 +2,7 @@ import { MOVES, ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
 import type { Wave } from "../../../game/objects/Wave";
 import { drawBurger } from "./drawBurger";
+import { drawNyamuProjectile } from "./drawNyamuSkills";
 
 /** Keep each character's authored projectile silhouette and trail. */
 export function createProjectileRenderer(
@@ -23,7 +24,9 @@ export function createProjectileRenderer(
     ctx.shadowColor = profile.color;
     ctx.shadowBlur = reducedMotion ? 0 : 10;
     ctx.lineWidth = 3;
-    if (move.mortis === "burger") {
+    if (move.nyamu) {
+      drawNyamuProjectile(ctx, move, w.age, reducedMotion);
+    } else if (move.mortis === "burger") {
       ctx.rotate(Math.sin(w.age * 0.009) * 0.12);
       drawBurger(ctx, 0, 0);
     } else if (

@@ -276,6 +276,8 @@ function createAnimator() {
               ? "crawl-b"
               : "crawl-a";
       if (isHeavyAttack(move)) return heavyPose(f, move);
+      if (move.nyamu === "smile" && t >= move.start && t <= move.end)
+        return "guard-standing";
       if (f.character >= 5) {
         if (f.attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";

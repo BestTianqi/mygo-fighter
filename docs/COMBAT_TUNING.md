@@ -30,11 +30,10 @@ Short-range approaches and slower committed strikes gain 2–3 base damage (abou
 | 立希 · 反拍砸击（含四拍强化）   | 18 → 21                    |
 | 海铃（常服）· 零卡路里·收工重拍 | 22 → 25                    |
 | 初华（变身）· 双月滑奏          | 16 → 18                    |
-| 若麦（变身）· 踏碎节拍          | 16 → 18                    |
 | 律 · 弱弱胃袋·破蓝重奏          | 22 → 25                    |
 | 野乃花 · 头像通缉·跃兔滑奏      | 16 → 18                    |
 
-Mujica's stage damage multiplier applies once: the two transformed skills now deal 21.6 damage before combo scaling or guard. Restart an already-running LAN host after rebuilding so it loads the updated simulation.
+Mujica's stage damage multiplier applies once: Uika's transformed strike deals 21.6 damage before combo scaling or guard. Nyamu's former stage melee I was subsequently replaced by the two-projectile skill below. Restart an already-running LAN host after rebuilding so it loads the updated simulation.
 
 ## Received resonance — 2026-10-25
 
@@ -43,3 +42,20 @@ A complete damaging skill grants its target 8 resonance, or 3 when fully guarded
 The three Tensora summons share one cast budget: each contact grants up to 2, capped at 8 total for that summon (3 when fully guarded). Recasting creates a fresh budget. Absorbed or invulnerable hits grant nothing. Attacker gains remain 12 per normal hit, 2 per skill hit, 1 on guard, and zero for supers or summons.
 
 Combat keeps fractional resonance precisely; the HUD truncates it to one decimal so a displayed spend threshold is actually available. Summon budget usage is included in LAN snapshots and prediction replay.
+
+## Nyamu / Amoris stage skills — 2026-10-25
+
+The normal form and P super retain their existing moves. H still costs 50 resonance for 20 seconds, with stage damage ×1.2 and movement ×1.1.
+
+| Command | Stage skill                 | Cost | Behavior                                                                                                             |
+| ------- | --------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------- |
+| U       | 素颜公开·摘下面具           | 20   | A surrounding flash, 240 reach, 14 base damage and 540 ms stun; 1.8 s recast                                         |
+| I       | 双利手·交叉飞棒             | 25   | Two rotating drumsticks at 130/280 ms, 8 base damage each, 680 maximum reach; 1.2 s recast                           |
+| O       | 我只有Ave Mujica了·绝境鼓点 | 30   | An advancing four-hit string at 160/300/440/580 ms; 4/4/6/10 base damage, final knockdown; 1.7 s recast              |
+| ↓＋U    | 完美笑容·营业反击           | 20   | Counters frontal eligible strikes from 100–400 ms; success launches an 18-base-damage flash projectile; 4.2 s recast |
+
+Stage damage and ordinary combo scaling apply once. Each full damaging skill still grants its target 8 resonance total (3 when fully guarded); sticks split it across two hits and the drum string across four. The attacker gains the existing 2 per skill hit.
+
+Camera framing, mask fragments, wooden drumsticks and drum-hit arcs accompany the retained full-body artwork. No character costume is removed by U. The extra counter is listed only in stage form. Media aliases reuse Nyamu's existing verified original recordings, without changing super-video playback speed; skill names are not claims of new spoken dialogue.
+
+The unmasking motif follows [official episode 2](https://anime.bang-dream.com/avemujica/story/), and the ambidextrous drummer / video creator motifs follow the [official character profile](https://anime.bang-dream.com/avemujica/character/nyamu/). The episode 10 line used for O's name is transcribed in [this episode review](https://note.com/isihida_nori/n/n87a3a663db6a). Existing original recordings retain their [source clip](https://www.bilibili.com/video/BV1XM62YsEgE/) and timestamps in the asset manifest.

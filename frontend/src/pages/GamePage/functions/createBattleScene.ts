@@ -17,6 +17,7 @@ import { createStageRenderer } from "./createStageRenderer";
 import { createProjectileRenderer } from "./createProjectileRenderer";
 import { drawBurger } from "./drawBurger";
 import { drawHeavySwing } from "./drawHeavySwing";
+import { drawNyamuSkill } from "./drawNyamuSkills";
 
 type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
 type ParticleKind =
@@ -1239,7 +1240,9 @@ export function createBattleScene(
       ctx.globalAlpha = active ? 0.8 : 0.28;
       ctx.shadowColor = profile.color;
       ctx.shadowBlur = reducedMotion ? 0 : active ? 12 : 3;
-      if (move.mortis) {
+      if (move.nyamu) {
+        drawNyamuSkill(ctx, move, age, reducedMotion);
+      } else if (move.mortis) {
         const ghost = (
           offset: number,
           form: string,
