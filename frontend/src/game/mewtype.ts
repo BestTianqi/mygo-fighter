@@ -241,6 +241,7 @@ MOVES.mewtype_11_virtual_counter = {
   lifetime: 500,
 };
 add(11, "o", "弱弱胃袋·破蓝重奏", {
+  damage: 25,
   movement: 220,
   movementEnd: 300,
   start: 210,
@@ -284,6 +285,7 @@ add(13, "i", "有惊无险·节拍屏障", {
 add(13, "o", "真不敢信·混音过门", combo([6, 6, 10]));
 add(14, "u", "完成了·兔耳扫弦", combo([8, 8]));
 add(14, "i", "头像通缉·跃兔滑奏", {
+  damage: 18,
   movement: 240,
   movementEnd: 300,
   start: 200,

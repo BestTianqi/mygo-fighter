@@ -281,6 +281,7 @@ add(5, "normal", "i", "很遗憾·稳拍反拨", {
   recast: 4000,
 });
 add(5, "normal", "o", "零卡路里·收工重拍", {
+  damage: 25,
   vertical: 300,
   reach: 150,
   launch: 350,
@@ -360,6 +361,7 @@ add(7, "normal", "i", "偶像步伐", {
 add(7, "normal", "o", "追星连奏", combo([6, 6, 10]));
 add(7, "stage", "u", "悲恸斩弦", { reach: 220, vertical: 210 });
 add(7, "stage", "i", "双月滑奏", {
+  damage: 18,
   movement: 240,
   movementEnd: 300,
   start: 200,
@@ -468,6 +470,7 @@ add(9, "normal", "i", "流量冲刺", {
 add(9, "normal", "o", "开播连击", combo([6, 6, 10]));
 add(9, "stage", "u", "绯红双击", combo([8, 8]));
 add(9, "stage", "i", "踏碎节拍", {
+  damage: 18,
   hop: 380,
   movement: 100,
   movementEnd: 300,
