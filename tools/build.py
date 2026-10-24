@@ -265,6 +265,8 @@ def build():
     install_portraits(assets)
     from build_mygo_portraits import install_mygo_portraits
     install_mygo_portraits(assets)
+    from build_finish_assets import install_finish_art
+    install_finish_art(assets)
     export_assets(assets)
 
 

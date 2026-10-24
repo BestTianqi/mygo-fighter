@@ -63,13 +63,14 @@ export function BattlePanel({
   const winner =
     finish && finish.winner >= 0 ? finish.fighters[finish.winner] : null;
   const finishArt = winner
-    ? winner.character === 1
-      ? assets.soyoFinishArt
-      : winner.character === 7
-        ? assets.uikaFinishArt
-        : (assets.mujicaPortraits[winner.character]?.[
-            winner.stageForm ? "stage" : "normal"
-          ].portrait ?? assets.characters[winner.character].portrait)
+    ? (assets.finishArts?.[winner.character] ??
+      (winner.character === 1
+        ? assets.soyoFinishArt
+        : winner.character === 7
+          ? assets.uikaFinishArt
+          : (assets.mujicaPortraits[winner.character]?.[
+              winner.stageForm ? "stage" : "normal"
+            ].portrait ?? assets.characters[winner.character].portrait)))
     : "";
   return (
     <section
@@ -153,7 +154,7 @@ export function BattlePanel({
             {winner && (
               <img
                 src={finishArt}
-                alt=""
+                alt={`${ROSTER[winner.character].name}奥义图`}
                 className="absolute inset-y-0 right-0 h-full w-2/3 object-contain opacity-75"
               />
             )}

@@ -76,4 +76,5 @@ export interface Assets {
   soyoSuperVideo: string;
   soyoFinishArt: string;
   uikaFinishArt: string;
+  finishArts?: Record<string, string>;
 }

@@ -148,6 +148,7 @@ export class CanvasRenderer {
     });
     const urls = new Set([
       this.assets.backgrounds[config.settings.arena],
+      ...ids.flatMap((id) => this.assets.finishArts?.[id] ?? []),
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),
     ]);
