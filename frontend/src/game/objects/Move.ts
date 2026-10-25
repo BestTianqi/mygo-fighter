@@ -106,6 +106,15 @@ export interface Move {
   sakiko?: "ascension";
   arale?: "star" | "resolve" | "action" | "voice" | "dream";
   viola?: "flash" | "edit" | "dismiss" | "wave" | "broadcast";
+  riki?:
+    | "roll"
+    | "rush"
+    | "overhead"
+    | "shock"
+    | "rise"
+    | "calibrate"
+    | "eight"
+    | "super";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

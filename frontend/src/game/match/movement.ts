@@ -133,7 +133,11 @@ export function updateMovement(
       if (!f.hit && f.attackMs >= 20 && f.attackMs < 250)
         f.vx = f.facing * MOVES[f.attack ?? ""].dashSpeed!;
     }
-    if (f.attack === "rikiEight" && f.attackMs < 180) f.vx = f.facing * 200;
+    if (
+      (MOVES[f.attack ?? ""]?.base || f.attack) === "rikiEight" &&
+      f.attackMs < 180
+    )
+      f.vx = f.facing * 200;
     const jab = MOVES[f.attack ?? ""];
     if (jab?.movement && f.attackMs < jab.movementEnd!)
       f.vx = (f.facing * jab.movement) / (jab.movementEnd! / 1000);

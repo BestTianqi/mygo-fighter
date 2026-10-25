@@ -184,13 +184,14 @@ export function aiInput(match: Match): Input {
   if (a.character === 4 && match.grounded(a)) {
     if (a.energy === 100 && d < 300) return { super: true };
     if (a.energy >= 25 && b.y > a.y + 30 && d < 170) return { rising: true };
-    if (a.energy >= 60 && d < 190) return { special: true };
+    if (a.energy >= MOVES.rikiEight.cost! && d < 190) return { special: true };
     if (a.energy >= 20 && d < 190 && b.crouch) return { shield: true };
     if (a.energy >= 20 && d < 170) return { wave: true };
     if (a.energy >= 15 && d > 170 && d < 400) return { thrust: true };
-    if (a.energy >= 30 && d > 350 && d < 650) return { sonic: true };
+    if (a.energy >= MOVES.rikiShock.cost! && d > 350 && d < 780)
+      return { sonic: true };
     if (
-      a.energy >= 25 &&
+      a.energy >= MOVES.rikiCalibrate.cost! &&
       a.beats < 4 &&
       !a.calibrateCooldown &&
       d > 650 &&

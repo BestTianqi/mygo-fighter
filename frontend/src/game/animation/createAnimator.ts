@@ -205,7 +205,17 @@ function createAnimator() {
           return t < move.start
             ? "super-windup"
             : t <= move.end
-              ? "super-release"
+              ? [
+                  "ground-shock",
+                  "overhead-impact",
+                  "eight-beat-release",
+                  "super-release",
+                ][
+                  move.pulses!.reduce(
+                    (last, pulse, i) => (t >= pulse.at ? i : last),
+                    0,
+                  )
+                ]
               : "normal-recover";
         if (attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";
@@ -227,6 +237,16 @@ function createAnimator() {
           return (
             move.stance + "-" + f.attack.replace(/^riki_(?:crouch_|air_)?/, "")
           );
+        if (attack === "rikiRoll" || attack === "rikiEight") {
+          const pulse = move.pulses!.reduce(
+            (last, impact, i) => (t >= impact.at ? i : last),
+            0,
+          );
+          if (attack === "rikiEight" && pulse === 7) return "super-release";
+          return ["roll-release", "eight-beat-release", "overhead-impact"][
+            pulse % 3
+          ];
+        }
         return {
           rikiRoll: "roll-release",
           rikiRush: "rush-impact",

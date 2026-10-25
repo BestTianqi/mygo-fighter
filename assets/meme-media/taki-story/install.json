@@ -1,0 +1,152 @@
+{
+  "id": 4,
+  "key": "taki",
+  "slots": {
+    "u": {
+      "voice": "takiAnimeCritique",
+      "label": "什么都不懂·反拍连打",
+      "duration": 1.73,
+      "slot": "u",
+      "audio": "assets/meme-media/taki-story/takiAnimeCritique.mp3"
+    },
+    "i": {
+      "voice": "takiAnimeBlock",
+      "label": "拉黑你·低音驱离",
+      "duration": 1.4,
+      "slot": "i",
+      "audio": "assets/meme-media/taki-story/takiAnimeBlock.mp3"
+    },
+    "o": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    },
+    "p": {
+      "voice": "takiAnimeComposer",
+      "label": "曲子由我来写·四拍终奏",
+      "duration": 2.83,
+      "slot": "p",
+      "audio": "assets/meme-media/taki-story/takiAnimeComposer.mp3",
+      "video": "assets/meme-media/taki-story/taki-composer-cutin.mp4",
+      "videoRate": 1
+    }
+  },
+  "variants": {
+    "rikiRoll": {
+      "voice": "takiAnimeCritique",
+      "label": "什么都不懂·反拍连打",
+      "duration": 1.73,
+      "slot": "u",
+      "audio": "assets/meme-media/taki-story/takiAnimeCritique.mp3"
+    },
+    "rikiShock": {
+      "voice": "takiAnimeBlock",
+      "label": "拉黑你·低音驱离",
+      "duration": 1.4,
+      "slot": "i",
+      "audio": "assets/meme-media/taki-story/takiAnimeBlock.mp3"
+    },
+    "rikiEight": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    },
+    "rikiSuper": {
+      "voice": "takiAnimeComposer",
+      "label": "曲子由我来写·四拍终奏",
+      "duration": 2.83,
+      "slot": "p",
+      "audio": "assets/meme-media/taki-story/takiAnimeComposer.mp3",
+      "video": "assets/meme-media/taki-story/taki-composer-cutin.mp4",
+      "videoRate": 1
+    },
+    "rikiRush": {
+      "voice": "takiAnimeQuestion",
+      "label": "谁？何用？·抢拍突进",
+      "duration": 2.05,
+      "slot": "rush",
+      "audio": "assets/meme-media/taki-story/takiAnimeQuestion.mp3"
+    },
+    "rikiCalibrate": {
+      "voice": "takiAnimeEgo",
+      "label": "一己私欲·节拍校准",
+      "duration": 1.72,
+      "slot": "calibrate",
+      "audio": "assets/meme-media/taki-story/takiAnimeEgo.mp3"
+    },
+    "rikiRollBoost": {
+      "voice": "takiAnimeCritique",
+      "label": "什么都不懂·反拍连打",
+      "duration": 1.73,
+      "slot": "u",
+      "audio": "assets/meme-media/taki-story/takiAnimeCritique.mp3"
+    },
+    "rikiOverhead": {
+      "voice": "takiAnimeCritique",
+      "label": "什么都不懂·反拍连打",
+      "duration": 1.73,
+      "slot": "u",
+      "audio": "assets/meme-media/taki-story/takiAnimeCritique.mp3"
+    },
+    "rikiOverheadBoost": {
+      "voice": "takiAnimeCritique",
+      "label": "什么都不懂·反拍连打",
+      "duration": 1.73,
+      "slot": "u",
+      "audio": "assets/meme-media/taki-story/takiAnimeCritique.mp3"
+    },
+    "rikiRushBoost": {
+      "voice": "takiAnimeQuestion",
+      "label": "谁？何用？·抢拍突进",
+      "duration": 2.05,
+      "slot": "rush",
+      "audio": "assets/meme-media/taki-story/takiAnimeQuestion.mp3"
+    },
+    "rikiShockBoost": {
+      "voice": "takiAnimeBlock",
+      "label": "拉黑你·低音驱离",
+      "duration": 1.4,
+      "slot": "i",
+      "audio": "assets/meme-media/taki-story/takiAnimeBlock.mp3"
+    },
+    "rikiShockExtra": {
+      "voice": "takiAnimeBlock",
+      "label": "拉黑你·低音驱离",
+      "duration": 1.4,
+      "slot": "i",
+      "audio": "assets/meme-media/taki-story/takiAnimeBlock.mp3"
+    },
+    "rikiRise": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    },
+    "rikiRiseBoost": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    },
+    "rikiEightBoost": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    },
+    "throw": {
+      "voice": "takiAnimeProtect",
+      "label": "灯才不会·八拍护航",
+      "duration": 1.5,
+      "slot": "o",
+      "audio": "assets/meme-media/taki-story/takiAnimeProtect.mp3"
+    }
+  }
+}

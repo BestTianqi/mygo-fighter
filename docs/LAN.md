@@ -35,7 +35,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":5}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":6}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -54,6 +54,8 @@ Reconnection replaces the peer, clears that side's loaded flag, pauses the exist
 Protocol 4 adds the current-peer loading barrier. After updating, the host must restart the backend and both browsers must refresh. Incompatible clients/servers, including an older backend's version error, display that instruction rather than silently disagreeing about resume readiness.
 
 Protocol 5 adds Viola as character 15, expanding the roster to 16 characters. Room selection, team validation and the shared simulation all accept her. Older clients lack her move definitions and artwork, so the version check rejects mixed installations before play; restart the host and refresh both clients after updating.
+
+Protocol 6 carries Taki's revised drum kit, including `rikiEightBoost` and the four-pulse super timing. An older client cannot animate that enhanced attack or predict its damage correctly; update the host and both browsers together.
 
 Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
 

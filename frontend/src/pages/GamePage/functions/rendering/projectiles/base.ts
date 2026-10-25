@@ -168,12 +168,25 @@ export function drawWave(scene: ProjectileContext, w: Wave) {
     scene.ctx.save();
     scene.ctx.translate(w.x, 438 - w.y);
     scene.ctx.scale(w.vx > 0 ? 1 : -1, 1);
-    scene.ctx.strokeStyle = "#dfccff";
+    scene.ctx.strokeStyle = MOVES[w.attack].boosted ? "#ffe0a1" : "#dfccff";
     scene.ctx.fillStyle = "#baa0e333";
     scene.ctx.lineWidth = 4;
     scene.ctx.beginPath();
     scene.ctx.ellipse(0, 10, w.rx!, w.ry!, -0.25, -1.8, 1.3);
     scene.ctx.fill();
+    scene.ctx.stroke();
+    scene.ctx.lineWidth = 2;
+    for (let i = 1; i <= 3; i++) {
+      scene.ctx.globalAlpha = 0.4 / i;
+      scene.ctx.beginPath();
+      scene.ctx.ellipse(-i * 18, 10, w.rx!, w.ry!, -0.25, -1.8, 1.3);
+      scene.ctx.stroke();
+    }
+    scene.ctx.globalAlpha = 0.9;
+    scene.ctx.beginPath();
+    scene.ctx.ellipse(0, 7, 17, 24, -0.25, 0, Math.PI * 2);
+    scene.ctx.moveTo(-13, 24);
+    scene.ctx.lineTo(13, -10);
     scene.ctx.stroke();
     scene.ctx.beginPath();
     scene.ctx.moveTo(-48, 38);

@@ -240,6 +240,21 @@ def build_catalog():
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(miyako_catalog.relative_to(ROOT).as_posix())
+    taki_catalog = MEDIA / 'taki-story/sources.json'
+    for row in read_json(taki_catalog)['clips']:
+        clip = normalize_clip(row, taki_catalog, 4, row['slot'], row['voice'])
+        profiles['4']['variants'][row['move']] = clip
+        if row['slot'] in ('u', 'i', 'o', 'p'):
+            profiles['4']['slots'][row['slot']] = dict(clip)
+    for move, source in [
+        ('rikiOverhead', 'rikiRoll'), ('rikiRise', 'rikiEight'),
+        ('rikiRollBoost', 'rikiRoll'), ('rikiRushBoost', 'rikiRush'),
+        ('rikiOverheadBoost', 'rikiRoll'), ('rikiShockBoost', 'rikiShock'),
+        ('rikiShockExtra', 'rikiShock'), ('rikiRiseBoost', 'rikiEight'),
+        ('rikiEightBoost', 'rikiEight'), ('throw', 'rikiEight'),
+    ]:
+        profiles['4']['variants'][move] = dict(profiles['4']['variants'][source])
+    catalog['sourceCatalogs'].append(taki_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog
