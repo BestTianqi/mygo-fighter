@@ -22,6 +22,7 @@ const styles = [
   ["down", 13],
   ["sweep", 14],
   ["sweep", 12],
+  ["thrust", 10],
 ] as const;
 
 export function isHeavyAttack(move: Move | undefined): boolean {

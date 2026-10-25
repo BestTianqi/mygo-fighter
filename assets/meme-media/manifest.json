@@ -3120,6 +3120,247 @@
           "videoRate": 1
         }
       }
+    },
+    "15": {
+      "id": 15,
+      "key": "viola",
+      "slots": {
+        "u": {
+          "voice": "violaAnimeGreeting",
+          "label": "镜头闪拍",
+          "slot": "u",
+          "audio": "assets/meme-media/viola-story/violaAnimeGreeting.mp3",
+          "duration": 3.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 0.0,
+            "end": 3.15,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "みんなの妹、ビオラだよー！",
+          "subtitle_zh": "我是大家的妹妹薇欧拉啦"
+        },
+        "i": {
+          "voice": "violaAnimeMessage",
+          "label": "断章取义·剪辑陷阱",
+          "slot": "i",
+          "audio": "assets/meme-media/viola-story/violaAnimeMessage.mp3",
+          "duration": 3.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 4.72,
+            "end": 8.17,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "そっかー、伝わんないかー。",
+          "subtitle_zh": "是吗，没有传达到啊"
+        },
+        "o": {
+          "voice": "violaAnimeStay",
+          "label": "原样就好·话术推击",
+          "slot": "o",
+          "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3",
+          "duration": 4.6,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 9.05,
+            "end": 13.65,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "じゃあ、あられちゃんはそのままでいっか。",
+          "subtitle_zh": "那小阿拉蕾保持这样就好了"
+        },
+        "wave": {
+          "voice": "violaAnimePraise",
+          "label": "做得真好·剪辑声波",
+          "slot": "wave",
+          "audio": "assets/meme-media/viola-story/violaAnimePraise.mp3",
+          "duration": 1.78,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 24.7,
+            "end": 26.48,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "よーくできました！",
+          "subtitle_zh": "做得真好"
+        },
+        "p": {
+          "voice": "violaAnimeIgnition",
+          "label": "引爆点·剪辑放送",
+          "slot": "p",
+          "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+          "duration": 4.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 16.85,
+            "end": 20.9,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "video": "assets/meme-media/viola-story/viola-ignition-cutin.mp4",
+          "subtitle_zh": "这个数字，感觉会成为不错的引爆点呢",
+          "videoRate": 1
+        }
+      },
+      "variants": {
+        "throw": {
+          "voice": "violaAnimeStay",
+          "label": "退场·摔投",
+          "slot": "o",
+          "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3",
+          "duration": 4.6,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 9.05,
+            "end": 13.65,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "じゃあ、あられちゃんはそのままでいっか。",
+          "subtitle_zh": "那小阿拉蕾保持这样就好了"
+        },
+        "mewtype_15_virtual_u": {
+          "voice": "violaAnimeGreeting",
+          "label": "镜头闪拍",
+          "slot": "u",
+          "audio": "assets/meme-media/viola-story/violaAnimeGreeting.mp3",
+          "duration": 3.15,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 0.0,
+            "end": 3.15,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "みんなの妹、ビオラだよー！",
+          "subtitle_zh": "我是大家的妹妹薇欧拉啦"
+        },
+        "mewtype_15_virtual_i": {
+          "voice": "violaAnimeMessage",
+          "label": "断章取义·剪辑陷阱",
+          "slot": "i",
+          "audio": "assets/meme-media/viola-story/violaAnimeMessage.mp3",
+          "duration": 3.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 4.72,
+            "end": 8.17,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "そっかー、伝わんないかー。",
+          "subtitle_zh": "是吗，没有传达到啊"
+        },
+        "mewtype_15_virtual_o": {
+          "voice": "violaAnimeStay",
+          "label": "原样就好·话术推击",
+          "slot": "o",
+          "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3",
+          "duration": 4.6,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 9.05,
+            "end": 13.65,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "じゃあ、あられちゃんはそのままでいっか。",
+          "subtitle_zh": "那小阿拉蕾保持这样就好了"
+        },
+        "mewtype_15_virtual_wave": {
+          "voice": "violaAnimePraise",
+          "label": "做得真好·剪辑声波",
+          "slot": "wave",
+          "audio": "assets/meme-media/viola-story/violaAnimePraise.mp3",
+          "duration": 1.78,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 24.7,
+            "end": 26.48,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "spokenJapanese": "よーくできました！",
+          "subtitle_zh": "做得真好"
+        },
+        "mewtype_15_virtual_super": {
+          "voice": "violaAnimeIgnition",
+          "label": "引爆点·剪辑放送",
+          "slot": "p",
+          "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+          "duration": 4.05,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV11uK36xEs2",
+            "cid": 39994722827,
+            "page": 1,
+            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
+            "start": 16.85,
+            "end": 20.9,
+            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "catalog": "assets/meme-media/viola-story/sources.json"
+          },
+          "video": "assets/meme-media/viola-story/viola-ignition-cutin.mp4",
+          "subtitle_zh": "这个数字，感觉会成为不错的引爆点呢",
+          "videoRate": 1
+        }
+      }
     }
   },
   "sourceCatalogs": [
@@ -3129,6 +3370,7 @@
     "assets/meme-media/research-mewtype/manifest.json",
     "assets/meme-media/revision-anon-tensora/sources-revision.json",
     "assets/meme-media/miyako-skill-voices/sources.json",
+    "assets/meme-media/viola-story/sources.json",
     "assets/meme-media/anon-cry-soyo-control/sources.json",
     "assets/meme-media/soyo-cutline/sources.json",
     "assets/meme-media/penguin-mortis/sources.json",

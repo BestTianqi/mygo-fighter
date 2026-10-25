@@ -58,7 +58,7 @@ object RoomSocket:
               IO.fromEither(parser.parse(raw)).flatMap { json =>
                 IO.fromEither(json.hcursor.get[String]("type")).flatMap {
                   case "authenticate" =>
-                    IO.raiseUnless(json.hcursor.get[Int]("protocol").toOption.contains(4))(
+                    IO.raiseUnless(json.hcursor.get[Int]("protocol").toOption.contains(5))(
                       IllegalArgumentException("客户端与主机版本不一致，请房主重启联机服务，双方刷新页面。")
                     ) *> identity.get.flatMap(current =>
                       IO.raiseWhen(current.nonEmpty)(IllegalArgumentException("连接已认证"))

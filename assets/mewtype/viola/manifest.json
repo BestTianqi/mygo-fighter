@@ -1,0 +1,110 @@
+{
+  "id": 15,
+  "key": "viola",
+  "name": "薇欧拉",
+  "form": "virtual",
+  "sourceFiles": [
+    "mewtype/viola/portrait-source-v1.png",
+    "mewtype/viola/actions-locomotion-source-v1.png",
+    "mewtype/viola/actions-combat-source-v2.png"
+  ],
+  "groups": [
+    {
+      "file": "mewtype/viola/actions-locomotion-source-v1.png",
+      "columns": 4,
+      "rows": 2,
+      "names": [
+        "walk-contact",
+        "walk-pass",
+        "dash-forward",
+        "guard-standing",
+        "guard-crouch",
+        "jump-rise",
+        "hit-high",
+        "knockdown-ground"
+      ]
+    },
+    {
+      "file": "mewtype/viola/actions-combat-source-v2.png",
+      "columns": 4,
+      "rows": 2,
+      "names": [
+        "jab-1-impact",
+        "jab-2-impact",
+        "jab-3-impact",
+        "heavy-impact",
+        "skill-u-impact",
+        "skill-i-impact",
+        "skill-o-impact",
+        "super-impact"
+      ]
+    }
+  ],
+  "actualDrawings": 17,
+  "aliases": {
+    "dash-back": "walk-pass",
+    "jump-fall": "jump-rise",
+    "crouch": "guard-crouch",
+    "guard-high": "guard-standing",
+    "guard-low": "guard-crouch",
+    "landing": "guard-crouch",
+    "getup": "guard-crouch",
+    "hit-low": "hit-high",
+    "knockdown-fall": "hit-high",
+    "victory": "idle",
+    "defeat": "knockdown-ground",
+    "throw-windup": "guard-standing",
+    "throw-release": "skill-o-impact",
+    "heavy-windup": "guard-standing",
+    "heavy-recover": "walk-contact",
+    "super-windup": "skill-u-impact",
+    "super-recover": "idle",
+    "super-release": "super-impact",
+    "normal-windup": "guard-standing",
+    "normal-recover": "walk-contact",
+    "jab-1": "jab-1-impact",
+    "jab-1-windup": "guard-standing",
+    "jab-1-recover": "walk-contact",
+    "jab-2": "jab-2-impact",
+    "jab-2-windup": "guard-standing",
+    "jab-2-recover": "walk-contact",
+    "jab-3": "jab-3-impact",
+    "jab-3-windup": "guard-standing",
+    "jab-3-recover": "walk-contact",
+    "heavy": "heavy-impact",
+    "skill-u": "skill-u-impact",
+    "skill-u-windup": "guard-standing",
+    "skill-u-recover": "walk-contact",
+    "skill-i": "skill-i-impact",
+    "skill-i-windup": "guard-crouch",
+    "skill-i-recover": "guard-crouch",
+    "skill-o": "skill-o-impact",
+    "skill-o-windup": "guard-standing",
+    "skill-o-recover": "walk-contact",
+    "crouch-light-windup": "skill-i-impact",
+    "crouch-light-impact": "skill-i-impact",
+    "crouch-light-recover": "skill-i-impact",
+    "crouch-heavy-windup": "skill-i-impact",
+    "crouch-heavy-impact": "skill-i-impact",
+    "crouch-heavy-recover": "skill-i-impact",
+    "air-light-windup": "jump-rise",
+    "air-light-impact": "jump-rise",
+    "air-light-recover": "jump-rise",
+    "air-heavy-windup": "heavy-impact",
+    "air-heavy-impact": "heavy-impact",
+    "air-heavy-recover": "heavy-impact"
+  },
+  "sha256": {
+    "mewtype/viola/portrait-source-v1.png": "ebebc43aa4dc87734c1b64873f452f1bba417fbbf04782189e0bd1b97e0586f5",
+    "mewtype/viola/actions-locomotion-source-v1.png": "85c420d72f4c1d8aa844433ad49fcf87cf948ace0f71b1ed3c01db6675521fcb",
+    "mewtype/viola/actions-combat-source-v2.png": "c4abadde941f92226ff4dd48056a35788ff7cb6b7df71adc713c18420820985e"
+  },
+  "reference": "https://www.bilibili.com/video/BV11uK36xEs2/",
+  "referencePublisher": "梦限大MewType (official)",
+  "referenceFrames": [
+    4,
+    8,
+    20
+  ],
+  "method": "Built-in imagegen; new 2D fan-game artwork. Transparent connected figures, foot anchors and 17 unique drawings checked. Cell 1 and 5 of combat v1 were corrected toward screen right in v2; v1 is archived, not installed."
+}

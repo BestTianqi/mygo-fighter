@@ -105,6 +105,7 @@ export interface Move {
   miyako?: "draft" | "stamp" | "marathon" | "ink";
   sakiko?: "ascension";
   arale?: "star" | "resolve" | "action" | "voice" | "dream";
+  viola?: "flash" | "edit" | "dismiss" | "wave" | "broadcast";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

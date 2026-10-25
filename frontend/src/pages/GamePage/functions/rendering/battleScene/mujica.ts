@@ -6,6 +6,7 @@ import { drawUikaArea, drawUikaSkill } from "../drawUikaSkills";
 import { drawUmiriSkill } from "../drawUmiriSkills";
 import { drawYunoArea } from "../drawYunoSkills";
 import { drawSakikoSuper } from "../drawSakikoSuper";
+import { drawViolaArea } from "../drawViolaSkills";
 import type { BattleSceneContext } from "./objects";
 export function drawMujicaEffects(scene: BattleSceneContext) {
   if (scene.match.phase !== "fighting") return;
@@ -19,6 +20,11 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
     scene.ctx.globalAlpha = area.fired
       ? Math.max(0, area.life / 100)
       : 0.45 + Math.sin(scene.state.visualTime * 0.025) * 0.2;
+    if (MOVES[area.attack].viola === "edit") {
+      drawViolaArea(scene.ctx, area);
+      scene.ctx.restore();
+      continue;
+    }
     if (MOVES[area.attack].uika === "cage") {
       drawUikaArea(scene.ctx, area, MOVES[area.attack], scene.reducedMotion);
       scene.ctx.restore();
@@ -98,7 +104,8 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
       move.yuno ||
       move.ritsu ||
       move.miyako ||
-      move.arale
+      move.arale ||
+      move.viola
     ) {
       scene.ctx.restore();
       continue;

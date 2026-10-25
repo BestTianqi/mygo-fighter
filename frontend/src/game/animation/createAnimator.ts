@@ -1,5 +1,5 @@
 import type { Match } from "../engine";
-import { FEEL, MOVES, ROUND_END_TIMING } from "../engine";
+import { FEEL, MOVES, ROSTER, ROUND_END_TIMING } from "../engine";
 import { heavyPose, isHeavyAttack } from "../heavyAnimation";
 import type { Fighter } from "../objects/Fighter";
 import { MUJICA_MOTION } from "./motionProfiles";
@@ -22,7 +22,7 @@ function createAnimator() {
             : null,
         }
       : live;
-    if (f.character > 14) return null;
+    if (f.character >= ROSTER.length) return null;
     const ground = match.grounded(f),
       now = match.elapsed;
     let state = states.get(live);

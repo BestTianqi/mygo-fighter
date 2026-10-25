@@ -157,7 +157,9 @@ export function CharacterSelection({
                 ? "AVE MUJICA"
                 : profile.band === "mewtype"
                   ? "夢限大 MEWTYPE"
-                  : "MYGO!!!!!"}
+                  : profile.band === "fairybouquet"
+                    ? "FAIRY BOUQUET"
+                    : "MYGO!!!!!"}
             </p>
             <h2
               className="mt-1 text-2xl font-bold"

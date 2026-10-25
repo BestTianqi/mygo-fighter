@@ -19,6 +19,8 @@ export function registerSuperMoves(MOVES: Record<string, Move>): void {
     14: 5150,
   };
   for (const c of CHARACTERS) {
+    // Viola's complete kit is authored together in violaMoves.ts.
+    if (c.id === 15) continue;
     const duration = superDurations[c.id!];
     const damages =
       c.id === 11

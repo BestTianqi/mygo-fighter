@@ -1,11 +1,12 @@
 import type { Assets, CharacterArt } from "../../../game/objects/Assets";
+import { ROSTER } from "../../../game/data/roster";
 type AssetManifest = Omit<Assets, "characters"> & {
   characters: (CharacterArt | { id: number; key: string; portrait: string })[];
 };
 
 /** Later bands store their atlases by form; hydrate a uniform runtime character view. */
 export function hydrateAssets(value: AssetManifest): Assets {
-  if (value.characters?.length !== 15 || value.stages?.length !== 15)
+  if (value.characters?.length !== ROSTER.length || value.stages?.length !== 15)
     throw new Error("素材清单不完整。");
   const characters = value.characters.map((character, id) => {
     const base =

@@ -4,6 +4,7 @@ import { drawMiyakoProjectile } from "../drawMiyakoSkills";
 import { drawNonokaProjectile } from "../drawNonokaSkills";
 import { drawRitsuProjectile } from "../drawRitsuSkills";
 import { drawAraleProjectile } from "../drawAraleSkills";
+import { drawViolaProjectile } from "../drawViolaSkills";
 import type { ProjectileContext } from "./ProjectileContext";
 export function drawMewtypeWave(scene: ProjectileContext, w: Wave) {
   const owner = MOVES[w.attack].ownerCharacter!,
@@ -17,7 +18,9 @@ export function drawMewtypeWave(scene: ProjectileContext, w: Wave) {
   scene.ctx.shadowColor = color;
   scene.ctx.shadowBlur = scene.reducedMotion ? 0 : 12;
   scene.ctx.lineWidth = 3;
-  if (MOVES[w.attack].arale) {
+  if (MOVES[w.attack].viola) {
+    drawViolaProjectile(scene.ctx);
+  } else if (MOVES[w.attack].arale) {
     drawAraleProjectile(
       scene.ctx,
       MOVES[w.attack].arale,

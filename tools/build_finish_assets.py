@@ -13,6 +13,7 @@ ART = {
     '12': 'miyako-super-background-v1.webp',
     '13': 'yuno-anime-band.webp',
     '14': 'nonoka-anime-stay.webp',
+    '15': 'viola-anime-ignition.webp',
 }
 
 
@@ -20,7 +21,7 @@ def install_finish_art(assets):
     finishes = assets.setdefault('finishArts', {})
     for character, filename in ART.items():
         with Image.open(FOLDER / filename) as source:
-            if character not in ('10', '11', '12', '13', '14') and (source.mode != 'RGBA' or source.getextrema()[3][0] != 0):
+            if character not in ('10', '11', '12', '13', '14', '15') and (source.mode != 'RGBA' or source.getextrema()[3][0] != 0):
                 raise ValueError(f'{filename}: expected transparent illustration')
             image = source.copy()
         image.thumbnail((1000, 1200), Image.Resampling.LANCZOS)

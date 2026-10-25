@@ -9,6 +9,7 @@ export function registerNormalMoves(MOVES: Record<string, Move>): void {
     12: ["笔尖点墨", "翻页横挥", "分镜挑笔", "分镜侧踢"],
     13: ["指尖切拍", "搓盘回旋", "推盘升拍", "唱片重落"],
     14: ["兔爪轻拨", "跃兔直拳", "琴颈上挑", "兔耳重扫"],
+    15: ["指尖试探", "转身横掌", "镜头上挑", "退场重踢"],
   };
   for (const c of CHARACTERS) {
     const prefix = prefixFor({ character: c.id! });

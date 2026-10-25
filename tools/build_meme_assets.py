@@ -17,11 +17,11 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'assets'
 MEDIA = ASSETS / 'meme-media'
 CHARACTERS = ['anon', 'soyo', 'tomori', 'rana', 'taki', 'umiri', 'sakiko',
-              'uika', 'mutsumi', 'nyamu', 'arale', 'ritsu', 'miyako', 'yuno', 'nonoka']
+              'uika', 'mutsumi', 'nyamu', 'arale', 'ritsu', 'miyako', 'yuno', 'nonoka', 'viola']
 CATALOGS = ['recordings/sources-recordings.json', 'research-mygo/sources-mygo-extra.json',
             'research-mygo/sources-mygo-additional.json', 'research-mewtype/manifest.json',
             'revision-anon-tensora/sources-revision.json',
-            'miyako-skill-voices/sources.json']
+            'miyako-skill-voices/sources.json', 'viola-story/sources.json']
 CRAWL_NAMES = ['crawl-windup', 'crawl-a', 'crawl-b', 'crawl-recover']
 
 
@@ -176,6 +176,12 @@ def build_catalog():
     for row in read_json(miyako_catalog)['clips']:
         profiles['12']['variants'][row['move']] = normalize_clip(row, miyako_catalog, 12, row['slot'], row['voice'])
     profiles['12']['variants']['throw'] = dict(profiles['12']['variants']['mewtype_12_virtual_u'], label='原稿交付·摔投')
+    viola_catalog = MEDIA / 'viola-story/sources.json'
+    for row in read_json(viola_catalog)['clips']:
+        clip = normalize_clip(row, viola_catalog, 15, row['slot'], row['voice'])
+        profiles['15']['slots'][row['slot']] = clip
+        profiles['15']['variants'][row['move']] = dict(clip)
+    profiles['15']['variants']['throw'] = dict(profiles['15']['slots']['o'], label='退场·摔投')
     # Stage-only Uika aliases keep the spoken phrase aligned with its action.
     for move, slot, label in [
         ('mujica_7_stage_u', 'i', '不是不是不是·三重否认'),

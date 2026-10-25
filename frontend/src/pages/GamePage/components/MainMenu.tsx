@@ -133,7 +133,9 @@ export function MainMenu({
         </div>
       </div>
       <footer className="flex justify-between border-t border-white/10 px-6 py-4 text-[10px] tracking-widest text-slate-400 lg:px-12">
-        <span>15 位角色 / 15 张舞台</span>
+        <span>
+          {assets.characters.length} 位角色 / {assets.stages.length} 张舞台
+        </span>
         <span>LOCAL + LAN PLAY</span>
       </footer>
     </section>

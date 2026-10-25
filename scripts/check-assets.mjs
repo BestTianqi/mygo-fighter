@@ -31,7 +31,7 @@ const files = await readdir(new URL("media/", root));
 for (const filename of files)
   if (!references.has(filename))
     throw new Error(`Unreferenced runtime media: ${filename}`);
-if (manifest.characters.length !== 15 || manifest.stages.length !== 15)
+if (manifest.characters.length !== 16 || manifest.stages.length !== 15)
   throw new Error("Incomplete character or stage catalog");
 
 // Action catalogs use assets-relative paths; stage entries use repository paths.
@@ -53,6 +53,10 @@ for (const catalog of [
       sourceReferences.add(override);
   }
 }
+const viola = JSON.parse(
+  await readFile(new URL("mewtype/viola/manifest.json", sources), "utf8"),
+);
+for (const filename of viola.sourceFiles) sourceReferences.add(filename);
 const stages = JSON.parse(
   await readFile(new URL("stages/stages.json", sources), "utf8"),
 );
@@ -70,5 +74,5 @@ for (const filename of sourceReferences) {
     throw new Error(`Missing or empty artwork source: ${filename}`);
 }
 console.log(
-  `Verified ${references.size} media files, ${sourceReferences.size} artwork sources, 15 characters and 15 stages.`,
+  `Verified ${references.size} media files, ${sourceReferences.size} artwork sources, 16 characters and 15 stages.`,
 );

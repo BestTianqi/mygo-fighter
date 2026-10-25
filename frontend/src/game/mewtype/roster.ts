@@ -55,11 +55,26 @@ const CHARACTERS: Character[] = [
     archetype: "兔食者追击型",
     skill: "不会放开由乃亲",
   },
+  {
+    id: 15,
+    key: "viola",
+    name: "薇欧拉",
+    shortName: "薇欧拉",
+    en: "VIOLA",
+    color: "#91cbb0",
+    role: "偶像",
+    band: "fairybouquet",
+    archetype: "剪辑控场型",
+    skill: "引爆点·剪辑放送",
+    description: "用镜头、剪辑与话术掌控战场，等待引爆局势的时机。",
+  },
 ].map((c) => ({
   ...c,
-  band: "mewtype",
+  band: c.band ?? "mewtype",
   stageName: c.shortName,
-  description: `以${c.role}演奏虚拟舞台的节奏，${c.archetype}招式展现各自个性。`,
+  description:
+    c.description ??
+    `以${c.role}演奏虚拟舞台的节奏，${c.archetype}招式展现各自个性。`,
   specialType: "虚拟舞台",
   speed: 345,
   jump: 620,

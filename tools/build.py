@@ -177,7 +177,7 @@ def build():
     from build_mujica_assets import pack_all
     from build_mewtype_assets import pack_all as pack_mewtype, validate_sources as validate_mewtype
     # Validate reviewed sources before packing; missing poses must never become
-    # placeholder artwork in the published 15-character catalog.
+    # placeholder artwork in the published character catalog.
     validate_mewtype()
     mewtype_forms, mewtype_characters = pack_mewtype()
     mujica_forms, mujica_characters = pack_all()
@@ -274,6 +274,8 @@ def build():
     install_mewtype_portraits(assets)
     from build_finish_assets import install_finish_art
     install_finish_art(assets)
+    from build_viola_assets import install_viola_assets
+    install_viola_assets(assets)
     export_assets(assets)
 
 

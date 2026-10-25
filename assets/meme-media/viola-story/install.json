@@ -1,0 +1,82 @@
+{
+  "id": 15,
+  "key": "viola",
+  "slots": {
+    "u": {
+      "voice": "violaAnimeGreeting",
+      "label": "镜头闪拍",
+      "duration": 3.15,
+      "slot": "u",
+      "audio": "assets/meme-media/viola-story/violaAnimeGreeting.mp3"
+    },
+    "i": {
+      "voice": "violaAnimeMessage",
+      "label": "断章取义·剪辑陷阱",
+      "duration": 3.45,
+      "slot": "i",
+      "audio": "assets/meme-media/viola-story/violaAnimeMessage.mp3"
+    },
+    "o": {
+      "voice": "violaAnimeStay",
+      "label": "原样就好·话术推击",
+      "duration": 4.6,
+      "slot": "o",
+      "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3"
+    },
+    "p": {
+      "voice": "violaAnimeIgnition",
+      "label": "引爆点·剪辑放送",
+      "duration": 4.05,
+      "slot": "p",
+      "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+      "video": "assets/meme-media/viola-story/viola-ignition-cutin.mp4",
+      "videoRate": 1
+    }
+  },
+  "variants": {
+    "mewtype_15_virtual_u": {
+      "voice": "violaAnimeGreeting",
+      "label": "镜头闪拍",
+      "duration": 3.15,
+      "slot": "u",
+      "audio": "assets/meme-media/viola-story/violaAnimeGreeting.mp3"
+    },
+    "mewtype_15_virtual_i": {
+      "voice": "violaAnimeMessage",
+      "label": "断章取义·剪辑陷阱",
+      "duration": 3.45,
+      "slot": "i",
+      "audio": "assets/meme-media/viola-story/violaAnimeMessage.mp3"
+    },
+    "mewtype_15_virtual_o": {
+      "voice": "violaAnimeStay",
+      "label": "原样就好·话术推击",
+      "duration": 4.6,
+      "slot": "o",
+      "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3"
+    },
+    "mewtype_15_virtual_wave": {
+      "voice": "violaAnimePraise",
+      "label": "做得真好·剪辑声波",
+      "duration": 1.78,
+      "slot": "wave",
+      "audio": "assets/meme-media/viola-story/violaAnimePraise.mp3"
+    },
+    "mewtype_15_virtual_super": {
+      "voice": "violaAnimeIgnition",
+      "label": "引爆点·剪辑放送",
+      "duration": 4.05,
+      "slot": "p",
+      "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+      "video": "assets/meme-media/viola-story/viola-ignition-cutin.mp4",
+      "videoRate": 1
+    },
+    "throw": {
+      "voice": "violaAnimeStay",
+      "label": "原样就好·镜头摔投",
+      "duration": 4.6,
+      "slot": "o",
+      "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3"
+    }
+  }
+}
