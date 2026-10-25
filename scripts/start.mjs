@@ -24,6 +24,8 @@ function addresses(existing = false) {
       : "Keep this window open. Both players must use the same server.\n",
   );
 }
+// Reuse only a server that identifies itself as this application. The port
+// probe below reports unrelated listeners instead of treating them as ready.
 const running = await fetch(`http://127.0.0.1:${port}/api/health`, {
   signal: AbortSignal.timeout(1000),
 })
@@ -65,6 +67,8 @@ const child = launchScala(["run"], {
   detached: process.platform !== "win32",
 });
 let checking = false;
+// sbt spawning is not readiness. Print playable addresses after HTTP health
+// succeeds, and prevent slow probes from overlapping on the interval.
 const ready = setInterval(async () => {
   if (checking) return;
   checking = true;
@@ -91,6 +95,7 @@ child.on("exit", (code) => {
   clearInterval(ready);
   process.exitCode = code ?? 1;
 });
+// On POSIX, stop the whole detached sbt/JVM group when the launcher is closed.
 for (const signal of ["SIGINT", "SIGTERM"])
   process.on(signal, () => {
     if (child.pid && process.platform !== "win32") {

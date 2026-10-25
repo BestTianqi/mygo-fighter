@@ -1,6 +1,6 @@
 [
   {
-    "file": "riki-presence-v1.png",
+    "file": "mygo/riki/riki-presence-v1.png",
     "names": [
       "idle",
       "walk-contact",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "file": "riki-air-v1.png",
+    "file": "mygo/riki/riki-air-v1.png",
     "names": [
       "jump-rise",
       "jump-fall",
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "file": "riki-motion-v1.png",
+    "file": "mygo/riki/riki-motion-v1.png",
     "names": [
       "dash-forward",
       "dash-back",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "file": "riki-defense-v1.png",
+    "file": "mygo/riki/riki-defense-v1.png",
     "names": [
       "hit-high",
       "hit-low",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "file": "riki-recovery-v1.png",
+    "file": "mygo/riki/riki-recovery-v1.png",
     "names": [
       "getup",
       "victory",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "file": "riki-normals-standing-a-v1.png",
+    "file": "mygo/riki/riki-normals-standing-a-v1.png",
     "names": [
       "standing-light",
       "standing-medium",
@@ -89,11 +89,11 @@
       230
     ],
     "overrides": {
-      "standing-lightKick": "riki-standing-light-kick-v2.png"
+      "standing-lightKick": "mygo/riki/riki-standing-light-kick-v2.png"
     }
   },
   {
-    "file": "riki-normals-standing-b-v2.png",
+    "file": "mygo/riki/riki-normals-standing-b-v2.png",
     "names": [
       "standing-mediumKick",
       "standing-heavyKick",
@@ -108,7 +108,7 @@
     ]
   },
   {
-    "file": "riki-normals-crouch-v1.png",
+    "file": "mygo/riki/riki-normals-crouch-v1.png",
     "names": [
       "crouch-heavy",
       "crouch-lightKick",
@@ -123,7 +123,7 @@
     ]
   },
   {
-    "file": "riki-normals-air-a-v1.png",
+    "file": "mygo/riki/riki-normals-air-a-v1.png",
     "names": [
       "air-light",
       "air-medium",
@@ -138,7 +138,7 @@
     ]
   },
   {
-    "file": "riki-normals-air-b-v1.png",
+    "file": "mygo/riki/riki-normals-air-b-v1.png",
     "names": [
       "air-mediumKick",
       "air-heavyKick",
@@ -153,7 +153,7 @@
     ]
   },
   {
-    "file": "riki-percussion-v1.png",
+    "file": "mygo/riki/riki-percussion-v1.png",
     "names": [
       "roll-release",
       "rush-impact",
@@ -168,7 +168,7 @@
     ]
   },
   {
-    "file": "riki-finale-v1.png",
+    "file": "mygo/riki/riki-finale-v1.png",
     "names": [
       "uppercut-impact",
       "eight-beat-release",

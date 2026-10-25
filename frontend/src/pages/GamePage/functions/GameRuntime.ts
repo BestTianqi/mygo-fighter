@@ -190,6 +190,7 @@ export class GameRuntime {
     void this.audio.unlock(config.settings.sound);
     try {
       await this.renderer.prepare(config);
+      // Selection or lobby changes can supersede an in-flight image preload.
       if (this.disposed || request !== this.request) return;
       this.match = new Match({
         ...config,
@@ -305,6 +306,8 @@ export class GameRuntime {
       now,
       this.lan.rtt,
     );
+    // Prediction drives visible movement; keep the server snapshot separate so
+    // speculative damage and energy never appear as confirmed HUD values.
     this.authoritativeMatch = Object.assign(
       Object.create(this.match),
       structuredClone(packet.state),
@@ -371,6 +374,8 @@ export class GameRuntime {
       const previous = this.match.inputTick;
       if (this.lan.connected) {
         this.sendInput();
+        // LAN cues come from deduplicated server events in receive(). Replaying
+        // inputs here advances physics without playing attacks a second time.
         if (this.lan.active) this.prediction.advance(this.match, now, dt);
         const stalled = this.lan.active && this.prediction.stale(now);
         if (stalled !== this.view.connectionStalled)

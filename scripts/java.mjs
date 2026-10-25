@@ -22,6 +22,8 @@ export function javaEnvironment() {
       : []),
     undefined,
   ];
+  // Probe each candidate instead of trusting JAVA_HOME or the system version:
+  // a stale JDK selection should still allow a compatible local installation.
   for (const home of candidates) {
     if (home && !existsSync(home)) continue;
     const executable = home

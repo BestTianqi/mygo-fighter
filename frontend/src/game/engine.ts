@@ -709,6 +709,8 @@ class Match {
     return input;
   }
   step(p1: Input, p2: Input) {
+    // This clock includes ready/round transitions and hit freeze. inputTick
+    // advances only when combat accepts input; LAN replay needs both clocks.
     this.simulationTick++;
     this.elapsed += 10;
     if (this.phase === "ready") {

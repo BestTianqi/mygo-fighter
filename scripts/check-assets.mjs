@@ -1,10 +1,12 @@
-import { readFile, readdir } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 const root = new URL("../frontend/public/", import.meta.url);
+const sources = new URL("../assets/", import.meta.url);
 const manifest = JSON.parse(
   await readFile(new URL("assets.json", root), "utf8"),
 );
 const references = new Set();
+// Media can appear in nested forms, voices and cutins, not just characters.
 function collect(value) {
   if (typeof value === "string" && value.startsWith("/media/"))
     references.add(value.slice(7));
@@ -13,6 +15,7 @@ function collect(value) {
     Object.values(value).forEach(collect);
 }
 collect(manifest);
+// Runtime filenames encode the first 20 SHA-256 digits of the actual bytes.
 for (const filename of references) {
   if (!/^[a-f0-9]{20}\.(webp|mp3|mp4|png)$/.test(filename))
     throw new Error(`Invalid media filename: ${filename}`);
@@ -30,6 +33,42 @@ for (const filename of files)
     throw new Error(`Unreferenced runtime media: ${filename}`);
 if (manifest.characters.length !== 15 || manifest.stages.length !== 15)
   throw new Error("Incomplete character or stage catalog");
+
+// Action catalogs use assets-relative paths; stage entries use repository paths.
+// Check both conventions so source reorganization cannot silently break packing.
+const sourceReferences = new Set();
+for (const catalog of [
+  "mygo/anon/anon-extra-actions.json",
+  "mygo/soyo/soyo-extra-actions.json",
+  "mygo/tomori/tomori-actions.json",
+  "mygo/tomori/tomori-penguin-actions.json",
+  "mygo/rana/rana-actions.json",
+  "mygo/riki/riki-actions.json",
+  "mygo/jab-actions.json",
+]) {
+  const groups = JSON.parse(await readFile(new URL(catalog, sources), "utf8"));
+  for (const group of groups) {
+    sourceReferences.add(group.file);
+    for (const override of Object.values(group.overrides ?? {}))
+      sourceReferences.add(override);
+  }
+}
+const stages = JSON.parse(
+  await readFile(new URL("stages/stages.json", sources), "utf8"),
+);
+for (const stage of stages) {
+  if (!stage.file.startsWith("assets/"))
+    throw new Error(`Invalid stage source: ${stage.file}`);
+  sourceReferences.add(stage.file.slice(7));
+}
+for (const filename of sourceReferences) {
+  const url = new URL(filename, sources);
+  if (!url.href.startsWith(sources.href))
+    throw new Error(`Source outside assets/: ${filename}`);
+  const file = await stat(url);
+  if (!file.isFile() || file.size === 0)
+    throw new Error(`Missing or empty artwork source: ${filename}`);
+}
 console.log(
-  `Verified ${references.size} media files, 15 characters and 15 stages.`,
+  `Verified ${references.size} media files, ${sourceReferences.size} artwork sources, 15 characters and 15 stages.`,
 );

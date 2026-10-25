@@ -53,22 +53,13 @@ Returning to the lobby closes the old simulation context and increments the gene
 
 The server is intended for a trusted local network. It has temporary room sessions rather than an account system, and plain HTTP on the default LAN deployment.
 
-## Diagnostics and repeatable checks
+## Diagnostics and verification
 
-Add `?diagnostics=1` to the game URL to display rolling p95 frame times, correction distance, snapshot gaps/bytes, server update time, input-to-simulation-step delay and input-to-visible-motion delay. The same samples are exposed as `window.mygoDiagnostics` for the browser harness. Diagnostics are off by default. Motion samples can include legitimate attack recovery, obstruction or hit freeze; the browser acceptance check separately measures unobstructed movement before combat.
+Add `?diagnostics=1` to the game URL to display rolling p95 frame times, correction distance, snapshot gaps/bytes, server update time, input-to-simulation-step delay and input-to-visible-motion delay. The same samples are exposed as `window.mygoDiagnostics` for browser inspection. Diagnostics are off by default. Motion samples can include legitimate attack recovery, obstruction or hit freeze; the former browser acceptance check separately measured unobstructed movement before combat.
 
-With the normal build and Scala server running:
+Before changing the LAN protocol, run `npm run check`, `npm run build` and `npm run check:backend`. With the Scala server running, verify two clients creating/joining a room, selecting teams, completing the loading barrier, moving, pausing, restarting and reconnecting. Use `?diagnostics=1` to inspect frame timing and corrections during play. The former automated test suites have been removed; save local verification artifacts under the ignored `output/` directory.
 
-```sh
-node tests/lan_prediction.mjs
-node tests/lan_protocol.mjs
-node tests/lan_load.mjs optimized
-python tests/lan_smooth_browser.py
-```
-
-The browser check needs Python Playwright and Chromium. Set `LAN_URL` to use a different server. Load tests run 1, 2 and 4 rooms at 20, 80 and 150 ms simulated RTT, with deterministic jitter and 250 ms FIFO stalls. `LAN_SAMPLE_MS` overrides the default six-second sample after warmup. Browser tests use two separate browser instances, exercise keyboard/touch, pause, restart and reconnect, and verify unobstructed movement within two display frames. Results and screenshots are ignored under `output/lan-check/`. These are application-level delay simulations, not measurements of real internet packet loss or public-hosting capacity.
-
-The deterministic prediction trace compares the old overwrite algorithm against reconciliation using identical inputs and network timing; it is not a second full build benchmark. The real-server `baseline` report was captured before these changes. On an Apple M4 Pro (14 cores), four-room p95 snapshot delivery gaps remained about 24 ms under injected jitter, similar to one room; p95 server update work was approximately 1.0–1.1 ms. Reconciliation reduced maximum correction distance in all three synthetic traces; p95 correction distance improved at 80 ms and was effectively unchanged at 20/150 ms. Retaining events and replay metadata increased typical combat snapshots from about 2.8 KB to 5.1 KB. This intentionally trades bandwidth for recovery of cues; it is not a bandwidth reduction claim or a guarantee for slower hosts.
+Historical measurements from the earlier regression harness follow. The deterministic prediction trace compares the old overwrite algorithm against reconciliation using identical inputs and network timing; it is not a second full build benchmark. The real-server `baseline` report was captured before these changes. On an Apple M4 Pro (14 cores), four-room p95 snapshot delivery gaps remained about 24 ms under injected jitter, similar to one room; p95 server update work was approximately 1.0–1.1 ms. Reconciliation reduced maximum correction distance in all three synthetic traces; p95 correction distance improved at 80 ms and was effectively unchanged at 20/150 ms. Retaining events and replay metadata increased typical combat snapshots from about 2.8 KB to 5.1 KB. This intentionally trades bandwidth for recovery of cues; it is not a bandwidth reduction claim or a guarantee for slower hosts.
 
 ## 3v3 relay
 
@@ -76,6 +67,4 @@ The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an 
 
 The prepare configuration includes both teams and the format; clients preload all six fighters and forms. The shared server simulation advances the defeated side after the finish animation, retains the surviving fighter’s HP and energy, and ends only when one team is exhausted. Snapshots carry team indices, reserves and the current fighters. Restart resets both teams; returning to the lobby preserves selections for editing and clears readiness. Reconnect restores the existing authoritative match and its team progression.
 
-Run `node tests/lan-relay.mjs` for combat carry-over/relay packet checks. After `node scripts/build-simulation.mjs`, run `sbt "Test / runMain services.rooms.RelayRoomCheck"` from `backend/` to exercise Scala room authorization, readiness, ordered teams, the loading barrier and GraalJS creation.
-
-For the two-browser smoke test, start the normal local build with `npm run lan`, install Python Playwright with `python -m pip install playwright`, then run `python tests/lan_browser.py` from the repository root. Windows uses installed Microsoft Edge; on other systems first run `python -m playwright install chromium`. The test defaults to `http://localhost:8080`; set `MYGO_TEST_URL` to test another running server. It checks creation/joining, host-only rules, ordered teams, shared movement, pause/restart, reconnect and returning to the lobby, and saves both browser screenshots under `output/`.
+When reviewing relay changes, verify host-only rules, ordered teams, readiness, survivor HP/energy carry-over, match completion and reconnect restoration with two browsers against the same server.

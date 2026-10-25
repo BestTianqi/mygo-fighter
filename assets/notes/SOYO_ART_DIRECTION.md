@@ -5,7 +5,7 @@
 用户要求：在现有正常身材 MyGO 格斗网页版中添加长崎素世。
 
 身份与服装参考：`images/candidates/official_redesign_20260922_mygo_umiri/official_refs/mygo_soyo_official.png`。
-画风、头身比、动作顺序参考：`web/mygo-fighter/assets/anon-normal-actions-v1.png`。
+画风、头身比、动作顺序参考：`web/mygo-fighter/assets/mygo/anon/anon-normal-actions-v1.png`。
 两张图仅作参考，素世为新绘制人物，不复用旧 Q 版或给爱音改色。
 
 成品：`soyo-normal-actions-v1.png`，1254×1254，RGBA，4×4 共 16 动作，透明背景。

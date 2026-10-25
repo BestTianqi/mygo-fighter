@@ -193,19 +193,11 @@ def pack_all():
     return forms, characters
 
 
-def write_preview(forms, partial=False):
-    payload = dict(partial=partial, forms=forms, expected=560)
-    template = (ROOT / 'tools/templates/mujica-preview.html').read_text(encoding='utf-8')
-    html = template.replace('/*__MUJICA_PREVIEW__*/', 'window.MUJICA_PREVIEW=' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';')
-    (ROOT / 'mujica-preview.html').write_text(html, encoding='utf-8')
-    print(f'Offline preview: {len(html.encode()):,} bytes; {sum(len(f["frames"]) for f in forms)} actual drawings', flush=True)
-
-
 def build():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--character', choices=[key for key, _ in KEYS])
     parser.add_argument('--form', choices=['normal', 'stage'])
-    parser.add_argument('--partial', action='store_true', help='provisional preview of existing groups; never used by the game build')
+    parser.add_argument('--partial', action='store_true', help='pack existing complete groups only; never used by the game build')
     args = parser.parse_args()
     forms = []
     for key, identifier in KEYS:
@@ -217,7 +209,7 @@ def build():
             packed = pack_form(key, form, args.partial)
             if packed:
                 forms.append(dict(id=identifier, key=key, name=DISPLAY_NAMES[key], form=form, **packed))
-    write_preview(forms, args.partial)
+    print(f'Packed {len(forms)} forms and {sum(len(form["frames"]) for form in forms)} reviewed poses.')
 
 
 if __name__ == '__main__':

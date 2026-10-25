@@ -1,6 +1,6 @@
 [
   {
-    "file": "tomori-penguin-presence-v1.png",
+    "file": "mygo/tomori/tomori-penguin-presence-v1.png",
     "names": [
       "idle",
       "walk-contact",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-air-v1.png",
+    "file": "mygo/tomori/tomori-penguin-air-v1.png",
     "names": [
       "jump-rise",
       "jump-fall",
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-flippers-v1.png",
+    "file": "mygo/tomori/tomori-penguin-flippers-v1.png",
     "names": [
       "flipper-light",
       "flipper-medium",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-kicks-v1.png",
+    "file": "mygo/tomori/tomori-penguin-kicks-v1.png",
     "names": [
       "kick-medium",
       "kick-heavy",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-specials-v1.png",
+    "file": "mygo/tomori/tomori-penguin-specials-v1.png",
     "names": [
       "flying-kick",
       "cry-counter",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-call-v1.png",
+    "file": "mygo/tomori/tomori-penguin-call-v1.png",
     "names": [
       "call-windup",
       "call-release",
@@ -90,7 +90,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-recovery-v1.png",
+    "file": "mygo/tomori/tomori-penguin-recovery-v1.png",
     "names": [
       "knockdown-fall",
       "knockdown-ground",
@@ -105,7 +105,7 @@
     ]
   },
   {
-    "file": "tomori-penguin-stances-v1.png",
+    "file": "mygo/tomori/tomori-penguin-stances-v1.png",
     "names": [
       "crouch-flipper",
       "crouch-kick",

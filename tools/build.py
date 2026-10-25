@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image
 from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +45,8 @@ def export_assets(assets):
             (media / filename).write_bytes(payload)
             return '/media/' + filename
         return value
+    # Track preserved /media references too: targeted portrait updates must keep
+    # existing recordings and atlases alive when retiring obsolete exports.
     manifest = externalize(assets)
     # Only retire generated content-addressed files, never unrelated source artwork.
     import re
@@ -103,6 +105,7 @@ def figures_from_sheet(path, columns, rows):
         if slot not in selected or count > selected[slot][0]:
             selected[slot] = (count, region, label)
     count = columns * rows
+    # Require every authored cell before assigning frame indices.
     if set(selected) != set(range(count)):
         raise ValueError(f"{path.name}: expected {count} complete figures; found slots {sorted(selected)}")
 
@@ -122,10 +125,10 @@ def figures_from_sheet(path, columns, rows):
 def frames_from_sheet(character):
     # Four poses per source sheet leave substantially more pixels for each face.
     # Earlier sheets remain available and supply the established pose heights.
-    reference = figures_from_sheet(ROOT / f"assets/{character}-normal-actions-v2.png", 4, 4)
+    reference = figures_from_sheet(ROOT / f"assets/mygo/{character}/{character}-normal-actions-v2.png", 4, 4)
     sprites = []
     for group in range(1, 5):
-        sprites.extend(figures_from_sheet(ROOT / f"assets/{character}-actions-v3-{group}.png", 2, 2))
+        sprites.extend(figures_from_sheet(ROOT / f"assets/mygo/{character}/{character}-actions-v3-{group}.png", 2, 2))
     idle_height = sprites[0][0].height
     normalized = []
     for i, (sprite, anchor_x) in enumerate(sprites):
@@ -144,9 +147,9 @@ def frames_from_sheet(character):
         atlas.paste(sprite, (x, y))
         frames.append(dict(x=x, y=y, w=sprite.width, h=sprite.height,
                            ax=round(anchor_x, 2), ay=sprite.height))
-    atlas.save(ROOT / f"assets/{character}-runtime.webp", lossless=True, method=6)
-    atlas.save(ROOT / f"assets/{character}-normal-actions-v3.png")
-    sprites[0][0].save(ROOT / f"assets/{character}-idle.png")
+    atlas.save(ROOT / f"assets/mygo/{character}/{character}-runtime.webp", lossless=True, method=6)
+    atlas.save(ROOT / f"assets/mygo/{character}/{character}-normal-actions-v3.png")
+    sprites[0][0].save(ROOT / f"assets/mygo/{character}/{character}-idle.png")
     # Lossless character art preserves the small eye and eyelash lines.
     return {**game_atlas(atlas, frames, 4), 'portrait': data_url(sprites[0][0], lossless=True)}
 
@@ -166,15 +169,15 @@ def extra_frames(sheets, name, columns):
         atlas.paste(sprite, (x, y))
         frames.append(dict(x=x, y=y, w=sprite.width, h=sprite.height,
                            ax=round(anchor_x, 2), ay=sprite.height, height=height))
-    atlas.save(ROOT / f'assets/{name}-runtime.webp', lossless=True, method=6)
+    atlas.save(ROOT / f'assets/mygo/{name.split("-")[0]}/{name}-runtime.webp', lossless=True, method=6)
     return game_atlas(atlas, frames, columns)
 
 
 def build():
     from build_mujica_assets import pack_all
     from build_mewtype_assets import pack_all as pack_mewtype, validate_sources as validate_mewtype
-    # A final game must have every real pose. Fail before rebuilding legacy art
-    # when any reviewed Mujica source is still missing.
+    # Validate reviewed sources before packing; missing poses must never become
+    # placeholder artwork in the published 15-character catalog.
     validate_mewtype()
     mewtype_forms, mewtype_characters = pack_mewtype()
     mujica_forms, mujica_characters = pack_all()
@@ -183,59 +186,59 @@ def build():
     stage_assets = pack_stages()
     backgrounds, stages = stage_assets['backgrounds'], stage_assets['stages']
     normals = extra_frames([
-        ('anon-normals-standing-v3.png', 2, 3, [235, 235, 235, 220, 235, 260]),
-        ('anon-normals-crouch-v3.png', 2, 3, [155, 155, 200, 150, 155, 145]),
-        ('anon-normals-air-v3.png', 2, 3, [175, 175, 175, 195, 190, 190]),
+        ('mygo/anon/anon-normals-standing-v3.png', 2, 3, [235, 235, 235, 220, 235, 260]),
+        ('mygo/anon/anon-normals-crouch-v3.png', 2, 3, [155, 155, 200, 150, 155, 145]),
+        ('mygo/anon/anon-normals-air-v3.png', 2, 3, [175, 175, 175, 195, 190, 190]),
     ], 'anon-normals', 6)
-    dragon = extra_frames([('anon-milkdragon-v1.png', 2, 2, [360] * 4)], 'anon-milkdragon', 2)
-    tensora = extra_frames([('soyo-tensora-v1.png', 2, 2, [72] * 4)], 'soyo-tensora', 2)
-    action_groups = json.loads((ROOT / 'assets/anon-extra-actions.json').read_text(encoding='utf-8'))
+    dragon = extra_frames([('mygo/anon/anon-milkdragon-v1.png', 2, 2, [360] * 4)], 'anon-milkdragon', 2)
+    tensora = extra_frames([('mygo/soyo/soyo-tensora-v1.png', 2, 2, [72] * 4)], 'soyo-tensora', 2)
+    action_groups = json.loads((ROOT / 'assets/mygo/anon/anon-extra-actions.json').read_text(encoding='utf-8'))
     actions = extra_frames([(g['file'], 2, 2, g['heights']) for g in action_groups], 'anon-extra', 4)
     for frame, name in zip(actions['frames'], [name for g in action_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
-    soyo_groups = json.loads((ROOT / 'assets/soyo-extra-actions.json').read_text(encoding='utf-8'))
+    soyo_groups = json.loads((ROOT / 'assets/mygo/soyo/soyo-extra-actions.json').read_text(encoding='utf-8'))
     soyo_actions = extra_frames([(g['file'], 2, 2, g['heights']) for g in soyo_groups], 'soyo-extra', 4)
     for frame, name in zip(soyo_actions['frames'], [name for g in soyo_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
-    tomori_groups = json.loads((ROOT / 'assets/tomori-actions.json').read_text(encoding='utf-8'))
+    tomori_groups = json.loads((ROOT / 'assets/mygo/tomori/tomori-actions.json').read_text(encoding='utf-8'))
     tomori_actions = extra_frames([(g['file'], 2, 2, g['heights']) for g in tomori_groups], 'tomori', 4)
     for frame, name in zip(tomori_actions['frames'], [name for g in tomori_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
     tomori_frames = {f['name']: f for f in tomori_actions['frames']}
-    idle, _ = figures_from_sheet(ROOT / 'assets/tomori-presence-v1.png', 2, 2)[0]
-    idle.save(ROOT / 'assets/tomori-idle.png')
+    idle, _ = figures_from_sheet(ROOT / 'assets/mygo/tomori/tomori-presence-v1.png', 2, 2)[0]
+    idle.save(ROOT / 'assets/mygo/tomori/tomori-idle.png')
     # The legacy sixteen slots remain available for result/fallback poses; live animation uses named frames.
     base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'mic-light', 'normal-recover',
                   'echo-windup', 'chorus-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
     characters.append(dict(atlas=tomori_actions['atlas'], frames=[tomori_frames[n] for n in base_names], portrait=data_url(idle, lossless=True)))
-    rana_groups = json.loads((ROOT / 'assets/rana-actions.json').read_text(encoding='utf-8'))
+    rana_groups = json.loads((ROOT / 'assets/mygo/rana/rana-actions.json').read_text(encoding='utf-8'))
     rana = extra_frames([(g['file'], 2, 2, g['heights']) for g in rana_groups], 'rana', 8)
     for frame, name in zip(rana['frames'], [name for g in rana_groups for name in g['names']]):
         frame['name'] = name
         if name == 'knockdown-ground': frame['ax'] = round(frame['w'] / 2, 2)
     rana_frames = {f['name']: f for f in rana['frames']}
-    idle, _ = figures_from_sheet(ROOT / 'assets/rana-presence-v1.png', 2, 2)[0]
-    idle.save(ROOT / 'assets/rana-idle.png')
+    idle, _ = figures_from_sheet(ROOT / 'assets/mygo/rana/rana-presence-v1.png', 2, 2)[0]
+    idle.save(ROOT / 'assets/mygo/rana/rana-idle.png')
     base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'standing-light', 'normal-recover',
                   'normal-windup', 'solo-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
     characters.append(dict(atlas=rana['atlas'], frames=[rana_frames[n] for n in base_names], actionFrames=rana['frames'], portrait=data_url(idle, lossless=True)))
-    riki_frames = json.loads((ROOT / 'assets/riki-frames.json').read_text(encoding='utf-8'))
-    riki = game_atlas(Image.open(ROOT / 'assets/riki-runtime.webp').convert('RGBA'), riki_frames, 8)
+    riki_frames = json.loads((ROOT / 'assets/mygo/riki/riki-frames.json').read_text(encoding='utf-8'))
+    riki = game_atlas(Image.open(ROOT / 'assets/mygo/riki/riki-runtime.webp').convert('RGBA'), riki_frames, 8)
     riki_by_name = {f['name']: f for f in riki['frames']}
     base_names = ['idle', 'walk-contact', 'walk-pass', 'guard-crouch', 'normal-windup', 'standing-light', 'normal-recover',
                   'normal-windup', 'eight-beat-release', 'normal-recover', 'jump-rise', 'jump-fall', 'hit-high', 'knockdown-fall', 'victory', 'knockdown-ground']
     characters.append(dict(atlas=riki['atlas'], frames=[riki_by_name[n] for n in base_names], actionFrames=riki['frames'],
-                           portrait=data_url(Image.open(ROOT / 'assets/riki-idle.png'), lossless=True)))
-    parfait_actions = extra_frames([('rana-parfait-throw-v2.png', 2, 2, [235] * 4)], 'rana-parfait-actions', 4)
+                           portrait=data_url(Image.open(ROOT / 'assets/mygo/riki/riki-idle.png'), lossless=True)))
+    parfait_actions = extra_frames([('mygo/rana/rana-parfait-throw-v2.png', 2, 2, [235] * 4)], 'rana-parfait-actions', 4)
     for frame, name in zip(parfait_actions['frames'], ['parfait-ready', 'parfait-windup', 'parfait-release', 'parfait-recover']):
         frame['name'] = name
-    parfait_sprite, _ = figures_from_sheet(ROOT / 'assets/rana-matcha-parfait-v1.png', 1, 1)[0]
+    parfait_sprite, _ = figures_from_sheet(ROOT / 'assets/mygo/rana/rana-matcha-parfait-v1.png', 1, 1)[0]
     parfait_sprite.thumbnail((256, 384), Image.Resampling.LANCZOS)
-    parfait_sprite.save(ROOT / 'assets/rana-parfait-projectile.webp', lossless=True, method=6)
-    penguin_groups = json.loads((ROOT / 'assets/tomori-penguin-actions.json').read_text(encoding='utf-8'))
+    parfait_sprite.save(ROOT / 'assets/mygo/rana/rana-parfait-projectile.webp', lossless=True, method=6)
+    penguin_groups = json.loads((ROOT / 'assets/mygo/tomori/tomori-penguin-actions.json').read_text(encoding='utf-8'))
     penguin = extra_frames([(g['file'], 2, 2, g['heights']) for g in penguin_groups], 'tomori-penguin', 4)
     for frame, name in zip(penguin['frames'], [name for g in penguin_groups for name in g['names']]):
         frame['name'] = name
@@ -251,16 +254,18 @@ def build():
     voice_manifest = json.loads((voice_folder / 'penguin-voices.json').read_text(encoding='utf-8'))
     assets['penguinVoices'] = {clip['move']: 'data:audio/mpeg;base64,' + base64.b64encode((voice_folder / clip['file']).read_bytes()).decode()
                              for clip in voice_manifest['clips']}
-    soyo_folder = ROOT / 'assets/soyo-haruhikage'
+    soyo_folder = ROOT / 'assets/mygo/soyo/haruhikage'
     assets.setdefault('soyoVoices', {'soyoSuper': 'data:audio/mpeg;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-voice.mp3').read_bytes()).decode()})
     assets['soyoSuperVideo'] = 'data:video/mp4;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-cutin.mp4').read_bytes()).decode()
     assets['soyoFinishArt'] = 'data:image/webp;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-finish.webp').read_bytes()).decode()
     assets['jabActions'] = []
-    for group in json.loads((ROOT / 'assets/jab-actions.json').read_text(encoding='utf-8')):
+    for group in json.loads((ROOT / 'assets/mygo/jab-actions.json').read_text(encoding='utf-8')):
         art = extra_frames([(group['file'], 2, 3, group['heights'])], ['anon', 'soyo', 'tomori'][group['character']] + '-jab', 3)
         for frame, name in zip(art['frames'], ['jab-2-windup', 'jab-2-impact', 'jab-2-recover', 'jab-3-windup', 'jab-3-impact', 'jab-3-recover']):
             frame['name'] = name
         assets['jabActions'].append(art)
+    # Install reviewed portraits last so base atlas packing cannot replace the
+    # explicit face crops or the special video finish stills.
     from build_portrait_assets import install_portraits
     install_portraits(assets)
     from build_mygo_portraits import install_mygo_portraits

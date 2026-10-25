@@ -76,8 +76,9 @@ Use a second terminal running `npm start` for the API while developing with Vite
 - `frontend/src/apis/rooms/`: one HTTP caller per registered Scala room message, plus the persistent socket connection.
 - `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration and private runtime helpers.
 - `backend/src/main/scala/services/system/`: Cats Effect startup, application resources, shared routing and static serving.
-- `frontend/public/`: media manifest and cacheable runtime assets. The 121 MB embedded HTML and old Node server have been removed.
-- `assets/` and `tools/`: original artwork, attribution, editable source sheets and optional artwork generation. See [artwork workflow](docs/ARTWORK.md).
+- `frontend/public/`: media manifest and cacheable runtime assets.
+- `assets/`: source artwork grouped by band, character or feature, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
+- `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
 
 The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 15 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
 
@@ -85,4 +86,4 @@ See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](doc
 
 GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3; LAN rooms require the local Scala server. All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
 
-After `npm run build:pages`, run `python tests/pages_browser.py` with Python Playwright installed to check project-path loading, recorded audio, character transformations, supers and menu flow. Reports and screenshots go to the ignored `output/pages-check/` folder.
+The test suites have been removed. Before publishing, run the checks and both builds above, then verify project-path loading, recorded audio, character transformations, supers and menu flow in a browser. For LAN changes, also check two clients joining, loading, playing, pausing and reconnecting against the same Scala server. Keep any local reports and screenshots in the ignored `output/` folder.

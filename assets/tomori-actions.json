@@ -1,8 +1,0 @@
-[
-  {"file":"tomori-presence-v1.png","names":["idle","walk-contact","walk-pass","guard-standing"],"heights":[235,235,235,230]},
-  {"file":"tomori-air-v1.png","names":["jump-rise","jump-fall","landing","guard-crouch"],"heights":[205,220,175,160]},
-  {"file":"tomori-combat-v1.png","names":["normal-windup","mic-light","mic-heavy","normal-recover"],"heights":[230,230,220,235]},
-  {"file":"tomori-voice-v1.png","names":["note-release","echo-windup","echo-release","chorus-release"],"heights":[235,235,240,245]},
-  {"file":"tomori-defense-v1.png","names":["dash-forward","dash-back","hit-high","hit-low"],"heights":[205,220,225,185]},
-  {"file":"tomori-recovery-v1.png","names":["knockdown-fall","knockdown-ground","getup","victory"],"heights":[200,85,170,235]}
-]

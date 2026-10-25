@@ -15,6 +15,8 @@ export function launchScala(
   const java = env.JAVA_HOME
     ? `${env.JAVA_HOME}/bin/java${process.platform === "win32" ? ".exe" : ""}`
     : "java";
+  // Keep optional portable launcher caches in output/. Without that launcher,
+  // use installed sbt, including Windows shell resolution of its command file.
   const options = portable
     ? [
         "-Dsbt.supershell=false",

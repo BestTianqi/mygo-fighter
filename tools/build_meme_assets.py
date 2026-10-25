@@ -1,7 +1,7 @@
 """Pack reviewed recordings and component-extracted Uika crawling poses.
 
 Only the small meme-media catalogs/artifacts are written by this module; the
-main build imports pack_meme_assets() to embed the result in the offline game.
+main build imports pack_meme_assets() before exporting the runtime manifest.
 """
 import base64
 import hashlib
@@ -92,11 +92,11 @@ def build_catalog():
     profiles['1']['variants']['soyoCutline'] = normalize_clip(read_json(cutline_catalog)['cutline'], cutline_catalog, 1, 'i', 'meme_1_cutline')
 
     # Preserve the already integrated Haruhikage recording without embedding it twice.
-    soyo_catalog = ASSETS / 'soyo-haruhikage/sources.json'
+    soyo_catalog = ASSETS / 'mygo/soyo/haruhikage/sources.json'
     soyo_source = read_json(soyo_catalog)
     selected = soyo_source['selectedSource']
-    soyo_row = dict(label=soyo_source['superName'], audio='assets/soyo-haruhikage/soyo-haruhikage-voice.mp3',
-                    video='assets/soyo-haruhikage/soyo-haruhikage-cutin.mp4', source=selected['url'],
+    soyo_row = dict(label=soyo_source['superName'], audio='assets/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3',
+                    video='assets/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4', source=selected['url'],
                     author=selected['uploader'], start=selected['startSeconds'], end=selected['endSeconds'])
     soyo = normalize_clip(soyo_row, soyo_catalog, 1, 'p', 'soyoSuper')
     soyo.update(duration=2.8, voiceRef='soyoSuper', videoRef='soyoSuperVideo')

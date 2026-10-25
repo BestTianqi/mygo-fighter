@@ -1,8 +1,0 @@
-[
-  {"file":"soyo-extra-mobility-v1.png","names":["walk-contact","walk-pass","dash-forward","dash-back"],"heights":[235,235,220,225]},
-  {"file":"soyo-extra-air-v1.png","names":["jump-rise","jump-fall","landing","guard-crouch"],"heights":[215,225,175,165]},
-  {"file":"soyo-extra-defense-v1.png","names":["guard-standing","hit-high","hit-low","normal-windup"],"heights":[230,230,185,230]},
-  {"file":"soyo-extra-combat-v1.png","names":["palm-light","palm-heavy","cast-release","normal-recover"],"heights":[235,225,240,235]},
-  {"file":"soyo-extra-heal-v1.png","names":["heal-prepare","heal-channel","heal-release","heal-recover"],"heights":[235,235,240,235]},
-  {"file":"soyo-extra-recovery-v1.png","names":["knockdown-fall","knockdown-ground","getup","victory"],"heights":[205,85,170,240]}
-]

@@ -16,10 +16,10 @@
 
 使用内置 **imagegen** 生成，真实透明背景，正常身材比例，以现有角色图作身份、面部和服装配色参考。未调用外部图像 API。原图在生成目录保留，项目中使用以下副本：
 
-- `assets/anon-jab-chain-v1.png`：参考 `anon-idle.png`、`anon-normals-standing-v3.png`。
-- `assets/soyo-jab-chain-v1.png`：参考 `soyo-extra-combat-v1.png`。
-- `assets/tomori-jab-chain-v1.png`：参考 `tomori-combat-v1.png`。
-- `assets/jab-actions.json`：角色索引与姿态高度。每张均为2列3行，按行读取：二段准备、二段命中、二段收招、三段准备、三段命中、三段收招。
+- `assets/mygo/anon/anon-jab-chain-v1.png`：参考 `anon-idle.png`、`anon-normals-standing-v3.png`。
+- `assets/mygo/soyo/soyo-jab-chain-v1.png`：参考 `soyo-extra-combat-v1.png`。
+- `assets/mygo/tomori/tomori-jab-chain-v1.png`：参考 `tomori-combat-v1.png`。
+- `assets/mygo/jab-actions.json`：角色索引与姿态高度。每张均为2列3行，按行读取：二段准备、二段命中、二段收招、三段准备、三段命中、三段收招。
 
 共同提示词：
 

@@ -1,6 +1,6 @@
 [
   {
-    "file": "rana-presence-v1.png",
+    "file": "mygo/rana/rana-presence-v1.png",
     "names": [
       "idle",
       "walk-contact",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "file": "rana-air-v1.png",
+    "file": "mygo/rana/rana-air-v1.png",
     "names": [
       "jump-rise",
       "jump-fall",
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "file": "rana-motion-v1.png",
+    "file": "mygo/rana/rana-motion-v1.png",
     "names": [
       "dash-forward",
       "dash-back",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "file": "rana-defense-v1.png",
+    "file": "mygo/rana/rana-defense-v1.png",
     "names": [
       "hit-high",
       "hit-low",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "file": "rana-recovery-v1.png",
+    "file": "mygo/rana/rana-recovery-v1.png",
     "names": [
       "getup",
       "victory",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "file": "rana-normals-standing-a-v1.png",
+    "file": "mygo/rana/rana-normals-standing-a-v1.png",
     "names": [
       "standing-light",
       "standing-medium",
@@ -90,7 +90,7 @@
     ]
   },
   {
-    "file": "rana-normals-standing-b-v1.png",
+    "file": "mygo/rana/rana-normals-standing-b-v1.png",
     "names": [
       "standing-mediumKick",
       "standing-heavyKick",
@@ -105,7 +105,7 @@
     ]
   },
   {
-    "file": "rana-normals-crouch-v1.png",
+    "file": "mygo/rana/rana-normals-crouch-v1.png",
     "names": [
       "crouch-heavy",
       "crouch-lightKick",
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "file": "rana-normals-air-a-v1.png",
+    "file": "mygo/rana/rana-normals-air-a-v1.png",
     "names": [
       "air-light",
       "air-medium",
@@ -135,7 +135,7 @@
     ]
   },
   {
-    "file": "rana-normals-air-b-v1.png",
+    "file": "mygo/rana/rana-normals-air-b-v1.png",
     "names": [
       "air-mediumKick",
       "air-heavyKick",
@@ -150,7 +150,7 @@
     ]
   },
   {
-    "file": "rana-guitar-v2.png",
+    "file": "mygo/rana/rana-guitar-v2.png",
     "names": [
       "pick-release",
       "rush-impact",
@@ -165,7 +165,7 @@
     ]
   },
   {
-    "file": "rana-finale-v1.png",
+    "file": "mygo/rana/rana-finale-v1.png",
     "names": [
       "dive-impact",
       "solo-release",

@@ -1,6 +1,6 @@
 [
   {
-    "file": "anon-extra-mobility-v1.png",
+    "file": "mygo/anon/anon-extra-mobility-v1.png",
     "names": [
       "walk-contact",
       "walk-pass",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "file": "anon-extra-air-v1.png",
+    "file": "mygo/anon/anon-extra-air-v1.png",
     "names": [
       "jump-takeoff",
       "jump-rise",
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "file": "anon-extra-defense-v1.png",
+    "file": "mygo/anon/anon-extra-defense-v1.png",
     "names": [
       "guard-standing",
       "guard-crouch",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "file": "anon-extra-transitions-v1.png",
+    "file": "mygo/anon/anon-extra-transitions-v1.png",
     "names": [
       "normal-windup",
       "normal-recover",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "file": "anon-extra-specials-v1.png",
+    "file": "mygo/anon/anon-extra-specials-v1.png",
     "names": [
       "thrust-impact",
       "rising-impact",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "file": "anon-extra-recovery-v1.png",
+    "file": "mygo/anon/anon-extra-recovery-v1.png",
     "names": [
       "knockdown-fall",
       "knockdown-ground",

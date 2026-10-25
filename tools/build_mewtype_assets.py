@@ -1,8 +1,8 @@
 """Pack MewType's five virtual outfits, with 54 actual drawings per person.
 
 Usage: python tools/build_mewtype_assets.py [--character arale] [--partial]
-Final packing requires reviewed manifests and every source sheet. Provisional
-previews may show existing complete sheets, but never invent missing drawings.
+Final packing requires reviewed manifests and every source sheet. Partial
+packing uses existing complete sheets and never invents drawings.
 """
 import argparse
 import base64
@@ -122,19 +122,10 @@ def pack_all():
     return forms, characters
 
 
-def write_preview(forms, partial=False):
-    payload = dict(partial=partial, forms=forms, expected=270)
-    template = (ROOT / 'tools/templates/mewtype-preview.html').read_text(encoding='utf-8')
-    html = template.replace('/*__MEWTYPE_PREVIEW__*/', 'window.MEWTYPE_PREVIEW=' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';')
-    target = ROOT / 'mewtype-preview.html'
-    target.write_bytes(html.encode('utf-8'))
-    print(f'Offline MewType preview: {target.stat().st_size:,} bytes; {sum(len(form["frames"]) for form in forms)} actual drawings', flush=True)
-
-
 def build():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--character', choices=[key for key, _ in KEYS])
-    parser.add_argument('--partial', action='store_true', help='show only existing complete sheets, never fabricate missing poses')
+    parser.add_argument('--partial', action='store_true', help='pack existing complete sheets only; never used by the game build')
     args = parser.parse_args()
     forms = []
     for key, identifier in KEYS:
@@ -143,7 +134,7 @@ def build():
         packed = pack_character(key, args.partial)
         if packed:
             forms.append(dict(id=identifier, key=key, name=DISPLAY_NAMES[key], form='virtual', **packed))
-    write_preview(forms, args.partial)
+    print(f'Packed {len(forms)} forms and {sum(len(form["frames"]) for form in forms)} reviewed poses.')
 
 
 if __name__ == '__main__':

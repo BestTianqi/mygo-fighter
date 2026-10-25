@@ -1,4 +1,4 @@
-"""Pack local stage artwork and its playable geometry into the offline game."""
+"""Pack local stage artwork and its playable geometry for the runtime media manifest."""
 import base64
 import io
 import json
@@ -16,7 +16,7 @@ def image_url(image, quality):
 
 def pack_stages():
     backgrounds, stages = [], []
-    for entry in json.loads((ROOT / 'assets/stages.json').read_text(encoding='utf-8')):
+    for entry in json.loads((ROOT / 'assets/stages/stages.json').read_text(encoding='utf-8')):
         with Image.open(ROOT / entry['file']) as source:
             bg = ImageOps.fit(source.convert('RGB'), (1600, 900), method=Image.Resampling.LANCZOS,
                               centering=tuple(entry.get('focalPoint', [.5, .5])))

@@ -79,6 +79,8 @@ final case class RoomRuntime(
   }
 
   private[rooms] def tick(now: FiniteDuration): IO[Unit] = IO.uncancelable { poll =>
+    // Commands and GraalJS share this room lock. Skip a busy room's clock;
+    // cancellation may interrupt work only after the release guarantee is installed.
     lock.tryAcquire.flatMap { acquired =>
       if !acquired then IO.unit
       else
