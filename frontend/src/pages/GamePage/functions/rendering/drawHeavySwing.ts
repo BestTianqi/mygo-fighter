@@ -1,6 +1,6 @@
-import type { heavyMotion } from "../../../game/heavyAnimation";
-import type { Fighter } from "../../../game/objects/Fighter";
-import type { Move } from "../../../game/objects/Move";
+import type { heavyMotion } from "../../../../game/heavyAnimation";
+import type { Fighter } from "../../../../game/objects/Fighter";
+import type { Move } from "../../../../game/objects/Move";
 
 /** A short weapon/limb trail, drawn without making copies of the character. */
 export function drawHeavySwing(

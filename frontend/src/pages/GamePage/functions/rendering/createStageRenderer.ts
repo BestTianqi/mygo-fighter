@@ -1,6 +1,6 @@
-import type { Camera } from "../../../game/camera";
-import { WORLD, type Match } from "../../../game/engine";
-import type { Assets, Stage } from "../../../game/objects/Assets";
+import type { Camera } from "../../../../game/camera";
+import { WORLD, type Match } from "../../../../game/engine";
+import type { Assets, Stage } from "../../../../game/objects/Assets";
 
 /** Stage artwork, atmosphere and terrain share the previous game's parallax. */
 export function createStageRenderer(

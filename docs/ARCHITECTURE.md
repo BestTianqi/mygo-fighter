@@ -24,7 +24,39 @@ flowchart LR
 
 `CharacterSelection` keeps the selection controller and snapshots local to its page region. Its actions validate team size and uniqueness. `CanvasRenderer` receives a match and never changes its combat state. `AudioDirector` owns independent channels and releases audio resources when disposed. DOM listeners, sockets, animation frames and reconnect timers all have cleanup.
 
-`game/engine.ts` is the complete fixed-step state machine. `combatData.ts`, `mujica.ts` and `mewtype.ts` define roster and move data. `objects/` names the battle structures. Strict TypeScript, including unused-local and unused-parameter checks, covers the frontend and shared kernel. The kernel retains some non-null assertions for move mechanics whose corresponding flags establish the invariant.
+`game/engine.ts` owns serializable match state and the public combat API. Its rule implementations live in `game/match/` and receive the owning `Match` explicitly. Strict TypeScript, including unused-local and unused-parameter checks, covers the frontend and shared kernel. The kernel retains some non-null assertions for move mechanics whose corresponding flags establish the invariant.
+
+### Combat review map
+
+| Responsibility                                                    | Implementation under `frontend/src/game/`                        |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Match state, construction, fixed-step accumulation and public API | `engine.ts`                                                      |
+| One 10 ms step and simultaneous-contact order                     | `match/tick.ts`                                                  |
+| Round setup, knockout decisions and relay resource carry-over     | `match/rounds.ts`                                                |
+| Terrain, landing, platform queries and body separation            | `match/terrain.ts`                                               |
+| Input history, command selection and cancel windows               | `match/commands.ts`                                              |
+| Fighter timers, guard and input buffering                         | `match/fighter.ts`                                               |
+| Move legality, resource spending and attack startup effects       | `match/bufferedAttack.ts`                                        |
+| Jump, dash, locomotion and position integration                   | `match/movement.ts`                                              |
+| Hit, guard, counter, damage and resonance resolution              | `match/hits.ts`                                                  |
+| Projectiles, summons and persistent area/control effects          | `match/projectiles.ts`, `match/summons.ts`, `match/areas.ts`     |
+| Transformation exit and deterministic CPU decisions               | `match/forms.ts`, `match/cpu.ts`                                 |
+| World constants, roster and fighter profiles                      | `data/rules.ts`, `data/roster.ts`, `data/characters.ts`          |
+| Move registration, shared balance and super timing overrides      | `data/createMoveCatalog.ts`, `data/moves/`                       |
+| Band-specific rosters, forms, normals, skills and supers          | `mujica/`, `mewtype/`                                            |
+| Authored pose selection and whole-body motion                     | `animation/createAnimator.ts`, `animation/createMujicaMotion.ts` |
+
+`combatData.ts`, `mujica.ts`, `mewtype.ts` and `animation.ts` retain their existing import paths. The catalog entry points make initialization order visible: register authored moves and chains, scale movement, apply shared balance, then install the recorded-scene super overrides. These passes run once per catalog. Fighter profile capture and shared roster tuning retain their original order.
+
+`objects/` contains the shared battle structures. Rule helpers add no instance state to `Match`; the snapshot fields, seeded random source and public method signatures remain compatible with local play, authoritative simulation and prediction.
+
+### Rendering review map
+
+Rendering code belongs to `pages/GamePage/functions/rendering/`. `CanvasRenderer.ts` loads images, chooses sprites and applies visual correction. `createBattleScene.ts` owns the lifetime of visual state and supplies the current match to its drawing helpers.
+
+`battleScene/frame.ts` shows the layer order. Nearby modules handle sprites, event-to-effect translation, particle lifetimes, transformation auras, Soyo effects, offense, defense, vocals and Mujica skills. `battleScene/objects.ts` defines the related visual state and context. These are renderer-local values; drawing does not mutate combat state.
+
+`createProjectileRenderer.ts` dispatches into `projectiles/` for base, vocal, Mujica and MewType silhouettes. `createStageRenderer.ts` owns scenery and terrain painting. Character-specific `draw*Skills.ts` files remain next to these renderers. Page coordination, audio, input and asset loading remain in the parent `functions/` folder.
 
 ## Backend
 

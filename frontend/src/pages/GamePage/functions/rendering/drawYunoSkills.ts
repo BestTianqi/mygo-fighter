@@ -1,5 +1,5 @@
-import type { Move } from "../../../game/objects/Move";
-import type { Area } from "../../../game/objects/Area";
+import type { Area } from "../../../../game/objects/Area";
+import type { Move } from "../../../../game/objects/Move";
 
 const bandColors = ["#f18fb8", "#6b9de8", "#b894db", "#ee79c8", "#a7d7c3"];
 

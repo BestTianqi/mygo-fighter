@@ -1,4 +1,4 @@
-import type { Move } from "../../../game/objects/Move";
+import type { Move } from "../../../../game/objects/Move";
 
 function steak(
   ctx: CanvasRenderingContext2D,

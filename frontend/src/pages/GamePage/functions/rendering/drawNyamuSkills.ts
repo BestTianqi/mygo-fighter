@@ -1,4 +1,4 @@
-import type { Move } from "../../../game/objects/Move";
+import type { Move } from "../../../../game/objects/Move";
 
 function drumstick(
   ctx: CanvasRenderingContext2D,

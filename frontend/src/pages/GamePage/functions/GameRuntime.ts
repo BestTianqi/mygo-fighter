@@ -1,25 +1,25 @@
-import { Match, MOVES, ROSTER } from "../../../game/engine";
-import { RoomConnection } from "../../../apis/rooms/RoomConnection";
-import { PauseRoomMessage } from "../../../apis/rooms/PauseRoomMessage";
-import { RestartRoomMessage } from "../../../apis/rooms/RestartRoomMessage";
 import { LobbyRoomMessage } from "../../../apis/rooms/LobbyRoomMessage";
 import type { StatePacket } from "../../../apis/rooms/objects";
+import { PauseRoomMessage } from "../../../apis/rooms/PauseRoomMessage";
+import { RestartRoomMessage } from "../../../apis/rooms/RestartRoomMessage";
+import { RoomConnection } from "../../../apis/rooms/RoomConnection";
+import { Match, MOVES, ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
-import { Prediction } from "../../../game/Prediction";
-import { PresentationEvents } from "../../../game/PresentationEvents";
-import { NetworkDiagnostics } from "./NetworkDiagnostics";
+import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type {
+  Format,
   MatchConfig,
   Mode,
-  Format,
 } from "../../../game/objects/MatchOptions";
-import type { CombatEvent } from "../../../game/objects/CombatEvent";
+import { Prediction } from "../../../game/Prediction";
+import { PresentationEvents } from "../../../game/PresentationEvents";
 import type { GameView } from "../objects/GameView";
 import { initialView } from "../objects/GameView";
 import { AudioDirector } from "./AudioDirector";
-import { CanvasRenderer } from "./CanvasRenderer";
 import { InputController } from "./InputController";
+import { NetworkDiagnostics } from "./NetworkDiagnostics";
 import { presentationFor } from "./presentationFor";
+import { CanvasRenderer } from "./rendering/CanvasRenderer";
 
 /** Coordinates effects at the page boundary. Combat and React rendering stay independent. */
 export class GameRuntime {

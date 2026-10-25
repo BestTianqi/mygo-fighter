@@ -1,11 +1,15 @@
-import { createAnimator } from "../../../game/animation";
-import { MOVES, ROUND_END_TIMING, type Match } from "../../../game/engine";
-import * as mujica from "../../../game/mujica";
-import * as mewtype from "../../../game/mewtype";
-import type { Assets, Atlas, SpriteFrame } from "../../../game/objects/Assets";
-import type { CombatEvent } from "../../../game/objects/CombatEvent";
-import type { Fighter } from "../../../game/objects/Fighter";
-import type { MatchConfig } from "../../../game/objects/MatchOptions";
+import { createAnimator } from "../../../../game/animation";
+import { MOVES, ROUND_END_TIMING, type Match } from "../../../../game/engine";
+import * as mewtype from "../../../../game/mewtype";
+import * as mujica from "../../../../game/mujica";
+import type {
+  Assets,
+  Atlas,
+  SpriteFrame,
+} from "../../../../game/objects/Assets";
+import type { CombatEvent } from "../../../../game/objects/CombatEvent";
+import type { Fighter } from "../../../../game/objects/Fighter";
+import type { MatchConfig } from "../../../../game/objects/MatchOptions";
 
 import { createBattleScene } from "./createBattleScene";
 

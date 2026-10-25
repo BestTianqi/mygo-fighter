@@ -1,4 +1,4 @@
-import type { Move } from "../../../game/objects/Move";
+import type { Move } from "../../../../game/objects/Move";
 
 function heart(
   ctx: CanvasRenderingContext2D,

@@ -1,5 +1,5 @@
-import type { Move } from "../../../game/objects/Move";
-import type { Area } from "../../../game/objects/Area";
+import type { Area } from "../../../../game/objects/Area";
+import type { Move } from "../../../../game/objects/Move";
 
 function star(
   ctx: CanvasRenderingContext2D,
