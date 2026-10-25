@@ -267,8 +267,29 @@ function createAnimator() {
                 : "parfait-recover";
         if (f.attack === "ranaTune")
           return t < move.start ? "tune-windup" : "tune-release";
-        if (f.attack === "ranaSuper")
-          return t < move.start ? "super-windup" : "super-release";
+        if (f.attack === "ranaSuper") {
+          if (t < move.start) return "super-windup";
+          if (t > move.end) return "normal-recover";
+          const pulse = move.pulses!.reduce(
+            (last, impact, i) => (t >= impact.at ? i : last),
+            0,
+          );
+          return ["pick-release", "solo-release", "super-release"][pulse];
+        }
+        if (f.attack === "ranaRush" && t >= move.start && t <= move.end)
+          return t < move.pulses![1].at ? "rush-impact" : "rising-impact";
+        if (f.attack === "ranaSolo" && t >= move.start && t <= move.end + 100) {
+          const shot = move.shots!.reduce(
+            (last, at, i) => (t >= at ? i : last),
+            0,
+          );
+          return [
+            "pick-release",
+            "solo-release",
+            "pick-release",
+            "super-release",
+          ][shot];
+        }
         if (f.attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";
         if (t < move.start)
@@ -289,7 +310,7 @@ function createAnimator() {
           );
         return {
           ranaPick: "pick-release",
-          ranaChord: "pick-release",
+          ranaChord: "solo-release",
           ranaRush: "rush-impact",
           ranaRise: "rising-impact",
           ranaSlide: "low-slide",

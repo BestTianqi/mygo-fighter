@@ -240,6 +240,18 @@ def build_catalog():
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(miyako_catalog.relative_to(ROOT).as_posix())
+    rana_catalog = MEDIA / 'rana-story/sources.json'
+    for row in read_json(rana_catalog)['clips']:
+        clip = normalize_clip(row, rana_catalog, 3, row['slot'], row['voice'])
+        profiles['3']['variants'][row['move']] = clip
+        if row['slot'] in ('u', 'i', 'o', 'p'):
+            profiles['3']['slots'][row['slot']] = dict(clip)
+    for move, source in [
+        ('ranaRise', 'ranaRush'), ('ranaDive', 'ranaSlide'),
+        ('ranaTune', 'ranaSolo'), ('throw', 'ranaSlide'),
+    ]:
+        profiles['3']['variants'][move] = dict(profiles['3']['variants'][source])
+    catalog['sourceCatalogs'].append(rana_catalog.relative_to(ROOT).as_posix())
     taki_catalog = MEDIA / 'taki-story/sources.json'
     for row in read_json(taki_catalog)['clips']:
         clip = normalize_clip(row, taki_catalog, 4, row['slot'], row['voice'])

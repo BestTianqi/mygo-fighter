@@ -205,12 +205,14 @@ export function aiInput(match: Match): Input {
     if (match.grounded(a)) {
       if (a.energy === 100 && d < 260) return { super: true };
       if (a.energy >= 25 && b.y > a.y + 35 && d < 140) return { rising: true };
-      if (a.energy >= 25 && d > 320 && d < 760) return { rush: true };
-      if (a.energy >= 60 && d > 180 && d < 600) return { special: true };
+      if (a.energy >= MOVES.ranaSolo.cost! && d > 300 && d < 900)
+        return { special: true };
+      if (a.energy >= MOVES.ranaParfait.cost! && d > 320 && d < 850)
+        return { rush: true };
       if (a.energy >= 15 && d > 150 && d < 320) return { thrust: true };
       if (a.energy >= 20 && d < 140 && b.guard && !b.crouch)
         return { shield: true };
-      if (a.energy < 40 && !a.tuneCooldown && d > 400 && !b.attack)
+      if (a.energy < 40 && !a.tuneCooldown && d > 650 && !b.attack)
         return { heal: true };
     }
   }

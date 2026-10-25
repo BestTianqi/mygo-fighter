@@ -222,7 +222,7 @@ export function drawWave(scene: ProjectileContext, w: Wave) {
     scene.ctx.save();
     scene.ctx.translate(w.x, 438 - w.y);
     scene.ctx.scale(w.vx > 0 ? 1 : -1, 1);
-    scene.ctx.strokeStyle = "#d2f4c9";
+    scene.ctx.strokeStyle = w.attack === "ranaChord" ? "#fff0b9" : "#d2f4c9";
     scene.ctx.lineWidth = 2;
     scene.ctx.globalAlpha = Math.min(1, w.life / 150);
     scene.ctx.shadowColor = "#a4d6ad";
@@ -240,6 +240,15 @@ export function drawWave(scene: ProjectileContext, w: Wave) {
       );
       scene.ctx.stroke();
     }
+    scene.ctx.fillStyle = "#e9ffdb";
+    scene.ctx.beginPath();
+    scene.ctx.ellipse(0, 8, 6, 4, -0.35, 0, Math.PI * 2);
+    scene.ctx.fill();
+    scene.ctx.beginPath();
+    scene.ctx.moveTo(5, 8);
+    scene.ctx.lineTo(5, -16);
+    scene.ctx.lineTo(15, -10);
+    scene.ctx.stroke();
     scene.ctx.restore();
     return;
   }

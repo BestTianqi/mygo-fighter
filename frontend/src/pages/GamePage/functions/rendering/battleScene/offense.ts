@@ -6,6 +6,7 @@ import { drawYunoSkill } from "../drawYunoSkills";
 import { drawAraleSkill } from "../drawAraleSkills";
 import { drawViolaSkill } from "../drawViolaSkills";
 import { drawRikiSkill } from "../drawRikiSkills";
+import { drawRanaSkill } from "../drawRanaSkills";
 import type { BattleSceneContext } from "./objects";
 export function drawOffenseEffect(scene: BattleSceneContext, side: number) {
   const f = scene.match.fighters[side],
@@ -192,7 +193,8 @@ export function drawHeldProps(scene: BattleSceneContext) {
         move?.miyako ||
         move?.arale ||
         move?.viola ||
-        move?.riki
+        move?.riki ||
+        (move?.ranaOnly && move.category !== "normal")
       ) ||
       f.stun ||
       f.knockdown
@@ -201,7 +203,8 @@ export function drawHeldProps(scene: BattleSceneContext) {
     scene.ctx.save();
     scene.ctx.translate(f.x, 438 - f.y);
     scene.ctx.scale(f.facing, 1);
-    if (move.riki) drawRikiSkill(scene.ctx, f, move, scene.reducedMotion);
+    if (move.ranaOnly) drawRanaSkill(scene.ctx, f, move, scene.reducedMotion);
+    else if (move.riki) drawRikiSkill(scene.ctx, f, move, scene.reducedMotion);
     else if (move.viola)
       drawViolaSkill(scene.ctx, f, move, scene.reducedMotion);
     else if (move.arale)

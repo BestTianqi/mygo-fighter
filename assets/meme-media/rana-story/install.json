@@ -1,0 +1,117 @@
+{
+  "id": 3,
+  "key": "rana",
+  "slots": {
+    "u": {
+      "voice": "ranaAnimeInteresting",
+      "label": "有趣的女人·猫步连奏",
+      "duration": 1.83,
+      "slot": "u",
+      "audio": "assets/meme-media/rana-story/ranaAnimeInteresting.mp3"
+    },
+    "i": {
+      "voice": "ranaAnimeParfait",
+      "label": "抹茶芭菲",
+      "duration": 1.35,
+      "slot": "i",
+      "audio": "assets/meme-media/rana-story/ranaAnimeParfait.mp3"
+    },
+    "o": {
+      "voice": "ranaAnimeSatisfied",
+      "label": "满意·即兴独奏",
+      "duration": 0.94,
+      "slot": "o",
+      "audio": "assets/meme-media/rana-story/ranaAnimeSatisfied.mp3"
+    },
+    "p": {
+      "voice": "ranaAnimeEnding",
+      "label": "结束了吗？·野猫终奏",
+      "duration": 3.45,
+      "slot": "p",
+      "audio": "assets/meme-media/rana-story/ranaAnimeEnding.mp3",
+      "video": "assets/meme-media/rana-story/rana-ending-cutin.mp4",
+      "videoRate": 1
+    }
+  },
+  "variants": {
+    "ranaRush": {
+      "voice": "ranaAnimeInteresting",
+      "label": "有趣的女人·猫步连奏",
+      "duration": 1.83,
+      "slot": "u",
+      "audio": "assets/meme-media/rana-story/ranaAnimeInteresting.mp3"
+    },
+    "ranaParfait": {
+      "voice": "ranaAnimeParfait",
+      "label": "抹茶芭菲",
+      "duration": 1.35,
+      "slot": "i",
+      "audio": "assets/meme-media/rana-story/ranaAnimeParfait.mp3"
+    },
+    "ranaSolo": {
+      "voice": "ranaAnimeSatisfied",
+      "label": "满意·即兴独奏",
+      "duration": 0.94,
+      "slot": "o",
+      "audio": "assets/meme-media/rana-story/ranaAnimeSatisfied.mp3"
+    },
+    "ranaSuper": {
+      "voice": "ranaAnimeEnding",
+      "label": "结束了吗？·野猫终奏",
+      "duration": 3.45,
+      "slot": "p",
+      "audio": "assets/meme-media/rana-story/ranaAnimeEnding.mp3",
+      "video": "assets/meme-media/rana-story/rana-ending-cutin.mp4",
+      "videoRate": 1
+    },
+    "ranaSlide": {
+      "voice": "ranaAnimeBye",
+      "label": "拜拜·猫步滑踢",
+      "duration": 0.98,
+      "slot": "slide",
+      "audio": "assets/meme-media/rana-story/ranaAnimeBye.mp3"
+    },
+    "ranaPick": {
+      "voice": "ranaAnimeBand",
+      "label": "组乐队·拨弦音波",
+      "duration": 1.82,
+      "slot": "pick",
+      "audio": "assets/meme-media/rana-story/ranaAnimeBand.mp3"
+    },
+    "ranaChord": {
+      "voice": "ranaAnimeQuestion",
+      "label": "还不开始？·强奏和弦",
+      "duration": 1.3,
+      "slot": "chord",
+      "audio": "assets/meme-media/rana-story/ranaAnimeQuestion.mp3"
+    },
+    "ranaRise": {
+      "voice": "ranaAnimeInteresting",
+      "label": "有趣的女人·猫步连奏",
+      "duration": 1.83,
+      "slot": "u",
+      "audio": "assets/meme-media/rana-story/ranaAnimeInteresting.mp3"
+    },
+    "ranaDive": {
+      "voice": "ranaAnimeBye",
+      "label": "拜拜·猫步滑踢",
+      "duration": 0.98,
+      "slot": "slide",
+      "audio": "assets/meme-media/rana-story/ranaAnimeBye.mp3"
+    },
+    "ranaTune": {
+      "voice": "ranaAnimeSatisfied",
+      "label": "满意·即兴独奏",
+      "duration": 0.94,
+      "slot": "o",
+      "audio": "assets/meme-media/rana-story/ranaAnimeSatisfied.mp3"
+    },
+    "throw": {
+      "voice": "ranaAnimeBye",
+      "label": "拜拜·猫步滑踢",
+      "duration": 0.98,
+      "slot": "slide",
+      "audio": "assets/meme-media/rana-story/ranaAnimeBye.mp3"
+    }
+  }
+}
