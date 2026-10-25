@@ -8,8 +8,8 @@ const CHARACTERS: Character[] = [
     en: "NAKAMACHI ARALE",
     color: "#f18fb8",
     role: "主唱",
-    archetype: "声浪压制型",
-    skill: "闪耀安可",
+    archetype: "魔法麦克风型",
+    skill: "梦想就是力量",
   },
   {
     id: 11,

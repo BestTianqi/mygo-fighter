@@ -5,7 +5,7 @@ import { CHARACTERS } from "./roster";
 export function registerSuperMoves(MOVES: Record<string, Move>): void {
   const add = createMoveRegistrar(MOVES);
   const superNames: Record<number, string> = {
-    10: "U咩哇帕瓦",
+    10: "梦限大·无数次做梦",
     11: "饥饿狂战士·开饭啦",
     12: "临兵斗者皆阵列在前",
     13: "最高のバンド·世界へ",
@@ -60,6 +60,7 @@ export function registerSuperMoves(MOVES: Record<string, Move>): void {
       pulses,
       ...(c.id === 10
         ? {
+            arale: "dream" as const,
             projectile: true,
             shots: pulses.map((p) => p.at),
             speed: 600,

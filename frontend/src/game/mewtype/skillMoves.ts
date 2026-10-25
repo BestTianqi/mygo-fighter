@@ -12,20 +12,45 @@ export function registerSkillMoves(MOVES: Record<string, Move>): void {
     radiusX: 24,
     radiusY: 45,
   };
-  add(10, "u", "糖果声浪", missile);
-  add(10, "i", "应援叠唱", {
+  add(10, "u", "梦想就是力量·星光声弹", {
     ...missile,
-    damage: 8,
-    shots: [160, 330],
-    end: 350,
-    duration: 650,
-    radiusY: 65,
+    arale: "star",
+    damage: 16,
+    height: 135,
+    projectileVy: 240,
+    projectileGravity: 640,
+    radiusX: 28,
+    radiusY: 55,
+    maxReach: 650,
+    lifetime: 1300,
+    start: 140,
+    end: 180,
+    recast: 1200,
   });
-  add(10, "o", "全场跟唱", {
-    omni: true,
-    reach: 210,
-    vertical: 210,
-    push: 360,
+  add(10, "i", "往事翻篇·现在加油", {
+    arale: "resolve",
+    category: "defense",
+    damage: 0,
+    durability: 24,
+    lifetime: 2000,
+    recast: 6000,
+    start: 120,
+    end: 150,
+    duration: 450,
+  });
+  add(10, "o", "行动起来·破局突进", {
+    arale: "action",
+    damage: 24,
+    movement: 240,
+    movementEnd: 280,
+    reach: 180,
+    vertical: 190,
+    start: 180,
+    end: 300,
+    duration: 650,
+    stun: 420,
+    push: 260,
+    recast: 1800,
   });
   add(11, "u", "两磅肉排·双重横扫", {
     ritsu: "meat",
@@ -250,7 +275,7 @@ export function registerSkillMoves(MOVES: Record<string, Move>): void {
   for (const wave of [
     {
       id: 10,
-      name: "心糖扩音波",
+      name: "用歌声对话·直线音波",
       damage: 14,
       speed: 600,
       radiusX: 34,
@@ -325,6 +350,7 @@ export function registerSkillMoves(MOVES: Record<string, Move>): void {
       ...(id === 13 ? { yuno: "wave" as const } : {}),
       ...(id === 11 ? { ritsu: "wave" as const } : {}),
       ...(id === 12 ? { miyako: "ink" as const } : {}),
+      ...(id === 10 ? { arale: "voice" as const } : {}),
       end: spec.start + 80,
     };
   }

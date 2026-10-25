@@ -94,7 +94,11 @@ export class AudioDirector {
           this.assets.soyoVoices[event.attack]
             ? event.attack
             : null);
-        if (voice && MOVES[event.attack]?.sakiko === "ascension") {
+        if (
+          voice &&
+          (MOVES[event.attack]?.sakiko === "ascension" ||
+            MOVES[event.attack]?.arale === "dream")
+        ) {
           this.voices?.stop(side);
           // Combat recovery and automatic round transitions must not cut the sentence.
           if (!this.speeches?.playing(side)) this.speeches?.play(voice, side);

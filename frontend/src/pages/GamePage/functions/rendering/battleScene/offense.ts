@@ -3,6 +3,7 @@ import { drawMiyakoSkill } from "../drawMiyakoSkills";
 import { drawNonokaSkill } from "../drawNonokaSkills";
 import { drawRitsuSkill } from "../drawRitsuSkills";
 import { drawYunoSkill } from "../drawYunoSkills";
+import { drawAraleSkill } from "../drawAraleSkills";
 import type { BattleSceneContext } from "./objects";
 export function drawOffenseEffect(scene: BattleSceneContext, side: number) {
   const f = scene.match.fighters[side],
@@ -182,7 +183,13 @@ export function drawHeldProps(scene: BattleSceneContext) {
     const move = MOVES[f.attack ?? ""];
     if (
       scene.match.phase !== "fighting" ||
-      !(move?.nonoka || move?.yuno || move?.ritsu || move?.miyako) ||
+      !(
+        move?.nonoka ||
+        move?.yuno ||
+        move?.ritsu ||
+        move?.miyako ||
+        move?.arale
+      ) ||
       f.stun ||
       f.knockdown
     )
@@ -190,7 +197,9 @@ export function drawHeldProps(scene: BattleSceneContext) {
     scene.ctx.save();
     scene.ctx.translate(f.x, 438 - f.y);
     scene.ctx.scale(f.facing, 1);
-    if (move.nonoka)
+    if (move.arale)
+      drawAraleSkill(scene.ctx, move, f.attackMs, scene.reducedMotion);
+    else if (move.nonoka)
       drawNonokaSkill(scene.ctx, move, f.attackMs, scene.reducedMotion);
     else if (move.yuno)
       drawYunoSkill(scene.ctx, move, f.attackMs, scene.reducedMotion);

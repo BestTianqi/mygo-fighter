@@ -8,6 +8,7 @@ FOLDER = ROOT / 'assets/finish-art'
 ART = {
     '0': 'anon-milk-dragon-v1.png',
     '2': 'tomori-penguin-v1.png',
+    '10': 'arale-anime-dream.webp',
     '11': 'ritsu-anime-hungry.webp',
     '12': 'miyako-super-background-v1.webp',
     '13': 'yuno-anime-band.webp',
@@ -19,7 +20,7 @@ def install_finish_art(assets):
     finishes = assets.setdefault('finishArts', {})
     for character, filename in ART.items():
         with Image.open(FOLDER / filename) as source:
-            if character not in ('11', '12', '13', '14') and (source.mode != 'RGBA' or source.getextrema()[3][0] != 0):
+            if character not in ('10', '11', '12', '13', '14') and (source.mode != 'RGBA' or source.getextrema()[3][0] != 0):
                 raise ValueError(f'{filename}: expected transparent illustration')
             image = source.copy()
         image.thumbnail((1000, 1200), Image.Resampling.LANCZOS)

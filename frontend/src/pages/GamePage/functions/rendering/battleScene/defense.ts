@@ -1,5 +1,6 @@
 import { MOVES } from "../../../../../game/engine";
 import { drawNonokaShield } from "../drawNonokaSkills";
+import { drawAraleShield } from "../drawAraleSkills";
 import type { BattleSceneContext } from "./objects";
 export function drawShield(scene: BattleSceneContext, side: number) {
   const f = scene.match.fighters[side],
@@ -13,6 +14,11 @@ export function drawShield(scene: BattleSceneContext, side: number) {
     scene.ctx.fillStyle = "#adbbef25";
     scene.ctx.shadowColor = "#d4caff";
     scene.ctx.shadowBlur = scene.reducedMotion ? 0 : steel.hitMs ? 22 : 8;
+    if (f.character === 10) {
+      drawAraleShield(scene.ctx, steel.hp);
+      scene.ctx.restore();
+      return;
+    }
     if (f.character === 14) {
       drawNonokaShield(scene.ctx, steel.hp);
       scene.ctx.restore();

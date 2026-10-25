@@ -97,7 +97,8 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
       move.nonoka ||
       move.yuno ||
       move.ritsu ||
-      move.miyako
+      move.miyako ||
+      move.arale
     ) {
       scene.ctx.restore();
       continue;

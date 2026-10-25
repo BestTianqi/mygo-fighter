@@ -92,6 +92,18 @@ function createAnimator() {
               ? "crawl-b"
               : "crawl-a";
       if (isHeavyAttack(move)) return heavyPose(f, move);
+      if (move.arale === "resolve" && t >= move.start && t <= move.end)
+        return "guard-standing";
+      if (move.arale === "action")
+        return t < move.start
+          ? "dash-forward"
+          : t <= move.end
+            ? "skill-o-impact"
+            : "skill-o-recover";
+      if (move.arale === "dream" && t >= move.start && t <= move.end)
+        return Math.floor((t - move.start) / 300) % 2
+          ? "skill-u-impact"
+          : "super-impact";
       if (move.miyako === "draft" && t >= move.shots![1] && t <= move.end)
         return "skill-o-impact";
       if (move.miyako === "stamp" && t >= move.start && t <= move.end)

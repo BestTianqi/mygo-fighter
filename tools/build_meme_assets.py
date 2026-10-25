@@ -141,6 +141,10 @@ def build_catalog():
     for row in read_json(sakiko_catalog)['clips']:
         profiles['6']['slots'][row['slot']] = normalize_clip(row, sakiko_catalog, 6, row['slot'], row['voice'])
     profiles['6']['variants']['throw'] = profiles['6']['slots']['o']
+    arale_catalog = MEDIA / 'arale-story/sources.json'
+    for row in read_json(arale_catalog)['clips']:
+        profiles['10']['variants'][row['move']] = normalize_clip(row, arale_catalog, 10, row['slot'], row['voice'])
+    profiles['10']['variants']['throw'] = dict(profiles['10']['variants']['mewtype_10_virtual_o'], label='行动起来·麦克风摔投')
     nonoka_catalog = MEDIA / 'nonoka-story/sources.json'
     for row in read_json(nonoka_catalog)['clips']:
         profiles['14']['variants'][row['move']] = normalize_clip(row, nonoka_catalog, 14, row['slot'], row['voice'])
@@ -224,6 +228,7 @@ def build_catalog():
     revision = MEDIA / 'revision-anon-tensora/sources-revision.json'
     catalog['sourceCatalogs'].append(customer_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(sakiko_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(arale_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(nonoka_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())

@@ -103,6 +103,7 @@ export interface Move {
   ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
   miyako?: "draft" | "stamp" | "marathon" | "ink";
   sakiko?: "ascension";
+  arale?: "star" | "resolve" | "action" | "voice" | "dream";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;
