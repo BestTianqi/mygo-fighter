@@ -12,7 +12,7 @@ export function drawHeavySwing(
 ) {
   if (motion.opacity <= 0) return;
   const p = motion.swing;
-  const reach = Math.min(150, (move.reach ?? 140) * 0.78);
+  const reach = Math.min(240, (move.reach ?? 140) * 0.9);
   const low = move.stance === "crouch";
   ctx.save();
   ctx.translate(fighter.x, 438 - fighter.y - (low ? 65 : 115));

@@ -8,6 +8,7 @@ export interface Wave {
   attack: string;
   life: number;
   age: number;
+  homing?: boolean;
   radial?: boolean;
   radius?: number;
   previousRadius?: number;

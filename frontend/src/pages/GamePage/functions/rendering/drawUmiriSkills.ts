@@ -39,7 +39,30 @@ export function drawUmiriSkill(
   ctx.fillStyle = "#dcebf5";
   ctx.lineWidth = 2;
   ctx.lineCap = "round";
-  if (move.umiri === "bass") {
+  if (move.umiri === "pursuit") {
+    const charge = Math.min(1, age / move.start);
+    ctx.globalAlpha =
+      age > move.end ? Math.max(0, 1 - (age - move.end) / 300) : 0.85;
+    for (let i = 0; i < 5; i++) {
+      ctx.beginPath();
+      ctx.moveTo(-15, -130 + i * 6);
+      ctx.quadraticCurveTo(35, -155 + i * 12, 75, -115 + (i - 2) * 7);
+      ctx.stroke();
+    }
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath();
+      ctx.ellipse(
+        75,
+        -115,
+        12 + charge * 15 + i * 9,
+        25 + charge * 20 + i * 12,
+        0,
+        -1.3,
+        1.3,
+      );
+      ctx.stroke();
+    }
+  } else if (move.umiri === "bass") {
     for (let i = 0; i < 5; i++) {
       ctx.beginPath();
       ctx.moveTo(-25, -126 + i * 5);
@@ -146,7 +169,38 @@ export function drawUmiriProjectile(
   reduced: boolean,
 ) {
   ctx.save();
-  if (move.umiri === "bass") {
+  if (move.umiri === "pursuit") {
+    ctx.strokeStyle = "#c5e9ff";
+    ctx.fillStyle = "#7fc4ef45";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 34, 60, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    for (let i = 0; i < 3; i++) {
+      ctx.globalAlpha = 0.7 - i * 0.18;
+      ctx.beginPath();
+      ctx.ellipse(-14 - i * 16, 0, 22 + i * 4, 48 - i * 10, 0, -1.4, 1.4);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#fff0c1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(4, 0, 15, 0, Math.PI * 2);
+    ctx.moveTo(-17, 0);
+    ctx.lineTo(25, 0);
+    ctx.moveTo(4, -21);
+    ctx.lineTo(4, 21);
+    ctx.stroke();
+    for (let i = 0; i < 5; i++) {
+      const offset = reduced ? 0 : Math.sin(age * 0.025 + i) * 5;
+      ctx.beginPath();
+      ctx.moveTo(-70, (i - 2) * 10 + offset);
+      ctx.lineTo(-30, (i - 2) * 6);
+      ctx.stroke();
+    }
+  } else if (move.umiri === "bass") {
     ctx.strokeStyle = "#c6e0f0";
     ctx.fillStyle = "#789fb942";
     ctx.beginPath();

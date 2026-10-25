@@ -36,6 +36,7 @@ export interface Move {
   counter?: boolean;
   internal?: boolean;
   projectile?: boolean;
+  homing?: boolean;
   chip?: number;
   speed?: number;
   radiusX?: number;
@@ -96,7 +97,7 @@ export interface Move {
   areaRadius?: number;
   mortis?: string;
   nyamu?: "reveal" | "sticks" | "encore" | "smile";
-  umiri?: "bass" | "hook" | "toss" | "schedule";
+  umiri?: "bass" | "hook" | "toss" | "schedule" | "pursuit";
   uika?: "denial" | "pursuit" | "cage" | "crescent";
   nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";

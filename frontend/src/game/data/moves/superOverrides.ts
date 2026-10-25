@@ -1,7 +1,43 @@
 import type { Move } from "../../objects/Move";
+import { WORLD } from "../rules";
 
 /** Authored combat timings deliberately differ from recorded video durations. */
 export function applySuperOverrides(MOVES: Record<string, Move>): void {
+  Object.assign(MOVES.mujica_8_normal_super, {
+    duration: 1000,
+    start: 50,
+    end: 710,
+    hitstop: 30,
+    fixedDamage: true,
+    pulses: MOVES.mujica_8_normal_super.pulses!.map((pulse, i) => ({
+      ...pulse,
+      at: 60 + i * 280,
+    })),
+  });
+  for (const form of ["normal", "stage"])
+    Object.assign(MOVES[`mujica_5_${form}_super`], {
+      name: "练习结束后再吵·追踪低鸣",
+      umiri: "pursuit",
+      projectile: true,
+      homing: true,
+      fixedDamage: true,
+      damage: 30,
+      duration: 650,
+      start: 100,
+      end: 150,
+      hitstop: 60,
+      pulses: undefined,
+      shots: undefined,
+      speed: 760,
+      lifetime: 4500,
+      height: 110,
+      radiusX: 38,
+      radiusY: 64,
+      reach: WORLD.right - WORLD.left,
+      maxReach: WORLD.right - WORLD.left,
+      stun: 480,
+      push: 240,
+    });
   const arale = MOVES.mewtype_10_virtual_super;
   Object.assign(arale, {
     duration: 1200,

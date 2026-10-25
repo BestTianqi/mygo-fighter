@@ -74,8 +74,8 @@
     }
   ],
   "superVideo": {
-    "start": 0.95,
-    "end": 3.05,
+    "start": 0,
+    "end": 2.1,
     "bvid": "BV1uPf5YCE73",
     "cid": 28039907968,
     "page": 1,
@@ -83,7 +83,7 @@
     "author": "mayWishuponASTar",
     "source": "https://www.bilibili.com/video/BV1uPf5YCE73/",
     "video": "mortis-scream-super.mp4",
-    "evidence": "The exact 0.95–3.05 s interval from the previously selected BV1uPf5YCE73 first loop, matching the retained long-scream audio. This interval shows the dark red stage wide shot. Three source frames were checked; source/audio correlation is 0.938 with only 22 ms codec offset. The unrelated protection-dialogue video from BV1j8f5YdE6n is no longer used by this super. Both tracks stay at original playback rate and end after 2.1 s.",
-    "sha256": "15d4447fa3cc82f9e9609a08599879e6ec54b9ca24dfe1be950cec57ed21b466"
+    "evidence": "User requested the video cut start two seconds earlier, clamped to the start of the source. The previous 0.95 s start therefore becomes 0.00 s, retaining the 2.1 s duration and original playback speed. The previously selected 0.95–3.05 s scream audio remains unchanged; video timing is intentionally advanced by 0.95 s because the requested shift reaches the source boundary.",
+    "sha256": "d231b945fe8e314a33b03e2617fc825b0d58a7f4eb1c317b6cc76e77926eb73b"
   }
 }

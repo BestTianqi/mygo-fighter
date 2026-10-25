@@ -98,7 +98,8 @@ export class AudioDirector {
           voice &&
           (MOVES[event.attack]?.sakiko === "ascension" ||
             MOVES[event.attack]?.arale === "dream" ||
-            MOVES[event.attack]?.mortis === "scream")
+            (MOVES[event.attack]?.category === "super" &&
+              [5, 8].includes(MOVES[event.attack].ownerCharacter!)))
         ) {
           this.voices?.stop(side);
           // Combat recovery and automatic round transitions must not cut the sentence.

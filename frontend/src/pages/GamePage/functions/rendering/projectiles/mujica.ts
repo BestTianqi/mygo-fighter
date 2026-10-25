@@ -10,7 +10,8 @@ export function drawMujicaWave(scene: ProjectileContext, w: Wave) {
     profile = ROSTER[move.ownerCharacter!];
   scene.ctx.save();
   scene.ctx.translate(w.x, 438 - w.y);
-  scene.ctx.scale(w.vx >= 0 ? 1 : -1, 1);
+  if (w.homing) scene.ctx.rotate(Math.atan2(-(w.vy ?? 0), w.vx));
+  else scene.ctx.scale(w.vx >= 0 ? 1 : -1, 1);
   scene.ctx.globalAlpha = Math.min(1, w.life / 120);
   scene.ctx.strokeStyle = profile.color;
   scene.ctx.fillStyle = profile.color;

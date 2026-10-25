@@ -1,4 +1,4 @@
-import { MOVES, WORLD } from "../combatData";
+import { FEEL, MOVES, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
 import type { Minion } from "../objects/Minion";
@@ -42,6 +42,7 @@ export function spawnWave(
     ry: move.radiusY || (sonic ? 48 : 20),
     attack,
     ...(impact ? { impact } : {}),
+    ...(move.homing ? { homing: true, vy: 0 } : {}),
     ...(move.ownerCharacter !== undefined
       ? {
           originX: f.x,
@@ -50,7 +51,9 @@ export function spawnWave(
             move.maxReach || (move.category === "super" ? 420 : undefined),
           // Snapshots are JSON: Infinity would become null and reject airborne hits.
           maxVertical:
-            move.category === "super" ? 300 : WORLD.top - WORLD.bottom,
+            move.category === "super" && !move.homing
+              ? 360
+              : WORLD.top - WORLD.bottom,
         }
       : {}),
     ...(move.projectileGravity
@@ -79,6 +82,20 @@ export function updateWaves(match: Match): void {
         (w.age * MOVES[w.attack ?? ""].speed!) / 1000,
       );
       continue;
+    }
+    if (w.homing) {
+      const target = match.fighters[1 - w.owner],
+        desired = Math.atan2(target.y + 80 - w.y, target.x - w.x),
+        heading = Math.atan2(w.vy ?? 0, w.vx),
+        delta = Math.atan2(
+          Math.sin(desired - heading),
+          Math.cos(desired - heading),
+        ),
+        turn = Math.max(-0.08, Math.min(0.08, delta)),
+        speed = MOVES[w.attack].speed!;
+      w.vx = Math.cos(heading + turn) * speed;
+      w.vy = Math.sin(heading + turn) * speed;
+      w.y += w.vy * 0.01;
     }
     w.x += w.vx * 0.01;
     w.life -= 10;
@@ -169,12 +186,16 @@ export function updateWaves(match: Match): void {
       halfHeight = crawling ? 35 : 50;
     const contacts = [];
     const fighterRadius = sonic ? w.rx! + 18 : 35;
+    const authoredHeight = crawling || sonic ? w.ry! + halfHeight : 80;
+    const heightTolerance = w.groundShock
+      ? authoredHeight
+      : Math.max(authoredHeight, FEEL.projectileHeightTolerance);
     if (
       inRange(target) &&
       !target.knockdown &&
       !match.invulnerable(target) &&
       Math.abs(target.x - w.x) < fighterRadius &&
-      Math.abs(center - w.y) < (crawling || sonic ? w.ry! + halfHeight : 80)
+      Math.abs(center - w.y) <= heightTolerance
     )
       contacts.push({ body: target, radius: fighterRadius });
     for (const unit of target.summons?.units || []) {
