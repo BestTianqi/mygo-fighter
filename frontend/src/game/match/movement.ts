@@ -181,6 +181,20 @@ export function integrateMovement(
   )
     f.energy = 100;
   const oldX = f.x;
+  const move = MOVES[f.attack ?? ""];
+  if (move?.sakiko === "ascension") {
+    const rise = Math.max(
+      0,
+      Math.min(1, f.attackMs / 320, (move.duration - 10 - f.attackMs) / 340),
+    );
+    const height = 160 * rise * rise * (3 - 2 * rise);
+    f.x = f.attackTarget!.x;
+    f.y = Math.min(WORLD.top, f.attackTarget!.y + height);
+    f.vx = f.vy = f.pushVx = 0;
+    f.stun = Math.max(f.stun, f.hardStun);
+    f.pressIds = { ...input.pressIds };
+    return;
+  }
   f.x = clamp(
     f.x + (f.vx + f.pushVx) * 0.01,
     WORLD.left + 45,

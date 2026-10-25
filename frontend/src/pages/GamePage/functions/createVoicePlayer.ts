@@ -58,6 +58,9 @@ export function createVoicePlayer(
       return true;
     },
     stop,
+    playing(side: number) {
+      return channels.has(side);
+    },
     setEnabled(value: boolean) {
       enabled = value;
       if (!value) stop();

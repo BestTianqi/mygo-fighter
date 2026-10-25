@@ -98,7 +98,10 @@ export function startBufferedAttack(
       f.cancelDepth = cancel ? f.cancelDepth + 1 : 0;
       if (move.recast && move.ownerCharacter !== undefined)
         f.moveCooldowns[name] = move.recast;
-      if (move.delayedArea || move.targetArea) {
+      if (move.sakiko === "ascension") {
+        // The field stays at the release position while its caster rises.
+        f.attackTarget = { x: f.x, y: f.y };
+      } else if (move.delayedArea || move.targetArea) {
         const targetX = move.targetLock
           ? f.x + (f.facing * move.reach!) / 2
           : clamp(

@@ -102,6 +102,12 @@ export function GameDialogs({
                 ))}
               </tbody>
             </table>
+            {f.character === 6 && (
+              <p className="mt-3 text-xs leading-6 text-slate-400">
+                P：立即禁锢周身圆形区域内的敌人，腾空降下三轮音波。
+                范围330，合计48伤害，变身后57.6伤害。完整台词会继续播完。
+              </p>
+            )}
           </section>
         ))}
       </div>

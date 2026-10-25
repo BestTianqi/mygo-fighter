@@ -137,6 +137,10 @@ def build_catalog():
     customer_catalog = MEDIA / 'sakiko-customer-service/sources.json'
     row = read_json(customer_catalog)['clips'][0]
     profiles['6']['variants'][row['move']] = normalize_clip(row, customer_catalog, 6, 'u', row['voice'])
+    sakiko_catalog = MEDIA / 'sakiko-requiem/sources.json'
+    for row in read_json(sakiko_catalog)['clips']:
+        profiles['6']['slots'][row['slot']] = normalize_clip(row, sakiko_catalog, 6, row['slot'], row['voice'])
+    profiles['6']['variants']['throw'] = profiles['6']['slots']['o']
     nonoka_catalog = MEDIA / 'nonoka-story/sources.json'
     for row in read_json(nonoka_catalog)['clips']:
         profiles['14']['variants'][row['move']] = normalize_clip(row, nonoka_catalog, 14, row['slot'], row['voice'])
@@ -219,6 +223,7 @@ def build_catalog():
                           'Soyo legacy cid is unknown and is preserved as null rather than fabricated.'])
     revision = MEDIA / 'revision-anon-tensora/sources-revision.json'
     catalog['sourceCatalogs'].append(customer_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(sakiko_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(nonoka_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())

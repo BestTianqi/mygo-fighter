@@ -5,13 +5,19 @@ export function applySuperOverrides(MOVES: Record<string, Move>): void {
   for (const form of ["normal", "stage"]) {
     const move = MOVES[`mujica_6_${form}_super`];
     Object.assign(move, {
-      duration: 900,
-      start: 100,
-      end: 690,
-      hitstop: 50,
-      // Compact hits must retain the damage of the formerly separated strikes.
+      sakiko: "ascension",
+      targetArea: true,
+      targetLock: true,
+      areaRadius: 330,
+      reach: 330,
+      vertical: 330,
+      duration: 1750,
+      start: 0,
+      end: 1350,
+      hitstop: 30,
+      // Control releases on the cast tick; the rain retains the original damage.
       fixedDamage: true,
-      pulses: move.pulses!.map((pulse, i) => ({ ...pulse, at: 100 + i * 250 })),
+      pulses: move.pulses!.map((pulse, i) => ({ ...pulse, at: 250 + i * 500 })),
     });
   }
   Object.assign(MOVES.penguinSuper, {

@@ -5,6 +5,7 @@ import { drawNyamuSkill } from "../drawNyamuSkills";
 import { drawUikaArea, drawUikaSkill } from "../drawUikaSkills";
 import { drawUmiriSkill } from "../drawUmiriSkills";
 import { drawYunoArea } from "../drawYunoSkills";
+import { drawSakikoSuper } from "../drawSakikoSuper";
 import type { BattleSceneContext } from "./objects";
 export function drawMujicaEffects(scene: BattleSceneContext) {
   if (scene.match.phase !== "fighting") return;
@@ -80,6 +81,10 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
     if (f.character < 5) continue;
     const profile = ROSTER[f.character],
       move = MOVES[f.attack ?? ""];
+    if (move?.sakiko === "ascension") {
+      drawSakikoSuper(scene.ctx, f, move, scene.reducedMotion);
+      continue;
+    }
     scene.ctx.save();
     scene.ctx.translate(f.x, 438 - f.y);
     scene.ctx.strokeStyle = profile.color;

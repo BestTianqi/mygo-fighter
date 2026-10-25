@@ -147,6 +147,12 @@ function createAnimator() {
           ? "skill-o-impact"
           : "skill-u-impact";
       if (f.character >= 5) {
+        if (move.sakiko === "ascension")
+          return t < 180
+            ? "super-windup"
+            : t <= move.end
+              ? "super-impact"
+              : "super-recover";
         if (f.attack === "throw")
           return t < move.start ? "throw-windup" : "throw-release";
         return (

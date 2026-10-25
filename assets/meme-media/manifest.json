@@ -1123,11 +1123,11 @@
       "key": "sakiko",
       "slots": {
         "p": {
-          "voice": "meme_6_p",
+          "voice": "sakikoGodFull",
           "label": "我来成为神明",
           "slot": "p",
-          "audio": "assets/meme-media/recordings/sakiko-p.mp3",
-          "duration": 6.2,
+          "audio": "assets/meme-media/sakiko-requiem/sakikoGodFull.mp3",
+          "duration": 6.0,
           "source": {
             "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
             "uploader": "御坂ことみ",
@@ -1135,57 +1135,21 @@
             "cid": 28975630389,
             "page": 1,
             "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 33.1,
-            "end": 39.3,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+            "start": 34.45,
+            "end": 40.45,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
           },
-          "video": "assets/meme-media/recordings/sakiko-p.mp4",
+          "video": "assets/meme-media/sakiko-requiem/sakikoGodFull.mp4",
+          "spokenJapanese": "神様などいない。ですから、私が神になります。",
+          "subtitle_zh": "神明根本不存在，所以我来成为神明。",
           "videoRate": 1
         },
         "u": {
-          "voice": "meme_6_u",
-          "label": "为了Ave Mujica",
+          "voice": "sakikoForMujica",
+          "label": "为了 Ave Mujica",
           "slot": "u",
-          "audio": "assets/meme-media/recordings/sakiko-u.mp3",
-          "duration": 2.05,
-          "source": {
-            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
-            "uploader": "御坂ことみ",
-            "bvid": "BV13KXeYpEcL",
-            "cid": 28975630389,
-            "page": 1,
-            "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 40.2,
-            "end": 42.25,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
-        },
-        "i": {
-          "voice": "meme_6_i",
-          "label": "什么都可以利用",
-          "slot": "i",
-          "audio": "assets/meme-media/recordings/sakiko-i.mp3",
-          "duration": 2.0,
-          "source": {
-            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
-            "uploader": "御坂ことみ",
-            "bvid": "BV13KXeYpEcL",
-            "cid": 28975630389,
-            "page": 1,
-            "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 42.25,
-            "end": 44.25,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
-        },
-        "o": {
-          "voice": "meme_6_o",
-          "label": "没有那个必要",
-          "slot": "o",
-          "audio": "assets/meme-media/recordings/sakiko-o.mp3",
+          "audio": "assets/meme-media/sakiko-requiem/sakikoForMujica.mp3",
           "duration": 1.9,
           "source": {
             "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
@@ -1194,18 +1158,20 @@
             "cid": 28975630389,
             "page": 1,
             "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 76.1,
-            "end": 78.0,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "start": 42.15,
+            "end": 44.05,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+          },
+          "spokenJapanese": "Ave Mujicaのためなら。",
+          "subtitle_zh": "为了 Ave Mujica。"
         },
-        "h": {
-          "voice": "meme_6_i",
-          "label": "什么都可以利用",
+        "i": {
+          "voice": "sakikoNoNeed",
+          "label": "没有那个必要",
           "slot": "i",
-          "audio": "assets/meme-media/recordings/sakiko-i.mp3",
-          "duration": 2.0,
+          "audio": "assets/meme-media/sakiko-requiem/sakikoNoNeed.mp3",
+          "duration": 2.1,
           "source": {
             "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
             "uploader": "御坂ことみ",
@@ -1213,20 +1179,64 @@
             "cid": 28975630389,
             "page": 1,
             "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 42.25,
-            "end": 44.25,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "start": 75.05,
+            "end": 77.15,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+          },
+          "spokenJapanese": "そんなもの必要ありません。",
+          "subtitle_zh": "没有那个必要。"
+        },
+        "o": {
+          "voice": "sakikoWhoAmI",
+          "label": "你以为我是谁",
+          "slot": "o",
+          "audio": "assets/meme-media/sakiko-requiem/sakikoWhoAmI.mp3",
+          "duration": 2.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 78.45,
+            "end": 80.85,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+          },
+          "spokenJapanese": "私を誰だと思ってます？",
+          "subtitle_zh": "你以为我是谁？"
+        },
+        "h": {
+          "voice": "sakikoOblivionis",
+          "label": "Oblivionis",
+          "slot": "h",
+          "audio": "assets/meme-media/sakiko-requiem/sakikoOblivionis.mp3",
+          "duration": 2.45,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 81.35,
+            "end": 83.8,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+          },
+          "spokenJapanese": "Ave Mujicaのオブリビオニス。",
+          "subtitle_zh": "Ave Mujica 的 Oblivionis。"
         }
       },
       "variants": {
         "throw": {
-          "voice": "meme_6_o",
-          "label": "没有那个必要",
+          "voice": "sakikoWhoAmI",
+          "label": "你以为我是谁",
           "slot": "o",
-          "audio": "assets/meme-media/recordings/sakiko-o.mp3",
-          "duration": 1.9,
+          "audio": "assets/meme-media/sakiko-requiem/sakikoWhoAmI.mp3",
+          "duration": 2.4,
           "source": {
             "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
             "uploader": "御坂ことみ",
@@ -1234,11 +1244,13 @@
             "cid": 28975630389,
             "page": 1,
             "title": "“神明根本不存在，所以我来成为神明！”",
-            "start": 76.1,
-            "end": 78.0,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+            "start": 78.45,
+            "end": 80.85,
+            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
+            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+          },
+          "spokenJapanese": "私を誰だと思ってます？",
+          "subtitle_zh": "你以为我是谁？"
         },
         "mujica_6_normal_customer": {
           "voice": "meme_6_customer",
@@ -3015,6 +3027,7 @@
     "assets/meme-media/mortis-toddler/sources.json",
     "assets/meme-media/mortis-stage-voices/sources.json",
     "assets/meme-media/sakiko-customer-service/sources.json",
+    "assets/meme-media/sakiko-requiem/sources.json",
     "assets/meme-media/nonoka-story/sources.json",
     "assets/meme-media/yuno-story/sources.json",
     "assets/meme-media/ritsu-story/sources.json",

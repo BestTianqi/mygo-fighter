@@ -131,7 +131,10 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
             ? "糖哭反击"
             : "",
     });
-  if (event.type === "memePulse")
+  if (
+    event.type === "memePulse" &&
+    MOVES[event.attack ?? ""]?.sakiko !== "ascension"
+  )
     add(scene, {
       type: "incantation",
       x,

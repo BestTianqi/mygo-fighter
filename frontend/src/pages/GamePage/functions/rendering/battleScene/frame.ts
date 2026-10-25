@@ -1,4 +1,5 @@
-import { ROUND_END_TIMING } from "../../../../../game/engine";
+import { MOVES, ROUND_END_TIMING } from "../../../../../game/engine";
+import { drawSakikoSuper } from "../drawSakikoSuper";
 import { drawShield, drawSummons } from "./defense";
 import { drawMujicaEffects } from "./mujica";
 import type { BattleSceneContext } from "./objects";
@@ -63,6 +64,12 @@ export function drawBattle(
   drawVocalAuras(scene);
   drawBlinkTrails(scene, dt);
   for (const side of [0, 1]) drawFighter(scene, side);
+  if (scene.match.phase === "fighting")
+    for (const f of scene.match.fighters) {
+      const move = MOVES[f.attack ?? ""];
+      if (move?.sakiko === "ascension")
+        drawSakikoSuper(scene.ctx, f, move, scene.reducedMotion, true);
+    }
   drawHeldProps(scene);
   drawSummons(scene);
   for (const side of [0, 1]) drawShield(scene, side);

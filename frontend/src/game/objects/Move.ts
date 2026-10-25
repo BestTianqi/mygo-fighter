@@ -102,6 +102,7 @@ export interface Move {
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
   ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
   miyako?: "draft" | "stamp" | "marathon" | "ink";
+  sakiko?: "ascension";
   hop?: number;
   crawl?: boolean;
   crawlSpeed?: number;

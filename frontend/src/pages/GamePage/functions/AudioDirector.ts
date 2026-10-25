@@ -3,6 +3,7 @@ import type { Assets } from "../../../game/objects/Assets";
 import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type { Match } from "../../../game/engine";
 import { presentationFor } from "./presentationFor";
+import { MOVES } from "../../../game/combatData";
 
 /** Recorded channels are independent. Pausing retains offsets; mute and reset release them. */
 export class AudioDirector {
@@ -10,6 +11,7 @@ export class AudioDirector {
   private voices: ReturnType<typeof createVoicePlayer> | null = null;
   private summons: ReturnType<typeof createVoicePlayer> | null = null;
   private music: ReturnType<typeof createVoicePlayer> | null = null;
+  private speeches: ReturnType<typeof createVoicePlayer> | null = null;
   private loading: Promise<void> | null = null;
   private enabled = true;
   private paused = false;
@@ -20,6 +22,7 @@ export class AudioDirector {
       this.voices?.setEnabled(false);
       this.summons?.setEnabled(false);
       this.music?.setEnabled(false);
+      this.speeches?.setEnabled(false);
       return;
     }
     this.context ??= new AudioContext();
@@ -46,26 +49,38 @@ export class AudioDirector {
         this.voices = createVoicePlayer(context, buffers);
         this.summons = createVoicePlayer(context, buffers);
         this.music = createVoicePlayer(context, buffers);
+        this.speeches = createVoicePlayer(context, buffers);
       })
       .catch((error) => {
         this.loading = null;
         console.warn(error);
       });
     await this.loading;
-    for (const channel of [this.voices, this.summons, this.music]) {
+    for (const channel of [
+      this.voices,
+      this.summons,
+      this.music,
+      this.speeches,
+    ]) {
       channel?.setEnabled(this.enabled);
       channel?.setPaused(this.paused);
     }
   }
   pause(value: boolean) {
     this.paused = value;
-    for (const channel of [this.voices, this.summons, this.music])
+    for (const channel of [
+      this.voices,
+      this.summons,
+      this.music,
+      this.speeches,
+    ])
       channel?.setPaused(value);
   }
   stop() {
     this.voices?.stop();
     this.summons?.stop();
     this.music?.stop();
+    this.speeches?.stop();
   }
   consume(match: Match, events: CombatEvent[]) {
     for (const event of events) {
@@ -79,20 +94,40 @@ export class AudioDirector {
           this.assets.soyoVoices[event.attack]
             ? event.attack
             : null);
-        if (voice) this.voices?.play(voice, side);
+        if (voice && MOVES[event.attack]?.sakiko === "ascension") {
+          this.voices?.stop(side);
+          // Combat recovery and automatic round transitions must not cut the sentence.
+          if (!this.speeches?.playing(side)) this.speeches?.play(voice, side);
+        } else if (voice && !this.speeches?.playing(side))
+          this.voices?.play(voice, side);
       }
       if (event.type === "minionCall")
         this.summons?.play("tensoraOhYeah", side * 3 + (event.unit ?? 0));
       if (event.type === "stageFormStart" && fighter.character === 7)
         this.music?.play("uikaImprisoned", side);
+      if (
+        event.type === "stageFormStart" &&
+        fighter.character === 6 &&
+        !this.speeches?.playing(side)
+      ) {
+        const voice = presentationFor(
+          this.assets,
+          fighter,
+          "mujicaTransform",
+        )?.voice;
+        if (voice) this.voices?.play(voice, side);
+      }
       if (["stageFormEnd", "penguinEnd"].includes(event.type)) {
         this.music?.stop(side);
         this.voices?.stop(side);
       }
       if (event.type === "hit" && !event.blocked && !event.armored)
         this.voices?.stop(1 - side);
-      if (["roundAdvance", "teamAdvance", "result"].includes(event.type))
-        this.stop();
+      if (["roundAdvance", "teamAdvance", "result"].includes(event.type)) {
+        this.voices?.stop();
+        this.summons?.stop();
+        this.music?.stop();
+      }
       if (["hit", "clash", "landing", "fight"].includes(event.type))
         this.tone(
           event.type === "hit" && event.blocked ? "block" : event.type,

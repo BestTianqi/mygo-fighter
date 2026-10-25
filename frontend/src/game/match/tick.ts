@@ -124,13 +124,16 @@ export function step(match: Match, p1: Input, p2: Input): void {
       if (!f.hit) {
         f.hit = true;
         const forward = (other.x - f.x) * f.facing;
-        if (
-          other.hp > 0 &&
-          forward >= 0 &&
-          forward <= move.reach! &&
-          Math.abs(other.y - f.y) <= move.vertical! &&
-          !match.invulnerable(other)
-        ) {
+        const inside =
+          move.sakiko === "ascension"
+            ? Math.hypot(
+                other.x - f.attackTarget!.x,
+                other.y - f.attackTarget!.y,
+              ) <= move.areaRadius!
+            : forward >= 0 &&
+              forward <= move.reach! &&
+              Math.abs(other.y - f.y) <= move.vertical!;
+        if (other.hp > 0 && inside && !match.invulnerable(other)) {
           f.binding = { target: 1 - side, x: other.x, y: other.y };
           match.updateBindings();
         }
