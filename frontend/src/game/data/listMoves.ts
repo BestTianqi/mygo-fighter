@@ -16,7 +16,7 @@ export function listMoves(
       if (isMujica(character))
         return (
           key === "throw" ||
-          key === "mujicaTransform" ||
+          (key === "mujicaTransform" && !penguin) ||
           (move.ownerCharacter === character &&
             move.form === (penguin ? "stage" : "normal"))
         );

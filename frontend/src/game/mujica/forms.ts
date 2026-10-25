@@ -7,7 +7,7 @@ const normalFor = (f: FighterIdentity, button: string, stance = "standing") =>
 const schemeFor = (f: FighterIdentity): Scheme => ({
   base: ["u", "i", "o"].map((k) => `${prefixFor(f)}_${k}`),
   super: `${prefixFor(f)}_super`,
-  transform: "mujicaTransform",
+  transform: f.stageForm ? undefined : "mujicaTransform",
   variants:
     f.character === 5 && formFor(f) === "stage"
       ? { down1: "mujica_5_stage_schedule" }

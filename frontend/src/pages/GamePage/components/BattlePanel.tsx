@@ -4,6 +4,7 @@ import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { Button } from "../../../components/ui/Button";
 import { ROSTER } from "../../../game/engine";
+import { schemeFor } from "../../../game/controls";
 import { TouchControls } from "./TouchControls";
 
 function UltimateBackgroundVideo({
@@ -53,6 +54,13 @@ export function BattlePanel({
   runtime: GameRuntime | null;
   view: GameView;
 }) {
+  const localFighter = view.fighters[view.network.room ? view.network.side : 0];
+  const localIdentity = {
+    character: localFighter?.character ?? 0,
+    penguin: !!localFighter?.transformed,
+    stageForm: !!localFighter?.transformed,
+  };
+  const canTransform = !!schemeFor(localIdentity).transform;
   const videos = view.cutins.flatMap((media, side) =>
     media?.video ? [{ media, side }] : [],
   );
@@ -281,14 +289,16 @@ export function BattlePanel({
       </nav>
       <p className="mt-3 text-center text-[10px] text-slate-500">
         {view.lastMove ||
-          "AD 移动 · W 跳跃 · J/K 攻击 · L 瞬移 · U/I/O 技能 · H 变身 · P 大招"}
+          `AD 移动 · W 跳跃 · J/K 攻击 · L 瞬移 · U/I/O 技能${canTransform ? " · H 变身" : ""} · P 大招`}
       </p>
       {(view.error || view.network.error) && (
         <p role="alert" className="mt-3 text-center text-xs text-pink-200">
           {view.error || view.network.error}
         </p>
       )}
-      {runtime && <TouchControls input={runtime.input} />}
+      {runtime && (
+        <TouchControls input={runtime.input} fighter={localIdentity} />
+      )}
     </section>
   );
 }

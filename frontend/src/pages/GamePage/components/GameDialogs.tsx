@@ -21,7 +21,7 @@ export function GameDialogs({
               A / D 移动 · W 跳跃 · S 蹲下
               <br />J 普攻三连 · K 重击 · L 瞬移
               <br />U / I / O 三个基础技能
-              <br />H 变身 · P 大招
+              <br />H 变身（灯 / Mujica） · P 大招
             </p>
           </section>
           <section>
@@ -30,7 +30,7 @@ export function GameDialogs({
               方向键移动、跳跃与蹲下
               <br />
               小键盘 1 攻击 · 2 重击 · 3 瞬移
-              <br />4 / 5 / 6 技能 · 7 变身 · 8 大招
+              <br />4 / 5 / 6 技能 · 7 变身（灯 / Mujica） · 8 大招
             </p>
           </section>
         </div>
