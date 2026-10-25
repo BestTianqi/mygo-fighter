@@ -57,10 +57,14 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
                   )
                 ) *>
                   room.broadcast *> room.peers.get.flatMap(
-                    _.values.toList.traverse_(
-                      _.send(
+                    _.values.toList.traverse_(peer =>
+                      peer.send(
                         "prepare",
-                        Json.obj("config" -> config, "generation" -> generation.asJson)
+                        Json.obj(
+                          "config" -> config,
+                          "generation" -> generation.asJson,
+                          "peerId" -> peer.id.asJson
+                        )
                       )
                     )
                   )

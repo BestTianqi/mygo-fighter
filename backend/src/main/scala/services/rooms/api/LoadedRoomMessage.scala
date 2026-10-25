@@ -9,16 +9,24 @@ import services.rooms.utils.{RoomAccess, Simulation}
 import services.system.api.APIMessage
 import services.system.objects.Connection
 
-final case class LoadedRoomMessage(session: Session, generation: Int) extends APIMessage[Unit]:
+final case class LoadedRoomMessage(session: Session, generation: Int, peerId: String)
+    extends APIMessage[Unit]:
   def plan(connection: Connection): IO[Unit] =
     RoomAccess.withPlayer(connection, session) { room =>
       room.state.get.flatMap { state =>
-        IO.raiseUnless(state.phase == RoomPhase.Preparing && state.generation == generation)(
+        IO.raiseUnless(
+          (state.phase == RoomPhase.Preparing || state.phase == RoomPhase.Playing) && state.generation == generation
+        )(
           IllegalArgumentException("准备状态已过期")
         ) *>
+          room.peers.get.flatMap(peers =>
+            IO.raiseUnless(peers.get(session.side).exists(_.id == peerId))(
+              IllegalArgumentException("连接已更新，请等待当前页面加载完成")
+            )
+          ) *>
           room.state.update(s => s.copy(loaded = s.loaded + session.side)) *>
           room.state.get.flatMap { next =>
-            if next.loaded.size != 2 then IO.unit
+            if next.phase == RoomPhase.Playing || next.loaded.size != 2 then room.broadcast
             else
               val config = next.config.getOrElse(Json.Null)
               val options = config.deepMerge(

@@ -50,7 +50,9 @@ object RoomRoutes:
       field[Boolean](j, "ready").flatMap(ready => ReadyRoomMessage(s, ready).plan(c))
     ),
     authenticated[LoadedRoomMessage]((j, s, c) =>
-      field[Int](j, "generation").flatMap(generation => LoadedRoomMessage(s, generation).plan(c))
+      (field[Int](j, "generation"), field[String](j, "peerId")).tupled.flatMap(
+        (generation, peerId) => LoadedRoomMessage(s, generation, peerId).plan(c)
+      )
     ),
     authenticated[PauseRoomMessage]((j, s, c) =>
       field[Boolean](j, "paused").flatMap(paused => PauseRoomMessage(s, paused).plan(c))

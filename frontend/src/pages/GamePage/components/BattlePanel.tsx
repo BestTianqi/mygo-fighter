@@ -56,6 +56,12 @@ export function BattlePanel({
   const videos = view.cutins.flatMap((media, side) =>
     media?.video ? [{ media, side }] : [],
   );
+  const waitingForPlayers =
+    !!view.network.room &&
+    (view.network.status !== "playing" ||
+      !view.network.room.players.every(
+        (player) => player?.connected && player.loaded,
+      ));
   const finish =
     view.roundEnd && view.phaseMs > 0 && view.phaseMs < 2500
       ? view.roundEnd
@@ -196,6 +202,11 @@ export function BattlePanel({
                     ? "不分胜负"
                     : `${view.fighters[view.winner]?.name} 获胜`}
               </h2>
+              {view.paused && waitingForPlayers && (
+                <p className="mb-5 text-sm text-cyan-100" role="status">
+                  等待双方重新连接并加载角色…
+                </p>
+              )}
               <div className="flex flex-wrap justify-center gap-2">
                 <Button
                   primary
@@ -207,7 +218,7 @@ export function BattlePanel({
                   disabled={
                     view.network.room !== null &&
                     ((!view.paused && view.network.side !== 0) ||
-                      view.network.status === "reconnecting")
+                      waitingForPlayers)
                   }
                 >
                   {view.paused ? "继续对战" : "原阵容再战"}
@@ -235,11 +246,17 @@ export function BattlePanel({
         aria-label="游戏操作"
       >
         <Button onClick={() => runtime?.back()}>主菜单</Button>
-        <Button onClick={() => void runtime?.pause()}>
+        <Button
+          disabled={view.paused && waitingForPlayers}
+          onClick={() => void runtime?.pause()}
+        >
           {view.paused ? "继续" : "暂停"}
         </Button>
         <Button
-          disabled={!!view.network.room && view.network.side !== 0}
+          disabled={
+            !!view.network.room &&
+            (view.network.side !== 0 || waitingForPlayers)
+          }
           onClick={() => void runtime?.restart()}
         >
           重开

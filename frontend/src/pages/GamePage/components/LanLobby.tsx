@@ -122,9 +122,11 @@ export function LanLobby({
                   }
                 >
                   {player?.connected
-                    ? player.ready
-                      ? "已准备"
-                      : "已连接"
+                    ? (room.playing || room.preparing) && !player.loaded
+                      ? "正在加载角色"
+                      : player.ready
+                        ? "已准备"
+                        : "已连接"
                     : "等待连接"}
                 </small>
               </div>

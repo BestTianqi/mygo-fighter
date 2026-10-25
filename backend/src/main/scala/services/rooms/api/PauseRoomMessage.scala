@@ -12,8 +12,10 @@ final case class PauseRoomMessage(session: Session, paused: Boolean) extends API
   def plan(connection: Connection): IO[Unit] =
     RoomAccess.withPlayer(connection, session) { room =>
       room.state.get.flatMap { state =>
-        IO.raiseUnless(paused || state.players.forall(_.exists(_.connected)))(
-          IllegalArgumentException("等待对方重新连接")
+        IO.raiseUnless(
+          paused || (state.loaded.size == 2 && state.players.forall(_.exists(_.connected)))
+        )(
+          IllegalArgumentException("等待双方重新连接并加载角色")
         ) *>
           room.simulation.get.flatMap(_.traverse_(_.pause(paused)))
       }

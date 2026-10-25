@@ -4,6 +4,7 @@ export interface RoomPlayer {
   team: number[];
   ready: boolean;
   connected: boolean;
+  loaded: boolean;
 }
 export interface RoomView {
   code: string;

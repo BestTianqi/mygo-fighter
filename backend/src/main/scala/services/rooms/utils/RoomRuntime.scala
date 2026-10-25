@@ -69,8 +69,9 @@ final case class RoomRuntime(
       else
         peers.update(_ - side) *>
           state.update(s =>
-            s.copy(players =
-              s.players.updated(side, s.players(side).map(_.copy(connected = false)))
+            s.copy(
+              loaded = s.loaded - side,
+              players = s.players.updated(side, s.players(side).map(_.copy(connected = false)))
             )
           ) *>
           simulation.get.flatMap(_.traverse_(_.pause(true))) *>
@@ -91,8 +92,10 @@ final case class RoomRuntime(
               else
                 peers.update(_ - side) *>
                   state.update(s =>
-                    s.copy(players =
-                      s.players.updated(side, s.players(side).map(_.copy(connected = false)))
+                    s.copy(
+                      loaded = s.loaded - side,
+                      players =
+                        s.players.updated(side, s.players(side).map(_.copy(connected = false)))
                     )
                   ) *>
                   simulation.get.flatMap(_.traverse_(_.pause(true))) *>
@@ -137,7 +140,11 @@ object RoomRuntime:
       s.arena,
       s.terrain,
       s.generation,
-      s.players.map(_.map(p => PlayerView(p.character, p.team, p.ready, p.connected))),
+      s.players.zipWithIndex.map((player, side) =>
+        player.map(p =>
+          PlayerView(p.character, p.team, p.ready, p.connected, s.loaded.contains(side))
+        )
+      ),
       s.phase == RoomPhase.Playing,
       s.phase == RoomPhase.Preparing
     )

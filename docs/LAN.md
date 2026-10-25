@@ -19,27 +19,27 @@ TCP WebSockets can still delay later messages when a network packet is lost. Act
 
 Public callers and Scala messages share these derived names:
 
-| Message            | POST endpoint      | Identity                                    |
-| ------------------ | ------------------ | ------------------------------------------- |
-| CreateRoomMessage  | `/api/createroom`  | Creates session                             |
-| JoinRoomMessage    | `/api/joinroom`    | Creates session                             |
-| ChooseRoomMessage  | `/api/chooseroom`  | Trusted session; host controls stage        |
-| ReadyRoomMessage   | `/api/readyroom`   | Trusted session                             |
-| LoadedRoomMessage  | `/api/loadedroom`  | Trusted session and current generation      |
-| PauseRoomMessage   | `/api/pauseroom`   | Trusted session; resume requires both peers |
-| RestartRoomMessage | `/api/restartroom` | Host                                        |
-| LobbyRoomMessage   | `/api/lobbyroom`   | Trusted session                             |
-| LeaveRoomMessage   | `/api/leaveroom`   | Revokes session                             |
+| Message            | POST endpoint      | Identity                                      |
+| ------------------ | ------------------ | --------------------------------------------- |
+| CreateRoomMessage  | `/api/createroom`  | Creates session                               |
+| JoinRoomMessage    | `/api/joinroom`    | Creates session                               |
+| ChooseRoomMessage  | `/api/chooseroom`  | Trusted session; host controls stage          |
+| ReadyRoomMessage   | `/api/readyroom`   | Trusted session                               |
+| LoadedRoomMessage  | `/api/loadedroom`  | Trusted session, generation and attached peer |
+| PauseRoomMessage   | `/api/pauseroom`   | Trusted session; resume requires both peers   |
+| RestartRoomMessage | `/api/restartroom` | Host                                          |
+| LobbyRoomMessage   | `/api/lobbyroom`   | Trusted session                               |
+| LeaveRoomMessage   | `/api/leaveroom`   | Revokes session                               |
 
 `GET /api/health` identifies the server and timing targets. HTTP bodies are limited to 8 KiB. Cross-origin browser requests are rejected. Tokens never appear in WebSocket URLs.
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":3}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":4}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
-Both ready players receive a `prepare` message containing configuration and a generation. Both must acknowledge that generation after preloading images. The server then creates the authoritative match. Late loading acknowledgements cannot start an outdated match.
+Both ready players receive a `prepare` message containing configuration and a generation. Each prepare message also carries the currently attached `peerId`. Both must acknowledge that generation and their own peer ID after preloading images, including a resume after reconnect. The server then creates the authoritative match. Late loading acknowledgements cannot start an outdated match.
 
 A state message includes `protocol`, room `generation`, reconciliation `epoch`, monotonic simulation `tick`, server monotonic `time` in milliseconds, authoritative `state`, `acks` (applied sequences), `received` sequences, `inputs`, and the latched `inputState` needed for deterministic replay. Unlike `inputTick`, the simulation tick advances during hit freeze and ready/round transitions, and does not reset on restart. Epoch changes invalidate local prediction history within a generation. `serverUpdateMs` measures room update work through snapshot serialization; it excludes transport delivery.
 
@@ -47,7 +47,11 @@ Presentation events carry `{id, at, event}` and remain in snapshots for at most 
 
 ## Failure behavior
 
-Closing a socket releases inputs and pauses the match. A silent peer is considered disconnected after three seconds without traffic. Reconnection replaces the peer, sends its current configuration and retains the paused match. The browser stores the session in tab-scoped session storage so a refresh can reconnect. Explicit leave removes it.
+Closing a socket releases inputs and pauses the match. The server considers a silent peer disconnected after three seconds without traffic. The browser independently reconnects after four seconds without any server message, or six seconds without server traffic while opening/authenticating. It detaches the old socket immediately rather than waiting for a failed close handshake. Retries back off from 250 ms to 3 seconds. Healthy heartbeat responses keep idle rooms connected.
+
+Reconnection replaces the peer, clears that side's loaded flag, pauses the existing simulation even when the old socket has not yet closed, and sends its current configuration. An acknowledgement from a replaced peer cannot complete the new peer's loading. The resume acknowledgement is idempotent and never creates a new match. Continue and restart require both current peers to be connected and loaded; the UI shows the waiting state and disables Continue until then. Players explicitly resume the retained match once both are ready. The browser stores the session in tab-scoped session storage so a refresh can reconnect. Explicit leave removes it and cancels pending preparation/retry work; a late HTTP error cannot reopen the abandoned lobby.
+
+Protocol 4 adds the current-peer loading barrier. After updating, the host must restart the backend and both browsers must refresh. Incompatible clients/servers, including an older backend's version error, display that instruction rather than silently disagreeing about resume readiness.
 
 Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
 
@@ -68,3 +72,7 @@ The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an 
 The prepare configuration includes both teams and the format; clients preload all six fighters and forms. The shared server simulation advances the defeated side after the finish animation, retains the surviving fighter’s HP and energy, and ends only when one team is exhausted. Snapshots carry team indices, reserves and the current fighters. Restart resets both teams; returning to the lobby preserves selections for editing and clears readiness. Reconnect restores the existing authoritative match and its team progression.
 
 When reviewing relay changes, verify host-only rules, ordered teams, readiness, survivor HP/energy carry-over, match completion and reconnect restoration with two browsers against the same server.
+
+## Recovery verification — 2026-10-25
+
+This update reproduced two failures before editing: a socket with no incoming traffic never entered reconnect, and the server accepted Continue while a replacement browser had not acknowledged its assets. Local checks under ignored `output/lan-recovery/` now cover eight deterministic client lifecycle cases, a real-server 3v3 match with an actual KO and reserve fighter, rejection of early Continue and stale-peer acknowledgements, idempotent resume acknowledgement, and retained teams/HP/resonance. Two isolated real browsers also exercise movement, pause/restart, incoming-message blackout, automatic reconnect, refresh and returning to the lobby. A delayed loading request verifies the visible wait message and disabled Continue button. Frontend/asset/build and Scala compilation/format checks remain required. The deliberately removed historical test directory is not restored.

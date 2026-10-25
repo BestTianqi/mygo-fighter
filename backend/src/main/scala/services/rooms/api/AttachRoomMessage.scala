@@ -18,9 +18,12 @@ final case class AttachRoomMessage(session: Session, peer: Peer) extends APIMess
         _.get(session.side).traverse_(_.control.tryOffer(WebSocketFrame.Close()).void)
       ) *>
         room.peers.update(_.updated(session.side, peer)) *>
+        room.simulation.get.flatMap(_.traverse_(_.pause(true))) *>
         room.state.update(s =>
-          s.copy(players =
-            s.players.updated(session.side, s.players(session.side).map(_.copy(connected = true)))
+          s.copy(
+            loaded = s.loaded - session.side,
+            players =
+              s.players.updated(session.side, s.players(session.side).map(_.copy(connected = true)))
           )
         ) *>
         room.broadcast *>
@@ -31,6 +34,7 @@ final case class AttachRoomMessage(session: Session, peer: Peer) extends APIMess
               Json.obj(
                 "config" -> config,
                 "generation" -> state.generation.asJson,
+                "peerId" -> peer.id.asJson,
                 "resume" -> (state.phase == RoomPhase.Playing).asJson
               )
             )
