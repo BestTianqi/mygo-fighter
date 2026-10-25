@@ -17,6 +17,7 @@ final case class LeaveRoomMessage(session: Session) extends APIMessage[Unit]:
         )
       ) *>
         room.peers.update(_ - session.side) *>
+        IO.monotonic.flatMap(room.lastConnected.set) *>
         room.state.update(s => s.copy(players = s.players.updated(session.side, None))) *>
         connection.sessions.update(_ - session.token) *> room.resetLobby *>
         room.state.get.flatMap(s =>

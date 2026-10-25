@@ -11,7 +11,9 @@ object RoomAccess:
   ): IO[A] =
     RoomRuntime.find(connection, session.code).flatMap { room =>
       room.lock.permit.use { _ =>
-        room.state.get.flatMap { state =>
+        room.stopped.tryGet.flatMap(stopped =>
+          IO.raiseWhen(stopped.nonEmpty)(IllegalArgumentException("房间连接已失效，请重新加入"))
+        ) *> room.state.get.flatMap { state =>
           IO.raiseUnless(state.players.lift(session.side).flatten.exists(_.id == session.id))(
             IllegalArgumentException("房间连接已失效，请重新加入")
           ) *>

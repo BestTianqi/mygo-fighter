@@ -3,6 +3,7 @@ import type { Assets } from "../../../game/objects/Assets";
 import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { Button } from "../../../components/ui/Button";
+import { publicGameURL } from "../functions/publicGameURL";
 const bands = [
   { key: "mygo", name: "MyGO!!!!!", ids: [1, 4, 3, 2, 0] },
   { key: "mujica", name: "Ave Mujica", ids: [5, 7, 8, 9, 6] },
@@ -103,17 +104,25 @@ export function MainMenu({
             </Button>
             <Button onClick={() => runtime?.begin("practice")}>自由练习</Button>
             <Button
-              disabled={import.meta.env.MODE === "pages" || !runtime}
+              disabled={
+                (import.meta.env.MODE === "pages" && !publicGameURL) || !runtime
+              }
               title={
-                import.meta.env.MODE === "pages"
-                  ? "局域网联机请下载游戏并本地启动"
+                import.meta.env.MODE === "pages" && !publicGameURL
+                  ? "联机对战请下载游戏并启动服务器"
                   : undefined
               }
-              onClick={() => runtime?.openLobby()}
+              onClick={() => {
+                if (import.meta.env.MODE === "pages" && publicGameURL)
+                  location.assign(publicGameURL);
+                else runtime?.openLobby();
+              }}
             >
               {import.meta.env.MODE === "pages"
-                ? "局域网联机 · 需本地启动"
-                : "局域网联机"}
+                ? publicGameURL
+                  ? "广域网联机 ↗"
+                  : "联机对战 · 需服务器"
+                : "联机对战"}
             </Button>
           </div>
           <div className="mt-6 flex gap-6 text-xs text-slate-400">
@@ -136,7 +145,7 @@ export function MainMenu({
         <span>
           {assets.characters.length} 位角色 / {assets.stages.length} 张舞台
         </span>
-        <span>LOCAL + LAN PLAY</span>
+        <span>LOCAL + ONLINE PLAY</span>
       </footer>
     </section>
   );

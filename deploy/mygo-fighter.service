@@ -1,0 +1,27 @@
+[Unit]
+Description=MyGO Fighter online game server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mygo
+Group=mygo
+WorkingDirectory=/srv/mygo-fighter/current
+EnvironmentFile=/etc/mygo-fighter.env
+Environment="JAVA_OPTS=-Xms64m -Xmx256m -XX:ReservedCodeCacheSize=64m -Dpolyglot.engine.WarnInterpreterOnly=false"
+ExecStart=/srv/mygo-fighter/current/bin/mygo-server
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+MemoryMax=512M
+MemorySwapMax=0
+TasksMax=96
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

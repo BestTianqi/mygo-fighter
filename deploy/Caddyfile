@@ -1,0 +1,10 @@
+{
+	servers {
+		protocols h1 h2
+	}
+}
+
+{$GAME_HOSTNAME} {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8080
+}

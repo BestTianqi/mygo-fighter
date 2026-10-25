@@ -18,6 +18,7 @@ final case class RoomRuntime(
     lastTick: Ref[IO, FiniteDuration],
     lastSend: Ref[IO, FiniteDuration],
     lastActivity: Ref[IO, FiniteDuration],
+    lastConnected: Ref[IO, FiniteDuration],
     stopped: Deferred[IO, Unit]
 ):
   private[rooms] def stop: IO[Unit] = stopped.complete(()).void
@@ -68,6 +69,7 @@ final case class RoomRuntime(
       if !clients.get(side).exists(_.id == peerId) then IO.unit
       else
         peers.update(_ - side) *>
+          IO.monotonic.flatMap(lastConnected.set) *>
           state.update(s =>
             s.copy(
               loaded = s.loaded - side,
@@ -91,6 +93,7 @@ final case class RoomRuntime(
               if now - seen <= 3.seconds then IO.unit
               else
                 peers.update(_ - side) *>
+                  lastConnected.set(now) *>
                   state.update(s =>
                     s.copy(
                       loaded = s.loaded - side,
@@ -156,6 +159,7 @@ object RoomRuntime:
         Ref.of[IO, Map[Int, Peer]](Map.empty),
         Ref.of[IO, Option[Simulation]](None),
         Semaphore[IO](1),
+        Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),

@@ -1,6 +1,6 @@
 # MyGO!!!!! Fighter
 
-A TypeScript + React fighting game with a Scala 3 LAN server. The rewrite preserves the 15-character combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. LAN battles support two devices in 1v1 or 3v3 relay.
+A TypeScript + React fighting game with a Scala 3 server. It preserves the original combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. Network battles support two players per room in 1v1 or 3v3 relay, with independent rooms running simultaneously.
 
 ## Run
 
@@ -26,7 +26,7 @@ After building once, `npm start` starts the server without rebuilding. It prints
 ## LAN play
 
 1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
-2. Choose **局域网联机**. One player creates a room; the other enters its six-character code.
+2. Choose **联机对战**. One player creates a room; the other enters its six-character code.
 3. The host chooses 1v1 or 3v3, stage and terrain. Each player selects one character, or three different characters in fighting order. Both press **准备开战**. The server waits for both clients to finish loading their artwork.
 4. Both players use the **1P keys** to control their own character.
 
@@ -34,7 +34,13 @@ Both devices must be able to reach the host on the same network. Allow the chose
 
 On Windows, the firewall must allow the **Java executable that actually runs the backend**, on the active network profile and game TCP port. Allowing Node alone does not cover the Scala server. Campus and dorm networks may isolate devices even on the same Wi-Fi; if the host can open its LAN address but the other device cannot, try connecting both devices to the same phone hotspot or personal router.
 
-A disconnect pauses both players. The page reconnects automatically, and refreshing the same tab restores its session. Resume after both players reconnect. Leaving a room revokes that session. Rooms are temporary and disappear after a server restart or 30 minutes without player activity.
+A disconnect pauses both players. The page reconnects automatically, and refreshing the same tab restores its session. Resume after both players reconnect. Leaving a room revokes that session. Rooms are temporary and disappear after a server restart, 30 minutes without player activity, or two minutes with no connected players.
+
+## Public online play
+
+Both players open the same public game server URL, choose **联机对战**, and create or join a room. They can be on different networks and both use the 1P controls. Each room has two human players; 3v3 is an ordered team relay, not six simultaneous human players.
+
+The Azure trial is capped at **two rooms / four players**, with its own HTTPS address and no link from GitHub Pages. See [public server setup and operations](docs/WAN.md) for deployment, limits, measurements and verification status. Public access requires HTTPS, WebSocket forwarding and the host's inbound TCP 80/443 rules; running the LAN launcher alone does not configure those.
 
 ## Controls
 
@@ -62,6 +68,7 @@ Mujica's **H transformation** costs 50 resonance and lasts 20 seconds. It releas
 npm run dev            # Vite frontend, port 5173; API/WebSocket proxy to port 8080
 npm run build          # Strict TypeScript check, production UI and shared combat kernel
 npm run build:pages    # Static browser version for GitHub Pages; no JVM server required
+npm run package:server # Build UI/kernel and a deployable Scala/JVM distribution
 npm start              # Scala server serving the production build
 npm run check          # TypeScript and runtime media integrity checks
 npm run check:backend  # Scala compilation and formatting checks
@@ -87,6 +94,6 @@ The Scala backend embeds the **same TypeScript combat kernel** in a restricted G
 
 See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
 
-GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3; LAN rooms require the local Scala server. All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
+GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3. Network rooms require a Scala server. An optional `PUBLIC_GAME_URL` repository Actions variable enables a link to a public server; it is unset for this trial. Local static builds can use `VITE_PUBLIC_GAME_URL` (see `frontend/.env.example`). All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
 
 The test suites have been removed. Before publishing, run the checks and both builds above, then verify project-path loading, recorded audio, character transformations, supers and menu flow in a browser. For LAN changes, also check two clients joining, loading, playing, pausing and reconnecting against the same Scala server. Keep any local reports and screenshots in the ignored `output/` folder.

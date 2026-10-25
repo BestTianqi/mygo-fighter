@@ -14,7 +14,7 @@ final case class CreateRoomMessage() extends NoRequestMessage[SessionResponse]:
         connection.rooms
           .modify { rooms =>
             if rooms.size >= connection.config.maxRooms then
-              (rooms, Left(IllegalArgumentException("房间已满")))
+              (rooms, Left(IllegalArgumentException("服务器房间已满，请稍后创建；已有房间仍可加入。")))
             else if rooms.contains(code) then (rooms, Left(IllegalArgumentException("请重试创建房间")))
             else (rooms.updated(code, room), Right(()))
           }

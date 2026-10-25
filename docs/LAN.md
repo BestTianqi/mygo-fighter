@@ -61,7 +61,7 @@ Protocol 7 carries Rana's two-hit cat step, revised parfait trajectory, cheaper 
 
 Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
 
-The server is intended for a trusted local network. It has temporary room sessions rather than an account system, and plain HTTP on the default LAN deployment.
+The default LAN deployment uses plain HTTP. Public deployments use a same-origin HTTPS proxy and the limits described in [WAN hosting](WAN.md). Both deployments use temporary room sessions rather than accounts. Rooms with no connected peers expire after two minutes; a reconnect within that window restores the existing session. The existing 30-minute inactivity expiry also applies.
 
 ## Diagnostics and verification
 

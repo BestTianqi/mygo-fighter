@@ -12,6 +12,7 @@ import services.rooms.api.{CloseRoomsMessage, TickRoomsMessage}
 import services.rooms.routes.RoomRoutes
 import services.system.objects.{Connection, ServerConfig}
 import services.system.routes.{APIMessageRouter, StaticRoutes, SystemRoutes}
+import services.system.utils.AdmissionControl
 
 object Main extends IOApp.Simple:
   private def resourceText(name: String): IO[String] =
@@ -26,7 +27,17 @@ object Main extends IOApp.Simple:
       ServerConfig(
         sys.env.getOrElse("HOST", "0.0.0.0"),
         sys.env.get("PORT").flatMap(_.toIntOption).getOrElse(8080),
-        sys.env.getOrElse("WEB_ROOT", "../frontend/dist")
+        sys.env.getOrElse("WEB_ROOT", "../frontend/dist"),
+        sys.env
+          .get("MAX_ROOMS")
+          .fold(20)(value =>
+            value.toIntOption
+              .filter(_ > 0)
+              .getOrElse(
+                throw IllegalArgumentException("MAX_ROOMS must be a positive integer")
+              )
+          ),
+        sys.env.get("TRUST_LOCAL_PROXY").contains("true")
       )
     }.flatMap { config =>
       Supervisor[IO].use { supervisor =>
@@ -36,10 +47,11 @@ object Main extends IOApp.Simple:
           resourceText("simulation.js"),
           resourceText("stages.json").flatMap(raw =>
             IO.fromEither(parser.decode[Vector[Json]](raw))
-          )
-        ).mapN((rooms, sessions, source, stages) =>
-          Connection(rooms, sessions, source, stages, config, supervisor)
-        ).flatMap { connection =>
+          ),
+          AdmissionControl.create(config.trustLocalProxy)
+        ).mapN((rooms, sessions, source, stages, admission) =>
+          (Connection(rooms, sessions, source, stages, config, supervisor), admission)
+        ).flatMap { (connection, admission) =>
           val clock = Stream
             .awakeEvery[IO](1.second)
             .evalMap(_ => TickRoomsMessage().plan(connection))
@@ -50,10 +62,12 @@ object Main extends IOApp.Simple:
             .withHost(Host.fromString(config.host).getOrElse(host"0.0.0.0"))
             .withPort(Port.fromInt(config.port).getOrElse(port"8080"))
             .withHttpWebSocketApp(builder =>
-              (SystemRoutes.routes <+> APIMessageRouter
-                .routes(RoomRoutes.apiMessages, connection) <+> RoomRoutes
-                .socketRoutes(connection, builder) <+> StaticRoutes
-                .routes(config.webRoot)).orNotFound
+              admission.wrap(
+                (SystemRoutes.routes <+> APIMessageRouter
+                  .routes(RoomRoutes.apiMessages, connection) <+> RoomRoutes
+                  .socketRoutes(connection, builder) <+> StaticRoutes
+                  .routes(config.webRoot)).orNotFound
+              )
             )
             .build
           server

@@ -16,7 +16,7 @@ export function GameDialogs({
       <Dialog title="操作说明" onClose={() => runtime.closeDialog()} wide>
         <div className="grid gap-6 sm:grid-cols-2">
           <section>
-            <h3 className="mb-3 text-pink-200">1P / 局域网玩家</h3>
+            <h3 className="mb-3 text-pink-200">1P / 联机玩家</h3>
             <p className="text-sm leading-8 text-slate-300">
               A / D 移动 · W 跳跃 · S 蹲下
               <br />J 普攻三连 · K 重击 · L 瞬移
@@ -51,7 +51,9 @@ export function GameDialogs({
             打开招式表。切换窗口会暂停对战。
           </p>
           <p>
-            局域网对战中双方都使用1P键位。断线自动暂停，恢复连接后由玩家继续对战。页面显示往返延迟，实际体验也取决于局域网质量。
+            联机时双方打开同一个服务器地址，通过房间码加入，并都使用1P键位。
+            公共服务器支持跨网络对战。断线自动暂停，恢复连接后由玩家继续对战。
+            页面显示往返延迟；网络距离、丢包和设备性能都会影响体验。
           </p>
         </div>
       </Dialog>
@@ -112,7 +114,7 @@ export function GameDialogs({
         ))}
       </div>
       <p className="mt-5 text-xs leading-6 text-slate-500">
-        前后以角色面朝方向为准。技能受能量、地空姿态、冷却与命中取消条件限制。局域网双方均使用1P键位。
+        前后以角色面朝方向为准。技能受能量、地空姿态、冷却与命中取消条件限制。联机双方均使用1P键位。
       </p>
     </Dialog>
   );

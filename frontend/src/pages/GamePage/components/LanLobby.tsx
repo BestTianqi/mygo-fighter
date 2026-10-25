@@ -46,9 +46,10 @@ export function LanLobby({
     );
   }
   return (
-    <Dialog title="局域网联机" onClose={() => runtime.closeLobby()}>
+    <Dialog title="联机对战" onClose={() => runtime.closeLobby()}>
       <p className="mb-5 text-sm leading-6 text-slate-400">
-        两台设备连接同一局域网，并打开房主电脑的游戏地址。一人创建房间，另一人输入房间码。
+        双方打开同一个游戏服务器地址。一人创建房间，另一人输入房间码。
+        使用公共服务器时可以跨网络对战；本地服务器需要双方能访问房主的地址。
       </p>
       {!room ? (
         <div className="space-y-4">

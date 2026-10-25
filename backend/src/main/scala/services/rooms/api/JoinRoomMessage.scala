@@ -12,7 +12,9 @@ final case class JoinRoomMessage(code: String) extends APIMessage[SessionRespons
   def plan(connection: Connection): IO[SessionResponse] =
     RoomRuntime.find(connection, code.trim.toUpperCase).flatMap { room =>
       room.lock.permit.use { _ =>
-        room.state.get.flatMap { state =>
+        room.stopped.tryGet.flatMap(stopped =>
+          IO.raiseWhen(stopped.nonEmpty)(IllegalArgumentException("找不到房间，请核对房间码"))
+        ) *> room.state.get.flatMap { state =>
           val side = state.players.indexWhere(_.isEmpty)
           IO.raiseWhen(side < 0)(IllegalArgumentException("房间已有两名玩家")) *>
             RoomAccess.nonce(24).flatMap { token =>

@@ -26,6 +26,8 @@ jobs:
       - run: npm run check
       - name: Build React game with original media
         run: npm run build:pages
+        env:
+          VITE_PUBLIC_GAME_URL: ${{ vars.PUBLIC_GAME_URL }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
