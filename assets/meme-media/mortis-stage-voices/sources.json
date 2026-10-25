@@ -72,5 +72,18 @@
       "sha256": "3ee7483e93caa2613edfa9baa8af56c3d5bf0e1e9569f20f035d41eb458f5362",
       "evidence": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。"
     }
-  ]
+  ],
+  "superVideo": {
+    "start": 0.95,
+    "end": 3.05,
+    "bvid": "BV1uPf5YCE73",
+    "cid": 28039907968,
+    "page": 1,
+    "title": "睦头人尖叫一小时纯享",
+    "author": "mayWishuponASTar",
+    "source": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+    "video": "mortis-scream-super.mp4",
+    "evidence": "The exact 0.95–3.05 s interval from the previously selected BV1uPf5YCE73 first loop, matching the retained long-scream audio. This interval shows the dark red stage wide shot. Three source frames were checked; source/audio correlation is 0.938 with only 22 ms codec offset. The unrelated protection-dialogue video from BV1j8f5YdE6n is no longer used by this super. Both tracks stay at original playback rate and end after 2.1 s.",
+    "sha256": "15d4447fa3cc82f9e9609a08599879e6ec54b9ca24dfe1be950cec57ed21b466"
+  }
 }

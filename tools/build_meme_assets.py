@@ -126,11 +126,12 @@ def build_catalog():
     stage_voice_catalog = MEDIA / 'mortis-stage-voices/sources.json'
     for row in read_json(stage_voice_catalog)['clips']:
         profiles['8']['variants'][row['move']] = normalize_clip(row, stage_voice_catalog, 8, row['slot'], row['voice'])
-    # The stage ultimate now uses the reviewed Mortis scream; keep the original
-    # video and its provenance independently, at its original playback rate.
+    # Pair the selected scream with the exact same source interval on screen.
     mortis_super = profiles['8']['variants']['mujica_8_stage_super']
     scream = profiles['8']['variants']['mujica_8_stage_o']
-    mortis_super['videoSource'] = mortis_super['source']
+    super_video = read_json(stage_voice_catalog)['superVideo']
+    mortis_super['video'] = asset_path(super_video['video'], stage_voice_catalog)
+    mortis_super['videoSource'] = source_info(super_video, stage_voice_catalog)
     mortis_super.update(label='Mortis·失控尖叫', audio=scream['audio'],
                         duration=scream['duration'], source=scream['source'])
     profiles['8']['variants']['stage_throw'] = profiles['8']['variants']['mujica_8_stage_o']

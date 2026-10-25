@@ -1615,18 +1615,18 @@
             "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
             "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
           },
-          "video": "assets/meme-media/penguin-mortis/mortis-stage-p.mp4",
+          "video": "assets/meme-media/mortis-stage-voices/mortis-scream-super.mp4",
           "videoSource": {
-            "url": "https://www.bilibili.com/video/BV1j8f5YdE6n/?p=2",
-            "uploader": "月夜-涙",
-            "bvid": "BV1j8f5YdE6n",
-            "cid": 28038924686,
-            "page": 2,
-            "title": "Ave Mujica Mortis：「小睦已经死掉了」",
-            "start": 39.29,
-            "end": 46.28,
-            "proof": "第2分P中 Mortis 对祥子表示会保护睦和她的乐队；ASR 辅助定位，画面另做截帧核对。",
-            "catalog": "assets/meme-media/penguin-mortis/sources.json"
+            "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
+            "uploader": "mayWishuponASTar",
+            "bvid": "BV1uPf5YCE73",
+            "cid": 28039907968,
+            "page": 1,
+            "title": "睦头人尖叫一小时纯享",
+            "start": 0.95,
+            "end": 3.05,
+            "proof": "The exact 0.95–3.05 s interval from the previously selected BV1uPf5YCE73 first loop, matching the retained long-scream audio. This interval shows the dark red stage wide shot. Three source frames were checked; source/audio correlation is 0.938 with only 22 ms codec offset. The unrelated protection-dialogue video from BV1j8f5YdE6n is no longer used by this super. Both tracks stay at original playback rate and end after 2.1 s.",
+            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
           },
           "videoRate": 1
         },

@@ -97,7 +97,8 @@ export class AudioDirector {
         if (
           voice &&
           (MOVES[event.attack]?.sakiko === "ascension" ||
-            MOVES[event.attack]?.arale === "dream")
+            MOVES[event.attack]?.arale === "dream" ||
+            MOVES[event.attack]?.mortis === "scream")
         ) {
           this.voices?.stop(side);
           // Combat recovery and automatic round transitions must not cut the sentence.
