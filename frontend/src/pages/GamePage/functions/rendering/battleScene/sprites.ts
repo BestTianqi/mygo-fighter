@@ -10,7 +10,12 @@ export function fighterSprite(
   side: number,
   direction = 0,
 ): SceneSprite | null {
-  const sprite = scene.spriteFor(scene.match, side, direction);
+  const sprite = scene.spriteFor(
+    scene.match,
+    side,
+    direction,
+    scene.camera.zoom,
+  );
   return (
     sprite && {
       ...sprite,
@@ -22,10 +27,11 @@ export function fighterSprite(
 
 export function drawBodyMotion(
   scene: BattleSceneContext,
-  atlas: HTMLImageElement,
+  atlas: CanvasImageSource,
   frame: SpriteFrame,
   scale: number,
   motion: { lean: number; lift: number; width: number },
+  source: Pick<SpriteFrame, "x" | "y" | "w" | "h"> = frame,
 ) {
   // Transform the complete drawing once. Separate translucent strips produce
   // horizontal seams when the camera scales them onto fractional pixels.
@@ -43,10 +49,10 @@ export function drawBodyMotion(
   );
   scene.ctx.drawImage(
     atlas,
-    frame.x,
-    frame.y,
-    frame.w,
-    frame.h,
+    source.x,
+    source.y,
+    source.w,
+    source.h,
     -frame.ax,
     -frame.ay,
     frame.w,
@@ -82,7 +88,7 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     (traveling ? (blink.fromY - blink.toY) * remaining : 0);
   const sprite = traveling ? blink.sprite : fighterSprite(scene, side);
   if (!sprite) return;
-  const { atlas, frame, scale, animation, facing } = sprite;
+  const { atlas, frame, source = frame, scale, animation, facing } = sprite;
   const floor = 438,
     surface = scene.match.surfaceBelow(renderX, renderY, f.dropMs),
     shadowY = floor - surface;
@@ -151,10 +157,10 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
       scene.ctx.globalAlpha = distance === 40 ? 0.08 : 0.15;
       scene.ctx.drawImage(
         atlas,
-        frame.x,
-        frame.y,
-        frame.w,
-        frame.h,
+        source.x,
+        source.y,
+        source.w,
+        source.h,
         -frame.ax - (distance / scale) * trailDirection,
         -frame.ay - (f.attack === "dive" ? distance / scale : 0),
         frame.w,
@@ -170,14 +176,15 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     Math.floor(scene.state.visualTime / 50) % 2
   )
     scene.ctx.globalAlpha = 0.65;
-  if (motion && !traveling) drawBodyMotion(scene, atlas, frame, scale, motion);
+  if (motion && !traveling)
+    drawBodyMotion(scene, atlas, frame, scale, motion, source);
   else
     scene.ctx.drawImage(
       atlas,
-      frame.x,
-      frame.y,
-      frame.w,
-      frame.h,
+      source.x,
+      source.y,
+      source.w,
+      source.h,
       -frame.ax,
       -frame.ay,
       frame.w,

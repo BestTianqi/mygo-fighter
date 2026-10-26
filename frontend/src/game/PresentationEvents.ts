@@ -1,6 +1,6 @@
 import { HISTORY_MS, type SimulationPacket } from "./networkProtocol";
 
-/** Recover skipped snapshot cues once, without playing a TCP backlog of expired effects. */
+/** Consume reliable incremental batches once, without playing a TCP backlog of expired effects. */
 export class PresentationEvents {
   private epoch = -1;
   private cursor = 0;

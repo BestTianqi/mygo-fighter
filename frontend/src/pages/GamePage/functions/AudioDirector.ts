@@ -5,6 +5,14 @@ import type { Match } from "../../../game/engine";
 import { presentationFor } from "./presentationFor";
 import { MOVES } from "../../../game/combatData";
 
+const MAX_AUDIO_BYTES = 64 * 1024 * 1024;
+const MAX_AUDIO_LOADS = 4;
+type AudioTask = {
+  name: string;
+  resolve: (buffer: AudioBuffer) => void;
+  reject: (error: unknown) => void;
+};
+
 /** Recorded channels are independent. Pausing retains offsets; mute and reset release them. */
 export class AudioDirector {
   private context: AudioContext | null = null;
@@ -12,10 +20,29 @@ export class AudioDirector {
   private summons: ReturnType<typeof createVoicePlayer> | null = null;
   private music: ReturnType<typeof createVoicePlayer> | null = null;
   private speeches: ReturnType<typeof createVoicePlayer> | null = null;
-  private loading: Promise<void> | null = null;
   private enabled = true;
   private paused = false;
-  constructor(private readonly assets: Assets) {}
+  private disposed = false;
+  private readonly urls: Record<string, string>;
+  private readonly buffers = new Map<string, AudioBuffer>();
+  private bufferBytes = 0;
+  private readonly pending = new Map<string, Promise<AudioBuffer>>();
+  private readonly queue: AudioTask[] = [];
+  private activeLoads = 0;
+  private readonly abort = new AbortController();
+
+  constructor(private readonly assets: Assets) {
+    this.urls = Object.fromEntries(
+      Object.entries({
+        ...assets.penguinVoices,
+        ...assets.soyoVoices,
+        ...assets.memeVoices,
+        ...assets.summonVoices,
+        ...assets.transformMusic,
+      }),
+    );
+  }
+
   async unlock(enabled: boolean) {
     this.enabled = enabled;
     if (!enabled) {
@@ -25,37 +52,21 @@ export class AudioDirector {
       this.speeches?.setEnabled(false);
       return;
     }
+    if (this.disposed) return;
     this.context ??= new AudioContext();
     await this.context.resume();
+    if (this.disposed) return;
     const context = this.context;
-    this.loading ??= Promise.all(
-      Object.entries({
-        ...this.assets.penguinVoices,
-        ...this.assets.soyoVoices,
-        ...this.assets.memeVoices,
-        ...this.assets.summonVoices,
-        ...this.assets.transformMusic,
-      }).map(async ([name, url]) => {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("语音加载失败");
-        return [
-          name,
-          await context.decodeAudioData(await response.arrayBuffer()),
-        ] as const;
-      }),
-    )
-      .then((entries) => {
-        const buffers = Object.fromEntries(entries);
-        this.voices = createVoicePlayer(context, buffers);
-        this.summons = createVoicePlayer(context, buffers);
-        this.music = createVoicePlayer(context, buffers);
-        this.speeches = createVoicePlayer(context, buffers);
-      })
-      .catch((error) => {
-        this.loading = null;
-        console.warn(error);
-      });
-    await this.loading;
+    if (!this.voices) {
+      const buffers = {
+        get: (name: string) => this.getBuffer(name),
+        load: (name: string) => this.load(name),
+      };
+      this.voices = createVoicePlayer(context, buffers);
+      this.summons = createVoicePlayer(context, buffers);
+      this.music = createVoicePlayer(context, buffers);
+      this.speeches = createVoicePlayer(context, buffers);
+    }
     for (const channel of [
       this.voices,
       this.summons,
@@ -66,6 +77,122 @@ export class AudioDirector {
       channel?.setPaused(this.paused);
     }
   }
+
+  /** Warm only media reachable by the selected fighters after critical images. */
+  async prepare(match: Match) {
+    if (!this.enabled || this.disposed) return;
+    const characters = new Set<number>([
+      ...match.options.characters,
+      ...match.teams.flat(),
+      ...match.fighters.map((fighter) => fighter.character),
+    ]);
+    const names = new Set<string>();
+    for (const character of characters) {
+      const identities = [
+        { character },
+        { character, stageForm: { ms: 1 } },
+        { character, penguin: { ms: 1 } },
+      ];
+      for (const identity of identities)
+        for (const [attack, move] of Object.entries(MOVES)) {
+          if (
+            move.ownerCharacter !== undefined &&
+            move.ownerCharacter !== character
+          )
+            continue;
+          const media = presentationFor(this.assets, identity, attack);
+          if (media?.voice) names.add(media.voice);
+          if (character === 2 && this.assets.penguinVoices[attack])
+            names.add(attack);
+          if (character === 1 && this.assets.soyoVoices[attack])
+            names.add(attack);
+        }
+    }
+    if (characters.has(1)) names.add("tensoraOhYeah");
+    if (characters.has(7)) names.add("uikaImprisoned");
+    await Promise.all(
+      [...names]
+        .filter((name) => this.urls[name])
+        .map((name) => this.load(name).catch(() => undefined)),
+    );
+  }
+
+  private getBuffer(name: string) {
+    const buffer = this.buffers.get(name);
+    if (!buffer) return undefined;
+    // Map order is the LRU order. Active AudioBufferSourceNodes retain their
+    // buffer safely even when a different match evicts the cache entry.
+    this.buffers.delete(name);
+    this.buffers.set(name, buffer);
+    return buffer;
+  }
+
+  private store(name: string, buffer: AudioBuffer) {
+    const previous = this.buffers.get(name);
+    if (previous) this.bufferBytes -= this.bytes(previous);
+    this.buffers.delete(name);
+    this.buffers.set(name, buffer);
+    this.bufferBytes += this.bytes(buffer);
+    while (this.bufferBytes > MAX_AUDIO_BYTES && this.buffers.size > 1) {
+      const oldest = this.buffers.keys().next().value as string;
+      const evicted = this.buffers.get(oldest)!;
+      this.bufferBytes -= this.bytes(evicted);
+      this.buffers.delete(oldest);
+    }
+  }
+
+  private bytes(buffer: AudioBuffer) {
+    return (
+      buffer.length * buffer.numberOfChannels * Float32Array.BYTES_PER_ELEMENT
+    );
+  }
+
+  private load(name: string): Promise<AudioBuffer> {
+    const cached = this.getBuffer(name);
+    if (cached) return Promise.resolve(cached);
+    const existing = this.pending.get(name);
+    if (existing) return existing;
+    const promise = new Promise<AudioBuffer>((resolve, reject) => {
+      this.queue.push({ name, resolve, reject });
+    });
+    this.pending.set(name, promise);
+    this.pump();
+    return promise;
+  }
+
+  private pump() {
+    while (this.activeLoads < MAX_AUDIO_LOADS && this.queue.length) {
+      const task = this.queue.shift()!;
+      if (this.disposed || !this.context || !this.urls[task.name]) {
+        this.pending.delete(task.name);
+        task.reject(new Error("语音不可用"));
+        continue;
+      }
+      this.activeLoads++;
+      void this.decode(task.name)
+        .then(task.resolve, task.reject)
+        .finally(() => {
+          this.pending.delete(task.name);
+          this.activeLoads--;
+          this.pump();
+        });
+    }
+  }
+
+  private async decode(name: string) {
+    const context = this.context;
+    if (!context || this.disposed) throw new Error("语音不可用");
+    const response = await fetch(this.urls[name], {
+      signal: this.abort.signal,
+    });
+    if (!response.ok) throw new Error("语音加载失败");
+    const bytes = await response.arrayBuffer();
+    const buffer = await context.decodeAudioData(bytes);
+    if (this.disposed) throw new Error("语音加载已取消");
+    this.store(name, buffer);
+    return buffer;
+  }
+
   pause(value: boolean) {
     this.paused = value;
     for (const channel of [
@@ -164,7 +291,20 @@ export class AudioDirector {
     };
   }
   dispose() {
+    this.disposed = true;
+    this.abort.abort();
+    for (const task of this.queue.splice(0))
+      task.reject(new Error("语音加载已取消"));
     this.stop();
+    for (const channel of [
+      this.voices,
+      this.summons,
+      this.music,
+      this.speeches,
+    ])
+      channel?.dispose();
+    this.buffers.clear();
+    this.bufferBytes = 0;
     void this.context?.close();
   }
 }

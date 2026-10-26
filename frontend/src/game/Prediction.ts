@@ -61,7 +61,7 @@ export class Prediction {
     const priorTick = reset ? packet.tick : match.simulationTick;
     this.history = reset
       ? []
-      : this.history.filter((e) => e.seq > packet.acks[side]);
+      : this.history.filter((e) => e.seq > packet.inputState.applied[side]);
     if (this.history.some((e) => now - e.at > HISTORY_MS)) this.history = [];
     this.packet = packet;
     this.receivedAt = this.predictedAt = now;

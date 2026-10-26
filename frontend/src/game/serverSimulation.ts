@@ -1,10 +1,6 @@
 import { Match } from "./engine";
 import { NetworkInputs } from "./NetworkInputs";
-import {
-  HISTORY_MS,
-  NETWORK_PROTOCOL,
-  type NetworkEvent,
-} from "./networkProtocol";
+import { NETWORK_PROTOCOL } from "./networkProtocol";
 import type { Input } from "./objects/Input";
 import type { MatchOptions } from "./objects/MatchOptions";
 
@@ -15,7 +11,6 @@ export function create(optionsJson: string) {
   let time = 0,
     epoch = 0,
     eventId = 0;
-  let events: NetworkEvent[] = [];
   match.start();
   return {
     input(side: number, seq: number, json: string) {
@@ -32,7 +27,6 @@ export function create(optionsJson: string) {
         if (phase === "roundOver" && match.phase === "ready") {
           epoch++;
           inputs.clear();
-          events = [];
         }
         left -= step;
       }
@@ -41,21 +35,22 @@ export function create(optionsJson: string) {
       match.setPaused(value);
       inputs.clear();
       epoch++;
-      events = [];
     },
     restart() {
       match.restart();
       inputs.clear();
       epoch++;
-      events = [];
+    },
+    eventBatch() {
+      const events = match.drainEvents();
+      if (!events.length) return null;
+      return JSON.stringify({
+        epoch,
+        time,
+        events: events.map((event) => ({ id: ++eventId, at: time, event })),
+      });
     },
     packet() {
-      events = events.filter((e) => time - e.at <= HISTORY_MS);
-      events.push(
-        ...match
-          .drainEvents()
-          .map((event) => ({ id: ++eventId, at: time, event })),
-      );
       const { options: _options, events: _events, ...state } = match;
       return JSON.stringify({
         protocol: NETWORK_PROTOCOL,
@@ -63,10 +58,6 @@ export function create(optionsJson: string) {
         tick: match.simulationTick,
         time,
         state,
-        events,
-        acks: inputs.state.applied,
-        received: inputs.state.received,
-        inputs: inputs.state.inputs,
         inputState: inputs.state,
       });
     },

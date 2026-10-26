@@ -1,4 +1,8 @@
-import { NETWORK_PROTOCOL } from "../../game/networkProtocol";
+import {
+  NETWORK_PROTOCOL,
+  type NetworkEvent,
+  type NetworkEventBatch,
+} from "../../game/networkProtocol";
 import { compactInput } from "../../game/inputCodec";
 import { CreateRoomMessage } from "./CreateRoomMessage";
 import { JoinRoomMessage } from "./JoinRoomMessage";
@@ -15,14 +19,46 @@ import type { Input } from "../../game/objects/Input";
 
 const VERSION_MISMATCH =
   "客户端与主机版本不一致，请房主重启联机服务，双方刷新页面。";
+const DIAGNOSTICS_ENABLED =
+  typeof location !== "undefined" &&
+  new URLSearchParams(location.search).get("diagnostics") === "1";
 
 interface Callbacks {
   onView: (view: ConnectionView) => void;
   onPrepare: (config: MatchConfig) => Promise<void>;
-  onState: (packet: StatePacket) => void;
+  onState: (packet: StatePacket, wireBytes: number) => void;
   onDisconnect: () => void;
   onLobby: () => void;
   onInput: (seq: number, input: Input, now: number, changed: boolean) => void;
+}
+
+interface PendingEventBatch {
+  data: NetworkEventBatch;
+  wireBytes: number;
+}
+
+function utf8Length(raw: string) {
+  let bytes = 0;
+  for (let index = 0; index < raw.length; index++) {
+    const code = raw.charCodeAt(index);
+    if (code < 0x80) bytes++;
+    else if (code < 0x800) bytes += 2;
+    else if (
+      code >= 0xd800 &&
+      code <= 0xdbff &&
+      index + 1 < raw.length &&
+      raw.charCodeAt(index + 1) >= 0xdc00 &&
+      raw.charCodeAt(index + 1) <= 0xdfff
+    ) {
+      bytes += 4;
+      index++;
+    } else bytes += 3;
+  }
+  return bytes;
+}
+
+function wireBytes(raw: string) {
+  return DIAGNOSTICS_ENABLED ? utf8Length(raw) : 0;
 }
 
 /** One ordered duplex socket, with immediate input and no HTTP request per key. */
@@ -38,6 +74,7 @@ export class RoomConnection {
   private generation = -1;
   private stateEpoch = -1;
   private stateTick = -1;
+  private pendingEvents: PendingEventBatch[] = [];
   private smoothedRtt = 0;
   private prepared = false;
   private authenticated = false;
@@ -73,6 +110,32 @@ export class RoomConnection {
   private update(changes: Partial<ConnectionView>) {
     this.view = { ...this.view, ...changes };
     this.callbacks.onView(this.view);
+  }
+
+  private queueEvents(batch: NetworkEventBatch, wireBytes: number) {
+    if (
+      !this.prepared ||
+      batch.generation !== this.generation ||
+      batch.epoch < this.stateEpoch
+    )
+      return;
+    this.pendingEvents.push({ data: batch, wireBytes });
+  }
+
+  private attachEvents(data: StatePacket) {
+    const events: NetworkEvent[] = [];
+    let wireBytes = 0;
+    this.pendingEvents = this.pendingEvents.filter((pending) => {
+      const batch = pending.data;
+      if (batch.generation !== data.generation || batch.epoch < data.epoch)
+        return false;
+      if (batch.epoch > data.epoch || batch.time > data.time) return true;
+      events.push(...batch.events);
+      wireBytes += pending.wireBytes;
+      return false;
+    });
+    data.events = events;
+    return wireBytes;
   }
 
   async connect(code?: string) {
@@ -131,6 +194,7 @@ export class RoomConnection {
     const socket = new WebSocket(`${protocol}//${location.host}/ws`);
     this.socket = socket;
     this.authenticated = false;
+    this.pendingEvents = [];
     this.smoothedRtt = 0;
     let receivedAt = performance.now();
     this.watchdog = setInterval(() => {
@@ -172,6 +236,7 @@ export class RoomConnection {
     const socket = this.socket;
     this.socket = null;
     this.authenticated = this.prepared = false;
+    this.pendingEvents = [];
     socket?.close();
   }
 
@@ -216,6 +281,7 @@ export class RoomConnection {
         if (backToLobby) {
           this.generation = room.generation;
           this.prepared = false;
+          this.pendingEvents = [];
           this.callbacks.onLobby();
         }
       } else if (packet.type === "prepare") {
@@ -228,6 +294,7 @@ export class RoomConnection {
         this.generation = data.generation;
         this.stateEpoch = this.stateTick = -1;
         this.prepared = false;
+        this.pendingEvents = [];
         this.update({ status: "preparing", error: "" });
         const session = this.session,
           socket = this.socket;
@@ -252,6 +319,8 @@ export class RoomConnection {
           !this.disposed
         )
           this.prepared = true;
+      } else if (packet.type === "events") {
+        this.queueEvents(packet.data as NetworkEventBatch, wireBytes(raw));
       } else if (packet.type === "state") {
         const data = packet.data as StatePacket;
         if (data.protocol !== NETWORK_PROTOCOL) {
@@ -265,7 +334,7 @@ export class RoomConnection {
           });
           return;
         }
-        this.seq = Math.max(this.seq, data.received[this.side] ?? 0);
+        this.seq = Math.max(this.seq, data.inputState.received[this.side] ?? 0);
         if (!this.prepared || data.generation !== this.generation) return;
         if (
           data.epoch < this.stateEpoch ||
@@ -278,7 +347,7 @@ export class RoomConnection {
           this.lastInput = "";
           this.update({ status: "playing", error: "" });
         }
-        this.callbacks.onState(data);
+        this.callbacks.onState(data, wireBytes(raw) + this.attachEvents(data));
       } else if (packet.type === "pong") {
         const { sentAt } = packet.data as { sentAt: number };
         if (Number.isFinite(sentAt)) {

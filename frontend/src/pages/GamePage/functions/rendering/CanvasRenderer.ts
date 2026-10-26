@@ -14,12 +14,37 @@ import { bandAtlas, bandAtlases, bandPortrait } from "../bandArt";
 import { finishArtFor } from "../finishArtFor";
 
 import { createBattleScene } from "./createBattleScene";
+import { PreScaledSpriteCache } from "./PreScaledSpriteCache";
+
+export interface SpriteSource {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
 export interface Sprite {
-  image: HTMLImageElement;
+  image: CanvasImageSource;
   frame: SpriteFrame;
+  source?: SpriteSource;
   scale: number;
   animation: string | null;
+}
+
+const RENDER_SCALES = [1, 1.25, 1.5, 2];
+const QUALITY_WARMUP_FRAMES = 30;
+const SLOW_QUALITY_FRAMES = 30;
+const FAST_QUALITY_FRAMES = 240;
+const SLOW_RENDER_MS = 12;
+const FAST_RENDER_MS = 4;
+const SLOW_FRAME_MS = 24;
+const FAST_FRAME_MS = 20;
+const FRAME_PRESSURE_SAMPLES = 12;
+const MAX_DECODED_IMAGE_BYTES = 384 * 1024 * 1024;
+
+function qualityIndexFor(maximum: number) {
+  const index = RENDER_SCALES.findIndex((scale) => scale >= maximum);
+  return index < 0 ? RENDER_SCALES.length - 1 : index;
 }
 
 /** Canvas rendering owns no gameplay state. React owns menus, HUD and controls. */
@@ -63,6 +88,15 @@ export class CanvasRenderer {
   }
   private readonly context: CanvasRenderingContext2D;
   private readonly scene: ReturnType<typeof createBattleScene>;
+  private readonly spriteCache = new PreScaledSpriteCache();
+  private renderScale = 1;
+  private maximumRenderScale = 0;
+  private qualityIndex = 0;
+  private qualityFrames = 0;
+  private slowQualityFrames = 0;
+  private fastQualityFrames = 0;
+  private averageRenderMs = 0;
+  private averageFrameMs = 0;
 
   constructor(
     private readonly assets: Assets,
@@ -71,12 +105,77 @@ export class CanvasRenderer {
     const context = canvas.getContext("2d");
     if (!context) throw new Error("浏览器无法启用游戏画布。");
     this.context = context;
+    this.syncRenderQuality();
+    this.renderScale = this.targetRenderScale();
     this.scene = createBattleScene(
       context,
       assets,
       (url) => this.images.get(url),
-      (match, side, direction) => this.sprite(match, side, direction),
+      (match, side, direction, viewZoom) =>
+        this.sprite(match, side, direction, viewZoom),
     );
+  }
+
+  private targetRenderScale() {
+    return Math.min(this.maximumRenderScale, RENDER_SCALES[this.qualityIndex]);
+  }
+
+  private resetQualitySamples(warmup = true) {
+    this.qualityFrames = warmup ? 0 : QUALITY_WARMUP_FRAMES;
+    this.slowQualityFrames = 0;
+    this.fastQualityFrames = 0;
+    this.averageRenderMs = 0;
+    this.averageFrameMs = 0;
+  }
+
+  private syncRenderQuality() {
+    const maximum = Math.min(2, window.devicePixelRatio || 1);
+    if (maximum === this.maximumRenderScale) return;
+    this.maximumRenderScale = maximum;
+    this.qualityIndex = qualityIndexFor(maximum);
+    this.resetQualitySamples();
+  }
+
+  private recordRenderCost(cost: number, frameMs: number) {
+    const fresh = this.averageFrameMs === 0;
+    this.averageRenderMs = fresh
+      ? cost
+      : this.averageRenderMs * 0.9 + cost * 0.1;
+    this.averageFrameMs = fresh
+      ? frameMs
+      : this.averageFrameMs * 0.9 + frameMs * 0.1;
+    this.qualityFrames++;
+    if (this.qualityFrames < QUALITY_WARMUP_FRAMES) return;
+    // Cached canvases can defer native raster work beyond the JS draw call.
+    // Sustained missed-frame cadence catches that pressure as well.
+    const framePressure = this.averageFrameMs > SLOW_FRAME_MS;
+    if (this.averageRenderMs > SLOW_RENDER_MS || framePressure) {
+      this.slowQualityFrames++;
+      this.fastQualityFrames = 0;
+      const required = framePressure
+        ? FRAME_PRESSURE_SAMPLES
+        : SLOW_QUALITY_FRAMES;
+      if (this.slowQualityFrames >= required && this.qualityIndex > 0) {
+        this.qualityIndex--;
+        this.resetQualitySamples(false);
+      }
+    } else if (
+      this.averageRenderMs < FAST_RENDER_MS &&
+      this.averageFrameMs < FAST_FRAME_MS
+    ) {
+      this.fastQualityFrames++;
+      this.slowQualityFrames = 0;
+      if (
+        this.fastQualityFrames >= FAST_QUALITY_FRAMES &&
+        this.qualityIndex < qualityIndexFor(this.maximumRenderScale)
+      ) {
+        this.qualityIndex++;
+        this.resetQualitySamples(false);
+      }
+    } else {
+      this.slowQualityFrames = 0;
+      this.fastQualityFrames = 0;
+    }
   }
 
   private load(url: string): Promise<HTMLImageElement> {
@@ -91,6 +190,7 @@ export class CanvasRenderer {
             image.decode().then(
               () => {
                 this.images.set(url, image);
+                this.loading.delete(url);
                 resolve(image);
               },
               (error: unknown) => {
@@ -106,6 +206,27 @@ export class CanvasRenderer {
         }),
       );
     return this.loading.get(url)!;
+  }
+
+  private trimDecodedImages(retain: Set<string>) {
+    const sizes = new Map<string, number>();
+    let total = 0,
+      required = 0;
+    for (const [url, image] of this.images) {
+      const bytes = image.naturalWidth * image.naturalHeight * 4;
+      sizes.set(url, bytes);
+      total += bytes;
+      if (retain.has(url)) required += bytes;
+    }
+    // Never evict a current/reserve fighter's required art. Older matches may
+    // occupy the remaining budget, but cannot grow without bound across rosters.
+    const budget = Math.max(MAX_DECODED_IMAGE_BYTES, required);
+    for (const [url] of this.images) {
+      if (total <= budget) break;
+      if (retain.has(url)) continue;
+      total -= sizes.get(url) ?? 0;
+      this.images.delete(url);
+    }
   }
 
   async prepare(config: MatchConfig) {
@@ -147,12 +268,14 @@ export class CanvasRenderer {
         2,
       );
     }
+    this.trimDecodedImages(urls);
   }
 
   private sprite(
     match: Match,
     side: number,
     blinkDirection = 0,
+    viewZoom = 1,
   ): Sprite | null {
     const live = match.fighters[side],
       a = this.assets;
@@ -275,9 +398,14 @@ export class CanvasRenderer {
       }
     }
     const image = this.images.get(art.atlas);
-    return image
-      ? { image, frame, scale: height / frame.h, animation: animation ?? null }
-      : null;
+    if (!image) return null;
+    const sprite = {
+      image,
+      frame,
+      scale: height / frame.h,
+      animation: animation ?? null,
+    };
+    return this.spriteCache.get(art.atlas, sprite, this.renderScale * viewZoom);
   }
 
   consume(match: Match, events: CombatEvent[]) {
@@ -294,14 +422,27 @@ export class CanvasRenderer {
       this.sourceFighter = match.fighters[0];
       this.visualFighters = [];
     }
-    const ratio = Math.min(2, window.devicePixelRatio || 1);
+    this.syncRenderQuality();
+    const ratio = this.targetRenderScale();
+    if (ratio !== this.renderScale) {
+      this.renderScale = ratio;
+      this.resetQualitySamples(false);
+    }
     const width = Math.round(960 * ratio),
       height = Math.round(540 * ratio);
     if (this.canvas.width !== width || this.canvas.height !== height) {
       this.canvas.width = width;
       this.canvas.height = height;
     }
-    this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    this.context.setTransform(
+      this.canvas.width / 960,
+      0,
+      0,
+      this.canvas.height / 540,
+      0,
+      0,
+    );
+    const renderStarted = performance.now();
     this.context.clearRect(0, 0, 960, 540);
     if (this.correctionMs > 0) {
       const next = Math.max(0, this.correctionMs - dt);
@@ -332,5 +473,6 @@ export class CanvasRenderer {
       });
     });
     this.scene.draw(visual, dt, videoBackground);
+    this.recordRenderCost(performance.now() - renderStarted, dt);
   }
 }

@@ -58,12 +58,13 @@ export class GameRuntime {
     this.lan = new RoomConnection({
       onView: (network) => this.publish({ network }),
       onPrepare: (config) => this.start(config, true),
-      onState: (packet) => this.receive(packet),
+      onState: (packet, wireBytes) => this.receive(packet, wireBytes),
       onInput: (seq, input, now, changed) => {
         if (this.match)
           this.prediction.record(this.match, this.lan.side, seq, input, now);
         if (changed) {
           this.diagnostics.input(now);
+          this.diagnostics.inputSent(seq, now);
           if (this.match && (input.left || input.right || input.jump))
             this.diagnostics.motionInput(
               now,
@@ -182,6 +183,7 @@ export class GameRuntime {
         settings: { ...config.settings, sound: this.view.sound },
       };
     const request = ++this.request;
+    this.diagnostics.reset();
     this.publish({
       screen: "loadingBattle",
       config,
@@ -206,6 +208,8 @@ export class GameRuntime {
           : null,
       });
       this.match.start();
+      // Critical artwork is ready; warm only selected-character audio during READY.
+      void this.audio.prepare(this.match);
       this.lastTime = performance.now();
       this.prediction.reset();
       this.authoritativeMatch = null;
@@ -301,12 +305,18 @@ export class GameRuntime {
       this.lan.sendInput(this.match?.paused ? {} : this.input.input(0), force);
   }
 
-  private receive(packet: StatePacket) {
+  private receive(packet: StatePacket, wireBytes: number) {
     if (!this.match || this.view.screen !== "battle") return;
     const now = performance.now();
     const before = this.renderer.positions(this.match);
     const priorPhase = this.authoritativeMatch?.phase;
     const priorPause = this.authoritativeMatch?.paused;
+    this.diagnostics.acknowledge(
+      packet.inputState.received,
+      packet.inputState.applied,
+      this.lan.side,
+      now,
+    );
     const reset = this.prediction.receive(
       this.match,
       packet,
@@ -318,7 +328,7 @@ export class GameRuntime {
     // speculative damage and energy never appear as confirmed HUD values.
     this.authoritativeMatch = Object.assign(
       Object.create(this.match),
-      structuredClone(packet.state),
+      packet.state,
     );
     const events = this.presentationEvents.consume(packet, now, this.lan.rtt);
     const snap =
@@ -331,11 +341,7 @@ export class GameRuntime {
     const correction = this.renderer.correct(this.match, before, snap);
     this.diagnostics.add("correctionPx", correction);
     if (this.diagnostics.enabled)
-      this.diagnostics.snapshot(
-        now,
-        packet.serverUpdateMs,
-        new TextEncoder().encode(JSON.stringify(packet)).length,
-      );
+      this.diagnostics.snapshot(now, packet.serverUpdateMs, wireBytes);
     this.audio.pause(this.match.paused);
     this.consume(events);
     if (this.view.lobbyOpen) this.publish({ lobbyOpen: false });
