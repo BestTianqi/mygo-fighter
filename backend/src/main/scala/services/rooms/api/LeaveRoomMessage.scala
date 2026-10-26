@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.syntax.all.*
 
 import services.rooms.objects.*
-import services.rooms.utils.RoomAccess
+import services.rooms.utils.{RoomAccess, RoomDraft}
 import services.system.api.APIMessage
 import services.system.objects.Connection
 
@@ -18,7 +18,10 @@ final case class LeaveRoomMessage(session: Session) extends APIMessage[Unit]:
       ) *>
         room.peers.update(_ - session.side) *>
         IO.monotonic.flatMap(room.lastConnected.set) *>
-        room.state.update(s => s.copy(players = s.players.updated(session.side, None))) *>
+        room.state.update { s =>
+          val next = s.copy(players = s.players.updated(session.side, None))
+          if next.draft.nonEmpty then RoomDraft.reset(next) else next
+        } *>
         connection.sessions.update(_ - session.token) *> room.resetLobby *>
         room.state.get.flatMap(s =>
           if s.players.forall(_.isEmpty) then room.stop *> connection.rooms.update(_ - s.code)

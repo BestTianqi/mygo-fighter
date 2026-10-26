@@ -5,7 +5,7 @@ import cats.syntax.all.*
 import io.circe.Json
 import io.circe.syntax.*
 import services.rooms.objects.*
-import services.rooms.utils.RoomAccess
+import services.rooms.utils.{RoomAccess, RoomDraft}
 import services.system.api.APIMessage
 import services.system.objects.Connection
 
@@ -14,6 +14,9 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
     RoomAccess.withPlayer(connection, session) { room =>
       room.state.get.flatMap { state =>
         IO.raiseUnless(state.phase == RoomPhase.Lobby)(IllegalArgumentException("对战正在准备或进行")) *>
+          IO.raiseWhen(ready && !RoomDraft.complete(state))(
+            IllegalArgumentException("请先完成双方禁用和六位角色的选择")
+          ) *>
           IO.raiseWhen(
             ready && !state
               .players(session.side)

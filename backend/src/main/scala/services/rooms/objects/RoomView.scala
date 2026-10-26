@@ -11,7 +11,8 @@ final case class RoomView(
     generation: Int,
     players: Vector[Option[PlayerView]],
     playing: Boolean,
-    preparing: Boolean
+    preparing: Boolean,
+    draft: Option[DraftView]
 )
 
 object RoomView:

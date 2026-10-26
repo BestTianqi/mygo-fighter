@@ -1,25 +1,18 @@
 import { useState } from "react";
-import { bandFor } from "../../../game/bands";
-import { ROSTER, MOVES } from "../../../game/engine";
-import { schemeFor } from "../../../game/controls";
+import { ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
-import { BAND_LABEL, type BandId } from "../../../game/objects/BandId";
 import type {
   MatchConfig,
   Mode,
   Format,
 } from "../../../game/objects/MatchOptions";
-import { bandPortrait } from "../functions/bandArt";
 import { createSelectionState } from "../functions/createSelectionState";
 import { Button } from "../../../components/ui/Button";
+import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
+import { RosterGrid } from "./RosterGrid";
+import { SelectionLineups } from "./SelectionLineups";
 const selectClass =
   "min-h-11 rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm touch-manipulation";
-/** Roster cards keep their original compact labels; the panel uses BAND_LABEL. */
-const rosterBandLabel: Record<BandId, string> = {
-  mygo: "MyGO!!!!!",
-  mujica: "Ave Mujica",
-  mewtype: "MewType",
-};
 export function CharacterSelection({
   assets,
   config,
@@ -38,16 +31,13 @@ export function CharacterSelection({
   });
   const [selection, setSelection] = useState(controller.snapshot());
   const [preview, setPreview] = useState(0);
-  const [stageForm, setStageForm] = useState(false);
   const [error, setError] = useState("");
   const update = (action: () => unknown) => {
     action();
     setSelection(controller.snapshot());
     setError("");
   };
-  const profile = ROSTER[preview],
-    stage = assets.stages[selection.settings.arena];
-  const scheme = schemeFor({ character: preview, stageForm });
+  const stage = assets.stages[selection.settings.arena];
   const complete = controller.isComplete();
   function confirm() {
     if (!complete) return;
@@ -109,93 +99,20 @@ export function CharacterSelection({
           </label>
         </div>
       </header>
-      <div className="mb-6 grid grid-cols-2 gap-4">
-        {selection.teams.map((team, side) => (
-          <section
-            key={side}
-            className="rounded-2xl border border-white/10 bg-white/3 p-4"
-          >
-            <h2
-              className={`mb-3 text-xs font-bold tracking-widest ${side === 0 ? "text-pink-200" : "text-cyan-200"}`}
-            >
-              {side === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} /
-              出战顺序
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {team.map((id, slot) => (
-                <button
-                  key={slot}
-                  onClick={() =>
-                    update(() => controller.selectSlot(side, slot))
-                  }
-                  onDoubleClick={() =>
-                    update(() => controller.clearSlot(side, slot))
-                  }
-                  aria-pressed={
-                    selection.active[0] === side && selection.active[1] === slot
-                  }
-                  className={`min-w-24 flex-1 rounded-xl border p-3 text-left text-sm ${selection.active[0] === side && selection.active[1] === slot ? "border-pink-200 bg-pink-200/10" : "border-white/10"}`}
-                >
-                  <small className="mb-1 block text-[10px] text-slate-400">
-                    0{slot + 1}
-                  </small>
-                  {id === null ? "选择角色 +" : ROSTER[id].name}
-                </button>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+      <SelectionLineups
+        assets={assets}
+        teams={selection.teams}
+        active={selection.active}
+        labels={["1P", selection.mode === "duel" ? "2P" : "CPU"]}
+        onSlot={(side, slot) => update(() => controller.selectSlot(side, slot))}
+        onClear={(side, slot) => update(() => controller.clearSlot(side, slot))}
+      />
       <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
-        <aside className="overflow-hidden rounded-2xl border border-white/10 bg-linear-to-b from-indigo-900/30 to-slate-900">
-          <div className="relative h-52 overflow-hidden sm:h-72">
-            <img
-              src={
-                bandPortrait(assets, preview, stageForm ? "stage" : "normal")
-                  ?.portrait ?? assets.characters[preview].portrait
-              }
-              alt={profile.name}
-              className="size-full object-contain object-top"
-            />
-            <span className="absolute bottom-0 inset-x-0 h-20 bg-linear-to-t from-slate-900 to-transparent" />
-          </div>
-          <div className="relative p-5">
-            <p className="text-[10px] tracking-widest text-slate-400">
-              {BAND_LABEL[profile.band ?? "mygo"]}
-            </p>
-            <h2
-              className="mt-1 text-2xl font-bold"
-              style={{ color: profile.color }}
-            >
-              {profile.name}
-            </h2>
-            <p className="mt-2 text-xs text-slate-400">
-              {profile.role} / {profile.archetype}
-            </p>
-            {assets.mujicaPortraits[preview] && (
-              <button
-                aria-pressed={stageForm}
-                onClick={() => setStageForm(!stageForm)}
-                className="mt-3 rounded-full border border-white/20 px-3 py-1 text-xs"
-              >
-                {stageForm ? "演出服" : "常态"} · 切换预览
-              </button>
-            )}
-            <dl className="mt-4 space-y-2 text-xs">
-              {[...scheme.base, scheme.super].map(
-                (key, i) =>
-                  key && (
-                    <div key={key} className="flex gap-3">
-                      <dt className="font-mono text-pink-200">
-                        {["U", "I", "O", "P"][i]}
-                      </dt>
-                      <dd className="text-slate-300">{MOVES[key]?.name}</dd>
-                    </div>
-                  ),
-              )}
-            </dl>
-          </div>
-        </aside>
+        <CharacterPortraitPreview
+          key={preview}
+          assets={assets}
+          character={preview}
+        />
         <div>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-xs text-slate-400">01 / 选择阵容</h2>
@@ -204,48 +121,17 @@ export function CharacterSelection({
               {selection.format === "3v3" ? 6 : 2}
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-            {ROSTER.map((character, id) => (
-              <button
-                key={id}
-                onFocus={() => {
-                  setPreview(id);
-                  setStageForm(false);
-                }}
-                onMouseEnter={() => {
-                  setPreview(id);
-                  setStageForm(false);
-                }}
-                onClick={() => {
-                  setPreview(id);
-                  setStageForm(false);
-                  if (!controller.pick(id))
-                    setError("同一队伍请选择不同角色。");
-                  setSelection(controller.snapshot());
-                }}
-                aria-label={`选择${character.name}`}
-                className={`group overflow-hidden rounded-xl border text-left transition hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-cyan-200 ${preview === id ? "border-white/60 bg-white/10" : "border-white/10 bg-white/3"}`}
-              >
-                <img
-                  src={
-                    bandPortrait(assets, id)?.face ??
-                    assets.characters[id].portrait
-                  }
-                  alt=""
-                  loading="lazy"
-                  className="h-24 w-full object-cover object-[center_18%] sm:h-28"
-                />
-                <div className="p-2">
-                  <span className="block truncate text-xs font-medium">
-                    {character.name}
-                  </span>
-                  <small className="text-[9px] text-slate-500">
-                    {rosterBandLabel[bandFor(id).id]}
-                  </small>
-                </div>
-              </button>
-            ))}
-          </div>
+          <RosterGrid
+            assets={assets}
+            preview={preview}
+            onPreview={setPreview}
+            teams={selection.teams}
+            onChoose={(id) => {
+              setPreview(id);
+              setError(controller.pick(id) ? "" : "同一队伍请选择不同角色。");
+              setSelection(controller.snapshot());
+            }}
+          />
           <p className="mt-4 min-h-5 text-xs text-pink-200" role="status">
             {error ||
               (complete

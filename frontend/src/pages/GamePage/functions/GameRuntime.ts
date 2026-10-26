@@ -176,6 +176,11 @@ export class GameRuntime {
     this.publish({ screen: "menu", dialog: null, cutins: [null, null] });
   }
   async start(config: MatchConfig, network = false) {
+    if (network)
+      config = {
+        ...config,
+        settings: { ...config.settings, sound: this.view.sound },
+      };
     const request = ++this.request;
     this.publish({
       screen: "loadingBattle",
@@ -282,10 +287,13 @@ export class GameRuntime {
   async runCommand(command: Promise<unknown>) {
     try {
       await command;
+      this.publish({ error: "" });
+      return true;
     } catch (error) {
       this.publish({
         error: error instanceof Error ? error.message : "操作失败",
       });
+      return false;
     }
   }
   private sendInput(force = false) {

@@ -15,6 +15,11 @@ export interface RoomView {
   players: (RoomPlayer | null)[];
   playing: boolean;
   preparing: boolean;
+  draft: {
+    bans: number[];
+    phase: "ban" | "pick" | "complete";
+    turn: number | null;
+  } | null;
 }
 export interface SessionResponse {
   token: string;

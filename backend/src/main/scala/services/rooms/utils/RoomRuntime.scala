@@ -149,7 +149,8 @@ object RoomRuntime:
         )
       ),
       s.phase == RoomPhase.Playing,
-      s.phase == RoomPhase.Preparing
+      s.phase == RoomPhase.Preparing,
+      RoomDraft.view(s)
     )
 
   private[rooms] def create(code: String): IO[RoomRuntime] =

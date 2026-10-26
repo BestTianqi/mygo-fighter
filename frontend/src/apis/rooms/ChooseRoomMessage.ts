@@ -7,6 +7,9 @@ export class ChooseRoomMessage extends APIMessage<{ ok: boolean }> {
     public terrain?: boolean,
     public format?: "1v1" | "3v3",
     public team?: number[],
+    public draft?: boolean,
+    public ban?: number,
+    public pick?: number,
   ) {
     super();
   }

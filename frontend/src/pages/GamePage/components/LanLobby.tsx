@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
 import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { ChooseRoomMessage } from "../../../apis/rooms/ChooseRoomMessage";
 import { ReadyRoomMessage } from "../../../apis/rooms/ReadyRoomMessage";
+import type { RoomView } from "../../../apis/rooms/objects";
 import { Dialog } from "../../../components/ui/Dialog";
 import { Button } from "../../../components/ui/Button";
+import { bandPortrait } from "../functions/bandArt";
+import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
+import { RosterGrid } from "./RosterGrid";
+import { SelectionLineups } from "./SelectionLineups";
+
 const selectClass =
-  "mt-2 min-h-11 w-full touch-manipulation rounded-xl border border-white/15 bg-slate-900 p-3 text-slate-100";
+  "min-h-11 touch-manipulation rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm text-slate-100";
+const orders = ["先锋", "中坚", "大将"];
+interface PendingCommand {
+  baseline: RoomView | null;
+  echo?: (room: RoomView) => boolean;
+  httpComplete: boolean;
+}
+
 export function LanLobby({
   runtime,
   view,
@@ -20,43 +33,170 @@ export function LanLobby({
 }) {
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [preview, setPreview] = useState(0);
+  const [candidate, setCandidate] = useState<number | null>(null);
+  const [activeSlot, setActiveSlot] = useState(0);
+  const pending = useRef<PendingCommand | null>(null);
   const { room, side, status, error } = view.network;
+  const latestNetwork = useRef(view.network);
+  latestNetwork.current = view.network;
+  const draft = room?.draft;
   const working =
     busy || ["connecting", "preparing", "reconnecting"].includes(status);
-  async function run(action: Promise<unknown>) {
-    setBusy(true);
-    try {
-      await runtime.runCommand(action);
-    } finally {
-      setBusy(false);
-    }
-  }
+  const locked =
+    working || !!room?.playing || !!room?.preparing || status !== "lobby";
   const teamSize = room?.format === "3v3" ? 3 : 1;
   const team = room?.players[side]?.team ?? [];
-  function chooseTeam(next: number[]) {
-    void run(
-      new ChooseRoomMessage(
-        runtime.lan.token,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        next,
-      ).send(),
+  const ownReady = !!room?.players[side]?.ready;
+  const bothConnected = !!room?.players.every((player) => player?.connected);
+  const picked = room?.players.flatMap((player) => player?.team ?? []) ?? [];
+  const myTurn = !!draft && draft.turn === side && draft.phase !== "complete";
+  const draftSignature = draft
+    ? `${draft.phase}:${draft.turn}:${draft.bans.join(",")}:${picked.join(",")}`
+    : "";
+
+  useEffect(() => {
+    setCandidate(null);
+  }, [room?.code, draftSignature]);
+  useEffect(() => {
+    setActiveSlot(Math.min(team.length, teamSize - 1));
+  }, [room?.code, team.length, teamSize]);
+
+  function release(command: PendingCommand) {
+    if (pending.current !== command) return;
+    pending.current = null;
+    setBusy(false);
+  }
+  function hasEcho(command: PendingCommand) {
+    const current = latestNetwork.current.room;
+    return (
+      !!current &&
+      current !== command.baseline &&
+      current.code === command.baseline?.code &&
+      !!command.echo?.(current)
     );
   }
+  useEffect(() => {
+    const command = pending.current;
+    if (!command?.echo) return;
+    if (
+      !room ||
+      room.code !== command.baseline?.code ||
+      status !== "lobby" ||
+      (command.httpComplete && hasEcho(command))
+    )
+      release(command);
+  }, [room, status]);
+  useEffect(
+    () => () => {
+      pending.current = null;
+    },
+    [],
+  );
+
+  async function run(
+    action: () => Promise<unknown>,
+    echo?: (room: RoomView) => boolean,
+  ) {
+    if (pending.current) return;
+    const command: PendingCommand = {
+      baseline: room,
+      echo,
+      httpComplete: false,
+    };
+    pending.current = command;
+    setBusy(true);
+    const succeeded = await runtime.runCommand(Promise.resolve().then(action));
+    command.httpComplete = true;
+    // HTTP only acknowledges receipt; selections stay locked until their own
+    // authoritative room fields arrive, even if an unrelated room update wins the race.
+    if (!succeeded || !echo || hasEcho(command)) release(command);
+  }
+  function chooseTeam(id: number) {
+    if (
+      locked ||
+      ownReady ||
+      draft ||
+      team.some((pick, slot) => pick === id && slot !== activeSlot)
+    )
+      return;
+    const next = [...team];
+    next[activeSlot] = id;
+    void run(
+      () =>
+        new ChooseRoomMessage(
+          runtime.lan.token,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          next,
+        ).send(),
+      (current) =>
+        current.players[side]?.team.length === next.length &&
+        current.players[side]?.team.every((pick, slot) => pick === next[slot]),
+    );
+  }
+  function submitDraft() {
+    if (
+      candidate === null ||
+      !draft ||
+      !myTurn ||
+      locked ||
+      !bothConnected ||
+      draft.bans.includes(candidate) ||
+      picked.includes(candidate)
+    )
+      return;
+    const phase = draft.phase;
+    void run(
+      () =>
+        new ChooseRoomMessage(
+          runtime.lan.token,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          phase === "ban" ? candidate : undefined,
+          phase === "pick" ? candidate : undefined,
+        ).send(),
+      (current) =>
+        phase === "ban"
+          ? !!current.draft?.bans.includes(candidate)
+          : !!current.players[side]?.team.includes(candidate),
+    );
+  }
+  const stage = assets.stages[room?.arena ?? 0];
+  const selectionStatus = !bothConnected
+    ? "等待对方连接"
+    : draft
+      ? draft.phase === "complete"
+        ? "双方阵容已就绪，可以准备开战。"
+        : `${draft.turn === side ? "轮到你" : `等待 ${(draft.turn ?? 0) + 1}P`} · ${draft.phase === "ban" ? "禁用一名角色" : `选择${orders[room?.players[draft.turn ?? 0]?.team.length ?? 0] ?? "出战角色"}`}`
+      : ownReady
+        ? "已准备。取消准备后可更换阵容。"
+        : `为 ${side + 1}P 选择${teamSize === 3 ? orders[activeSlot] : "出战角色"}，点击己方位置可更换。`;
+  const allTeamsComplete = !!room?.players.every(
+    (player) => player?.team.length === teamSize,
+  );
+
   return (
-    <Dialog title="联机对战" onClose={() => runtime.closeLobby()}>
-      <p className="mb-5 text-sm leading-6 text-slate-400">
-        双方打开同一个游戏服务器地址。一人创建房间，另一人输入房间码。
-        使用公共服务器时可以跨网络对战；本地服务器需要双方能访问房主的地址。
-      </p>
+    <Dialog
+      title={room ? "联机选人" : "联机对战"}
+      onClose={() => runtime.closeLobby()}
+      wide={!!room}
+    >
       {!room ? (
         <div className="space-y-4">
+          <p className="mb-5 text-sm leading-6 text-slate-400">
+            双方打开同一个游戏服务器地址。一人创建房间，另一人输入房间码。
+          </p>
           <Button
             primary
             disabled={working}
-            onClick={() => void runtime.lan.connect()}
+            onClick={() => void run(() => runtime.lan.connect())}
             className="w-full"
           >
             创建房间
@@ -64,7 +204,8 @@ export function LanLobby({
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              void runtime.lan.connect(code);
+              if (code.length === 6 && !working)
+                void run(() => runtime.lan.connect(code));
             }}
             className="flex gap-2"
           >
@@ -74,6 +215,7 @@ export function LanLobby({
             <input
               id="room-code"
               value={code}
+              disabled={working}
               onChange={(event) =>
                 setCode(
                   event.target.value.toUpperCase().replace(/[^A-F0-9]/g, ""),
@@ -82,7 +224,7 @@ export function LanLobby({
               maxLength={6}
               autoComplete="off"
               placeholder="六位房间码"
-              className="min-w-0 flex-1 rounded-xl border border-white/20 bg-slate-900 px-4 font-mono uppercase tracking-widest"
+              className="min-h-11 min-w-0 flex-1 rounded-xl border border-white/20 bg-slate-900 px-4 font-mono uppercase tracking-widest"
             />
             <Button type="submit" disabled={code.length !== 6 || working}>
               加入房间
@@ -91,172 +233,362 @@ export function LanLobby({
         </div>
       ) : (
         <>
-          <div className="mb-5 rounded-2xl border border-cyan-200/20 bg-cyan-200/5 p-5">
-            <p className="text-xs text-cyan-100">
-              你是 {side === 0 ? "房主 · 1P" : "2P"} / 房间码
-            </p>
-            <strong className="mt-2 block font-mono text-4xl tracking-[.25em]">
-              {room.code}
-            </strong>
-            <p className="mt-3 break-all text-xs text-slate-400">
-              游戏地址：
-              {location.origin.includes("localhost") ||
-              location.hostname === "127.0.0.1"
-                ? "请在另一台设备打开房主的局域网 IP 地址，端口与本页相同。"
-                : location.origin}
-            </p>
-          </div>
-          <div className="mb-5 grid grid-cols-2 gap-3">
-            {room.players.map((player, i) => (
-              <div key={i} className="rounded-xl border border-white/10 p-3">
-                <p className="text-xs text-slate-500">{i + 1}P</p>
-                <p className="mt-1 text-sm">
-                  {player
-                    ? player.team
-                        .map((id, slot) => `${slot + 1}. ${ROSTER[id].name}`)
-                        .join(" / ")
-                    : "等待加入"}
-                </p>
-                <small
-                  className={
-                    player?.connected ? "text-cyan-200" : "text-slate-500"
-                  }
-                >
-                  {player?.connected
-                    ? (room.playing || room.preparing) && !player.loaded
-                      ? "正在加载角色"
-                      : player.ready
-                        ? "已准备"
-                        : "已连接"
-                    : "等待连接"}
-                </small>
-              </div>
-            ))}
-          </div>
-          <label className="block text-xs text-slate-400">
-            对战模式 · 房主选择
-            <select
-              className={selectClass}
-              disabled={side !== 0 || working || room.playing}
-              value={room.format}
-              onChange={(event) =>
-                void run(
-                  new ChooseRoomMessage(
-                    runtime.lan.token,
-                    undefined,
-                    undefined,
-                    undefined,
-                    event.target.value as "1v1" | "3v3",
-                  ).send(),
-                )
-              }
-            >
-              <option value="1v1">1v1 对战</option>
-              <option value="3v3">3v3 车轮战</option>
-            </select>
-          </label>
-          <p className="mt-4 text-xs text-slate-400">
-            {teamSize === 3
-              ? "依次选择三名不同角色。败者换人，胜者保留血量和共鸣。"
-              : "选择出战角色。"}
-          </p>
-          {Array.from({ length: teamSize }, (_, slot) => (
-            <label key={slot} className="mt-3 block text-xs text-slate-400">
-              {teamSize === 3 ? `第 ${slot + 1} 位出战` : "我的角色"}
+          <header className="mb-5 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
+            <div>
+              <p className="text-[10px] tracking-[.25em] text-cyan-200">
+                ONLINE CHARACTER SELECT
+              </p>
+              <p className="mt-2 text-xs text-slate-400">
+                房间{" "}
+                <strong className="ml-1 font-mono text-lg tracking-[.18em] text-slate-100">
+                  {room.code}
+                </strong>
+                <span className="ml-3">
+                  你是 {side + 1}P{side === 0 ? " · 房主" : ""}
+                </span>
+              </p>
+            </div>
+            <label className="grid gap-1 text-xs text-slate-400">
+              对战模式 · 房主选择
               <select
+                aria-label="联机对战模式"
                 className={selectClass}
-                disabled={working || room.playing || slot > team.length}
-                value={team[slot] ?? ""}
+                disabled={side !== 0 || locked || ownReady}
+                value={draft ? "draft" : room.format}
                 onChange={(event) => {
-                  const next = [...team];
-                  next[slot] = Number(event.target.value);
-                  chooseTeam(next);
+                  const draftMode = event.target.value === "draft";
+                  const format = draftMode
+                    ? "3v3"
+                    : (event.target.value as "1v1" | "3v3");
+                  void run(
+                    () =>
+                      new ChooseRoomMessage(
+                        runtime.lan.token,
+                        undefined,
+                        undefined,
+                        undefined,
+                        format,
+                        undefined,
+                        draftMode,
+                      ).send(),
+                    (current) =>
+                      current.format === format &&
+                      !!current.draft === draftMode,
+                  );
                 }}
               >
-                <option value="" disabled>
-                  请选择角色
-                </option>
-                {ROSTER.map((p, id) => (
-                  <option
-                    key={id}
-                    value={id}
-                    disabled={team.includes(id) && team[slot] !== id}
-                  >
-                    {p.name}
-                  </option>
-                ))}
+                <option value="1v1">1v1 对战</option>
+                <option value="3v3">3v3 车轮战</option>
+                <option value="draft">禁选 3v3 车轮战</option>
               </select>
             </label>
-          ))}
-          <label className="mt-4 block text-xs text-slate-400">
-            对战地图 · 房主选择
-            <select
-              className={selectClass}
-              disabled={side !== 0 || working || room.playing}
-              value={room.arena}
-              onChange={(event) =>
-                void run(
-                  new ChooseRoomMessage(
-                    runtime.lan.token,
-                    undefined,
-                    Number(event.target.value),
-                  ).send(),
-                )
-              }
+          </header>
+          <SelectionLineups
+            assets={assets}
+            teams={room.players.map((player) =>
+              Array.from(
+                { length: teamSize },
+                (_, slot) => player?.team[slot] ?? null,
+              ),
+            )}
+            active={
+              draft
+                ? draft.phase === "pick" && draft.turn !== null
+                  ? [draft.turn, room.players[draft.turn]?.team.length ?? 0]
+                  : null
+                : [side, activeSlot]
+            }
+            labels={[
+              `1P${side === 0 ? " · 我" : ""}`,
+              `2P${side === 1 ? " · 我" : ""}`,
+            ]}
+            statuses={room.players.map((player) =>
+              !player
+                ? "等待加入"
+                : !player.connected
+                  ? "连接已断开"
+                  : (room.playing || room.preparing) && !player.loaded
+                    ? "正在加载角色"
+                    : player.ready
+                      ? "已准备"
+                      : "已连接",
+            )}
+            onSlot={(teamSide, slot) => {
+              if (room.players[teamSide]?.team[slot] !== undefined)
+                setPreview(room.players[teamSide]!.team[slot]);
+              if (teamSide === side && !draft) setActiveSlot(slot);
+            }}
+            isDisabled={(teamSide, slot) =>
+              locked ||
+              ownReady ||
+              !!draft ||
+              teamSide !== side ||
+              slot > team.length
+            }
+          />
+          {draft && (
+            <section
+              aria-label="禁选进度"
+              className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/3 p-3 sm:p-4"
             >
-              {assets.stages.map((s, id) => (
-                <option key={s.id} value={id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="mt-4 flex items-center gap-2 text-sm text-slate-300">
-            <input
-              type="checkbox"
-              checked={room.terrain}
-              disabled={side !== 0 || working || room.playing}
-              onChange={(event) =>
-                void run(
-                  new ChooseRoomMessage(
-                    runtime.lan.token,
-                    undefined,
-                    undefined,
-                    event.target.checked,
-                  ).send(),
-                )
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-[10px] tracking-widest text-slate-400">
+                  BAN / 先禁后选
+                </span>
+                {[0, 1].map((banSide) => {
+                  const id = draft.bans[banSide];
+                  return (
+                    <div
+                      key={banSide}
+                      className="flex items-center gap-2 text-xs"
+                    >
+                      <span
+                        className={
+                          banSide === 0 ? "text-pink-200" : "text-cyan-200"
+                        }
+                      >
+                        {banSide + 1}P
+                      </span>
+                      {id === undefined ? (
+                        <span className="grid size-9 place-items-center rounded-lg border border-dashed border-white/15 text-slate-500">
+                          —
+                        </span>
+                      ) : (
+                        <img
+                          src={
+                            bandPortrait(assets, id)?.face ??
+                            assets.characters[id].portrait
+                          }
+                          alt=""
+                          className="size-9 rounded-lg object-cover object-center grayscale"
+                        />
+                      )}
+                      <span className="text-[10px] text-slate-400">
+                        {id === undefined ? "待禁用" : ROSTER[id].name}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              {side === 0 && (
+                <Button
+                  disabled={locked}
+                  onClick={() =>
+                    void run(
+                      () =>
+                        new ChooseRoomMessage(
+                          runtime.lan.token,
+                          undefined,
+                          undefined,
+                          undefined,
+                          "3v3",
+                          undefined,
+                          true,
+                        ).send(),
+                      (current) =>
+                        current.draft?.phase === "ban" &&
+                        current.draft.bans.length === 0 &&
+                        current.players.every(
+                          (player) => !player || player.team.length === 0,
+                        ),
+                    )
+                  }
+                  className="text-xs"
+                >
+                  重新禁选
+                </Button>
+              )}
+            </section>
+          )}
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <p
+              role="status"
+              aria-live="polite"
+              className={`text-xs ${draft?.turn === 1 ? "text-cyan-200" : "text-pink-200"}`}
+            >
+              {selectionStatus}
+            </p>
+            <span className="text-[10px] text-slate-500">
+              {draft?.phase === "ban"
+                ? `${draft.bans.length} / 2 已禁用`
+                : `${picked.length} / ${teamSize * 2} 已出战`}
+            </span>
+          </div>
+          <div className="grid min-w-0 gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
+            <CharacterPortraitPreview
+              key={preview}
+              assets={assets}
+              character={preview}
+            >
+              {draft && (
+                <>
+                  <p className="mb-2 text-[10px] text-slate-400">
+                    {candidate === null
+                      ? "点击角色头像后确认"
+                      : `已选中 ${ROSTER[candidate].name}`}
+                  </p>
+                  <Button
+                    primary
+                    className="w-full px-2 text-xs"
+                    disabled={
+                      candidate === null ||
+                      !myTurn ||
+                      locked ||
+                      !bothConnected ||
+                      draft.bans.includes(candidate) ||
+                      picked.includes(candidate)
+                    }
+                    onClick={submitDraft}
+                  >
+                    {draft.phase === "complete"
+                      ? "阵容已就绪"
+                      : draft.phase === "ban"
+                        ? "确认禁用"
+                        : "确认出战"}
+                  </Button>
+                </>
+              )}
+            </CharacterPortraitPreview>
+            <RosterGrid
+              assets={assets}
+              preview={preview}
+              onPreview={(id) => {
+                if (candidate === null) setPreview(id);
+              }}
+              teams={room.players.map((player) => player?.team ?? [])}
+              bans={draft?.bans}
+              disabled={
+                locked || ownReady || (!!draft && (!myTurn || !bothConnected))
               }
+              isDisabled={(id) =>
+                draft
+                  ? picked.includes(id)
+                  : team.some(
+                      (pick, slot) => pick === id && slot !== activeSlot,
+                    )
+              }
+              onChoose={(id) => {
+                setPreview(id);
+                if (draft) setCandidate(id);
+                else chooseTeam(id);
+              }}
             />
-            分层地形
-          </label>
-          <div className="mt-6 flex justify-between gap-3">
-            <Button disabled={busy} onClick={() => void runtime.lan.leave()}>
+          </div>
+          <section
+            className="mt-6 min-w-0 rounded-2xl border border-white/10 bg-white/3 p-4"
+            aria-label="场地与规则"
+          >
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-[10px] text-slate-400">场地 · 房主选择</p>
+                <h3 className="mt-1 text-sm font-semibold">
+                  {stage.name}
+                  <small className="ml-2 text-[10px] font-normal text-slate-400">
+                    {stage.layout}
+                  </small>
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-4 text-xs">
+                <label className="flex min-h-8 items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={room.terrain}
+                    disabled={side !== 0 || locked || ownReady}
+                    onChange={(event) => {
+                      const terrain = event.target.checked;
+                      void run(
+                        () =>
+                          new ChooseRoomMessage(
+                            runtime.lan.token,
+                            undefined,
+                            undefined,
+                            terrain,
+                          ).send(),
+                        (current) => current.terrain === terrain,
+                      );
+                    }}
+                  />
+                  分层地形
+                </label>
+                <label className="flex min-h-8 items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={view.sound}
+                    onChange={(event) => runtime.setSound(event.target.checked)}
+                  />
+                  音效与语音
+                </label>
+              </div>
+            </div>
+            <div className="flex min-w-0 gap-2 overflow-x-auto pb-2">
+              {assets.stages.map((scene, arena) => (
+                <button
+                  key={scene.id}
+                  type="button"
+                  disabled={side !== 0 || locked || ownReady}
+                  onClick={() =>
+                    void run(
+                      () =>
+                        new ChooseRoomMessage(
+                          runtime.lan.token,
+                          undefined,
+                          arena,
+                        ).send(),
+                      (current) => current.arena === arena,
+                    )
+                  }
+                  aria-pressed={room.arena === arena}
+                  className={`w-32 shrink-0 touch-manipulation overflow-hidden rounded-xl border text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200 ${room.arena === arena ? "border-pink-200" : "border-white/10"}`}
+                >
+                  <img
+                    src={scene.thumbnail}
+                    alt=""
+                    loading="lazy"
+                    className="aspect-video w-full object-cover"
+                  />
+                  <span className="block truncate p-2 text-[10px]">
+                    {scene.name}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+          <footer className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <Button
+              disabled={busy}
+              onClick={() => void run(() => runtime.lan.leave())}
+            >
               离开房间
             </Button>
             <Button
               primary
               disabled={
-                working ||
-                room.playing ||
-                team.length !== teamSize ||
-                !room.players.every((player) => player?.connected)
+                locked ||
+                (!ownReady &&
+                  (!bothConnected ||
+                    !allTeamsComplete ||
+                    (!!draft && draft.phase !== "complete")))
               }
               onClick={() =>
                 void run(
-                  new ReadyRoomMessage(
-                    runtime.lan.token,
-                    !room.players[side]?.ready,
-                  ).send(),
+                  () =>
+                    new ReadyRoomMessage(runtime.lan.token, !ownReady).send(),
+                  (current) => current.players[side]?.ready === !ownReady,
                 )
               }
+              className="min-w-36"
             >
-              {working
-                ? "准备中…"
-                : room.players[side]?.ready
-                  ? "取消准备"
-                  : "准备开战"}
+              {room.preparing || status === "preparing"
+                ? "正在准备对战…"
+                : status === "reconnecting"
+                  ? "正在恢复连接…"
+                  : busy
+                    ? "请稍候…"
+                    : ownReady
+                      ? "取消准备"
+                      : "准备开战"}
             </Button>
-          </div>
+          </footer>
         </>
       )}
       {(error || view.error) && (
@@ -269,7 +601,9 @@ export function LanLobby({
           ? "正在预载双方角色，完成后同时开战…"
           : status === "reconnecting"
             ? "对战已暂停，正在恢复连接…"
-            : "双方均使用 WASD、J/K/L、U/I/O、H、P 操作自己的角色。"}
+            : status === "connecting"
+              ? "正在连接房间…"
+              : "双方使用 WASD、J/K/L、U/I/O、H、P 操作自己的角色。"}
       </p>
     </Dialog>
   );

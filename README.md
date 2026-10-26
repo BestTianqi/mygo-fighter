@@ -27,8 +27,9 @@ After building once, `npm start` starts the server without rebuilding. It prints
 
 1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
 2. Choose **联机对战**. One player creates a room; the other enters its six-character code.
-3. The host chooses 1v1 or 3v3, stage and terrain. Each player selects one character, or three different characters in fighting order. Both press **准备开战**. The server waits for both clients to finish loading their artwork.
-4. Both players use the **1P keys** to control their own character.
+3. The host chooses **1v1 对战**, **3v3 车轮战** or **禁选 3v3 车轮战**, plus stage and terrain. The online lobby uses the same square character cards, portrait previews and ordered lineup slots as local play. In ordinary modes, each player fills their own lineup; click a slot to replace its character.
+4. In **禁选 3v3**, 1P and 2P each confirm one banned character, then alternate choosing three characters each. Banned characters are unavailable to both sides, and a picked character cannot appear in both teams. Picks lock in先锋、中坚、大将 order. Refresh/reconnect preserves progress; the host can use **重新禁选** to start again. After both lineups are complete, both press **准备开战**. The server waits for both clients to finish loading their artwork.
+5. Both players use the **1P keys** to control their own character.
 
 Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
 

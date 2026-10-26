@@ -14,7 +14,8 @@ final case class RoomState(
     generation: Int = 0,
     phase: RoomPhase = RoomPhase.Lobby,
     loaded: Set[Int] = Set.empty,
-    config: Option[Json] = None
+    config: Option[Json] = None,
+    draft: Option[DraftState] = None
 )
 
 object RoomState:

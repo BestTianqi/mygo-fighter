@@ -21,7 +21,16 @@ final case class JoinRoomMessage(code: String) extends APIMessage[SessionRespons
               val session = Session(java.util.UUID.randomUUID().toString, token, state.code, side)
               room.state.update(s =>
                 s.copy(players =
-                  s.players.updated(side, Some(Player(session.id, side, Vector(side))))
+                  s.players.updated(
+                    side,
+                    Some(
+                      Player(
+                        session.id,
+                        side,
+                        if s.draft.nonEmpty then Vector.empty else Vector(side)
+                      )
+                    )
+                  )
                 )
               ) *>
                 connection.sessions.update(_.updated(token, session)) *> room.broadcast *>
