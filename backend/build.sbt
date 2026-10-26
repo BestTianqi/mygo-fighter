@@ -2,6 +2,8 @@ ThisBuild / scalaVersion := "3.3.6"
 ThisBuild / organization := "mygo"
 ThisBuild / version := "2.0.0"
 
+val polyglotVersion = "25.0.5.0.2"
+
 lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(
@@ -26,8 +28,8 @@ lazy val root = (project in file("."))
       "org.http4s" %% "http4s-circe" % "0.23.32",
       "io.circe" %% "circe-generic" % "0.14.15",
       "io.circe" %% "circe-parser" % "0.14.15",
-      "org.graalvm.polyglot" % "polyglot" % "24.2.2",
-      "org.graalvm.polyglot" % "js-community" % "24.2.2" pomOnly(),
+      "org.graalvm.polyglot" % "polyglot" % polyglotVersion,
+      "org.graalvm.polyglot" % "js-community" % polyglotVersion pomOnly(),
       "ch.qos.logback" % "logback-classic" % "1.5.20"
     )
   )

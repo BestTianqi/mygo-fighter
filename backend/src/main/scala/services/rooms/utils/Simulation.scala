@@ -2,7 +2,8 @@ package services.rooms.utils
 
 import cats.effect.IO
 import io.circe.Json
-import org.graalvm.polyglot.{Context, HostAccess, Source, Value}
+import org.graalvm.polyglot.{Context, Engine, HostAccess, Source, Value}
+import scala.util.control.NonFatal
 
 /** All calls are serialized by the owning room lock. No host access or Node runtime. */
 final class Simulation private (context: Context, kernel: Value):
@@ -27,18 +28,23 @@ final class Simulation private (context: Context, kernel: Value):
   private[rooms] def close: IO[Unit] = IO.blocking(context.close())
 
 object Simulation:
-  private[rooms] def create(source: String, options: Json): IO[Simulation] =
+  private[rooms] def create(engine: Engine, source: Source, options: Json): IO[Simulation] =
     IO.blocking {
       val context = Context
         .newBuilder("js")
+        .engine(engine)
         .allowHostAccess(HostAccess.NONE)
         .allowHostClassLookup(_ => false)
         .build()
-      val program = Source.newBuilder("js", source, "simulation.js").cached(true).build()
-      context.eval(program)
-      val kernel = context
-        .getBindings("js")
-        .getMember("MygoSimulation")
-        .invokeMember("create", options.noSpaces)
-      new Simulation(context, kernel)
+      try
+        context.eval(source)
+        val kernel = context
+          .getBindings("js")
+          .getMember("MygoSimulation")
+          .invokeMember("create", options.noSpaces)
+        new Simulation(context, kernel)
+      catch
+        case NonFatal(error) =>
+          context.close()
+          throw error
     }

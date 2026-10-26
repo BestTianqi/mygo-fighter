@@ -41,11 +41,13 @@ final case class LoadedRoomMessage(session: Session, generation: Int, peerId: St
                                 else Json.Null)
                 )
               )
-              Simulation.create(connection.simulationSource, options).flatMap { engine =>
-                room.simulation.set(Some(engine)) *> room.state.update(
-                  _.copy(phase = RoomPhase.Playing)
-                ) *> IO.monotonic.flatMap(room.lastTick.set) *> room.broadcast
-              }
+              Simulation
+                .create(connection.simulationEngine, connection.simulationSource, options)
+                .flatMap { engine =>
+                  room.simulation.set(Some(engine)) *> room.state.update(
+                    _.copy(phase = RoomPhase.Playing)
+                  ) *> IO.monotonic.flatMap(room.lastTick.set) *> room.broadcast
+                }
           }
       }
     }
