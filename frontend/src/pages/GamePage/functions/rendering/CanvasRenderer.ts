@@ -117,8 +117,8 @@ export class CanvasRenderer {
       this.assets.backgrounds[config.settings.arena],
       ...ids.flatMap((id) => this.assets.finishArts?.[id] ?? []),
       ...ids.flatMap((id) => {
-        const face = bandPortrait(this.assets, id)?.face;
-        return face ? [face] : [];
+        const portrait = bandPortrait(this.assets, id)?.portrait;
+        return [portrait ?? this.assets.characters[id].portrait];
       }),
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),

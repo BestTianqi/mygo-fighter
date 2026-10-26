@@ -321,63 +321,71 @@ export function drawEntranceEffects(scene: BattleSceneContext) {
   }
 }
 
-/** Angular portrait/name strips sit above the bodies, clear of the combat HUD. */
+/** Full portrait cut-ins slide over the arena, then clear for the final stance. */
 export function drawEntranceTitles(scene: BattleSceneContext) {
   const { ctx, match, reducedMotion } = scene;
   for (const side of [0, 1]) {
     const entry = entranceFor(match, side, reducedMotion);
     if (!entry) continue;
     const profile = ROSTER[entry.character];
-    const age = entry.age;
+    const age = entry.localAge;
+    if (age >= 1380 || (!reducedMotion && age <= 100)) continue;
+    const arrive = clamp((age - 100) / 220);
+    const leave = clamp((age - 1060) / 320);
     const visibility = reducedMotion
-      ? 0.94
-      : clamp((age - 140) / 200) * clamp((1850 - age) / 240);
+      ? 1
+      : clamp((age - 100) / 100) * (1 - leave);
     if (visibility <= 0) continue;
+    const portrait =
+      bandPortrait(scene.assets, entry.character)?.portrait ??
+      scene.assets.characters[entry.character].portrait;
+    const image = scene.getImage(portrait);
+    if (!image) continue;
+    const edge = side === 0 ? 0 : 960;
+    const inward = side === 0 ? 1 : -1;
+    const shift = reducedMotion
+      ? 0
+      : -inward * ((1 - arrive) ** 3 * 440 + leave ** 3 * 490);
     ctx.save();
-    ctx.globalAlpha = visibility;
-    ctx.translate(
-      reducedMotion
-        ? 0
-        : (side === 0 ? -1 : 1) * (1 - clamp((age - 140) / 240)) ** 3 * 110,
-      0,
-    );
-    const x = side === 0 ? 32 : 588;
+    // Keep the cut-in inside the arena, below the combat HUD.
     ctx.beginPath();
-    ctx.moveTo(x + (side === 0 ? 0 : 26), 126);
-    ctx.lineTo(x + 340, 126);
-    ctx.lineTo(x + (side === 0 ? 314 : 340), 230);
-    ctx.lineTo(x, 230);
-    ctx.closePath();
-    ctx.save();
+    ctx.rect(0, 94, 960, 384);
     ctx.clip();
-    const shade = ctx.createLinearGradient(x, 126, x + 340, 230);
-    shade.addColorStop(0, side === 0 ? "#0b1022f5" : "#0b1022d9");
-    shade.addColorStop(1, side === 0 ? "#0b1022d9" : "#0b1022f5");
-    ctx.fillStyle = shade;
-    ctx.fillRect(x, 126, 340, 104);
-    const portrait = bandPortrait(scene.assets, entry.character);
-    const face = portrait?.face ? scene.getImage(portrait.face) : undefined;
-    if (face) {
-      // Faces remain in their original orientation; only the strip mirrors.
-      const size = Math.min(face.width, face.height);
-      ctx.drawImage(
-        face,
-        (face.width - size) / 2,
-        0,
-        size,
-        size * 0.78,
-        side === 0 ? x - 4 : x + 211,
-        117,
-        140,
-        126,
-      );
-    }
+    ctx.globalAlpha = visibility;
+    ctx.translate(shift, 0);
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(edge, 94);
+    ctx.lineTo(edge + inward * 420, 94);
+    ctx.lineTo(edge + inward * 456, 478);
+    ctx.lineTo(edge, 478);
+    ctx.closePath();
+    ctx.clip();
+    ctx.fillStyle = "#0b1022f5";
+    ctx.fillRect(Math.min(edge, edge + inward * 456), 94, 456, 384);
+    const tint = ctx.createLinearGradient(edge, 0, edge + inward * 456, 0);
+    tint.addColorStop(0, profile.color);
+    tint.addColorStop(1, "#0b102200");
+    ctx.save();
+    ctx.globalAlpha *= 0.35;
+    ctx.fillStyle = tint;
+    ctx.fillRect(Math.min(edge, edge + inward * 456), 94, 456, 384);
     ctx.restore();
-    ctx.strokeStyle = profile.color;
-    ctx.lineWidth = 2;
-    line(ctx, x + (side === 0 ? 0 : 26), 126, x + 340, 126);
-    line(ctx, x, 230, x + (side === 0 ? 314 : 340), 230);
-    const textX = side === 0 ? x + 143 : x + 197;
+    // Preserve the original artwork's orientation and proportions. The stage
+    // window intentionally crops the lower body for a large head/torso reveal.
+    const zoom = reducedMotion ? 1 : 1 + clamp((age - 320) / 740) * 0.025;
+    const scale = Math.min(380 / image.width, 660 / image.height) * zoom;
+    const width = image.width * scale;
+    const height = image.height * scale;
+    const centerX = edge + inward * 220;
+    ctx.drawImage(image, centerX - width / 2, 98, width, height);
+    const shade = ctx.createLinearGradient(0, 348, 0, 478);
+    shade.addColorStop(0, "#0b102200");
+    shade.addColorStop(0.5, "#0b1022cc");
+    shade.addColorStop(1, "#0b1022fa");
+    ctx.fillStyle = shade;
+    ctx.fillRect(Math.min(edge, edge + inward * 456), 348, 456, 130);
+    const textX = edge + inward * 42;
     ctx.textAlign = side === 0 ? "left" : "right";
     ctx.textBaseline = "alphabetic";
     ctx.fillStyle = "#ffd56f";
@@ -385,14 +393,18 @@ export function drawEntranceTitles(scene: BattleSceneContext) {
     ctx.fillText(
       side === 0 ? "1P  /  CHALLENGER" : "2P  /  CHALLENGER",
       textX,
-      149,
+      410,
     );
     ctx.fillStyle = "#f3f7ff";
-    ctx.font = '900 25px "Microsoft YaHei",sans-serif';
-    ctx.fillText(profile.name, textX, 180, 188);
+    ctx.font = '900 32px "Microsoft YaHei",sans-serif';
+    ctx.fillText(profile.name, textX, 446, 360);
     ctx.fillStyle = profile.color;
-    ctx.font = '11px "Microsoft YaHei",sans-serif';
-    ctx.fillText(entry.title, textX, 205);
+    ctx.font = '12px "Microsoft YaHei",sans-serif';
+    ctx.fillText(entry.title, textX, 466);
+    ctx.restore();
+    ctx.strokeStyle = profile.color;
+    ctx.lineWidth = 3;
+    line(ctx, edge + inward * 420, 94, edge + inward * 456, 478);
     ctx.restore();
   }
 }
