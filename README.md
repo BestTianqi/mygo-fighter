@@ -91,6 +91,8 @@ npm run format:backend # Format Scala sources
 
 Use a second terminal running `npm start` for the API while developing with Vite. Rebuild after editing shared combat rules to update the kernel embedded by the JVM, then restart the backend.
 
+The production frontend puts React in a separate shared chunk so the game bundle stays below Vite's default 500 kB warning threshold. Server packaging declares a maintainer and excludes the API documentation artifact; it packages runtime jars and web assets. Generate API documentation separately with `node scripts/scala.mjs doc`. Scala 3.3.6 may report an unresolved link in Cats Effect 3.6.3's inherited `IOApp` documentation; this does not affect compilation or server execution. `-Werror` remains enabled for compilation and is omitted only for Scaladoc, which does not use it.
+
 ## Review map
 
 - `frontend/src/pages/GamePage/index.tsx`: page skeleton. Page components, hooks, state objects and effects live nearby.

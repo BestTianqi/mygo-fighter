@@ -6,7 +6,12 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := "mygo-server",
+    maintainer := "mygo-fighter contributors",
     Compile / mainClass := Some("services.system.api.Main"),
+    // The server distribution needs runtime jars, not a published Scaladoc jar.
+    // Keep `doc` available as an explicit task without running it during packaging.
+    Compile / packageDoc / publishArtifact := false,
+    Compile / doc / scalacOptions --= Seq("-Werror"),
     Universal / mappings ++= {
       val web = baseDirectory.value / ".." / "frontend" / "dist"
       (web ** "*").get.filter(_.isFile).map(file => file -> ("web/" + IO.relativize(web, file).get))

@@ -11,5 +11,12 @@ export default defineConfig({
     },
   },
   esbuild: { keepNames: true },
-  build: { target: "es2022" },
+  build: {
+    target: "es2022",
+    rollupOptions: {
+      output: {
+        manualChunks: { react: ["react", "react-dom/client"] },
+      },
+    },
+  },
 });
