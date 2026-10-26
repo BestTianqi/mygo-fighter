@@ -69,9 +69,11 @@ Mujica's **H transformation** costs 50 resonance and lasts 20 seconds. It releas
 
 ## Mobile browsers
 
-Phones and tablets switch the battle to an immersive, full-viewport stage. Starting a match from character selection requests fullscreen and landscape where the browser allows it; the compact battle toolbar toggles fullscreen, pauses, opens the move list and returns to the menu. Large translucent pads sit under both thumbs — directions on the left, skills, attacks, super and transform on the right — with safe-area padding for notches and home indicators, and the page never scrolls during a battle. Landscape shows the largest arena; portrait stays playable with the same controls and a rotate hint. Menus, dialogs and buttons keep full-height tap targets.
+Phones and tablets open every battle in a full-field stage: the 16:9 arena is fitted to the whole viewport, the in-page toolbar is hidden, and a compact pause/exit pair floats above the top-right corner. Starting a match, resuming from the menu or tapping 全屏 in the windowed toolbar enters this mode, which also requests browser fullscreen and landscape where supported. Leaving it through the floating 退出 button or the pause menu restores the windowed toolbar with back, pause, move list, help, sound and full-field buttons.
 
-iPhone Safari does not expose the Fullscreen API or orientation locking, so the stage fills the visible browser viewport instead of hiding the browser chrome. The layout reflows when rotating the device, and fullscreen is requested again when resuming a match from the menu.
+Large translucent pads sit under both thumbs — directions on the left, skills, attacks, super and transform on the right — with safe-area padding for notches and home indicators, and the page never scrolls during a battle. The pause menu always offers continue, restart, character select, main menu, move list, help, sound and the full-field toggle. Landscape shows the largest arena; portrait stays playable with the same controls and a rotate hint. Menus, dialogs and buttons keep full-height tap targets.
+
+iPhone Safari does not expose the Fullscreen API or orientation locking, so the stage fills the visible browser viewport instead of hiding the browser chrome; the full-field layout still works there. The layout reflows when rotating the device.
 
 ## Development
 

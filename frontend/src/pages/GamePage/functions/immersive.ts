@@ -11,10 +11,6 @@ function orientationLock(): OrientationLock | null {
     : ((screen.orientation as unknown as OrientationLock | undefined) ?? null);
 }
 
-export function fullscreenSupported() {
-  return !!document.fullscreenEnabled;
-}
-
 /**
  * Enter fullscreen and request landscape for the whole page. Unsupported
  * browsers (notably iPhone Safari) keep operating in the browser viewport.
