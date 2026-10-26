@@ -2,6 +2,10 @@
 
 The complete game can run on one Linux server. A Scala JVM process owns independent two-player rooms and executes the same TypeScript battle kernel used by local play. Caddy serves HTTPS and forwards HTTP and WebSockets to that process. Players open one shared game URL; no player hosts a public port or installs a backend.
 
+The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). It is capped at **two rooms / four players** and serves the matching frontend and Scala backend together. The application release is `20261026-6d3d136-protocol10`; its `deployment.json` records the application commit, package checksum and protocol. GitHub Pages does not link to it.
+
+The [2026-10-26 AliCloud deployment notes](DEPLOYMENT_ALICLOUD_2026-10-26.md) record setup, checks, observed timing and operations. The four-client run ended at the user's request after approximately nine minutes with no unexpected disconnects or restarts; the full 15-minute target and abandoned-room expiry check were not completed. Verification sessions explicitly left and their rooms were removed.
+
 The Azure deployment is a **trial**, capped at **two rooms / four players** on the existing Japan East ARM64 VM (2 cores, approximately 1 GB RAM). Play at [mygo-20-78-1-182.sslip.io](https://mygo-20-78-1-182.sslip.io/). GitHub Pages does not link to the trial. Verification results are recorded below.
 
 ## Build and install
@@ -10,7 +14,17 @@ Run the normal checks, then `npm run package:server` on the development machine.
 
 The root-level `deploy/` folder contains operating-system installation and service files. These are deployment infrastructure rather than backend business code, so they are kept outside Scala's `services/` tree.
 
-For the existing SSH alias:
+On the provisioned AliCloud host, activation and rollback scripts are installed persistently in `/opt/mygo-fighter/`. To deploy a new application release:
+
+```sh
+scp backend/target/universal/mygo-server-2.0.0.tgz alicloud:/tmp/mygo-server-2.0.0.tgz
+ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
+ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
+```
+
+Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; rollback after a subsequent release uses `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. This was the host's first game installation, so there is no preceding release until the next successful activation.
+
+For the existing Azure SSH alias:
 
 ```sh
 tar -czf output/wan/hosting.tar.gz deploy
@@ -40,6 +54,8 @@ The trial uses `MyGO-Web-TCP-80-443` at priority 330 in `azure-vm-nsg`, attached
 | `TRUST_LOCAL_PROXY` | `true`                          | Accept the last forwarded client address only from a loopback peer |
 
 The service starts with a 64 MB minimum / 256 MB maximum Java heap, a 64 MB reserved code cache and a 512 MB service memory ceiling, with no service swap allowance. These settings reserve room for Ubuntu, Caddy and the existing VPN; they are a trial budget, not a capacity guarantee. There is no automatic VM resize.
+
+The service unit gives the embedded GraalJS runtime a dedicated cache at `/var/cache/mygo-fighter` using `CacheDirectory` and `XDG_CACHE_HOME`. This allows native runtime resources to be unpacked while application releases and the service home remain read-only. Without this cache, GraalJS reports a misleading missing-`truffleattach` warning caused by an access-denied error under `/srv/mygo-fighter/.cache`. Existing installations need the updated service unit followed by `systemctl daemon-reload` and a game service restart. See [GraalVM's internal resource documentation](https://www.graalvm.org/latest/reference-manual/embed-languages/#managing-internal-resources).
 
 Room creation and joining share a limit of 20 attempts per client address per minute. Socket handshakes have a separate limit of 60 per minute. Counters expire and the address/category map is capped at 4,096 entries. Rejection uses HTTP 429, a JSON retry message and `Retry-After: 60`. Established sockets retain their existing 300-message-per-second and 8 KiB message limits. Browser requests retain same-origin checks; sessions are resolved before player commands and never appear in socket URLs. Caddy ignores untrusted incoming forwarding claims; only enable `TRUST_LOCAL_PROXY` behind a trusted loopback proxy.
 

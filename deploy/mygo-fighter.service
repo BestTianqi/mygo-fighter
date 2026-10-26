@@ -10,6 +10,9 @@ Group=mygo
 WorkingDirectory=/srv/mygo-fighter/current
 EnvironmentFile=/etc/mygo-fighter.env
 Environment="JAVA_OPTS=-Xms64m -Xmx256m -XX:ReservedCodeCacheSize=64m -Dpolyglot.engine.WarnInterpreterOnly=false"
+Environment="XDG_CACHE_HOME=/var/cache/mygo-fighter"
+CacheDirectory=mygo-fighter
+CacheDirectoryMode=0750
 ExecStart=/srv/mygo-fighter/current/bin/mygo-server
 Restart=on-failure
 RestartSec=5
