@@ -15,6 +15,8 @@ The first build downloads JavaScript and JVM dependencies. Keep the server windo
 
 On Windows, double-click `启动局域网联机.cmd` or `start-lan.cmd`. Both use the same launcher and keep the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
 
+Windows frontend builds use the ignored `output/build-temp/` directory for esbuild temporary files, avoiding access-denied cleanup errors in the system temp directory. This applies to the launchers, `npm run build`, `npm run build:pages` and builds run from `frontend/`; system environment settings are unchanged.
+
 To stop the local game server on Windows, double-click `关闭局域网联机.cmd` or `stop-lan.cmd`. The window closes automatically after success; errors stay visible. The script identifies the game service before stopping the process listening on port 8080. It also honors `PORT`, or accepts `stop-lan.cmd -Port 8181` for another port. Closing the server disconnects its current players. The stop script uses Windows PowerShell and does not require Node.js.
 
 All launch commands, including `npm start`, reuse an existing portable JDK and sbt launcher under `output/toolchain/`, when available. A compatible `JAVA_HOME` takes priority; an older system Java does not prevent use of the portable JDK. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.

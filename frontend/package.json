@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc --noEmit && vite build",
+    "build": "node ../scripts/build-frontend.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
