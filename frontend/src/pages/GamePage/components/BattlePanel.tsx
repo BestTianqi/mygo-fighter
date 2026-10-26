@@ -10,10 +10,10 @@ import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { bandPortrait } from "../functions/bandArt";
 import { Button } from "../../../components/ui/Button";
-import { ROSTER } from "../../../game/engine";
 import { schemeFor } from "../../../game/controls";
 import { enterImmersive, exitImmersive } from "../functions/immersive";
 import { TouchControls } from "./TouchControls";
+import { FinishOverlay } from "./FinishOverlay";
 
 function UltimateBackgroundVideo({
   media,
@@ -58,71 +58,6 @@ function isWaitingForPlayers(view: GameView) {
       !view.network.room.players.every(
         (player) => player?.connected && player.loaded,
       ))
-  );
-}
-
-function FinishOverlay({
-  view,
-  assets,
-  className,
-}: {
-  view: GameView;
-  assets: Assets;
-  className: string;
-}) {
-  const finish =
-    view.roundEnd && view.phaseMs > 0 && view.phaseMs < 2500
-      ? view.roundEnd
-      : null;
-  if (!finish || view.paused) return null;
-  const winner = finish.winner >= 0 ? finish.fighters[finish.winner] : null;
-  const finishArt = winner
-    ? (assets.finishArts?.[winner.character] ??
-      (winner.character === 1
-        ? assets.soyoFinishArt
-        : winner.character === 7
-          ? assets.uikaFinishArt
-          : (bandPortrait(
-              assets,
-              winner.character,
-              winner.stageForm ? "stage" : "normal",
-            )?.portrait ?? assets.characters[winner.character].portrait)))
-    : "";
-  return (
-    <div
-      className={`${className} pointer-events-none flex items-center justify-center overflow-hidden bg-slate-950/85`}
-    >
-      {winner && (
-        <img
-          src={finishArt}
-          alt={`${ROSTER[winner.character].name}奥义图`}
-          className={
-            winner.character === 12
-              ? "absolute inset-0 h-full w-full object-cover opacity-75"
-              : "absolute inset-y-0 right-0 h-full w-2/3 object-contain opacity-75"
-          }
-        />
-      )}
-      <div className="relative mr-auto px-8 sm:px-16">
-        <p className="mb-2 text-xs tracking-[.3em] text-pink-200">
-          {view.reason}
-        </p>
-        <p className="text-4xl font-black italic sm:text-6xl">
-          {winner ? "胜 利" : "平 局"}
-        </p>
-        <p className="mt-3 text-xl">
-          {winner ? ROSTER[winner.character].name : "不分胜负"}
-        </p>
-        <p className="mt-3 text-sm text-slate-400">
-          {view.config?.format === "3v3"
-            ? `剩余队员 ${view.teamRemaining.join(" : ")}`
-            : `回合比分 ${view.wins.join(" : ")}`}
-        </p>
-        <p className="mt-2 text-xs text-slate-500">
-          {view.phase === "finished" ? "本场对战结束" : "下一战即将开始"}
-        </p>
-      </div>
-    </div>
   );
 }
 

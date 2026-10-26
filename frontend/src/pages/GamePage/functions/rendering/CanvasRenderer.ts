@@ -11,6 +11,7 @@ import type { CombatEvent } from "../../../../game/objects/CombatEvent";
 import type { Fighter } from "../../../../game/objects/Fighter";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
 import { bandAtlas, bandAtlases, bandPortrait } from "../bandArt";
+import { finishArtFor } from "../finishArtFor";
 
 import { createBattleScene } from "./createBattleScene";
 
@@ -115,7 +116,10 @@ export class CanvasRenderer {
     const atlases = ids.flatMap((id) => bandAtlases(this.assets, id));
     const urls = new Set([
       this.assets.backgrounds[config.settings.arena],
-      ...ids.flatMap((id) => this.assets.finishArts?.[id] ?? []),
+      ...ids.flatMap((character) => [
+        finishArtFor(this.assets, { character }),
+        finishArtFor(this.assets, { character, stageForm: true }),
+      ]),
       ...ids.flatMap((id) => {
         const portrait = bandPortrait(this.assets, id)?.portrait;
         return [portrait ?? this.assets.characters[id].portrait];
