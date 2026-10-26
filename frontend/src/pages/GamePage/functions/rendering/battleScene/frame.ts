@@ -1,6 +1,10 @@
 import { MOVES, ROUND_END_TIMING } from "../../../../../game/engine";
-import { ENTRANCE_TIMING } from "../../../../../game/animation/entrance";
 import { drawEntranceEffects, drawEntranceTitles } from "../drawEntrances";
+import {
+  drawOpeningBackdrop,
+  drawOpeningCue,
+  openingView,
+} from "../drawOpening";
 import { drawSakikoSuper } from "../drawSakikoSuper";
 import { drawShield, drawSummons } from "./defense";
 import { drawMujicaEffects } from "./mujica";
@@ -41,6 +45,7 @@ export function drawBattle(
       scene.state.battleArena,
       scene.state.visualTime,
     );
+  drawOpeningBackdrop(scene);
   if (scene.state.inkMs > 0) {
     scene.ctx.fillStyle =
       "rgba(7,8,18," +
@@ -54,9 +59,10 @@ export function drawBattle(
       scene.state.inkMs = Math.max(0, scene.state.inkMs - dt);
   }
   scene.ctx.save();
+  const view = openingView(scene);
   scene.ctx.translate(480, 270);
-  scene.ctx.scale(scene.camera.zoom, scene.camera.zoom);
-  scene.ctx.translate(-scene.camera.x, -scene.camera.y);
+  scene.ctx.scale(view.zoom, view.zoom);
+  scene.ctx.translate(-view.x, -view.y);
   scene.stageRenderer.terrain(scene.match, scene.state.battleArena);
   drawSuperAura(scene);
   scene.match.fighters.forEach((value) => drawMaskAura(scene, value));
@@ -80,15 +86,7 @@ export function drawBattle(
   drawFx(scene, dt);
   scene.ctx.restore();
   drawEntranceTitles(scene);
-  if (
-    scene.match.phase === "ready" &&
-    scene.match.phaseMs <= ENTRANCE_TIMING.ready
-  ) {
-    scene.ctx.fillStyle = "#f4f3ff";
-    scene.ctx.textAlign = "center";
-    scene.ctx.font = "italic bold 66px sans-serif";
-    scene.ctx.fillText("READY", 480, 280);
-  }
+  drawOpeningCue(scene);
   if (
     scene.match.roundEnd &&
     scene.match.phaseMs > ROUND_END_TIMING.total - 700

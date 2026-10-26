@@ -263,3 +263,9 @@ The 2100 ms entrance ends before the 650 ms READY cue. These animations project 
 ## Three-hit J chains restored — 2026-10-26
 
 Mujica and MewType already had distinct second/third normal moves and artwork, but the shared scheme command resolver always selected the first strike. Standing repeated J now resolves the current form's opener → Jab2 → Jab3. The existing cancel windows link the stages; the third strike must recover before a fresh opener. The same resolver handles mobile touch repeat. MyGO/Penguin's original mapping and all existing damage, resource gain, reach, heavy attacks, crouching/air normals and skill cancels are retained. Protocol 10 keeps authoritative command resolution and local prediction aligned.
+
+## Arcade entrance presentation — 2026-10-26
+
+Entrances now use a 500 ms approach, a short planted landing with foot-anchored compression and dust, three character-specific showcase poses, and a settled guard stance. The second fighter answers 100 ms later; a lone 3v3 reserve enters immediately. Walking follows the projected terrain height, while hop entrances add their arc above that surface. Only the render projection moves: positions, hitboxes, HP, resonance and input lock retain their existing rules.
+
+Original face artwork appears in angled name strips. A wider approach shot settles back to the gameplay camera before READY; ROUND, VS, READY and a brief FIGHT cue provide the arcade rhythm. The existing 2100 + 650 ms ready clock is unchanged. Pausing and network restoration retain progress, a survivor skips the entrance, and reduced-motion presentation holds a static pose with no slide, hop, compression or camera move. Protocol 10 remains compatible because these changes do not alter simulation state or timing.

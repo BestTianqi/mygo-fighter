@@ -168,7 +168,10 @@ export interface EntranceFrame {
   title: string;
   style: string;
   age: number;
+  localAge: number;
   progress: number;
+  beat: "approach" | "plant" | "signature" | "stance";
+  plant: number;
   animation: string;
   offsetX: number;
   offsetY: number;
@@ -180,7 +183,10 @@ export interface EntranceFrame {
 
 /** Pure projection of the shared ready clock: pause/reconnect cannot restart it. */
 export function entranceFor(
-  match: Pick<Match, "phase" | "phaseMs" | "fighters" | "entrySides">,
+  match: Pick<
+    Match,
+    "phase" | "phaseMs" | "fighters" | "entrySides" | "floorHeight"
+  >,
   side: number,
   reducedMotion = false,
 ): EntranceFrame | null {
@@ -194,45 +200,92 @@ export function entranceFor(
     return null;
   const f = match.fighters[side],
     entry = ENTRANCES[f.character] ?? fallback;
-  const approach = Math.min(1, age / 620);
-  const gesture = Math.max(0, Math.min(1, (age - 620) / 1230));
+  // A slight reply beat makes the two entrances read as a face-off. A single
+  // reserve enters immediately while the surviving fighter keeps their stance.
+  const delay = side === 1 && match.entrySides.every(Boolean) ? 100 : 0;
+  const localAge = Math.max(0, age - delay);
+  const approach = Math.min(1, localAge / 500);
+  const travel = approach * approach * (3 - 2 * approach);
+  const plant =
+    localAge >= 500 && localAge < 640
+      ? Math.sin(((localAge - 500) / 140) * Math.PI)
+      : 0;
+  const beat =
+    localAge < 500
+      ? "approach"
+      : localAge < 640
+        ? "plant"
+        : localAge < 1760
+          ? "signature"
+          : "stance";
+  const gesture = Math.max(0, Math.min(1, (localAge - 640) / 1120));
   const accent = Math.sin(gesture * Math.PI);
-  const pose = age < 1020 ? 0 : age < 1440 ? 1 : 2;
+  const pose = localAge < 970 ? 0 : localAge < 1320 ? 1 : 2;
   const animation = reducedMotion
     ? entry.poses[0]
-    : age < 620
+    : beat === "approach"
       ? entry.hop > 0
-        ? age < 290
+        ? approach < 0.45
           ? "jump-rise"
-          : age < 500
-            ? "jump-fall"
-            : "landing"
-        : Math.floor(age / 140) % 2
+          : "jump-fall"
+        : Math.floor((travel * entry.distance) / 42) % 2
           ? "walk-pass"
           : "walk-contact"
-      : age >= 1850
-        ? "idle"
-        : entry.poses[pose];
+      : beat === "plant"
+        ? "landing"
+        : beat === "stance"
+          ? "guard-standing"
+          : entry.poses[pose];
+  const offsetX = reducedMotion ? 0 : -f.facing * entry.distance * (1 - travel);
+  const groundOffset = reducedMotion
+    ? 0
+    : match.floorHeight(f.x + offsetX) - f.y;
   return {
     character: f.character,
     title: entry.title,
     style: entry.style,
     age,
+    localAge,
     progress: age / ENTRANCE_TIMING.performance,
+    beat,
+    plant: reducedMotion ? 0 : plant,
     animation,
-    offsetX: reducedMotion
+    offsetX,
+    offsetY: reducedMotion
       ? 0
-      : -f.facing * entry.distance * (1 - approach) ** 3,
-    offsetY: reducedMotion ? 0 : entry.hop * Math.sin(approach * Math.PI),
+      : groundOffset + entry.hop * 4 * approach * (1 - approach),
     tilt: reducedMotion
       ? 0
       : entry.flourish *
-        accent *
-        (entry.style === "bow" ? 1 : Math.sin(gesture * Math.PI * 2)),
-    alpha: reducedMotion ? 1 : Math.min(1, age / 140),
-    scaleX: reducedMotion ? 1 : 1 + accent * 0.012,
+        (beat === "approach"
+          ? Math.sin(approach * Math.PI) * 0.5
+          : accent *
+            (entry.style === "bow" ? 1 : Math.sin(gesture * Math.PI * 2))),
+    alpha: reducedMotion ? 1 : Math.max(0, Math.min(1, (age - delay) / 90)),
+    scaleX: reducedMotion ? 1 : 1 + plant * 0.028,
     scaleY: reducedMotion
       ? 1
-      : 1 - accent * (entry.style === "bow" ? 0.045 : 0.012),
+      : 1 - plant * 0.05 - accent * (entry.style === "bow" ? 0.025 : 0.006),
+  };
+}
+
+/** Presentation cues use the same paused clock in local play and LAN replay. */
+export function openingFor(
+  match: Pick<Match, "phase" | "phaseMs" | "inputTick">,
+): { kind: "round" | "versus" | "ready" | "fight"; progress: number } | null {
+  if (match.phase === "fighting" && match.inputTick < 32)
+    return { kind: "fight", progress: match.inputTick / 32 };
+  if (match.phase !== "ready") return null;
+  const age = ENTRANCE_TIMING.total - match.phaseMs;
+  if (age < 0) return null;
+  if (age < 420) return { kind: "round", progress: age / 420 };
+  if (age < 1800) return { kind: "versus", progress: (age - 420) / 1380 };
+  if (age < ENTRANCE_TIMING.performance) return null;
+  return {
+    kind: "ready",
+    progress: Math.min(
+      1,
+      (age - ENTRANCE_TIMING.performance) / ENTRANCE_TIMING.ready,
+    ),
   };
 }

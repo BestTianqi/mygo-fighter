@@ -3,6 +3,7 @@ import {
   entranceFor,
 } from "../../../../game/animation/entrance";
 import { ROSTER } from "../../../../game/engine";
+import { bandPortrait } from "../bandArt";
 import type { BattleSceneContext } from "./battleScene/objects";
 
 const TAU = Math.PI * 2;
@@ -89,8 +90,8 @@ export function drawEntranceEffects(scene: BattleSceneContext) {
     const entry = entranceFor(match, side, reducedMotion);
     if (!entry) continue;
     const f = match.fighters[side];
-    const age = entry.age,
-      p = entry.progress;
+    const age = entry.localAge,
+      p = clamp((age - 640) / 1120);
     ctx.save();
     ctx.translate(f.x + entry.offsetX, 438 - f.y - entry.offsetY);
     ctx.strokeStyle = ctx.fillStyle = ROSTER[entry.character].color;
@@ -106,6 +107,39 @@ export function drawEntranceEffects(scene: BattleSceneContext) {
       continue;
     }
     ctx.scale(f.facing, 1);
+    // Contact accents stay at the feet, rather than making the whole body float.
+    if (age < 640) {
+      if (age >= 500) {
+        const t = (age - 500) / 140;
+        ctx.globalAlpha = (1 - t) * 0.55;
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 22 + t * 57, 3 + t * 7, 0, 0, TAU);
+        ctx.stroke();
+        for (let i = 0; i < 4; i++) {
+          const direction = i % 2 ? 1 : -1;
+          const x = direction * (22 + t * (34 + i * 7));
+          line(
+            ctx,
+            x,
+            -4 - Math.sin(t * Math.PI) * (5 + i),
+            x + direction * 9,
+            -2,
+          );
+        }
+      } else if (entry.offsetY === 0 && age > 100) {
+        ctx.globalAlpha = 0.2 * Math.sin((age / 500) * Math.PI);
+        line(ctx, -54, 1, -29, 1);
+        line(ctx, -78, 6, -48, 6);
+      }
+      ctx.restore();
+      continue;
+    }
+    if (entry.beat === "stance") {
+      ctx.restore();
+      continue;
+    }
+    ctx.globalAlpha = Math.sin(p * Math.PI) * 0.66;
     const drift = Math.sin(p * Math.PI) * 16;
     switch (entry.style) {
       case "sparkle":
@@ -287,35 +321,78 @@ export function drawEntranceEffects(scene: BattleSceneContext) {
   }
 }
 
-/** Temporary side labels leave the combat HUD and the central ready cue unobstructed. */
+/** Angular portrait/name strips sit above the bodies, clear of the combat HUD. */
 export function drawEntranceTitles(scene: BattleSceneContext) {
   const { ctx, match, reducedMotion } = scene;
   for (const side of [0, 1]) {
     const entry = entranceFor(match, side, reducedMotion);
     if (!entry) continue;
-    const profile = ROSTER[entry.character],
-      x = side === 0 ? 57 : 903;
+    const profile = ROSTER[entry.character];
+    const age = entry.age;
+    const visibility = reducedMotion
+      ? 0.94
+      : clamp((age - 140) / 200) * clamp((1850 - age) / 240);
+    if (visibility <= 0) continue;
     ctx.save();
-    ctx.globalAlpha = reducedMotion ? 0.78 : envelope(entry.age);
-    ctx.textAlign = side === 0 ? "left" : "right";
-    ctx.textBaseline = "alphabetic";
-    ctx.shadowColor = "#07101f";
-    ctx.shadowBlur = 7;
-    ctx.fillStyle = profile.color;
-    ctx.font = 'bold 21px "Microsoft YaHei",sans-serif';
-    ctx.fillText(profile.name, x, 142);
-    ctx.fillStyle = "#dae3ef";
-    ctx.font = '11px "Microsoft YaHei",sans-serif';
-    ctx.fillText(entry.title, x, 163);
+    ctx.globalAlpha = visibility;
+    ctx.translate(
+      reducedMotion
+        ? 0
+        : (side === 0 ? -1 : 1) * (1 - clamp((age - 140) / 240)) ** 3 * 110,
+      0,
+    );
+    const x = side === 0 ? 32 : 588;
+    ctx.beginPath();
+    ctx.moveTo(x + (side === 0 ? 0 : 26), 126);
+    ctx.lineTo(x + 340, 126);
+    ctx.lineTo(x + (side === 0 ? 314 : 340), 230);
+    ctx.lineTo(x, 230);
+    ctx.closePath();
+    ctx.save();
+    ctx.clip();
+    const shade = ctx.createLinearGradient(x, 126, x + 340, 230);
+    shade.addColorStop(0, side === 0 ? "#0b1022f5" : "#0b1022d9");
+    shade.addColorStop(1, side === 0 ? "#0b1022d9" : "#0b1022f5");
+    ctx.fillStyle = shade;
+    ctx.fillRect(x, 126, 340, 104);
+    const portrait = bandPortrait(scene.assets, entry.character);
+    const face = portrait?.face ? scene.getImage(portrait.face) : undefined;
+    if (face) {
+      // Faces remain in their original orientation; only the strip mirrors.
+      const size = Math.min(face.width, face.height);
+      ctx.drawImage(
+        face,
+        (face.width - size) / 2,
+        0,
+        size,
+        size * 0.78,
+        side === 0 ? x - 4 : x + 211,
+        117,
+        140,
+        126,
+      );
+    }
+    ctx.restore();
     ctx.strokeStyle = profile.color;
     ctx.lineWidth = 2;
-    line(
-      ctx,
-      side === 0 ? x - 10 : x + 10,
-      124,
-      side === 0 ? x - 10 : x + 10,
-      164,
+    line(ctx, x + (side === 0 ? 0 : 26), 126, x + 340, 126);
+    line(ctx, x, 230, x + (side === 0 ? 314 : 340), 230);
+    const textX = side === 0 ? x + 143 : x + 197;
+    ctx.textAlign = side === 0 ? "left" : "right";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = "#ffd56f";
+    ctx.font = 'bold 11px "Arial",sans-serif';
+    ctx.fillText(
+      side === 0 ? "1P  /  CHALLENGER" : "2P  /  CHALLENGER",
+      textX,
+      149,
     );
+    ctx.fillStyle = "#f3f7ff";
+    ctx.font = '900 25px "Microsoft YaHei",sans-serif';
+    ctx.fillText(profile.name, textX, 180, 188);
+    ctx.fillStyle = profile.color;
+    ctx.font = '11px "Microsoft YaHei",sans-serif';
+    ctx.fillText(entry.title, textX, 205);
     ctx.restore();
   }
 }
