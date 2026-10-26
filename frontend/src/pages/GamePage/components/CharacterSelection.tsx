@@ -12,7 +12,7 @@ import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
 import { RosterGrid } from "./RosterGrid";
 import { SelectionLineups } from "./SelectionLineups";
 const selectClass =
-  "min-h-11 rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm touch-manipulation";
+  "min-h-11 rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-sm text-slate-100 touch-manipulation focus-visible:outline-2 focus-visible:outline-cyan-200";
 export function CharacterSelection({
   assets,
   config,
@@ -52,10 +52,10 @@ export function CharacterSelection({
   }
   return (
     <section
-      className="mx-auto max-w-7xl px-4 py-6 sm:px-8"
+      className="mx-auto max-w-[1440px] px-4 pt-4 pb-6 sm:px-8"
       aria-label="角色选择"
     >
-      <header className="mb-8 flex flex-wrap items-center justify-between gap-5">
+      <header className="mb-5 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
         <div>
           <button
             onClick={onBack}
@@ -66,7 +66,9 @@ export function CharacterSelection({
           <p className="text-[10px] tracking-[.3em] text-cyan-200">
             CHARACTER SELECT
           </p>
-          <h1 className="mt-1 text-3xl font-bold">选择对战角色</h1>
+          <h1 className="mt-1 text-2xl font-black tracking-tight sm:text-3xl">
+            选择对战角色
+          </h1>
         </div>
         <div className="flex flex-wrap gap-3">
           <label className="grid gap-1 text-xs text-slate-400">
@@ -99,23 +101,36 @@ export function CharacterSelection({
           </label>
         </div>
       </header>
-      <SelectionLineups
-        assets={assets}
-        teams={selection.teams}
-        active={selection.active}
-        labels={["1P", selection.mode === "duel" ? "2P" : "CPU"]}
-        onSlot={(side, slot) => update(() => controller.selectSlot(side, slot))}
-        onClear={(side, slot) => update(() => controller.clearSlot(side, slot))}
-      />
-      <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
+      <div className="grid min-w-0 gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">
         <CharacterPortraitPreview
           key={preview}
           assets={assets}
           character={preview}
         />
-        <div>
+        <div className="min-w-0">
+          <SelectionLineups
+            assets={assets}
+            teams={selection.teams}
+            active={selection.active}
+            labels={["1P", selection.mode === "duel" ? "2P" : "CPU"]}
+            statuses={selection.teams.map((team, side) =>
+              team.every((id) => id !== null)
+                ? "阵容已就绪"
+                : selection.active[0] === side
+                  ? "正在选择"
+                  : "等待选择",
+            )}
+            onSlot={(side, slot) => {
+              const id = selection.teams[side][slot];
+              if (id !== null) setPreview(id);
+              update(() => controller.selectSlot(side, slot));
+            }}
+            onClear={(side, slot) =>
+              update(() => controller.clearSlot(side, slot))
+            }
+          />
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xs text-slate-400">01 / 选择阵容</h2>
+            <h2 className="text-xs text-slate-400">选择阵容</h2>
             <p className="text-xs text-slate-400">
               {selection.teams.flat().filter((id) => id !== null).length} /{" "}
               {selection.format === "3v3" ? 6 : 2}
@@ -132,30 +147,33 @@ export function CharacterSelection({
               setSelection(controller.snapshot());
             }}
           />
-          <p className="mt-4 min-h-5 text-xs text-pink-200" role="status">
+          <p
+            className="mt-3 min-h-9 rounded-lg bg-white/4 px-3 py-2 text-xs text-pink-200"
+            role="status"
+          >
             {error ||
               (complete
                 ? "阵容已就绪，选择场地后登台。"
-                : `为 ${selection.active[0] + 1}P 选择第 ${selection.active[1] + 1} 位角色。双击阵容格可清除。`)}
+                : `为 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 选择第 ${selection.active[1] + 1} 位角色。`)}
           </p>
         </div>
       </div>
       <section
-        className="mt-7 rounded-2xl border border-white/10 bg-white/3 p-5"
+        className="mt-5 rounded-xl border border-white/10 bg-white/3 p-4"
         aria-label="场地与规则"
       >
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs text-slate-400">02 / 场地与规则</p>
+            <p className="text-xs text-slate-400">场地与规则</p>
             <h2 className="mt-1 text-lg font-semibold">
               {stage.name}{" "}
-              <small className="ml-2 text-xs font-normal text-slate-400">
+              <small className="mt-1 block text-xs font-normal text-slate-400">
                 {stage.layout}
               </small>
             </h2>
           </div>
-          <div className="flex gap-4 text-xs">
-            <label className="flex items-center gap-2">
+          <div className="flex flex-wrap gap-4 text-xs">
+            <label className="flex min-h-11 items-center gap-2">
               <input
                 type="checkbox"
                 checked={selection.settings.terrain}
@@ -167,7 +185,7 @@ export function CharacterSelection({
               />
               分层地形
             </label>
-            <label className="flex items-center gap-2">
+            <label className="flex min-h-11 items-center gap-2">
               <input
                 type="checkbox"
                 checked={selection.settings.sound}
@@ -181,13 +199,13 @@ export function CharacterSelection({
             </label>
           </div>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-3">
+        <div aria-label="选择场地" className="flex gap-2 overflow-x-auto pb-3">
           {assets.stages.map((scene, arena) => (
             <button
               key={scene.id}
               onClick={() => update(() => controller.setSettings({ arena }))}
               aria-pressed={selection.settings.arena === arena}
-              className={`w-36 shrink-0 overflow-hidden rounded-xl border text-left ${selection.settings.arena === arena ? "border-pink-200" : "border-white/10"}`}
+              className={`group relative w-32 shrink-0 overflow-hidden rounded-lg border text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${selection.settings.arena === arena ? "border-pink-200 ring-1 ring-pink-200" : "border-white/10 hover:border-white/40"}`}
             >
               <img
                 src={scene.thumbnail}
@@ -199,55 +217,55 @@ export function CharacterSelection({
             </button>
           ))}
         </div>
-        <div className="mt-3 flex flex-wrap justify-between gap-4">
-          <label className="flex items-center gap-3 text-xs text-slate-400">
-            {selection.mode === "practice" ? "练习木桩" : "电脑难度"}
-            {selection.mode === "practice" ? (
-              <select
-                className={selectClass}
-                value={selection.settings.dummy}
-                onChange={(event) =>
-                  update(() =>
-                    controller.setSettings({
-                      dummy: event.target
-                        .value as MatchConfig["settings"]["dummy"],
-                    }),
-                  )
-                }
-              >
-                <option value="idle">站立</option>
-                <option value="guard">站立防御</option>
-                <option value="crouch">蹲下防御</option>
-              </select>
-            ) : (
-              <select
-                className={selectClass}
-                disabled={selection.mode !== "cpu"}
-                value={selection.settings.difficulty}
-                onChange={(event) =>
-                  update(() =>
-                    controller.setSettings({
-                      difficulty: Number(event.target.value),
-                    }),
-                  )
-                }
-              >
-                <option value={0}>轻松</option>
-                <option value={1}>标准</option>
-                <option value={2}>认真</option>
-              </select>
-            )}
-          </label>
-          <Button
-            primary
-            onClick={confirm}
-            disabled={!complete}
-            className="min-w-48"
-          >
-            登台对战 ↗
-          </Button>
-        </div>
       </section>
+      <footer className="sticky bottom-0 z-10 -mx-4 mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 bg-[#080e1cf2] px-4 py-3 backdrop-blur-md sm:-mx-8 sm:px-8">
+        <label className="flex items-center gap-3 text-xs text-slate-400">
+          {selection.mode === "practice" ? "练习木桩" : "电脑难度"}
+          {selection.mode === "practice" ? (
+            <select
+              className={selectClass}
+              value={selection.settings.dummy}
+              onChange={(event) =>
+                update(() =>
+                  controller.setSettings({
+                    dummy: event.target
+                      .value as MatchConfig["settings"]["dummy"],
+                  }),
+                )
+              }
+            >
+              <option value="idle">站立</option>
+              <option value="guard">站立防御</option>
+              <option value="crouch">蹲下防御</option>
+            </select>
+          ) : (
+            <select
+              className={selectClass}
+              disabled={selection.mode !== "cpu"}
+              value={selection.settings.difficulty}
+              onChange={(event) =>
+                update(() =>
+                  controller.setSettings({
+                    difficulty: Number(event.target.value),
+                  }),
+                )
+              }
+            >
+              <option value={0}>轻松</option>
+              <option value={1}>标准</option>
+              <option value={2}>认真</option>
+            </select>
+          )}
+        </label>
+        <Button
+          primary
+          onClick={confirm}
+          disabled={!complete}
+          className="min-w-40 flex-1 sm:max-w-64"
+        >
+          登台对战 ↗
+        </Button>
+      </footer>
     </section>
   );
 }

@@ -1,9 +1,7 @@
 import { ROSTER } from "../../../game/engine";
-import { bandFor } from "../../../game/bands";
+import { BAND_LABEL } from "../../../game/objects/BandId";
 import type { Assets } from "../../../game/objects/Assets";
 import { bandPortrait } from "../functions/bandArt";
-
-const labels = { mygo: "MyGO!!!!!", mujica: "Ave Mujica", mewtype: "MewType" };
 
 /** Square face cards keep the local and online rosters visually identical. */
 export function RosterGrid({
@@ -27,7 +25,7 @@ export function RosterGrid({
 }) {
   return (
     <div
-      className="grid min-w-0 grid-cols-3 content-start gap-2 self-start sm:grid-cols-5"
+      className="grid min-w-0 grid-cols-4 content-start gap-2 self-start sm:grid-cols-8 lg:grid-cols-5 xl:grid-cols-8"
       aria-label="全部角色"
     >
       {ROSTER.map((character, id) => {
@@ -45,7 +43,7 @@ export function RosterGrid({
             onClick={() => onChoose(id)}
             aria-label={`${banned ? "已禁用" : "选择"}${character.name}`}
             aria-pressed={preview === id}
-            className={`group relative aspect-square min-w-0 touch-manipulation overflow-hidden rounded-xl border text-center transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "border-white/70 bg-white/10" : "border-white/10 bg-white/3"}`}
+            className={`group relative aspect-square min-w-0 touch-manipulation overflow-hidden rounded-lg border text-center transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "border-cyan-200 bg-cyan-200/10 ring-2 ring-cyan-200/40" : "border-white/15 bg-white/3 hover:border-white/50"}`}
           >
             <img
               src={
@@ -55,12 +53,12 @@ export function RosterGrid({
               loading="lazy"
               className={`absolute inset-0 size-full object-cover object-center ${banned ? "grayscale" : ""}`}
             />
-            <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-slate-950 via-slate-950/85 to-transparent px-1 pt-7 pb-2">
+            <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-slate-950 via-slate-950/85 to-transparent px-1 pt-6 pb-1.5">
               <span className="block truncate text-center text-[10px] font-medium sm:text-xs">
                 {character.name}
               </span>
               <small className="block truncate text-center text-[8px] text-slate-400 sm:text-[9px]">
-                {labels[bandFor(id).id]}
+                {BAND_LABEL[character.band ?? "mygo"]}
               </small>
             </span>
             {banned ? (
