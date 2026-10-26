@@ -8,7 +8,7 @@ import { ReadyRoomMessage } from "../../../apis/rooms/ReadyRoomMessage";
 import { Dialog } from "../../../components/ui/Dialog";
 import { Button } from "../../../components/ui/Button";
 const selectClass =
-  "mt-2 w-full rounded-xl border border-white/15 bg-slate-900 p-3 text-slate-100";
+  "mt-2 min-h-11 w-full touch-manipulation rounded-xl border border-white/15 bg-slate-900 p-3 text-slate-100";
 export function LanLobby({
   runtime,
   view,

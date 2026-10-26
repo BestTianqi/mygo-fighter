@@ -14,10 +14,12 @@ export function MainMenu({
   assets,
   runtime,
   view,
+  onResume,
 }: {
   assets: Assets;
   runtime: GameRuntime | null;
   view: GameView;
+  onResume: () => void;
 }) {
   const [bandIndex, setBand] = useState(0);
   const band = bands[bandIndex];
@@ -42,7 +44,7 @@ export function MainMenu({
               key={item.key}
               onClick={() => setBand(i)}
               aria-pressed={i === bandIndex}
-              className={`rounded-full px-3 py-1.5 text-xs transition ${i === bandIndex ? "bg-white/15 text-white" : "text-slate-400 hover:text-white"}`}
+              className={`min-h-10 touch-manipulation rounded-full px-3 py-1.5 text-xs transition ${i === bandIndex ? "bg-white/15 text-white" : "text-slate-400 hover:text-white"}`}
             >
               {item.name}
             </button>
@@ -81,7 +83,7 @@ export function MainMenu({
             {view.phase !== "idle" && (
               <Button
                 primary
-                onClick={() => runtime?.resume()}
+                onClick={onResume}
                 className="col-span-2 text-left"
               >
                 继续对战 ↗
@@ -129,13 +131,13 @@ export function MainMenu({
           <div className="mt-6 flex gap-6 text-xs text-slate-400">
             <button
               onClick={() => runtime?.begin("cpu")}
-              className="hover:text-white"
+              className="inline-flex min-h-11 touch-manipulation items-center hover:text-white"
             >
               对战设置
             </button>
             <button
               onClick={() => runtime?.showDialog("help")}
-              className="hover:text-white"
+              className="inline-flex min-h-11 touch-manipulation items-center hover:text-white"
             >
               操作说明
             </button>

@@ -8,6 +8,8 @@
     margin: 0;
     font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #080e1c;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
   button,
   select,

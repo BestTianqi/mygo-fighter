@@ -13,7 +13,7 @@ import { bandPortrait } from "../functions/bandArt";
 import { createSelectionState } from "../functions/createSelectionState";
 import { Button } from "../../../components/ui/Button";
 const selectClass =
-  "rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm";
+  "min-h-11 rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm touch-manipulation";
 /** Roster cards keep their original compact labels; the panel uses BAND_LABEL. */
 const rosterBandLabel: Record<BandId, string> = {
   mygo: "MyGO!!!!!",
@@ -69,7 +69,7 @@ export function CharacterSelection({
         <div>
           <button
             onClick={onBack}
-            className="mb-3 text-xs text-slate-400 hover:text-white"
+            className="-mt-2 mb-2 inline-flex min-h-11 touch-manipulation items-center text-xs text-slate-400 hover:text-white"
           >
             ← 主菜单
           </button>

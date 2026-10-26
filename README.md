@@ -56,11 +56,17 @@ The [Azure trial server](https://mygo-20-78-1-182.sslip.io/) is capped at **two 
 | Super                     | P                 | Numpad 8                |
 | Move list                 | F1 or page button | Shared                  |
 
-Hold back to guard, back + crouch to guard low, and back + U or forward + O to throw. Direction + skill selects character-specific variants. Jump twice for a double jump; down + jump drops through platforms. Touch controls support simultaneous directions and attacks. Page buttons pause, restart and return to selection.
+Hold back to guard, back + crouch to guard low, and back + U or forward + O to throw. Direction + skill selects character-specific variants. Jump twice for a double jump; down + jump drops through platforms. Touch controls support simultaneous directions and attacks. The battle toolbar pauses, restarts and returns to selection.
 
 All five MewType characters have an additional **down + U** projectile costing **20 resonance** (2P: down + Numpad 4). Arale fires a heart sound wave, Ritsu a blue bear chord, Miyako an ink-panel wave, Yuno an electronic pulse and Nonoka a rabbit-ear pick. Their base U/I/O skills remain available. Waves can be guarded, collide with opposing projectiles and stop at raised ground. A skill hit restores 2 resonance; both HUD bars show the current value out of 100.
 
 Mujica's **H transformation** costs 50 resonance and lasts 20 seconds. It releases one close-range burst for 10 damage (2 if guarded), then grants **1.2× damage** and **1.1× movement speed** while a colored aura surrounds the stage outfit. The burst does not restore resonance. Both bonuses end with the transformation.
+
+## Mobile browsers
+
+Phones and tablets switch the battle to an immersive, full-viewport stage. Starting a match from character selection requests fullscreen and landscape where the browser allows it; the compact battle toolbar toggles fullscreen, pauses, opens the move list and returns to the menu. Large translucent pads sit under both thumbs — directions on the left, skills, attacks, super and transform on the right — with safe-area padding for notches and home indicators, and the page never scrolls during a battle. Landscape shows the largest arena; portrait stays playable with the same controls and a rotate hint. Menus, dialogs and buttons keep full-height tap targets.
+
+iPhone Safari does not expose the Fullscreen API or orientation locking, so the stage fills the visible browser viewport instead of hiding the browser chrome. The layout reflows when rotating the device, and fullscreen is requested again when resuming a match from the menu.
 
 ## Development
 

@@ -24,6 +24,8 @@ flowchart LR
 
 `CharacterSelection` keeps the selection controller and snapshots local to its page region. Its actions validate team size and uniqueness. `CanvasRenderer` receives a match and never changes its combat state. `AudioDirector` owns independent channels and releases audio resources when disposed. DOM listeners, sockets, animation frames and reconnect timers all have cleanup.
 
+`useMobilePlay` selects the coarse-pointer battle layout; `functions/immersive.ts` wraps best-effort fullscreen and orientation locking; `BattlePanel` renders the immersive toolbar and the page-local `TouchControls` pads. These adapters only affect page layout and input, so the combat kernel and renderer stay view-agnostic.
+
 `game/engine.ts` owns serializable match state and the public combat API. Its rule implementations live in `game/match/` and receive the owning `Match` explicitly. Strict TypeScript, including unused-local and unused-parameter checks, covers the frontend and shared kernel. The kernel retains some non-null assertions for move mechanics whose corresponding flags establish the invariant.
 
 ### Combat review map
