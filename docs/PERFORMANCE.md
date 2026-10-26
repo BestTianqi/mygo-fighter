@@ -36,7 +36,7 @@ Measurements use the production build and the same Playwright scenarios as the e
 | Selected two-character audio          | all 112 clips fetched/decoded on unlock                              | 12 clips fetched/decoded; peak concurrency 4; combat voices played               |
 | Healthy hardware DPR2                 | full quality                                                         | full 1920 × 1080 retained; no long tasks                                         |
 
-The software callback reduction is **not** presented as an equivalent total-CPU reduction. CPU profiles show native work moving from instrumented `restore`/`drawImage` spans into `(program)`; native raster remains substantial. The throttled frame-cadence result is the stronger end-to-end evidence that adaptive resolution improves playability under sustained pressure. The two online profiles also observed different display cadences, so local motion/correction timings are not claimed as protocol wins. Internet RTT still requires a deployed AliCloud retest; localhost results do not substitute for it.
+The software callback reduction is **not** presented as an equivalent total-CPU reduction. CPU profiles show native work moving from instrumented `restore`/`drawImage` spans into `(program)`; native raster remains substantial. The throttled frame-cadence result is the stronger end-to-end evidence that adaptive resolution improves playability under sustained pressure. The two online profiles also observed different display cadences, so local motion/correction timings are not claimed as protocol wins. These local results do not establish an Internet RTT improvement. The later protocol-12 AliCloud measurements are linked below.
 
 ## Verification
 
@@ -47,3 +47,7 @@ The software callback reduction is **not** presented as an equivalent total-CPU 
 - Local 3v3 combat, pause/resume/restart
 - Two-client combat, matching unique event IDs on both peers, no per-state event history, forced socket reconnect and continued events after resume
 - Lazy-audio request/decode/concurrency checks with no browser page errors
+
+## Deployed AliCloud audit
+
+The [2026-10-26 deployment audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) covers the newer protocol-12 application, public timing, browser checks, an isolated TCP_NODELAY experiment and the interpreter-runtime bottleneck. Its measured socket-frame delays and client-observed round-trip timings are separate metrics.

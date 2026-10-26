@@ -1,5 +1,7 @@
 # AliCloud deployment — 2026-10-26
 
+This is the historical protocol-10 deployment record. See the [protocol-12 deployment and performance audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) for the current application release and later verification.
+
 The latest application backend and matching frontend are live on the AliCloud Beijing host. The game service and HTTPS proxy are enabled at boot. The load check ended at the user's request after approximately nine minutes; the deployment remains active.
 
 ## Release and access

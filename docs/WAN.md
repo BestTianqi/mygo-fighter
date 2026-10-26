@@ -2,9 +2,9 @@
 
 The complete game can run on one Linux server. A Scala JVM process owns independent two-player rooms and executes the same TypeScript battle kernel used by local play. Caddy serves HTTPS and forwards HTTP and WebSockets to that process. Players open one shared game URL; no player hosts a public port or installs a backend.
 
-The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). It is capped at **two rooms / four players** and serves the matching frontend and Scala backend together. The application release is `20261026-6d3d136-protocol10`; its `deployment.json` records the application commit, package checksum and protocol. GitHub Pages does not link to it.
+The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). It is capped at **two rooms / four players** and serves the matching frontend and Scala backend together. The application release is `20261026-b82ae8c-protocol12`; its `deployment.json` records the application commit, package checksum and protocol. GitHub Pages does not link to it.
 
-The [2026-10-26 AliCloud deployment notes](DEPLOYMENT_ALICLOUD_2026-10-26.md) record setup, checks, observed timing and operations. The four-client run ended at the user's request after approximately nine minutes with no unexpected disconnects or restarts; the full 15-minute target and abandoned-room expiry check were not completed. Verification sessions explicitly left and their rooms were removed.
+The [latest AliCloud deployment and performance audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) records the protocol-12 release, before/after measurements and optimization priorities. The [earlier 2026-10-26 AliCloud deployment notes](DEPLOYMENT_ALICLOUD_2026-10-26.md) record the original setup and checks. The original protocol-10 run ended at the user's request after approximately nine minutes. The protocol-12 update subsequently passed a full 15-minute four-client run, plus a separate transport comparison. Its verification sessions explicitly left and their rooms were removed. Abandoned-room expiry was not repeated in this update.
 
 The Azure deployment is a **trial**, capped at **two rooms / four players** on the existing Japan East ARM64 VM (2 cores, approximately 1 GB RAM). Play at [mygo-20-78-1-182.sslip.io](https://mygo-20-78-1-182.sslip.io/). GitHub Pages does not link to the trial. Verification results are recorded below.
 
@@ -22,7 +22,7 @@ ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
 ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
 ```
 
-Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; rollback after a subsequent release uses `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. This was the host's first game installation, so there is no preceding release until the next successful activation.
+Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; rollback after a subsequent release uses `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. The preceding protocol-10 release is retained for rollback.
 
 For the existing Azure SSH alias:
 
