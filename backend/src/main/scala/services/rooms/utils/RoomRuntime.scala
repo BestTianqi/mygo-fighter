@@ -116,15 +116,22 @@ final case class RoomRuntime(
                   lastSend.get.flatMap { sent =>
                     if now - sent < 16666666.nanos then IO.unit
                     else
-                      (engine.packet, state.get, peers.get).tupled.flatMap {
-                        (packet, room, clients) =>
+                      (engine.eventBatch, engine.packet, state.get, peers.get).tupled.flatMap {
+                        (batch, packet, room, clients) =>
                           IO.monotonic.flatMap { finished =>
                             val updateMs = (finished - now).toNanos.toDouble / 1000000d
                             // The kernel is trusted and already serialized. Add transport metadata once.
-                            val frame =
+                            val stateFrame =
                               s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
                                   .drop(1)}}"""
-                            clients.values.toList.traverse_(_.latest.set(Some(frame))) *> lastSend
+                            val eventFrame = batch.map(events =>
+                              s"""{"type":"events","data":{"generation":${room.generation},${events
+                                  .drop(1)}}"""
+                            )
+                            clients.values.toList.traverse_ { peer =>
+                              eventFrame.traverse_(peer.sendEvent) *> peer.latest
+                                .set(Some(stateFrame))
+                            } *> lastSend
                               .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
                           }
                       }

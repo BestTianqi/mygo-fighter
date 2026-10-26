@@ -4,7 +4,7 @@ export function drawBlinkTrails(scene: BattleSceneContext, dt: number) {
     if (effect.type === "blink") {
       if (!scene.match.paused) effect.life = Math.max(0, effect.life - dt);
       const age = effect.max - effect.life,
-        { atlas, frame, scale, facing } = effect.sprite;
+        { atlas, frame, source = frame, scale, facing } = effect.sprite;
       const count = scene.reducedMotion ? 1 : 5;
       for (let i = 0; i < count; i++) {
         const position = i / 5,
@@ -23,10 +23,10 @@ export function drawBlinkTrails(scene: BattleSceneContext, dt: number) {
         scene.ctx.shadowBlur = scene.reducedMotion ? 0 : 7;
         scene.ctx.drawImage(
           atlas,
-          frame.x,
-          frame.y,
-          frame.w,
-          frame.h,
+          source.x,
+          source.y,
+          source.w,
+          source.h,
           -frame.ax,
           -frame.ay,
           frame.w,

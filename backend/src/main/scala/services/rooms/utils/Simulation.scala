@@ -18,6 +18,10 @@ final class Simulation private (context: Context, kernel: Value):
     kernel.invokeMember("pause", Boolean.box(value))
   ).void
   private[rooms] def restart: IO[Unit] = IO(kernel.invokeMember("restart")).void
+  private[rooms] def eventBatch: IO[Option[String]] = IO {
+    val batch = kernel.invokeMember("eventBatch")
+    if batch.isNull then None else Some(batch.asString())
+  }
   private[rooms] def packet: IO[String] =
     IO(kernel.invokeMember("packet").asString())
   private[rooms] def close: IO[Unit] = IO.blocking(context.close())

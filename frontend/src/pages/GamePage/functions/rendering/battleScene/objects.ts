@@ -6,7 +6,7 @@ import type { Fighter } from "../../../../../game/objects/Fighter";
 import type { Sprite } from "../CanvasRenderer";
 import { createProjectileRenderer } from "../createProjectileRenderer";
 import { createStageRenderer } from "../createStageRenderer";
-type SceneSprite = Sprite & { atlas: HTMLImageElement; facing: number };
+type SceneSprite = Sprite & { atlas: CanvasImageSource; facing: number };
 type ParticleKind =
   | "burst"
   | "dash"
@@ -64,7 +64,12 @@ export interface BattleSceneContext {
   ctx: CanvasRenderingContext2D;
   assets: Assets;
   getImage: (url: string) => HTMLImageElement | undefined;
-  spriteFor: (match: Match, side: number, direction: number) => Sprite | null;
+  spriteFor: (
+    match: Match,
+    side: number,
+    direction: number,
+    viewZoom: number,
+  ) => Sprite | null;
   camera: Camera;
   mujicaMotion: ReturnType<typeof createMujicaMotion>;
   colors: string[];

@@ -1,12 +1,16 @@
 interface VoiceSlot {
-  buffer: AudioBuffer;
+  buffer: AudioBuffer | null;
   offset: number;
   source: AudioBufferSourceNode | null;
   startedAt: number;
 }
+interface VoiceBuffers {
+  get(move: string): AudioBuffer | undefined;
+  load(move: string): Promise<AudioBuffer>;
+}
 export function createVoicePlayer(
   context: AudioContext,
-  buffers: Record<string, AudioBuffer>,
+  buffers: VoiceBuffers,
 ) {
   const channels = new Map<number, VoiceSlot>();
   const gain = context.createGain();
@@ -24,6 +28,10 @@ export function createVoicePlayer(
     }
   }
   function begin(side: number, slot: VoiceSlot) {
+    if (!slot.buffer || slot.offset >= slot.buffer.duration) {
+      if (channels.get(side) === slot) channels.delete(side);
+      return;
+    }
     const source = context.createBufferSource();
     source.buffer = slot.buffer;
     source.connect(gain);
@@ -45,16 +53,29 @@ export function createVoicePlayer(
   }
   return {
     play(move: string, side: number) {
-      if (!enabled || paused || !buffers[move]) return false;
+      if (!enabled || paused) return false;
       stop(side);
       const slot: VoiceSlot = {
-        buffer: buffers[move],
+        buffer: buffers.get(move) ?? null,
         offset: 0,
         source: null,
         startedAt: 0,
       };
+      // A pending load owns the channel, preventing overlapping voices while
+      // retaining the existing stop/pause/round-transition cancellation rules.
       channels.set(side, slot);
-      begin(side, slot);
+      if (slot.buffer) begin(side, slot);
+      else
+        void buffers.load(move).then(
+          (buffer) => {
+            if (channels.get(side) !== slot) return;
+            slot.buffer = buffer;
+            if (enabled && !paused) begin(side, slot);
+          },
+          () => {
+            if (channels.get(side) === slot) channels.delete(side);
+          },
+        );
       return true;
     },
     stop,
@@ -70,11 +91,14 @@ export function createVoicePlayer(
       paused = value;
       for (const [side, slot] of channels) {
         if (value) {
-          slot.offset += context.currentTime - slot.startedAt;
+          if (slot.source) slot.offset += context.currentTime - slot.startedAt;
           halt(slot);
-        } else if (slot.offset < slot.buffer.duration) begin(side, slot);
-        else channels.delete(side);
+        } else if (slot.buffer) begin(side, slot);
       }
+    },
+    dispose() {
+      stop();
+      gain.disconnect();
     },
   };
 }

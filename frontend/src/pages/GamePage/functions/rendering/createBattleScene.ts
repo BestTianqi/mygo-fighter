@@ -20,7 +20,12 @@ export function createBattleScene(
   ctx: CanvasRenderingContext2D,
   assets: Assets,
   getImage: (url: string) => HTMLImageElement | undefined,
-  spriteFor: (match: Match, side: number, direction: number) => Sprite | null,
+  spriteFor: (
+    match: Match,
+    side: number,
+    direction: number,
+    viewZoom: number,
+  ) => Sprite | null,
 ) {
   const camera = new Camera(),
     mujicaMotion = createMujicaMotion();

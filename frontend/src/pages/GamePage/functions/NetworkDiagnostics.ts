@@ -6,6 +6,14 @@ export class NetworkDiagnostics {
   private lastReport = 0;
   private pendingInput = 0;
   private pendingMotion: { at: number; x: number; y: number } | null = null;
+  private sentInputs = new Map<number, { at: number; received: boolean }>();
+  reset() {
+    this.values = {};
+    this.lastSnapshot = this.lastReport = this.pendingInput = 0;
+    this.pendingMotion = null;
+    this.sentInputs.clear();
+    this.text = "";
+  }
   motionInput(at: number, position: { x: number; y: number }) {
     if (this.enabled) this.pendingMotion = { at, x: position.x, y: position.y };
   }
@@ -26,6 +34,30 @@ export class NetworkDiagnostics {
   }
   input(now: number) {
     if (this.enabled && !this.pendingInput) this.pendingInput = now;
+  }
+  inputSent(sequence: number, now: number) {
+    if (!this.enabled) return;
+    this.sentInputs.set(sequence, { at: now, received: false });
+    if (this.sentInputs.size > 600)
+      this.sentInputs.delete(this.sentInputs.keys().next().value!);
+  }
+  acknowledge(
+    received: readonly number[],
+    applied: readonly number[],
+    side: number,
+    now: number,
+  ) {
+    if (!this.enabled) return;
+    for (const [sequence, sample] of this.sentInputs) {
+      if (!sample.received && sequence <= (received[side] ?? 0)) {
+        sample.received = true;
+        this.add("inputReceivedMs", Math.max(0, now - sample.at));
+      }
+      if (sequence <= (applied[side] ?? 0)) {
+        this.add("inputAppliedMs", Math.max(0, now - sample.at));
+        this.sentInputs.delete(sequence);
+      }
+    }
   }
   simulated(now: number) {
     if (this.pendingInput)
