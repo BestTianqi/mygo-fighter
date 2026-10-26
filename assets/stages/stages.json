@@ -13,123 +13,81 @@
       "hills": [],
       "platforms": [
         {
-          "left": 90,
-          "right": 230,
-          "height": 56
+          "left": -600,
+          "right": 300,
+          "height": 144
         },
         {
-          "left": 730,
-          "right": 870,
-          "height": 56
+          "left": 660,
+          "right": 1560,
+          "height": 144
         },
         {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "left": 180,
+          "right": 780,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -100,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -92,
+          "y": 16
+        },
+        {
+          "x": -20,
+          "y": 16
+        },
+        {
+          "x": -12,
+          "y": 32
+        },
+        {
+          "x": 60,
+          "y": 32
+        },
+        {
+          "x": 68,
+          "y": 48
+        },
+        {
+          "x": 892,
+          "y": 48
+        },
+        {
+          "x": 900,
+          "y": 32
+        },
+        {
+          "x": 972,
+          "y": 32
+        },
+        {
+          "x": 980,
+          "y": 16
+        },
+        {
+          "x": 1052,
+          "y": 16
+        },
+        {
+          "x": 1060,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向舞台台阶与两层宽走台"
   },
   {
     "id": "theater",
@@ -142,144 +100,100 @@
         "#514459",
         "#2a2336"
       ],
-      "hills": [
-        {
-          "left": 100,
-          "peak": 230,
-          "right": 360,
-          "height": 26
-        },
-        {
-          "left": 600,
-          "peak": 730,
-          "right": 860,
-          "height": 26
-        }
-      ],
+      "hills": [],
       "platforms": [
         {
-          "left": 100,
-          "right": 255,
-          "height": 84
+          "left": -560,
+          "right": 240,
+          "height": 144
         },
         {
-          "left": 350,
-          "right": 610,
-          "height": 148
+          "left": 720,
+          "right": 1520,
+          "height": 144
         },
         {
-          "left": 705,
-          "right": 860,
-          "height": 84
-        },
-        {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "left": 120,
+          "right": 840,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
+          "y": 0
         },
         {
-          "x": -400,
-          "y": -160
+          "x": -160,
+          "y": 0
+        },
+        {
+          "x": -152,
+          "y": 16
         },
         {
           "x": -80,
-          "y": 0
+          "y": 16
+        },
+        {
+          "x": -72,
+          "y": 32
+        },
+        {
+          "x": 0,
+          "y": 32
+        },
+        {
+          "x": 8,
+          "y": 48
+        },
+        {
+          "x": 80,
+          "y": 48
+        },
+        {
+          "x": 88,
+          "y": 64
+        },
+        {
+          "x": 872,
+          "y": 64
+        },
+        {
+          "x": 880,
+          "y": 48
+        },
+        {
+          "x": 952,
+          "y": 48
+        },
+        {
+          "x": 960,
+          "y": 32
+        },
+        {
+          "x": 1032,
+          "y": 32
         },
         {
           "x": 1040,
+          "y": 16
+        },
+        {
+          "x": 1112,
+          "y": 16
+        },
+        {
+          "x": 1120,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
-        },
-        {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向石阶舞台与剧场长廊"
   },
   {
     "id": "rooftop",
@@ -292,144 +206,87 @@
         "#796d7c",
         "#434453"
       ],
-      "hills": [
-        {
-          "left": 70,
-          "peak": 180,
-          "right": 300,
-          "height": 32
-        },
-        {
-          "left": 620,
-          "peak": 750,
-          "right": 890,
-          "height": 44
-        }
-      ],
+      "hills": [],
       "platforms": [
         {
-          "left": 105,
-          "right": 255,
-          "height": 84
+          "left": -600,
+          "right": 280,
+          "height": 144,
+          "style": "concrete"
         },
         {
-          "left": 350,
-          "right": 610,
-          "height": 138
+          "left": 680,
+          "right": 1560,
+          "height": 144,
+          "style": "concrete"
         },
         {
-          "left": 700,
-          "right": 850,
-          "height": 100
-        },
-        {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "left": 160,
+          "right": 800,
+          "height": 288,
+          "style": "roof"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -200,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -192,
+          "y": 16
+        },
+        {
+          "x": -112,
+          "y": 16
+        },
+        {
+          "x": -104,
+          "y": 32
+        },
+        {
+          "x": -24,
+          "y": 32
+        },
+        {
+          "x": -16,
+          "y": 48
+        },
+        {
+          "x": 816,
+          "y": 48
+        },
+        {
+          "x": 824,
+          "y": 32
+        },
+        {
+          "x": 904,
+          "y": 32
+        },
+        {
+          "x": 912,
+          "y": 16
+        },
+        {
+          "x": 992,
+          "y": 16
+        },
+        {
+          "x": 1000,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向设备台阶与两层天台长台"
   },
   {
     "id": "rainstreet",
@@ -442,138 +299,84 @@
         "#2e485c",
         "#172636"
       ],
-      "hills": [
-        {
-          "left": 320,
-          "peak": 480,
-          "right": 640,
-          "height": 32
-        }
-      ],
+      "hills": [],
       "platforms": [
         {
-          "left": 120,
+          "left": -600,
           "right": 260,
-          "height": 64
+          "height": 144
         },
         {
-          "left": 360,
-          "right": 600,
-          "height": 128
+          "left": 700,
+          "right": 1560,
+          "height": 144
         },
         {
-          "left": 680,
-          "right": 840,
-          "height": 64
-        },
-        {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "left": 140,
+          "right": 820,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -40,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -32,
+          "y": 16
+        },
+        {
+          "x": 40,
+          "y": 16
+        },
+        {
+          "x": 48,
+          "y": 32
+        },
+        {
+          "x": 120,
+          "y": 32
+        },
+        {
+          "x": 128,
+          "y": 48
+        },
+        {
+          "x": 912,
+          "y": 48
+        },
+        {
+          "x": 920,
+          "y": 32
+        },
+        {
+          "x": 992,
+          "y": 32
+        },
+        {
+          "x": 1000,
+          "y": 16
+        },
+        {
+          "x": 1072,
+          "y": 16
+        },
+        {
+          "x": 1080,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向街沿台阶与两层钢制长台"
   },
   {
     "id": "sakura",
@@ -586,144 +389,132 @@
         "#8b7962",
         "#4c4e42"
       ],
-      "hills": [
-        {
-          "left": 80,
-          "peak": 250,
-          "right": 420,
-          "height": 30
-        },
-        {
-          "left": 550,
-          "peak": 720,
-          "right": 890,
-          "height": 36
-        }
-      ],
+      "hills": [],
       "platforms": [
         {
-          "left": 130,
+          "left": -600,
           "right": 300,
-          "height": 88
+          "height": 144
         },
         {
-          "left": 400,
-          "right": 560,
-          "height": 152
+          "left": 660,
+          "right": 1560,
+          "height": 144
         },
         {
-          "left": 640,
-          "right": 815,
-          "height": 104
-        },
-        {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "left": 180,
+          "right": 780,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -440,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -432,
+          "y": 16
+        },
+        {
+          "x": -376,
+          "y": 16
+        },
+        {
+          "x": -368,
+          "y": 32
+        },
+        {
+          "x": -312,
+          "y": 32
+        },
+        {
+          "x": -304,
+          "y": 48
+        },
+        {
+          "x": 84,
+          "y": 48
+        },
+        {
+          "x": 92,
+          "y": 32
+        },
+        {
+          "x": 148,
+          "y": 32
+        },
+        {
+          "x": 156,
+          "y": 16
+        },
+        {
+          "x": 212,
+          "y": 16
+        },
+        {
+          "x": 220,
+          "y": 0
+        },
+        {
+          "x": 740,
+          "y": 0
+        },
+        {
+          "x": 748,
+          "y": 16
+        },
+        {
+          "x": 804,
+          "y": 16
+        },
+        {
+          "x": 812,
+          "y": 32
+        },
+        {
+          "x": 868,
+          "y": 32
+        },
+        {
+          "x": 876,
+          "y": 48
+        },
+        {
+          "x": 1264,
+          "y": 48
+        },
+        {
+          "x": 1272,
+          "y": 32
+        },
+        {
+          "x": 1328,
+          "y": 32
+        },
+        {
+          "x": 1336,
+          "y": 16
+        },
+        {
+          "x": 1392,
+          "y": 16
+        },
+        {
+          "x": 1400,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向河堤台阶与两层木栈道"
   },
   {
     "id": "studio",
@@ -736,150 +527,77 @@
         "#4e4947",
         "#252b31"
       ],
-      "hills": [
-        {
-          "left": 120,
-          "peak": 230,
-          "right": 340,
-          "height": 20
-        },
-        {
-          "left": 620,
-          "peak": 730,
-          "right": 840,
-          "height": 20
-        }
-      ],
+      "hills": [],
       "platforms": [
         {
+          "left": -560,
+          "right": 260,
+          "height": 144,
+          "style": "speaker"
+        },
+        {
+          "left": 700,
+          "right": 1520,
+          "height": 144,
+          "style": "speaker"
+        },
+        {
           "left": 140,
-          "right": 280,
-          "height": 56
-        },
-        {
-          "left": 410,
-          "right": 550,
-          "height": 112
-        },
-        {
-          "left": 680,
           "right": 820,
-          "height": 56
-        },
-        {
-          "left": -610,
-          "right": -390,
-          "height": -80
-        },
-        {
-          "left": -420,
-          "right": -220,
-          "height": 0
-        },
-        {
-          "left": -300,
-          "right": -100,
-          "height": 80
-        },
-        {
-          "left": -180,
-          "right": 20,
-          "height": 160
-        },
-        {
-          "left": -340,
-          "right": -140,
-          "height": 240
-        },
-        {
-          "left": -500,
-          "right": -300,
-          "height": 320
-        },
-        {
-          "left": -620,
-          "right": -420,
-          "height": 400
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 480
-        },
-        {
-          "left": 1350,
-          "right": 1570,
-          "height": -80
-        },
-        {
-          "left": 1180,
-          "right": 1380,
-          "height": 0
-        },
-        {
-          "left": 1060,
-          "right": 1260,
-          "height": 80
-        },
-        {
-          "left": 940,
-          "right": 1140,
-          "height": 160
-        },
-        {
-          "left": 1100,
-          "right": 1300,
-          "height": 240
-        },
-        {
-          "left": 1260,
-          "right": 1460,
-          "height": 320
-        },
-        {
-          "left": 1380,
-          "right": 1580,
-          "height": 400
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 480
+          "height": 288,
+          "style": "wood"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -200,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -192,
+          "y": 16
+        },
+        {
+          "x": -112,
+          "y": 16
+        },
+        {
+          "x": -104,
+          "y": 32
+        },
+        {
+          "x": 1064,
+          "y": 32
+        },
+        {
+          "x": 1072,
+          "y": 16
+        },
+        {
+          "x": 1152,
+          "y": 16
+        },
+        {
+          "x": 1160,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
-    }
+    },
+    "layout": "双向鼓台台阶与两层练习走台"
   },
   {
     "id": "hanasakigawa",
     "name": "花咲川女子学园",
     "category": "校园",
-    "layout": "校门花坛与高廊",
+    "layout": "双向花坛台阶与两层校门长廊",
     "ambience": "petals",
     "file": "assets/stages/campus/hanasakigawa.png",
     "focalPoint": [
@@ -897,108 +615,128 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": -400,
-          "right": -180,
-          "height": 40,
-          "style": "stone"
-        },
-        {
-          "left": -240,
-          "right": -20,
-          "height": 150,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 260,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 420,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 40,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 150,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 260,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 420,
-          "style": "stone"
-        },
-        {
-          "left": 100,
-          "right": 310,
-          "height": 72,
+          "left": -600,
+          "right": 280,
+          "height": 144,
           "style": "planter"
         },
         {
-          "left": 380,
-          "right": 580,
-          "height": 196,
-          "style": "rail"
+          "left": 680,
+          "right": 1560,
+          "height": 144,
+          "style": "planter"
         },
         {
-          "left": 670,
-          "right": 870,
-          "height": 104,
-          "style": "planter"
+          "left": 160,
+          "right": 800,
+          "height": 288,
+          "style": "stone"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -460,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -452,
+          "y": 16
+        },
+        {
+          "x": -388,
+          "y": 16
+        },
+        {
+          "x": -380,
+          "y": 32
+        },
+        {
+          "x": -316,
+          "y": 32
+        },
+        {
+          "x": -308,
+          "y": 48
+        },
+        {
+          "x": 68,
+          "y": 48
+        },
+        {
+          "x": 76,
+          "y": 32
+        },
+        {
+          "x": 140,
+          "y": 32
+        },
+        {
+          "x": 148,
+          "y": 16
+        },
+        {
+          "x": 212,
+          "y": 16
+        },
+        {
+          "x": 220,
+          "y": 0
+        },
+        {
+          "x": 740,
+          "y": 0
+        },
+        {
+          "x": 748,
+          "y": 16
+        },
+        {
+          "x": 812,
+          "y": 16
+        },
+        {
+          "x": 820,
+          "y": 32
+        },
+        {
+          "x": 884,
+          "y": 32
+        },
+        {
+          "x": 892,
+          "y": 48
+        },
+        {
+          "x": 1268,
+          "y": 48
+        },
+        {
+          "x": 1276,
+          "y": 32
+        },
+        {
+          "x": 1340,
+          "y": 32
+        },
+        {
+          "x": 1348,
+          "y": 16
+        },
+        {
+          "x": 1412,
+          "y": 16
+        },
+        {
+          "x": 1420,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1007,7 +745,7 @@
     "id": "haneoka",
     "name": "羽丘女子学园",
     "category": "校园",
-    "layout": "阶梯连台与上层连廊",
+    "layout": "双向学园台阶与两层连廊",
     "ambience": "leaves",
     "file": "assets/stages/campus/haneoka.png",
     "focalPoint": [
@@ -1025,108 +763,77 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
+          "left": -600,
+          "right": 300,
+          "height": 144
         },
         {
-          "left": -400,
-          "right": -180,
-          "height": 52,
-          "style": "stone"
+          "left": 660,
+          "right": 1560,
+          "height": 144
         },
         {
-          "left": -240,
-          "right": -20,
-          "height": 162,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 272,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 432,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 52,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 162,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 272,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 432,
-          "style": "stone"
-        },
-        {
-          "left": 80,
-          "right": 290,
-          "height": 104,
-          "style": "stone"
-        },
-        {
-          "left": 360,
-          "right": 600,
-          "height": 224,
-          "style": "rail"
-        },
-        {
-          "left": 700,
-          "right": 920,
-          "height": 160,
-          "style": "stone"
+          "left": 180,
+          "right": 780,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -220,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -212,
+          "y": 24
+        },
+        {
+          "x": -132,
+          "y": 24
+        },
+        {
+          "x": -124,
+          "y": 48
+        },
+        {
+          "x": -44,
+          "y": 48
+        },
+        {
+          "x": -36,
+          "y": 72
+        },
+        {
+          "x": 996,
+          "y": 72
+        },
+        {
+          "x": 1004,
+          "y": 48
+        },
+        {
+          "x": 1084,
+          "y": 48
+        },
+        {
+          "x": 1092,
+          "y": 24
+        },
+        {
+          "x": 1172,
+          "y": 24
+        },
+        {
+          "x": 1180,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1135,7 +842,7 @@
     "id": "tsukinomori",
     "name": "月之森女子学园",
     "category": "校园",
-    "layout": "钟门广场与石柱高台",
+    "layout": "双向广场石阶与两层宽石台",
     "ambience": "leaves",
     "file": "assets/stages/campus/tsukinomori.png",
     "focalPoint": [
@@ -1153,108 +860,93 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
+          "left": -560,
+          "right": 240,
+          "height": 144
         },
         {
-          "left": -400,
-          "right": -180,
-          "height": 64,
-          "style": "stone"
+          "left": 720,
+          "right": 1520,
+          "height": 144
         },
         {
-          "left": -240,
-          "right": -20,
-          "height": 174,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 284,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 444,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 64,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 174,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 284,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 444,
-          "style": "stone"
-        },
-        {
-          "left": 80,
-          "right": 310,
-          "height": 96,
-          "style": "stone"
-        },
-        {
-          "left": 340,
-          "right": 620,
-          "height": 240,
-          "style": "rail"
-        },
-        {
-          "left": 670,
-          "right": 900,
-          "height": 96,
-          "style": "stone"
+          "left": 120,
+          "right": 840,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -160,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -152,
+          "y": 16
+        },
+        {
+          "x": -72,
+          "y": 16
+        },
+        {
+          "x": -64,
+          "y": 32
+        },
+        {
+          "x": 16,
+          "y": 32
+        },
+        {
+          "x": 24,
+          "y": 48
+        },
+        {
+          "x": 104,
+          "y": 48
+        },
+        {
+          "x": 112,
+          "y": 64
+        },
+        {
+          "x": 848,
+          "y": 64
+        },
+        {
+          "x": 856,
+          "y": 48
+        },
+        {
+          "x": 936,
+          "y": 48
+        },
+        {
+          "x": 944,
+          "y": 32
+        },
+        {
+          "x": 1024,
+          "y": 32
+        },
+        {
+          "x": 1032,
+          "y": 16
+        },
+        {
+          "x": 1112,
+          "y": 16
+        },
+        {
+          "x": 1120,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1263,7 +955,7 @@
     "id": "tsukinomori-garden",
     "name": "月之森·庭院",
     "category": "校园",
-    "layout": "花圃、回廊与中央高台",
+    "layout": "双向庭院花阶与两层回廊",
     "ambience": "petals",
     "file": "assets/stages/campus/tsukinomori-garden.png",
     "focalPoint": [
@@ -1281,114 +973,128 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": -400,
-          "right": -180,
-          "height": 40,
-          "style": "stone"
-        },
-        {
-          "left": -240,
-          "right": -20,
-          "height": 150,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 260,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 420,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 40,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 150,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 260,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 420,
-          "style": "stone"
-        },
-        {
-          "left": 120,
-          "right": 320,
-          "height": 64,
+          "left": -600,
+          "right": 280,
+          "height": 144,
           "style": "planter"
         },
         {
-          "left": 390,
-          "right": 570,
-          "height": 180,
-          "style": "stone"
-        },
-        {
-          "left": 650,
-          "right": 840,
-          "height": 128,
+          "left": 680,
+          "right": 1560,
+          "height": 144,
           "style": "planter"
         },
         {
-          "left": 420,
-          "right": 540,
-          "height": 330,
-          "style": "rail"
+          "left": 160,
+          "right": 800,
+          "height": 288,
+          "style": "stone"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -440,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -432,
+          "y": 16
+        },
+        {
+          "x": -368,
+          "y": 16
+        },
+        {
+          "x": -360,
+          "y": 32
+        },
+        {
+          "x": -296,
+          "y": 32
+        },
+        {
+          "x": -288,
+          "y": 48
+        },
+        {
+          "x": 88,
+          "y": 48
+        },
+        {
+          "x": 96,
+          "y": 32
+        },
+        {
+          "x": 160,
+          "y": 32
+        },
+        {
+          "x": 168,
+          "y": 16
+        },
+        {
+          "x": 232,
+          "y": 16
+        },
+        {
+          "x": 240,
+          "y": 0
+        },
+        {
+          "x": 720,
+          "y": 0
+        },
+        {
+          "x": 728,
+          "y": 16
+        },
+        {
+          "x": 792,
+          "y": 16
+        },
+        {
+          "x": 800,
+          "y": 32
+        },
+        {
+          "x": 864,
+          "y": 32
+        },
+        {
+          "x": 872,
+          "y": 48
+        },
+        {
+          "x": 1248,
+          "y": 48
+        },
+        {
+          "x": 1256,
+          "y": 32
+        },
+        {
+          "x": 1320,
+          "y": 32
+        },
+        {
+          "x": 1328,
+          "y": 16
+        },
+        {
+          "x": 1392,
+          "y": 16
+        },
+        {
+          "x": 1400,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1397,7 +1103,7 @@
     "id": "haneoka-roof",
     "name": "羽丘·学校天台",
     "category": "校园",
-    "layout": "围栏外景与屋顶设备台",
+    "layout": "双向屋顶台阶与两层设备长台",
     "ambience": "breeze",
     "file": "assets/stages/campus/haneoka-roof.png",
     "focalPoint": [
@@ -1415,108 +1121,80 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "roof"
-        },
-        {
-          "left": -400,
-          "right": -180,
-          "height": 52,
-          "style": "roof"
-        },
-        {
-          "left": -240,
-          "right": -20,
-          "height": 162,
-          "style": "roof"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 272,
-          "style": "roof"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 432,
-          "style": "roof"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "roof"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 52,
-          "style": "roof"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 162,
-          "style": "roof"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 272,
-          "style": "roof"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 432,
-          "style": "roof"
-        },
-        {
-          "left": 60,
+          "left": -600,
           "right": 260,
-          "height": 160,
-          "style": "roof"
-        },
-        {
-          "left": 370,
-          "right": 590,
-          "height": 280,
-          "style": "roof"
+          "height": 144,
+          "style": "concrete"
         },
         {
           "left": 700,
-          "right": 900,
-          "height": 112,
+          "right": 1560,
+          "height": 144,
+          "style": "concrete"
+        },
+        {
+          "left": 140,
+          "right": 820,
+          "height": 288,
           "style": "roof"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -120,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -112,
+          "y": 16
+        },
+        {
+          "x": -40,
+          "y": 16
+        },
+        {
+          "x": -32,
+          "y": 32
+        },
+        {
+          "x": 40,
+          "y": 32
+        },
+        {
+          "x": 48,
+          "y": 48
+        },
+        {
+          "x": 912,
+          "y": 48
+        },
+        {
+          "x": 920,
+          "y": 32
+        },
+        {
+          "x": 992,
+          "y": 32
+        },
+        {
+          "x": 1000,
+          "y": 16
+        },
+        {
+          "x": 1072,
+          "y": 16
+        },
+        {
+          "x": 1080,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1525,7 +1203,7 @@
     "id": "circle-studio",
     "name": "CiRCLE·练习室",
     "category": "练习室",
-    "layout": "音箱踏台与木制高台",
+    "layout": "双向木鼓台与两层练习长台",
     "ambience": "dust",
     "file": "assets/stages/campus/circle-studio.png",
     "focalPoint": [
@@ -1543,108 +1221,80 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "speaker"
-        },
-        {
-          "left": -400,
-          "right": -180,
-          "height": 64,
-          "style": "speaker"
-        },
-        {
-          "left": -240,
-          "right": -20,
-          "height": 174,
-          "style": "speaker"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 284,
-          "style": "speaker"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 444,
-          "style": "speaker"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "speaker"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 64,
-          "style": "speaker"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 174,
-          "style": "speaker"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 284,
-          "style": "speaker"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 444,
-          "style": "speaker"
-        },
-        {
-          "left": 100,
-          "right": 310,
-          "height": 80,
-          "style": "speaker"
-        },
-        {
-          "left": 390,
-          "right": 570,
-          "height": 160,
+          "left": -560,
+          "right": 300,
+          "height": 144,
           "style": "wood"
         },
         {
-          "left": 650,
-          "right": 860,
-          "height": 80,
+          "left": 660,
+          "right": 1520,
+          "height": 144,
+          "style": "wood"
+        },
+        {
+          "left": 180,
+          "right": 780,
+          "height": 288,
           "style": "speaker"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -180,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -172,
+          "y": 16
+        },
+        {
+          "x": -92,
+          "y": 16
+        },
+        {
+          "x": -84,
+          "y": 32
+        },
+        {
+          "x": -4,
+          "y": 32
+        },
+        {
+          "x": 4,
+          "y": 48
+        },
+        {
+          "x": 956,
+          "y": 48
+        },
+        {
+          "x": 964,
+          "y": 32
+        },
+        {
+          "x": 1044,
+          "y": 32
+        },
+        {
+          "x": 1052,
+          "y": 16
+        },
+        {
+          "x": 1132,
+          "y": 16
+        },
+        {
+          "x": 1140,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1653,7 +1303,7 @@
     "id": "ring-studio",
     "name": "RiNG·练习室",
     "category": "练习室",
-    "layout": "鼓台、音箱与上层走台",
+    "layout": "双向音箱台阶与两层宽走台",
     "ambience": "dust",
     "file": "assets/stages/campus/ring-studio.png",
     "focalPoint": [
@@ -1671,108 +1321,96 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
+          "left": -600,
+          "right": 260,
+          "height": 144,
           "style": "speaker"
         },
         {
-          "left": -400,
-          "right": -180,
-          "height": 40,
+          "left": 700,
+          "right": 1560,
+          "height": 144,
           "style": "speaker"
         },
         {
-          "left": -240,
-          "right": -20,
-          "height": 150,
-          "style": "speaker"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 260,
-          "style": "speaker"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 420,
-          "style": "speaker"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "speaker"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 40,
-          "style": "speaker"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 150,
-          "style": "speaker"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 260,
-          "style": "speaker"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 420,
-          "style": "speaker"
-        },
-        {
-          "left": 80,
-          "right": 290,
-          "height": 112,
-          "style": "speaker"
-        },
-        {
-          "left": 330,
-          "right": 530,
-          "height": 240,
-          "style": "wood"
-        },
-        {
-          "left": 640,
-          "right": 880,
-          "height": 152,
-          "style": "speaker"
+          "left": 140,
+          "right": 820,
+          "height": 288,
+          "style": "metal"
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -80,
           "y": 0
         },
         {
-          "x": 1040,
+          "x": -440,
           "y": 0
         },
         {
-          "x": 1360,
-          "y": -160
+          "x": -432,
+          "y": 16
+        },
+        {
+          "x": -360,
+          "y": 16
+        },
+        {
+          "x": -352,
+          "y": 32
+        },
+        {
+          "x": 132,
+          "y": 32
+        },
+        {
+          "x": 140,
+          "y": 16
+        },
+        {
+          "x": 212,
+          "y": 16
+        },
+        {
+          "x": 220,
+          "y": 0
+        },
+        {
+          "x": 740,
+          "y": 0
+        },
+        {
+          "x": 748,
+          "y": 16
+        },
+        {
+          "x": 820,
+          "y": 16
+        },
+        {
+          "x": 828,
+          "y": 32
+        },
+        {
+          "x": 1312,
+          "y": 32
+        },
+        {
+          "x": 1320,
+          "y": 16
+        },
+        {
+          "x": 1392,
+          "y": 16
+        },
+        {
+          "x": 1400,
+          "y": 0
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1781,7 +1419,7 @@
     "id": "sunshine-steps",
     "name": "大台阶·黄昏",
     "category": "街景",
-    "layout": "连续台阶与上层休憩平台",
+    "layout": "双向大台阶与两层休憩长台",
     "ambience": "sunset",
     "file": "assets/stages/campus/sunshine-steps.png",
     "focalPoint": [
@@ -1799,156 +1437,93 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
+          "left": -600,
+          "right": 280,
+          "height": 144
         },
         {
-          "left": -400,
-          "right": -180,
-          "height": 52,
-          "style": "stone"
-        },
-        {
-          "left": -240,
-          "right": -20,
-          "height": 162,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 272,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 432,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 52,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 162,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 272,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 432,
-          "style": "stone"
+          "left": 680,
+          "right": 1560,
+          "height": 144
         },
         {
           "left": 160,
-          "right": 330,
-          "height": 160,
-          "style": "stone"
-        },
-        {
-          "left": 380,
-          "right": 580,
-          "height": 360,
-          "style": "rail"
-        },
-        {
-          "left": 650,
-          "right": 820,
-          "height": 208,
-          "style": "stone"
+          "right": 800,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -400,
-          "y": -160
-        },
-        {
-          "x": -160,
           "y": 0
         },
         {
-          "x": 220,
+          "x": -300,
           "y": 0
         },
         {
-          "x": 221,
+          "x": -292,
+          "y": 24
+        },
+        {
+          "x": -196,
+          "y": 24
+        },
+        {
+          "x": -188,
           "y": 48
         },
         {
-          "x": 300,
+          "x": -92,
           "y": 48
         },
         {
-          "x": 301,
+          "x": -84,
+          "y": 72
+        },
+        {
+          "x": 12,
+          "y": 72
+        },
+        {
+          "x": 20,
           "y": 96
         },
         {
-          "x": 380,
+          "x": 940,
           "y": 96
         },
         {
-          "x": 381,
-          "y": 144
+          "x": 948,
+          "y": 72
         },
         {
-          "x": 579,
-          "y": 144
+          "x": 1044,
+          "y": 72
         },
         {
-          "x": 580,
-          "y": 96
-        },
-        {
-          "x": 659,
-          "y": 96
-        },
-        {
-          "x": 660,
+          "x": 1052,
           "y": 48
         },
         {
-          "x": 739,
+          "x": 1148,
           "y": 48
         },
         {
-          "x": 740,
+          "x": 1156,
+          "y": 24
+        },
+        {
+          "x": 1252,
+          "y": 24
+        },
+        {
+          "x": 1260,
           "y": 0
-        },
-        {
-          "x": 1120,
-          "y": 0
-        },
-        {
-          "x": 1360,
-          "y": -160
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }
@@ -1957,7 +1532,7 @@
     "id": "sunshine-night",
     "name": "大台阶·夜景",
     "category": "街景",
-    "layout": "夜间错层与侧翼迂回路线",
+    "layout": "双向夜景大台阶与两层观景长台",
     "ambience": "night",
     "file": "assets/stages/campus/sunshine-night.png",
     "focalPoint": [
@@ -1975,156 +1550,93 @@
       "hills": [],
       "platforms": [
         {
-          "left": -640,
-          "right": -420,
-          "height": -72,
-          "style": "stone"
+          "left": -600,
+          "right": 300,
+          "height": 144
         },
         {
-          "left": -400,
-          "right": -180,
-          "height": 64,
-          "style": "stone"
+          "left": 660,
+          "right": 1560,
+          "height": 144
         },
         {
-          "left": -240,
-          "right": -20,
-          "height": 174,
-          "style": "stone"
-        },
-        {
-          "left": -440,
-          "right": -220,
-          "height": 284,
-          "style": "stone"
-        },
-        {
-          "left": -620,
-          "right": -400,
-          "height": 444,
-          "style": "stone"
-        },
-        {
-          "left": 1380,
-          "right": 1600,
-          "height": -72,
-          "style": "stone"
-        },
-        {
-          "left": 1140,
-          "right": 1360,
-          "height": 64,
-          "style": "stone"
-        },
-        {
-          "left": 980,
-          "right": 1200,
-          "height": 174,
-          "style": "stone"
-        },
-        {
-          "left": 1180,
-          "right": 1400,
-          "height": 284,
-          "style": "stone"
-        },
-        {
-          "left": 1360,
-          "right": 1580,
-          "height": 444,
-          "style": "stone"
-        },
-        {
-          "left": 100,
-          "right": 290,
-          "height": 184,
-          "style": "stone"
-        },
-        {
-          "left": 350,
-          "right": 620,
-          "height": 320,
-          "style": "rail"
-        },
-        {
-          "left": 700,
-          "right": 920,
-          "height": 136,
-          "style": "stone"
+          "left": 180,
+          "right": 780,
+          "height": 288
         }
       ],
       "ground": [
         {
           "x": -720,
-          "y": -160
-        },
-        {
-          "x": -440,
-          "y": -160
-        },
-        {
-          "x": -180,
           "y": 0
         },
         {
-          "x": 180,
+          "x": -280,
           "y": 0
         },
         {
-          "x": 181,
-          "y": 56
+          "x": -272,
+          "y": 24
         },
         {
-          "x": 290,
-          "y": 56
+          "x": -184,
+          "y": 24
         },
         {
-          "x": 291,
-          "y": 112
+          "x": -176,
+          "y": 48
         },
         {
-          "x": 400,
-          "y": 112
+          "x": -88,
+          "y": 48
         },
         {
-          "x": 401,
-          "y": 168
+          "x": -80,
+          "y": 72
         },
         {
-          "x": 559,
-          "y": 168
+          "x": 8,
+          "y": 72
         },
         {
-          "x": 560,
-          "y": 112
+          "x": 16,
+          "y": 96
         },
         {
-          "x": 669,
-          "y": 112
+          "x": 944,
+          "y": 96
         },
         {
-          "x": 670,
-          "y": 56
+          "x": 952,
+          "y": 72
         },
         {
-          "x": 779,
-          "y": 56
+          "x": 1040,
+          "y": 72
         },
         {
-          "x": 780,
+          "x": 1048,
+          "y": 48
+        },
+        {
+          "x": 1136,
+          "y": 48
+        },
+        {
+          "x": 1144,
+          "y": 24
+        },
+        {
+          "x": 1232,
+          "y": 24
+        },
+        {
+          "x": 1240,
           "y": 0
-        },
-        {
-          "x": 1120,
-          "y": 0
-        },
-        {
-          "x": 1400,
-          "y": -160
         },
         {
           "x": 1680,
-          "y": -160
+          "y": 0
         }
       ]
     }

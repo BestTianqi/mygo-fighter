@@ -11,9 +11,11 @@ import { CHARACTERS } from "./roster";
 import { MYGO_ABILITY } from "./ability";
 import { tuneMygo } from "./tune";
 
-/** Captured before the shared balance pass, matching the original behaviour. */
+/** Penguin keeps its original movement profile and the shared normal ranges. */
 const PENGUIN_PROFILE: Character = {
   ...CHARACTERS[2],
+  lightReach: FEEL.normalReach,
+  heavyReach: FEEL.normalReach * FEEL.heavyReachMultiplier,
   speed: (375 * FEEL.walk) / 345,
   jump: (640 * FEEL.jump) / 620,
 };
@@ -46,4 +48,13 @@ const BAND: Band = defineBand({
   tune: tuneMygo,
 });
 
-export { BAND, CHARACTERS, MOVES, PENGUIN_PROFILE, chainPrefix, firstJab, formFor, schemeFor };
+export {
+  BAND,
+  CHARACTERS,
+  MOVES,
+  PENGUIN_PROFILE,
+  chainPrefix,
+  firstJab,
+  formFor,
+  schemeFor,
+};

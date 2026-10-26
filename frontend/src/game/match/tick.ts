@@ -290,15 +290,8 @@ export function step(match: Match, p1: Input, p2: Input): void {
         radius: move.areaRadius,
       });
     }
-    const compactReach =
-      f.character === 2 && ["light", "heavy"].includes(f.attack!)
-        ? f.attack === "light"
-          ? (MOVES.light.reach! * profile.lightReach) / 94
-          : profile.heavyReach
-        : 0;
     const reach =
       impact.reach ||
-      compactReach ||
       move.reach ||
       (f.attack === "light"
         ? profile.lightReach

@@ -8,28 +8,25 @@ export function applyBalance(MOVES: Record<string, Move>): void {
     Math.max(1, Math.round(Math.round(damage * 0.75) * 0.9));
   for (const profile of ROSTER) {
     profile.heavyDamage = normalDamage(profile.heavyDamage);
-    profile.heavyReach = Math.round(
-      profile.heavyReach * FEEL.heavyReachMultiplier,
-    );
+    profile.lightReach = FEEL.normalReach;
+    profile.heavyReach = FEEL.normalReach * FEEL.heavyReachMultiplier;
   }
   for (const [key, move] of Object.entries(MOVES)) {
     if (move.category === "normal") {
       move.damage = normalDamage(move.damage);
       move.duration += 80;
       const strong = move.strength === 3 && !move.jab && !move.chain;
-      move.vertical = Math.max(
-        move.vertical ?? 0,
-        strong ? FEEL.heavyHeightTolerance : FEEL.normalHeightTolerance,
-      );
-      if (strong && move.reach)
-        move.reach = Math.round(move.reach * FEEL.heavyReachMultiplier);
+      // Every normal, including all J follow-ups and crouch/air variants, uses
+      // one box. Heavy attacks extend both axes by the same 1.2 ratio.
+      const range = strong ? FEEL.heavyReachMultiplier : 1;
+      move.reach = FEEL.normalReach * range;
+      move.vertical = FEEL.normalHeightTolerance * range;
       if (move.pulses)
         move.pulses = move.pulses.map((p) => ({
           ...p,
           damage: normalDamage(p.damage),
-          ...(strong && p.reach
-            ? { reach: Math.round(p.reach * FEEL.heavyReachMultiplier) }
-            : {}),
+          reach: move.reach,
+          vertical: move.vertical,
         }));
     }
     if (

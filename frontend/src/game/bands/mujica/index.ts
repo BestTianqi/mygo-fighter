@@ -11,7 +11,14 @@ const profileFor = (f: Parameters<Band["profileFor"]>[0]): Character => {
     (character) => character.id === f.character,
   )!;
   return f.stageForm
-    ? { ...profile, speed: profile.speed * mujica.STAGE_FORM.speedMultiplier }
+    ? {
+        ...profile,
+        speed: profile.speed * mujica.STAGE_FORM.speedMultiplier,
+        lightReach:
+          profile.lightReach * mujica.STAGE_FORM.normalRangeMultiplier,
+        heavyReach:
+          profile.heavyReach * mujica.STAGE_FORM.normalRangeMultiplier,
+      }
     : profile;
 };
 

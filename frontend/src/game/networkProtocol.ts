@@ -2,7 +2,7 @@ import type { Match } from "./engine";
 import type { Input } from "./objects/Input";
 import type { CombatEvent } from "./objects/CombatEvent";
 
-export const NETWORK_PROTOCOL = 10;
+export const NETWORK_PROTOCOL = 11;
 export const HISTORY_MS = 2000;
 export type MatchState = Pick<
   Match,

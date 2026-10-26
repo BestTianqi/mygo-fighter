@@ -32,8 +32,13 @@ export function aiInput(match: Match): Input {
     const platform = (match.options.terrain?.platforms || []).find(
       (p) => a.x >= p.left && a.x <= p.right && Math.abs(a.y - p.height) < 0.1,
     );
-    if (platform && b.x >= platform.left && b.x <= platform.right)
-      return { crouch: true, jump: true };
+    if (platform) {
+      if (b.x >= platform.left && b.x <= platform.right)
+        return { crouch: true, jump: true };
+      // A wide upper deck can catch a high jump toward a lower opponent.
+      // Keep walking off its edge even inside the normal attack distance.
+      return { left: toward < 0, right: toward > 0 };
+    }
   }
   match.aiThink -= 10;
   if (match.aiThink > 0) return input;

@@ -28,5 +28,6 @@ const STAGE_FORM = Object.freeze({
   duration: 20000,
   damageMultiplier: 1.2,
   speedMultiplier: 1.1,
+  normalRangeMultiplier: 1.1,
 });
 export { formFor, normalFor, prefixFor, schemeFor, STAGE_FORM };

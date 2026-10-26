@@ -1,12 +1,30 @@
 import { WORLD } from "../../data/rules";
 import type { Move } from "../../objects/Move";
+import { STAGE_FORM } from "../../mujica/forms";
+import { CHARACTERS } from "../../mujica/roster";
 import {
   PENGUIN_SUPER_TUNING,
   penguinSuperPulses,
 } from "../shared/derivedSupers";
 
-/** Authored combat timings deliberately differ from recorded video durations. */
+/** Stage normal range and authored combat timings are independent of video duration. */
 export function tuneMujica(MOVES: Record<string, Move>): void {
+  for (const move of Object.values(MOVES)) {
+    if (
+      move.category !== "normal" ||
+      move.form !== "stage" ||
+      !CHARACTERS.some((character) => character.id === move.ownerCharacter)
+    )
+      continue;
+    move.reach! *= STAGE_FORM.normalRangeMultiplier;
+    move.vertical! *= STAGE_FORM.normalRangeMultiplier;
+    if (move.pulses)
+      move.pulses = move.pulses.map((pulse) => ({
+        ...pulse,
+        reach: move.reach,
+        vertical: move.vertical,
+      }));
+  }
   Object.assign(MOVES.mujica_8_normal_super, {
     duration: 1000,
     start: 50,

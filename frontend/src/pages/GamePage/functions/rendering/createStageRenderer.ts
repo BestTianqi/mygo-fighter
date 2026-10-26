@@ -324,9 +324,19 @@ export function createStageRenderer(
         Math.PI * 2,
       );
       ctx.fill();
-      // Supports sit behind the one-way deck; its bright top edge is the landing line.
+      // Upper walkways rest on the lower decks, keeping supports out of the
+      // open fighting lane. The bright top edge remains the exact landing line.
       for (const x of [p.left + 14, p.right - 22]) {
-        const bottom = 438 - match.floorHeight(x);
+        const support = Math.max(
+          match.floorHeight(x),
+          ...terrain.platforms
+            .filter(
+              (below) =>
+                below.height < p.height && x >= below.left && x <= below.right,
+            )
+            .map((below) => below.height),
+        );
+        const bottom = 438 - support;
         ctx.fillStyle = dark;
         ctx.fillRect(x, top + 15, 8, bottom - top - 15);
         ctx.fillStyle = face;
@@ -355,16 +365,6 @@ export function createStageRenderer(
           ctx.ellipse(x, top - 8, 9, 5, -0.3, 0, Math.PI * 2);
           ctx.fill();
         }
-      }
-      if (material === "metal") {
-        ctx.strokeStyle = face;
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(p.left + 18, top + 20);
-        ctx.lineTo(p.right - 18, 428 - match.floorHeight(p.right - 18));
-        ctx.moveTo(p.right - 18, top + 20);
-        ctx.lineTo(p.left + 18, 428 - match.floorHeight(p.left + 18));
-        ctx.stroke();
       }
       const slab = ctx.createLinearGradient(0, top, 0, top + 22);
       slab.addColorStop(0, face);
