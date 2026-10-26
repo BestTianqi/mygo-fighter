@@ -9,6 +9,7 @@ import io.circe.{parser, Json}
 import org.http4s.ember.server.EmberServerBuilder
 import scala.concurrent.duration.*
 import services.rooms.api.{CloseRoomsMessage, TickRoomsMessage}
+import services.rooms.objects.GameLimits
 import services.rooms.routes.RoomRoutes
 import services.system.objects.{Connection, ServerConfig}
 import services.system.routes.{APIMessageRouter, StaticRoutes, SystemRoutes}
@@ -48,9 +49,10 @@ object Main extends IOApp.Simple:
           resourceText("stages.json").flatMap(raw =>
             IO.fromEither(parser.decode[Vector[Json]](raw))
           ),
+          GameLimits.load,
           AdmissionControl.create(config.trustLocalProxy)
-        ).mapN((rooms, sessions, source, stages, admission) =>
-          (Connection(rooms, sessions, source, stages, config, supervisor), admission)
+        ).mapN((rooms, sessions, source, stages, limits, admission) =>
+          (Connection(rooms, sessions, source, stages, limits, config, supervisor), admission)
         ).flatMap { (connection, admission) =>
           val clock = Stream
             .awakeEvery[IO](1.second)

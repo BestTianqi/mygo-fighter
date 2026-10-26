@@ -1,7 +1,6 @@
 import { createAnimator } from "../../../../game/animation";
+import { bandFor } from "../../../../game/bands";
 import { MOVES, ROUND_END_TIMING, type Match } from "../../../../game/engine";
-import * as mewtype from "../../../../game/mewtype";
-import * as mujica from "../../../../game/mujica";
 import type {
   Assets,
   Atlas,
@@ -10,6 +9,7 @@ import type {
 import type { CombatEvent } from "../../../../game/objects/CombatEvent";
 import type { Fighter } from "../../../../game/objects/Fighter";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
+import { bandAtlas, bandAtlases, bandPortrait } from "../bandArt";
 
 import { createBattleScene } from "./createBattleScene";
 
@@ -108,51 +108,7 @@ export class CanvasRenderer {
     this.visualFighters = [];
     this.resetCorrection();
     const ids = [...new Set(config.teams?.flat() ?? config.characters)];
-    const atlases = ids.flatMap((id) => {
-      if (id >= 5)
-        return [
-          ...Object.values(
-            (id >= 10 ? this.assets.mewtypeForms : this.assets.mujicaForms)[id],
-          ),
-          ...Object.values(this.assets.mujicaPortraits[id] ?? {}).map(
-            (p) => p.idle,
-          ),
-          ...(this.assets.mewtypePortraits?.[id]
-            ? [this.assets.mewtypePortraits[id].idle]
-            : []),
-          ...(this.assets.mujicaMaskForms[id]
-            ? [this.assets.mujicaMaskForms[id]]
-            : []),
-          ...(id === 7 ? Object.values(this.assets.memeCrawlForms) : []),
-          ...(id === 6 ? [this.assets.sakikoCustomerActions] : []),
-        ];
-      return [
-        this.assets.characters[id],
-        ...(this.assets.mygoPortraits?.[id]
-          ? [this.assets.mygoPortraits[id].idle]
-          : []),
-        ...[
-          [
-            this.assets.anonActions,
-            this.assets.anonNormals,
-            this.assets.milkDragon,
-            this.assets.jabActions[0],
-          ],
-          [
-            this.assets.soyoActions,
-            this.assets.soyoTensora,
-            this.assets.jabActions[1],
-          ],
-          [
-            this.assets.tomoriActions,
-            this.assets.penguin,
-            this.assets.jabActions[2],
-          ],
-          [this.assets.ranaParfaitActions],
-          [],
-        ][id],
-      ];
-    });
+    const atlases = ids.flatMap((id) => bandAtlases(this.assets, id));
     const urls = new Set([
       this.assets.backgrounds[config.settings.arena],
       ...ids.flatMap((id) => this.assets.finishArts?.[id] ?? []),
@@ -215,21 +171,20 @@ export class CanvasRenderer {
     let art: Atlas = a.characters[f.character];
     let frame = art.frames[match.pose(side)] ?? art.frames[0];
     let height = frame.height ?? (235 * frame.h) / art.frames[0].h;
-    if (f.character >= 5) {
-      const form = (f.character >= 10 ? mewtype : mujica).formFor(f);
-      art = (f.character >= 10 ? a.mewtypeForms : a.mujicaForms)[f.character][
-        form
-      ];
+    const band = bandFor(f.character);
+    if (band.id !== "mygo") {
+      const form = band.formFor(f);
+      art = bandAtlas(a, f.character, form);
       if (animation?.startsWith("mask-"))
         art = a.mujicaMaskForms[f.character] ?? art;
       else if (animation?.startsWith("customer-"))
         art = a.sakikoCustomerActions;
       else if (animation?.startsWith("crawl-"))
         art = a.memeCrawlForms[form] ?? art;
-      else if (animation === "idle" && a.mewtypePortraits?.[f.character])
-        art = a.mewtypePortraits[f.character].idle;
-      else if (animation === "idle" && a.mujicaPortraits[f.character]?.[form])
-        art = a.mujicaPortraits[f.character][form].idle;
+      else {
+        const portrait = bandPortrait(a, f.character, form);
+        if (animation === "idle" && portrait) art = portrait.idle;
+      }
       frame =
         art.frames.find((frame) => frame.name === animation) ?? art.frames[0];
       height = frame.height ?? 235;

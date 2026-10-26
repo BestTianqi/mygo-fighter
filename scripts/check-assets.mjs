@@ -31,9 +31,6 @@ const files = await readdir(new URL("media/", root));
 for (const filename of files)
   if (!references.has(filename))
     throw new Error(`Unreferenced runtime media: ${filename}`);
-if (manifest.characters.length !== 16 || manifest.stages.length !== 15)
-  throw new Error("Incomplete character or stage catalog");
-
 // Action catalogs use assets-relative paths; stage entries use repository paths.
 // Check both conventions so source reorganization cannot silently break packing.
 const sourceReferences = new Set();
@@ -74,5 +71,6 @@ for (const filename of sourceReferences) {
     throw new Error(`Missing or empty artwork source: ${filename}`);
 }
 console.log(
-  `Verified ${references.size} media files, ${sourceReferences.size} artwork sources, 16 characters and 15 stages.`,
+  `Verified ${references.size} media files, ${sourceReferences.size} artwork sources, ` +
+    `${manifest.characters.length} characters and ${manifest.stages.length} stages.`,
 );

@@ -2,8 +2,8 @@ import type { Fighter, FighterIdentity } from "./objects/Fighter";
 import type { Input } from "./objects/Input";
 import type { Scheme } from "./objects/Scheme";
 
-import * as mujica from "./mujica";
-import * as mewtype from "./mewtype";
+import { bandFor } from "./bands";
+import { resolveSchemeSkill } from "./bands/shared/skill";
 const KEYS1 = Object.freeze({
   left: "KeyA",
   right: "KeyD",
@@ -17,6 +17,8 @@ const KEYS1 = Object.freeze({
   skill3: "KeyO",
   transform: "KeyH",
   super: "KeyP",
+  guard: "Space",
+  dash: "ShiftLeft",
 });
 const KEYS2 = Object.freeze({
   left: "ArrowLeft",
@@ -31,74 +33,11 @@ const KEYS2 = Object.freeze({
   skill3: "Numpad6",
   transform: "Numpad7",
   super: "Numpad8",
+  guard: "Numpad0",
+  dash: "Numpad9",
 });
-const schemes: Scheme[] = [
-  {
-    base: ["shield", "wave", "special"],
-    super: "super",
-    variants: {
-      down1: "rising",
-      forward1: "thrust",
-      back1: "anonCry",
-      down2: "sonic",
-      back2: "waveLight",
-      forward2: "waveHeavy",
-      down3: "rush",
-      back3: "spin",
-      airDown3: "dive",
-    },
-  },
-  {
-    base: ["summon", "wave", "special"],
-    super: "soyoSuper",
-    variants: { down2: "heal", forward2: "soyoCutline" },
-  },
-  {
-    base: ["tomoriEcho", "tomoriNote", "tomoriChorus"],
-    super: "tomoriSuper",
-    transform: "penguinTransform",
-    variants: {},
-  },
-  {
-    base: ["ranaRush", "ranaParfait", "ranaSolo"],
-    super: "ranaSuper",
-    variants: {
-      down1: "ranaRise",
-      forward1: "ranaSlide",
-      down2: "ranaTune",
-      forward2: "ranaChord",
-      down3: "ranaPick",
-      airDown3: "ranaDive",
-    },
-  },
-  {
-    base: ["rikiRoll", "rikiShock", "rikiEight"],
-    super: "rikiSuper",
-    variants: {
-      down1: "rikiOverhead",
-      forward1: "rikiRush",
-      down2: "rikiCalibrate",
-      forward2: "rikiRise",
-    },
-  },
-];
-const penguin: Scheme = {
-  base: ["penguinCry", "penguinHey", "penguinCall"],
-  super: "penguinSuper",
-  variants: {
-    forward1: "penguinKick",
-    down2: "penguinLaugh",
-    airDown3: "penguinKick",
-  },
-};
 function schemeFor(f: FighterIdentity): Scheme {
-  return f.character >= 10
-    ? mewtype.schemeFor(f)
-    : f.character >= 5
-      ? mujica.schemeFor(f)
-      : f.character === 2 && f.penguin
-        ? penguin
-        : schemes[f.character];
+  return bandFor(f.character).schemeFor(f);
 }
 function resolveSkill(
   f: Fighter,
@@ -106,45 +45,17 @@ function resolveSkill(
   pressed: (key: string) => boolean,
   airborne: boolean,
 ) {
-  const scheme = schemeFor(f);
-  if (pressed("super")) return scheme.super || null;
-  if (pressed("transform") && scheme.transform)
-    return (!f.penguin && scheme.transform) || null;
-  for (let i = 1; i <= 3; i++)
-    if (pressed("skill" + i)) {
-      const gesture = input.pressDirections?.["skill" + i] || input;
-      const horizontal =
-        (Number(!!gesture.right) - Number(!!gesture.left)) * f.facing;
-      const direction = gesture.crouch
-        ? "down"
-        : horizontal > 0
-          ? "forward"
-          : horizontal < 0
-            ? "back"
-            : "";
-      if (airborne && direction === "down" && scheme.variants["airDown" + i])
-        return scheme.variants["airDown" + i];
-      if (scheme.variants[direction + i]) return scheme.variants[direction + i];
-      if (
-        (direction === "back" && i === 1) ||
-        (direction === "forward" && i === 3)
-      )
-        return "throw";
-      return scheme.base[i - 1];
-    }
-  const heavyInput = input.pressDirections?.heavy || input;
-  if (
-    f.character === 0 &&
-    !airborne &&
-    !heavyInput.crouch &&
-    pressed("heavy") &&
-    (Number(!!heavyInput.right) - Number(!!heavyInput.left)) * f.facing > 0
-  )
-    return "overhead";
-  return undefined;
+  return resolveSchemeSkill(
+    bandFor(f.character),
+    f,
+    input,
+    pressed,
+    airborne,
+  );
 }
 function bindingList(f: FighterIdentity) {
-  const s = schemeFor(f),
+  const band = bandFor(f.character),
+    s = band.schemeFor(f),
     rows = s.base.map((move, i) => ({
       move,
       key: ["U", "I", "O"][i],
@@ -170,8 +81,7 @@ function bindingList(f: FighterIdentity) {
     key: s.variants.back1 ? "前＋O" : "后＋U / 前＋O",
     key2: s.variants.back1 ? "前＋6" : "后＋4 / 前＋6",
   });
-  if (f.character === 0)
-    rows.push({ move: "overhead", key: "前＋K", key2: "前＋2" });
+  rows.push(...(band.extraBindings?.(f) ?? []));
   if (s.transform) rows.push({ move: s.transform, key: "H", key2: "7" });
   if (s.super) rows.push({ move: s.super, key: "P", key2: "8" });
   return rows;

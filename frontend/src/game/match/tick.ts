@@ -1,13 +1,12 @@
 import {
-  isMujica,
   MAX_HEALTH,
   MOVES,
   ROSTER,
   ROUND_END_TIMING,
   WORLD,
+  bandFor,
 } from "../combatData";
 import type { Match } from "../engine";
-import { STAGE_FORM } from "../mujica";
 import type { Input } from "../objects/Input";
 import type { Move, Pulse } from "../objects/Move";
 import { clamp } from "./combatMath";
@@ -99,13 +98,14 @@ export function step(match: Match, p1: Input, p2: Input): void {
       other = match.fighters[1 - side],
       move = MOVES[f.attack ?? ""];
     // Birth is observed after both inputs resolve, so simultaneous H casts trade.
-    if (isMujica(f.character) && f.stageForm?.ms === STAGE_FORM.duration) {
-      const burst = MOVES.mujicaTransform;
+    const transform = bandFor(f.character).transform;
+    if (transform && f.stageForm?.ms === transform.duration) {
+      const burst = MOVES[transform.move];
       if (match.meleeConnects(f, other, burst, burst.reach!, burst.vertical!))
-        hits.push({ side, attack: "mujicaTransform", impact: {} });
+        hits.push({ side, attack: transform.move, impact: {} });
       for (const unit of [...(other.summons?.units ?? [])])
         if (match.meleeConnects(f, unit, burst, burst.reach!, burst.vertical!))
-          match.hitMinion(side, unit, "mujicaTransform");
+          match.hitMinion(side, unit, transform.move);
     }
     if (
       !move ||

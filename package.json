@@ -15,7 +15,7 @@
     "format": "prettier --write frontend/src scripts docs/*.md README.md",
     "format:backend": "node scripts/scala.mjs scalafmtAll",
     "start": "node scripts/start.mjs",
-    "check": "npm run typecheck && node scripts/check-assets.mjs",
+    "check": "npm run typecheck && node scripts/check-assets.mjs && node scripts/check-kernel.mjs && node scripts/check-protocol.mjs",
     "check:backend": "node scripts/build-simulation.mjs && node scripts/scala.mjs compile scalafmtCheckAll",
     "lan": "npm run build && npm start"
   },

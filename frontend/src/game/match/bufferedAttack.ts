@@ -1,11 +1,4 @@
-import {
-  isMujica,
-  kitFor,
-  MAX_HEALTH,
-  MOVES,
-  verticalScale,
-  WORLD,
-} from "../combatData";
+import { bandFor, MAX_HEALTH, MOVES, verticalScale, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import { clamp } from "./combatMath";
@@ -30,6 +23,7 @@ export function startBufferedAttack(
   ) {
     let name = f.buffer,
       move = MOVES[name];
+    const band = bandFor(f.character);
     const legalStance =
       (!move.ground || ground) &&
       (!move.airOnly ||
@@ -37,19 +31,14 @@ export function startBufferedAttack(
           match.airHeight(f) >= move.minHeight! &&
           (!f.airUsed ||
             (cancel && MOVES[f.attack ?? ""].stance === "air")))) &&
-      (!(f.character === 0 || f.character >= 3 || f.penguin) ||
+      (!band.stanceLocked(f) ||
         ((move.stance !== "air" || !ground) &&
           (!move.stance || move.stance === "air" || ground))) &&
       (!move.penguinAirAction ||
         ground ||
         !f.airUsed ||
         (cancel && MOVES[f.attack ?? ""].stance === "air"));
-    const legalOwner =
-      (move.ownerCharacter === undefined ||
-        move.ownerCharacter === f.character) &&
-      (!move.form || move.form === kitFor(f)?.formFor(f)) &&
-      (!move.mujicaOnly || isMujica(f.character)) &&
-      (!kitFor(f) || move.ownerCharacter === f.character || name === "throw");
+    const legalOwner = band.owns(f, move, name);
     if (
       f.energy >= (move.cost || 0) &&
       legalStance &&
@@ -69,11 +58,10 @@ export function startBufferedAttack(
       (name !== "ranaTune" || (!f.tuneCooldown && f.energy < 100)) &&
       (name !== "rikiCalibrate" || (!f.calibrateCooldown && f.beats < 4))
     ) {
-      if (f.character === 4 && f.beats === 4 && MOVES[name + "Boost"]) {
-        f.beats = 0;
-        name += "Boost";
+      const upgraded = band.beforeStart?.(match, f, name) ?? null;
+      if (upgraded) {
+        name = upgraded;
         move = MOVES[name];
-        match.events.push({ type: "beatBoost", side, attack: name });
       }
       f.energy -= move.cost || 0;
       f.guard = false;
@@ -125,85 +113,7 @@ export function startBufferedAttack(
       if (move.movement)
         f.vx = (f.facing * move.movement) / (move.movementEnd! / 1000);
       if (move.stance === "air" || move.airOnly) f.airUsed = true;
-      if (name === "dive" || name === "ranaDive") {
-        f.vy = -570 * verticalScale;
-        f.vx = f.facing * 360;
-      }
-      if (name === "penguinKick") {
-        f.airUsed = true;
-        f.vy = ground
-          ? 340 * verticalScale
-          : Math.max(140 * verticalScale, f.vy);
-        f.y += 0.01;
-        f.vx = f.facing * 400;
-      }
-      if (name === "rising") {
-        f.vy = 610 * verticalScale;
-        f.y += 0.01;
-        f.vx = f.facing * 130;
-      }
-      if (name === "ranaRise") {
-        f.vy = 620 * verticalScale;
-        f.y += 0.01;
-        f.vx = f.facing * 130;
-      }
-      if (name === "rikiRise" || name === "rikiRiseBoost") {
-        f.vy = 400 * verticalScale;
-        f.y += 0.01;
-        f.vx = f.facing * (move.follow ? 200 : 80);
-      }
-      if (name === "spin" && ground) {
-        f.vy = 260 * verticalScale;
-        f.y += 0.01;
-        f.vx = f.facing * 230;
-      }
-      if (name === "super") {
-        f.vx = 0;
-        match.freeze = 240;
-      }
-      if (name === "ranaSuper") {
-        f.vx = 0;
-        match.freeze = 130;
-      }
-      if (name === "soyoSuper") {
-        f.vx = 0;
-        f.attackCrouch = f.crouch = false;
-        match.freeze = 130;
-        match.soyoSuperId = (match.soyoSuperId || 0) + 1;
-        f.soyoSuper = {
-          id: match.soyoSuperId,
-          ms: move.duration,
-          released: false,
-          radius: 0,
-          x: f.x,
-          y: f.y + 100,
-          bornAt: match.elapsed,
-          hitTargets: [],
-        };
-      }
-      if (name === "rikiSuper") {
-        f.vx = 0;
-        match.freeze = 130;
-      }
-      if (name === "rikiCalibrate") {
-        f.calibrateCooldown = move.recast!;
-        f.attackCrouch = f.crouch = false;
-      }
-      if (name === "ranaTune") {
-        f.tuneCooldown = move.recast!;
-        f.attackCrouch = f.crouch = false;
-      }
-      if (name === "heal") {
-        f.healCooldown = move.recast!;
-        f.attackCrouch = f.crouch = false;
-      }
-      if (name === "penguinTransform") {
-        f.penguin = { ms: move.lifetime! };
-        f.attack = null;
-        f.cooldown = 0;
-
-        match.events.push({ type: "penguinStart", side });
-      }
+      band.onStart?.(match, f, move, name, ground);
       match.events.push({ type: "attack", side, attack: name });
     }
   }

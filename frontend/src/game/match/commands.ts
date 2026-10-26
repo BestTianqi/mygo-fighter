@@ -1,10 +1,4 @@
-import {
-  chainPrefix,
-  firstJab,
-  kitFor,
-  MOVES,
-  NORMAL_BUTTONS,
-} from "../combatData";
+import { bandFor, MOVES, NORMAL_BUTTONS } from "../combatData";
 import * as controls from "../controls";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
@@ -34,7 +28,8 @@ export function resolveAttack(
   input: Input,
   pressed: (key: string) => boolean,
 ): string | null {
-  if (input.unified || kitFor(f)) {
+  const band = bandFor(f.character);
+  if (input.unified || band.unified) {
     const skill = controls.resolveSkill(f, input, pressed, !match.grounded(f));
     if (skill !== undefined) return skill;
   }
@@ -65,164 +60,7 @@ export function resolveAttack(
     ...NORMAL_BUTTONS.slice().reverse(),
   ].find(pressed);
   if (!requested) return null;
-  if (requested === "anonCry") return f.character === 0 ? requested : null;
-  if (requested === "light" && match.grounded(f) && !input.crouch) {
-    if (f.attack === firstJab(f)) return chainPrefix(f) + "Jab2";
-    if (MOVES[f.attack ?? ""]?.chain === 2) return chainPrefix(f) + "Jab3";
-  }
-  if (kitFor(f)) {
-    if (requested === "light" || requested === "heavy")
-      return kitFor(f)!.normalFor(
-        f,
-        requested,
-        !match.grounded(f) ? "air" : input.crouch ? "crouch" : "standing",
-      );
-    if (requested === "throw") return requested;
-    return null;
-  }
-  if (f.character === 4) {
-    if (NORMAL_BUTTONS.includes(requested))
-      return (
-        "riki_" +
-        (!match.grounded(f) ? "air_" : input.crouch ? "crouch_" : "") +
-        requested
-      );
-    return (
-      {
-        wave: "rikiRoll",
-        thrust: "rikiRush",
-        shield: "rikiOverhead",
-        sonic: "rikiShock",
-        rising: "rikiRise",
-        heal: "rikiCalibrate",
-        special: "rikiEight",
-        super: "rikiSuper",
-        throw: "throw",
-      }[requested] || null
-    );
-  }
-  if (f.character === 3) {
-    if (NORMAL_BUTTONS.includes(requested))
-      return (
-        "rana_" +
-        (!match.grounded(f) ? "air_" : input.crouch ? "crouch_" : "") +
-        requested
-      );
-    return (
-      {
-        wave: "ranaPick",
-        sonic: "ranaChord",
-        rush: "ranaParfait",
-        thrust: "ranaRush",
-        rising: "ranaRise",
-        shield: "ranaSlide",
-        dive: "ranaDive",
-        special: "ranaSolo",
-        heal: "ranaTune",
-        super: "ranaSuper",
-        throw: "throw",
-      }[requested] || null
-    );
-  }
-  if (requested === "heal")
-    return f.character === 2
-      ? "penguinTransform"
-      : f.character === 1
-        ? "heal"
-        : null;
-  if (requested === "summon") return f.character === 1 ? "summon" : null;
-  if (f.character === 2) {
-    if (requested === "penguinTransform") return requested;
-    if (f.penguin) {
-      if (NORMAL_BUTTONS.includes(requested))
-        return (
-          "penguin_" +
-          (!match.grounded(f) ? "air_" : input.crouch ? "crouch_" : "") +
-          requested
-        );
-      return (
-        {
-          wave: "penguinHey",
-          sonic: "penguinLaugh",
-          special: "penguinCall",
-          super: "penguinSuper",
-          shield: "penguinCry",
-          thrust: "penguinKick",
-          dive: "penguinKick",
-        }[requested] ||
-        ([
-          "throw",
-          "penguinKick",
-          "penguinCry",
-          "penguinHey",
-          "penguinLaugh",
-          "penguinCall",
-        ].includes(requested)
-          ? requested
-          : null)
-      );
-    }
-    return (
-      {
-        wave: "tomoriNote",
-        sonic: "tomoriEcho",
-        special: "tomoriChorus",
-        super: "tomoriSuper",
-        shield: "throw",
-      }[requested] ||
-      ([
-        "light",
-        "heavy",
-        "throw",
-        "tomoriNote",
-        "tomoriEcho",
-        "tomoriChorus",
-      ].includes(requested)
-        ? requested
-        : null)
-    );
-  }
-  if (f.character === 1 && requested === "sonic") return "summon";
-  if (f.character === 1 && requested === "super") return "soyoSuper";
-  if (f.character !== 0 && requested === "shield") return "throw"; // Preserve Soyo's U binding.
-  if (f.character !== 0)
-    return ["light", "heavy", "special", "wave", "throw"].includes(requested)
-      ? requested
-      : null;
-  const index = NORMAL_BUTTONS.indexOf(requested);
-  if (index < 0) return requested;
-  if (!match.grounded(f) && input.crouch && requested === "heavyKick")
-    return "dive";
-  if (input.unified)
-    return (
-      (!match.grounded(f) ? "air_" : input.crouch ? "crouch_" : "") + requested
-    );
-  let command;
-  if (
-    index < 3 &&
-    match.motionMatches(f, [2, 3, 6, 2, 3, 6]) &&
-    f.energy >= 100
-  )
-    command = "super";
-  else if (index < 3 && match.motionMatches(f, [6, 2, 3])) command = "rising";
-  else if (index < 3 && match.motionMatches(f, [2, 3, 6]))
-    command = ["waveLight", "wave", "waveHeavy"][index];
-  else if (index >= 3 && match.motionMatches(f, [2, 1, 4])) command = "spin";
-  else if (index >= 3 && match.motionMatches(f, [2, 3, 6])) command = "thrust";
-  if (command) {
-    f.motion = [];
-    return command;
-  }
-  if (
-    match.grounded(f) &&
-    !input.crouch &&
-    requested === "heavyKick" &&
-    (input.right ? 1 : input.left ? -1 : 0) === f.facing
-  )
-    return "overhead";
-  return (
-    (!match.grounded(f) ? "air_" : input.crouch ? "crouch_" : "") + requested
-  );
+  return band.command?.(match, f, requested, input) ?? null;
 }
 
 export function canCancel(
@@ -230,12 +68,13 @@ export function canCancel(
   f: Fighter,
   name: string,
 ): boolean | null {
-  if (name === "mujicaTransform") return false;
+  const band = bandFor(f.character);
+  if (band.transform && name === band.transform.move) return false;
   const chain = MOVES[name]?.chain;
   if (
     match.grounded(f) &&
     chain &&
-    ((chain === 2 && f.attack === firstJab(f)) ||
+    ((chain === 2 && f.attack === band.normalFor(f, "light")) ||
       (chain === 3 && MOVES[f.attack ?? ""]?.chain === 2))
   ) {
     return (
@@ -247,7 +86,7 @@ export function canCancel(
     !f.attack ||
     !f.contact ||
     (!f.hit && !f.hitMarks.length) ||
-    f.cancelDepth >= (f.character === 0 ? 5 : 4)
+    f.cancelDepth >= band.cancelDepth(f)
   )
     return false;
   const current = MOVES[f.attack ?? ""],
@@ -261,8 +100,7 @@ export function canCancel(
   if (!match.grounded(f))
     return (
       current.stance === "air" &&
-      ((((f.character === 0 && name === "dive") ||
-        (f.character === 3 && name === "ranaDive")) &&
+      (((band.airCancel?.(f, name) ?? false) &&
         match.airHeight(f) >= next.minHeight!) ||
         (f.penguin && name === "penguinKick"))
     );
@@ -273,20 +111,7 @@ export function canCancel(
     return false;
   if (next.category === "super")
     return current.category === "normal" || current.category === "special";
-  if (f.character === 0 && f.attack === "thrust" && name === "rush")
-    return true;
-  if (
-    f.character === 4 &&
-    (current.base || f.attack) === "rikiRush" &&
-    name === "rikiRoll"
-  )
-    return true;
-  if (
-    f.character === 4 &&
-    ["rikiRoll", "rikiRollBoost"].includes(f.attack) &&
-    name === "rikiEight"
-  )
-    return true;
+  if (band.extraCancel?.(match, f, name)) return true;
   return (
     current.category === "normal" &&
     (next.category === "special" ||

@@ -1,11 +1,13 @@
-import { MOVES } from "../combatData";
+import { bandFor, MOVES } from "../combatData";
 import type { Match } from "../engine";
 
 export function endStageForm(match: Match, side: number): void {
   const f = match.fighters[side];
   if (!f.stageForm) return;
+  const band = bandFor(f.character);
   f.stageForm = null;
-  if (MOVES[f.attack ?? ""]?.form === "stage") {
+  const form = MOVES[f.attack ?? ""]?.form;
+  if (form && band.forms.includes(form) && form !== band.forms[0]) {
     f.attack = null;
     f.contact = false;
     f.hitMarks = [];
@@ -21,7 +23,8 @@ export function endPenguin(match: Match, side: number): void {
   const f = match.fighters[side];
   if (!f.penguin) return;
   f.penguin = null;
-  if (MOVES[f.attack ?? ""]?.penguinOnly || f.attack === "penguinTransform") {
+  const attack = MOVES[f.attack ?? ""];
+  if (attack?.penguinOnly || attack?.category === "transformation") {
     f.attack = null;
     f.contact = false;
     f.hitMarks = [];

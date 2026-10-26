@@ -1,16 +1,11 @@
+import { bandFor } from "../../../../../game/bands";
 import { MOVES, ROSTER } from "../../../../../game/engine";
-import { STAGE_FORM } from "../../../../../game/mujica";
 import type { Fighter } from "../../../../../game/objects/Fighter";
 import type { BattleSceneContext } from "./objects";
 export function drawMaskAura(scene: BattleSceneContext, f: Fighter) {
-  if (
-    scene.match.phase !== "fighting" ||
-    f.character < 5 ||
-    f.character > 9 ||
-    !f.stageForm
-  )
-    return;
-  const age = STAGE_FORM.duration - f.stageForm.ms;
+  const transform = bandFor(f.character).transform;
+  if (scene.match.phase !== "fighting" || !transform || !f.stageForm) return;
+  const age = transform.duration - f.stageForm.ms;
   if (age < 0 || f.hp <= 0) return;
   const fade = Math.min(1, f.stageForm.ms / 700),
     pulse = scene.reducedMotion

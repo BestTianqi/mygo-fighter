@@ -27,7 +27,7 @@ final case class ChooseRoomMessage(
           IO.raiseUnless(
             team.forall(t =>
               t.nonEmpty && t.size <= size && t.distinct.size == t.size && t.forall(n =>
-                n >= 0 && n < 16
+                n >= 0 && n < connection.limits.characters
               )
             )
           )(IllegalArgumentException("请选择不重复的有效角色")) *>
@@ -36,8 +36,8 @@ final case class ChooseRoomMessage(
           ) *>
           IO.raiseUnless(state.phase == RoomPhase.Lobby)(IllegalArgumentException("请先返回房间再选人")) *>
           IO.raiseUnless(
-            character.forall(n => n >= 0 && n < 16) && arena.forall(n =>
-              n >= 0 && n < connection.stages.size
+            character.forall(n => n >= 0 && n < connection.limits.characters) && arena.forall(n =>
+              n >= 0 && n < connection.limits.stages
             )
           )(IllegalArgumentException("角色或地图编号无效")) *>
           IO.raiseWhen(

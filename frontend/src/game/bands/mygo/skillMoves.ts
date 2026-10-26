@@ -1,3 +1,4 @@
+import { registerUniversalMoves } from "../shared/universalMoves";
 import type { Move } from "../../objects/Move";
 
 export function registerMygoSkills(MOVES: Record<string, Move>): void {
@@ -81,20 +82,13 @@ export function registerMygoSkills(MOVES: Record<string, Move>): void {
       level: "high",
       artIndex: 17,
     },
-    throw: {
-      name: "投技·换拍",
-      command: "B（后投：← + B）",
-      category: "throw",
-      ground: true,
-      duration: 520,
-      start: 80,
-      end: 100,
-      damage: 18,
-      stun: 500,
-      push: 320,
-      reach: 66,
-      knockdown: 650,
-    },
+  });
+
+  // Universal moves are registered between the authored skill groups so the
+  // catalog key order — and with it the F1 move-list row order — is unchanged.
+  registerUniversalMoves(MOVES);
+
+  Object.assign(MOVES, {
     shield: {
       name: "钢板防护",
       command: "U",

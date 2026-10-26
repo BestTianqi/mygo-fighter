@@ -1,16 +1,25 @@
 import { useState } from "react";
+import { bandFor } from "../../../game/bands";
 import { ROSTER, MOVES } from "../../../game/engine";
 import { schemeFor } from "../../../game/controls";
 import type { Assets } from "../../../game/objects/Assets";
+import { BAND_LABEL, type BandId } from "../../../game/objects/BandId";
 import type {
   MatchConfig,
   Mode,
   Format,
 } from "../../../game/objects/MatchOptions";
+import { bandPortrait } from "../functions/bandArt";
 import { createSelectionState } from "../functions/createSelectionState";
 import { Button } from "../../../components/ui/Button";
 const selectClass =
   "rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm";
+/** Roster cards keep their original compact labels; the panel uses BAND_LABEL. */
+const rosterBandLabel: Record<BandId, string> = {
+  mygo: "MyGO!!!!!",
+  mujica: "Ave Mujica",
+  mewtype: "MewType",
+};
 export function CharacterSelection({
   assets,
   config,
@@ -142,9 +151,8 @@ export function CharacterSelection({
           <div className="relative h-52 overflow-hidden sm:h-72">
             <img
               src={
-                assets.mujicaPortraits[preview]?.[
-                  stageForm ? "stage" : "normal"
-                ].portrait ?? assets.characters[preview].portrait
+                bandPortrait(assets, preview, stageForm ? "stage" : "normal")
+                  ?.portrait ?? assets.characters[preview].portrait
               }
               alt={profile.name}
               className="size-full object-contain object-top"
@@ -153,13 +161,7 @@ export function CharacterSelection({
           </div>
           <div className="relative p-5">
             <p className="text-[10px] tracking-widest text-slate-400">
-              {profile.band === "mujica"
-                ? "AVE MUJICA"
-                : profile.band === "mewtype"
-                  ? "夢限大 MEWTYPE"
-                  : profile.band === "fairybouquet"
-                    ? "FAIRY BOUQUET"
-                    : "MYGO!!!!!"}
+              {BAND_LABEL[profile.band ?? "mygo"]}
             </p>
             <h2
               className="mt-1 text-2xl font-bold"
@@ -226,9 +228,7 @@ export function CharacterSelection({
               >
                 <img
                   src={
-                    assets.mygoPortraits?.[id]?.face ??
-                    assets.mewtypePortraits?.[id]?.face ??
-                    assets.mujicaPortraits[id]?.normal.face ??
+                    bandPortrait(assets, id)?.face ??
                     assets.characters[id].portrait
                   }
                   alt=""
@@ -240,7 +240,7 @@ export function CharacterSelection({
                     {character.name}
                   </span>
                   <small className="text-[9px] text-slate-500">
-                    {id < 5 ? "MyGO!!!!!" : id < 10 ? "Ave Mujica" : "MewType"}
+                    {rosterBandLabel[bandFor(id).id]}
                   </small>
                 </div>
               </button>

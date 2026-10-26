@@ -90,7 +90,7 @@ Use a second terminal running `npm start` for the API while developing with Vite
 - `assets/`: source artwork grouped by band, character or feature, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
 - `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
 
-The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 15 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
+The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
 
 See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
 

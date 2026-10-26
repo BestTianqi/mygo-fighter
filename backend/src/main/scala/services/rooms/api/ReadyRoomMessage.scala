@@ -21,7 +21,7 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
                 p.connected && p.team.size == (if state.format == "3v3" then 3
                                                else
                                                  1) && p.team.distinct.size == p.team.size && p.team
-                  .forall(n => n >= 0 && n < 16)
+                  .forall(n => n >= 0 && n < connection.limits.characters)
               )
           )(IllegalArgumentException("请先选满不重复的出战角色")) *>
           room.state.update(s =>

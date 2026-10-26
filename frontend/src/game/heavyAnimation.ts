@@ -1,3 +1,4 @@
+import { bandFor } from "./bands";
 import type { Fighter } from "./objects/Fighter";
 import type { Move } from "./objects/Move";
 
@@ -43,7 +44,7 @@ export function heavyPose(f: Fighter, move: Move): string | null {
       : f.attackMs <= move.end
         ? "impact"
         : "recover";
-  if (f.character >= 5) return `${move.visualSlot}-${phase}`;
+  if (bandFor(f.character).id !== "mygo") return `${move.visualSlot}-${phase}`;
   const stance = move.stance ?? "standing";
   if (phase !== "impact") {
     if (stance === "air") return phase === "windup" ? "jump-rise" : "jump-fall";

@@ -1,3 +1,4 @@
+import { bandFor } from "../bands";
 import type { Match } from "../engine";
 import { FEEL, MOVES, ROSTER, ROUND_END_TIMING } from "../engine";
 import { heavyPose, isHeavyAttack } from "../heavyAnimation";
@@ -158,7 +159,7 @@ function createAnimator() {
         return Math.floor((t - move.start) / 130) % 2
           ? "skill-o-impact"
           : "skill-u-impact";
-      if (f.character >= 5) {
+      if (bandFor(f.character).id !== "mygo") {
         if (move.sakiko === "ascension")
           return t < 180
             ? "super-windup"
@@ -452,8 +453,7 @@ function createAnimator() {
             ? "jump-rise"
             : "jump-fall";
     if (
-      f.character >= 5 &&
-      f.character < 10 &&
+      bandFor(f.character).id === "mujica" &&
       f.stageForm?.ms! > 19280 &&
       Math.abs(f.vx) < 25
     ) {

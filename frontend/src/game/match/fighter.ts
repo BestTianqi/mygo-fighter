@@ -1,6 +1,5 @@
-import { FEEL, isMujica, MOVES } from "../combatData";
+import { bandFor, FEEL, MOVES } from "../combatData";
 import type { Match } from "../engine";
-import { STAGE_FORM } from "../mujica";
 import type { Input } from "../objects/Input";
 import { startBufferedAttack } from "./bufferedAttack";
 import { integrateMovement, updateMovement } from "./movement";
@@ -98,20 +97,20 @@ export function updateFighter(match: Match, side: number, input: Input): void {
       Number(!!gesture.right) - Number(!!gesture.left) || f.facing;
   }
   let requested = match.resolveAttack(f, input, pressed);
-  if (requested === "mujicaTransform") {
+  const transform = bandFor(f.character).transform;
+  if (transform && requested === transform.move) {
     let transformed = false;
     if (
-      isMujica(f.character) &&
       !f.stageForm &&
       ground &&
       !f.stun &&
       !f.knockdown &&
       !f.attack &&
       !f.landingRecovery &&
-      f.energy >= 50
+      f.energy >= transform.energy
     ) {
-      f.energy -= 50;
-      f.stageForm = { ms: STAGE_FORM.duration };
+      f.energy -= transform.energy;
+      f.stageForm = { ms: transform.duration };
 
       f.buffer = null;
       f.bufferMs = 0;

@@ -1,3 +1,4 @@
+import { bandFor } from "../../../../../game/bands";
 import { MOVES, ROSTER } from "../../../../../game/engine";
 import type { CombatEvent } from "../../../../../game/objects/CombatEvent";
 import { presentationFor } from "../../presentationFor";
@@ -186,7 +187,10 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
     add(scene, { type: "burst", x, y, life: 300, color: "#c4d9e5" });
   if (event.type === "shieldHit")
     add(scene, {
-      type: event.broken && f.character < 5 ? "steelBreak" : "burst",
+      type:
+        event.broken && bandFor(f.character).id === "mygo"
+          ? "steelBreak"
+          : "burst",
       x,
       y,
       life: event.broken ? 600 : 350,
@@ -196,7 +200,7 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
           ? "合奏屏障"
           : f.character === 14
             ? "元气护盾"
-            : f.character >= 5
+            : bandFor(f.character).id !== "mygo"
               ? "茶会护盾"
               : "钢板") + (event.broken ? "破碎" : " −" + event.absorbed),
     });

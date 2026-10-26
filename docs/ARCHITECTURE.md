@@ -40,13 +40,13 @@ flowchart LR
 | Jump, dash, locomotion and position integration                   | `match/movement.ts`                                              |
 | Hit, guard, counter, damage and resonance resolution              | `match/hits.ts`                                                  |
 | Projectiles, summons and persistent area/control effects          | `match/projectiles.ts`, `match/summons.ts`, `match/areas.ts`     |
-| Transformation exit and deterministic CPU decisions               | `match/forms.ts`, `match/cpu.ts`                                 |
-| World constants, roster and fighter profiles                      | `data/rules.ts`, `data/roster.ts`, `data/characters.ts`          |
-| Move registration, shared balance and super timing overrides      | `data/createMoveCatalog.ts`, `data/moves/`                       |
-| Band-specific rosters, forms, normals, skills and supers          | `mujica/`, `mewtype/`                                            |
+| Transformation exit and CPU navigation (band tactics in `band.ai`) | `match/forms.ts`, `match/cpu.ts`                                 |
+| World constants, flat roster and shared profile scaling           | `data/rules.ts`, `data/roster.ts`                                |
+| Catalog assembly, shared scale/balance passes and move-list routing | `data/createMoveCatalog.ts`, `data/moves/`, `data/listMoves.ts`  |
+| Band contract, registry, rosters, moves, forms and abilities      | `bands/` (see `docs/BANDS.md`)                                   |
 | Authored pose selection and whole-body motion                     | `animation/createAnimator.ts`, `animation/createMujicaMotion.ts` |
 
-`combatData.ts`, `mujica.ts`, `mewtype.ts` and `animation.ts` retain their existing import paths. The catalog entry points make initialization order visible: register authored moves and chains, scale movement, apply shared balance, then install the recorded-scene super overrides. These passes run once per catalog. Fighter profile capture and shared roster tuning retain their original order.
+`combatData.ts`, `mujica.ts`, `mewtype.ts` and `animation.ts` retain their existing import paths. Band modules in `bands/` own their roster, moves, forms, move list, command table, cancel rules, CPU tactics and post-balance tuning; the shared engine only dispatches through `bandFor(id)` and never branches on character ids. `data/createMoveCatalog.ts` keeps the pass order visible: merge band move records, register MyGO jabs, apply shared movement scaling, register chains, apply shared balance, run each band's `tune`, then validate the catalog. These passes run once per catalog; band modules read tuned values through the late-bound `bands/shared/catalog.ts`, which avoids a registry cycle. The registry contract and the add-a-band recipe live in `docs/BANDS.md`.
 
 `objects/` contains the shared battle structures. Rule helpers add no instance state to `Match`; the snapshot fields, seeded random source and public method signatures remain compatible with local play, authoritative simulation and prediction.
 

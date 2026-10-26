@@ -1,3 +1,4 @@
+import { bandFor } from "../../../../../game/bands";
 import { MOVES, ROSTER } from "../../../../../game/engine";
 import { drawBurger } from "../drawBurger";
 import { drawMiyakoArea } from "../drawMiyakoSkills";
@@ -54,7 +55,7 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
       scene.ctx.restore();
       continue;
     }
-    if (profile.band === "mewtype") {
+    if (profile.bandId === "mewtype") {
       scene.ctx.strokeRect(area.x - area.radius, y - 12, area.radius * 2, 24);
       const rise = area.fired ? 160 : 20 + 40 * (1 - area.warning / 600);
       for (let i = -1; i <= 1; i++) {
@@ -84,7 +85,7 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
     scene.ctx.restore();
   }
   for (const f of scene.match.fighters) {
-    if (f.character < 5) continue;
+    if (bandFor(f.character).id === "mygo") continue;
     const profile = ROSTER[f.character],
       move = MOVES[f.attack ?? ""];
     if (move?.sakiko === "ascension") {

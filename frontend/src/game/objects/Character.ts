@@ -1,3 +1,5 @@
+import type { BandId } from "./BandId";
+
 export interface Character {
   name: string;
   shortName: string;
@@ -18,5 +20,7 @@ export interface Character {
   id?: number;
   stageName?: string;
   key?: string;
+  /** Display band label; `bandId` is the code module that owns the character. */
   band?: string;
+  bandId?: BandId;
 }

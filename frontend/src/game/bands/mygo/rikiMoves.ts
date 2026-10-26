@@ -1,5 +1,5 @@
 import type { Move } from "../../objects/Move";
-import { NORMAL_BUTTONS } from "../rules";
+import { NORMAL_BUTTONS } from "../../data/rules";
 
 export function registerRikiMoves(MOVES: Record<string, Move>): void {
   const rikiNames = [

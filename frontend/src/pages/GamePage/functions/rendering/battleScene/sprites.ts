@@ -1,3 +1,4 @@
+import { bandFor } from "../../../../../game/bands";
 import { MOVES, ROSTER } from "../../../../../game/engine";
 import { heavyMotion } from "../../../../../game/heavyAnimation";
 import type { SpriteFrame } from "../../../../../game/objects/Assets";
@@ -102,9 +103,8 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
   const motion =
     heavy ??
     scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion);
-  const isMujica = f.character >= 5 && f.character < 10;
   const bob =
-    !isMujica && !f.attack && !f.stun && !f.vx
+    bandFor(f.character).id !== "mujica" && !f.attack && !f.stun && !f.vx
       ? Math.sin(scene.state.visualTime * 0.004 + side) * 1.2
       : 0;
   const recoil =

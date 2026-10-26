@@ -1,3 +1,4 @@
+import { bandFor } from "../../../../../game/bands";
 import { MOVES } from "../../../../../game/engine";
 import { drawNonokaShield } from "../drawNonokaSkills";
 import { drawAraleShield } from "../drawAraleSkills";
@@ -6,7 +7,7 @@ export function drawShield(scene: BattleSceneContext, side: number) {
   const f = scene.match.fighters[side],
     steel = f.shield;
   if (!steel || scene.match.phase !== "fighting") return;
-  if (f.character >= 5) {
+  if (bandFor(f.character).id !== "mygo") {
     scene.ctx.save();
     scene.ctx.translate(f.x + f.facing * 58, 438 - f.y - 110);
     scene.ctx.globalAlpha = Math.min(1, steel.ms / 200);

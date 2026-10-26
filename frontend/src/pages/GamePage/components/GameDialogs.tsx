@@ -1,4 +1,5 @@
 import { Dialog } from "../../../components/ui/Dialog";
+import { bandFor } from "../../../game/bands";
 import { bindingList } from "../../../game/controls";
 import { MOVES, ROSTER } from "../../../game/engine";
 import type { GameRuntime } from "../functions/GameRuntime";
@@ -61,7 +62,7 @@ export function GameDialogs({
   const identities = view.fighters.length
     ? view.fighters.map((f) => ({
         character: f.character,
-        stageForm: f.character >= 5 && f.transformed,
+        stageForm: bandFor(f.character).id !== "mygo" && f.transformed,
         penguin: f.character === 2 && f.transformed,
       }))
     : [{ character: 0 }, { character: 1 }];

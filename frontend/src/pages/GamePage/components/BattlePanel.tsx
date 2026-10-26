@@ -2,6 +2,7 @@ import { useEffect, useRef, type RefObject } from "react";
 import type { Assets, Presentation } from "../../../game/objects/Assets";
 import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
+import { bandPortrait } from "../functions/bandArt";
 import { Button } from "../../../components/ui/Button";
 import { ROSTER } from "../../../game/engine";
 import { schemeFor } from "../../../game/controls";
@@ -82,9 +83,11 @@ export function BattlePanel({
         ? assets.soyoFinishArt
         : winner.character === 7
           ? assets.uikaFinishArt
-          : (assets.mujicaPortraits[winner.character]?.[
-              winner.stageForm ? "stage" : "normal"
-            ].portrait ?? assets.characters[winner.character].portrait)))
+          : (bandPortrait(
+              assets,
+              winner.character,
+              winner.stageForm ? "stage" : "normal",
+            )?.portrait ?? assets.characters[winner.character].portrait)))
     : "";
   return (
     <section
@@ -319,9 +322,7 @@ function FighterHUD({
       >
         <img
           src={
-            assets.mygoPortraits?.[fighter.character]?.face ??
-            assets.mewtypePortraits?.[fighter.character]?.face ??
-            assets.mujicaPortraits[fighter.character]?.normal.face ??
+            bandPortrait(assets, fighter.character)?.face ??
             assets.characters[fighter.character].portrait
           }
           alt=""

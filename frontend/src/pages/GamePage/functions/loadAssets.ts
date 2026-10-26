@@ -1,20 +1,16 @@
 import type { Assets, CharacterArt } from "../../../game/objects/Assets";
 import { ROSTER } from "../../../game/data/roster";
+import { bandDefaultAtlas } from "./bandArt";
 type AssetManifest = Omit<Assets, "characters"> & {
   characters: (CharacterArt | { id: number; key: string; portrait: string })[];
 };
 
-/** Later bands store their atlases by form; hydrate a uniform runtime character view. */
+/** Bands that store atlases by form hydrate through the registry, MyGO uses its own. */
 export function hydrateAssets(value: AssetManifest): Assets {
   if (value.characters?.length !== ROSTER.length || value.stages?.length !== 15)
     throw new Error("素材清单不完整。");
   const characters = value.characters.map((character, id) => {
-    const base =
-      id < 5
-        ? (character as CharacterArt)
-        : (id >= 10 ? value.mewtypeForms : value.mujicaForms)[id]?.[
-            id >= 10 ? "virtual" : "normal"
-          ];
+    const base = bandDefaultAtlas(id, character as CharacterArt, value);
     if (!base?.atlas || !base.frames?.length || !character.portrait)
       throw new Error(`角色 ${id + 1} 的素材不完整。`);
     return { ...base, ...character };

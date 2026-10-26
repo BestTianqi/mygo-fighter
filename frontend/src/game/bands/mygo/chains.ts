@@ -1,9 +1,12 @@
+import { FEEL } from "../../data/rules";
 import type { Move } from "../../objects/Move";
-import { FEEL, verticalScale } from "../rules";
 
-export function registerChainsAndScaleMovement(
-  MOVES: Record<string, Move>,
-): void {
+/**
+ * Jab timings are authored once for every MyGO normal. This runs before the
+ * shared launch/push scaling, so the jab flags and reach feed the chain moves
+ * exactly as they did when the pass was a single function.
+ */
+export function registerMygoJabs(MOVES: Record<string, Move>): void {
   for (const key of ["light", "rana_light", "penguin_light", "riki_light"])
     Object.assign(MOVES[key], {
       duration: 300,
@@ -15,13 +18,10 @@ export function registerChainsAndScaleMovement(
       jab: true,
     });
   MOVES.throw.reach = 40 * FEEL.scale;
-  for (const move of Object.values(MOVES)) {
-    if (move.launch) move.launch *= verticalScale;
-    if (!move.jab && move.push) move.push *= FEEL.scale / 2;
-    if (move.pulses)
-      for (const pulse of move.pulses)
-        if (pulse.push) pulse.push *= FEEL.scale / 2;
-  }
+}
+
+/** Creates the internal Jab2/Jab3 follow-ups from the already-scaled normals. */
+export function registerMygoChains(MOVES: Record<string, Move>): void {
   for (const [prefix, source] of [
     ["anon", MOVES.light],
     ["soyo", MOVES.light],

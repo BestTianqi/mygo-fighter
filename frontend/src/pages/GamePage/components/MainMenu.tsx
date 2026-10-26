@@ -3,6 +3,7 @@ import type { Assets } from "../../../game/objects/Assets";
 import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { Button } from "../../../components/ui/Button";
+import { bandPortrait } from "../functions/bandArt";
 import { publicGameURL } from "../functions/publicGameURL";
 const bands = [
   { key: "mygo", name: "MyGO!!!!!", ids: [1, 4, 3, 2, 0] },
@@ -53,7 +54,7 @@ export function MainMenu({
           <img
             key={id}
             src={
-              assets.mujicaPortraits[id]?.stage.portrait ??
+              bandPortrait(assets, id, "stage")?.portrait ??
               assets.characters[id].portrait
             }
             alt=""

@@ -1,8 +1,12 @@
+import { WORLD } from "../../data/rules";
 import type { Move } from "../../objects/Move";
-import { WORLD } from "../rules";
+import {
+  PENGUIN_SUPER_TUNING,
+  penguinSuperPulses,
+} from "../shared/derivedSupers";
 
 /** Authored combat timings deliberately differ from recorded video durations. */
-export function applySuperOverrides(MOVES: Record<string, Move>): void {
+export function tuneMujica(MOVES: Record<string, Move>): void {
   Object.assign(MOVES.mujica_8_normal_super, {
     duration: 1000,
     start: 50,
@@ -38,22 +42,6 @@ export function applySuperOverrides(MOVES: Record<string, Move>): void {
       stun: 480,
       push: 240,
     });
-  const arale = MOVES.mewtype_10_virtual_super;
-  Object.assign(arale, {
-    duration: 1200,
-    start: 120,
-    end: 810,
-    hitstop: 30,
-    shots: [120, 420, 720],
-    pulses: arale.pulses!.map((pulse, i) => ({ ...pulse, at: 120 + i * 300 })),
-    speed: 700,
-    lifetime: 1400,
-    height: 110,
-    radiusX: 34,
-    radiusY: 100,
-    maxReach: 900,
-    reach: 900,
-  });
   for (const form of ["normal", "stage"]) {
     const move = MOVES[`mujica_6_${form}_super`];
     Object.assign(move, {
@@ -72,18 +60,8 @@ export function applySuperOverrides(MOVES: Record<string, Move>): void {
       pulses: move.pulses!.map((pulse, i) => ({ ...pulse, at: 250 + i * 500 })),
     });
   }
-  Object.assign(MOVES.penguinSuper, {
-    name: "春日影·企鹅演唱",
-    duration: 1500,
-    start: 50,
-    end: 930,
-    hitstop: 0,
-    shots: [50, 230, 410, 590, 770],
-    pulses: [50, 230, 410, 590, 770].map((at) => ({ at, damage: 10 })),
-    speed: 650,
-    lifetime: 1100,
-  });
-  const penguinSong = MOVES.penguinSuper;
+  // The Mortis super mirrors the tuned penguin super; both tunes read the same
+  // shared constants, so this no longer depends on MyGO tuning first.
   Object.assign(MOVES.mujica_8_stage_super, {
     name: "Mortis·失控尖叫",
     mortis: "scream",
@@ -91,19 +69,19 @@ export function applySuperOverrides(MOVES: Record<string, Move>): void {
     radial: true,
     fixedDamage: true,
     omni: true,
-    duration: penguinSong.duration,
-    start: penguinSong.start,
-    end: penguinSong.end,
-    hitstop: penguinSong.hitstop,
-    damage: penguinSong.damage,
-    shots: [...penguinSong.shots!],
-    pulses: penguinSong.pulses!.map((pulse) => ({ ...pulse })),
-    reach: penguinSong.reach,
-    speed: penguinSong.speed,
-    lifetime: penguinSong.lifetime,
-    height: penguinSong.height,
-    stun: penguinSong.stun,
-    push: penguinSong.push,
+    duration: PENGUIN_SUPER_TUNING.duration,
+    start: PENGUIN_SUPER_TUNING.start,
+    end: PENGUIN_SUPER_TUNING.end,
+    hitstop: PENGUIN_SUPER_TUNING.hitstop,
+    damage: PENGUIN_SUPER_TUNING.damage,
+    shots: [...PENGUIN_SUPER_TUNING.shots],
+    pulses: penguinSuperPulses(),
+    reach: PENGUIN_SUPER_TUNING.reach,
+    speed: PENGUIN_SUPER_TUNING.speed,
+    lifetime: PENGUIN_SUPER_TUNING.lifetime,
+    height: PENGUIN_SUPER_TUNING.height,
+    stun: PENGUIN_SUPER_TUNING.stun,
+    push: PENGUIN_SUPER_TUNING.push,
   });
   for (const form of ["normal", "stage"])
     Object.assign(MOVES["mujica_7_" + form + "_super"], {

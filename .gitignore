@@ -26,5 +26,6 @@ backend/.bloop/
 backend/.metals/
 backend/src/main/resources/simulation.js
 backend/src/main/resources/stages.json
+backend/src/main/resources/roster.json
 *-preview.html
 mujica-development.html

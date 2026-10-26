@@ -73,7 +73,7 @@ Historical measurements from the earlier regression harness follow. The determin
 
 ## 3v3 relay
 
-The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an ordered `team` array through ChooseRoomMessage. Teams contain distinct character IDs (0–14), with one or three required before ready. Partial teams can be edited, but cannot ready. Any selection or rule change clears both ready flags and increments the generation. Only the host can change format, arena or terrain.
+The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an ordered `team` array through ChooseRoomMessage. Teams contain distinct character IDs (0–15), with one or three required before ready. Partial teams can be edited, but cannot ready. Any selection or rule change clears both ready flags and increments the generation. Only the host can change format, arena or terrain.
 
 The prepare configuration includes both teams and the format; clients preload all six fighters and forms. The shared server simulation advances the defeated side after the finish animation, retains the surviving fighter’s HP and energy, and ends only when one team is exhausted. Snapshots carry team indices, reserves and the current fighters. Restart resets both teams; returning to the lobby preserves selections for editing and clears readiness. Reconnect restores the existing authoritative match and its team progression.
 
