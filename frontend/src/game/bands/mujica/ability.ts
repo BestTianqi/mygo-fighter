@@ -3,5 +3,5 @@ import { schemeCommand } from "../shared/command";
 
 export const MUJICA_ABILITY = {
   unified: true,
-  command: schemeCommand(mujica.normalFor),
+  command: schemeCommand(mujica.normalFor, mujica.prefixFor),
 };

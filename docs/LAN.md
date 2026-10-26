@@ -35,7 +35,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":9}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":10}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -64,6 +64,8 @@ Protocol 8 adds the server-owned ban/pick lobby. `RoomView.draft` is null in ord
 Ban/pick completion gates readiness and the existing loading barrier; the ordered teams enter the unchanged 3v3 relay kernel. Socket replacement or browser refresh preserves the draft. Explicit reselect, an explicit player leave or the host's **重新禁选** action starts fresh. Map/terrain changes preserve bans and picks but clear readiness. Only the host changes modes, shared rules or resets the draft. Local audio preferences remain separate and are preserved when entering a network match. The lobby and local selection share square roster cards, character/form previews and ordered team slots; confirmations prevent an accidental click from committing a ban.
 
 Protocol 9 adds synchronized character entrances. The existing ready phase lasts 2750 ms: 2100 ms of character-specific presentation followed by 650 ms of READY. `entrySides` is serialized with `phaseMs`; renderers derive pose, movement and effects from this shared clock rather than replaying a local event. Pause freezes it and a replacement socket resumes its current progress. A 3v3 survivor keeps HP/resonance and skips the entrance; only new reserves perform. Actual fighter coordinates, resource values and attack/hitbox state remain untouched until combat begins. Reduced-motion renderers show a static pose and label. Restart the host and refresh both browsers together after updating.
+
+Protocol 10 restores Mujica and MewType standing J chains through the shared command resolver. Repeated J selects the existing opener, Jab2 and Jab3 for the current character/form; touch repeat uses the same path. MyGO and Penguin retain their existing three-hit mapping. Recovery, damage, resonance, crouching/air normals and K heavy attacks keep their authored rules. Clients and the host must update together so prediction follows the same attack names.
 
 Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
 
