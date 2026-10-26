@@ -139,11 +139,3 @@ npm run check          # typecheck, assets, band contract
 npm run build          # kernel bundle, simulation.js, roster.json
 npm run check:backend  # Scala compile + scalafmt
 ```
-
-The behaviour-freeze harness used during the band refactor lives under the
-gitignored `output/band-parity/`: `node output/band-parity/dump.mjs after` writes
-a canonical dump of the catalog, move lists, schemes and deterministic
-duel/CPU/relay traces. Compare it with the baseline before touching shared combat
-code. `output/band-parity/crosscheck.mjs` additionally diffs the current kernel
-against a `git worktree` of the pre-refactor commit for the classic command table,
-motion commands, the cancel matrix and CPU decisions.
