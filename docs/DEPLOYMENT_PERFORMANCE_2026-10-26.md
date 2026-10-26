@@ -1,5 +1,7 @@
 # AliCloud update and performance audit — 2026-10-26
 
+This is the historical `b82ae8c` audit. See the [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) for the current release and permanent TCP_NODELAY setting.
+
 ## Application deployed
 
 The AliCloud Beijing game server was updated from application commit `6d3d1363e3602ce694928261426da1bc4aa573b0` (protocol 10) to `b82ae8c3ec08ec5d351a18f6b4c861acc0a38c1d` (protocol 12). A second fetch during deployment found this newer merge, which includes both the transport/rendering optimizations and the terrain/combat changes.

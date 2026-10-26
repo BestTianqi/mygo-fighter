@@ -105,7 +105,7 @@ The production frontend puts React in a separate shared chunk so the game bundle
 - `assets/`: source artwork grouped by band, character or feature, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
 - `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
 
-The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation.
+The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.
 
 See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
 

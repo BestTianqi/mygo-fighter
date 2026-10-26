@@ -51,3 +51,7 @@ The software callback reduction is **not** presented as an equivalent total-CPU 
 ## Deployed AliCloud audit
 
 The [2026-10-26 deployment audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) covers the newer protocol-12 application, public timing, browser checks, an isolated TCP_NODELAY experiment and the interpreter-runtime bottleneck. Its measured socket-frame delays and client-observed round-trip timings are separate metrics.
+
+## Permanent TCP_NODELAY and runtime evaluation
+
+Application `9207f12` makes TCP_NODELAY permanent, shares the engine/source cache while retaining per-room contexts, and updates Polyglot libraries. The [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) records the GraalVM comparison and why OpenJDK 21 remains selected on the 512 MiB service budget.
