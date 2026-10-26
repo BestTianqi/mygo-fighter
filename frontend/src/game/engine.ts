@@ -9,6 +9,7 @@ import {
   moveList,
 } from "./combatData";
 import * as areas from "./match/areas";
+import { ENTRANCE_TIMING } from "./animation/entrance";
 import { clamp } from "./match/combatMath";
 import * as commands from "./match/commands";
 import * as cpu from "./match/cpu";
@@ -64,6 +65,7 @@ class Match {
   aiGuard = 0;
   aiGoal = -1;
   phaseMs = 0;
+  entrySides = [false, false];
   reason = "";
   soyoSuperId = 0;
 
@@ -157,7 +159,8 @@ class Match {
         if (resources) Object.assign(this.fighters[side], resources);
       });
     this.phase = "ready";
-    this.phaseMs = 1000;
+    this.entrySides = [0, 1].map((side) => !carry?.[side]);
+    this.phaseMs = ENTRANCE_TIMING.total;
     this.paused = false;
   }
   endStageForm(side: number) {

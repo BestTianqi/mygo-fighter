@@ -1,4 +1,5 @@
 import { bandFor } from "../../../../../game/bands";
+import { entranceFor } from "../../../../../game/animation/entrance";
 import { MOVES, ROSTER } from "../../../../../game/engine";
 import { heavyMotion } from "../../../../../game/heavyAnimation";
 import type { SpriteFrame } from "../../../../../game/objects/Assets";
@@ -58,6 +59,7 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
   const f = scene.match.fighters[side],
     move = MOVES[f.attack ?? ""],
     acting = !f.stun && !f.knockdown && scene.match.phase === "fighting";
+  const entry = entranceFor(scene.match, side, scene.reducedMotion);
   const blink = scene.state.fx.find(
     (effect): effect is BlinkEffect =>
       effect.type === "blink" &&
@@ -70,8 +72,14 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     ? Math.min(1, (blink.max - blink.life) / blink.travelMs)
     : 1;
   const remaining = (1 - progress) * (1 - progress);
-  const renderX = f.x + (traveling ? (blink.fromX - blink.toX) * remaining : 0);
-  const renderY = f.y + (traveling ? (blink.fromY - blink.toY) * remaining : 0);
+  const renderX =
+    f.x +
+    (entry?.offsetX ?? 0) +
+    (traveling ? (blink.fromX - blink.toX) * remaining : 0);
+  const renderY =
+    f.y +
+    (entry?.offsetY ?? 0) +
+    (traveling ? (blink.fromY - blink.toY) * remaining : 0);
   const sprite = traveling ? blink.sprite : fighterSprite(scene, side);
   if (!sprite) return;
   const { atlas, frame, scale, animation, facing } = sprite;
@@ -79,20 +87,20 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     surface = scene.match.surfaceBelow(renderX, renderY, f.dropMs),
     shadowY = floor - surface;
   scene.ctx.save();
-  scene.ctx.globalAlpha = 0.3;
+  scene.ctx.globalAlpha = 0.3 * (entry?.alpha ?? 1);
   scene.ctx.fillStyle = "#03111e";
   scene.ctx.beginPath();
   scene.ctx.ellipse(
     renderX,
     shadowY + 3,
-    37 - Math.min(12, (f.y - surface) * 0.04),
+    37 - Math.min(12, (renderY - surface) * 0.04),
     9,
     0,
     0,
     Math.PI * 2,
   );
   scene.ctx.fill();
-  scene.ctx.globalAlpha = 0.7;
+  scene.ctx.globalAlpha = 0.7 * (entry?.alpha ?? 1);
   scene.ctx.strokeStyle = scene.colors[side];
   scene.ctx.lineWidth = 2;
   scene.ctx.beginPath();
@@ -100,11 +108,16 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
   scene.ctx.stroke();
   scene.ctx.globalAlpha = 1;
   const heavy = acting ? heavyMotion(f, move, scene.reducedMotion) : null;
-  const motion =
-    heavy ??
-    scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion);
+  const motion = entry
+    ? null
+    : (heavy ??
+      scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion));
   const bob =
-    bandFor(f.character).id !== "mujica" && !f.attack && !f.stun && !f.vx
+    !entry &&
+    bandFor(f.character).id !== "mujica" &&
+    !f.attack &&
+    !f.stun &&
+    !f.vx
       ? Math.sin(scene.state.visualTime * 0.004 + side) * 1.2
       : 0;
   const recoil =
@@ -116,6 +129,11 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     floor - renderY + (traveling ? 0 : bob),
   );
   scene.ctx.scale(facing * scale, scale);
+  if (entry) {
+    scene.ctx.globalAlpha = entry.alpha;
+    scene.ctx.rotate(entry.tilt);
+    scene.ctx.scale(entry.scaleX, entry.scaleY);
+  }
   if (f.attack === "dive" && acting) scene.ctx.rotate(0.18);
   if (!animation && f.crouch && !f.attack && !f.guard)
     scene.ctx.scale(1.06, 0.87);

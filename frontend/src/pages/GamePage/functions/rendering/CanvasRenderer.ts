@@ -1,4 +1,5 @@
 import { createAnimator } from "../../../../game/animation";
+import { entranceFor } from "../../../../game/animation/entrance";
 import { bandFor } from "../../../../game/bands";
 import { MOVES, ROUND_END_TIMING, type Match } from "../../../../game/engine";
 import type {
@@ -25,6 +26,9 @@ export class CanvasRenderer {
   private readonly images = new Map<string, HTMLImageElement>();
   private readonly loading = new Map<string, Promise<HTMLImageElement>>();
   private readonly animate = createAnimator();
+  private readonly reducedMotion = matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
   private offsets = [
     { x: 0, y: 0 },
     { x: 0, y: 0 },
@@ -166,7 +170,8 @@ export class CanvasRenderer {
         : blinkDirection * f.facing < 0
           ? "dash-back"
           : "dash-forward"
-      : this.animate(match, side);
+      : (entranceFor(match, side, this.reducedMotion)?.animation ??
+        this.animate(match, side));
     const move = MOVES[f.attack ?? ""];
     let art: Atlas = a.characters[f.character];
     let frame = art.frames[match.pose(side)] ?? art.frames[0];
@@ -308,6 +313,7 @@ export class CanvasRenderer {
         reason: authority.reason,
         roundEnd: authority.roundEnd,
         winner: authority.winner,
+        entrySides: authority.entrySides,
       });
     visual.fighters = match.fighters.map((f, i) => {
       const target = (this.visualFighters[i] ??= { ...f });

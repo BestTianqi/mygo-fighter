@@ -1,4 +1,6 @@
 import { MOVES, ROUND_END_TIMING } from "../../../../../game/engine";
+import { ENTRANCE_TIMING } from "../../../../../game/animation/entrance";
+import { drawEntranceEffects, drawEntranceTitles } from "../drawEntrances";
 import { drawSakikoSuper } from "../drawSakikoSuper";
 import { drawShield, drawSummons } from "./defense";
 import { drawMujicaEffects } from "./mujica";
@@ -63,6 +65,7 @@ export function drawBattle(
   for (const side of [0, 1]) drawSoyoEffect(scene, side);
   drawVocalAuras(scene);
   drawBlinkTrails(scene, dt);
+  drawEntranceEffects(scene);
   for (const side of [0, 1]) drawFighter(scene, side);
   if (scene.match.phase === "fighting")
     for (const f of scene.match.fighters) {
@@ -76,7 +79,11 @@ export function drawBattle(
   scene.match.waves.forEach(scene.drawWave);
   drawFx(scene, dt);
   scene.ctx.restore();
-  if (scene.match.phase === "ready") {
+  drawEntranceTitles(scene);
+  if (
+    scene.match.phase === "ready" &&
+    scene.match.phaseMs <= ENTRANCE_TIMING.ready
+  ) {
     scene.ctx.fillStyle = "#f4f3ff";
     scene.ctx.textAlign = "center";
     scene.ctx.font = "italic bold 66px sans-serif";

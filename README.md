@@ -43,6 +43,8 @@ A disconnect pauses both players. The page reconnects automatically, and refresh
 
 Both players open the same public game server URL, choose **联机对战**, and create or join a room. They can be on different networks and both use the 1P controls. Each room has two human players; 3v3 is an ordered team relay, not six simultaneous human players.
 
+All 16 characters perform a short individual entrance before READY, using their original full-body artwork. Opening entrances play together; in 3v3, only the new reserve performs while the survivor keeps their resources. Local and network play share the same 2.75-second ready clock, including pause/reconnect recovery. Reduced-motion preferences use a static introduction.
+
 The [Azure trial server](https://mygo-20-78-1-182.sslip.io/) is capped at **two rooms / four players**, with its own HTTPS address and no link from GitHub Pages. See [public server setup and operations](docs/WAN.md) for deployment, limits and measurements. Public access requires HTTPS, WebSocket forwarding and the host's inbound TCP 80/443 rules; running the LAN launcher alone does not configure those.
 
 ## Controls

@@ -4,6 +4,7 @@ import { FEEL, MOVES, ROSTER, ROUND_END_TIMING } from "../engine";
 import { heavyPose, isHeavyAttack } from "../heavyAnimation";
 import type { Fighter } from "../objects/Fighter";
 import { MUJICA_MOTION } from "./motionProfiles";
+import { entranceFor } from "./entrance";
 function createAnimator() {
   const states = new WeakMap();
   return function choose(match: Match, side: number) {
@@ -24,6 +25,8 @@ function createAnimator() {
         }
       : live;
     if (f.character >= ROSTER.length) return null;
+    const entrance = entranceFor(match, side);
+    if (entrance) return entrance.animation;
     const ground = match.grounded(f),
       now = match.elapsed;
     let state = states.get(live);
