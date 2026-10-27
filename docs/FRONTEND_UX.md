@@ -8,13 +8,15 @@ The visual direction uses the warm ivory, ink typography, open spacing and quiet
 - Lineup slots show compact face portraits and readable names. Online bans and picks use the same persistent footer as readiness, so confirming a draft never requires finding a button below a long character description.
 - Starting a local match, resuming from the menu or marking an online player ready requests fullscreen in the click handler, before asynchronous loading. Browsers require a player gesture. Fullscreen and landscape locking are best effort; denied or unsupported requests still leave a playable viewport-filling battle.
 - Escape and the floating exit button leave fullscreen. Native fullscreen changes are observed, so exiting through browser controls also restores the game toolbar. Menus release orientation locking and fullscreen.
-- Touch controls use a circular captured thumb stick and independent square action buttons, sized from 48 to 76 CSS pixels. Diagonal input, movement plus attacks, pointer cancellation, lost capture, blur and unmount all have explicit release paths. Transformation remains conditional on the selected fighter.
+- Touch controls use a circular captured thumb stick and independent square action buttons, sized from 48 to 76 CSS pixels. Diagonal input, movement plus attacks, pointer cancellation, lost capture, blur and unmount all have explicit release paths. The stick is lifted above the bottom edge, and its marked lower zone supports press-and-hold crouching without a swipe. A shorter downward stroke and release hysteresis reduce unnecessary finger travel. Non-passive touch listeners cancel page gestures only for touches starting on the stick. Transformation remains conditional on the selected fighter.
 - Both health bars use equal-width grid columns and matching safe-area padding. Fullscreen shortcuts have a separate row above the HUD; resonance labels reserve equal space so both resonance rails also remain the same length.
 - The battle latency badge remains outside the hidden toolbar. Online values are the existing measured round-trip time (RTT), not estimated one-way delay. Local play, initial measurement, reconnecting and stalled updates have separate labels.
 
 ## Browser toolbar limits
 
 The game requests fullscreen with `navigationUI: "hide"` when supported. A page cannot guarantee removal of browser chrome. The web manifest uses relative `start_url`, `scope` and icon paths with `display: "standalone"`, and Apple web-app metadata is included. On supported mobile browsers, **Add to Home Screen** and launching that shortcut provide a toolbar-free app window. A dismissible hint explains this when fullscreen is unavailable. Installation does not enable offline play, and online matches continue to require the server.
+
+On iPad Safari, native pan gestures can dismiss fullscreen independently of page scrolling. The joystick’s **按住蹲下** zone lets players crouch without starting that downward swipe; the browser’s explicit fullscreen exit stays available. See the [WebKit fullscreen gesture report](https://bugs.webkit.org/show_bug.cgi?id=227387).
 
 References: [Fullscreen API requirements](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen), [web manifest display modes](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display).
 
