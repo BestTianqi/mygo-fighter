@@ -20,16 +20,16 @@
     ]
   },
   "design": {
-    "allowAutoDesign": true,
-    "archetype": "",
-    "skillTheme": "键盘音阶与对香澄的吐槽；仅为后续设计方向，尚未设计或实现技能",
+    "allowAutoDesign": false,
+    "archetype": "预警控场／距离管理",
+    "skillTheme": "预警控场／距离管理；技能为基于动画、乐器和性格创作的格斗招式，不声称原作存在这些战斗能力。",
     "artStyle": "原作2D脸、正常身材比例，保持发色、瞳色和服装一致",
     "references": [
       "https://anime.bang-dream.com/1st/character/arisa/",
       "https://anime.bang-dream.com/bandorichan/character/poppinparty/"
     ],
     "constraints": [
-      "本次仅建立角色资料；用户明确要求暂不加入游戏。",
+      "本次制作立绘和离线技能包；用户要求暂不加入游戏。",
       "只有用户后续明确要求接入时，才注册角色、技能、选人及联机名单。",
       "采用原作2D脸和正常身材比例；保留原角色的外观与乐器辨识度。",
       "未来技能优先结合动画剧情、乐器与角色性格；语音须核对角色说话人及完整台词。"
@@ -39,18 +39,18 @@
     {
       "key": "normal",
       "label": "常态",
-      "appearance": "以官方动画角色页的花咲川校服形象为制作参考；立绘尚未绘制。",
-      "portraitReference": "https://anime.bang-dream.com/1st/character/arisa/",
+      "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
+      "portraitReference": "assets/poppinparty/portraits/arisa.png",
       "attacks": {
         "J": {
           "chain": [
-            "",
-            "",
-            ""
+            "右手点按短键，推出一枚方形音符",
+            "左手横移连按，身体侧转",
+            "双手向前压下和弦，矩形键阵合拢"
           ]
         },
         "K": {
-          "description": ""
+          "description": "抬起一手后重压琴键，紫色宽键幕向前拍出"
         },
         "L": {
           "description": "沿用共鸣消耗与虚影瞬移"
@@ -58,66 +58,66 @@
       },
       "skills": {
         "U": {
-          "name": "",
+          "name": "别擅自开始啊",
           "type": "projectile",
-          "description": "",
+          "description": "单手压键，向前推出一排紫色琴键；造成18伤害。",
           "cost": 20,
-          "totalDamage": null,
+          "totalDamage": 18,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 160,
+          "recoveryMs": 400,
+          "cooldownMs": 2200,
           "voiceKey": ""
         },
         "I": {
-          "name": "",
-          "type": "melee",
-          "description": "",
+          "name": "仓库练习·落键",
+          "type": "area",
+          "description": "伸手标出前方最多420距离内的敌人脚下，预警380毫秒后落键一次；半径170、伤害25、硬直650毫秒，可走出预警圈躲避。只判定预警所处地面／平台及其上方280高度。",
           "cost": 25,
-          "totalDamage": null,
+          "totalDamage": 25,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 150,
+          "recoveryMs": 380,
+          "cooldownMs": 3200,
           "voiceKey": ""
         },
         "O": {
-          "name": "",
+          "name": "才没有担心你",
           "type": "area",
-          "description": "",
+          "description": "不耐烦地双手外推，紫色矩形键幕震退周围敌人；半径300、伤害24、强击退。",
           "cost": 30,
-          "totalDamage": null,
+          "totalDamage": 24,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 160,
+          "recoveryMs": 400,
+          "cooldownMs": 3000,
           "voiceKey": ""
         },
         "P": {
-          "name": "",
+          "name": "流星堂·全键齐奏",
           "type": "area",
-          "description": "",
+          "description": "展开流星堂键盘阵，锁定释放时前方最多420距离内的位置；半径220内五次落键，每次10，总计50伤害。位置固定、不是必中，能离开范围躲避。",
           "cost": 100,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 50,
+          "hits": 5,
+          "startupMs": 120,
+          "recoveryMs": 300,
+          "cooldownMs": 0,
           "voiceKey": ""
         }
       },
       "backwardSkills": {
-        "U": "向前发波",
-        "I": "强化发波",
-        "O": "抛射投掷物"
+        "U": "琴键·短波：消耗20，向前发波，伤害16。后退以人物朝向为准。",
+        "I": "琴键·重波：消耗30，向前发波，伤害24。后退以人物朝向为准。",
+        "O": "琴键·抛射：消耗25，向前抛射，伤害20。后退以人物朝向为准。"
       },
       "entry": {
-        "description": "",
+        "description": "抱臂轻哼，抬手唤出紫色琴键，整理站姿",
         "voiceKey": ""
       },
       "ultimateFinish": {
-        "description": "以该形态立绘扩展完整背景，人物左侧、右侧留文字区",
-        "artReference": "https://anime.bang-dream.com/1st/character/arisa/",
+        "description": "紫色键盘音阶与流星堂仓库练习空间展开，表情嘴硬而自信。此项为后续奥义图构图方案，本次未另绘奥义图。",
+        "artReference": "assets/poppinparty/portraits/arisa.png",
         "voiceKey": ""
       }
     }
@@ -133,12 +133,21 @@
     "speedMultiplier": 1.1,
     "description": ""
   },
-  "media": [],
+  "media": [
+    {
+      "key": "portrait-normal",
+      "kind": "image",
+      "localPath": "assets/poppinparty/portraits/arisa.png",
+      "sourceUrl": "",
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    }
+  ],
   "notes": [
-    "状态：资料已建立，未接入；没有分配运行时角色ID。",
-    "技能、三段普攻动作、入场、立绘、奥义图和音视频待制作；media 为空表示没有已制作素材。",
-    "allowAutoDesign 仅允许后续设计时补齐内容，不代表授权现在接入游戏。",
-    "color 为预设识别配色，不作为官方色值声明；技能消耗沿用模板默认值，非已定案平衡参数。",
-    "未指定变身，暂保持关闭。正式接入时根据最新名单分配ID。"
+    "状态：立绘与离线技能定义已制作，未接入游戏；没有分配运行时ID。",
+    "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
+    "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
+    "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
+    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

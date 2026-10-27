@@ -1,0 +1,48 @@
+{
+  "mode": "built-in image_gen",
+  "reference": {
+    "path": "assets/poppinparty/references/official-uniform-lineup.jpg",
+    "sourceUrl": "https://gamebiz.jp/news/366083",
+    "imageUrl": "https://i3.gamebiz.jp/media/a8d944cb-203f-4953-914a-8497fc0220d2.jpg",
+    "orderLeftToRight": [
+      "rimi",
+      "saaya",
+      "kasumi",
+      "arisa",
+      "tae"
+    ],
+    "note": "Official game uniform visual reproduced in publisher news; viewed before generation."
+  },
+  "portraits": [
+    {
+      "key": "kasumi",
+      "prompt": "Use case: identity-preserve. Create ONE production-ready full-body 2D anime fighting-game character portrait as a clean isolated transparent PNG. The attached official Poppin'Party school-uniform lineup is the identity reference ONLY. Exactly one girl, no duplicate poses, no labels/text, no background, no ground shadow, no effects/ghosting. Match original anime face, eye shape, hair silhouette and hair/eye colors, crisp thin lineart, restrained cel shading, natural teenage body proportions approximately 6.5 heads tall, NOT chibi, NOT photorealistic. Fully visible head through loafers with 8% clear margin, centered vertically in portrait composition, gentle three-quarter turn toward viewer's right, relaxed ready stance. Wear exact reference Hanasakigawa tan long-sleeved sailor uniform with white collar and dark double edging, red chest bow, gold buttons, tan pleated skirt, matching cuff trim, brown loafers. Preserve reference clothing, modest skirt and body proportions. Consistent flat neutral studio light, saturated but natural original colors. Kasumi Toyama 戸山香澄, the CENTER (third from left) girl. Chestnut-brown shoulder-length hair with TWO distinct pointed cat-ear-shaped hair tufts, violet-purple eyes, blue star hair clips. Cheerful open smile. Navy knee socks. Her right hand rests by her chest, left hand extended slightly ready to strum; include her recognizable red angular star-shaped RANDOM STAR electric guitar on a black shoulder strap, strings and hands anatomically correct.",
+      "output": "assets/poppinparty/portraits/kasumi.png",
+      "transparentBackground": true
+    },
+    {
+      "key": "tae",
+      "prompt": "Use case: identity-preserve. Create ONE production-ready full-body 2D anime fighting-game character portrait as a clean isolated transparent PNG. The attached official Poppin'Party school-uniform lineup is the identity reference ONLY. Exactly one girl, no duplicate poses, no labels/text, no background, no ground shadow, no effects/ghosting. Match original anime face, eye shape, hair silhouette and hair/eye colors, crisp thin lineart, restrained cel shading, natural teenage body proportions approximately 6.5 heads tall, NOT chibi, NOT photorealistic. Fully visible head through loafers with 8% clear margin, centered vertically in portrait composition, gentle three-quarter turn toward viewer's right, relaxed ready stance. Wear exact reference Hanasakigawa tan long-sleeved sailor uniform with white collar and dark double edging, red chest bow, gold buttons, tan pleated skirt, matching cuff trim, brown loafers. Preserve reference clothing, modest skirt and body proportions. Consistent flat neutral studio light, saturated but natural original colors. Tae Hanazono 花園たえ, the RIGHTMOST (fifth from left) girl. Very long straight dark-brown hair, green eyes, calm soft smile, subtle blue hairpins on bangs. Navy knee socks. Holds a blue Stratocaster-shaped electric guitar with white pickguard on black shoulder strap, left fingers rest on neck, right hand ready to pluck. Taller graceful silhouette, exact face from rightmost reference.",
+      "output": "assets/poppinparty/portraits/tae.png",
+      "transparentBackground": true
+    },
+    {
+      "key": "rimi",
+      "prompt": "Use case: identity-preserve. Create ONE production-ready full-body 2D anime fighting-game character portrait as a clean isolated transparent PNG. The attached official Poppin'Party school-uniform lineup is the identity reference ONLY. Exactly one girl, no duplicate poses, no labels/text, no background, no ground shadow, no effects/ghosting. Match original anime face, eye shape, hair silhouette and hair/eye colors, crisp thin lineart, restrained cel shading, natural teenage body proportions approximately 6.5 heads tall, NOT chibi, NOT photorealistic. Fully visible head through loafers with 8% clear margin, centered vertically in portrait composition, gentle three-quarter turn toward viewer's right, relaxed ready stance. Wear exact reference Hanasakigawa tan long-sleeved sailor uniform with white collar and dark double edging, red chest bow, gold buttons, tan pleated skirt, matching cuff trim, brown loafers. Preserve reference clothing, modest skirt and body proportions. Consistent flat neutral studio light, saturated but natural original colors. Rimi Ushigome 牛込りみ, the LEFTMOST girl. Short black/dark-blue rounded bob with small outward tips, red-brown eyes, small pink hair clip. Gentle shy smile, navy knee socks. Pink electric bass with white pickguard on shoulder strap, left hand loosely holding neck and right hand near strings. Shorter natural human proportions, never chibi.",
+      "output": "assets/poppinparty/portraits/rimi.png",
+      "transparentBackground": true
+    },
+    {
+      "key": "saaya",
+      "prompt": "Use case: identity-preserve. Create ONE production-ready full-body 2D anime fighting-game character portrait as a clean isolated transparent PNG. The attached official Poppin'Party school-uniform lineup is the identity reference ONLY. Exactly one girl, no duplicate poses, no labels/text, no background, no ground shadow, no effects/ghosting. Match original anime face, eye shape, hair silhouette and hair/eye colors, crisp thin lineart, restrained cel shading, natural teenage body proportions approximately 6.5 heads tall, NOT chibi, NOT photorealistic. Fully visible head through loafers with 8% clear margin, centered vertically in portrait composition, gentle three-quarter turn toward viewer's right, relaxed ready stance. Wear exact reference Hanasakigawa tan long-sleeved sailor uniform with white collar and dark double edging, red chest bow, gold buttons, tan pleated skirt, matching cuff trim, brown loafers. Preserve reference clothing, modest skirt and body proportions. Consistent flat neutral studio light, saturated but natural original colors. Saaya Yamabuki 山吹沙綾, the SECOND girl from LEFT (NOT the blonde girl). Light reddish-brown hair pulled in a high ponytail with LARGE YELLOW RIBBON, loose wavy front sidelocks, clear BLUE eyes. Warm reassuring smile. Navy knee socks. Holds ONE wooden drumstick in each hand, one raised near shoulder and one resting across waist; both hands visible, no drumkit.",
+      "output": "assets/poppinparty/portraits/saaya.png",
+      "transparentBackground": true
+    },
+    {
+      "key": "arisa",
+      "prompt": "Use case: identity-preserve. Create ONE production-ready full-body 2D anime fighting-game character portrait as a clean isolated transparent PNG. The attached official Poppin'Party school-uniform lineup is the identity reference ONLY. Exactly one girl, no duplicate poses, no labels/text, no background, no ground shadow, no effects/ghosting. Match original anime face, eye shape, hair silhouette and hair/eye colors, crisp thin lineart, restrained cel shading, natural teenage body proportions approximately 6.5 heads tall, NOT chibi, NOT photorealistic. Fully visible head through loafers with 8% clear margin, centered vertically in portrait composition, gentle three-quarter turn toward viewer's right, relaxed ready stance. Wear exact reference Hanasakigawa tan long-sleeved sailor uniform with white collar and dark double edging, red chest bow, gold buttons, tan pleated skirt, matching cuff trim, brown loafers. Preserve reference clothing, modest skirt and body proportions. Consistent flat neutral studio light, saturated but natural original colors. Arisa Ichigaya 市ヶ谷有咲, the FOURTH girl from LEFT (NOT the ponytailed blue-eyed girl). Honey-blonde long TWIN TAILS, amber-gold eyes, black hair ribbons, BLACK OPAQUE TIGHTS covering entire legs. Mildly annoyed but endearing expression with slightly raised brow, one hand at hip, other poised elegantly as if pressing piano keys, no instrument blocking body.",
+      "output": "assets/poppinparty/portraits/arisa.png",
+      "transparentBackground": true
+    }
+  ]
+}

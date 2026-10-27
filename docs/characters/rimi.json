@@ -20,16 +20,16 @@
     ]
   },
   "design": {
-    "allowAutoDesign": true,
-    "archetype": "",
-    "skillTheme": "贝斯低音、巧克力螺旋面包；仅为后续设计方向，尚未设计或实现技能",
+    "allowAutoDesign": false,
+    "archetype": "抛射牵制／低段击退",
+    "skillTheme": "抛射牵制／低段击退；技能为基于动画、乐器和性格创作的格斗招式，不声称原作存在这些战斗能力。",
     "artStyle": "原作2D脸、正常身材比例，保持发色、瞳色和服装一致",
     "references": [
       "https://anime.bang-dream.com/1st/character/rimi/",
       "https://anime.bang-dream.com/bandorichan/character/poppinparty/"
     ],
     "constraints": [
-      "本次仅建立角色资料；用户明确要求暂不加入游戏。",
+      "本次制作立绘和离线技能包；用户要求暂不加入游戏。",
       "只有用户后续明确要求接入时，才注册角色、技能、选人及联机名单。",
       "采用原作2D脸和正常身材比例；保留原角色的外观与乐器辨识度。",
       "未来技能优先结合动画剧情、乐器与角色性格；语音须核对角色说话人及完整台词。"
@@ -39,18 +39,18 @@
     {
       "key": "normal",
       "label": "常态",
-      "appearance": "以官方动画角色页的花咲川校服形象为制作参考；立绘尚未绘制。",
-      "portraitReference": "https://anime.bang-dream.com/1st/character/rimi/",
+      "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
+      "portraitReference": "assets/poppinparty/portraits/rimi.png",
       "attacks": {
         "J": {
           "chain": [
-            "",
-            "",
-            ""
+            "指尖轻拨低音弦，身体略微前倾",
+            "换指连续勾弦，向前小迈一步",
+            "双脚站稳，掌根闷弦，低音圆环前推"
           ]
         },
         "K": {
-          "description": ""
+          "description": "抱稳贝斯后向前重拨，粉色低频波随重心推进"
         },
         "L": {
           "description": "沿用共鸣消耗与虚影瞬移"
@@ -58,66 +58,66 @@
       },
       "skills": {
         "U": {
-          "name": "",
+          "name": "巧克力螺旋面包",
           "type": "projectile",
-          "description": "",
+          "description": "拨动贝斯，抛出巧克力螺旋面包；沿弧线飞行，单次命中20伤害。面包是投射物，不恢复生命。",
           "cost": 20,
-          "totalDamage": null,
+          "totalDamage": 20,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 160,
+          "recoveryMs": 400,
+          "cooldownMs": 2200,
           "voiceKey": ""
         },
         "I": {
-          "name": "",
+          "name": "闷弦低鸣",
           "type": "melee",
-          "description": "",
+          "description": "先勾弦再掌根闷弦，打出两次前方低音冲击；11＋13，总计24伤害，需低位防御。",
           "cost": 25,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 24,
+          "hits": 2,
+          "startupMs": 170,
+          "recoveryMs": 300,
+          "cooldownMs": 2800,
           "voiceKey": ""
         },
         "O": {
-          "name": "",
-          "type": "area",
-          "description": "",
+          "name": "我也要向前一步",
+          "type": "melee",
+          "description": "抱稳贝斯前进90距离，重拨推出低音圆盘；造成26伤害、强击退并击倒。",
           "cost": 30,
-          "totalDamage": null,
+          "totalDamage": 26,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 190,
+          "recoveryMs": 370,
+          "cooldownMs": 3300,
           "voiceKey": ""
         },
         "P": {
-          "name": "",
+          "name": "巧克力低音交响",
           "type": "area",
-          "description": "",
+          "description": "站稳连弹，粉色低音环在周身五次扩散，伴随巧克力色螺旋纹；半径500，每段10，总计50伤害。",
           "cost": 100,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 50,
+          "hits": 5,
+          "startupMs": 140,
+          "recoveryMs": 300,
+          "cooldownMs": 0,
           "voiceKey": ""
         }
       },
       "backwardSkills": {
-        "U": "向前发波",
-        "I": "强化发波",
-        "O": "抛射投掷物"
+        "U": "低音·短波：消耗20，向前发波，伤害16。后退以人物朝向为准。",
+        "I": "低音·重波：消耗30，向前发波，伤害24。后退以人物朝向为准。",
+        "O": "低音·抛射：消耗25，向前抛射，伤害20。后退以人物朝向为准。"
       },
       "entry": {
-        "description": "",
+        "description": "抱着贝斯深呼吸，从害羞低头转为坚定抬头",
         "voiceKey": ""
       },
       "ultimateFinish": {
-        "description": "以该形态立绘扩展完整背景，人物左侧、右侧留文字区",
-        "artReference": "https://anime.bang-dream.com/1st/character/rimi/",
+        "description": "粉色贝斯与巧克力螺旋面包的暖色剪影，面包店橱窗和舞台光扩展背景。此项为后续奥义图构图方案，本次未另绘奥义图。",
+        "artReference": "assets/poppinparty/portraits/rimi.png",
         "voiceKey": ""
       }
     }
@@ -133,12 +133,21 @@
     "speedMultiplier": 1.1,
     "description": ""
   },
-  "media": [],
+  "media": [
+    {
+      "key": "portrait-normal",
+      "kind": "image",
+      "localPath": "assets/poppinparty/portraits/rimi.png",
+      "sourceUrl": "",
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    }
+  ],
   "notes": [
-    "状态：资料已建立，未接入；没有分配运行时角色ID。",
-    "技能、三段普攻动作、入场、立绘、奥义图和音视频待制作；media 为空表示没有已制作素材。",
-    "allowAutoDesign 仅允许后续设计时补齐内容，不代表授权现在接入游戏。",
-    "color 为预设识别配色，不作为官方色值声明；技能消耗沿用模板默认值，非已定案平衡参数。",
-    "未指定变身，暂保持关闭。正式接入时根据最新名单分配ID。"
+    "状态：立绘与离线技能定义已制作，未接入游戏；没有分配运行时ID。",
+    "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
+    "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
+    "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
+    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

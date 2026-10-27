@@ -17,16 +17,16 @@
     ]
   },
   "design": {
-    "allowAutoDesign": true,
-    "archetype": "",
-    "skillTheme": "蓝色吉他与演奏；仅为后续设计方向，尚未设计或实现技能",
+    "allowAutoDesign": false,
+    "archetype": "高速连击／对空",
+    "skillTheme": "高速连击／对空；技能为基于动画、乐器和性格创作的格斗招式，不声称原作存在这些战斗能力。",
     "artStyle": "原作2D脸、正常身材比例，保持发色、瞳色和服装一致",
     "references": [
       "https://anime.bang-dream.com/1st/character/tae/",
       "https://anime.bang-dream.com/bandorichan/character/poppinparty/"
     ],
     "constraints": [
-      "本次仅建立角色资料；用户明确要求暂不加入游戏。",
+      "本次制作立绘和离线技能包；用户要求暂不加入游戏。",
       "只有用户后续明确要求接入时，才注册角色、技能、选人及联机名单。",
       "采用原作2D脸和正常身材比例；保留原角色的外观与乐器辨识度。",
       "未来技能优先结合动画剧情、乐器与角色性格；语音须核对角色说话人及完整台词。"
@@ -36,18 +36,18 @@
     {
       "key": "normal",
       "label": "常态",
-      "appearance": "以官方动画角色页的花咲川校服形象为制作参考；立绘尚未绘制。",
-      "portraitReference": "https://anime.bang-dream.com/1st/character/tae/",
+      "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
+      "portraitReference": "assets/poppinparty/portraits/tae.png",
       "attacks": {
         "J": {
           "chain": [
-            "",
-            "",
-            ""
+            "右手短促拨弦，蓝色细弧前送",
+            "左手滑品，侧身反拨",
+            "跨步扫弦，琴颈上挑后回正"
           ]
         },
         "K": {
-          "description": ""
+          "description": "长发随转身甩动，双手压住吉他打出宽幅和弦"
         },
         "L": {
           "description": "沿用共鸣消耗与虚影瞬移"
@@ -55,66 +55,66 @@
       },
       "skills": {
         "U": {
-          "name": "",
+          "name": "蓝弦双拨",
           "type": "projectile",
-          "description": "",
+          "description": "右手两次交替拨弦，射出两道蓝色窄弦波；每道9，总计18伤害。",
           "cost": 20,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 18,
+          "hits": 2,
+          "startupMs": 130,
+          "recoveryMs": 340,
+          "cooldownMs": 2200,
           "voiceKey": ""
         },
         "I": {
-          "name": "",
+          "name": "滑音疾走",
           "type": "melee",
-          "description": "",
+          "description": "滑步110距离接三次不同方向扫弦；8＋8＋10，总计26伤害。",
           "cost": 25,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 26,
+          "hits": 3,
+          "startupMs": 150,
+          "recoveryMs": 300,
+          "cooldownMs": 2800,
           "voiceKey": ""
         },
         "O": {
-          "name": "",
-          "type": "area",
-          "description": "",
+          "name": "兔耳上行音阶",
+          "type": "melee",
+          "description": "琴颈上扬，两道兔耳形弦光合拢；前方230、高度360，造成26伤害并挑飞、击倒。",
           "cost": 30,
-          "totalDamage": null,
+          "totalDamage": 26,
           "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "startupMs": 170,
+          "recoveryMs": 390,
+          "cooldownMs": 3200,
           "voiceKey": ""
         },
         "P": {
-          "name": "",
-          "type": "area",
-          "description": "",
+          "name": "花园电吉他",
+          "type": "projectile",
+          "description": "双手高速演奏，向前发射五道蓝色和弦波；每道10，总计50伤害，0.74秒内发完，飞行仍按正常速度。",
           "cost": 100,
-          "totalDamage": null,
-          "hits": 1,
-          "startupMs": null,
-          "recoveryMs": null,
-          "cooldownMs": null,
+          "totalDamage": 50,
+          "hits": 5,
+          "startupMs": 100,
+          "recoveryMs": 340,
+          "cooldownMs": 0,
           "voiceKey": ""
         }
       },
       "backwardSkills": {
-        "U": "向前发波",
-        "I": "强化发波",
-        "O": "抛射投掷物"
+        "U": "蓝弦·短波：消耗20，向前发波，伤害16。后退以人物朝向为准。",
+        "I": "蓝弦·重波：消耗30，向前发波，伤害24。后退以人物朝向为准。",
+        "O": "蓝弦·抛射：消耗25，向前抛射，伤害20。后退以人物朝向为准。"
       },
       "entry": {
-        "description": "",
+        "description": "侧耳听音，轻拨一弦，再抬眼望向对手",
         "voiceKey": ""
       },
       "ultimateFinish": {
-        "description": "以该形态立绘扩展完整背景，人物左侧、右侧留文字区",
-        "artReference": "https://anime.bang-dream.com/1st/character/tae/",
+        "description": "蓝色吉他长音化成平行弦线，练习室窗光与蓝色聚光灯铺开。此项为后续奥义图构图方案，本次未另绘奥义图。",
+        "artReference": "assets/poppinparty/portraits/tae.png",
         "voiceKey": ""
       }
     }
@@ -130,12 +130,21 @@
     "speedMultiplier": 1.1,
     "description": ""
   },
-  "media": [],
+  "media": [
+    {
+      "key": "portrait-normal",
+      "kind": "image",
+      "localPath": "assets/poppinparty/portraits/tae.png",
+      "sourceUrl": "",
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    }
+  ],
   "notes": [
-    "状态：资料已建立，未接入；没有分配运行时角色ID。",
-    "技能、三段普攻动作、入场、立绘、奥义图和音视频待制作；media 为空表示没有已制作素材。",
-    "allowAutoDesign 仅允许后续设计时补齐内容，不代表授权现在接入游戏。",
-    "color 为预设识别配色，不作为官方色值声明；技能消耗沿用模板默认值，非已定案平衡参数。",
-    "未指定变身，暂保持关闭。正式接入时根据最新名单分配ID。"
+    "状态：立绘与离线技能定义已制作，未接入游戏；没有分配运行时ID。",
+    "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
+    "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
+    "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
+    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }
