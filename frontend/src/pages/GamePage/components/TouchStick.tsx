@@ -61,7 +61,7 @@ export function TouchStick({ input }: { input: InputController }) {
       onLostPointerCapture={(event) => {
         if (event.pointerId === pointer.current) release();
       }}
-      className="relative size-[clamp(96px,26vw,148px)] shrink-0 touch-none rounded-none bg-slate-950/45 shadow-[inset_0_0_28px_#ffffff15] backdrop-blur-sm text-white/70 select-none [-webkit-touch-callout:none] landscape:size-[clamp(96px,32dvh,148px)]"
+      className="relative size-[clamp(96px,26vw,148px)] shrink-0 touch-none rounded-full bg-slate-950/45 shadow-[inset_0_0_28px_#ffffff15] backdrop-blur-sm text-white/70 select-none [-webkit-touch-callout:none] landscape:size-[clamp(96px,32dvh,148px)]"
     >
       <span className="absolute inset-x-0 top-1 text-[9px]">↑ 跳跃</span>
       <span className="absolute left-2 top-1/2 -translate-y-1/2">‹</span>
@@ -69,7 +69,7 @@ export function TouchStick({ input }: { input: InputController }) {
       <span className="absolute inset-x-0 bottom-1 text-[9px]">蹲下 ↓</span>
       <span
         aria-hidden="true"
-        className="absolute left-1/2 top-1/2 -ml-[22%] -mt-[22%] size-[44%] rounded-none bg-cyan-100/30 shadow-[0_0_24px_#67e8f933]"
+        className="absolute left-1/2 top-1/2 -ml-[22%] -mt-[22%] size-[44%] rounded-full bg-cyan-100/30 shadow-[0_0_24px_#67e8f933]"
         style={{ transform: `translate(${position.x}px,${position.y}px)` }}
       />
     </button>

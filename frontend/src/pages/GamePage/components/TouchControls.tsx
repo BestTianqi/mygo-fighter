@@ -75,7 +75,7 @@ const actions: [string, string][] = [
 
 /** Square action pads stay reachable beside the thumb stick, from phones to tablets. */
 const key =
-  "size-[clamp(44px,10.5vw,64px)] landscape:size-[clamp(44px,14dvh,64px)] rounded-none text-[10px] leading-tight shadow-lg";
+  "size-[clamp(48px,12vw,76px)] landscape:size-[clamp(48px,16dvh,76px)] rounded-none text-[11px] leading-tight shadow-lg sm:text-xs";
 
 export function TouchControls({
   input,
@@ -95,7 +95,7 @@ export function TouchControls({
         aria-label="触屏操作"
       >
         <TouchStick input={input} />
-        <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+        <div className="grid grid-cols-4 gap-1.5 max-[360px]:gap-1 sm:gap-2">
           {[
             ...actions,
             ...(schemeFor(fighter).transform

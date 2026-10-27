@@ -468,10 +468,13 @@ export function BattlePanel({
             height={540}
           />
           <div
-            className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
-              mobile
-                ? "px-2 pt-6 pb-8"
-                : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
+            aria-label="对战状态"
+            className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
+              fullField
+                ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-8 sm:gap-6"
+                : mobile
+                  ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-6 pb-8"
+                  : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
             }`}
           >
             {view.fighters[0] && (
@@ -500,11 +503,6 @@ export function BattlePanel({
                 view={view}
                 assets={assets}
                 mobile={mobile}
-                inset={
-                  fullField
-                    ? "pr-[calc(env(safe-area-inset-right)+6.5rem)]"
-                    : ""
-                }
               />
             )}
           </div>
@@ -629,17 +627,15 @@ function FighterHUD({
   view,
   assets,
   mobile,
-  inset = "",
 }: {
   side: number;
   view: GameView;
   assets: Assets;
   mobile: boolean;
-  inset?: string;
 }) {
   const fighter = view.fighters[side];
   return (
-    <div className={`${side ? "text-right" : ""} ${inset}`}>
+    <div className={`min-w-0 ${side ? "text-right" : ""}`}>
       <div
         className={`mb-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
       >
@@ -653,9 +649,9 @@ function FighterHUD({
             className="hidden size-9 rounded-none object-cover object-top sm:block"
           />
         )}
-        <div>
+        <div className="min-w-0">
           <p
-            className={`text-[10px] font-semibold ${mobile ? "" : "sm:text-base"}`}
+            className={`truncate text-[10px] font-semibold ${mobile ? "sm:text-xs" : "sm:text-base"}`}
           >
             {fighter.name}
             {fighter.transformed && (
@@ -680,7 +676,7 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={200}
         aria-valuenow={fighter.hp}
-        className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "" : "sm:h-4"}`}
+        className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "sm:h-3" : "sm:h-4"}`}
       >
         <div
           className={`h-full transition-[width] duration-75 ${side ? "ml-auto bg-cyan-200" : "bg-pink-200"}`}
@@ -695,7 +691,7 @@ function FighterHUD({
         aria-valuenow={fighter.energy}
         className={`mt-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
       >
-        <div className="h-1 flex-1 overflow-hidden rounded-none bg-slate-700">
+        <div className="h-1 min-w-0 flex-1 overflow-hidden rounded-none bg-slate-700">
           <div
             className={`h-full ${side ? "ml-auto bg-cyan-100" : "bg-pink-100"}`}
             style={{ width: `${fighter.energy}%` }}
@@ -703,7 +699,7 @@ function FighterHUD({
         </div>
         <span
           aria-hidden="true"
-          className={`shrink-0 whitespace-nowrap font-mono text-[8px] tabular-nums text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
+          className={`w-[9ch] shrink-0 whitespace-nowrap text-center font-mono text-[8px] tabular-nums text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
         >
           {fighter.energy} / 100
         </span>
