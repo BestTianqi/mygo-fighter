@@ -4,6 +4,7 @@ import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type { Match } from "../../../game/engine";
 import { presentationFor } from "./presentationFor";
 import { MOVES } from "../../../game/combatData";
+import { ultimateFinishFor } from "./ultimateFinishFor";
 
 const MAX_AUDIO_BYTES = 64 * 1024 * 1024;
 const MAX_AUDIO_LOADS = 4;
@@ -39,6 +40,7 @@ export class AudioDirector {
         ...assets.memeVoices,
         ...assets.summonVoices,
         ...assets.transformMusic,
+        ...assets.finishVoices,
       }),
     );
   }
@@ -88,6 +90,10 @@ export class AudioDirector {
     ]);
     const names = new Set<string>();
     for (const character of characters) {
+      for (const media of Object.values(
+        this.assets.ultimateFinishes?.[character] ?? {},
+      ))
+        if (media.voice) names.add(media.voice);
       const identities = [
         { character },
         { character, stageForm: { ms: 1 } },
@@ -262,6 +268,7 @@ export class AudioDirector {
       }
       if (event.type === "ultimateFinish" && event.finisher) {
         const finisher = event.finisher;
+        const finishVoice = ultimateFinishFor(this.assets, finisher)?.voice;
         const voice =
           presentationFor(this.assets, finisher, finisher.attack)?.voice ??
           (this.assets.penguinVoices[finisher.attack] ||
@@ -270,7 +277,10 @@ export class AudioDirector {
             : null);
         // A sentence already playing continues through KO. A completed cue can
         // accompany the art once; authoritative event IDs prevent replay on reconnect.
-        if (voice && !this.speeches?.playing(finisher.side)) {
+        if (finishVoice) {
+          this.voices?.stop(finisher.side);
+          this.speeches?.playAfterCurrent(finishVoice, finisher.side);
+        } else if (voice && !this.speeches?.playing(finisher.side)) {
           this.voices?.stop(finisher.side);
           this.speeches?.play(voice, finisher.side);
         }

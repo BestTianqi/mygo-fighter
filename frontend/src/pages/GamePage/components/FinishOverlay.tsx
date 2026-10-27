@@ -2,6 +2,7 @@ import { MOVES, ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
 import { finishArtFor } from "../functions/finishArtFor";
 import { finishMotion } from "../functions/finishMotion";
+import { ultimateFinishFor } from "../functions/ultimateFinishFor";
 import type { GameView } from "../objects/GameView";
 import { FinishEffects } from "./FinishEffects";
 
@@ -22,10 +23,13 @@ export function FinishOverlay({
   const motion = finishMotion(view.phaseMs, finish.winner, reducedMotion);
   if (!motion) return null;
   const ultimate = finish.finisher;
+  const presentation = ultimate
+    ? ultimateFinishFor(assets, ultimate)
+    : undefined;
   const winner =
     ultimate ?? (finish.winner >= 0 ? finish.fighters[finish.winner] : null);
   const left = finish.winner === 0;
-  const finishArt = winner ? finishArtFor(assets, winner) : "";
+  const finishArt = winner ? finishArtFor(assets, winner, !!ultimate) : "";
   const transitionDuration = view.paused || reducedMotion ? "0ms" : "34ms";
   return (
     <div
@@ -33,6 +37,7 @@ export function FinishOverlay({
       data-winner-side={finish.winner}
       data-ultimate-finish={!!ultimate}
       data-finish-attack={ultimate?.attack}
+      data-finish-scene={!!presentation}
       className={`${className} pointer-events-none flex items-center overflow-hidden bg-slate-950/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
       style={{
         opacity: motion.opacity,
@@ -46,12 +51,14 @@ export function FinishOverlay({
           alt={`${ROSTER[winner.character].name}奥义图`}
           draggable={false}
           className={`absolute transition-transform ease-linear motion-reduce:transition-none ${
-            winner.character === 12
-              ? "inset-0 h-full w-full object-cover opacity-85"
-              : `inset-y-0 h-full w-2/3 object-contain opacity-95 ${left ? "left-0" : "right-0"}`
+            presentation
+              ? "inset-0 h-full w-full object-cover portrait:object-contain"
+              : winner.character === 12
+                ? "inset-0 h-full w-full object-cover opacity-85"
+                : `inset-y-0 h-full w-2/3 object-contain opacity-95 ${left ? "left-0" : "right-0"}`
           }`}
           style={{
-            transform: `translate3d(${motion.artX}%,0,0) scale(${motion.artScale})`,
+            transform: `translate3d(${motion.artX}%,0,0) scale(${motion.artScale})${presentation && !left ? " scaleX(-1)" : ""}`,
             transitionDuration,
           }}
         />
@@ -88,6 +95,11 @@ export function FinishOverlay({
         {ultimate && (
           <p className="mt-1 text-[10px] font-bold tracking-[.12em] text-amber-200 sm:mt-3 sm:text-sm sm:tracking-[.22em]">
             {MOVES[ultimate.attack]?.name}
+          </p>
+        )}
+        {presentation?.line && (
+          <p className="mt-1 line-clamp-2 text-[10px] leading-snug text-white/90 sm:mt-3 sm:line-clamp-3 sm:text-base">
+            「{presentation.line}」
           </p>
         )}
         <p className="mt-1 text-sm sm:mt-3 sm:text-xl">

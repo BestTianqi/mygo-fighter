@@ -1,4 +1,5 @@
 import type { Terrain } from "./Terrain";
+import type { UltimateFinishPresentation } from "./UltimateFinishPresentation";
 export interface SpriteFrame {
   name?: string;
   x: number;
@@ -78,4 +79,6 @@ export interface Assets {
   soyoFinishArt: string;
   uikaFinishArt: string;
   finishArts?: Record<string, string>;
+  ultimateFinishes?: Record<string, Record<string, UltimateFinishPresentation>>;
+  finishVoices?: Record<string, string>;
 }
