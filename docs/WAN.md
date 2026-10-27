@@ -2,11 +2,13 @@
 
 The complete game can run on one Linux server. A Scala JVM process owns independent two-player rooms and executes the same TypeScript battle kernel used by local play. Caddy serves HTTPS and forwards HTTP and WebSockets to that process. Players open one shared game URL; no player hosts a public port or installs a backend.
 
-The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). It is capped at **two rooms / four players** and serves the matching frontend and Scala backend together. The application release is `20261027-9207f12-protocol12`; its `deployment.json` records the application commit, package checksum and protocol. GitHub Pages does not link to it.
+The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, two vCPUs and approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). The matching frontend, Scala backend and shared combat kernel are application commit `1fbfdc0`, protocol **20**, release `20261027-1fbfdc0-protocol20`. GitHub Pages does not link to the server.
 
-The [TCP_NODELAY deployment and runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) records the current release, permanent transport fix and GraalVM comparison. The [earlier protocol-12 audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) records the preceding deployment and initial measurements. The [earlier 2026-10-26 AliCloud deployment notes](DEPLOYMENT_ALICLOUD_2026-10-26.md) record the original setup and checks. The original protocol-10 run ended at the user's request after approximately nine minutes. The protocol-12 update subsequently passed a full 15-minute four-client run, plus a separate transport comparison. Its verification sessions explicitly left and their rooms were removed. Abandoned-room expiry was not repeated in this update.
+Production allows **four rooms / eight players** (`MAX_ROOMS=4`). The [2026-10-27 deployment and capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) records the current room limit and verification. `deployment.json` in the active release records the application commit, archive checksum and runtime configuration. OpenJDK 21 and the existing 512 MiB service memory ceiling remain in use.
 
-The Azure deployment is a **trial**, capped at **two rooms / four players** on the existing Japan East ARM64 VM (2 cores, approximately 1 GB RAM). Play at [mygo-20-78-1-182.sslip.io](https://mygo-20-78-1-182.sslip.io/). GitHub Pages does not link to the trial. Verification results are recorded below.
+All three preceding AliCloud releases and their uploaded packages were deleted on 2026-10-27 at the user's request. Only the current release remains; there is no `previous` link and no old release available for rollback. The **Azure game trial is retired**: its service, all three releases and uploaded packages were removed, and its game-specific Caddy configuration was replaced with the original configuration. The Azure VPN remains active. The Azure installation and acceptance details below are historical.
+
+The [runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md), [protocol-12 audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) and [original AliCloud deployment](DEPLOYMENT_ALICLOUD_2026-10-26.md) remain historical records, including their measurements and limitations. Their release directories no longer exist.
 
 ## Build and install
 
@@ -22,9 +24,9 @@ ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
 ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
 ```
 
-Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; rollback after a subsequent release uses `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. The preceding protocol-10 release is retained for rollback.
+Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; a future activation can retain its predecessor for rollback with `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. No predecessor is retained after the explicit 2026-10-27 cleanup.
 
-For the existing Azure SSH alias:
+Historical provisioning procedure for the Azure SSH alias (the game trial is now removed):
 
 ```sh
 tar -czf output/wan/hosting.tar.gz deploy
@@ -41,7 +43,7 @@ Permit inbound **TCP 80 and 443** in the VM's Azure network security group. Do n
 
 The trial uses `MyGO-Web-TCP-80-443` at priority 330 in `azure-vm-nsg`, attached only to this VM's network interface. The existing `Hysteria2-UDP-443` rule at priority 320 is unchanged. Caddy owns TCP 80/443; the JVM remains bound to loopback port 8080 and Hysteria retains UDP 443.
 
-## Configuration and behavior
+## Historical trial configuration and shared behavior
 
 `/etc/mygo-fighter.env` holds runtime settings:
 
@@ -61,7 +63,7 @@ Room creation and joining share a limit of 20 attempts per client address per mi
 
 The server accepts two human players per room and preserves host-only rule changes, 1v1 and 3v3 team relay, authoritative combat and the reconnect loading barrier. A disconnect pauses the match. After all sockets have been absent for two minutes, room cleanup stops its clock, closes the simulation, revokes its sessions and frees its capacity. Thirty-minute inactivity expiry and immediate cleanup after everyone explicitly leaves remain in place. Server restarts discard temporary rooms.
 
-## Operations and rollback
+## Historical Azure operations and general rollback behavior
 
 ```sh
 ssh azure 'systemctl status mygo-fighter caddy hysteria-server --no-pager'
@@ -71,21 +73,21 @@ ssh azure 'sudo systemctl restart mygo-fighter'
 curl --fail https://mygo-20-78-1-182.sslip.io/api/health
 ```
 
-The release installer extracts to `/srv/mygo-fighter/releases/RELEASE_ID`, stops the game, atomically switches `current`, starts the matching JVM and checks backend health. Stopping before switching prevents the previous JVM from serving a newer frontend. A failed switch, start or health check restores the preceding release when one exists. Successful activation records it as `previous`; run `sudo bash /tmp/mygo-hosting/deploy/rollback.sh` on the host to restore it. Deployment and rollback are serialized with a host-local lock. Both switching and restarting end current temporary matches. Preserve at least the active and previous directories when removing older release artifacts.
+The release installer extracts to `/srv/mygo-fighter/releases/RELEASE_ID`, stops the game, atomically switches `current`, starts the matching JVM and checks backend health. Stopping before switching prevents the previous JVM from serving a newer frontend. A failed switch, start or health check restores the preceding release when one exists. Successful activation records it as `previous`; run `sudo bash /tmp/mygo-hosting/deploy/rollback.sh` on the host to restore it. Deployment and rollback are serialized with a host-local lock. Both switching and restarting end current temporary matches. Normally retain the active and previous directories when pruning releases. The explicit 2026-10-27 request to delete all previous versions overrides that default for this deployment; only the active AliCloud directory remains.
 
 To retire the trial, stop and disable `mygo-fighter`, remove only the trial's Azure TCP 80/443 inbound rule, then stop Caddy if it still serves only this game. Restore `/etc/caddy/Caddyfile.before-mygo` if retaining Caddy for other use. The game release directories, its service unit, `/etc/mygo-fighter.env` and dedicated `mygo` account can then be removed after any desired backups. Leave the VPN service, its certificates and UDP 443 rule intact.
 
-## Verification status
+## Historical Azure trial verification
 
 Required acceptance includes normal frontend/media/build and Scala checks; a static Pages check under `/mygo-fighter/` with no trial link; HTTPS and WebSocket access without certificate bypass; original image/audio/video loading; four isolated clients in two simultaneous matches for at least 15 minutes; damage, supers, reserve progression, pause, restart and reconnect; full/invalid rooms, invalid sessions, incompatible protocol, origin and admission checks; and abandoned-room expiry. Record memory, CPU, snapshot timing and VPN responsiveness. All temporary harnesses and measurements belong under ignored `output/wan/`; no removed test directory is restored.
 
-The application is installed on Azure with the two-room limit. Frontend/media checks, Scala compilation/formatting, the normal build, Pages build, packaged startup and proxy admission checks passed after merging the Taki and Rana updates (network protocol 7). The published GitHub Pages site was checked under `/mygo-fighter/` and has no trial-server link. The optional HTTPS link was separately verified with a test-only build; `PUBLIC_GAME_URL` remains unset for Pages.
+Before its retirement, the application was installed on Azure with a two-room limit. Frontend/media checks, Scala compilation/formatting, the normal build, Pages build, packaged startup and proxy admission checks passed after merging the Taki and Rana updates (network protocol 7). The published GitHub Pages site was checked under `/mygo-fighter/` and has no trial-server link. The optional HTTPS link was separately verified with a test-only build; `PUBLIC_GAME_URL` remains unset for Pages.
 
 The **2026-10-26 public acceptance run passed** with **four isolated WebSocket clients in two simultaneous rooms for 900 seconds**, including the updated Taki/Rana 1v1 matchup and 3v3 reserve progression. Clients connected directly over public HTTPS/WSS without SSH forwarding or certificate bypass. Each received approximately 54,000 snapshots, with no unexpected disconnects, protocol errors or server restarts. Room isolation, movement, damage, pause, restart and reconnect passed. A third room was clearly rejected, and the two-minute abandoned-session revocation and room-capacity recovery checks passed.
 
 All **279 original runtime media files (93,738,918 bytes)** also matched the local originals byte for byte over trusted public HTTPS, covering the image, audio and video assets.
 
-Further public checks passed for authoritative Sakiko and Viola supers, refresh recovery, invalid room codes, expired sessions, incompatible clients, same-origin enforcement and admission limits with retry messages. Automatic restoration after an intentionally failed release startup and manual rollback to the previous release and back also passed. The active application remains protocol 7 in `/srv/mygo-fighter/releases/20261026-wan-protocol7`, built from commit `09c9a2a`.
+Further public checks passed for authoritative Sakiko and Viola supers, refresh recovery, invalid room codes, expired sessions, incompatible clients, same-origin enforcement and admission limits with retry messages. Automatic restoration after an intentionally failed release startup and manual rollback to the previous release and back also passed. The final Azure trial application was protocol 7 in `/srv/mygo-fighter/releases/20261026-wan-protocol7`, built from commit `09c9a2a`.
 
 | Measurement                | Observed public trial result                                                                       |
 | -------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -102,4 +104,4 @@ Further public checks passed for authoritative Sakiko and Viola supers, refresh 
 
 These measurements support the **two-room / four-player test target on this VM**. They describe one client network and a short trial, not sustained production capacity or latency from every region. VPN availability and command responsiveness were sampled; VPN throughput was not benchmarked. No VM resize or paid resource upgrade was made. Acceptance results are summarized above; temporary harnesses and raw measurements are not part of the repository.
 
-**Public HTTPS and WSS are live.** Caddy obtained a publicly trusted Let's Encrypt certificate for the hostname. HTTP redirects to HTTPS, and normal certificate/hostname validation and public `/api/health` checks passed. Two isolated browsers played through `wss://mygo-20-78-1-182.sslip.io/ws`; keyboard attacks reduced the defender's health to 179, and refreshing/reconnecting preserved that health before resuming. The temporary loopback-only validation proxy has been removed; the public Caddy service starts automatically with the host.
+**Historical result before retirement: public HTTPS and WSS were live.** Caddy obtained a publicly trusted Let's Encrypt certificate for the hostname. HTTP redirects to HTTPS, and normal certificate/hostname validation and public `/api/health` checks passed. Two isolated browsers played through `wss://mygo-20-78-1-182.sslip.io/ws`; keyboard attacks reduced the defender's health to 179, and refreshing/reconnecting preserved that health before resuming. The temporary loopback-only validation proxy has been removed; the public Caddy service starts automatically with the host.

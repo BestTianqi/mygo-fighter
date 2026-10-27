@@ -1,5 +1,7 @@
 # TCP_NODELAY deployment and GraalVM evaluation — 2026-10-27
 
+Historical deployment record. The [current deployment and capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) supersedes the active-release and rollback information below; all older server releases have been deleted.
+
 ## Selected application
 
 Application commit `9207f12` makes TCP_NODELAY permanent and shares a cached Polyglot `Engine` and `Source` across rooms. Each room retains its own restricted `Context`, serialized access and independent match state. Contexts close on normal disposal and failed initialization; the shared engine closes with the application. Startup logs identify the actual runtime implementation.

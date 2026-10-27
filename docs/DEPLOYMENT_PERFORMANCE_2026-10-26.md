@@ -1,6 +1,8 @@
 # AliCloud update and performance audit — 2026-10-26
 
-This is the historical `b82ae8c` audit. See the [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) for the current release and permanent TCP_NODELAY setting.
+Historical deployment record. The [current deployment and capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) supersedes the active-release and rollback information below; all older server releases have been deleted.
+
+This is the historical `b82ae8c` audit. See the [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) for the subsequent protocol-12 release and permanent TCP_NODELAY setting.
 
 ## Application deployed
 
