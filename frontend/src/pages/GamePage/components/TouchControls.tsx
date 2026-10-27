@@ -95,7 +95,7 @@ export function TouchControls({
         aria-label="触屏操作"
       >
         <TouchStick input={input} />
-        <div className="grid grid-cols-4 gap-1.5 max-[360px]:gap-1 sm:gap-2">
+        <div className="grid grid-cols-4 gap-1.5 max-[380px]:grid-cols-3 max-[360px]:gap-1 sm:gap-2">
           {[
             ...actions,
             ...(schemeFor(fighter).transform

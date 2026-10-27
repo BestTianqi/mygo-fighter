@@ -79,7 +79,7 @@ export function TouchStick({ input }: { input: InputController }) {
       onLostPointerCapture={(event) => {
         if (event.pointerId === pointer.current) release();
       }}
-      className="relative mb-6 size-[clamp(96px,26vw,148px)] shrink-0 touch-none overflow-hidden rounded-full bg-slate-950/45 shadow-[inset_0_0_28px_#ffffff15] backdrop-blur-sm text-white/70 select-none [-webkit-touch-callout:none] sm:mb-8 landscape:size-[clamp(96px,32dvh,148px)]"
+      className="relative mb-6 ml-[clamp(0.75rem,4vw,3.5rem)] size-[clamp(112px,32vw,184px)] shrink-0 touch-none overflow-hidden rounded-full bg-slate-950/45 shadow-[inset_0_0_28px_#ffffff15] backdrop-blur-sm text-white/70 select-none [-webkit-touch-callout:none] sm:mb-8 landscape:size-[clamp(112px,38dvh,184px)]"
     >
       <span className="absolute inset-x-0 top-1 text-[9px]">↑ 跳跃</span>
       <span className="absolute left-2 top-1/2 -translate-y-1/2">‹</span>
