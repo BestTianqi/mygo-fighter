@@ -1,9 +1,10 @@
 import { LobbyRoomMessage } from "../../../apis/rooms/LobbyRoomMessage";
 import type { StatePacket } from "../../../apis/rooms/objects";
 import { PauseRoomMessage } from "../../../apis/rooms/PauseRoomMessage";
+import { FinishRoomMessage } from "../../../apis/rooms/FinishRoomMessage";
 import { RestartRoomMessage } from "../../../apis/rooms/RestartRoomMessage";
 import { RoomConnection } from "../../../apis/rooms/RoomConnection";
-import { Match, MOVES, ROSTER } from "../../../game/engine";
+import { Match, MOVES, ROSTER, ROUND_END_TIMING } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
 import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type {
@@ -40,6 +41,9 @@ export class GameRuntime {
   private request = 0;
   private disposed = false;
   private dialogWasPaused = false;
+  private finishVideoMs: number | null = null;
+  private finishAck: number | null = null;
+  private finishAckRetry = 0;
 
   constructor(
     private readonly assets: Assets,
@@ -137,6 +141,7 @@ export class GameRuntime {
       winner: m.winner,
       roundEnd: m.roundEnd,
       phaseMs: m.phaseMs,
+      finishVideoMs: m.roundEnd?.finisher ? this.finishVideoMs : null,
       teamRemaining: m.isTeamBattle ? m.teamRemaining : [1, 1],
     });
   }
@@ -195,6 +200,9 @@ export class GameRuntime {
     this.audio.stop();
     this.input.clear();
     void this.audio.unlock(config.settings.sound);
+    this.finishVideoMs = null;
+    this.finishAck = null;
+    this.finishAckRetry = 0;
     try {
       await this.renderer.prepare(config);
       // Selection or lobby changes can supersede an in-flight image preload.
@@ -397,6 +405,39 @@ export class GameRuntime {
       } else {
         this.match.advance(dt, this.input.input(0), this.input.input(1));
         this.consume(this.match.drainEvents());
+      }
+      const authority = this.lan.connected
+        ? this.authoritativeMatch
+        : this.match;
+      if (
+        authority?.roundEnd?.finisher &&
+        authority.phaseMs <= ROUND_END_TIMING.total - ROUND_END_TIMING.knockout
+      ) {
+        const playback = this.audio.updateFinish(
+          authority.roundEnd,
+          dt,
+          authority.paused,
+        );
+        this.finishVideoMs = playback.videoMs;
+        if (playback.complete && !authority.paused) {
+          const tick = authority.roundEnd.tick;
+          if (!this.lan.connected) {
+            this.match.completeFinish(0, tick);
+            this.match.completeFinish(1, tick);
+          } else if (
+            !authority.finishReady[this.lan.side] &&
+            this.finishAck !== tick &&
+            now >= this.finishAckRetry
+          ) {
+            this.finishAck = tick;
+            this.finishAckRetry = now + 1000;
+            void new FinishRoomMessage(this.lan.token, tick)
+              .send()
+              .catch(() => {
+                if (this.finishAck === tick) this.finishAck = null;
+              });
+          }
+        }
       }
       if (previous !== this.match.inputTick) {
         this.input.consumed();

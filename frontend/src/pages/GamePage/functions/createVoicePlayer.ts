@@ -1,9 +1,11 @@
 interface VoiceSlot {
+  name: string;
   buffer: AudioBuffer | null;
   offset: number;
   source: AudioBufferSourceNode | null;
   startedAt: number;
-  next: string | null;
+  next: { name: string; done?: () => void } | null;
+  done?: () => void;
 }
 interface VoiceBuffers {
   get(move: string): AudioBuffer | undefined;
@@ -48,17 +50,20 @@ export function createVoicePlayer(
   function complete(side: number, slot: VoiceSlot) {
     if (channels.get(side) !== slot) return;
     channels.delete(side);
-    if (slot.next) play(slot.next, side);
+    slot.done?.();
+    if (slot.next) play(slot.next.name, side, slot.next.done);
   }
-  function play(move: string, side: number) {
+  function play(move: string, side: number, done?: () => void) {
     if (!enabled || paused) return false;
     stop(side);
     const slot: VoiceSlot = {
+      name: move,
       buffer: buffers.get(move) ?? null,
       offset: 0,
       source: null,
       startedAt: 0,
       next: null,
+      done,
     };
     // A pending load owns the channel, preventing overlapping voices while
     // retaining the existing stop/pause/round-transition cancellation rules.
@@ -85,16 +90,27 @@ export function createVoicePlayer(
   return {
     play,
     /** A finish line follows a complete super sentence without overlapping it. */
-    playAfterCurrent(move: string, side: number) {
+    playAfterCurrent(move: string, side: number, done?: () => void) {
       if (!enabled || paused) return false;
       const current = channels.get(side);
-      if (!current) return play(move, side);
-      current.next = move;
+      if (!current) return play(move, side, done);
+      current.next = { name: move, done };
       return true;
     },
     stop,
     playing(side: number) {
       return channels.has(side);
+    },
+    position(move: string, side: number) {
+      const slot = channels.get(side);
+      if (!slot || slot.name !== move || !slot.buffer) return null;
+      return (
+        Math.min(
+          slot.buffer.duration,
+          slot.offset +
+            (slot.source ? context.currentTime - slot.startedAt : 0),
+        ) * 1000
+      );
     },
     setEnabled(value: boolean) {
       enabled = value;

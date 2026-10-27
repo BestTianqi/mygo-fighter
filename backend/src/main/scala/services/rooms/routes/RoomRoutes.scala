@@ -61,6 +61,9 @@ object RoomRoutes:
       field[Boolean](j, "paused").flatMap(paused => PauseRoomMessage(s, paused).plan(c))
     ),
     authenticated[RestartRoomMessage]((_, s, c) => RestartRoomMessage(s).plan(c)),
+    authenticated[FinishRoomMessage]((j, s, c) =>
+      field[Long](j, "tick").flatMap(tick => FinishRoomMessage(s, tick).plan(c))
+    ),
     authenticated[LobbyRoomMessage]((_, s, c) => LobbyRoomMessage(s).plan(c)),
     authenticated[LeaveRoomMessage]((_, s, c) => LeaveRoomMessage(s).plan(c))
   )

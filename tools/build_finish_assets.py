@@ -38,6 +38,8 @@ def install_ultimate_finishes(assets):
     folder = FOLDER / 'v2'
     voices = json.loads((folder / 'sources-voices.json').read_text(encoding='utf-8-sig'))
     by_character = {str(voice['character']): voice for voice in voices}
+    videos = json.loads((folder / 'sources-videos.json').read_text(encoding='utf-8'))
+    by_video = {str(video['character']): video for video in videos}
     assets['finishVoices'] = {
         voice['key']: 'data:audio/mpeg;base64,' + base64.b64encode(
             (ROOT / voice['output']).read_bytes()).decode()
@@ -56,9 +58,13 @@ def install_ultimate_finishes(assets):
                 image.thumbnail((1600, 900), Image.Resampling.LANCZOS)
                 packed[stem] = data_url(image, quality=91)
             voice = by_character.get(character)
+            video = by_video.get(character)
             scenes[character][form] = {
                 'art': packed[stem],
                 **({'voice': voice['key'], 'line': voice['line']} if voice else {}),
+                **({'video': 'data:video/mp4;base64,' + base64.b64encode(
+                    (ROOT / video['output']).read_bytes()).decode(),
+                    'durationMs': video['durationMs']} if video else {}),
             }
     assets['ultimateFinishes'] = scenes
 

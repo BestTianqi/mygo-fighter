@@ -12,4 +12,4 @@
 
 新终结语音各角色一条，来自网络上的原动画本人台词；来源、裁切时间、说话人和核对依据见 [sources-voices.json](sources-voices.json)，说明见 [voices/README.md](voices/README.md)。Mujica 双形态和灯企鹅形态共享各自的本人终结台词。语音保持原速，与已有技能片段不同；若完整大招台词尚在播放，终结台词排队衔接，避免重叠或截断。
 
-运行 `python tools/build_finish_assets.py` 更新运行资源。`ultimateFinishes[character][form]` 配置场景图、终结语音键与中文台词；`finishVoices` 保存终结音轨。该配置只影响演出，无战斗判定或联机协议改动。
+运行 `python tools/build_finish_assets.py` 更新运行资源。`ultimateFinishes[character][form]` 配置场景图、终结语音键、中文台词、静音背景视频及播放时长；`finishVoices` 保存终结音轨。[背景视频说明](videos/README.md) 与 [原片记录](sources-videos.json) 对应同一句台词。奥义图保留到原大招语音及终结语音完整播放后再退场；联机双方均完成后一起进入下一战，战斗伤害判定不变。

@@ -24,6 +24,7 @@ export interface GameView {
   winner: number;
   roundEnd: RoundEnd | null;
   phaseMs: number;
+  finishVideoMs: number | null;
   teamRemaining: number[];
   config: MatchConfig | null;
   lastMove: string;
@@ -48,6 +49,7 @@ export const initialView: GameView = {
   winner: -1,
   roundEnd: null,
   phaseMs: 0,
+  finishVideoMs: null,
   teamRemaining: [1, 1],
   config: null,
   lastMove: "",

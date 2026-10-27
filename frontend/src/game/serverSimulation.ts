@@ -37,6 +37,9 @@ export function create(optionsJson: string) {
       inputs.clear();
       epoch++;
     },
+    completeFinish(side: number, tick: number) {
+      match.completeFinish(side, tick);
+    },
     restart() {
       match.restart();
       inputs.clear();

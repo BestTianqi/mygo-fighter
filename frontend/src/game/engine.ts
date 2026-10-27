@@ -54,6 +54,7 @@ class Match {
   winner: number;
   fighters: Fighter[] = [];
   roundEnd: RoundEnd | null = null;
+  finishReady = [true, true];
   remaining = 60000;
   waves: Wave[] = [];
   areas: Area[] = [];
@@ -181,6 +182,10 @@ class Match {
   }
   nextRound() {
     return rounds.nextRound(this);
+  }
+  completeFinish(side: number, tick: number) {
+    if (this.roundEnd?.tick === tick && (side === 0 || side === 1))
+      this.finishReady[side] = true;
   }
   setPaused(value: boolean) {
     if (this.phase === "idle") return;

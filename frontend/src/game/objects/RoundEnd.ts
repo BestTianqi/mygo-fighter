@@ -1,6 +1,7 @@
 import type { Finisher } from "./Finisher";
 
 export interface RoundEnd {
+  tick: number;
   winner: number;
   finisher: Finisher | null;
   fighters: {

@@ -5,6 +5,7 @@ import { finishMotion } from "../functions/finishMotion";
 import { ultimateFinishFor } from "../functions/ultimateFinishFor";
 import type { GameView } from "../objects/GameView";
 import { FinishEffects } from "./FinishEffects";
+import { FinishBackground } from "./FinishBackground";
 
 /** Result art follows the shared round-end clock rather than a mount-time animation. */
 export function FinishOverlay({
@@ -45,14 +46,22 @@ export function FinishOverlay({
         transitionDuration,
       }}
     >
+      {presentation?.video && (
+        <FinishBackground
+          key={`${finish.tick}:${presentation.video}`}
+          src={presentation.video}
+          timeMs={view.finishVideoMs}
+          paused={view.paused}
+        />
+      )}
       {winner && (
         <img
           src={finishArt}
           alt={`${ROSTER[winner.character].name}奥义图`}
           draggable={false}
-          className={`absolute transition-transform ease-linear motion-reduce:transition-none ${
+          className={`absolute transition-transform ease-linear motion-reduce:transition-none ${presentation?.video ? (left ? "[mask-image:linear-gradient(to_right,black_40%,transparent_95%)]" : "[mask-image:linear-gradient(to_left,black_40%,transparent_95%)]") : ""} ${
             presentation
-              ? "inset-0 h-full w-full object-cover portrait:object-contain"
+              ? "inset-0 h-full w-full object-cover opacity-80 portrait:object-contain"
               : winner.character === 12
                 ? "inset-0 h-full w-full object-cover opacity-85"
                 : `inset-y-0 h-full w-2/3 object-contain opacity-95 ${left ? "left-0" : "right-0"}`
@@ -65,7 +74,7 @@ export function FinishOverlay({
       )}
       <div
         aria-hidden="true"
-        className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} from-slate-950/95 via-slate-950/25 to-transparent`}
+        className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} ${presentation?.video ? "from-slate-950/75" : "from-slate-950/95"} via-slate-950/25 to-transparent`}
       />
       {ultimate && (
         <div className={`absolute inset-0 ${left ? "" : "-scale-x-100"}`}>

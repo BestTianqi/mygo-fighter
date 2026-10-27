@@ -12,6 +12,7 @@ final class Simulation private (context: Context, kernel: Value):
   private val advanceCall = kernel.getMember("advance")
   private val pauseCall = kernel.getMember("pause")
   private val restartCall = kernel.getMember("restart")
+  private val finishCall = kernel.getMember("completeFinish")
   private val eventsCall = kernel.getMember("eventBatch")
   private val packetCall = kernel.getMember("packet")
   @volatile private var active = true
@@ -34,6 +35,9 @@ final class Simulation private (context: Context, kernel: Value):
     restartCall.execute()
     active = true
   }
+  private[rooms] def completeFinish(side: Int, tick: Long): IO[Unit] = IO {
+    finishCall.execute(Int.box(side), Long.box(tick))
+  }.void
   private[rooms] def eventBatch: IO[Option[String]] = IO {
     val batch = eventsCall.execute()
     if batch.isNull then None else Some(batch.asString())

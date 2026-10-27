@@ -3,6 +3,7 @@ import type { Match } from "../engine";
 
 export function resetRound(match: Match): void {
   match.roundEnd = null;
+  match.finishReady = [true, true];
   match.fighters = [0, 1].map((side) => ({
     character: match.options.characters[side],
     x: side ? 680 : 280,
@@ -118,6 +119,7 @@ export function endRound(match: Match): void {
   const finishingBlow =
     boutWinner >= 0 ? match.fighters[1 - boutWinner].defeatedBy : null;
   match.roundEnd = Object.freeze({
+    tick: match.simulationTick,
     winner: boutWinner,
     finisher:
       finishingBlow?.side === boutWinner
@@ -135,6 +137,7 @@ export function endRound(match: Match): void {
       }),
     ),
   });
+  match.finishReady = match.roundEnd.finisher ? [false, false] : [true, true];
   match.reason = match.remaining <= 0 ? "TIME OVER" : "K.O.";
   if (match.winner >= 0) match.wins[match.winner]++;
   if (match.isTeamBattle) {

@@ -5,6 +5,7 @@ import type { Match } from "../../../game/engine";
 import { presentationFor } from "./presentationFor";
 import { MOVES } from "../../../game/combatData";
 import { ultimateFinishFor } from "./ultimateFinishFor";
+import type { RoundEnd } from "../../../game/objects/RoundEnd";
 
 const MAX_AUDIO_BYTES = 64 * 1024 * 1024;
 const MAX_AUDIO_LOADS = 4;
@@ -31,6 +32,15 @@ export class AudioDirector {
   private readonly queue: AudioTask[] = [];
   private activeLoads = 0;
   private readonly abort = new AbortController();
+  private finish: {
+    tick: number;
+    side: number;
+    voice: string | undefined;
+    duration: number;
+    videoMs: number | null;
+    complete: boolean;
+    audible: boolean;
+  } | null = null;
 
   constructor(private readonly assets: Assets) {
     this.urls = Object.fromEntries(
@@ -48,6 +58,7 @@ export class AudioDirector {
   async unlock(enabled: boolean) {
     this.enabled = enabled;
     if (!enabled) {
+      if (this.finish) this.finish.audible = false;
       this.voices?.setEnabled(false);
       this.summons?.setEnabled(false);
       this.music?.setEnabled(false);
@@ -210,10 +221,54 @@ export class AudioDirector {
       channel?.setPaused(value);
   }
   stop() {
+    this.finish = null;
     this.voices?.stop();
     this.summons?.stop();
     this.music?.stop();
     this.speeches?.stop();
+  }
+  private beginFinish(roundEnd: RoundEnd) {
+    if (this.paused) return;
+    const finisher = roundEnd.finisher;
+    if (!finisher || this.finish?.tick === roundEnd.tick) return;
+    const media = ultimateFinishFor(this.assets, finisher);
+    const voice = media?.voice;
+    const state: NonNullable<AudioDirector["finish"]> = {
+      tick: roundEnd.tick,
+      side: finisher.side,
+      voice,
+      duration: media?.durationMs ?? 2500,
+      videoMs: null as number | null,
+      complete: false,
+      audible: false,
+    };
+    this.finish = state;
+    if (voice) {
+      this.voices?.stop(finisher.side);
+      state.audible =
+        this.speeches?.playAfterCurrent(voice, finisher.side, () => {
+          if (this.finish !== state) return;
+          state.videoMs = state.duration;
+          state.complete = true;
+        }) ?? false;
+    }
+  }
+  /** The actual audio clock drives the muted background, including queued speech. */
+  updateFinish(roundEnd: RoundEnd, dt: number, paused: boolean) {
+    if (paused && this.finish?.tick !== roundEnd.tick)
+      return { complete: false, videoMs: null };
+    this.beginFinish(roundEnd);
+    const state = this.finish!;
+    if (!paused && !state.complete) {
+      if (state.audible && state.voice)
+        state.videoMs =
+          this.speeches?.position(state.voice, state.side) ?? null;
+      else {
+        state.videoMs = Math.min(state.duration, (state.videoMs ?? 0) + dt);
+        state.complete = state.videoMs >= state.duration;
+      }
+    }
+    return { complete: state.complete, videoMs: state.videoMs };
   }
   consume(match: Match, events: CombatEvent[]) {
     for (const event of events) {
@@ -267,23 +322,7 @@ export class AudioDirector {
         this.music?.stop();
       }
       if (event.type === "ultimateFinish" && event.finisher) {
-        const finisher = event.finisher;
-        const finishVoice = ultimateFinishFor(this.assets, finisher)?.voice;
-        const voice =
-          presentationFor(this.assets, finisher, finisher.attack)?.voice ??
-          (this.assets.penguinVoices[finisher.attack] ||
-          this.assets.soyoVoices[finisher.attack]
-            ? finisher.attack
-            : null);
-        // A sentence already playing continues through KO. A completed cue can
-        // accompany the art once; authoritative event IDs prevent replay on reconnect.
-        if (finishVoice) {
-          this.voices?.stop(finisher.side);
-          this.speeches?.playAfterCurrent(finishVoice, finisher.side);
-        } else if (voice && !this.speeches?.playing(finisher.side)) {
-          this.voices?.stop(finisher.side);
-          this.speeches?.play(voice, finisher.side);
-        }
+        if (match.roundEnd) this.beginFinish(match.roundEnd);
         this.tone("ultimateFinish", 3);
       }
       if (["hit", "clash", "landing", "fight"].includes(event.type))
