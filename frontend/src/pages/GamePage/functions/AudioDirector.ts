@@ -225,8 +225,7 @@ export class AudioDirector {
           voice &&
           (MOVES[event.attack]?.sakiko === "ascension" ||
             MOVES[event.attack]?.arale === "dream" ||
-            (MOVES[event.attack]?.category === "super" &&
-              [3, 4, 5, 8, 15].includes(MOVES[event.attack].ownerCharacter!)))
+            MOVES[event.attack]?.category === "super")
         ) {
           this.voices?.stop(side);
           // Combat recovery and automatic round transitions must not cut the sentence.
@@ -261,6 +260,22 @@ export class AudioDirector {
         this.summons?.stop();
         this.music?.stop();
       }
+      if (event.type === "ultimateFinish" && event.finisher) {
+        const finisher = event.finisher;
+        const voice =
+          presentationFor(this.assets, finisher, finisher.attack)?.voice ??
+          (this.assets.penguinVoices[finisher.attack] ||
+          this.assets.soyoVoices[finisher.attack]
+            ? finisher.attack
+            : null);
+        // A sentence already playing continues through KO. A completed cue can
+        // accompany the art once; authoritative event IDs prevent replay on reconnect.
+        if (voice && !this.speeches?.playing(finisher.side)) {
+          this.voices?.stop(finisher.side);
+          this.speeches?.play(voice, finisher.side);
+        }
+        this.tone("ultimateFinish", 3);
+      }
       if (["hit", "clash", "landing", "fight"].includes(event.type))
         this.tone(
           event.type === "hit" && event.blocked ? "block" : event.type,
@@ -275,16 +290,26 @@ export class AudioDirector {
     const oscillator = context.createOscillator(),
       gain = context.createGain();
     const frequency =
-      kind === "block" ? 850 : kind === "fight" ? 392 : 110 + weight * 30;
+      kind === "ultimateFinish"
+        ? 260
+        : kind === "block"
+          ? 850
+          : kind === "fight"
+            ? 392
+            : 110 + weight * 30;
+    const duration = kind === "ultimateFinish" ? 0.55 : 0.18;
     oscillator.type = kind === "block" ? "triangle" : "sine";
     oscillator.frequency.setValueAtTime(frequency, now);
-    oscillator.frequency.exponentialRampToValueAtTime(38, now + 0.13);
+    oscillator.frequency.exponentialRampToValueAtTime(
+      38,
+      now + duration * 0.75,
+    );
     gain.gain.setValueAtTime(0.08, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.17);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.95);
     oscillator.connect(gain);
     gain.connect(context.destination);
     oscillator.start(now);
-    oscillator.stop(now + 0.18);
+    oscillator.stop(now + duration);
     oscillator.onended = () => {
       oscillator.disconnect();
       gain.disconnect();

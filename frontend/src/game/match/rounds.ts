@@ -12,7 +12,8 @@ export function resetRound(match: Match): void {
     pushVx: 0,
     facing: side ? -1 : 1,
     hp: MAX_HEALTH,
-    energy: 0,
+    // New reserves receive entry energy; start(carry) restores the survivor's resources.
+    energy: match.isTeamBattle && match.teamIndices[side] > 0 ? 30 : 0,
     attack: null,
     attackMs: 0,
     hit: false,
@@ -114,8 +115,14 @@ export function endRound(match: Match): void {
   const [a, b] = match.fighters;
   match.winner = a.hp === b.hp ? -1 : a.hp > b.hp ? 0 : 1;
   const boutWinner = match.winner;
+  const finishingBlow =
+    boutWinner >= 0 ? match.fighters[1 - boutWinner].defeatedBy : null;
   match.roundEnd = Object.freeze({
     winner: boutWinner,
+    finisher:
+      finishingBlow?.side === boutWinner
+        ? Object.freeze({ ...finishingBlow })
+        : null,
     fighters: match.fighters.map((f) =>
       Object.freeze({
         character: f.character,

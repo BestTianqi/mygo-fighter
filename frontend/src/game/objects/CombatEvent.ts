@@ -1,3 +1,5 @@
+import type { Finisher } from "./Finisher";
+
 export type CombatEventType =
   | "blink"
   | "dash"
@@ -23,6 +25,7 @@ export type CombatEventType =
   | "penguinEnd"
   | "penguinStart"
   | "result"
+  | "ultimateFinish"
   | "roundAdvance"
   | "shieldHit"
   | "shieldSummon"
@@ -63,6 +66,7 @@ export interface CombatEvent {
   weight?: number;
   winner?: number;
   reason?: string;
+  finisher?: Finisher;
   boutWinner?: number;
   teamIndices?: number[];
   teamRemaining?: number[];

@@ -27,7 +27,20 @@ export function step(match: Match, p1: Input, p2: Input): void {
     return;
   }
   if (match.phase !== "fighting") {
+    const previousPhaseMs = match.phaseMs;
     match.phaseMs = Math.max(0, match.phaseMs - 10);
+    const artStart = ROUND_END_TIMING.total - ROUND_END_TIMING.knockout;
+    if (
+      match.roundEnd?.finisher &&
+      previousPhaseMs > artStart &&
+      match.phaseMs <= artStart
+    )
+      match.events.push({
+        type: "ultimateFinish",
+        side: match.roundEnd.finisher.side,
+        attack: match.roundEnd.finisher.attack,
+        finisher: match.roundEnd.finisher,
+      });
     if (match.roundEnd && match.phaseMs > 0) {
       // Presentation only: settle the final hit without running attacks or changing resources.
       const elapsed = ROUND_END_TIMING.total - match.phaseMs;

@@ -162,10 +162,23 @@ export function hit(
   const reduction = MOVES[b.attack ?? ""]?.damageReduction;
   if (reduction) damage = Math.round(damage * (1 - reduction) * 10) / 10;
   damage = Math.round(damage * 10) / 10;
+  const previousHp = b.hp;
   b.hp = Math.max(
     match.options.mode === "practice" && side === 0 ? 1 : 0,
     Math.round((b.hp - damage) * 10) / 10,
   );
+  if (previousHp > 0 && b.hp <= 0) {
+    b.defeatedBy =
+      move.category === "super"
+        ? {
+            side,
+            attack,
+            character: a.character,
+            penguin: !!move.penguinOnly || (!move.nativeOnly && !!a.penguin),
+            stageForm: move.form ? move.form === "stage" : !!a.stageForm,
+          }
+        : undefined;
+  }
   if (
     move.category !== "super" &&
     move.category !== "transformation" &&

@@ -1,8 +1,9 @@
-import { ROSTER } from "../../../game/engine";
+import { MOVES, ROSTER } from "../../../game/engine";
 import type { Assets } from "../../../game/objects/Assets";
 import { finishArtFor } from "../functions/finishArtFor";
 import { finishMotion } from "../functions/finishMotion";
 import type { GameView } from "../objects/GameView";
+import { FinishEffects } from "./FinishEffects";
 
 /** Result art follows the shared round-end clock rather than a mount-time animation. */
 export function FinishOverlay({
@@ -20,7 +21,9 @@ export function FinishOverlay({
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const motion = finishMotion(view.phaseMs, finish.winner, reducedMotion);
   if (!motion) return null;
-  const winner = finish.winner >= 0 ? finish.fighters[finish.winner] : null;
+  const ultimate = finish.finisher;
+  const winner =
+    ultimate ?? (finish.winner >= 0 ? finish.fighters[finish.winner] : null);
   const left = finish.winner === 0;
   const finishArt = winner ? finishArtFor(assets, winner) : "";
   const transitionDuration = view.paused || reducedMotion ? "0ms" : "34ms";
@@ -28,6 +31,8 @@ export function FinishOverlay({
     <div
       data-finish-cutin={motion.phase}
       data-winner-side={finish.winner}
+      data-ultimate-finish={!!ultimate}
+      data-finish-attack={ultimate?.attack}
       className={`${className} pointer-events-none flex items-center overflow-hidden bg-slate-950/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
       style={{
         opacity: motion.opacity,
@@ -55,6 +60,15 @@ export function FinishOverlay({
         aria-hidden="true"
         className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} from-slate-950/95 via-slate-950/25 to-transparent`}
       />
+      {ultimate && (
+        <div className={`absolute inset-0 ${left ? "" : "-scale-x-100"}`}>
+          <FinishEffects
+            age={motion.age}
+            color={ROSTER[ultimate.character].color}
+            reducedMotion={reducedMotion}
+          />
+        </div>
+      )}
       <div
         className={`relative w-[52%] px-4 transition-[transform,opacity] ease-linear motion-reduce:transition-none sm:px-12 ${left ? "ml-auto text-right" : "mr-auto text-left"}`}
         style={{
@@ -63,21 +77,28 @@ export function FinishOverlay({
           transitionDuration,
         }}
       >
-        <p className="mb-2 text-xs tracking-[.3em] text-pink-200">
-          {view.reason}
+        <p className="mb-1 text-[8px] tracking-[.2em] text-pink-200 sm:mb-2 sm:text-xs sm:tracking-[.3em]">
+          {ultimate ? "ULTIMATE FINISH" : view.reason}
         </p>
-        <p className="text-4xl font-black italic sm:text-6xl">
-          {winner ? "胜 利" : "平 局"}
+        <p
+          className={`text-2xl font-black italic sm:text-6xl ${ultimate ? "text-amber-100 drop-shadow-[0_3px_0_#9b4a21]" : ""}`}
+        >
+          {ultimate ? "奥义终结" : winner ? "胜 利" : "平 局"}
         </p>
-        <p className="mt-3 text-xl">
+        {ultimate && (
+          <p className="mt-1 text-[10px] font-bold tracking-[.12em] text-amber-200 sm:mt-3 sm:text-sm sm:tracking-[.22em]">
+            {MOVES[ultimate.attack]?.name}
+          </p>
+        )}
+        <p className="mt-1 text-sm sm:mt-3 sm:text-xl">
           {winner ? ROSTER[winner.character].name : "不分胜负"}
         </p>
-        <p className="mt-3 text-sm text-slate-400">
+        <p className="mt-1 text-[10px] text-slate-400 sm:mt-3 sm:text-sm">
           {view.config?.format === "3v3"
             ? `剩余队员 ${view.teamRemaining.join(" : ")}`
             : `回合比分 ${view.wins.join(" : ")}`}
         </p>
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-1 text-[9px] text-slate-500 sm:mt-2 sm:text-xs">
           {view.phase === "finished" ? "本场对战结束" : "下一战即将开始"}
         </p>
       </div>

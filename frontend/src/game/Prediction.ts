@@ -79,7 +79,8 @@ export class Prediction {
     const fighters = match.fighters;
     Object.assign(match, state);
     match.fighters = state.fighters.map((f, i) =>
-      Object.assign(fighters[i], f),
+      // Optional lethal metadata is absent on live fighters; clear the previous bout.
+      Object.assign(fighters[i], { defeatedBy: undefined }, f),
     );
     // Relay snapshots can restore a reserve fighter after local prediction advanced a round.
     // Keep the kernel's current-character configuration consistent with restored fighters.

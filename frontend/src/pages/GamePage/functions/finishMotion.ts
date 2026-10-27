@@ -20,6 +20,7 @@ export function finishMotion(
   const direction = winnerSide === 0 ? -1 : 1;
   const reveal = (1 - incoming) * 108;
   return {
+    age,
     phase: age < ENTER_MS ? "enter" : leave > 0 ? "exit" : "hold",
     opacity: reducedMotion ? 1 : clamp(age / 80) * (1 - leave),
     artX: reducedMotion ? 0 : direction * (incoming * 110 - outgoing * 120),

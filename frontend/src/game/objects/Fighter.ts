@@ -1,4 +1,5 @@
 import type { Minion } from "./Minion";
+import type { Finisher } from "./Finisher";
 export interface Fighter {
   character: number;
   x: number;
@@ -8,6 +9,7 @@ export interface Fighter {
   pushVx: number;
   facing: number;
   hp: number;
+  defeatedBy?: Finisher;
   energy: number;
   attack: string | null;
   attackMs: number;

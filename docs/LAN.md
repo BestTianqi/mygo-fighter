@@ -39,7 +39,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":15}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":16}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -110,3 +110,9 @@ Every character/form now explicitly maps backward U/I/O to a quick wave, a heavy
 ## Wider stages, protocol 15
 
 The world now spans -900 to 1860 (2760 units, 15% wider) with 180 extra units at each side. All 15 source/browser/server ground endpoints match the new bounds. Existing interior steps, platform heights and platform lengths are retained. Camera fitting, movement, blinking, summons and world-spanning tracking waves derive their bounds from the shared world data. Protocol 15 keeps earlier clients from predicting the old edge positions; restart the updated LAN host and refresh both clients.
+
+## Ultimate finishes and reserve energy, protocol 16
+
+A lethal super records its attack, owner and form in the shared simulation. RoundEnd freezes that identity for the existing 3200 ms result sequence; normal KOs, draws and time-over results do not trigger an ultimate finish. At 700 ms, one reliable ultimateFinish event accompanies the portrait cut-in, character-color burst and original super voice. A sentence already playing continues instead of restarting. Pause freezes the shared presentation clock; reconnect restores the art state without replaying an already-consumed cue. Prediction clears optional lethal metadata when restoring a live fighter snapshot.
+
+In 3v3, each side's second and third entrants start with 30 resonance. Surviving fighters retain their actual HP and resonance. First entrants and full-match restarts retain their previous starting rules. Update and restart the host and refresh both clients together; protocol 16 rejects older combat rules.

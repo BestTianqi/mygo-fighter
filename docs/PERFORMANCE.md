@@ -1,6 +1,6 @@
 # Gameplay performance and protocol 11
 
-The current protocol is 15. It retains the performance/transport changes below and the subsequent combat/map changes. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction without a wire-schema change.
+The current protocol is 16. It retains the performance/transport changes below and adds ultimate-finisher metadata/events and 30 resonance for reserve entrants. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under the preceding protocol 15.
 
 ## Implemented optimizations
 
