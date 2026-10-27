@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "identity": {
+    "key": "arisa",
+    "name": "市谷有咲",
+    "shortName": "有咲",
+    "englishName": "Arisa Ichigaya",
+    "work": "BanG Dream!",
+    "group": "Poppin'Party",
+    "codeBand": "poppinparty",
+    "color": "#aa66dd",
+    "role": "键盘",
+    "personality": [
+      "毒舌",
+      "不善坦率表达"
+    ],
+    "canonNotes": [
+      "原作姓名：市ヶ谷有咲。",
+      "幼时学过钢琴，面对香澄时常表现得不坦率。"
+    ]
+  },
+  "design": {
+    "allowAutoDesign": true,
+    "archetype": "",
+    "skillTheme": "键盘音阶与对香澄的吐槽；仅为后续设计方向，尚未设计或实现技能",
+    "artStyle": "原作2D脸、正常身材比例，保持发色、瞳色和服装一致",
+    "references": [
+      "https://anime.bang-dream.com/1st/character/arisa/",
+      "https://anime.bang-dream.com/bandorichan/character/poppinparty/"
+    ],
+    "constraints": [
+      "本次仅建立角色资料；用户明确要求暂不加入游戏。",
+      "只有用户后续明确要求接入时，才注册角色、技能、选人及联机名单。",
+      "采用原作2D脸和正常身材比例；保留原角色的外观与乐器辨识度。",
+      "未来技能优先结合动画剧情、乐器与角色性格；语音须核对角色说话人及完整台词。"
+    ]
+  },
+  "forms": [
+    {
+      "key": "normal",
+      "label": "常态",
+      "appearance": "以官方动画角色页的花咲川校服形象为制作参考；立绘尚未绘制。",
+      "portraitReference": "https://anime.bang-dream.com/1st/character/arisa/",
+      "attacks": {
+        "J": {
+          "chain": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "K": {
+          "description": ""
+        },
+        "L": {
+          "description": "沿用共鸣消耗与虚影瞬移"
+        }
+      },
+      "skills": {
+        "U": {
+          "name": "",
+          "type": "projectile",
+          "description": "",
+          "cost": 20,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "I": {
+          "name": "",
+          "type": "melee",
+          "description": "",
+          "cost": 25,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "O": {
+          "name": "",
+          "type": "area",
+          "description": "",
+          "cost": 30,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "P": {
+          "name": "",
+          "type": "area",
+          "description": "",
+          "cost": 100,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        }
+      },
+      "backwardSkills": {
+        "U": "向前发波",
+        "I": "强化发波",
+        "O": "抛射投掷物"
+      },
+      "entry": {
+        "description": "",
+        "voiceKey": ""
+      },
+      "ultimateFinish": {
+        "description": "以该形态立绘扩展完整背景，人物左侧、右侧留文字区",
+        "artReference": "https://anime.bang-dream.com/1st/character/arisa/",
+        "voiceKey": ""
+      }
+    }
+  ],
+  "transformation": {
+    "enabled": false,
+    "key": "H",
+    "from": "normal",
+    "to": null,
+    "cost": 50,
+    "durationMs": 20000,
+    "damageMultiplier": 1.2,
+    "speedMultiplier": 1.1,
+    "description": ""
+  },
+  "media": [],
+  "notes": [
+    "状态：资料已建立，未接入；没有分配运行时角色ID。",
+    "技能、三段普攻动作、入场、立绘、奥义图和音视频待制作；media 为空表示没有已制作素材。",
+    "allowAutoDesign 仅允许后续设计时补齐内容，不代表授权现在接入游戏。",
+    "color 为预设识别配色，不作为官方色值声明；技能消耗沿用模板默认值，非已定案平衡参数。",
+    "未指定变身，暂保持关闭。正式接入时根据最新名单分配ID。"
+  ]
+}
