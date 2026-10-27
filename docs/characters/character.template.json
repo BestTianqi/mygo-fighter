@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "identity": {
+    "key": "",
+    "name": "",
+    "shortName": "",
+    "englishName": "",
+    "work": "",
+    "group": "",
+    "codeBand": "auto",
+    "color": "#8b9dd7",
+    "role": "",
+    "personality": [],
+    "canonNotes": []
+  },
+  "design": {
+    "allowAutoDesign": true,
+    "archetype": "",
+    "skillTheme": "围绕原作剧情、乐器和角色性格设计",
+    "artStyle": "原作2D脸、正常身材比例，保持发色、瞳色和服装一致",
+    "references": [],
+    "constraints": []
+  },
+  "forms": [
+    {
+      "key": "normal",
+      "label": "常态",
+      "appearance": "",
+      "portraitReference": "",
+      "attacks": {
+        "J": {
+          "chain": ["", "", ""]
+        },
+        "K": {
+          "description": ""
+        },
+        "L": {
+          "description": "沿用共鸣消耗与虚影瞬移"
+        }
+      },
+      "skills": {
+        "U": {
+          "name": "",
+          "type": "projectile",
+          "description": "",
+          "cost": 20,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "I": {
+          "name": "",
+          "type": "melee",
+          "description": "",
+          "cost": 25,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "O": {
+          "name": "",
+          "type": "area",
+          "description": "",
+          "cost": 30,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        },
+        "P": {
+          "name": "",
+          "type": "area",
+          "description": "",
+          "cost": 100,
+          "totalDamage": null,
+          "hits": 1,
+          "startupMs": null,
+          "recoveryMs": null,
+          "cooldownMs": null,
+          "voiceKey": ""
+        }
+      },
+      "backwardSkills": {
+        "U": "向前发波",
+        "I": "强化发波",
+        "O": "抛射投掷物"
+      },
+      "entry": {
+        "description": "",
+        "voiceKey": ""
+      },
+      "ultimateFinish": {
+        "description": "以该形态立绘扩展完整背景，人物左侧、右侧留文字区",
+        "artReference": "",
+        "voiceKey": ""
+      }
+    }
+  ],
+  "transformation": {
+    "enabled": false,
+    "key": "H",
+    "from": "normal",
+    "to": null,
+    "cost": 50,
+    "durationMs": 20000,
+    "damageMultiplier": 1.2,
+    "speedMultiplier": 1.1,
+    "description": ""
+  },
+  "media": [],
+  "notes": []
+}

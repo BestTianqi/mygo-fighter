@@ -8,6 +8,11 @@
 
 ## Development Requirements
 
+For new playable characters or character-template requests, read
+`.agents/skills/mygo-add-character/SKILL.md` and `docs/characters/README.md`.
+Use `npm run character:read -- <key-or-file>` to load a draft together with the
+current roster; drafts are design input and do not register playable characters.
+
 Follow these conventions:
 
 1. Public APIs and public Table methods across services are permitted call boundaries. Table maintenance ownership, internal SQL, private helper implementations, identity trust boundaries, and transaction requirements must still be clear.

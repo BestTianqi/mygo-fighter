@@ -7,6 +7,9 @@
     "frontend"
   ],
   "scripts": {
+    "character:new": "node scripts/character.mjs new",
+    "character:read": "node scripts/character.mjs read",
+    "character:check": "node scripts/character.mjs read --strict",
     "dev": "npm run dev --workspace frontend",
     "build:pages": "npm run build --workspace frontend -- --mode pages",
     "build": "npm run build --workspace frontend && node scripts/build-simulation.mjs",

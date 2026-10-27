@@ -1,5 +1,9 @@
 # Bands
 
+For the reusable character intake template and read/create commands, see
+[新角色模板](characters/README.md). The callable workflow is
+`.agents/skills/mygo-add-character/SKILL.md`.
+
 A **band** is one roster group with its own characters, moves, forms and play
 style. MyGO, Mujica and MewType are all bands; no band is the "default" that the
 engine special-cases. The combat kernel, UI and server derive every band
