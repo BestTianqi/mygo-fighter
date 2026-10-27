@@ -13,6 +13,11 @@ export function mygoMovesFor(
   return Object.entries(all)
     .filter(([key, move]) => {
       if (move.internal) return false;
+      if (move.backSkill)
+        return (
+          move.ownerCharacter === character &&
+          (character !== 2 || !!move.penguinOnly === penguin)
+        );
       if (
         (move.ownerCharacter !== undefined &&
           move.ownerCharacter !== character) ||

@@ -1,5 +1,7 @@
 export interface Move {
   projectileRadiusY?: number;
+  backSkill?: "quick" | "heavy" | "lob";
+  visualBase?: string;
   beatEligible?: boolean;
   name: string;
   category:

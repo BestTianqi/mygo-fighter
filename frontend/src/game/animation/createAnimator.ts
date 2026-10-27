@@ -87,6 +87,19 @@ function createAnimator() {
     if (f.attack) {
       const move = MOVES[f.attack ?? ""],
         t = f.attackMs;
+      if (move.backSkill && bandFor(f.character).id === "mygo") {
+        if (t < move.start) return "normal-windup";
+        if (t > move.end + 130) return "normal-recover";
+        if (f.penguin)
+          return move.backSkill === "lob" ? "call-release" : "hey-release";
+        return [
+          "sonic-release",
+          "cast-release",
+          "note-release",
+          "solo-release",
+          "eight-beat-release",
+        ][f.character];
+      }
       if (move.crawl)
         return t < move.start
           ? "crawl-windup"

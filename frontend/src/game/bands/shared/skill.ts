@@ -33,11 +33,7 @@ export function resolveSchemeSkill(
       if (airborne && direction === "down" && scheme.variants["airDown" + i])
         return scheme.variants["airDown" + i];
       if (scheme.variants[direction + i]) return scheme.variants[direction + i];
-      if (
-        (direction === "back" && i === 1) ||
-        (direction === "forward" && i === 3)
-      )
-        return "throw";
+      if (direction === "forward" && i === 3) return "throw";
       return scheme.base[i - 1];
     }
   return band.skill?.(f, input, pressed, airborne);

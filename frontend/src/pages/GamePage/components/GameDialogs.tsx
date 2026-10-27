@@ -37,8 +37,7 @@ export function GameDialogs({
         </div>
         <div className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm leading-7 text-slate-400">
           <p>
-            按住后退防御，后退＋蹲下防下段。后＋U 或前＋O
-            投技破防。方向以前后表示，换边后自动反转。方向＋U/I/O
+            按住后退防御，后退＋蹲下防下段。后＋U快速发波，后＋I重型音波，后＋O抛射投掷，前＋O近身投技破防。方向以前后表示，换边后自动反转。方向＋U/I/O
             使用扩展技能，具体见角色招式表。
           </p>
           <p>
@@ -115,7 +114,7 @@ export function GameDialogs({
         ))}
       </div>
       <p className="mt-5 text-xs leading-6 text-slate-500">
-        前后以角色面朝方向为准。技能受能量、地空姿态、冷却与命中取消条件限制。联机双方均使用1P键位。
+        前后以角色面朝方向为准。后＋U快速发波，后＋I重型音波，后＋O抛射投掷；前＋O仍为近身投技。技能受能量、地空姿态、冷却与命中取消条件限制。联机双方均使用1P键位。
       </p>
     </Dialog>
   );

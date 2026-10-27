@@ -5,6 +5,19 @@ import { drawMewtypeWave } from "./mewtype";
 import { drawMujicaWave } from "./mujica";
 import { drawPenguinWave, drawSonicWave, drawVoiceWave } from "./vocals";
 export function drawWave(scene: ProjectileContext, w: Wave) {
+  const move = MOVES[w.attack];
+  if (move.visualBase) {
+    scene.ctx.save();
+    if (move.backSkill === "lob") {
+      const y = 438 - w.y;
+      scene.ctx.translate(w.x, y);
+      scene.ctx.rotate((w.vx >= 0 ? 1 : -1) * w.age * 0.005);
+      scene.ctx.translate(-w.x, -y);
+    }
+    drawWave(scene, { ...w, attack: move.visualBase });
+    scene.ctx.restore();
+    return;
+  }
   if (MOVES[w.attack]?.customerService) {
     scene.ctx.save();
     scene.ctx.translate(w.x, 438 - w.y);

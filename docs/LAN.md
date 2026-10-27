@@ -35,7 +35,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":13}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":14}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -98,3 +98,7 @@ This update reproduced two failures before editing: a socket with no incoming tr
 ## Skill completion, protocol 13
 
 Protocol 13 adds recovery waves to uncontested counter stances and a damaging impact to normal Uika I. After a counter window ends, its stance releases one existing counter projectile at half base damage, 180 ms stun and half push. A successful parry still emits the full original response and ends the stance; an interrupted stance emits no recovery wave. The existing hit flag and projectile impact fields are serialized for deterministic prediction. The new `counterRelease` presentation event uses the reliable event lane. Deploy UI and server together, restart LAN hosts and refresh both clients after updating. Protocol 12 clients are rejected rather than predicting the old combat rules.
+
+## Backward skill commands, protocol 14
+
+Every character/form now explicitly maps backward U/I/O to a quick wave, a heavy wave and a lobbed projectile. These 66 moves use the existing serializable projectile velocity/gravity/impact fields, and captured press directions remain authoritative for resolving the command. Forward O retains the universal close throw. Protocol 14 prevents clients using the earlier backward-throw or base-skill mappings from joining the updated kernel. Update the host and both clients together, then restart the host and refresh both browsers.

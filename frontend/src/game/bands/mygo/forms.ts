@@ -1,5 +1,6 @@
 import type { FighterIdentity } from "../../objects/Fighter";
 import type { Scheme } from "../../objects/Scheme";
+import { withBackSkills } from "../shared/backSkills";
 
 /** MyGO keeps one form; skill slots are per character, penguin is a variant. */
 const SCHEMES: Scheme[] = [
@@ -9,12 +10,9 @@ const SCHEMES: Scheme[] = [
     variants: {
       down1: "rising",
       forward1: "thrust",
-      back1: "anonCry",
       down2: "sonic",
-      back2: "waveLight",
       forward2: "waveHeavy",
       down3: "rush",
-      back3: "spin",
       airDown3: "dive",
     },
   },
@@ -66,7 +64,10 @@ const PENGUIN_SCHEME: Scheme = {
 const formFor = () => "base";
 
 const schemeFor = (f: FighterIdentity) =>
-  f.character === 2 && f.penguin ? PENGUIN_SCHEME : SCHEMES[f.character];
+  withBackSkills(
+    f.character === 2 && f.penguin ? PENGUIN_SCHEME : SCHEMES[f.character],
+    chainPrefix(f),
+  );
 
 const chainPrefix = (f: FighterIdentity) =>
   f.penguin
@@ -82,11 +83,4 @@ const firstJab = (f: FighterIdentity) =>
         ? "riki_light"
         : "light";
 
-export {
-  SCHEMES,
-  PENGUIN_SCHEME,
-  chainPrefix,
-  firstJab,
-  formFor,
-  schemeFor,
-};
+export { SCHEMES, PENGUIN_SCHEME, chainPrefix, firstJab, formFor, schemeFor };

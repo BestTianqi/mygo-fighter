@@ -297,3 +297,11 @@ Six counter stances now release one weaker response wave on the first combat tic
 Normal Uika I retains its 280-unit step and gains a 12-damage forward impact, active at 200–310 ms with 200 reach and 240 ms hitstun. Its existing pursuit/star effects now accompany the movement. The 25-energy cost and 420 ms duration remain. Other character skills, normal attack boxes, supers, audio and video remain intact. Shared combat changes require LAN protocol 13.
 
 Verification covers all 132 bindings plus targeted left/right empty-cast, successful-counter, interruption and Uika impact cases; browser and JVM multiplayer checks are recorded under ignored `output/empty-skills/`.
+
+## Backward U/I/O — ranged commands, 2026-10-27
+
+All 16 characters / 22 forms have explicit backward skills, for 66 authored command entries. Directions are relative to facing: backward U is a quick straight wave (12 damage, 15 energy), backward I is a larger heavy straight wave (16 damage, 20 energy), and backward O throws an arcing projectile (18 damage, 25 energy). Existing Mujica stage damage scaling applies. They release at 120/180/210 ms, recover at 480/620/660 ms, and have 500/900/1100 ms recast timers. U/I travel at 700/560 units/s with 650/800 maximum reach; O travels at 500 units/s with initial upward velocity 180, downward acceleration 300 and 720 maximum reach. Every shot retains ordinary guard, shield, clash, minion interception and skill resonance rules.
+
+Bands register their own original visual/audio sources. MyGO's normal Tomori and penguin entries retain separate ownership restrictions; both Mujica costumes and all MewType/Viola characters have their own keys. Character poses, source projectile motifs, and rotating throw trails reuse existing assets. Original 353 move definitions and all neutral/down/forward skill mappings are retained; backward mappings are replaced. Forward O remains the close throw. The move list and help explain the new commands. Shared combat protocol is 14.
+
+Verification includes 132 left/right actual ranged-hit cases, all-form captured input-direction and ownership checks, all 195 current skill bindings, and browser rendering of the 66 new attacks. Temporary reports/screenshots are under ignored `output/back-skills/`.

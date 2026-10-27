@@ -2,6 +2,7 @@ import type { Assets, Presentation } from "../../../game/objects/Assets";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
 import type { Scheme } from "../../../game/objects/Scheme";
 import { schemeFor } from "../../../game/controls";
+import { MOVES } from "../../../game/engine";
 export function presentationFor(
   assets: Assets,
   fighter: FighterIdentity,
@@ -10,6 +11,11 @@ export function presentationFor(
 ): Presentation | null {
   const media = assets.memeSkills[String(fighter.character)];
   if (!media || !attack) return null;
+  const visualBase = MOVES[attack]?.visualBase;
+  if (visualBase) {
+    const original = presentationFor(assets, fighter, visualBase, scheme);
+    if (original) return original;
+  }
   const slot =
     attack === scheme.super
       ? "p"
