@@ -134,6 +134,6 @@
       "54 named actual drawings; no missing-frame substitution",
       "both-player skill phases drawn in final offline game"
     ],
-    "proof": "mewtype/miyako/virtual-proof.png"
+    "proof": "../output/artwork/mewtype/miyako/virtual-proof.png"
   }
 }

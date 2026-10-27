@@ -336,7 +336,9 @@ def extract_crawl_forms():
             top = row * 360 + 318 - preview.height
             proof.paste(preview, (left, top), preview)
             draw.text((index * 320 + 8, row * 360 + 330), f'{outfit} {frame["name"]} h={frame["height"]}', fill='#29232b')
-    proof.save(folder / 'uika-crawl-proof.png')
+    proof_folder = ROOT / 'output/artwork/meme-media/uika-crawl'
+    proof_folder.mkdir(parents=True, exist_ok=True)
+    proof.save(proof_folder / 'uika-crawl-proof.png')
     frames_catalog = dict(source=source.relative_to(ROOT).as_posix(),
                           sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
                           extraction='alpha>100 large components, independent masks, connected 2px fringe', forms=forms)

@@ -12,3 +12,5 @@
 *-official-option-1.png 是后续兜帽服装，*-official-option-2.png 是动画便服，均未作为本次动作服装参考。
 
 实际采用的源动作图、提示词和角色审查记录在各角色 manifest.json。网络参考与生成动作图分开保存；动作图为重新绘制，不冒充官方原图。
+
+仅保留参考图片、官方资料 PDF 和来源链接；下载网页的 HTML、JavaScript、CSS 及页面 API 缓存不参与构建，已移除。

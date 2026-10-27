@@ -102,7 +102,9 @@ def build_viola_art():
         x, y = i % 8 * 185, i // 8 * 245
         proof.paste(thumb, (x + (185 - thumb.width) // 2, y + 211 - thumb.height), thumb)
         draw.text((x + 3, y + 217), name, fill='#f1e5ec', font=font)
-    proof.save(FOLDER / 'proof.png')
+    proof_folder = ROOT / 'output/artwork/mewtype/viola'
+    proof_folder.mkdir(parents=True, exist_ok=True)
+    proof.save(proof_folder / 'proof.png')
     sources = ['mewtype/viola/portrait-source-v1.png'] + [group['file'] for group in GROUPS]
     metadata = dict(id=ID, key='viola', name='薇欧拉', form='virtual',
                     sourceFiles=sources, groups=GROUPS, actualDrawings=len(pieces),

@@ -54,7 +54,7 @@
 
 完整 U/I/O 与方向技能映射、原片标题、BV/CID、UP主、分P、剪辑时码、文件路径和SHA256见 [manifest.json](meme-media/manifest.json)。既有素世来源记录未包含CID，清单保留null并说明，未编造该字段。
 
-初华新增8张实际爬行动作（每套服装4张），通过内置 image_gen 生成后按完整连通人物提取。原稿、[生成提示词](meme-media/uika-crawl/generation-prompt.txt)、修订提示词与参考图路径均保留；[动作对照](meme-media/uika-crawl/uika-crawl-proof.png)展示最终采用的待爬、两步爬行和起身姿态。
+初华新增8张实际爬行动作（每套服装4张），通过内置 image_gen 生成后按完整连通人物提取。原稿、[生成提示词](../meme-media/uika-crawl/generation-prompt.txt)、修订提示词与参考图路径均保留；[动作对照](../../output/artwork/meme-media/uika-crawl/uika-crawl-proof.png)展示最终采用的待爬、两步爬行和起身姿态，由打包脚本生成，未纳入版本控制。
 
 失败施放不触发媒体；同一技能只启动一次录音，后续弹体/九字脉冲只加打击音，不会反复重启整句配音。回菜单视为暂停并从原偏移续播；重开、回合结束、普通技能被打断和变身到期清理对应音轨与视频。大招受击保留原声与画面。
 

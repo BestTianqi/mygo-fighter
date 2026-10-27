@@ -20,7 +20,7 @@
 | `manifest.json` | 17幅真实画作来源、SHA-256、规范帧名别名和参考资料 |
 | `virtual-runtime.webp` / `virtual-frames.json` | 17幅完整画作的运行图集及命名帧 |
 | `portrait.webp` / `face.webp` / `idle-runtime.webp` | 选人立绘、正方形面部、单独待机图 |
-| `proof.png` | 17幅独立画作的核对联系图 |
+| `../../../output/artwork/mewtype/viola/proof.png` | 17幅独立画作的核对联系图（由打包脚本生成，未纳入版本控制） |
 
 J三段、重击和U/I/O/P均使用不同原画。起手、收招、低位和空中等过渡帧以 `manifest.json` 中的显式别名复用这些完整画作；没有把别名计为新画作。人物所有主体均有真实透明边距、双鞋完整，动作通过整幅图集帧切换。
 

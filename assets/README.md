@@ -19,6 +19,8 @@ This folder contains editable artwork, packed source atlases, original recording
 
 Versioned sheets are retained: older drawings can supply pose heights or document reviewed revisions. Filenames keep the character prefix so exported files remain identifiable. `riki` is the artwork key for Taki (立希).
 
+Generated review contact sheets and partial packs live under the ignored `output/artwork/` directory. Full artwork builds use the reviewed source sheets and final catalogs rather than these previews.
+
 Action catalog `file` and `overrides` values are relative to `assets/`, including their band and character directories. Stage `file` values are relative to the repository root. Recording catalogs retain their documented repository-relative or catalog-relative conventions.
 
 Use `npm run check` to verify runtime hashes and the MyGO/stage source references. For packing commands and runtime export, see [the artwork workflow](../docs/ARTWORK.md). Generated verification reports and screenshots belong under the ignored `output/` directory.

@@ -143,10 +143,12 @@ def pack_pieces(pieces):
 
 
 def pack_form(key, form, partial=False):
-    folder = ROOT / 'assets/mujica' / key
     groups = source_groups(key, form, partial)
     if not groups:
         return None
+    proof_folder = ROOT / 'output/artwork/mujica' / key
+    proof_folder.mkdir(parents=True, exist_ok=True)
+    folder = proof_folder if partial else ROOT / 'assets/mujica' / key
     pieces = []
     for group in groups:
         source = ROOT / 'assets' / group['file']
@@ -173,7 +175,7 @@ def pack_form(key, form, partial=False):
         x, y = i % 8 * 185, i // 8 * 245
         proof.paste(thumb, (x + (185 - thumb.width) // 2, y + 211 - thumb.height), thumb)
         draw.text((x + 3, y + 217), name, fill='#f1e5ec', font=font)
-    proof.save(folder / f'{form}{suffix}-proof.png')
+    proof.save(proof_folder / f'{form}{suffix}-proof.png')
     print(f'{key}/{form}{suffix}: {len(packed["frames"])} real poses, runtime {runtime.size}, source sheets untouched', flush=True)
     return packed
 

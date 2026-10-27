@@ -85,7 +85,9 @@ def pack_character(key, partial=False):
         # Six-figure source group 7 uses its declared 3 by 2 geometry.
         pieces.extend(extract_group(ROOT / 'assets' / group['file'], group))
     packed = pack_pieces(pieces)
-    folder = ROOT / 'assets/mewtype' / key
+    proof_folder = ROOT / 'output/artwork/mewtype' / key
+    proof_folder.mkdir(parents=True, exist_ok=True)
+    folder = proof_folder if partial else ROOT / 'assets/mewtype' / key
     stem = 'virtual-partial' if partial else 'virtual'
     runtime_bytes = base64.b64decode(packed['atlas'].split(',', 1)[1])
     (folder / f'{stem}-runtime.webp').write_bytes(runtime_bytes)
@@ -106,7 +108,7 @@ def pack_character(key, partial=False):
         x, y = i % 8 * 185, i // 8 * 245
         proof.paste(thumb, (x + (185 - thumb.width) // 2, y + 211 - thumb.height), thumb)
         draw.text((x + 3, y + 217), name, fill='#f1e5ec', font=font)
-    proof.save(folder / f'{stem}-proof.png')
+    proof.save(proof_folder / f'{stem}-proof.png')
     runtime = Image.open(io.BytesIO(runtime_bytes))
     print(f'{key}/{stem}: {len(pieces)} actual drawings, runtime {runtime.size}, {len(runtime_bytes):,} bytes', flush=True)
     return packed

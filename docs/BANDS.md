@@ -12,8 +12,6 @@ frontend/src/game/bands/
   index.ts               registry: BANDS, bandFor(id), CHARACTERS
   contract.ts            Band type + defineBand() defaults + validation
   validation.ts          validateBands(), validateCatalog()
-  characters.ts          house defaults for new characters
-  registrar.ts           standard <band>_<id>_<form>_<slot> move keys
   shared/                moves every band may use, shared passes
     universalMoves.ts    throw (registered once, exempt from ownership)
     scale.ts             shared movement scaling
@@ -71,9 +69,9 @@ cancel depth 4, no command/ai/tune/transform.
 1. **Create the folder** `frontend/src/game/bands/<id>/`. Add `roster.ts` with
    consecutive explicit `id`s. Ids must stay contiguous across the whole
    registry (the current roster ends at 15, so a new band starts at 16).
-2. **Add moves.** Either use `createMoveRegistrar(MOVES, { band, form })` for the
-   standard `<band>_<id>_<form>_<slot>` keys, or author `Record<string, Move>`
-   with unique keys. Keys cross the LAN boundary, so never rename a shipped key
+2. **Add moves.** Author `Record<string, Move>` with unique keys, using
+   `<band>_<id>_<form>_<slot>` for a new band's standard scheme.
+   Keys cross the LAN boundary, so never rename a shipped key
    without a protocol bump. Give each move `ownerCharacter` and, if the band has
    more than one form, `form`.
 3. **Add `index.ts`** and call `defineBand`:
