@@ -103,6 +103,9 @@ export function updateSoyoSupers(match: Match): void {
     target.guard = target.crouch = false;
     target.vx = 0;
     if (target.soyoSuper && !target.soyoSuper.released) target.soyoSuper = null;
+    // Each target is marked once by the expanding wave; use the shared damage
+    // path so this super can also receive normal hit effects and KO attribution.
+    match.hit(side, "soyoSuper", target.x, target.y + 100);
     match.events.push({
       type: "hardControl",
       side,
