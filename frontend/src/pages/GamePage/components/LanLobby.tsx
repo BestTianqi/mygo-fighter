@@ -531,15 +531,15 @@ export function LanLobby({
                       )
                     }
                     aria-pressed={room.arena === arena}
-                    className={`w-24 shrink-0 touch-manipulation overflow-hidden rounded-none text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200 ${room.arena === arena ? "bg-white/70 shadow-lg shadow-[#946b2a]/10" : "bg-[#30251a]/4 opacity-65 hover:opacity-100"}`}
+                    className={`w-24 shrink-0 touch-manipulation overflow-hidden rounded-none text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200 lg:pointer-fine:w-56 xl:pointer-fine:w-64 ${room.arena === arena ? "bg-white/70 shadow-lg shadow-[#946b2a]/10" : "bg-[#30251a]/4 opacity-65 hover:opacity-100"}`}
                   >
                     <img
                       src={scene.thumbnail}
                       alt=""
                       loading="lazy"
-                      className="h-9 w-full object-cover"
+                      className="h-9 w-full object-cover lg:pointer-fine:aspect-video lg:pointer-fine:h-auto"
                     />
-                    <span className="block truncate px-2 py-1 text-[9px]">
+                    <span className="block truncate px-2 py-1 text-[9px] lg:pointer-fine:py-2 lg:pointer-fine:text-xs">
                       {scene.name}
                     </span>
                   </button>

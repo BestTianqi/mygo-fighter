@@ -127,7 +127,7 @@ export function MainMenu({
             )}
           </div>
         </div>
-        <div className="relative order-1 flex min-h-64 flex-col overflow-hidden sm:min-h-80 lg:order-2 lg:min-h-[640px]">
+        <div className="relative order-1 flex min-h-72 flex-col overflow-hidden sm:min-h-80 lg:order-2 lg:min-h-[640px]">
           <div
             aria-hidden="true"
             className="absolute inset-x-10 top-[12%] bottom-[16%] rounded-none bg-[radial-gradient(ellipse_at_center,#d8bda480_0%,#d9b2be35_45%,transparent_72%)] blur-2xl"
@@ -142,21 +142,27 @@ export function MainMenu({
             aria-hidden="true"
             className="absolute inset-x-0 top-8 bottom-20 flex items-end justify-center px-3 lg:top-28 lg:bottom-28"
           >
-            {band.ids.map((id, i) => (
-              <div
-                key={id}
-                className={`relative h-full min-w-0 flex-1 ${i % 2 ? "translate-y-5" : ""}`}
-              >
-                <img
-                  src={
+            {/* Fit the entire composition, including the wide poses at both edges. */}
+            <svg
+              viewBox="0 0 1900 1100"
+              preserveAspectRatio="xMidYMid meet"
+              className="size-full drop-shadow-[0_16px_20px_#4c35252b]"
+            >
+              {band.ids.map((id, i) => (
+                <image
+                  key={id}
+                  href={
                     bandPortrait(assets, id, "stage")?.portrait ??
                     assets.characters[id].portrait
                   }
-                  alt=""
-                  className="absolute bottom-0 left-1/2 h-full max-w-none -translate-x-1/2 object-contain drop-shadow-[0_16px_20px_#4c35252b]"
+                  x={i * 310}
+                  y={i % 2 ? 30 : 0}
+                  width={660}
+                  height={1040}
+                  preserveAspectRatio="xMidYMax meet"
                 />
-              </div>
-            ))}
+              ))}
+            </svg>
           </div>
           <div className="absolute inset-x-0 bottom-0 z-10 px-4 py-3 text-[#565045] sm:px-8 sm:py-4">
             <nav
