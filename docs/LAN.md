@@ -35,7 +35,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":14}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":15}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -102,3 +102,7 @@ Protocol 13 adds recovery waves to uncontested counter stances and a damaging im
 ## Backward skill commands, protocol 14
 
 Every character/form now explicitly maps backward U/I/O to a quick wave, a heavy wave and a lobbed projectile. These 66 moves use the existing serializable projectile velocity/gravity/impact fields, and captured press directions remain authoritative for resolving the command. Forward O retains the universal close throw. Protocol 14 prevents clients using the earlier backward-throw or base-skill mappings from joining the updated kernel. Update the host and both clients together, then restart the host and refresh both browsers.
+
+## Wider stages, protocol 15
+
+The world now spans -900 to 1860 (2760 units, 15% wider) with 180 extra units at each side. All 15 source/browser/server ground endpoints match the new bounds. Existing interior steps, platform heights and platform lengths are retained. Camera fitting, movement, blinking, summons and world-spanning tracking waves derive their bounds from the shared world data. Protocol 15 keeps earlier clients from predicting the old edge positions; restart the updated LAN host and refresh both clients.

@@ -7,8 +7,8 @@ const ROUND_END_TIMING = Object.freeze({
   total: 3200,
 });
 const WORLD = Object.freeze({
-  left: -720,
-  right: 1680,
+  left: -900,
+  right: 1860,
   bottom: -180,
   top: 1120,
 });
