@@ -35,7 +35,7 @@ Public callers and Scala messages share these derived names:
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":12}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":13}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
@@ -94,3 +94,7 @@ When reviewing relay changes, verify host-only rules, ordered teams, readiness, 
 ## Recovery verification — 2026-10-25
 
 This update reproduced two failures before editing: a socket with no incoming traffic never entered reconnect, and the server accepted Continue while a replacement browser had not acknowledged its assets. Verification covered eight deterministic client lifecycle cases, a real-server 3v3 match with an actual KO and reserve fighter, rejection of early Continue and stale-peer acknowledgements, idempotent resume acknowledgement, and retained teams/HP/resonance. Two isolated real browsers also exercised movement, pause/restart, incoming-message blackout, automatic reconnect, refresh and returning to the lobby. A delayed loading request verified the visible wait message and disabled Continue button. The temporary harnesses and screenshots were subsequently cleaned up. Frontend/asset/build and Scala compilation/format checks remain required; keep future temporary verification output in the ignored `output/` directory.
+
+## Skill completion, protocol 13
+
+Protocol 13 adds recovery waves to uncontested counter stances and a damaging impact to normal Uika I. After a counter window ends, its stance releases one existing counter projectile at half base damage, 180 ms stun and half push. A successful parry still emits the full original response and ends the stance; an interrupted stance emits no recovery wave. The existing hit flag and projectile impact fields are serialized for deterministic prediction. The new `counterRelease` presentation event uses the reliable event lane. Deploy UI and server together, restart LAN hosts and refresh both clients after updating. Protocol 12 clients are rejected rather than predicting the old combat rules.

@@ -116,6 +116,7 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
   }
   if (
     event.type === "counter" ||
+    event.type === "counterRelease" ||
     event.type === "areaPulse" ||
     event.type === "penguinCounter"
   )
@@ -126,11 +127,13 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
       life: 450,
       color,
       text:
-        event.type === "counter"
-          ? "反拨"
-          : event.type === "penguinCounter"
-            ? "糖哭反击"
-            : "",
+        event.type === "counterRelease"
+          ? "收招音波"
+          : event.type === "counter"
+            ? "反拨"
+            : event.type === "penguinCounter"
+              ? "糖哭反击"
+              : "",
     });
   if (
     event.type === "memePulse" &&

@@ -107,6 +107,28 @@ export function step(match: Match, p1: Input, p2: Input): void {
         if (match.meleeConnects(f, unit, burst, burst.reach!, burst.vertical!))
           match.hitMinion(side, unit, transform.move);
     }
+    if (move?.counter) {
+      // A successful parry ends the stance in hit(). An uncontested stance
+      // instead releases one weaker wave on its first recovery tick.
+      if (f.attackMs > move.end && !f.hit) {
+        const attack = move.counterAttack || "penguinCryWave";
+        const reply = MOVES[attack];
+        match.spawnWave(side, attack, {
+          damage: reply.damage * 0.5,
+          stun: 180,
+          push: (reply.push || 0) * 0.5,
+        });
+        f.hit = true;
+        match.events.push({
+          type: "counterRelease",
+          side,
+          attack,
+          x: f.x + f.facing * 45,
+          y: f.y + (reply.height || 90),
+        });
+      }
+      continue;
+    }
     if (
       !move ||
       f.attackMs < move.start ||
@@ -118,7 +140,6 @@ export function step(match: Match, p1: Input, p2: Input): void {
           f.attack === "summon"))
     )
       continue;
-    if (move.counter) continue;
     if (move.targetLock) {
       // Acquisition happens once. Moving into a missed seal later cannot capture you.
       if (!f.hit) {

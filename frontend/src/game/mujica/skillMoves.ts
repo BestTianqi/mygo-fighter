@@ -158,11 +158,15 @@ export function registerSkillMoves(MOVES: Record<string, Move>): void {
   add(6, "stage", "o", "傀儡律令", { reach: 360, pull: 100 });
   add(7, "normal", "u", "星屑和弦", missile);
   add(7, "normal", "i", "偶像步伐", {
-    damage: 0,
+    uika: "pursuit",
+    damage: 12,
+    stun: 240,
+    push: 160,
+    reach: 200,
     movement: 280,
     movementEnd: 280,
     duration: 420,
-    start: 300,
+    start: 200,
     end: 310,
   });
   add(7, "normal", "o", "追星连奏", combo([6, 6, 10]));

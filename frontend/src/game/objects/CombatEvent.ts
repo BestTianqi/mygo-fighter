@@ -2,6 +2,7 @@ export type CombatEventType =
   | "blink"
   | "dash"
   | "counter"
+  | "counterRelease"
   | "penguinCounter"
   | "areaPulse"
   | "areaWarning"
