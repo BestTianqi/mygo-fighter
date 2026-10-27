@@ -12,6 +12,7 @@ const schemeFor = (f: FighterIdentity): Scheme =>
       super: `${prefixFor(f)}_super`,
       variants: {
         down1: `${prefixFor(f)}_wave`,
+        ...(f.character === 12 ? { down2: `${prefixFor(f)}_yokan` } : {}),
         ...(f.character === 13 ? { down2: `${prefixFor(f)}_guard` } : {}),
         ...(f.character === 14 ? { down2: `${prefixFor(f)}_comfort` } : {}),
       },

@@ -104,7 +104,7 @@ export interface Move {
   nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
   ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
-  miyako?: "draft" | "stamp" | "marathon" | "ink";
+  miyako?: "draft" | "stamp" | "marathon" | "ink" | "yokan";
   sakiko?: "ascension";
   arale?: "star" | "resolve" | "action" | "voice" | "dream";
   viola?: "flash" | "edit" | "dismiss" | "wave" | "broadcast";

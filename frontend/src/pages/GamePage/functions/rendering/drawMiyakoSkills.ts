@@ -1,6 +1,93 @@
 import type { Area } from "../../../../game/objects/Area";
 import type { Move } from "../../../../game/objects/Move";
 
+/** Large bamboo wrapper, cream paper band and exposed red-bean end from episode12. */
+function yokan(ctx: CanvasRenderingContext2D, angle: number, opacity: number) {
+  ctx.save();
+  ctx.translate(60, -112);
+  ctx.rotate(angle);
+  ctx.globalAlpha *= opacity;
+  ctx.shadowBlur = 0;
+  const bamboo = ctx.createLinearGradient(-30, 0, 30, 0);
+  bamboo.addColorStop(0, "#8b613b");
+  bamboo.addColorStop(0.45, "#d5ae72");
+  bamboo.addColorStop(1, "#9d774b");
+  ctx.fillStyle = bamboo;
+  ctx.strokeStyle = "#483142";
+  ctx.lineWidth = 2;
+  ctx.fillRect(-29, -235, 58, 280);
+  ctx.strokeRect(-29, -235, 58, 280);
+  for (let i = 0; i < 7; i++) {
+    const x = -25 + i * 8;
+    ctx.strokeStyle = i % 2 ? "#e2c58c" : "#805d3f";
+    ctx.beginPath();
+    ctx.moveTo(x, -225 + (i % 3) * 7);
+    ctx.lineTo(x + 2, 35 - (i % 2) * 10);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "#eee0c5";
+  ctx.strokeStyle = "#705546";
+  ctx.fillRect(-24, -200, 48, 200);
+  ctx.strokeRect(-24, -200, 48, 200);
+  ctx.fillStyle = "#2e2027";
+  ctx.textAlign = "center";
+  ctx.font = 'bold 28px "Yu Mincho", "Microsoft YaHei", serif';
+  for (const [i, letter] of [..."巨羊羹"].entries())
+    ctx.fillText(letter, 0, -151 + i * 41);
+  ctx.strokeStyle = "#3b2930";
+  for (const y of [-186, -13]) {
+    ctx.beginPath();
+    ctx.moveTo(-30, y);
+    ctx.lineTo(30, y);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "#4c242e";
+  ctx.fillRect(-25, -244, 50, 13);
+  ctx.fillStyle = "#b47d7e";
+  ctx.fillRect(-19, -242, 34, 3);
+  ctx.restore();
+}
+
+function yokanSweep(
+  ctx: CanvasRenderingContext2D,
+  move: Move,
+  age: number,
+  reduced: boolean,
+) {
+  const windup = Math.min(1, age / move.start);
+  const strike = Math.max(
+    0,
+    Math.min(1, (age - move.start) / (move.end - move.start)),
+  );
+  const recovery = Math.max(
+    0,
+    Math.min(1, (age - move.end) / (move.duration - move.end)),
+  );
+  const angle =
+    age < move.start
+      ? -0.65 + windup * 0.55
+      : age <= move.end
+        ? 0.9 + strike * 0.8
+        : 1.7 - recovery * 1.25;
+  if (age >= move.start && age <= move.end + 80) {
+    ctx.strokeStyle = "#f3dab0";
+    ctx.lineWidth = 7;
+    ctx.globalAlpha = reduced ? 0.45 : 0.85;
+    ctx.beginPath();
+    ctx.ellipse(58, -108, move.reach! - 58, 100, 0.25, -1.1, 1.15);
+    ctx.stroke();
+    if (!reduced) {
+      yokan(ctx, angle - 0.22, 0.16);
+      for (let i = 0; i < 5; i++) {
+        ctx.fillStyle = i % 2 ? "#dbc194" : "#824853";
+        ctx.fillRect(170 + i * 24, -175 + (i % 3) * 37, 5, 7);
+      }
+    }
+  }
+  ctx.globalAlpha = 1 - recovery * 0.35;
+  yokan(ctx, angle, 1);
+}
+
 function page(ctx: CanvasRenderingContext2D, x: number, y: number, angle = 0) {
   ctx.save();
   ctx.translate(x, y);
@@ -29,7 +116,9 @@ export function drawMiyakoSkill(
   ctx.globalAlpha = age > move.end ? 0.3 : 0.85;
   ctx.shadowColor = "#b894db";
   ctx.shadowBlur = reduced ? 0 : 7;
-  if (move.miyako === "draft") {
+  if (move.miyako === "yokan") {
+    yokanSweep(ctx, move, age, reduced);
+  } else if (move.miyako === "draft") {
     const second = age >= move.shots![1];
     page(ctx, second ? 96 : 60, -135, second ? 0.25 : -0.2);
     ctx.strokeStyle = "#e5cfff";

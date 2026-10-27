@@ -3048,6 +3048,27 @@
           },
           "spokenJapanese": "私も、やりたいように生きてやりますよ。",
           "subtitle_zh": "我也要按自己的想法活下去。"
+        },
+        "mewtype_12_virtual_yokan": {
+          "voice": "miyakoAnimeYokan",
+          "label": "巨羊羹·这样太无聊了",
+          "slot": "i",
+          "audio": "assets/meme-media/miyako-yokan/miyako-yokan.mp3",
+          "duration": 8.4,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Zttf6KEzU/",
+            "uploader": "Xv型若叶睦",
+            "bvid": "BV1Zttf6KEzU",
+            "cid": 41557888571,
+            "page": 1,
+            "title": "藤都子的神人分手宣言（梦限大第12集",
+            "start": 0,
+            "end": 8.4,
+            "proof": "Original anime episode12 scene: Miyako faces Viola, raises her arm behind her head at2.5s and pulls out the huge bamboo-wrapped yokan at3.5–6.7s; visible speaking face and Chinese subtitles at0.5/1.5/8.5s. Small-model word timestamps locate the sentence through7.92s; the ASR's くまらない is corrected to つまらない from the scene context and subtitles. The exported0–8.4s segment excludes the unrelated robot insert visible at10.5s. No streamer voice, voice synthesis or playback-rate change.",
+            "catalog": "assets/meme-media/miyako-yokan/sources.json"
+          },
+          "spokenJapanese": "それが、つまらないって言ってんだよ！",
+          "subtitle_zh": "我说的就是，这样太无聊了！"
         }
       }
     },
@@ -3800,6 +3821,7 @@
     "assets/meme-media/yuno-story/sources.json",
     "assets/meme-media/ritsu-story/sources.json",
     "assets/meme-media/miyako-story/sources.json",
+    "assets/meme-media/miyako-yokan/sources.json",
     "assets/meme-media/rana-story/sources.json",
     "assets/meme-media/taki-story/sources.json"
   ],

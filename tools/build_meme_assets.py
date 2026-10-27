@@ -176,6 +176,9 @@ def build_catalog():
     for row in read_json(miyako_catalog)['clips']:
         profiles['12']['variants'][row['move']] = normalize_clip(row, miyako_catalog, 12, row['slot'], row['voice'])
     profiles['12']['variants']['throw'] = dict(profiles['12']['variants']['mewtype_12_virtual_u'], label='原稿交付·摔投')
+    yokan_catalog = MEDIA / 'miyako-yokan/sources.json'
+    for row in read_json(yokan_catalog)['clips']:
+        profiles['12']['variants'][row['move']] = normalize_clip(row, yokan_catalog, 12, row['slot'], row['voice'])
     viola_catalog = MEDIA / 'viola-story/sources.json'
     for row in read_json(viola_catalog)['clips']:
         clip = normalize_clip(row, viola_catalog, 15, row['slot'], row['voice'])
@@ -240,6 +243,7 @@ def build_catalog():
     catalog['sourceCatalogs'].append(yuno_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(miyako_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(yokan_catalog.relative_to(ROOT).as_posix())
     rana_catalog = MEDIA / 'rana-story/sources.json'
     for row in read_json(rana_catalog)['clips']:
         clip = normalize_clip(row, rana_catalog, 3, row['slot'], row['voice'])

@@ -1,0 +1,24 @@
+{
+  "clips": [
+    {
+      "character": "miyako",
+      "slot": "i",
+      "move": "mewtype_12_virtual_yokan",
+      "voice": "miyakoAnimeYokan",
+      "label": "巨羊羹·这样太无聊了",
+      "audio": "miyako-yokan.mp3",
+      "sourceURL": "https://www.bilibili.com/video/BV1Zttf6KEzU/",
+      "bvid": "BV1Zttf6KEzU",
+      "cid": 41557888571,
+      "title": "藤都子的神人分手宣言（梦限大第12集",
+      "uploader": "Xv型若叶睦",
+      "start": 0,
+      "end": 8.4,
+      "spokenJapanese": "それが、つまらないって言ってんだよ！",
+      "subtitle_zh": "我说的就是，这样太无聊了！",
+      "speakerVerification": "Original anime episode12 scene: Miyako faces Viola, raises her arm behind her head at2.5s and pulls out the huge bamboo-wrapped yokan at3.5–6.7s; visible speaking face and Chinese subtitles at0.5/1.5/8.5s. Small-model word timestamps locate the sentence through7.92s; the ASR's くまらない is corrected to つまらない from the scene context and subtitles. The exported0–8.4s segment excludes the unrelated robot insert visible at10.5s. No streamer voice, voice synthesis or playback-rate change.",
+      "processing": "Original speed, mono MP3 64kbps,44100Hz, -18LUFS normalization,8ms/20ms edge fades. Full sentence and a short trailing margin retained.",
+      "sha256": "bb04f24662d74d9ecd98e8181d30e45f0db37aa9584f27dfe6845fd03e852414"
+    }
+  ]
+}
