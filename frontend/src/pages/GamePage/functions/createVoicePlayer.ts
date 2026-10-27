@@ -3,6 +3,7 @@ interface VoiceSlot {
   offset: number;
   source: AudioBufferSourceNode | null;
   startedAt: number;
+  next: string | null;
 }
 interface VoiceBuffers {
   get(move: string): AudioBuffer | undefined;
@@ -29,7 +30,7 @@ export function createVoicePlayer(
   }
   function begin(side: number, slot: VoiceSlot) {
     if (!slot.buffer || slot.offset >= slot.buffer.duration) {
-      if (channels.get(side) === slot) channels.delete(side);
+      complete(side, slot);
       return;
     }
     const source = context.createBufferSource();
@@ -40,9 +41,39 @@ export function createVoicePlayer(
     source.onended = () => {
       source.disconnect?.();
       if (channels.get(side) === slot && slot.source === source)
-        channels.delete(side);
+        complete(side, slot);
     };
     source.start(0, slot.offset);
+  }
+  function complete(side: number, slot: VoiceSlot) {
+    if (channels.get(side) !== slot) return;
+    channels.delete(side);
+    if (slot.next) play(slot.next, side);
+  }
+  function play(move: string, side: number) {
+    if (!enabled || paused) return false;
+    stop(side);
+    const slot: VoiceSlot = {
+      buffer: buffers.get(move) ?? null,
+      offset: 0,
+      source: null,
+      startedAt: 0,
+      next: null,
+    };
+    // A pending load owns the channel, preventing overlapping voices while
+    // retaining the existing stop/pause/round-transition cancellation rules.
+    channels.set(side, slot);
+    if (slot.buffer) begin(side, slot);
+    else
+      void buffers.load(move).then(
+        (buffer) => {
+          if (channels.get(side) !== slot) return;
+          slot.buffer = buffer;
+          if (enabled && !paused) begin(side, slot);
+        },
+        () => complete(side, slot),
+      );
+    return true;
   }
   function stop(side?: number) {
     for (const [key, slot] of channels)
@@ -52,30 +83,13 @@ export function createVoicePlayer(
       }
   }
   return {
-    play(move: string, side: number) {
+    play,
+    /** A finish line follows a complete super sentence without overlapping it. */
+    playAfterCurrent(move: string, side: number) {
       if (!enabled || paused) return false;
-      stop(side);
-      const slot: VoiceSlot = {
-        buffer: buffers.get(move) ?? null,
-        offset: 0,
-        source: null,
-        startedAt: 0,
-      };
-      // A pending load owns the channel, preventing overlapping voices while
-      // retaining the existing stop/pause/round-transition cancellation rules.
-      channels.set(side, slot);
-      if (slot.buffer) begin(side, slot);
-      else
-        void buffers.load(move).then(
-          (buffer) => {
-            if (channels.get(side) !== slot) return;
-            slot.buffer = buffer;
-            if (enabled && !paused) begin(side, slot);
-          },
-          () => {
-            if (channels.get(side) === slot) channels.delete(side);
-          },
-        );
+      const current = channels.get(side);
+      if (!current) return play(move, side);
+      current.next = move;
       return true;
     },
     stop,

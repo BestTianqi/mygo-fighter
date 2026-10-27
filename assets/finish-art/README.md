@@ -5,3 +5,5 @@
 - `miyako-super-background-v1.webp`：藤都子大招视频 `assets/meme-media/recordings/miyako-p.mp4` 第 9 秒的法阵画面，保留原图比例，用作全幅奥义背景。
 
 爱音与灯的两张图使用游戏已有变身动作图作参考，通过图像生成制作，保留透明背景。藤都子的图片直接取自已有大招视频。运行 `python tools/build_finish_assets.py` 更新运行素材；选中角色的奥义图会在开战前预载。
+
+大招击杀专用的全员横版场景图与新终结语音见 [v2/README.md](v2/README.md)。上述旧图仍用于普通击杀结算。

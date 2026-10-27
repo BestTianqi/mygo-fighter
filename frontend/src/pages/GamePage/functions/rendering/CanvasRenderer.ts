@@ -240,6 +240,9 @@ export class CanvasRenderer {
       ...ids.flatMap((character) => [
         finishArtFor(this.assets, { character }),
         finishArtFor(this.assets, { character, stageForm: true }),
+        finishArtFor(this.assets, { character }, true),
+        finishArtFor(this.assets, { character, stageForm: true }, true),
+        finishArtFor(this.assets, { character, penguin: true }, true),
       ]),
       ...ids.flatMap((id) => {
         const portrait = bandPortrait(this.assets, id)?.portrait;

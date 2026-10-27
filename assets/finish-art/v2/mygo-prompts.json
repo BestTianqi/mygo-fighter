@@ -1,0 +1,37 @@
+[
+  {
+    "key": "anon-dragon",
+    "reference": "assets/finish-art/anon-milk-dragon-v1.png",
+    "output": "assets/finish-art/v2/anon-dragon.png",
+    "mode": "built-in image_gen edit",
+    "prompt": "Use case identity-preserve. Edit the referenced original portrait into a single full opaque wide 16:9 2D anime fighting-game ultimate-KO illustration. Preserve exact recognizable face, hair/eye colors and outfit. Fine linework and cel shading, integrated background lighting, natural proportions. Character large on LEFT42%, head fully visible; RIGHT45% darker low-contrast detailed scenery for game text overlay. One character only, no lettering, watermark, UI, border or gore. Keep joyous pink-haired Anon in YELLOW plush dragon suit, cream belly, raised claws and yellow tail. Huge golden-pink sound rings and guitar string arcs on a shattered rooftop concert stage at dusk. Preserve joyous original arms-raised pose, yellow skin never pink."
+  },
+  {
+    "key": "soyo-normal",
+    "reference": "assets/mygo/portraits-v1/soyo-normal.webp",
+    "output": "assets/finish-art/v2/soyo-normal.png",
+    "mode": "built-in image_gen edit",
+    "prompt": "Use case identity-preserve. Edit the referenced original portrait into a single full opaque wide 16:9 2D anime fighting-game ultimate-KO illustration. Preserve exact recognizable face, hair/eye colors and outfit. Fine linework and cel shading, integrated background lighting, natural proportions. Character large on LEFT42%, head fully visible; RIGHT45% darker low-contrast detailed scenery for game text overlay. One character only, no lettering, watermark, UI, border or gore. Keep Soyo long light-brown wavy hair, blue eyes and navy sailor uniform; one hand extended, confident melancholy. Moonlit school music hall, tall windows, grand staircase, delicate bass strings and blue-gold concentric sound waves, pale cherry petals."
+  },
+  {
+    "key": "tomori-penguin",
+    "reference": "assets/finish-art/tomori-penguin-v1.png",
+    "output": "assets/finish-art/v2/tomori-penguin.png",
+    "mode": "built-in image_gen edit",
+    "prompt": "Use case identity-preserve. Edit the referenced original portrait into a single full opaque wide 16:9 2D anime fighting-game ultimate-KO illustration. Preserve exact recognizable face, hair/eye colors and outfit. Fine linework and cel shading, integrated background lighting, natural proportions. Character large on LEFT42%, head fully visible; RIGHT45% darker low-contrast detailed scenery for game text overlay. One character only, no lettering, watermark, UI, border or gore. Keep Tomori gray-lavender bob and pink-amber eyes on exact black-and-cream round penguin body, orange webbed feet, raised flipper victory wave. Snowy lake, winter trees, mountains and ice crystals, five glowing cyan song rings sweeping aurora sky."
+  },
+  {
+    "key": "rana-normal",
+    "reference": "assets/mygo/portraits-v1/rana-normal.webp",
+    "output": "assets/finish-art/v2/rana-normal.png",
+    "mode": "built-in image_gen edit",
+    "prompt": "Use case identity-preserve. Edit the referenced original portrait into a single full opaque wide 16:9 2D anime fighting-game ultimate-KO illustration. Preserve exact recognizable face, hair/eye colors and outfit. Fine linework and cel shading, integrated background lighting, natural proportions. Character large on LEFT42%, head fully visible; RIGHT45% darker low-contrast detailed scenery for game text overlay. One character only, no lettering, watermark, UI, border or gore. Keep Rana short white-gray hair, exact heterochromia, black oversized shredded dress over white sleeves, red electric guitar, black lace-up boots. Finishing guitar strum. Night live-house rooftop, matcha-green note crescents, one small matcha parfait foreground, speakers/cables and emerald warm-white light."
+  },
+  {
+    "key": "riki-normal",
+    "reference": "assets/mygo/portraits-v1/riki-normal.webp",
+    "output": "assets/finish-art/v2/riki-normal.png",
+    "mode": "built-in image_gen edit",
+    "prompt": "Use case identity-preserve. Edit the referenced original portrait into a single full opaque wide 16:9 2D anime fighting-game ultimate-KO illustration. Preserve exact recognizable face, hair/eye colors and outfit. Fine linework and cel shading, integrated background lighting, natural proportions. Character large on LEFT42%, head fully visible; RIGHT45% darker low-contrast detailed scenery for game text overlay. One character only, no lettering, watermark, UI, border or gore. Keep Taki long dark brown hair, violet eyes, serious face, tan sailor uniform red ribbon, navy socks and two wooden drumsticks. Crossed-drumstick finishing pose, precisely drawn hands. Empty practice studio, huge violet resonance rings, suspended cymbal shards, drum kit, acoustic panels, cables on wood floor and purple-white light."
+  }
+]
