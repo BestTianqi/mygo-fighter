@@ -17,8 +17,8 @@ export function GameDialogs({
       <Dialog title="操作说明" onClose={() => runtime.closeDialog()} wide>
         <div className="grid gap-6 sm:grid-cols-2">
           <section>
-            <h3 className="mb-3 text-pink-200">1P / 联机玩家</h3>
-            <p className="text-sm leading-8 text-slate-300">
+            <h3 className="mb-3 text-[#8f354e]">1P / 联机玩家</h3>
+            <p className="text-sm leading-8 text-[#565045]">
               A / D 移动 · W 跳跃 · S 蹲下
               <br />J 普攻三连 · K 重击 · L 瞬移
               <br />U / I / O 三个基础技能
@@ -26,8 +26,8 @@ export function GameDialogs({
             </p>
           </section>
           <section>
-            <h3 className="mb-3 text-cyan-200">2P / 同屏双人</h3>
-            <p className="text-sm leading-8 text-slate-300">
+            <h3 className="mb-3 text-[#2a5f5a]">2P / 同屏双人</h3>
+            <p className="text-sm leading-8 text-[#565045]">
               方向键移动、跳跃与蹲下
               <br />
               小键盘 1 攻击 · 2 重击 · 3 瞬移
@@ -35,7 +35,7 @@ export function GameDialogs({
             </p>
           </section>
         </div>
-        <div className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm leading-7 text-slate-400">
+        <div className="mt-6 space-y-3 pt-5 text-sm leading-7 text-[#80786d]">
           <p>
             按住后退防御，后退＋蹲下防下段。后＋U快速发波，后＋I重型音波，后＋O抛射投掷，前＋O近身投技破防。方向以前后表示，换边后自动反转。方向＋U/I/O
             使用扩展技能，具体见角色招式表。
@@ -70,14 +70,11 @@ export function GameDialogs({
       <div className="grid gap-8 sm:grid-cols-2">
         {identities.map((f, side) => (
           <section key={side}>
-            <h3
-              className="mb-4 font-semibold"
-              style={{ color: ROSTER[f.character].color }}
-            >
+            <h3 className="mb-4 font-semibold text-[#211f1a]">
               {side + 1}P / {ROSTER[f.character].name}
             </h3>
             <table className="w-full text-left text-xs">
-              <thead className="text-slate-500">
+              <thead className="text-[#80786d]">
                 <tr>
                   <th className="pb-3">1P / 2P</th>
                   <th className="pb-3">招式</th>
@@ -90,14 +87,14 @@ export function GameDialogs({
                   { move: "heavy", key: "K", key2: "2" },
                   ...bindingList(f),
                 ].map((row, i) => (
-                  <tr key={i} className="border-t border-white/10">
-                    <td className="py-3 pr-3 font-mono text-pink-100">
+                  <tr key={i}>
+                    <td className="py-3 pr-3 font-mono text-[#8f354e]">
                       {row.key} / {row.key2}
                     </td>
                     <td className="py-3 pr-3">
                       {MOVES[row.move]?.name ?? row.move}
                     </td>
-                    <td className="py-3 text-slate-400">
+                    <td className="py-3 text-[#80786d]">
                       {MOVES[row.move]?.cost ?? 0}
                     </td>
                   </tr>
@@ -105,7 +102,7 @@ export function GameDialogs({
               </tbody>
             </table>
             {f.character === 6 && (
-              <p className="mt-3 text-xs leading-6 text-slate-400">
+              <p className="mt-3 text-xs leading-6 text-[#80786d]">
                 P：立即禁锢周身圆形区域内的敌人，腾空降下三轮音波。
                 范围330，合计48伤害，变身后57.6伤害。完整台词会继续播完。
               </p>
@@ -113,7 +110,7 @@ export function GameDialogs({
           </section>
         ))}
       </div>
-      <p className="mt-5 text-xs leading-6 text-slate-500">
+      <p className="mt-5 text-xs leading-6 text-[#80786d]">
         前后以角色面朝方向为准。后＋U快速发波，后＋I重型音波，后＋O抛射投掷；前＋O仍为近身投技。技能受能量、地空姿态、冷却与命中取消条件限制。联机双方均使用1P键位。
       </p>
     </Dialog>

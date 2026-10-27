@@ -25,7 +25,7 @@ export function RosterGrid({
 }) {
   return (
     <div
-      className="grid min-w-0 grid-cols-4 content-start gap-2 self-start sm:grid-cols-8 lg:grid-cols-5 xl:grid-cols-8"
+      className="grid min-w-0 grid-cols-4 content-start gap-1.5 self-start min-[600px]:grid-cols-8"
       aria-label="全部角色"
     >
       {ROSTER.map((character, id) => {
@@ -43,7 +43,7 @@ export function RosterGrid({
             onClick={() => onChoose(id)}
             aria-label={`${banned ? "已禁用" : "选择"}${character.name}`}
             aria-pressed={preview === id}
-            className={`group relative aspect-square min-w-0 touch-manipulation overflow-hidden rounded-lg border text-center transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "border-cyan-200 bg-cyan-200/10 ring-2 ring-cyan-200/40" : "border-white/15 bg-white/3 hover:border-white/50"}`}
+            className={`group relative h-[clamp(56px,8dvh,80px)] min-[600px]:h-[clamp(64px,11dvh,112px)] [@media(max-height:500px)]:h-14 min-w-0 touch-manipulation overflow-hidden rounded-none text-center text-white transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "bg-[#a44761]/10 shadow-[0_6px_20px_#a4476130] opacity-100" : "bg-[#30251a]/4 opacity-80 hover:opacity-100"}`}
           >
             <img
               src={
@@ -54,10 +54,10 @@ export function RosterGrid({
               className={`absolute inset-0 size-full object-cover object-center ${banned ? "grayscale" : ""}`}
             />
             <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-slate-950 via-slate-950/85 to-transparent px-1 pt-6 pb-1.5">
-              <span className="block truncate text-center text-[10px] font-medium sm:text-xs">
+              <span className="block truncate text-center text-[9px] font-bold sm:text-[11px]">
                 {character.name}
               </span>
-              <small className="block truncate text-center text-[8px] text-slate-400 sm:text-[9px]">
+              <small className="block truncate text-center text-[7px] text-slate-400 sm:text-[8px]">
                 {BAND_LABEL[character.band ?? "mygo"]}
               </small>
             </span>
@@ -70,7 +70,7 @@ export function RosterGrid({
                 {sides.map((side) => (
                   <span
                     key={side}
-                    className={`rounded px-1.5 py-0.5 text-[9px] font-bold text-slate-950 ${side === 0 ? "bg-pink-200" : "bg-cyan-200"}`}
+                    className={`rounded-none px-1.5 py-0.5 text-[9px] font-bold text-slate-950 ${side === 0 ? "bg-pink-200" : "bg-cyan-200"}`}
                   >
                     {side + 1}P
                   </span>

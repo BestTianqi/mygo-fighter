@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "MyGO!!!!! Fighter",
+  "short_name": "MyGO Fighter",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f0e5",
+  "theme_color": "#f5f0e5",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

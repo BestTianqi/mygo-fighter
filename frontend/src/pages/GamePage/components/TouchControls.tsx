@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { schemeFor } from "../../../game/controls";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
 import type { InputController } from "../functions/InputController";
+import { TouchStick } from "./TouchStick";
 
 function TouchKey({
   code,
@@ -23,7 +24,13 @@ function TouchKey({
     setPressed(false);
     input.release(code);
   };
-  useEffect(() => () => input.release(code), [input, code]);
+  useEffect(() => {
+    window.addEventListener("blur", release);
+    return () => {
+      window.removeEventListener("blur", release);
+      input.release(code);
+    };
+  }, [input, code]);
   return (
     <button
       type="button"
@@ -41,11 +48,14 @@ function TouchKey({
         if (pointers.current.size === 0) release();
       }}
       onPointerCancel={release}
-      onLostPointerCapture={release}
-      className={`flex touch-none items-center justify-center border font-semibold transition-colors select-none [-webkit-touch-callout:none] ${
+      onLostPointerCapture={(event) => {
+        pointers.current.delete(event.pointerId);
+        if (pointers.current.size === 0) release();
+      }}
+      className={`flex touch-none items-center justify-center font-semibold backdrop-blur-sm transition-colors select-none [-webkit-touch-callout:none] ${
         pressed
-          ? "border-pink-100 bg-pink-200 text-slate-950"
-          : "border-white/20 bg-slate-900/70 text-slate-100"
+          ? "bg-pink-200 text-slate-950"
+          : "bg-slate-900/50 text-slate-100"
       } ${className}`}
     >
       {children}
@@ -63,9 +73,9 @@ const actions: [string, string][] = [
   ["KeyL", "瞬移"],
 ];
 
-/** Big, translucent pads anchored to both thumbs. Keys stay square from 320px to tablets. */
+/** Square action pads stay reachable beside the thumb stick, from phones to tablets. */
 const key =
-  "size-[min(3.5rem,12.5vw)] landscape:size-[min(3.5rem,13.5vh)] rounded-2xl text-[11px] leading-tight";
+  "size-[clamp(44px,10.5vw,64px)] landscape:size-[clamp(44px,14dvh,64px)] rounded-none text-[10px] leading-tight shadow-lg";
 
 export function TouchControls({
   input,
@@ -84,41 +94,8 @@ export function TouchControls({
         role="group"
         aria-label="触屏操作"
       >
-        <div className="grid grid-cols-3 gap-1.5 max-[360px]:gap-1">
-          <TouchKey
-            code="KeyW"
-            label="跳跃"
-            input={input}
-            className={`${key} col-start-2 row-start-1 text-lg`}
-          >
-            ↑
-          </TouchKey>
-          <TouchKey
-            code="KeyA"
-            label="向左"
-            input={input}
-            className={`${key} col-start-1 row-start-2 text-lg`}
-          >
-            ←
-          </TouchKey>
-          <TouchKey
-            code="KeyS"
-            label="蹲下"
-            input={input}
-            className={`${key} col-start-2 row-start-2 text-lg`}
-          >
-            ↓
-          </TouchKey>
-          <TouchKey
-            code="KeyD"
-            label="向右"
-            input={input}
-            className={`${key} col-start-3 row-start-2 text-lg`}
-          >
-            →
-          </TouchKey>
-        </div>
-        <div className="grid grid-cols-4 gap-1.5 max-[360px]:gap-1">
+        <TouchStick input={input} />
+        <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
           {[
             ...actions,
             ...(schemeFor(fighter).transform
@@ -130,9 +107,9 @@ export function TouchControls({
               code={code}
               label={label}
               input={input}
-              className={`${key}${code === "KeyJ" ? " border-pink-200/70" : ""}`}
+              className={`${key} ${code === "KeyJ" ? "bg-pink-500/35" : code === "KeyP" ? "bg-amber-500/25 text-amber-100" : ""}`}
             >
-              {label}
+              {code === "KeyP" ? "✦ 大招" : label}
             </TouchKey>
           ))}
         </div>

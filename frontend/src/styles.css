@@ -2,12 +2,12 @@
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
     margin: 0;
     font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #080e1c;
+    background: #f5f0e5;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
@@ -21,6 +21,6 @@
     cursor: pointer;
   }
   input[type="checkbox"] {
-    accent-color: #fbcfe8;
+    accent-color: #a44761;
   }
 }

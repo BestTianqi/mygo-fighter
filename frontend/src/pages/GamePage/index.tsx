@@ -13,18 +13,27 @@ export function GamePage({ assets }: { assets: Assets }) {
   const mobile = useMobilePlay();
   const { runtime, view } = useGame(assets, canvas);
   useEffect(() => {
-    if (mobile && (view.screen === "menu" || view.screen === "selection"))
+    const theme = document.querySelector('meta[name="theme-color"]');
+    theme?.setAttribute(
+      "content",
+      view.screen === "battle" || view.screen === "loadingBattle"
+        ? "#080e1c"
+        : "#f5f0e5",
+    );
+  }, [view.screen]);
+  useEffect(() => {
+    if (view.screen === "menu" || view.screen === "selection")
       void exitImmersive();
   }, [mobile, view.screen]);
   return (
-    <main className="min-h-dvh bg-[#080e1c] text-slate-100">
+    <main className="min-h-dvh bg-[#f5f0e5] text-[#211f1a]">
       {view.screen === "menu" && (
         <MainMenu
           assets={assets}
           runtime={runtime}
           view={view}
           onResume={() => {
-            if (mobile) void enterImmersive();
+            void enterImmersive(mobile);
             runtime?.resume();
           }}
         />
@@ -34,7 +43,7 @@ export function GamePage({ assets }: { assets: Assets }) {
           assets={assets}
           config={view.config}
           onStart={(config) => {
-            if (mobile) void enterImmersive();
+            void enterImmersive(mobile);
             void runtime?.start(config);
           }}
           onBack={() => runtime?.back()}

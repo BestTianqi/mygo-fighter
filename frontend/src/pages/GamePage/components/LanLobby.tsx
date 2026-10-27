@@ -12,9 +12,10 @@ import { bandPortrait } from "../functions/bandArt";
 import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
 import { RosterGrid } from "./RosterGrid";
 import { SelectionLineups } from "./SelectionLineups";
+import { enterImmersive } from "../functions/immersive";
 
 const selectClass =
-  "min-h-11 touch-manipulation rounded-xl border border-white/15 bg-slate-900 px-3 py-2 text-sm text-slate-100";
+  "min-h-11 touch-manipulation rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a]";
 const orders = ["先锋", "中坚", "大将"];
 interface PendingCommand {
   baseline: RoomView | null;
@@ -187,13 +188,15 @@ export function LanLobby({
       title={room ? "联机选人" : "联机对战"}
       onClose={() => runtime.closeLobby()}
       wide={!!room}
+      viewport={!!room}
     >
       {!room ? (
         <div className="space-y-4">
-          <p className="mb-5 text-sm leading-6 text-slate-400">
+          <p className="mb-5 text-sm leading-6 text-[#80786d]">
             双方打开同一个游戏服务器地址。一人创建房间，另一人输入房间码。
           </p>
           <Button
+            tone="light"
             primary
             disabled={working}
             onClick={() => void run(() => runtime.lan.connect())}
@@ -224,156 +227,49 @@ export function LanLobby({
               maxLength={6}
               autoComplete="off"
               placeholder="六位房间码"
-              className="min-h-11 min-w-0 flex-1 rounded-xl border border-white/20 bg-slate-900 px-4 font-mono uppercase tracking-widest"
+              className="min-h-11 min-w-0 flex-1 rounded-none bg-[#30251a]/6 px-4 font-mono uppercase tracking-widest"
             />
-            <Button type="submit" disabled={code.length !== 6 || working}>
+            <Button
+              tone="light"
+              type="submit"
+              disabled={code.length !== 6 || working}
+            >
               加入房间
             </Button>
           </form>
         </div>
       ) : (
         <>
-          <header className="mb-5 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
-            <div>
-              <p className="text-[10px] tracking-[.25em] text-cyan-200">
-                ONLINE CHARACTER SELECT
-              </p>
-              <p className="mt-2 text-xs text-slate-400">
-                房间{" "}
-                <strong className="ml-1 font-mono text-lg tracking-[.18em] text-slate-100">
-                  {room.code}
-                </strong>
-                <span className="ml-3">
-                  你是 {side + 1}P{side === 0 ? " · 房主" : ""}
-                </span>
-              </p>
-            </div>
-            <label className="grid gap-1 text-xs text-slate-400">
-              对战模式 · 房主选择
-              <select
-                aria-label="联机对战模式"
-                className={selectClass}
-                disabled={side !== 0 || locked || ownReady}
-                value={draft ? "draft" : room.format}
-                onChange={(event) => {
-                  const draftMode = event.target.value === "draft";
-                  const format = draftMode
-                    ? "3v3"
-                    : (event.target.value as "1v1" | "3v3");
-                  void run(
-                    () =>
-                      new ChooseRoomMessage(
-                        runtime.lan.token,
-                        undefined,
-                        undefined,
-                        undefined,
-                        format,
-                        undefined,
-                        draftMode,
-                      ).send(),
-                    (current) =>
-                      current.format === format &&
-                      !!current.draft === draftMode,
-                  );
-                }}
-              >
-                <option value="1v1">1v1 对战</option>
-                <option value="3v3">3v3 车轮战</option>
-                <option value="draft">禁选 3v3 车轮战</option>
-              </select>
-            </label>
-          </header>
-          <SelectionLineups
-            assets={assets}
-            teams={room.players.map((player) =>
-              Array.from(
-                { length: teamSize },
-                (_, slot) => player?.team[slot] ?? null,
-              ),
-            )}
-            active={
-              draft
-                ? draft.phase === "pick" && draft.turn !== null
-                  ? [draft.turn, room.players[draft.turn]?.team.length ?? 0]
-                  : null
-                : [side, activeSlot]
-            }
-            labels={[
-              `1P${side === 0 ? " · 我" : ""}`,
-              `2P${side === 1 ? " · 我" : ""}`,
-            ]}
-            statuses={room.players.map((player) =>
-              !player
-                ? "等待加入"
-                : !player.connected
-                  ? "连接已断开"
-                  : (room.playing || room.preparing) && !player.loaded
-                    ? "正在加载角色"
-                    : player.ready
-                      ? "已准备"
-                      : "已连接",
-            )}
-            onSlot={(teamSide, slot) => {
-              if (room.players[teamSide]?.team[slot] !== undefined)
-                setPreview(room.players[teamSide]!.team[slot]);
-              if (teamSide === side && !draft) setActiveSlot(slot);
-            }}
-            isDisabled={(teamSide, slot) =>
-              locked ||
-              ownReady ||
-              !!draft ||
-              teamSide !== side ||
-              slot > team.length
-            }
-          />
-          {draft && (
-            <section
-              aria-label="禁选进度"
-              className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/3 p-3 sm:p-4"
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-[10px] tracking-widest text-slate-400">
-                  BAN / 先禁后选
-                </span>
-                {[0, 1].map((banSide) => {
-                  const id = draft.bans[banSide];
-                  return (
-                    <div
-                      key={banSide}
-                      className="flex items-center gap-2 text-xs"
-                    >
-                      <span
-                        className={
-                          banSide === 0 ? "text-pink-200" : "text-cyan-200"
-                        }
-                      >
-                        {banSide + 1}P
-                      </span>
-                      {id === undefined ? (
-                        <span className="grid size-9 place-items-center rounded-lg border border-dashed border-white/15 text-slate-500">
-                          —
-                        </span>
-                      ) : (
-                        <img
-                          src={
-                            bandPortrait(assets, id)?.face ??
-                            assets.characters[id].portrait
-                          }
-                          alt=""
-                          className="size-9 rounded-lg object-cover object-center grayscale"
-                        />
-                      )}
-                      <span className="text-[10px] text-slate-400">
-                        {id === undefined ? "待禁用" : ROSTER[id].name}
-                      </span>
-                    </div>
-                  );
-                })}
+          <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
+            <header className="mb-2 flex flex-wrap items-end justify-between gap-2  pb-2 pr-14">
+              <div>
+                <p className="text-[10px] tracking-[.25em] text-[#2a5f5a] [@media(max-height:500px)]:hidden">
+                  ONLINE CHARACTER SELECT
+                </p>
+                <p className="mt-2 text-xs text-[#80786d]">
+                  房间{" "}
+                  <strong className="ml-1 font-mono text-lg tracking-[.18em] text-[#211f1a]">
+                    {room.code}
+                  </strong>
+                  <span className="ml-3">
+                    你是 {side + 1}P{side === 0 ? " · 房主" : ""}
+                  </span>
+                </p>
               </div>
-              {side === 0 && (
-                <Button
-                  disabled={locked}
-                  onClick={() =>
+              <label className="grid gap-1 text-xs text-[#80786d]">
+                <span className="[@media(max-height:500px)]:hidden">
+                  对战模式 · 房主选择
+                </span>
+                <select
+                  aria-label="联机对战模式"
+                  className={selectClass}
+                  disabled={side !== 0 || locked || ownReady}
+                  value={draft ? "draft" : room.format}
+                  onChange={(event) => {
+                    const draftMode = event.target.value === "draft";
+                    const format = draftMode
+                      ? "3v3"
+                      : (event.target.value as "1v1" | "3v3");
                     void run(
                       () =>
                         new ChooseRoomMessage(
@@ -381,186 +277,298 @@ export function LanLobby({
                           undefined,
                           undefined,
                           undefined,
-                          "3v3",
+                          format,
                           undefined,
-                          true,
+                          draftMode,
                         ).send(),
                       (current) =>
-                        current.draft?.phase === "ban" &&
-                        current.draft.bans.length === 0 &&
-                        current.players.every(
-                          (player) => !player || player.team.length === 0,
-                        ),
-                    )
-                  }
-                  className="text-xs"
+                        current.format === format &&
+                        !!current.draft === draftMode,
+                    );
+                  }}
                 >
-                  重新禁选
-                </Button>
-              )}
-            </section>
-          )}
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <p
-              role="status"
-              aria-live="polite"
-              className={`text-xs ${draft?.turn === 1 ? "text-cyan-200" : "text-pink-200"}`}
-            >
-              {selectionStatus}
-            </p>
-            <span className="text-[10px] text-slate-500">
-              {draft?.phase === "ban"
-                ? `${draft.bans.length} / 2 已禁用`
-                : `${picked.length} / ${teamSize * 2} 已出战`}
-            </span>
-          </div>
-          <div className="grid min-w-0 gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
-            <CharacterPortraitPreview
-              key={preview}
-              assets={assets}
-              character={preview}
-            >
-              {draft && (
-                <>
-                  <p className="mb-2 text-[10px] text-slate-400">
-                    {candidate === null
-                      ? "点击角色头像后确认"
-                      : `已选中 ${ROSTER[candidate].name}`}
-                  </p>
-                  <Button
-                    primary
-                    className="w-full px-2 text-xs"
-                    disabled={
-                      candidate === null ||
-                      !myTurn ||
-                      locked ||
-                      !bothConnected ||
-                      draft.bans.includes(candidate) ||
-                      picked.includes(candidate)
-                    }
-                    onClick={submitDraft}
-                  >
-                    {draft.phase === "complete"
-                      ? "阵容已就绪"
-                      : draft.phase === "ban"
-                        ? "确认禁用"
-                        : "确认出战"}
-                  </Button>
-                </>
-              )}
-            </CharacterPortraitPreview>
-            <RosterGrid
-              assets={assets}
-              preview={preview}
-              onPreview={(id) => {
-                if (candidate === null) setPreview(id);
-              }}
-              teams={room.players.map((player) => player?.team ?? [])}
-              bans={draft?.bans}
-              disabled={
-                locked || ownReady || (!!draft && (!myTurn || !bothConnected))
-              }
-              isDisabled={(id) =>
-                draft
-                  ? picked.includes(id)
-                  : team.some(
-                      (pick, slot) => pick === id && slot !== activeSlot,
-                    )
-              }
-              onChoose={(id) => {
-                setPreview(id);
-                if (draft) setCandidate(id);
-                else chooseTeam(id);
-              }}
-            />
-          </div>
-          <section
-            className="mt-6 min-w-0 rounded-2xl border border-white/10 bg-white/3 p-4"
-            aria-label="场地与规则"
-          >
-            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-[10px] text-slate-400">场地 · 房主选择</p>
-                <h3 className="mt-1 text-sm font-semibold">
-                  {stage.name}
-                  <small className="ml-2 text-[10px] font-normal text-slate-400">
-                    {stage.layout}
-                  </small>
-                </h3>
+                  <option value="1v1">1v1 对战</option>
+                  <option value="3v3">3v3 车轮战</option>
+                  <option value="draft">禁选 3v3 车轮战</option>
+                </select>
+              </label>
+            </header>
+            <div className="grid min-w-0 gap-3 sm:grid-cols-[minmax(140px,20%)_minmax(0,1fr)] [@media(max-height:500px)]:grid-cols-1">
+              <div className="hidden sm:block [@media(max-height:500px)]:hidden">
+                <CharacterPortraitPreview
+                  key={preview}
+                  assets={assets}
+                  character={preview}
+                  compact
+                />
               </div>
-              <div className="flex flex-wrap gap-4 text-xs">
-                <label className="flex min-h-8 items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={room.terrain}
+              <div className="min-w-0">
+                <SelectionLineups
+                  assets={assets}
+                  teams={room.players.map((player) =>
+                    Array.from(
+                      { length: teamSize },
+                      (_, slot) => player?.team[slot] ?? null,
+                    ),
+                  )}
+                  active={
+                    draft
+                      ? draft.phase === "pick" && draft.turn !== null
+                        ? [
+                            draft.turn,
+                            room.players[draft.turn]?.team.length ?? 0,
+                          ]
+                        : null
+                      : [side, activeSlot]
+                  }
+                  labels={[
+                    `1P${side === 0 ? " · 我" : ""}`,
+                    `2P${side === 1 ? " · 我" : ""}`,
+                  ]}
+                  statuses={room.players.map((player) =>
+                    !player
+                      ? "等待加入"
+                      : !player.connected
+                        ? "连接已断开"
+                        : (room.playing || room.preparing) && !player.loaded
+                          ? "正在加载角色"
+                          : player.ready
+                            ? "已准备"
+                            : "已连接",
+                  )}
+                  onSlot={(teamSide, slot) => {
+                    if (room.players[teamSide]?.team[slot] !== undefined)
+                      setPreview(room.players[teamSide]!.team[slot]);
+                    if (teamSide === side && !draft) setActiveSlot(slot);
+                  }}
+                  isDisabled={(teamSide, slot) =>
+                    locked ||
+                    ownReady ||
+                    !!draft ||
+                    teamSide !== side ||
+                    slot > team.length
+                  }
+                />
+                {draft && (
+                  <section
+                    aria-label="禁选进度"
+                    className="mb-2 flex flex-wrap items-center justify-between gap-3 rounded-none bg-[#30251a]/4 p-2 [@media(max-height:500px)]:hidden"
+                  >
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="text-[10px] tracking-widest text-[#80786d]">
+                        BAN / 先禁后选
+                      </span>
+                      {[0, 1].map((banSide) => {
+                        const id = draft.bans[banSide];
+                        return (
+                          <div
+                            key={banSide}
+                            className="flex items-center gap-2 text-xs"
+                          >
+                            <span
+                              className={
+                                banSide === 0
+                                  ? "text-[#8f354e]"
+                                  : "text-[#2a5f5a]"
+                              }
+                            >
+                              {banSide + 1}P
+                            </span>
+                            {id === undefined ? (
+                              <span className="grid size-9 place-items-center rounded-none bg-[#30251a]/5 text-[#80786d]">
+                                —
+                              </span>
+                            ) : (
+                              <img
+                                src={
+                                  bandPortrait(assets, id)?.face ??
+                                  assets.characters[id].portrait
+                                }
+                                alt=""
+                                className="size-9 rounded-none object-cover object-center grayscale"
+                              />
+                            )}
+                            <span className="text-[10px] text-[#80786d]">
+                              {id === undefined ? "待禁用" : ROSTER[id].name}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {side === 0 && (
+                      <Button
+                        tone="light"
+                        disabled={locked}
+                        onClick={() =>
+                          void run(
+                            () =>
+                              new ChooseRoomMessage(
+                                runtime.lan.token,
+                                undefined,
+                                undefined,
+                                undefined,
+                                "3v3",
+                                undefined,
+                                true,
+                              ).send(),
+                            (current) =>
+                              current.draft?.phase === "ban" &&
+                              current.draft.bans.length === 0 &&
+                              current.players.every(
+                                (player) => !player || player.team.length === 0,
+                              ),
+                          )
+                        }
+                        className="text-xs"
+                      >
+                        重新禁选
+                      </Button>
+                    )}
+                  </section>
+                )}
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <p
+                    role="status"
+                    aria-live="polite"
+                    className={`text-xs ${draft?.turn === 1 ? "text-[#2a5f5a]" : "text-[#8f354e]"}`}
+                  >
+                    {selectionStatus}
+                  </p>
+                  <span className="text-[10px] text-[#80786d]">
+                    {draft?.phase === "ban"
+                      ? `${draft.bans.length} / 2 已禁用`
+                      : `${picked.length} / ${teamSize * 2} 已出战`}
+                  </span>
+                </div>
+                <RosterGrid
+                  assets={assets}
+                  preview={preview}
+                  onPreview={(id) => {
+                    if (candidate === null) setPreview(id);
+                  }}
+                  teams={room.players.map((player) => player?.team ?? [])}
+                  bans={draft?.bans}
+                  disabled={
+                    locked ||
+                    ownReady ||
+                    (!!draft && (!myTurn || !bothConnected))
+                  }
+                  isDisabled={(id) =>
+                    draft
+                      ? picked.includes(id)
+                      : team.some(
+                          (pick, slot) => pick === id && slot !== activeSlot,
+                        )
+                  }
+                  onChoose={(id) => {
+                    setPreview(id);
+                    if (draft) setCandidate(id);
+                    else chooseTeam(id);
+                  }}
+                />
+              </div>
+            </div>
+            <section className="mt-3 min-w-0 pt-2" aria-label="场地与规则">
+              <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p className="text-[10px] text-[#80786d]">场地 · 房主选择</p>
+                  <h3 className="mt-1 text-sm font-semibold">
+                    {stage.name}
+                    <small className="ml-2 text-[10px] font-normal text-[#80786d]">
+                      {stage.layout}
+                    </small>
+                  </h3>
+                </div>
+                <div className="flex flex-wrap gap-4 text-xs">
+                  <label className="flex min-h-8 items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={room.terrain}
+                      disabled={side !== 0 || locked || ownReady}
+                      onChange={(event) => {
+                        const terrain = event.target.checked;
+                        void run(
+                          () =>
+                            new ChooseRoomMessage(
+                              runtime.lan.token,
+                              undefined,
+                              undefined,
+                              terrain,
+                            ).send(),
+                          (current) => current.terrain === terrain,
+                        );
+                      }}
+                    />
+                    分层地形
+                  </label>
+                  <label className="flex min-h-8 items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={view.sound}
+                      onChange={(event) =>
+                        runtime.setSound(event.target.checked)
+                      }
+                    />
+                    音效与语音
+                  </label>
+                </div>
+              </div>
+              <div className="flex min-w-0 gap-2 overflow-x-auto pb-2">
+                {assets.stages.map((scene, arena) => (
+                  <button
+                    key={scene.id}
+                    type="button"
                     disabled={side !== 0 || locked || ownReady}
-                    onChange={(event) => {
-                      const terrain = event.target.checked;
+                    onClick={() =>
                       void run(
                         () =>
                           new ChooseRoomMessage(
                             runtime.lan.token,
                             undefined,
-                            undefined,
-                            terrain,
+                            arena,
                           ).send(),
-                        (current) => current.terrain === terrain,
-                      );
-                    }}
-                  />
-                  分层地形
-                </label>
-                <label className="flex min-h-8 items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={view.sound}
-                    onChange={(event) => runtime.setSound(event.target.checked)}
-                  />
-                  音效与语音
-                </label>
+                        (current) => current.arena === arena,
+                      )
+                    }
+                    aria-pressed={room.arena === arena}
+                    className={`w-24 shrink-0 touch-manipulation overflow-hidden rounded-none text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200 ${room.arena === arena ? "bg-white/70 shadow-lg shadow-[#946b2a]/10" : "bg-[#30251a]/4 opacity-65 hover:opacity-100"}`}
+                  >
+                    <img
+                      src={scene.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="h-9 w-full object-cover"
+                    />
+                    <span className="block truncate px-2 py-1 text-[9px]">
+                      {scene.name}
+                    </span>
+                  </button>
+                ))}
               </div>
-            </div>
-            <div className="flex min-w-0 gap-2 overflow-x-auto pb-2">
-              {assets.stages.map((scene, arena) => (
-                <button
-                  key={scene.id}
-                  type="button"
-                  disabled={side !== 0 || locked || ownReady}
-                  onClick={() =>
-                    void run(
-                      () =>
-                        new ChooseRoomMessage(
-                          runtime.lan.token,
-                          undefined,
-                          arena,
-                        ).send(),
-                      (current) => current.arena === arena,
-                    )
-                  }
-                  aria-pressed={room.arena === arena}
-                  className={`w-32 shrink-0 touch-manipulation overflow-hidden rounded-xl border text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200 ${room.arena === arena ? "border-pink-200" : "border-white/10"}`}
-                >
-                  <img
-                    src={scene.thumbnail}
-                    alt=""
-                    loading="lazy"
-                    className="aspect-video w-full object-cover"
-                  />
-                  <span className="block truncate p-2 text-[10px]">
-                    {scene.name}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
-          <footer className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            </section>
+          </div>
+          <footer className="flex shrink-0 flex-wrap items-center justify-between gap-2 pt-3 pb-[env(safe-area-inset-bottom)]">
+            {draft && draft.phase !== "complete" && (
+              <Button
+                tone="light"
+                primary
+                onClick={submitDraft}
+                disabled={
+                  candidate === null || !myTurn || locked || !bothConnected
+                }
+              >
+                {draft.phase === "ban" ? "确认禁用" : "确认出战"}
+              </Button>
+            )}
             <Button
+              tone="light"
               disabled={busy}
               onClick={() => void run(() => runtime.lan.leave())}
             >
               离开房间
             </Button>
             <Button
+              tone="light"
               primary
               disabled={
                 locked ||
@@ -569,13 +577,17 @@ export function LanLobby({
                     !allTeamsComplete ||
                     (!!draft && draft.phase !== "complete")))
               }
-              onClick={() =>
+              onClick={() => {
+                if (!ownReady)
+                  void enterImmersive(
+                    window.matchMedia("(pointer: coarse)").matches,
+                  );
                 void run(
                   () =>
                     new ReadyRoomMessage(runtime.lan.token, !ownReady).send(),
                   (current) => current.players[side]?.ready === !ownReady,
-                )
-              }
+                );
+              }}
               className="min-w-36"
             >
               {room.preparing || status === "preparing"
@@ -592,11 +604,11 @@ export function LanLobby({
         </>
       )}
       {(error || view.error) && (
-        <p role="alert" className="mt-4 text-sm text-pink-200">
+        <p role="alert" className="mt-4 text-sm text-[#8f354e]">
           {error || view.error}
         </p>
       )}
-      <p role="status" className="mt-5 text-xs text-slate-500">
+      <p role="status" className="mt-2 shrink-0 text-[10px] text-[#80786d]">
         {status === "preparing"
           ? "正在预载双方角色，完成后同时开战…"
           : status === "reconnecting"

@@ -1,46 +1,60 @@
-/** Fullscreen and landscape locking are best-effort browser features. */
-
+/** Browser fullscreen requires a player gesture; unsupported browsers keep the viewport layout. */
 interface OrientationLock {
   lock?: (orientation: "landscape") => Promise<void>;
   unlock?: () => void;
 }
-
-function orientationLock(): OrientationLock | null {
-  return typeof screen === "undefined"
-    ? null
-    : ((screen.orientation as unknown as OrientationLock | undefined) ?? null);
+interface WebkitDocument extends Document {
+  webkitFullscreenElement?: Element;
+  webkitFullscreenEnabled?: boolean;
+  webkitExitFullscreen?: () => Promise<void> | void;
 }
-
-/**
- * Enter fullscreen and request landscape for the whole page. Unsupported
- * browsers (notably iPhone Safari) keep operating in the browser viewport.
- */
-export async function enterImmersive() {
+interface WebkitElement extends HTMLElement {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+}
+function orientationLock() {
+  return screen.orientation as unknown as OrientationLock | undefined;
+}
+export function isImmersive() {
+  return !!(
+    document.fullscreenElement ||
+    (document as WebkitDocument).webkitFullscreenElement
+  );
+}
+export function canEnterImmersive() {
+  return !!(
+    (document.fullscreenEnabled &&
+      document.documentElement.requestFullscreen) ||
+    ((document as WebkitDocument).webkitFullscreenEnabled !== false &&
+      (document.documentElement as WebkitElement).webkitRequestFullscreen)
+  );
+}
+export async function enterImmersive(
+  landscape = window.matchMedia("(pointer: coarse)").matches,
+) {
   try {
-    if (!document.fullscreenElement)
-      await document.documentElement.requestFullscreen({
-        navigationUI: "hide",
-      });
+    if (!isImmersive()) {
+      const element = document.documentElement as WebkitElement;
+      if (element.requestFullscreen)
+        await element.requestFullscreen({ navigationUI: "hide" });
+      else if (element.webkitRequestFullscreen)
+        await element.webkitRequestFullscreen();
+      else return;
+    }
+    if (landscape) await orientationLock()?.lock?.("landscape");
   } catch {
-    return;
-  }
-  try {
-    await orientationLock()?.lock?.("landscape");
-  } catch {
-    // Desktop browsers and Safari cannot lock orientation.
+    // Fullscreen or orientation can be denied; the arena still fills the browser viewport.
   }
 }
-
-/** Leave fullscreen and release a landscape lock requested by this page. */
 export async function exitImmersive() {
   try {
     orientationLock()?.unlock?.();
   } catch {
-    // Orientation locking is unavailable on most browsers.
+    /* Unsupported orientation API. */
   }
   try {
     if (document.fullscreenElement) await document.exitFullscreen();
+    else await (document as WebkitDocument).webkitExitFullscreen?.();
   } catch {
-    // The page may already have left fullscreen.
+    /* The browser may have already exited. */
   }
 }

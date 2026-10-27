@@ -11,9 +11,15 @@ import type { GameView } from "../objects/GameView";
 import { bandPortrait } from "../functions/bandArt";
 import { Button } from "../../../components/ui/Button";
 import { schemeFor } from "../../../game/controls";
-import { enterImmersive, exitImmersive } from "../functions/immersive";
+import {
+  enterImmersive,
+  exitImmersive,
+  isImmersive,
+} from "../functions/immersive";
 import { TouchControls } from "./TouchControls";
 import { FinishOverlay } from "./FinishOverlay";
+import { BattleConnection } from "./BattleConnection";
+import { MobileDisplayHint } from "./MobileDisplayHint";
 
 function UltimateBackgroundVideo({
   media,
@@ -64,14 +70,12 @@ function isWaitingForPlayers(view: GameView) {
 function PauseOverlay({
   view,
   runtime,
-  mobile,
   fullField,
   onToggleFull,
   className,
 }: {
   view: GameView;
   runtime: GameRuntime | null;
-  mobile: boolean;
   fullField: boolean;
   onToggleFull?: () => void;
   className: string;
@@ -112,7 +116,7 @@ function PauseOverlay({
           >
             {view.paused ? "继续对战" : "原阵容再战"}
           </Button>
-          {mobile && view.paused && (
+          {view.paused && (
             <Button
               disabled={
                 !!view.network.room &&
@@ -136,7 +140,7 @@ function PauseOverlay({
             重新选人
           </Button>
           <Button onClick={() => runtime?.back()}>主菜单</Button>
-          {mobile && view.paused && (
+          {view.paused && (
             <>
               <Button
                 disabled={!runtime}
@@ -159,7 +163,7 @@ function PauseOverlay({
               </Button>
             </>
           )}
-          {mobile && onToggleFull && (
+          {onToggleFull && (
             <Button onClick={onToggleFull}>
               {fullField ? "退出全屏" : "全屏"}
             </Button>
@@ -187,7 +191,7 @@ function BarButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-xl border border-white/15 bg-white/5 text-sm font-semibold text-slate-100 select-none active:bg-white/20 disabled:opacity-35"
+      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-none bg-white/8 backdrop-blur-sm text-sm font-semibold text-slate-100 select-none active:bg-white/20 disabled:opacity-35"
     >
       {children}
     </button>
@@ -212,7 +216,7 @@ function FieldButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-full border border-white/25 bg-slate-950/70 text-sm font-semibold text-slate-100 shadow-lg select-none active:bg-white/20 disabled:opacity-35"
+      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-none bg-slate-950/55 backdrop-blur-md text-sm font-semibold text-slate-100 shadow-lg select-none active:bg-white/20 disabled:opacity-35"
     >
       {children}
     </button>
@@ -245,7 +249,7 @@ function MobileBattleBar({
         <BarButton label="返回主菜单" onClick={() => runtime?.back()}>
           ←
         </BarButton>
-        <span className="hidden truncate text-[10px] tracking-widest text-slate-400 landscape:inline">
+        <span className="truncate text-[10px] tracking-widest text-slate-400 landscape:inline">
           {status}
         </span>
       </div>
@@ -311,13 +315,33 @@ export function BattlePanel({
   );
   const waitingForPlayers = isWaitingForPlayers(view);
   /** Full-field mode removes the in-app toolbar so the arena uses the whole viewport. */
-  const [fullField, setFullField] = useState(mobile);
+  const [fullField, setFullField] = useState(true);
   const lastScreen = useRef(view.screen);
   useEffect(() => {
-    if (mobile && view.screen === "battle" && lastScreen.current !== "battle")
+    if (view.screen === "battle" && lastScreen.current !== "battle")
       setFullField(true);
     lastScreen.current = view.screen;
   }, [mobile, view.screen]);
+  useEffect(() => {
+    const sync = () => {
+      if (!isImmersive()) setFullField(false);
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && view.screen === "battle") {
+        setFullField(false);
+        void exitImmersive();
+      }
+    };
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+    window.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("fullscreenchange", sync);
+      document.removeEventListener("webkitfullscreenchange", sync);
+      window.removeEventListener("keydown", escape);
+    };
+  }, [view.screen]);
+  const immersive = mobile || fullField;
   const toggleFullField = () => {
     const enabled = !fullField;
     setFullField(enabled);
@@ -328,13 +352,13 @@ export function BattlePanel({
     <section
       hidden={view.screen !== "battle"}
       className={
-        mobile
+        immersive
           ? "fixed inset-0 z-30 flex h-dvh touch-none flex-col overflow-hidden bg-[#080e1c] text-slate-100 select-none"
-          : "mx-auto flex min-h-dvh max-w-[1440px] flex-col px-2 py-3 sm:px-6 sm:py-6"
+          : "mx-auto flex min-h-dvh max-w-[1440px] flex-col bg-[#080e1c] text-slate-100 px-2 py-3 sm:px-6 sm:py-6"
       }
       aria-label="对战舞台"
     >
-      {mobile ? (
+      {immersive ? (
         fullField ? null : (
           <MobileBattleBar
             assets={assets}
@@ -382,7 +406,7 @@ export function BattlePanel({
           {view.network.status === "error" && view.network.error && (
             <p
               role="alert"
-              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-xl bg-slate-950/90 px-3 py-2 text-center text-xs text-pink-200"
+              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-none bg-slate-950/90 px-3 py-2 text-center text-xs text-pink-200"
             >
               {view.network.error}
             </p>
@@ -390,7 +414,7 @@ export function BattlePanel({
           {view.connectionStalled && (
             <p
               role="status"
-              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-xl bg-slate-950/90 px-3 py-2 text-center text-xs text-amber-200"
+              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-none bg-slate-950/90 px-3 py-2 text-center text-xs text-amber-200"
             >
               网络更新延迟，正在等待同步…
             </p>
@@ -398,7 +422,7 @@ export function BattlePanel({
           {view.error && (
             <p
               role="alert"
-              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-xl bg-slate-950/90 px-3 py-2 text-center text-xs text-pink-200"
+              className="pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 rounded-none bg-slate-950/90 px-3 py-2 text-center text-xs text-pink-200"
             >
               {view.error}
             </p>
@@ -407,16 +431,16 @@ export function BattlePanel({
       )}
       <div
         className={
-          mobile
+          immersive
             ? "relative flex min-h-0 flex-1 items-center justify-center [container-type:size]"
             : undefined
         }
       >
         <div
           className={
-            mobile
+            immersive
               ? "relative aspect-video w-[min(100cqw,calc(100cqh*16/9))] overflow-hidden bg-slate-950"
-              : "relative overflow-hidden rounded-xl border border-white/15 bg-slate-950 sm:rounded-3xl"
+              : "relative overflow-hidden rounded-none bg-slate-950 shadow-2xl"
           }
         >
           {videos.length > 0 && (
@@ -445,7 +469,9 @@ export function BattlePanel({
           />
           <div
             className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid grid-cols-[1fr_auto_1fr] items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
-              mobile ? "p-2 pb-8" : "p-3 pb-12 sm:gap-6 sm:p-6 sm:pb-16"
+              mobile
+                ? "px-2 pt-6 pb-8"
+                : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
             }`}
           >
             {view.fighters[0] && (
@@ -475,14 +501,14 @@ export function BattlePanel({
                 assets={assets}
                 mobile={mobile}
                 inset={
-                  mobile && fullField
-                    ? "landscape:pr-[calc(env(safe-area-inset-right)+6.5rem)]"
+                  fullField
+                    ? "pr-[calc(env(safe-area-inset-right)+6.5rem)]"
                     : ""
                 }
               />
             )}
           </div>
-          {!mobile && (
+          {!immersive && (
             <>
               <FinishOverlay
                 view={view}
@@ -492,7 +518,6 @@ export function BattlePanel({
               <PauseOverlay
                 view={view}
                 runtime={runtime}
-                mobile={false}
                 fullField={false}
                 className="absolute inset-0 z-30"
               />
@@ -500,7 +525,7 @@ export function BattlePanel({
           )}
         </div>
       </div>
-      {mobile && fullField && (
+      {fullField && (
         <div
           role="group"
           aria-label="全屏快捷操作"
@@ -518,7 +543,7 @@ export function BattlePanel({
           </FieldButton>
         </div>
       )}
-      {!mobile && (
+      {!immersive && (
         <>
           <nav
             className="mt-4 flex flex-wrap items-center justify-center gap-2"
@@ -550,15 +575,7 @@ export function BattlePanel({
             >
               {view.sound ? "音效开" : "音效关"}
             </Button>
-            <Button
-              onClick={() => {
-                const element = canvas.current?.parentElement;
-                if (document.fullscreenElement) void document.exitFullscreen();
-                else void element?.requestFullscreen();
-              }}
-            >
-              全屏
-            </Button>
+            <Button onClick={toggleFullField}>全屏</Button>
           </nav>
           <p className="mt-3 text-center text-[10px] text-slate-500">
             {view.lastMove ||
@@ -571,15 +588,24 @@ export function BattlePanel({
           )}
         </>
       )}
+      {immersive && <BattleConnection view={view} />}
+      {fullField && !mobile && (
+        <p className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-[10px] tracking-widest text-slate-400">
+          ESC 退出全屏 · 右上角暂停设置
+        </p>
+      )}
+      {mobile && view.screen === "battle" && <MobileDisplayHint />}
       {mobile && (
-        <>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-slate-950/85 via-slate-950/35 to-transparent pt-14">
-            <div className="pointer-events-auto pl-[max(0.25rem,env(safe-area-inset-left))] pr-[max(0.25rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
-              {runtime && (
-                <TouchControls input={runtime.input} fighter={localIdentity} />
-              )}
-            </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-slate-950/85 via-slate-950/35 to-transparent pt-14">
+          <div className="pointer-events-auto pl-[max(0.25rem,env(safe-area-inset-left))] pr-[max(0.25rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
+            {runtime && (
+              <TouchControls input={runtime.input} fighter={localIdentity} />
+            )}
           </div>
+        </div>
+      )}
+      {immersive && (
+        <>
           <FinishOverlay
             view={view}
             assets={assets}
@@ -588,7 +614,6 @@ export function BattlePanel({
           <PauseOverlay
             view={view}
             runtime={runtime}
-            mobile
             fullField={fullField}
             onToggleFull={toggleFullField}
             className="fixed inset-0 z-50"
@@ -625,7 +650,7 @@ function FighterHUD({
               assets.characters[fighter.character].portrait
             }
             alt=""
-            className="hidden size-9 rounded-lg border border-white/20 object-cover object-top sm:block"
+            className="hidden size-9 rounded-none object-cover object-top sm:block"
           />
         )}
         <div>
@@ -640,8 +665,12 @@ function FighterHUD({
           <p
             className={`text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
           >
-            {side === 0 ? "1P" : view.config?.mode === "duel" ? "2P" : "CPU"} ·{" "}
-            {fighter.hp} HP {fighter.beats > 0 && `· ${fighter.beats} 拍`}
+            {side === 0
+              ? "1P"
+              : view.network.room || view.config?.mode === "duel"
+                ? "2P"
+                : "CPU"}{" "}
+            · {fighter.hp} HP {fighter.beats > 0 && `· ${fighter.beats} 拍`}
           </p>
         </div>
       </div>
@@ -651,7 +680,7 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={200}
         aria-valuenow={fighter.hp}
-        className={`h-2.5 overflow-hidden rounded-sm bg-slate-700 ${mobile ? "" : "sm:h-4"}`}
+        className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "" : "sm:h-4"}`}
       >
         <div
           className={`h-full transition-[width] duration-75 ${side ? "ml-auto bg-cyan-200" : "bg-pink-200"}`}
@@ -666,7 +695,7 @@ function FighterHUD({
         aria-valuenow={fighter.energy}
         className={`mt-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
       >
-        <div className="h-1 flex-1 overflow-hidden rounded-sm bg-slate-700">
+        <div className="h-1 flex-1 overflow-hidden rounded-none bg-slate-700">
           <div
             className={`h-full ${side ? "ml-auto bg-cyan-100" : "bg-pink-100"}`}
             style={{ width: `${fighter.energy}%` }}
