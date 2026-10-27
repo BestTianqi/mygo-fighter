@@ -109,10 +109,17 @@ export function step(match: Match, p1: Input, p2: Input): void {
     x?: number;
     y?: number;
   }[] = [];
+  const releaseBuffs: { side: number; ratio: number; duration: number }[] = [];
   for (let side = 0; side < 2; side++) {
     const f = match.fighters[side],
       other = match.fighters[1 - side],
       move = MOVES[f.attack ?? ""];
+    if (
+      move?.lifestealBuff &&
+      f.attackMs >= move.start &&
+      f.attackMs < move.start + 10
+    )
+      releaseBuffs.push({ side, ...move.lifestealBuff });
     // Birth is observed after both inputs resolve, so simultaneous H casts trade.
     const transform = bandFor(f.character).transform;
     if (transform && f.stageForm?.ms === transform.duration) {
@@ -381,6 +388,19 @@ export function step(match: Match, p1: Input, p2: Input): void {
   }
   for (const hit of hits)
     match.hit(hit.side, hit.attack, hit.x!, hit.y!, hit.impact);
+  // Grant after the opening strike, even on a whiff. Recasts refresh the
+  // duration rather than stacking rates; a defeated caster cannot gain it.
+  for (const buff of releaseBuffs) {
+    const f = match.fighters[buff.side];
+    if (f.hp <= 0) continue;
+    f.lifesteal = { ratio: buff.ratio, ms: buff.duration };
+    match.events.push({
+      type: "lifestealStart",
+      side: buff.side,
+      amount: buff.ratio * 100,
+      duration: buff.duration,
+    });
+  }
   match.updateSummons();
   match.updateAreas();
   match.updateWaves();

@@ -2178,6 +2178,26 @@
             "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
             "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
           }
+        },
+        "mujica_8_stage_blood_fist": {
+          "voice": "mortisBloodFist",
+          "label": "我的拳头想喝血了",
+          "slot": "o",
+          "audio": "assets/meme-media/mortis-blood-fist/mortis-blood-fist.mp3",
+          "duration": 2.55,
+          "source": {
+            "url": "https://www.bilibili.com/video/BV1Nxt96AERy/",
+            "uploader": "雨霖下雨了",
+            "bvid": "BV1Nxt96AERy",
+            "cid": 41562540544,
+            "page": 1,
+            "title": "注意，你才是挑战者",
+            "start": 4.55,
+            "end": 7.1,
+            "proof": "User-selected Chinese meme dub over a CG punching character. Visible subtitles at5–7s and small-model Chinese word timestamps verify this phrase; ASR's 唇都 is corrected to 拳头 using the visible subtitle. This is the requested meme recording, not claimed to be an original anime or voice-actor performance. The exported4.55–7.1s segment contains the complete attention cue and sentence, ending before the next attention cue. No new voice synthesis or speed change is applied.",
+            "catalog": "assets/meme-media/mortis-blood-fist/sources.json"
+          },
+          "subtitle_zh": "注意，我的拳头想喝血了。"
         }
       }
     },
@@ -3822,6 +3842,7 @@
     "assets/meme-media/ritsu-story/sources.json",
     "assets/meme-media/miyako-story/sources.json",
     "assets/meme-media/miyako-yokan/sources.json",
+    "assets/meme-media/mortis-blood-fist/sources.json",
     "assets/meme-media/rana-story/sources.json",
     "assets/meme-media/taki-story/sources.json"
   ],

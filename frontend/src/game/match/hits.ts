@@ -1,4 +1,11 @@
-import { FEEL, MOVES, ROSTER, verticalScale, WORLD } from "../combatData";
+import {
+  FEEL,
+  MAX_HEALTH,
+  MOVES,
+  ROSTER,
+  verticalScale,
+  WORLD,
+} from "../combatData";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
 import type { Move } from "../objects/Move";
@@ -167,6 +174,16 @@ export function hit(
     match.options.mode === "practice" && side === 0 ? 1 : 0,
     Math.round((b.hp - damage) * 10) / 10,
   );
+  if (a.lifesteal && a.hp > 0 && previousHp > b.hp) {
+    // Use HP actually removed after guards, shields, reductions and overkill.
+    const previousSourceHp = a.hp;
+    a.hp = Math.min(
+      MAX_HEALTH,
+      Math.round((a.hp + (previousHp - b.hp) * a.lifesteal.ratio) * 10) / 10,
+    );
+    const amount = Math.round((a.hp - previousSourceHp) * 10) / 10;
+    if (amount > 0) match.events.push({ type: "heal", side, attack, amount });
+  }
   if (previousHp > 0 && b.hp <= 0) {
     b.defeatedBy =
       move.category === "super"
@@ -266,6 +283,7 @@ export function hit(
     }
   }
   if (b.hp <= 0) {
+    b.lifesteal = null;
     b.soyoSuper = null;
     b.hardStun = 0;
   }

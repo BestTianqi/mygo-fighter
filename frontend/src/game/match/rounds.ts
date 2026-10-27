@@ -13,6 +13,7 @@ export function resetRound(match: Match): void {
     pushVx: 0,
     facing: side ? -1 : 1,
     hp: MAX_HEALTH,
+    lifesteal: null,
     // New reserves receive entry energy; start(carry) restores the survivor's resources.
     energy: match.isTeamBattle && match.teamIndices[side] > 0 ? 30 : 0,
     attack: null,
@@ -162,6 +163,7 @@ export function endRound(match: Match): void {
   match.phaseMs = ROUND_END_TIMING.total;
   match.release();
   match.fighters.forEach((f) => {
+    f.lifesteal = null;
     f.summons = null;
     f.soyoSuper = null;
     f.hardStun = 0;

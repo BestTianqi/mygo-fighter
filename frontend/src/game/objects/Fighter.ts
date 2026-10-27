@@ -9,6 +9,7 @@ export interface Fighter {
   pushVx: number;
   facing: number;
   hp: number;
+  lifesteal: { ratio: number; ms: number } | null;
   defeatedBy?: Finisher;
   energy: number;
   attack: string | null;

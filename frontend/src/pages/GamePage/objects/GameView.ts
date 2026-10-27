@@ -5,6 +5,7 @@ import type { RoundEnd } from "../../../game/objects/RoundEnd";
 export interface FighterView {
   character: number;
   hp: number;
+  lifesteal: { ratio: number; ms: number } | null;
   energy: number;
   combo: number;
   beats: number;

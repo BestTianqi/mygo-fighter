@@ -93,6 +93,13 @@ export function GameDialogs({
                     </td>
                     <td className="py-3 pr-3">
                       {MOVES[row.move]?.name ?? row.move}
+                      {MOVES[row.move]?.lifestealBuff && (
+                        <span className="mt-1 block text-[10px] text-[#8f354e]">
+                          出拳后吸血{" "}
+                          {MOVES[row.move].lifestealBuff!.ratio * 100}% ·{" "}
+                          {MOVES[row.move].lifestealBuff!.duration / 1000}秒
+                        </span>
+                      )}
                     </td>
                     <td className="py-3 text-[#80786d]">
                       {MOVES[row.move]?.cost ?? 0}

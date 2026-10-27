@@ -1,6 +1,7 @@
 import { bandFor } from "../../../../../game/bands";
 import { MOVES, ROSTER } from "../../../../../game/engine";
 import { drawBurger } from "../drawBurger";
+import { drawBloodFist, drawLifestealAura } from "../drawBloodFist";
 import { drawMiyakoArea } from "../drawMiyakoSkills";
 import { drawNyamuSkill } from "../drawNyamuSkills";
 import { drawUikaArea, drawUikaSkill } from "../drawUikaSkills";
@@ -86,8 +87,19 @@ export function drawMujicaEffects(scene: BattleSceneContext) {
   }
   for (const f of scene.match.fighters) {
     if (bandFor(f.character).id === "mygo") continue;
+    if (f.lifesteal)
+      drawLifestealAura(
+        scene.ctx,
+        f,
+        scene.state.visualTime,
+        scene.reducedMotion,
+      );
     const profile = ROSTER[f.character],
       move = MOVES[f.attack ?? ""];
+    if (move?.mortis === "bloodFist" && !f.stun) {
+      drawBloodFist(scene.ctx, f, move, scene.reducedMotion);
+      continue;
+    }
     if (move?.sakiko === "ascension") {
       drawSakikoSuper(scene.ctx, f, move, scene.reducedMotion);
       continue;

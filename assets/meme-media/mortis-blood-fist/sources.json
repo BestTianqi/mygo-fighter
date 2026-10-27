@@ -1,0 +1,25 @@
+{
+  "clips": [
+    {
+      "character": "mutsumi",
+      "form": "stage",
+      "slot": "o",
+      "move": "mujica_8_stage_blood_fist",
+      "voice": "mortisBloodFist",
+      "label": "我的拳头想喝血了",
+      "audio": "mortis-blood-fist.mp3",
+      "sourceURL": "https://www.bilibili.com/video/BV1Nxt96AERy/",
+      "bvid": "BV1Nxt96AERy",
+      "cid": 41562540544,
+      "title": "注意，你才是挑战者",
+      "uploader": "雨霖下雨了",
+      "start": 4.55,
+      "end": 7.1,
+      "spokenChinese": "注意，我的拳头想喝血了。",
+      "subtitle_zh": "注意，我的拳头想喝血了。",
+      "speakerVerification": "User-selected Chinese meme dub over a CG punching character. Visible subtitles at5–7s and small-model Chinese word timestamps verify this phrase; ASR's 唇都 is corrected to 拳头 using the visible subtitle. This is the requested meme recording, not claimed to be an original anime or voice-actor performance. The exported4.55–7.1s segment contains the complete attention cue and sentence, ending before the next attention cue. No new voice synthesis or speed change is applied.",
+      "processing": "Original speed; mono MP3 64kbps,44100Hz, -18LUFS normalization,8ms/20ms boundary fades.",
+      "sha256": "25feb0b7afa62fda8770a48df397a891378baa9108cb58358af2b7b6f6fa6650"
+    }
+  ]
+}

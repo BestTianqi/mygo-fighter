@@ -63,6 +63,7 @@ export interface Move {
   durability?: number;
   soyoOnly?: boolean;
   healing?: number;
+  lifestealBuff?: { ratio: number; duration: number };
   recast?: number;
   callGap?: number;
   minion?: boolean;

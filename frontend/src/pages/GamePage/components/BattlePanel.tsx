@@ -657,6 +657,15 @@ function FighterHUD({
             {fighter.transformed && (
               <span className="ml-1 text-pink-200">✦</span>
             )}
+            {fighter.lifesteal && (
+              <span
+                aria-label="吸血效果"
+                className="ml-2 text-[9px] font-normal text-rose-200 sm:text-xs"
+              >
+                吸血 {Math.round(fighter.lifesteal.ratio * 100)}% ·{" "}
+                {Math.ceil(fighter.lifesteal.ms / 1000)}秒
+              </span>
+            )}
           </p>
           <p
             className={`text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}

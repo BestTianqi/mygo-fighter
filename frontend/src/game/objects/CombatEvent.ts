@@ -17,6 +17,7 @@ export type CombatEventType =
   | "heal"
   | "hit"
   | "landing"
+  | "lifestealStart"
   | "memePulse"
   | "minionCall"
   | "minionHit"

@@ -320,6 +320,26 @@ export function registerSkillMoves(MOVES: Record<string, Move>): void {
     end: 210,
     recast: 1400,
   });
+  add(8, "stage", "blood_fist", "我的拳头想喝血了", {
+    slot: "o",
+    command: "↓＋O",
+    visualSlot: "heavy",
+    mortis: "bloodFist",
+    cost: 60,
+    damage: 20,
+    movement: 120,
+    movementEnd: 180,
+    reach: 240,
+    vertical: 280,
+    duration: 760,
+    start: 220,
+    end: 300,
+    stun: 400,
+    push: 190,
+    hitstop: 90,
+    recast: 3000,
+    lifestealBuff: { ratio: 0.4, duration: 10000 },
+  });
   add(9, "normal", "u", "补光闪拍", { reach: 200, vertical: 180 });
   add(9, "normal", "i", "流量冲刺", {
     movement: 200,

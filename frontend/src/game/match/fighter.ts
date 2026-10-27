@@ -8,6 +8,10 @@ import { integrateMovement, updateMovement } from "./movement";
 export function updateFighter(match: Match, side: number, input: Input): void {
   const f = match.fighters[side],
     other = match.fighters[1 - side];
+  if (f.lifesteal) {
+    f.lifesteal.ms -= 10;
+    if (f.lifesteal.ms <= 0) f.lifesteal = null;
+  }
   if (f.penguin) {
     f.penguin.ms -= 10;
     if (f.penguin.ms <= 0) match.endPenguin(side);

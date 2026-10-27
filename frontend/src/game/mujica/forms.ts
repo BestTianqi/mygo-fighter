@@ -22,6 +22,7 @@ const schemeFor = (f: FighterIdentity): Scheme =>
                 ? {
                     down1: "mujica_8_stage_toddler",
                     down2: "mujica_8_stage_burger",
+                    down3: "mujica_8_stage_blood_fist",
                   }
                 : f.character === 9 && formFor(f) === "stage"
                   ? { down1: "mujica_9_stage_smile" }

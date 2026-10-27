@@ -166,6 +166,13 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
     burst(event.type === "penguinStart" ? "凑企鹅！" : "恢复原形", "#fff0c6");
   if (event.type === "heal")
     burst("+" + event.amount + " 生命", "#aeefcf", 160, 950);
+  if (event.type === "lifestealStart")
+    burst(
+      `吸血 ${event.amount}% · ${(event.duration ?? 0) / 1000}秒`,
+      "#ff9ba9",
+      180,
+      1000,
+    );
   if (event.type === "summon") burst("小天素罗 ×3", "#ffe0a0", 120);
   if (event.type === "minionCall")
     add(scene, {

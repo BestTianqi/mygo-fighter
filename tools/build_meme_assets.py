@@ -212,6 +212,9 @@ def build_catalog():
         ('mujica_9_stage_smile_counter', 'i', '完美笑容·营业反击·反击'),
     ]:
         profiles['9']['variants'][move] = dict(profiles['9']['slots'][slot], label=label)
+    blood_fist_catalog = MEDIA / 'mortis-blood-fist/sources.json'
+    for row in read_json(blood_fist_catalog)['clips']:
+        profiles['8']['variants'][row['move']] = normalize_clip(row, blood_fist_catalog, 8, row['slot'], row['voice'])
     for profile in profiles.values():
         for clip in [*profile['slots'].values(), *profile['variants'].values()]:
             if clip['slot'] == 'p':
@@ -244,6 +247,7 @@ def build_catalog():
     catalog['sourceCatalogs'].append(ritsu_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(miyako_catalog.relative_to(ROOT).as_posix())
     catalog['sourceCatalogs'].append(yokan_catalog.relative_to(ROOT).as_posix())
+    catalog['sourceCatalogs'].append(blood_fist_catalog.relative_to(ROOT).as_posix())
     rana_catalog = MEDIA / 'rana-story/sources.json'
     for row in read_json(rana_catalog)['clips']:
         clip = normalize_clip(row, rana_catalog, 3, row['slot'], row['voice'])
