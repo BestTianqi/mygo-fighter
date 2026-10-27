@@ -20,7 +20,18 @@ lazy val root = (project in file("."))
     },
     scalacOptions ++= Seq("-Wunused:imports", "-Werror"),
     Compile / run / fork := true,
-    Compile / run / javaOptions ++= Seq("-Xms256m", "-Xmx2g", "-Dpolyglot.engine.WarnInterpreterOnly=false"),
+    Compile / run / javaOptions ++= {
+      // Graal extracts truffleattach here. Some Windows profiles deny writes to
+      // LocalAppData; use the same writable project output area as the launcher.
+      val resourceCache = (baseDirectory.value / ".." / "output" / "polyglot-cache").getCanonicalFile
+      IO.createDirectory(resourceCache)
+      Seq(
+        "-Xms256m",
+        "-Xmx2g",
+        "-Dpolyglot.engine.WarnInterpreterOnly=false",
+        s"-Dpolyglot.engine.userResourceCache=${resourceCache.getAbsolutePath}"
+      )
+    },
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-effect" % "3.6.3",
       "org.http4s" %% "http4s-ember-server" % "0.23.32",

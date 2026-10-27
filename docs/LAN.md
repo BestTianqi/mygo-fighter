@@ -15,6 +15,10 @@
 
 TCP WebSockets can still delay later messages when a network packet is lost. Actual LAN latency depends on Wi-Fi contention, the host, device rendering and browser scheduling.
 
+## Local runtime cache
+
+`npm start`, `npm run lan` and `sbt run` use the writable project directory `output/polyglot-cache/` for Graal's extracted native resources. This fixes Windows profiles where creating `%LOCALAPPDATA%/org.graalvm.polyglot` is denied and the runtime misleadingly reports a missing `truffleattach` resource. The cache is generated, ignored by Git and recreated when needed. Restart the local backend after updating. Do not suppress the warning with `polyglotimpl.AttachLibraryFailureAction=ignore`; it hides the failed resource extraction. The existing public-service cache settings in [WAN.md](WAN.md) remain separate. A successful extraction alone does not establish that the JVM provides an optimizing JavaScript compiler.
+
 ## HTTP operations
 
 Public callers and Scala messages share these derived names:
