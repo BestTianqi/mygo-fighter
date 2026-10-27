@@ -1,96 +1,96 @@
-# 工作约定
+# Working Conventions
 
-- 修改前先同步远端：获取 `origin/main`，查看新增提交，再合入当前分支；保留用户和其他贡献者的工作。
-- 修改完成后先检查和验证，再提交、推送，并确认本地与远端同步。推送前若远端又有新提交，先合入并复验。不要使用强制推送或丢弃未提交改动。
-- 保留 React / TypeScript 前端、Scala 联机后端和共享 TypeScript 战斗内核的现有架构。
-- 保留原版人物、动作、地图、特效和音视频。`assets/` 是素材源，`frontend/public/` 是运行素材；清理前检查引用。生成输出和测试截图放在已忽略的输出目录。
-- 基础检查使用 `npm run check`、`npm run build`；涉及网页发布时另用 `npm run build:pages`，并在浏览器中检查项目子路径。临时校验脚本和截图放在已忽略的 `output/` 下；不恢复已移除的测试目录。
+- Before making changes, sync with the remote first: fetch `origin/main`, review new commits, then merge into the current branch; preserve the work of users and other contributors.
+- After changes are complete, check and verify first, then commit, push, and confirm local and remote are in sync. If there are new commits on the remote before pushing, merge them first and re-verify. Do not use force push or discard uncommitted changes.
+- Preserve the existing architecture of the React / TypeScript frontend, the Scala online backend, and the shared TypeScript combat kernel.
+- Preserve the original characters, actions, maps, effects, and audio/video. `assets/` is the source material, and `frontend/public/` is the runtime material; check references before cleaning up. Generated output and test screenshots go in the ignored output directory.
+- Basic checks use `npm run check` and `npm run build`; when web publishing is involved, additionally use `npm run build:pages` and check the project subpath in the browser. Temporary verification scripts and screenshots go under the ignored `output/`; do not restore removed test directories.
 
-## 开发要求
+## Development Requirements
 
-遵守以下约定：
+Follow these conventions:
 
-1. 跨服务的公开 API 和公开 Table 方法都是允许的调用边界。表的维护归属、内部 SQL、私有辅助实现、身份信任边界及事务要求仍应明确。
+1. Public APIs and public Table methods across services are permitted call boundaries. Table maintenance ownership, internal SQL, private helper implementations, identity trust boundaries, and transaction requirements must still be clear.
 
-2. 后端每个微服务应集中放在 services/ 下的一个文件夹。每个服务应拥有明确的业务领域，代码应清楚表明 API、对象、路由、表和内部实现归哪个模块负责。
+2. Each backend microservice should be centralized in a folder under services/. Each service should own a clear business domain, and the code should clearly indicate which module owns the API, objects, routes, tables, and internal implementations.
 
-3. 服务文件夹尽量只包含 api/、objects/、routes/、tables/、utils/。如需增加其他目录，例如存放脚本的目录，应说明原因。逻辑复杂时，可以在 api/、objects/、tables/、utils/ 下继续创建子路径分类。
+3. Service folders should contain only api/, objects/, routes/, tables/, and utils/ as much as possible. If other directories need to be added, such as a directory for scripts, the reason should be explained. When logic is complex, subpaths can be further created under api/, objects/, tables/, and utils/.
 
-4. 共享基础设施也应在 services/ 下有明确归属，可以集中到独立的系统模块，例如 services/system/。数据库连接设置、服务器配置、系统默认值、事务／会话基础工具、应用启动和共享路由机制应与业务职责分开。系统模块需要额外目录时，同样应说明理由。
+4. Shared infrastructure should also have a clear home under services/, and can be centralized into an independent system module, such as services/system/. Database connection setup, server configuration, system defaults, transaction/session foundational utilities, application startup, and shared routing mechanisms should be separated from business responsibilities. If the system module needs additional directories, the reason should likewise be explained.
 
-5.服务归属规定的是维护责任与内部实现边界。所有后端 API 都可以调用任意服务公开且封装好的 Table 方法；SQL 和私有辅助实现仍由所属模块管理。
-services/
-service-a/
-api/
-objects/
-routes/
-tables/
-utils/
-service-b/
-api/
-objects/
-routes/
-tables/
-utils/
+5. Service ownership defines maintenance responsibility and internal implementation boundaries. All backend APIs may call any service's public and well-encapsulated Table methods; SQL and private helper implementations are still managed by the owning module.
+   services/
+   service-a/
+   api/
+   objects/
+   routes/
+   tables/
+   utils/
+   service-b/
+   api/
+   objects/
+   routes/
+   tables/
+   utils/
 
-上述目录按实际需要使用；services/system/ 是共享基础设施归属的示例名称。
+The above directories are used as actually needed; services/system/ is an example name for shared infrastructure ownership.
 
-6.服务可以公开 API 消息和封装好的表方法。公开的 Table def 应能被整个后端的 API 调用。
+6. Services may expose API messages and encapsulated table methods. Public Table defs should be callable by APIs throughout the backend.
 
-7.表方法应封装 SQL、参数绑定、执行过程和行映射，提供含义明确的方法名、类型清楚的输入以及 IO[T] 返回值。调用方通过这些方法完成表操作，不应取得 SQL 值后自行执行，也不应借助任意 SQL 入参绕过封装。
+7. Table methods should encapsulate SQL, parameter binding, execution, and row mapping, providing clearly meaningful method names, clearly typed inputs, and IO[T] return values. Callers complete table operations through these methods and should not obtain SQL values and execute them themselves, nor bypass encapsulation via arbitrary SQL parameters.
 
-8. SQL 值、行映射辅助实现和其他内部细节应使用适当的私有可见性。每个服务的 utils 工具函数均应采用 private[service名称] def，仅供本服务使用。
+8. SQL values, row mapping helpers, and other internal details should use appropriate private visibility. Each service's utils utility functions should all use private[service name] def and be for use only within that service.
 
    private val findByIdSql = "..."
    def findById(connection: Connection, id: TextbookId): IO[Option[Textbook]] = ...
 
-   // 服务内部工具函数的可见性示例：
+   // Example visibility for service-internal utility functions:
    private[books] def buildSummary(...): ... = ...
 
-9. 一个后端 API 的执行逻辑可以调用：
-- 整个后端中任意 API 消息的 plan。
-- 整个后端中任意服务的 Table 所公开的、非 SQL 值的表方法。
-- 当前服务 utils 中的工具函数。
+9. The execution logic of a backend API may call:
+- The plan of any API message throughout the backend.
+- Public, non-SQL-value table methods exposed by any service's Table throughout the backend.
+- Utility functions in the current service's utils.
 
-10. 调用 API 时，先以构造参数形成消息实例，再调用 plan(connection)。调用表方法时，使用该表提供的 def；不要求为了跨服务访问，再套一层只做转发的 API 或 Service。
+10. When calling an API, first form a message instance with constructor parameters, then call plan(connection). When calling a table method, use the def provided by that table; it is not required to wrap another forwarding-only API or Service for cross-service access.
 
-    // 调用其他 API：
-    XXXMessage(入参1, 入参2, ...).plan(connection)
+    // Calling another API:
+    XXXMessage(input1, input2, ...).plan(connection)
 
-    // 调用任意服务已封装的表方法：
+    // Calling any service's encapsulated table method:
     TextbookTable.findById(connection, id)
 
-    允许的结构：
-    service-b API -> service-a API 消息的 plan
-    service-b API -> service-a Table 的公开方法
+    Permitted structures:
+    service-b API -> plan of service-a API message
+    service-b API -> public method of service-a Table
 
-跨服务调用不改变表的维护归属，也不开放对方服务的私有 utils、SQL 值或其他未公开实现。
+Cross-service calls do not change table maintenance ownership, nor do they open the other service's private utils, SQL values, or other unpublished implementations.
 
-11. 明确权限与身份逻辑的归属
-    用户／账户服务负责定义和维护角色、权限、登录状态、会话及令牌解析等规则。其他服务需要“用户是否有效”“是否拥有管理员权限”“令牌对应哪个可信用户 ID”等结论时，可以调用相应 API。
+11. Clearly define ownership of permission and identity logic
+    The user/account service is responsible for defining and maintaining rules for roles, permissions, login state, sessions, and token parsing. When other services need conclusions such as "is the user valid," "does the user have administrator privileges," or "which trusted user ID does the token correspond to," they may call the corresponding API.
 
-其他服务也允许调用用户表、会话表等已封装的公开 Table 方法取得所需数据，并使用公开的角色或身份类型。允许表调用不代表这些数据自动满足授权条件，调用方仍应按明确的业务权限规则处理。
+Other services are also allowed to call encapsulated public Table methods such as user tables and session tables to obtain the required data, and to use public role or identity types. Allowing table calls does not mean this data automatically satisfies authorization conditions; callers must still handle it according to explicit business permission rules.
 
-12. 将 utils 限制在所属服务内，并按复用与可读性提取
-    utils/ 放仅供当前服务内部使用的工具函数，每个工具函数应采用 private[service名称] def 的形式。
+12. Restrict utils to the owning service, and extract them based on reuse and readability
+    utils/ holds utility functions for internal use only within the current service, and each utility function should take the form private[service name] def.
 
-通常在以下两种情况下提取工具函数：
-- 同一段逻辑出现在多个 API 或工具函数中，需要复用。
-- 一个 API 的 plan 过长，需要拆成多个函数以改善可读性。
+Utility functions are usually extracted in the following two cases:
+- The same piece of logic appears in multiple APIs or utility functions and needs reuse.
+- An API's plan is too long and needs to be split into multiple functions to improve readability.
 
-如果其他服务需要这段业务能力，应提供可调用的 API 消息；如果需要的是持久化操作，可以提供封装好的公开 Table 方法。不要将服务内部辅助对象改造成能绕过封装的全局工具。
+If other services need this business capability, a callable API message should be provided; if what is needed is a persistence operation, an encapsulated public Table method can be provided. Do not turn service-internal helper objects into global utilities that bypass encapsulation.
 
-提取辅助函数后，API 文件仍应清楚展示主要业务步骤和重要副作用。
+After extracting helper functions, the API file should still clearly show the main business steps and important side effects.
 
-13. 保持 objects 层纯粹、精简，并统一数据结构模板
+13. Keep the objects layer pure, concise, and use a unified data structure template
 
-objects/ 存放前后端可以使用的数据结构、枚举、领域值类型及序列化逻辑。它应易于浏览，避免无必要地增加类型，不应成为业务逻辑堆积的位置。
+objects/ stores data structures, enums, domain value types, and serialization logic that can be used by both frontend and backend. It should be easy to browse, avoid adding unnecessary types, and should not become a place where business logic accumulates.
 
-其中不应包含无关业务行为、随机 ID 生成、数据库访问、服务调用、权限检查、有状态工作流，或本应属于其他层的映射逻辑。
+It should not contain unrelated business behavior, random ID generation, database access, service calls, permission checks, stateful workflows, or mapping logic that should belong to other layers.
 
-除非确实属于序列化或值本身的定义，否则应避免在领域对象中加入 random()、fromStored()、fromDatabaseRow() 和 toDatabaseRow() 等方法。
+Unless it truly belongs to serialization or the definition of the value itself, avoid adding methods such as random(), fromStored(), fromDatabaseRow(), and toDatabaseRow() to domain objects.
 
-14. 数据结构使用 final case class，在同名伴生对象中提供派生的 Encoder 和 Decoder。
+14. Data structures use final case class, with derived Encoder and Decoder in the companion object of the same name.
 
     final case class UserProfile(
     id: UserId,
@@ -104,13 +104,12 @@ objects/ 存放前后端可以使用的数据结构、枚举、领域值类型�
     given Decoder[UserProfile] = deriveDecoder[UserProfile]
 
 
-15. 每个对象使用一个文件
+15. One file per object
+    Avoid large aggregate model files containing many unrelated types. When Models.scala or DomainObjects.scala simultaneously contains IDs, records, enums, request types, response types, and helper utilities, it quickly becomes difficult to inspect.
 
-避免使用包含许多无关类型的大型聚合模型文件。当 Models.scala 或 DomainObjects.scala 同时包含 ID、记录、枚举、请求类型、响应类型和辅助工具时，很快就会变得难以检查。
+Each meaningful domain object should have its own file. If a type has a companion object, keep the type and its companion object in the same file. This makes navigation, review, and refactoring easier.
 
-每个有明确意义的领域对象都应有自己的文件。如果某个类型有伴生对象，应将该类型及其伴生对象保留在同一文件中。这样更便于导航、审查和重构代码。
-
-    优先采用：
+    Prefer:
       objects/
         UserId.scala
         UserProfile.scala
@@ -118,25 +117,24 @@ objects/ 存放前后端可以使用的数据结构、枚举、领域值类型�
         BookId.scala
         BookRecord.scala
 
-    而不是：
+    Rather than:
       objects/
         Models.scala
 
 
-16. 将导入放在文件顶部
+16. Put imports at the top of the file
+    As much as possible, place import statements at the top of the file. This makes dependencies clear at a glance and keeps files visually consistent.
 
-应尽可能将 import 语句放在文件顶部。这样可以让依赖关系一目了然，并保持文件在视觉上的一致性。
+17. Keep enum serialization simple and make input handling explicit
 
-17. 保持枚举序列化简单，并明确输入处理
+For enums, use a simple, consistent serialization interface. If the API representation and the database representation are the same, one toString and one fromString are enough.
 
-对于枚举，采用简单、一致的序列化接口。如果 API 表示与数据库表示相同，一个 toString 和一个 fromString 就足够。
+Unless the various representations are truly different, do not introduce unnecessary parallel naming systems such as toApi, fromApi, toDatabase, fromDatabase, and fromStock.
 
-除非各种表示确实不同，否则不要引入 toApi、fromApi、toDatabase、fromDatabase 和 fromStock 之类不必要的并行命名体系。
+18. Put enum conversion and codecs in the companion object
+    Enum instances mainly carry data. Put string conversion methods and Encoder/Decoder in the companion object, avoiding unnecessary methods on each enum member.
 
-18. 将枚举转换与编解码器放在伴生对象中
-    枚举实例主要承载数据。字符串转换方法和 Encoder/Decoder 放在伴生对象中，避免在每个枚举成员上增加不必要的方法。
-
-编码器复用 toString，解码器复用 fromString，统一字符串表示、输入规范化和非法值处理。
+Encoders reuse toString, and decoders reuse fromString, unifying string representation, input normalization, and invalid-value handling.
 
     enum UserRole:
       case Admin
@@ -161,25 +159,25 @@ objects/ 存放前后端可以使用的数据结构、枚举、领域值类型�
     UserRole.fromString(raw)
 
 
-19. 有意识地使用类型完整覆盖有限状态
+19. Consciously use types to fully cover finite states
 
-当某个概念只有固定的一组可能状态时，应使用明确的类型结构表示，而不是使用宽泛的字符串或取值不受限制的值。
+When a concept has only a fixed set of possible states, represent it with an explicit type structure rather than a broad string or an unconstrained value.
 
-例如：用户角色、图书库存状态、借阅记录状态、API 消息类别、前端加载状态以及权限状态。
+For example: user roles, book inventory status, borrow record status, API message categories, frontend loading states, and permission states.
 
-应根据情况使用枚举、密封特征（sealed trait）、可辨识联合类型、字面量联合类型或等价的类型结构。处理这些状态的代码应使遗漏分支难以被忽视。
+Depending on the situation, use enums, sealed traits, discriminated unions, literal union types, or equivalent type structures. Code handling these states should make missing branches hard to overlook.
 
-编写 switch、match 或其他分支逻辑时，应使新增状态所产生的未处理情况在实现过程中显现出来。不要无谓地引入复杂的类型机制；但如果领域显然只有一组封闭的可能取值，就应在类型系统中保留这种封闭性。
+When writing switch, match, or other branching logic, make unhandled cases arising from newly added states apparent during implementation. Do not introduce complex type mechanisms unnecessarily; but if the domain clearly has only a closed set of possible values, preserve that closedness in the type system.
 
     type BorrowStatus = "borrowed" | "returned" | "overdue"
 
-    // 这比允许任意字符串更好。
+    // This is better than allowing arbitrary strings.
 
-20. 每个 API 使用独立、可执行的消息类
+20. Each API uses an independent, executable message class
 
-每个 API 操作放在自己的文件中，作为业务行为的主要可执行单元。api/ 中包含供其他后端模块或前端使用的接口，名称以 Message 结尾。
+Each API operation is placed in its own file as the primary executable unit of business behavior. api/ contains interfaces for use by other backend modules or the frontend, with names ending in Message.
 
-API 使用 final case class 定义，输入放在构造参数中，继承只有返回类型参数的 APIMessage[Response]，通过 plan(connection: Connection): IO[Response] 执行。
+APIs are defined using final case class, with inputs in the constructor parameters, extending APIMessage[Response], which has only a return type parameter, and executed via plan(connection: Connection): IO[Response].
 
     final case class SomeActionMessage(
       userId: UserId,
@@ -188,104 +186,98 @@ API 使用 final case class 定义，输入放在构造参数中，继承只有�
       override def plan(connection: Connection): IO[SomeResponse] =
         ...
 
-每个文件应清楚说明输入字段、返回结果、业务操作，以及使用的表方法或其他 API。读者打开一个文件，就应能理解该操作，而不必穿过多个仅做转发的薄层。
+Each file should clearly state the input fields, return result, business operation, and the table methods or other APIs used. Opening a single file should allow the reader to understand the operation without traversing multiple forwarding-only thin layers.
 
 
-21. 使用 plan 作为唯一必要的公共执行入口
+21. Use plan as the only necessary public execution entry point
 
-每个 API 消息应提供明确的 plan(connection: Connection): IO[Response] 方法。业务输入已经包含在消息实例中，执行时传入连接。
+Each API message should provide an explicit plan(connection: Connection): IO[Response] method. Business inputs are already contained in the message instance; execution passes in the connection.
 
     SomeActionMessage(userId, itemId).plan(connection)
 
-如果 plan 已经代表公共执行入口，就不要为了调用它再增加 execute 等方法。只有当额外方法落实真实边界或执行必要共享机制时，才有引入的理由。
+If plan already represents the public execution entry point, do not add methods such as execute just to call it. Introduce additional methods only when they implement a real boundary or necessary shared mechanism.
 
+22. Explicitly compose API side effects
 
-22. 显式组合 API 的副作用
-
-API plan 统一返回 IO[Response]。数据库访问、校验、权限检查和业务操作应在 IO 中组合，不要将带有副作用的行为隐藏在看起来像纯函数的辅助工具中。
+API plans uniformly return IO[Response]. Database access, validation, permission checks, and business operations should be composed within IO; do not hide side-effecting behavior inside helper utilities that look like pure functions.
 
     def plan(connection: Connection): IO[Response]
 
-对其他消息 plan 和公开 Table 方法的调用，也应作为当前操作的可见步骤组合，保持业务顺序、错误处理及事务预期清晰。
+Calls to other message plans and public Table methods should also be composed as visible steps of the current operation, keeping business order, error handling, and transaction expectations clear.
 
+23. Avoid service layers that only forward calls
 
-23. 避免只负责转发调用的服务层
+In the API message architecture, avoid creating a service layer that merely forwards API messages to the table layer.
 
-在 API 消息架构中，应避免创建一个仅将 API 消息转发到表层的服务层。
+A service layer is valuable only when it truly centralizes reusable domain logic and does not weaken service boundaries. If API messages are designed as the basic unit of business behavior, a forwarding layer is usually redundant.
 
-只有当服务层确实能够集中可复用的领域逻辑，并且不会削弱服务边界时，它才有价值。如果 API 消息被设计为业务行为的基本单元，转发层通常就是多余的。
-
-    避免：
+    Avoid:
       APIMessage -> Service -> Table
 
-    在适当情况下，优先采用：
+    Where appropriate, prefer:
       APIMessage -> Table
 
 
-24. 分离传输类型与领域对象，并统一 API 返回结果
+24. Separate transport types from domain objects, and unify API return results
 
-主 objects/ 放核心领域类型，API 专用的传输结构放在 objects/apiTypes/。领域对象表示系统概念，传输类型表示跨越特定 API 边界的数据形态。
+The main objects/ holds core domain types, and API-specific transport structures go in objects/apiTypes/. Domain objects represent system concepts, while transport types represent data shapes crossing specific API boundaries.
 
-每个 API 只有一个返回结果；如果需要同时返回多个结果字段，应将这些字段组织为一个响应数据结构，放在 objects/apiTypes/ 下，并以该类型作为 APIMessage[Response] 的返回类型参数。
+Each API has only one return result; if multiple result fields need to be returned together, organize these fields into a response data structure under objects/apiTypes/ and use that type as the return type parameter of APIMessage[Response].
 
     objects/
       apiTypes/
         CreateThingResponse.scala
 
 
-25. 避免无意义的空请求类
+25. Avoid meaningless empty request classes
 
-不要仅为满足泛型抽象而创建空请求类。API 没有业务请求输入时，直接使用无请求消息表达该操作，不要额外定义空的 GetCurrentUserRequest、LogoutRequest 或 RequireAdminRequest 充当输入。
+Do not create empty request classes solely to satisfy generic abstractions. When an API has no business request input, express the operation directly with a no-request message; do not additionally define empty GetCurrentUserRequest, LogoutRequest, or RequireAdminRequest as input.
 
-无参数但包含 plan 行为的消息类，是一个可执行操作；仅为凑输入而创建的空请求包装类则没有必要。
+A message class with no parameters but containing plan behavior is an executable operation; an empty request wrapper class created only to fill in an input is unnecessary.
 
+26. Directly support no-request APIs under the unified message model
 
-26. 在统一消息模型下直接支持无请求 API
-
-没有业务请求输入的操作使用 NoRequestMessage[Response]。该抽象遵循 APIMessage[Response] 的单一返回类型模型，执行入口同样是 plan(connection)，不再引入请求类型参数。
+Operations with no business request input use NoRequestMessage[Response]. This abstraction follows the single-return-type model of APIMessage[Response], and the execution entry point is likewise plan(connection), with no request type parameter introduced.
 
     final case class ListPublicItemsMessage() extends NoRequestMessage[List[Item]]:
       override def plan(connection: Connection): IO[List[Item]] =
         ...
 
+27. Model according to real dependencies; do not inject context into every API by default
 
-27. 按真实依赖建模，不默认向每个 API 注入上下文
-
-API 的业务输入由消息构造参数表达，plan 默认只接收 connection。
+API business inputs are expressed by message constructor parameters, and plan by default receives only connection.
 
     final case class SomeActionMessage(itemId: ItemId) extends APIMessage[SomeResponse]:
       override def plan(connection: Connection): IO[SomeResponse] =
         ...
 
-不要强制每个消息或 plan 都带上通用 Context、planContext、请求元数据或认证元数据。需要额外信息时，按实际依赖显式表达；不需要时，不应为了统一外观而添加参数或字段。
+Do not force every message or plan to carry a generic Context, planContext, request metadata, or authentication metadata. When additional information is needed, express it explicitly according to actual dependencies; when not needed, do not add parameters or fields for uniform appearance.
 
+28. Convert external tokens to trusted internal identity at the router boundary
 
-28. 在路由器边界将外部令牌转换为可信内部身份
+Identity provided by the frontend should not directly become the identity trusted by the backend. If the frontend sends a token, the router should complete token validation and parsing through the API or encapsulated table methods provided by the user/account service, obtaining a trusted userId before constructing the business message and executing plan.
 
-前端提供的身份不应直接成为后端信任的身份。如果前端发送令牌，路由器应通过用户／账户服务提供的 API 或封装好的表方法完成令牌校验与解析，在构造业务消息并执行 plan 之前得到可信 userId。
+Backend business messages should receive trusted identity data, not unverified claims from the frontend. A userId self-reported by the frontend must not be treated as verified identity.
 
-后端业务消息应接收可信身份数据，而不是前端未经验证的声明。不能将前端自报的 userId 直接当作已验证身份。
-
-    携带 userToken 的外部请求
-      -> 路由器完成令牌校验与解析
-      -> 使用可信 userId 构造内部消息
+    External request carrying userToken
+      -> Router completes token validation and parsing
+      -> Construct internal message using trusted userId
       -> message.plan(connection)
 
 
-29. 允许前后端消息在信任边界采用不同的数据形态
+29. Allow frontend and backend messages to use different data shapes at trust boundaries
 
-前后端 API 消息定义不必始终完全相同。路由器进行安全转换时，两者可以有意保持差异。
+Frontend and backend API message definitions do not have to be exactly the same. The router may intentionally keep the two different when performing security conversion.
 
-例如，前端发送 userToken，路由器完成校验与解析后，以可信 userId 构造后端消息。这种差异体现了明确的信任边界，不应为强求两端字段完全相同而直接信任前端 userId。
+For example, the frontend sends userToken, and after validation and parsing, the router constructs the backend message with a trusted userId. This difference reflects a clear trust boundary and should not be eliminated by directly trusting the frontend userId just to force both sides to have identical fields.
 
+30. Keep API categories concise, and use token messages according to the scenario
 
-30. 保持 API 类别精简，并按场景使用令牌消息
+Use a smaller API model to express real differences; do not unnecessarily add a large number of categories such as APIs requiring authentication, admin APIs, authenticated no-request APIs, and admin no-request APIs.
 
-使用较小的 API 模型表达真实差异，不要无必要地增加需要身份认证的 API、管理员 API、认证无请求 API、管理员无请求 API 等大量类别。
+Ordinary messages use APIMessage[Response]; no-request operations use the corresponding no-request message abstraction. When token-related handling is truly needed, APIWithTokenMessage can be used, consistent with the model of a single return type, message fields carrying inputs, and plan(connection).
 
-普通消息采用 APIMessage[Response]；无请求操作采用相应无请求消息抽象。确实需要令牌相关处理时，可以使用 APIWithTokenMessage，并与单一返回类型、消息字段承载输入和 plan(connection) 的模型保持一致。
-
-当前数据标注场景基本用不到 APIWithTokenMessage 时，可以暂不使用，不必为了形式完整强行增加。场景中确有身份或权限要求时，仍应明确处理；管理员权限可以通过用户／账户服务 API 查询，可信 userId 可以作为内部消息字段。
+When the current data annotation scenario basically does not use APIWithTokenMessage, it may be left unused for now; there is no need to force its addition for formal completeness. When the scenario does have identity or permission requirements, they should still be handled explicitly; administrator permissions can be queried through the user/account service API, and a trusted userId can be an internal message field.
 
     APIMessage[Response]
     APIWithTokenMessage[Response]
@@ -294,81 +286,81 @@ API 的业务输入由消息构造参数表达，plan 默认只接收 connection
 
 
 
-31. 从消息类型自动推导 API 路由名称
+31. Derive API route names automatically from message types
 
-对于能够从 API 消息类型名称推导的路由名称，不要在每个消息中手动重复填写字符串。消息名称以 Message 结尾，具体路由名称由统一规则推导。
+For route names that can be derived from API message type names, do not manually repeat the string in each message. Message names end with Message, and the specific route name is derived by a unified rule.
 
-例如，采用移除末尾 Message 后转小写的统一规则时：
+For example, using a unified rule that removes the trailing Message and lowercases it:
 
     BorrowBookAPIMessage -> borrowbookapi
     ListItemsAPIMessage -> listitemsapi
     SomeActionMessage -> someaction
 
-前后端必须使用相同的命名规则，避免路由名称与消息定义失去同步。
+Frontend and backend must use the same naming rule to avoid route names falling out of sync with message definitions.
 
 
 
 
-32. 保持路由器精简且声明式
+32. Keep the router concise and declarative
 
-路由器主要负责将请求分发给已注册的 API 消息，不应包含业务逻辑。业务行为放在消息类的 plan 中，使路由器简短、可预测、易于扩展。
+The router is mainly responsible for dispatching requests to registered API messages and should not contain business logic. Business behavior goes in the message class's plan, making the router short, predictable, and easy to extend.
 
-路由器的主要职责：
-- 接收 API 名称。
-- 查找对应的 API 注册信息。
-- 反序列化请求数据。
-- 按 API 类别完成所需的令牌校验与 userId 转换。
-- 根据输入构造消息实例，调用 plan(connection)。
-- 序列化执行结果。
+The router's main responsibilities:
+- Receive the API name.
+- Look up the corresponding API registration information.
+- Deserialize request data.
+- Perform the required token validation and userId conversion according to the API category.
+- Construct the message instance based on the input and call plan(connection).
+- Serialize the execution result.
 
 
-33. 每个服务以一个 XXRoutes 注册前端 API，并在顶层合并
+33. Each service registers frontend APIs with one XXRoutes, merged at the top level
 
-每个服务的 routes/ 只需一个 XXRoutes，用于登记前端会使用的 API。仅供后端模块调用的 API 无需注册到 routes，也不需要为其创建前端调用文件。
+Each service's routes/ only needs one XXRoutes, used to register APIs used by the frontend. APIs called only by backend modules do not need to be registered in routes, nor do they need a frontend call file.
 
-全局路由器合并服务级注册列表，不要手动重复列出每个服务中的每个 API。注册信息用于定位消息类型及其解码／构造方式，实际消息实例由请求数据生成。
+The global router merges service-level registration lists; do not manually repeat every API in every service. Registration information is used to locate the message type and its decoding/construction method; actual message instances are generated from request data.
 
     APIMessageRouter.routes(
       ServiceARoutes.apiMessages ++ ServiceBRoutes.apiMessages,
       resolveToken
     )
 
-这样可以保持服务注册的模块化，让顶层路由器展现系统组成，而不是各端点的实现细节。
+This keeps service registration modular and lets the top-level router show system composition rather than endpoint implementation details.
 
 
 
-34. 明确表的服务归属，并将初始化留在所属表模块
+34. Clarify table service ownership and keep initialization in the owning table module
 
-tables/ 存放当前服务负责的数据库表。一般而言，一张表在业务流程中最早出现于哪个服务，就放在哪个服务。其他服务可以调用其公开表方法，维护归属仍保持明确。
+tables/ stores the database tables that the current service is responsible for. Generally, a table belongs to the service where it first appears in the business flow. Other services may call its public table methods, while maintenance ownership remains clear.
 
-每张表的建表语句和初始化方法放在本表文件夹的 XXTableInitializer.scala 中，索引和约束也由该表模块维护。不要将初始化放在 API 文件中，也不要用一个大型初始化文件堆放许多无关表的定义。
+Each table's create statement and initialization method go in that table's folder in XXTableInitializer.scala, and indexes and constraints are also maintained by that table module. Do not put initialization in API files, and do not use one large initialization file to pile up definitions of many unrelated tables.
 
-表模块应包含：
-- 该表的建表 SQL、索引和约束。
-- 该表的初始化方法。
-- 该表的公开表函数。
-- 该表内部的行映射和专用辅助实现。
+A table module should contain:
+- The table's create SQL, indexes, and constraints.
+- The table's initialization method.
+- The table's public table functions.
+- The table's internal row mapping and dedicated helper implementations.
 
 
-35. 每张表使用独立文件夹，并区分表定义与初始化
+35. Use a separate folder for each table, and distinguish table definition from initialization
 
-每张表都应有自己的文件夹，包含一个表定义文件 XXTable.scala 和一个初始化文件 XXTableInitializer.scala。
+Each table should have its own folder containing a table definition file XXTable.scala and an initialization file XXTableInitializer.scala.
 
-XXTable.scala 以 object XXTable 为主体，定义表函数及相关 SQL。XXTableInitializer.scala 包含建表语句和初始化逻辑。查询、行映射和辅助实现仍就近组织在所属表模块中。
+XXTable.scala is centered on object XXTable, defining table functions and related SQL. XXTableInitializer.scala contains the create statement and initialization logic. Queries, row mapping, and helper implementations are still organized near the owning table module.
 
     tables/
       XXTable/
         XXTable.scala
         XXTableInitializer.scala
 
-逻辑复杂时可以在 tables/ 下进一步分类，但每张表的定义与初始化应容易一起找到。
+When logic is complex, further classification can be made under tables/, but each table's definition and initialization should be easy to find together.
 
 
-36. 将每个 SQL 值与表函数成对封装，并统一返回 IO[T]
+36. Encapsulate each SQL value and table function as a pair, and uniformly return IO[T]
 
-一个表函数配套一个 val 和一个 def。val 名称以 Sql 结尾，值为 SQL 字符串；def 执行对应的表操作，供整个后端的 API 调用。
+One table function is paired with one val and one def. The val name ends with Sql and its value is a SQL string; the def executes the corresponding table operation and is callable by APIs throughout the backend.
 
-SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方法堆在底部。SQL 值保持私有，公开方法封装参数处理、执行与行映射。
+SQL values and execution methods should be adjacent, avoiding piling all SQL at the top and all methods at the bottom. SQL values remain private, and public methods encapsulate parameter handling, execution, and row mapping.
 
     object TextbookTable:
       private val findByIdSql = "..."
@@ -377,34 +369,32 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
       private val insertSql = "..."
       def insert(connection: Connection, textbook: Textbook): IO[TextbookId] = ...
 
-表函数返回类型统一为 IO[T]，例如 IO[SomeObject]、IO[List[SomeObject]]、IO[Option[SomeObject]]；T 不必一定是领域对象。
+Table functions uniformly return IO[T], such as IO[SomeObject], IO[List[SomeObject]], IO[Option[SomeObject]]; T does not necessarily have to be a domain object.
 
-37. 表函数不应包含过多业务处理。复杂逻辑放在 API 或相应服务的 utils 中，表函数保持职责清晰。跨服务调用者使用公开 def，不访问其 SQL 值和私有辅助函数。
-
-
-38. 将 SQL 放在对应方法之前
-
-将 SQL 与方法成对组织时，应把 SQL 语句放在使用它的方法之前，而不是之后。
-
-读者应先看到查询，再紧接着看到如何执行该查询。这种顺序可以减少在表文件中来回查找的成本。
+37. Table functions should not contain too much business processing. Complex logic goes in APIs or the corresponding service's utils, and table functions remain clearly scoped. Cross-service callers use public defs and do not access their SQL values or private helper functions.
 
 
+38. Put SQL before the corresponding method
 
-39. 将共享前端组件限制为真正的 UI 基础组件
+When organizing SQL and methods in pairs, place the SQL statement before the method that uses it, not after.
 
-前端的共享 components 文件夹应只包含可广泛复用的 UI 基础组件，例如供多个页面使用的组件。
+The reader should see the query first, then immediately see how to execute it. This order reduces the cost of searching back and forth in the table file.
 
-页面专用组件不应留在全局共享 components 文件夹中。如果一个组件只用于某个页面，就应将它放在该页面附近。
+39. Restrict shared frontend components to true UI foundational components
+
+The frontend's shared components folder should contain only widely reusable UI foundational components, such as components used by multiple pages.
+
+Page-specific components should not remain in the global shared components folder. If a component is used by only one page, place it near that page.
 
     components/
       ui/
 
 
-40. 将页面专用的前端代码放在页面附近
+40. Keep page-specific frontend code near the page
 
-如果某个组件、hook、store、函数或对象只属于一个页面，就应将它放在该页面的文件夹内。这样可以让相关代码更集中，并减少全局目录的杂乱。
+If a component, hook, store, function, or object belongs to only one page, place it inside that page's folder. This keeps related code together and reduces clutter in global directories.
 
-应优先就近组织代码，而不是把内容堆进全局目录。用于说明某个页面如何工作的代码，应放在该页面附近。
+Prefer organizing code nearby rather than piling content into global directories. Code that explains how a page works should be placed near that page.
 
     pages/
       SomePage/
@@ -416,11 +406,11 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
         objects/
 
 
-41. 按可见的业务区域拆分前端页面
+41. Split frontend pages by visible business areas
 
-复杂的前端页面应按照有意义的业务区域拆分，而不是随意按视觉片段拆分。文件结构应体现面向用户的工作流程，以及读者需要理解的主要区域。
+Complex frontend pages should be split by meaningful business areas, not arbitrarily by visual fragments. The file structure should reflect the user-facing workflow and the main areas the reader needs to understand.
 
-每个主要页面区域都应对应一个明确的组件或组件文件夹。例如，一个页面可能包含阅读面板、选择面板、草稿区、规则检查区、确认区和记录区。
+Each major page area should correspond to a clear component or component folder. For example, a page might contain a reading panel, selection panel, draft area, rule check area, confirmation area, and record area.
 
     SomePage/
       index.tsx
@@ -432,15 +422,15 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
         ConfirmPanel.tsx
 
 
-42. 使用页面级 hooks、objects 和 functions 承载页面共享逻辑
+42. Use page-level hooks, objects, and functions for page-shared logic
 
-当多个业务区域依赖相同的状态、数据结构或纯计算时，复杂页面可以设置页面级的 hooks、objects 和 functions。
+When multiple business areas depend on the same state, data structures, or pure computations, a complex page can have page-level hooks, objects, and functions.
 
-页面级 hooks 用于多个区域共享的状态，例如选中的实体、草稿、筛选条件、记录、加载状态或页面级协调逻辑。
+Page-level hooks are used for state shared by multiple areas, such as selected entities, drafts, filters, records, loading state, or page-level coordination logic.
 
-页面级 objects 用于属于整个页面的数据结构，例如草稿、摘要、规则检查结果、筛选条件或页面专用视图模型。
+Page-level objects are used for data structures belonging to the whole page, such as drafts, summaries, rule check results, filters, or page-specific view models.
 
-页面级 functions 用于整个页面共享的纯逻辑，例如构建摘要、筛选记录、计算规则检查结果或转换页面数据。当多个区域都依赖某段页面共享逻辑时，不要将它埋在某一个子组件内部。
+Page-level functions are used for pure logic shared by the whole page, such as building summaries, filtering records, computing rule check results, or transforming page data. When multiple areas depend on a piece of page-shared logic, do not bury it inside one subcomponent.
 
     SomePage/
       index.tsx
@@ -455,13 +445,13 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
       components/
 
 
-43. 为功能丰富的前端页面采用通用的复杂页面结构
+43. Adopt a general complex-page structure for feature-rich frontend pages
 
-对于复杂前端页面，应优先采用一种页面级结构，分别组织页面骨架、页面共享状态、页面专用对象、页面纯函数和业务区域组件。这样既能让页面具有可预测的结构，又不必使每个页面完全相同。
+For complex frontend pages, prefer a page-level structure that separately organizes the page skeleton, page-shared state, page-specific objects, page pure functions, and business area components. This keeps pages predictable without making every page identical.
 
-具体名称应与业务领域匹配，但总体模式应保持稳定：index.tsx 展示页面的高层结构；页面级 hooks 协调共享状态；页面级 objects 定义页面级数据结构；页面级 functions 保存页面纯逻辑；components 包含页面中可见的区域。
+Specific names should match the business domain, but the overall pattern should remain stable: index.tsx shows the page's high-level structure; page-level hooks coordinate shared state; page-level objects define page-level data structures; page-level functions hold page pure logic; components contain the visible areas of the page.
 
-复杂业务区域可以递归地包含自己的 index.tsx、hooks、objects、functions 和 components，但只有在内部复杂度确实需要这一额外层次时才这样做。结构应帮助读者理解页面如何工作，而不是迫使他们穿梭于不必要的文件夹。
+Complex business areas can recursively contain their own index.tsx, hooks, objects, functions, and components, but only when internal complexity truly requires this extra level. Structure should help the reader understand how the page works, not force them to shuttle through unnecessary folders.
 
     SomeComplexPage/
       index.tsx
@@ -500,25 +490,24 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
               RegionActions.tsx
 
 
-44. 让复杂页面的入口文件保持为骨架
+44. Keep the entry file of a complex page as a skeleton
 
-对于复杂前端页面，index.tsx 应展示页面的主要结构，而不是所有实现细节。
+For complex frontend pages, index.tsx should show the page's main structure rather than all implementation details.
 
-将详细的 UI 区块、辅助函数、局部状态逻辑、stores 和子组件移到附近的文件中。页面入口文件应回答：这个页面有哪些主要区域？
+Move detailed UI sections, helper functions, local state logic, stores, and subcomponents into nearby files. The page entry file should answer: what are the main areas of this page?
 
-这样可以让页面布局易于检查，就像精简的路由器能让后端 API 结构易于检查一样。
+This makes the page layout easy to inspect, just as a concise router makes the backend API structure easy to inspect.
 
+45. Do not hide the page's main structure inside an ambiguous layout wrapper
 
-45. 不要将页面主结构隐藏在含义模糊的布局包装器中
+The page entry file should clearly show the page's main business areas. If an ambiguous layout wrapper would obscure what the page actually contains, do not move the page's main structure into that wrapper.
 
-页面入口文件应明确展示页面的主要业务区域。如果一个含义模糊的布局包装器会掩盖页面实际包含的内容，就不要把页面主结构移进该包装器。
+A layout wrapper may be used only when it explains the layout without obscuring the business structure. After opening index.tsx, the reader should immediately see the main page areas.
 
-只有当布局包装器能说明布局、同时不掩盖业务结构时，才可以使用。读者打开 index.tsx 后，应能立即看到主要的页面区域。
-
-    避免将所有内容隐藏在以下包装器后面：
+    Avoid hiding everything behind a wrapper such as:
       <SomePageLayout page={page} />
 
-    优先采用清晰可见的骨架：
+    Prefer a clearly visible skeleton:
       <ReaderPanel />
       <RulePanel />
       <SelectionPanel />
@@ -526,15 +515,15 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
       <ConfirmPanel />
 
 
-46. 只有复杂度确实需要时，才递归拆分复杂区域
+46. Recursively split complex areas only when complexity truly requires it
 
-复杂业务区域可以拥有自己的局部 hooks、objects、functions 和子组件。当该区域具有多个相互协作的子模块，或其内部状态会使单个文件难以阅读时，采用这种方式是合适的。
+Complex business areas can have their own local hooks, objects, functions, and subcomponents. This is appropriate when the area has multiple cooperating submodules or its internal state makes a single file hard to read.
 
-不要只是为了看起来有结构而创建嵌套文件夹。如果某个区域只有一个简单组件，就应将它保留为当前层级中的单个 .tsx 文件。
+Do not create nested folders just to look structured. If an area has only one simple component, keep it as a single .tsx file at the current level.
 
-每增加一个文件夹，都应让代码更易于阅读、测试、复用或定位。
+Every additional folder should make the code easier to read, test, reuse, or locate.
 
-    复杂区域：
+    Complex area:
       SelectionPanel/
         index.tsx
         SearchToolbar.tsx
@@ -543,23 +532,23 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
         components/
           CandidateList/
 
-    简单区域：
+    Simple area:
       RulePanel.tsx
 
 
-47. 避免增加查找成本的形式化模块拆分
+47. Avoid formal module splitting that increases lookup cost
 
-模块化应降低认知负担，而不是增加它。不要只是为了让项目看起来模块化，就创建文件夹和子组件。
+Modularization should reduce cognitive load, not increase it. Do not create folders and subcomponents just to make the project look modular.
 
-如果拆分迫使读者打开更多文件，却没有帮助他们形成更清晰的理解，就应保持更扁平的实现。
+If splitting forces the reader to open more files without helping them form a clearer understanding, keep a flatter implementation.
 
-与仅为形式一致而存在的文件夹层级相比，单个文件通常更清楚。
+A single file is often clearer than a folder hierarchy that exists only for formal consistency.
 
-    对于简单组件，优先采用：
+    For simple components, prefer:
       components/
         RulePanel.tsx
 
-    如果没有必要，应避免：
+    Avoid, if unnecessary:
       components/
         RulePanel/
           index.tsx
@@ -568,11 +557,11 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
 
 
 
-48. 按服务创建前端 API 文件夹
+48. Create frontend API folders by service
 
-在可行的情况下，前端 API 的组织应对应后端服务边界。
+Where feasible, frontend API organization should correspond to backend service boundaries.
 
-每个前端 API 文件夹都应对应一个后端服务。这样更容易从前端调用追踪到处理该调用的后端 API。
+Each frontend API folder should correspond to one backend service. This makes it easier to trace a frontend call to the backend API handling it.
 
     src/
       apis/
@@ -581,114 +570,114 @@ SQL 值与执行方法应相邻，避免将所有 SQL 堆在顶部、所有方�
 
 
 
-49. 对面向前端的 API，尽量保持前后端文件一一对应
+49. For frontend-facing APIs, keep frontend and backend files corresponding one-to-one as much as possible
 
-后端面向前端提供的 API 消息，通常应有相应的前端调用文件或类，便于从前端追踪到后端实现。
+A backend API message exposed to the frontend should usually have a corresponding frontend call file or class, making it easy to trace from the frontend to the backend implementation.
 
-仅供后端模块使用、没有注册到 routes 的内部 API，不需要对应的前端调用文件。平台专用实现和信任边界转换也可以形成合理差异；应避免无法解释的不对应。
+Internal APIs used only by backend modules and not registered in routes do not need corresponding frontend call files. Platform-specific implementations and trust boundary conversions can also form reasonable differences; unexplained mismatches should be avoided.
 
-    前端 API 文件
-      -> 后端 API 消息
-      -> 公开表方法／领域逻辑
-
-
-50. 将通用 API 基础设施放在服务专用文件夹之外
-
-通用的前端 API 基础设施不应放在某个特定服务的文件夹中。如果某个工具适用于所有 API 调用，就应将它放在共享 API 发送基础设施旁边。
-
-服务文件夹应包含服务专用的 API 类和对象，而不是全局 API 机制。
-
-通用 API 基础设施包括：
-- 令牌存储
-- API 名称计算
-- 通用发送逻辑
-- API 基类
-- 共享的请求／响应处理
+    Frontend API file
+      -> Backend API message
+      -> Public table methods/domain logic
 
 
-51. 按职责拆分大型前端 API 工具
+50. Put common API infrastructure outside service-specific folders
 
-避免使用定义了过多无关内容的大型 API 工具文件。当职责变得明显不同时，就应将其拆分。
+Common frontend API infrastructure should not be placed in a specific service's folder. If a utility applies to all API calls, place it next to the shared API sending infrastructure.
 
-这样可以使每个基础设施文件都易于检查，并防止单个工具演变成一个隐藏的框架。
+Service folders should contain service-specific API classes and objects, not global API mechanisms.
 
-可以按以下职责拆分：
-- API 基类
-- API 名称计算
-- 发送函数
-- 令牌处理
-- 错误处理
-- 序列化辅助工具
+Common API infrastructure includes:
+- Token storage
+- API name computation
+- Common sending logic
+- API base classes
+- Shared request/response handling
 
 
-52. 使用带 send 方法的简洁前端 API 类
+51. Split large frontend API utilities by responsibility
 
-前端 API 定义应易于阅读。一种推荐风格是将每个 API 定义为一个类，具有明确的输入字段和一个发送请求的方法。
+Avoid large API utility files that define too many unrelated things. When responsibilities become clearly different, split them.
 
-这样可以让每个前端 API 调用器具体、易于检查，而不是把行为隐藏在大型通用工具中。
+This keeps each infrastructure file easy to inspect and prevents a single utility from evolving into a hidden framework.
+
+They can be split by responsibilities such as:
+- API base classes
+- API name computation
+- Send functions
+- Token handling
+- Error handling
+- Serialization helpers
+
+
+52. Use concise frontend API classes with a send method
+
+Frontend API definitions should be easy to read. A recommended style is to define each API as a class with explicit input fields and a method that sends the request.
+
+This makes each frontend API caller concrete and easy to inspect, rather than hiding behavior in large generic utilities.
 
     class SomeAPI {
-      // 输入字段
+      // Input fields
       send(): Promise<Response> {
         ...
       }
     }
 
 
-53. 通过统一方法推导前端 API 名称
+53. Derive frontend API names through a unified method
 
-如果一个共享的命名工具可以一致地推导路由名称，就不要让每个前端 API 类各自重复定义 apiName 方法。
+If a shared naming utility can consistently derive route names, do not let each frontend API class repeatedly define its own apiName method.
 
-这与后端规则相对应：只要可以安全做到，就应消除重复的路由名称。统一的推导方法可以防止前端调用器与后端 API 消息之间出现命名偏差。
-
-
-54. 移除未使用的应用脚手架、资源和库文件
-
-模板项目通常包含一些在重构后用途变得不明确的文件夹。当 app、assets 和 lib 等文件夹看起来未被使用时，应重新审视保留它们的必要性。
-
-如果它们没有被引用，也不支持当前架构，就应移除。不要仅因为它们随模板附带，就保留已经无用的脚手架。
+This corresponds to the backend rule: eliminate duplicated route names wherever it can be done safely. A unified derivation method prevents naming drift between frontend callers and backend API messages.
 
 
-55. 严格遵守已声明的样式体系
+54. Remove unused application scaffolding, assets, and library files
 
-项目标准要求使用 Tailwind，除非确有必要，否则应避免自定义 CSS。应移除或减少与仅使用 Tailwind 的要求相冲突的 CSS 文件和面向 CSS 的工具。
+Template projects often contain folders whose purpose becomes unclear after refactoring. When folders such as app, assets, and lib appear unused, re-examine whether they need to be kept.
 
-只有当类名工具支持 Tailwind 的使用方式且确实有需要时，才可以保留。样式基础设施应与项目声明的标准一致。
-
-
-56. 优先使用清晰的文件夹名称
-
-文件夹名称应传达用途。如果文件夹包含工具，应将其命名为 utils，而不是 internal 之类含义模糊的名称，除非 internal 在项目中具有精确的架构含义。
-
-名称应帮助未来的读者理解归属和意图，而不必打开每个文件。
+If they are unreferenced and do not support the current architecture, remove them. Do not keep useless scaffolding just because it came with the template.
 
 
-57. 将共享页面对象放在明确的页面级位置
+55. Strictly follow the declared styling system
 
-如果存在页面级共享对象，应将它们放在 pages/objects 之类清晰的文件夹中。
+Project standards require Tailwind; avoid custom CSS unless truly necessary. Remove or reduce CSS files and CSS-oriented utilities that conflict with the Tailwind-only requirement.
 
-避免使用使归属不明确的隐晦共享路径。路径应说明某个对象是全局的、服务专用的，还是页面专用的。
-
-
-58. 优先采用简单的 TypeScript 风格，避免不必要的复杂性
-
-当适合项目时，应使用清晰、直接的 TypeScript。不要仅为了理论上的优雅，让前端类型结构变得不必要地复杂。
-
-强类型很有价值，但抽象应改善可维护性或安全性。如果现有 TypeScript 风格已经易读且足够，应保留这种简单性。
+Class name utilities may be kept only when they support Tailwind usage and are genuinely needed. Styling infrastructure should be consistent with the project's declared standard.
 
 
+56. Prefer clear folder names
 
-59. 将文档产物与源码逻辑分开
+Folder names should convey purpose. If a folder contains utilities, name it utils rather than an ambiguous name such as internal, unless internal has a precise architectural meaning in the project.
 
-生成的文档应放在要求的文档文件夹中，而不是混入后端或前端源码文件夹。
+Names should help future readers understand ownership and intent without opening every file.
 
-源码目录应包含应用代码。在要求生成相应产物时，文档目录应包含生成的报告、PDF、架构说明和对话历史。
 
-60. 有意识地建模复杂页面状态
+57. Put shared page objects in a clear page-level location
 
-依赖 API 的复杂页面应显式建模加载中、就绪、空、错误以及相关操作状态。这对仪表盘、搜索界面、详情视图、预订或消息流程、上传功能，以及具有多个相互依赖区域的页面尤其有用。
+If page-level shared objects exist, place them in a clear folder such as pages/objects.
 
-简单的独立表单可以保持简单。如果局部提交状态和错误状态仍然清晰，而且不会允许令人困惑的状态组合，小型表单就可以采用这种局部状态。不要仅为了理论上的优雅而引入庞大的联合类型。
+Avoid obscure shared paths that make ownership unclear. The path should indicate whether an object is global, service-specific, or page-specific.
+
+
+58. Prefer simple TypeScript style and avoid unnecessary complexity
+
+When appropriate for the project, use clear, direct TypeScript. Do not make frontend type structures unnecessarily complex just for theoretical elegance.
+
+Strong typing is valuable, but abstractions should improve maintainability or safety. If the existing TypeScript style is already readable and sufficient, preserve that simplicity.
+
+
+59. Separate documentation artifacts from source logic
+
+Generated documentation should go in the required documentation folder, not mixed into backend or frontend source folders.
+
+Source directories should contain application code. When the corresponding artifacts are required, the documentation directory should contain generated reports, PDFs, architecture descriptions, and conversation history.
+
+
+60. Consciously model complex page states
+
+Complex pages that depend on APIs should explicitly model loading, ready, empty, error, and related operation states. This is especially useful for dashboards, search interfaces, detail views, booking or messaging flows, upload features, and pages with multiple interdependent areas.
+
+Simple independent forms can remain simple. If local submission state and error state remain clear and do not allow confusing state combinations, small forms can use this local state. Do not introduce huge union types just for theoretical elegance.
 
     type PageState =
       | { status: "loading" }
