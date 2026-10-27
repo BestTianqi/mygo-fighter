@@ -1,6 +1,6 @@
 # Gameplay performance and protocol 11
 
-The current protocol is 12, which retains the performance/transport changes below and adds two-tier terrain and uniform normal hitboxes. Update and restart the host with matching clients; versions 10/11 are rejected.
+The current protocol is 15. It retains the performance/transport changes below and the subsequent combat/map changes. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction without a wire-schema change.
 
 ## Implemented optimizations
 

@@ -14,12 +14,16 @@ export function resolveSchemeSkill(
   pressed: (key: string) => boolean,
   airborne: boolean,
 ): string | null | undefined {
-  const scheme = band.schemeFor(f);
-  if (pressed("super")) return scheme.super || null;
-  if (pressed("transform") && scheme.transform)
-    return (!f.penguin && scheme.transform) || null;
+  // Most fixed steps only move or use normals. Build the form's skill scheme
+  // only when a skill is actually pressed (especially important in GraalJS).
+  if (pressed("super")) return band.schemeFor(f).super || null;
+  if (pressed("transform")) {
+    const transform = band.schemeFor(f).transform;
+    if (transform) return (!f.penguin && transform) || null;
+  }
   for (let i = 1; i <= 3; i++)
     if (pressed("skill" + i)) {
+      const scheme = band.schemeFor(f);
       const gesture = input.pressDirections?.["skill" + i] || input;
       const horizontal =
         (Number(!!gesture.right) - Number(!!gesture.left)) * f.facing;

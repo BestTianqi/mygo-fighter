@@ -30,6 +30,7 @@ export function create(optionsJson: string) {
         }
         left -= step;
       }
+      return !match.paused && (match.phase !== "finished" || match.phaseMs > 0);
     },
     pause(value: boolean) {
       match.setPaused(value);

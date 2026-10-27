@@ -17,6 +17,6 @@ final case class PauseRoomMessage(session: Session, paused: Boolean) extends API
         )(
           IllegalArgumentException("等待双方重新连接并加载角色")
         ) *>
-          room.simulation.get.flatMap(_.traverse_(_.pause(paused)))
+          room.simulation.get.flatMap(_.traverse_(_.pause(paused))) *> room.resumeClock
       }
     }

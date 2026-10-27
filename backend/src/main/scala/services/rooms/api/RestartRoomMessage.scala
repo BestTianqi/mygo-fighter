@@ -16,6 +16,6 @@ final case class RestartRoomMessage(session: Session) extends APIMessage[Unit]:
           IO.raiseUnless(state.loaded.size == 2 && state.players.forall(_.exists(_.connected)))(
             IllegalArgumentException("等待双方重新连接并加载角色")
           ) *>
-            room.simulation.get.flatMap(_.traverse_(_.restart))
+            room.simulation.get.flatMap(_.traverse_(_.restart)) *> room.resumeClock
         )
     }

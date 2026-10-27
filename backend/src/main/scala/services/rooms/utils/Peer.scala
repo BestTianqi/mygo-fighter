@@ -12,7 +12,7 @@ import scala.concurrent.duration.*
 final case class Peer(
     id: String,
     control: Queue[IO, WebSocketFrame],
-    latest: SignallingRef[IO, Option[String]],
+    latest: SignallingRef[IO, Option[WebSocketFrame]],
     seenAt: Ref[IO, FiniteDuration],
     resync: Deferred[IO, Unit]
 ):
@@ -25,15 +25,15 @@ final case class Peer(
       )
       .void
 
-  private[rooms] def sendEvent(raw: String): IO[Unit] =
-    control.tryOffer(WebSocketFrame.Text(raw)).flatMap { offered =>
+  private[rooms] def sendEvent(frame: WebSocketFrame): IO[Unit] =
+    control.tryOffer(frame).flatMap { offered =>
       if offered then IO.unit else resync.complete(()).void
     }
 
   private[rooms] def frames: Stream[IO, WebSocketFrame] =
     Stream
       .fromQueueUnterminated(control)
-      .merge(latest.discrete.unNone.map(WebSocketFrame.Text(_)))
+      .merge(latest.discrete.unNone)
       .merge(Stream.eval(resync.get.map(_ => WebSocketFrame.Close())))
 
 object Peer:
@@ -41,7 +41,7 @@ object Peer:
     (
       IO(java.util.UUID.randomUUID().toString),
       Queue.bounded[IO, WebSocketFrame](64),
-      SignallingRef[IO, Option[String]](None),
+      SignallingRef[IO, Option[WebSocketFrame]](None),
       IO.monotonic.flatMap(Ref.of[IO, FiniteDuration]),
       Deferred[IO, Unit]
     ).mapN(Peer.apply)

@@ -31,8 +31,15 @@ export class Prediction {
     return Math.min(250, Math.max(100, this.rtt + 50));
   }
   stale(now: number) {
+    const state = this.packet?.state;
+    const idle =
+      state?.paused || (state?.phase === "finished" && state.phaseMs <= 0);
+    // Paused/settled rooms publish at 4 Hz. Combat keeps the short prediction
+    // horizon; idle snapshots tolerate timer jitter without flashing a warning.
     return (
-      !this.packet || this.exhausted || now - this.receivedAt > this.horizon
+      !this.packet ||
+      (!idle && this.exhausted) ||
+      now - this.receivedAt > (idle ? 1000 : this.horizon)
     );
   }
   record(match: Match, side: number, seq: number, input: Input, now: number) {
@@ -80,7 +87,11 @@ export class Prediction {
       match.options.characters = match.fighters.map((f) => f.character);
     match.events = [];
     this.inputs.state = structuredClone(packet.inputState);
-    if (!reset && !match.paused) {
+    if (
+      !reset &&
+      !match.paused &&
+      !(match.phase === "finished" && match.phaseMs <= 0)
+    ) {
       const target = Math.min(
         packet.tick + Math.floor(this.horizon / 10),
         Math.max(priorTick, packet.tick + Math.floor(this.rtt / 20)),
@@ -100,7 +111,12 @@ export class Prediction {
     return reset;
   }
   advance(match: Match, now: number, dt: number) {
-    if (this.stale(now) || match.paused) return;
+    if (
+      this.stale(now) ||
+      match.paused ||
+      (match.phase === "finished" && match.phaseMs <= 0)
+    )
+      return;
     // Bound work even after a background-tab stall.
     let remaining = Math.min(50, dt, Math.max(0, now - this.predictedAt));
     this.predictedAt = now;

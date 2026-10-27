@@ -1,11 +1,12 @@
 package services.rooms.utils
 
 import cats.effect.{Deferred, IO, Ref}
-import cats.effect.std.{Semaphore, Supervisor}
+import cats.effect.std.{Queue, Semaphore, Supervisor}
 import fs2.Stream
 import cats.syntax.all.*
 import io.circe.Json
 import io.circe.syntax.*
+import org.http4s.websocket.WebSocketFrame
 import scala.concurrent.duration.*
 import services.rooms.objects.*
 import services.system.objects.Connection
@@ -19,26 +20,53 @@ final case class RoomRuntime(
     lastSend: Ref[IO, FiniteDuration],
     lastActivity: Ref[IO, FiniteDuration],
     lastConnected: Ref[IO, FiniteDuration],
-    stopped: Deferred[IO, Unit]
+    stopped: Deferred[IO, Unit],
+    wake: Queue[IO, Unit]
 ):
   private[rooms] def stop: IO[Unit] = stopped.complete(()).void
+
+  private[rooms] def signal: IO[Unit] =
+    lastSend.set(Duration.Zero) *> wake.tryOffer(()).void
+
+  private[rooms] def resumeClock: IO[Unit] =
+    IO.monotonic.flatMap(lastTick.set) *> signal
 
   private[rooms] def start(supervisor: Supervisor[IO]): IO[Unit] =
     supervisor
       .supervise(
         Stream
-          .awakeEvery[IO](8333333.nanos)
-          .evalMap(_ =>
-            IO.monotonic.flatMap(tick).handleErrorWith { error =>
-              lock.permit.use(_ =>
-                resetLobby *> peers.get.flatMap(
-                  _.values.toList.traverse_(
-                    _.send("error", Json.obj("message" -> Json.fromString("对战已停止，请重新准备")))
-                  )
-                )
-              ) *> IO.println(s"Room stopped: ${error.getClass.getSimpleName}")
+          .unfoldEval[IO, FiniteDuration, Unit](Duration.Zero) { deadline =>
+            IO.monotonic.flatMap { started =>
+              tick(started)
+                .handleErrorWith { error =>
+                  lock.permit.use(_ =>
+                    resetLobby *> peers.get.flatMap(
+                      _.values.toList.traverse_(
+                        _.send("error", Json.obj("message" -> Json.fromString("对战已停止，请重新准备")))
+                      )
+                    )
+                  ) *> IO.println(s"Room stopped: ${error.getClass.getSimpleName}").as(true)
+                }
+                .flatMap { checked =>
+                  (simulation.get, IO.monotonic).tupled.flatMap { (engine, finished) =>
+                    // Idle rooms need only a liveness check. A load/resume/control
+                    // change wakes them immediately; active rooms retain 120 Hz.
+                    val active = !checked || engine.exists(_.running)
+                    // Do not allocate race fibers at combat frequency. Commands
+                    // already wait at most one active tick; only idle sleep needs a wake.
+                    if active then
+                      val period = 8333333L
+                      val base = if deadline == Duration.Zero then started else deadline
+                      val due = base + period.nanos
+                      val skipped =
+                        if finished >= due then (finished - due).toNanos / period + 1L else 0L
+                      val next = due + (skipped * period).nanos
+                      IO.sleep((next - finished).max(Duration.Zero)).as(Some(((), next)))
+                    else IO.race(wake.take, IO.sleep(250.millis)).as(Some(((), Duration.Zero)))
+                  }
+                }
             }
-          )
+          }
           .interruptWhen(stopped.get.attempt)
           .compile
           .drain
@@ -49,10 +77,11 @@ final case class RoomRuntime(
   private[rooms] def broadcast: IO[Unit] =
     (view, peers.get).tupled.flatMap((room, clients) =>
       clients.values.toList.traverse_(_.send("room", room.asJson))
-    )
+    ) *> signal
 
   private[rooms] def resetLobby: IO[Unit] =
     simulation.getAndSet(None).flatMap(_.traverse_(_.close)) *>
+      peers.get.flatMap(_.values.toList.traverse_(_.latest.set(None))) *>
       state.update(s =>
         s.copy(
           phase = RoomPhase.Lobby,
@@ -81,11 +110,11 @@ final case class RoomRuntime(
     }
   }
 
-  private[rooms] def tick(now: FiniteDuration): IO[Unit] = IO.uncancelable { poll =>
+  private[rooms] def tick(now: FiniteDuration): IO[Boolean] = IO.uncancelable { poll =>
     // Commands and GraalJS share this room lock. Skip a busy room's clock;
     // cancellation may interrupt work only after the release guarantee is installed.
     lock.tryAcquire.flatMap { acquired =>
-      if !acquired then IO.unit
+      if !acquired then IO.pure(false)
       else
         poll(
           peers.get.flatMap(_.toList.traverse_ { (side, peer) =>
@@ -110,35 +139,46 @@ final case class RoomRuntime(
             lastTick.getAndSet(now).flatMap { previous =>
               simulation.get.flatMap(_.traverse_ { engine =>
                 engine.advance(
-                  math.min(50d, (now - previous).toNanos.toDouble / 1000000d),
+                  if engine.running then math.min(50d, (now - previous).toNanos.toDouble / 1000000d)
+                  else 0d,
                   now.toNanos.toDouble / 1000000d
                 ) *>
                   lastSend.get.flatMap { sent =>
-                    if now - sent < 16666666.nanos then IO.unit
+                    if engine.running && now - sent < 16666666.nanos then IO.unit
                     else
-                      (engine.eventBatch, engine.packet, state.get, peers.get).tupled.flatMap {
-                        (batch, packet, room, clients) =>
-                          IO.monotonic.flatMap { finished =>
-                            val updateMs = (finished - now).toNanos.toDouble / 1000000d
-                            // The kernel is trusted and already serialized. Add transport metadata once.
-                            val stateFrame =
-                              s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
-                                  .drop(1)}}"""
-                            val eventFrame = batch.map(events =>
-                              s"""{"type":"events","data":{"generation":${room.generation},${events
-                                  .drop(1)}}"""
-                            )
-                            clients.values.toList.traverse_ { peer =>
-                              eventFrame.traverse_(peer.sendEvent) *> peer.latest
-                                .set(Some(stateFrame))
-                            } *> lastSend
-                              .set(sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos)
+                      peers.get.flatMap { clients =>
+                        if clients.isEmpty then engine.eventBatch.void
+                        else
+                          (engine.eventBatch, engine.packet, state.get).tupled.flatMap {
+                            (batch, packet, room) =>
+                              IO.monotonic.flatMap { finished =>
+                                val updateMs = (finished - now).toNanos.toDouble / 1000000d
+                                // The kernel is trusted and already serialized. Add transport metadata once.
+                                val stateFrame =
+                                  WebSocketFrame.Text(
+                                    s"""{"type":"state","data":{"generation":${room.generation},"serverUpdateMs":$updateMs,${packet
+                                        .drop(1)}}"""
+                                  )
+                                val eventFrame = batch.map(events =>
+                                  WebSocketFrame.Text(
+                                    s"""{"type":"events","data":{"generation":${room.generation},${events
+                                        .drop(1)}}"""
+                                  )
+                                )
+                                clients.values.toList.traverse_ { peer =>
+                                  eventFrame.traverse_(peer.sendEvent) *> peer.latest
+                                    .set(Some(stateFrame))
+                                } *> lastSend
+                                  .set(
+                                    sent + (((now - sent).toNanos / 16666666L) * 16666666L).nanos
+                                  )
+                              }
                           }
                       }
                   }
               })
             }
-        ).guarantee(lock.release)
+        ).as(true).guarantee(lock.release)
     }
   }
 
@@ -171,7 +211,8 @@ object RoomRuntime:
         Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),
         Ref.of[IO, FiniteDuration](now),
-        Deferred[IO, Unit]
+        Deferred[IO, Unit],
+        Queue.bounded[IO, Unit](1)
       ).mapN(RoomRuntime.apply)
     }
 
