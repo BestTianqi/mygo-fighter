@@ -6,9 +6,10 @@ import { clamp, movementSpeed } from "./combatMath";
 import { moveEnabled } from "../battleRules";
 
 /** CPU decisions use the match's seeded random source, shared by browser and JVM. */
-export function aiInput(match: Match): Input {
-  const input = chooseInput(match);
-  const f = match.fighters[1];
+export function aiInput(match: Match, side = 1): Input {
+  if (!match.active(side) || !match.enemySides(side).length) return {};
+  const input = chooseInput(match, side);
+  const f = match.fighters[side];
   const pressed = (key: string) => !!input[key as keyof Input];
   const rules = match.options.rules;
   if (rules.disableGuard) {
@@ -55,9 +56,9 @@ export function aiInput(match: Match): Input {
       };
 }
 
-function chooseInput(match: Match): Input {
-  const a = match.fighters[1],
-    b = match.fighters[0];
+function chooseInput(match: Match, side: number): Input {
+  const a = match.fighters[side],
+    b = match.fighters[match.targetSide(side)];
   const d = Math.abs(a.x - b.x),
     toward = b.x > a.x ? 1 : -1;
   const input: Input = {};
@@ -135,7 +136,7 @@ function chooseInput(match: Match): Input {
             (match.options.rules.noCooldowns || !a.moveCooldowns[key]) &&
             (!move.delayedArea ||
               !match.areas.some(
-                (area) => area.owner === 1 && area.attack === key,
+                (area) => area.owner === side && area.attack === key,
               )),
         );
       if (legal.length && d < 720 && match.random() < 0.72)
@@ -156,5 +157,5 @@ function chooseInput(match: Match): Input {
     if (d > 200 && match.random() < 0.2) input.jump = true;
     return input;
   }
-  return band.ai?.(match, 1, input) ?? input;
+  return band.ai?.(match, side, input) ?? input;
 }

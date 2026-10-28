@@ -11,6 +11,7 @@ import type { GameView } from "../objects/GameView";
 import { bandPortrait } from "../functions/bandArt";
 import { Button } from "../../../components/ui/Button";
 import { schemeFor } from "../../../game/controls";
+import { ROSTER } from "../../../game/engine";
 import { teamSizeFor } from "../../../game/battleRules";
 import {
   enterImmersive,
@@ -99,7 +100,7 @@ function PauseOverlay({
             ? "对战已暂停"
             : view.winner < 0
               ? "不分胜负"
-              : `${view.fighters[view.winner]?.name} 获胜`}
+              : `${view.config?.format === "3ffa" ? `${view.winner + 1}P · ` : ""}${view.fighters[view.winner]?.name} 获胜`}
         </h2>
         {view.config?.rules && (
           <p className="mx-auto mb-5 max-w-lg text-xs leading-6 text-slate-300">
@@ -122,7 +123,7 @@ function PauseOverlay({
         )}
         {view.paused && waitingForPlayers && (
           <p className="mb-5 text-sm text-cyan-100" role="status">
-            等待双方重新连接并加载角色…
+            等待所有玩家重新连接并加载角色…
           </p>
         )}
         <div className="flex flex-wrap justify-center gap-2">
@@ -339,6 +340,7 @@ export function BattlePanel({
   );
   const waitingForPlayers = isWaitingForPlayers(view);
   /** Full-field mode removes the in-app toolbar so the arena uses the whole viewport. */
+  const brawl = view.config?.format === "3ffa";
   const [fullField, setFullField] = useState(true);
   const lastScreen = useRef(view.screen);
   useEffect(() => {
@@ -470,7 +472,7 @@ export function BattlePanel({
           {videos.length > 0 && backgroundVideoEnabled() && (
             <div
               aria-hidden="true"
-              className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
+              className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length === 3 ? "grid-cols-3" : videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
             >
               {videos.map(({ media, side }) => (
                 <UltimateBackgroundVideo
@@ -493,7 +495,7 @@ export function BattlePanel({
           />
           <div
             aria-label="对战状态"
-            className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
+            className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
               fullField
                 ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-8 sm:gap-6"
                 : mobile
@@ -501,43 +503,70 @@ export function BattlePanel({
                   : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
             }`}
           >
-            {view.fighters[0] && (
-              <FighterHUD
-                side={0}
-                view={view}
-                assets={assets}
-                mobile={mobile}
-              />
-            )}
-            <div className="text-center">
-              <p
-                aria-label={
-                  view.config?.rules?.infiniteTime ? "无限时间" : "剩余时间"
-                }
-                className={`font-mono text-2xl font-bold text-white ${mobile ? "" : "sm:text-4xl"}`}
-              >
-                {view.config?.rules?.infiniteTime
-                  ? "∞"
-                  : Math.ceil(view.remaining / 1000)
-                      .toString()
-                      .padStart(2, "0")}
-              </p>
-              <small className="text-[8px] text-slate-400 sm:text-[10px]">
-                ROUND {view.round}
-              </small>
-              {view.config?.rules?.oneHitKO && (
-                <p className="mt-1 text-[9px] font-semibold text-amber-200">
-                  一击决胜
-                </p>
-              )}
-            </div>
-            {view.fighters[1] && (
-              <FighterHUD
-                side={1}
-                view={view}
-                assets={assets}
-                mobile={mobile}
-              />
+            {brawl ? (
+              <>
+                <div
+                  className="col-span-3 -mb-1 flex items-center justify-center gap-2 text-[9px] text-slate-300"
+                  aria-label="混战剩余时间"
+                >
+                  <span>三人混战 · 每人 3 角色</span>
+                  <strong className="font-mono text-base text-white">
+                    {view.config?.rules?.infiniteTime
+                      ? "∞"
+                      : Math.ceil(view.remaining / 1000)}
+                  </strong>
+                </div>
+                {view.fighters.map((_, side) => (
+                  <FighterHUD
+                    key={side}
+                    side={side}
+                    view={view}
+                    assets={assets}
+                    mobile={mobile}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                {view.fighters[0] && (
+                  <FighterHUD
+                    side={0}
+                    view={view}
+                    assets={assets}
+                    mobile={mobile}
+                  />
+                )}
+                <div className="text-center">
+                  <p
+                    aria-label={
+                      view.config?.rules?.infiniteTime ? "无限时间" : "剩余时间"
+                    }
+                    className={`font-mono text-2xl font-bold text-white ${mobile ? "" : "sm:text-4xl"}`}
+                  >
+                    {view.config?.rules?.infiniteTime
+                      ? "∞"
+                      : Math.ceil(view.remaining / 1000)
+                          .toString()
+                          .padStart(2, "0")}
+                  </p>
+                  <small className="text-[8px] text-slate-400 sm:text-[10px]">
+                    ROUND {view.round}
+                  </small>
+                  {view.config?.rules?.oneHitKO && (
+                    <p className="mt-1 text-[9px] font-semibold text-amber-200">
+                      一击决胜
+                    </p>
+                  )}
+                </div>
+                {view.fighters[1] && (
+                  <FighterHUD
+                    side={1}
+                    view={view}
+                    assets={assets}
+                    mobile={mobile}
+                  />
+                )}
+              </>
             )}
           </div>
           {!immersive && (
@@ -672,10 +701,24 @@ function FighterHUD({
   mobile: boolean;
 }) {
   const fighter = view.fighters[side];
+  const brawl = view.config?.format === "3ffa";
+  const reverse = !brawl && side === 1;
+  const remaining = view.teamRemaining[side] ?? 0;
+  const respawn = view.respawnMs[side] ?? 0;
+  const lineup = view.config?.teams?.[side] ?? [];
+  const currentSlot = lineup.length - remaining;
+  const label =
+    view.network.room || view.config?.mode === "duel" || side === 0
+      ? `${side + 1}P`
+      : brawl
+        ? `CPU ${side}`
+        : "CPU";
   return (
-    <div className={`min-w-0 ${side ? "text-right" : ""}`}>
+    <div
+      className={`min-w-0 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-45" : ""}`}
+    >
       <div
-        className={`mb-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
+        className={`mb-1 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
       >
         {!mobile && (
           <img
@@ -713,12 +756,7 @@ function FighterHUD({
           <p
             className={`text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
           >
-            {side === 0
-              ? "1P"
-              : view.network.room || view.config?.mode === "duel"
-                ? "2P"
-                : "CPU"}{" "}
-            · {fighter.hp} / {view.config?.rules?.maxHealth ?? 200} HP{" "}
+            {label} · {fighter.hp} / {view.config?.rules?.maxHealth ?? 200} HP{" "}
             {fighter.beats > 0 && `· ${fighter.beats} 拍`}
           </p>
         </div>
@@ -732,7 +770,7 @@ function FighterHUD({
         className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "sm:h-3" : "sm:h-4"}`}
       >
         <div
-          className={`h-full transition-[width] duration-75 ${side ? "ml-auto bg-cyan-200" : "bg-pink-200"}`}
+          className={`h-full transition-[width] duration-75 ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-pink-200" : side === 1 ? "bg-cyan-200" : "bg-amber-200"}`}
           style={{
             width: `${Math.max(0, Math.min(100, (fighter.hp / (view.config?.rules?.maxHealth ?? 200)) * 100))}%`,
           }}
@@ -744,11 +782,11 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={fighter.energy}
-        className={`mt-1 flex items-center gap-2 ${side ? "flex-row-reverse" : ""}`}
+        className={`mt-1 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
       >
         <div className="h-1 min-w-0 flex-1 overflow-hidden rounded-none bg-slate-700">
           <div
-            className={`h-full ${side ? "ml-auto bg-cyan-100" : "bg-pink-100"}`}
+            className={`h-full ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-pink-100" : side === 1 ? "bg-cyan-100" : "bg-amber-100"}`}
             style={{ width: `${fighter.energy}%` }}
           />
         </div>
@@ -764,13 +802,50 @@ function FighterHUD({
       <p
         className={`mt-1 text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
       >
-        {teamSizeFor(view.config?.format) > 1
-          ? `剩余 ${view.teamRemaining[side]} 人`
-          : "●".repeat(view.wins[side])}{" "}
+        {brawl
+          ? remaining === 0
+            ? "已淘汰"
+            : respawn > 0
+              ? `替补上场 ${Math.ceil(respawn / 1000)} 秒 · 剩余 ${remaining} 人`
+              : `剩余 ${remaining} 人`
+          : teamSizeFor(view.config?.format) > 1
+            ? `剩余 ${view.teamRemaining[side]} 人`
+            : "●".repeat(view.wins[side])}{" "}
         {fighter.combo > 1 && (
           <span className="ml-2 text-white">{fighter.combo} HITS</span>
         )}
       </p>
+      {brawl && (
+        <div
+          className="mt-1 flex min-w-0 gap-1"
+          aria-label={`${label} 出场顺序`}
+        >
+          {lineup.map((id, slot) => (
+            <div
+              key={slot}
+              className={`relative min-w-0 flex-1 overflow-hidden ${slot < currentSlot ? "opacity-25 grayscale" : ""}`}
+            >
+              <img
+                src={
+                  bandPortrait(assets, id)?.face ??
+                  assets.characters[id].portrait
+                }
+                alt={ROSTER[id]?.name ?? "角色"}
+                className="h-5 w-full object-cover object-center sm:h-7"
+              />
+              <span className="absolute bottom-0 inset-x-0 bg-slate-950/75 text-center text-[7px] text-white">
+                {slot < currentSlot
+                  ? "退场"
+                  : slot === currentSlot
+                    ? respawn > 0
+                      ? "待登场"
+                      : "出战"
+                    : "替补"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

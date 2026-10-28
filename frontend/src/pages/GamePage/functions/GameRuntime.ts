@@ -146,6 +146,8 @@ export class GameRuntime {
       phaseMs: m.phaseMs,
       finishVideoMs: m.roundEnd?.finisher ? this.finishVideoMs : null,
       teamRemaining: m.isTeamBattle ? m.teamRemaining : [1, 1],
+      respawnMs: [...m.respawnMs],
+      eliminated: [...m.eliminated],
     });
   }
   begin(mode: Mode, format: Format = "1v1") {
@@ -154,7 +156,7 @@ export class GameRuntime {
       config: {
         mode,
         format,
-        characters: [0, 1],
+        characters: format === "3ffa" ? [0, 1, 2] : [0, 1],
         rules: this.view.config?.rules,
         settings: this.view.config?.settings ?? {
           arena: 0,
@@ -188,6 +190,7 @@ export class GameRuntime {
   async start(config: MatchConfig, network = false) {
     config = {
       ...config,
+      mode: !network && config.format === "3ffa" ? "cpu" : config.mode,
       rules: normalizeBattleRules(config.rules, config.format, ROSTER.length),
     };
     if (network)
@@ -202,7 +205,10 @@ export class GameRuntime {
       config,
       error: "",
       lastMove: "",
-      cutins: [null, null],
+      cutins: Array.from(
+        { length: config.format === "3ffa" ? 3 : 2 },
+        () => null,
+      ),
       dialog: null,
     });
     this.audio.stop();
@@ -390,7 +396,17 @@ export class GameRuntime {
       }
       if (["roundAdvance", "teamAdvance", "result"].includes(event.type)) {
         this.input.clear();
-        this.publish({ cutins: [null, null] });
+        this.publish({ cutins: this.match.fighters.map(() => null) });
+      }
+      if (
+        ["fighterKO", "fighterRespawn", "fighterEliminated"].includes(
+          event.type,
+        )
+      ) {
+        this.clearCutin(event.side ?? 0);
+        if (!this.lan.connected || event.side === this.lan.side)
+          this.input.clear();
+        this.publishMatch();
       }
     }
   }
@@ -430,8 +446,8 @@ export class GameRuntime {
         if (playback.complete && !authority.paused) {
           const tick = authority.roundEnd.tick;
           if (!this.lan.connected) {
-            this.match.completeFinish(0, tick);
-            this.match.completeFinish(1, tick);
+            for (let side = 0; side < this.match.playerCount; side++)
+              this.match.completeFinish(side, tick);
           } else if (
             !authority.finishReady[this.lan.side] &&
             this.finishAck !== tick &&

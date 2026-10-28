@@ -6,7 +6,7 @@ import type { Fighter, FighterIdentity } from "../../objects/Fighter";
 import type { Input } from "../../objects/Input";
 import { chainPrefix, firstJab } from "./forms";
 
-const sideOf = (match: Match, f: Fighter) => (match.fighters[0] === f ? 0 : 1);
+const sideOf = (match: Match, f: Fighter) => match.fighters.indexOf(f);
 
 /**
  * MyGO's command table: each character has a hand-written button mapping.
@@ -320,7 +320,7 @@ export function mygoOnStart(
 export function mygoAi(match: Match, side: number, input: Input): Input {
   const MOVES = moveCatalog();
   const a = match.fighters[side],
-    b = match.fighters[1 - side];
+    b = match.fighters[match.targetSide(side)];
   const d = Math.abs(a.x - b.x),
     level = match.options.difficulty;
   if (

@@ -2,17 +2,20 @@ import { MOVES, ROSTER, ROUND_END_TIMING, WORLD, bandFor } from "../combatData";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import type { Move, Pulse } from "../objects/Move";
+import { resolveBrawlKOs, updateBrawlRespawns } from "./rounds";
 import { clamp } from "./combatMath";
 
 /** Advance one 10 ms step in rule order: lifecycle, inputs, contacts, persistent effects. */
-export function step(match: Match, p1: Input, p2: Input): void {
+export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
   // This clock includes ready/round transitions and hit freeze. inputTick
   // advances only when combat accepts input; LAN replay needs both clocks.
   match.simulationTick++;
   match.elapsed += 10;
   if (match.phase === "ready") {
     match.phaseMs -= 10;
-    match.previous = [{ ...p1 }, { ...p2 }];
+    match.previous = [p1, p2, p3]
+      .slice(0, match.playerCount)
+      .map((input) => ({ ...input }));
     if (match.phaseMs <= 0) {
       match.phase = "fighting";
       match.events.push({ type: "fight" });
@@ -65,6 +68,7 @@ export function step(match: Match, p1: Input, p2: Input): void {
     }
     return;
   }
+  updateBrawlRespawns(match);
   if (match.freeze > 0) {
     match.freeze -= 10;
     return;
@@ -83,9 +87,13 @@ export function step(match: Match, p1: Input, p2: Input): void {
       : match.options.mode === "cpu"
         ? match.aiInput()
         : p2,
+    ...(match.isBrawl
+      ? [match.options.mode === "cpu" ? match.aiInput(2) : p3]
+      : []),
   ];
   if (
     match.options.mode === "cpu" &&
+    !match.isBrawl &&
     match.aiGuard > 0 &&
     !match.options.rules.disableGuard
   ) {
@@ -94,22 +102,28 @@ export function step(match: Match, p1: Input, p2: Input): void {
     inputs[1].left = inputs[1].right = false;
   }
   match.updateBindings();
-  for (let side = 0; side < 2; side++) match.updateFighter(side, inputs[side]);
+  for (let side = 0; side < match.playerCount; side++) {
+    if (match.isBrawl && match.options.mode === "cpu" && side > 0)
+      match.aiGoal = match.aiStates[side].goal;
+    match.updateFighter(side, inputs[side]);
+  }
   match.separate();
   match.updateBindings();
   match.updateSoyoSupers();
   // Resolve both active strikes together so simultaneous attacks can trade.
   const hits: {
     side: number;
+    target: number;
     attack: string;
     impact: Partial<Move>;
     x?: number;
     y?: number;
   }[] = [];
   const releaseBuffs: { side: number; ratio: number; duration: number }[] = [];
-  for (let side = 0; side < 2; side++) {
+  for (let side = 0; side < match.playerCount; side++) {
+    if (!match.active(side)) continue;
     const f = match.fighters[side],
-      other = match.fighters[1 - side],
+      other = match.fighters[match.targetSide(side)],
       move = MOVES[f.attack ?? ""];
     if (
       move?.lifestealBuff &&
@@ -121,11 +135,16 @@ export function step(match: Match, p1: Input, p2: Input): void {
     const transform = bandFor(f.character).transform;
     if (transform && f.stageForm?.ms === transform.duration) {
       const burst = MOVES[transform.move];
-      if (match.meleeConnects(f, other, burst, burst.reach!, burst.vertical!))
-        hits.push({ side, attack: transform.move, impact: {} });
-      for (const unit of [...(other.summons?.units ?? [])])
-        if (match.meleeConnects(f, unit, burst, burst.reach!, burst.vertical!))
-          match.hitMinion(side, unit, transform.move);
+      for (const target of match.enemySides(side)) {
+        const enemy = match.fighters[target];
+        if (match.meleeConnects(f, enemy, burst, burst.reach!, burst.vertical!))
+          hits.push({ side, target, attack: transform.move, impact: {} });
+        for (const unit of [...(enemy.summons?.units ?? [])])
+          if (
+            match.meleeConnects(f, unit, burst, burst.reach!, burst.vertical!)
+          )
+            match.hitMinion(side, unit, transform.move);
+      }
     }
     if (move?.counter) {
       // A successful parry ends the stance in hit(). An uncontested stance
@@ -175,7 +194,11 @@ export function step(match: Match, p1: Input, p2: Input): void {
               forward <= move.reach! &&
               Math.abs(other.y - f.y) <= move.vertical!;
         if (other.hp > 0 && inside && !match.invulnerable(other)) {
-          f.binding = { target: 1 - side, x: other.x, y: other.y };
+          f.binding = {
+            target: match.targetSide(side),
+            x: other.x,
+            y: other.y,
+          };
           match.updateBindings();
         }
       }
@@ -195,6 +218,7 @@ export function step(match: Match, p1: Input, p2: Input): void {
         if (f.binding)
           hits.push({
             side,
+            target: f.binding.target,
             attack: f.attack!,
             x: f.binding.x,
             y: f.binding.y + 100,
@@ -345,49 +369,59 @@ export function step(match: Match, p1: Input, p2: Input): void {
     const vertical =
       move.vertical ||
       (f.attack === "special" ? profile.specialVertical || 130 : 88);
-    if (move.category !== "throw") {
-      const group = other.summons;
-      for (const unit of [...(group?.units || [])]) {
-        const mark = `${group!.bornAt}:${unit.id}:${pulse ?? "strike"}`;
-        if (
-          !f.minionHitMarks.includes(mark) &&
-          match.meleeConnects(f, unit, move, reach, vertical)
-        ) {
-          f.minionHitMarks.push(mark);
-          match.hitMinion(side, unit, f.attack!, impact);
+    let connected = false;
+    for (const target of match.enemySides(side)) {
+      const other = match.fighters[target];
+      if (move.category !== "throw") {
+        const group = other.summons;
+        for (const unit of [...(group?.units || [])]) {
+          const mark = `${target}:${group!.bornAt}:${unit.id}:${pulse ?? "strike"}`;
+          if (
+            !f.minionHitMarks.includes(mark) &&
+            match.meleeConnects(f, unit, move, reach, vertical)
+          ) {
+            f.minionHitMarks.push(mark);
+            match.hitMinion(side, unit, f.attack!, impact);
+          }
         }
       }
+      if (
+        f.hit ||
+        (move.pulses && f.hitMarks.includes(pulse!)) ||
+        !match.meleeConnects(f, other, move, reach, vertical) ||
+        other.knockdown > 0 ||
+        match.invulnerable(other)
+      )
+        continue;
+      if (
+        move.category === "throw" &&
+        (!match.grounded(f) ||
+          !match.grounded(other) ||
+          Math.abs(f.y - other.y) > 25 ||
+          other.stun)
+      )
+        continue;
+      connected = true;
+      hits.push({
+        side,
+        target,
+        attack: f.attack!,
+        impact: {
+          ...impact,
+          beatEligible:
+            f.character === 4 && move.category === "normal" && !f.beatGranted,
+        },
+      });
+      // Throws acquire one opponent; other strikes may contact all opponents.
+      if (move.category === "throw") break;
     }
-    if (
-      f.hit ||
-      (move.pulses && f.hitMarks.includes(pulse!)) ||
-      !match.meleeConnects(f, other, move, reach, vertical) ||
-      other.knockdown > 0 ||
-      match.invulnerable(other)
-    )
-      continue;
-    if (
-      move.category === "throw" &&
-      (!match.grounded(f) ||
-        !match.grounded(other) ||
-        Math.abs(f.y - other.y) > 25 ||
-        other.stun)
-    )
-      continue;
-    if (move.pulses) f.hitMarks.push(pulse!);
-    if (!move.pulses) f.hit = true;
-    hits.push({
-      side,
-      attack: f.attack!,
-      impact: {
-        ...impact,
-        beatEligible:
-          f.character === 4 && move.category === "normal" && !f.beatGranted,
-      },
-    });
+    if (connected) {
+      if (move.pulses) f.hitMarks.push(pulse!);
+      else f.hit = true;
+    }
   }
   for (const hit of hits)
-    match.hit(hit.side, hit.attack, hit.x!, hit.y!, hit.impact);
+    match.hit(hit.side, hit.attack, hit.x!, hit.y!, hit.impact, hit.target);
   // Grant after the opening strike, even on a whiff. Recasts refresh the
   // duration rather than stacking rates; a defeated caster cannot gain it.
   for (const buff of releaseBuffs) {
@@ -406,6 +440,10 @@ export function step(match: Match, p1: Input, p2: Input): void {
   match.updateWaves();
   match.updateBindings();
   match.previous = inputs.map((input) => ({ ...input }));
+  if (match.isBrawl) {
+    resolveBrawlKOs(match);
+    return;
+  }
   if (
     match.options.mode !== "practice" &&
     ((!match.options.rules.infiniteTime && match.remaining <= 0) ||

@@ -86,7 +86,7 @@ function heart(
 /** Thin world-space accents follow the same paused/synchronized entrance clock as the body. */
 export function drawEntranceEffects(scene: BattleSceneContext) {
   const { ctx, match, reducedMotion } = scene;
-  for (const side of [0, 1]) {
+  for (let side = 0; side < match.playerCount; side++) {
     const entry = entranceFor(match, side, reducedMotion);
     if (!entry) continue;
     const f = match.fighters[side];
@@ -324,6 +324,44 @@ export function drawEntranceEffects(scene: BattleSceneContext) {
 /** Full portrait cut-ins slide over the arena, then clear for the final stance. */
 export function drawEntranceTitles(scene: BattleSceneContext) {
   const { ctx, match, reducedMotion } = scene;
+  if (match.isBrawl) {
+    for (let side = 0; side < match.playerCount; side++) {
+      const entry = entranceFor(match, side, reducedMotion);
+      if (!entry || entry.localAge >= 1380) continue;
+      const age = entry.localAge;
+      const visibility = reducedMotion
+        ? 1
+        : clamp(age / 220) * clamp((1380 - age) / 320);
+      const portrait =
+        bandPortrait(scene.assets, entry.character)?.portrait ??
+        scene.assets.characters[entry.character].portrait;
+      const image = scene.getImage(portrait);
+      if (!image) continue;
+      const x = side * 320;
+      const shift = reducedMotion ? 0 : (1 - clamp(age / 300)) ** 3 * 190;
+      ctx.save();
+      ctx.globalAlpha = visibility;
+      ctx.translate(x, shift);
+      ctx.beginPath();
+      ctx.rect(4, 110, 312, 302);
+      ctx.clip();
+      ctx.fillStyle = "#0b1022ee";
+      ctx.fillRect(4, 110, 312, 302);
+      ctx.drawImage(image, 12, 110, 296, 270);
+      ctx.fillStyle = "#0b1022dd";
+      ctx.fillRect(4, 350, 312, 62);
+      ctx.fillStyle = scene.colors[side];
+      ctx.fillRect(4, 110, 312, 3);
+      ctx.textAlign = "center";
+      ctx.font = "bold 15px sans-serif";
+      ctx.fillText(`${side + 1}P / CHALLENGER`, 160, 372);
+      ctx.fillStyle = "#fff5ed";
+      ctx.font = "bold 20px sans-serif";
+      ctx.fillText(ROSTER[entry.character].name, 160, 399);
+      ctx.restore();
+    }
+    return;
+  }
   for (const side of [0, 1]) {
     const entry = entranceFor(match, side, reducedMotion);
     if (!entry) continue;

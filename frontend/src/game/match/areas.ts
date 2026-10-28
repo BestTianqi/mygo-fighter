@@ -40,7 +40,7 @@ export function updateSoyoSupers(match: Match): void {
   const move = MOVES.soyoSuper,
     controls = [];
   // Release both casts before applying reactions, so simultaneous P casts trade.
-  for (let side = 0; side < 2; side++) {
+  for (let side = 0; side < match.playerCount; side++) {
     const f = match.fighters[side],
       state = f.soyoSuper;
     if (!state) continue;
@@ -71,23 +71,24 @@ export function updateSoyoSupers(match: Match): void {
     }
     if (!state.released) continue;
     state.radius = move.reach! * Math.min(1, age / move.expansion!);
-    const target = match.fighters[1 - side];
-    if (
-      age > move.waveDuration! ||
-      state.hitTargets.includes(1 - side) ||
-      target.hp <= 0 ||
-      match.invulnerable(target)
-    )
-      continue;
-    if (
-      Math.hypot(target.x - state.x, target.y + 100 - state.y) <= state.radius
-    ) {
-      state.hitTargets.push(1 - side);
-      controls.push(side);
+    for (const targetSide of match.enemySides(side)) {
+      const target = match.fighters[targetSide];
+      if (
+        age > move.waveDuration! ||
+        state.hitTargets.includes(targetSide) ||
+        match.invulnerable(target)
+      )
+        continue;
+      if (
+        Math.hypot(target.x - state.x, target.y + 100 - state.y) <= state.radius
+      ) {
+        state.hitTargets.push(targetSide);
+        controls.push({ side, targetSide });
+      }
     }
   }
-  for (const side of controls) {
-    const target = match.fighters[1 - side];
+  for (const { side, targetSide } of controls) {
+    const target = match.fighters[targetSide];
     target.hardStun = Math.max(target.hardStun, move.hardStun!);
     target.stun = Math.max(target.stun, target.hardStun);
     target.attack = target.buffer = null;
@@ -105,11 +106,11 @@ export function updateSoyoSupers(match: Match): void {
     if (target.soyoSuper && !target.soyoSuper.released) target.soyoSuper = null;
     // Each target is marked once by the expanding wave; use the shared damage
     // path so this super can also receive normal hit effects and KO attribution.
-    match.hit(side, "soyoSuper", target.x, target.y + 100);
+    match.hit(side, "soyoSuper", target.x, target.y + 100, {}, targetSide);
     match.events.push({
       type: "hardControl",
       side,
-      target: 1 - side,
+      target: targetSide,
       duration: move.hardStun,
       x: target.x,
       y: target.y + 100,
@@ -123,8 +124,7 @@ export function updateAreas(match: Match): void {
     area.life -= 10;
     if (area.warning > 0 || area.fired) continue;
     area.fired = true;
-    const target = match.fighters[1 - area.owner],
-      move = MOVES[area.attack ?? ""];
+    const move = MOVES[area.attack ?? ""];
     match.events.push({
       type: "areaPulse",
       side: area.owner,
@@ -152,10 +152,13 @@ export function updateAreas(match: Match): void {
         body.y - surface <= move.vertical!
       );
     };
-    if (connects(target) && !target.knockdown)
-      match.hit(area.owner, area.attack, area.x, area.y + 80);
-    for (const unit of [...(target.summons?.units || [])])
-      if (connects(unit)) match.hitMinion(area.owner, unit, area.attack);
+    for (const targetSide of match.enemySides(area.owner)) {
+      const target = match.fighters[targetSide];
+      if (connects(target) && !target.knockdown)
+        match.hit(area.owner, area.attack, area.x, area.y + 80, {}, targetSide);
+      for (const unit of [...(target.summons?.units || [])])
+        if (connects(unit)) match.hitMinion(area.owner, unit, area.attack);
+    }
   }
   match.areas = match.areas.filter((area) => area.life > 0);
 }

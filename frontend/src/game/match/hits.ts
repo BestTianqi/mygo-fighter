@@ -39,11 +39,18 @@ export function hit(
   x: number,
   y: number,
   impact: Partial<Move> = {},
+  targetSide = match.targetSide(side),
 ): void {
   const a = match.fighters[side],
-    b = match.fighters[1 - side],
+    b = match.fighters[targetSide],
     move = { ...MOVES[attack], ...impact };
-  if (match.invulnerable(b)) return;
+  if (
+    !b ||
+    targetSide === side ||
+    !match.active(targetSide) ||
+    match.invulnerable(b)
+  )
+    return;
   const multiplier =
     outgoingMultiplier(a, attack) * match.options.rules.damageMultiplier;
   let damage =
@@ -65,11 +72,11 @@ export function hit(
     b.stun = Math.max(b.stun, b.hardStun, 80);
     b.cooldown = 220;
     b.vx = 0;
-    match.spawnWave(1 - side, parry.counterAttack || "penguinCryWave");
+    match.spawnWave(targetSide, parry.counterAttack || "penguinCryWave");
     match.freeze = Math.max(match.freeze, 50);
     match.events.push({
       type: parry.counterAttack ? "counter" : "penguinCounter",
-      side: 1 - side,
+      side: targetSide,
       x: b.x,
       y: b.y + 110,
     });
@@ -91,7 +98,7 @@ export function hit(
     match.freeze = Math.max(match.freeze, 40);
     match.events.push({
       type: "shieldHit",
-      side: 1 - side,
+      side: targetSide,
       attacker: side,
       absorbed,
       broken,
@@ -318,6 +325,7 @@ export function hit(
   match.events.push({
     type: "hit",
     side,
+    target: targetSide,
     attack,
     damage,
     blocked,

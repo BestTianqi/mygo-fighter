@@ -51,7 +51,12 @@ export function GameDialogs({
             打开招式表。切换窗口会暂停对战。
           </p>
           <p>
-            联机时双方打开同一个服务器地址，通过房间码加入，并都使用1P键位。
+            三人混战中三方同时登场，每人选择 3 名不同角色，各方可使用相同角色。
+            角色退场后等待 5 秒，由下一名替补登场；最后还有角色的一方获胜。
+            单人混战由你控制 1P，其余两方为电脑；三人联机时各自控制自己的阵容。
+          </p>
+          <p>
+            联机时所有玩家打开同一个服务器地址，通过房间码加入，并都使用1P键位。
             公共服务器支持跨网络对战。断线自动暂停，恢复连接后由玩家继续对战。
             页面显示往返延迟；网络距离、丢包和设备性能都会影响体验。
           </p>
@@ -67,7 +72,9 @@ export function GameDialogs({
     : [{ character: 0 }, { character: 1 }];
   return (
     <Dialog title="角色招式表" onClose={() => runtime.closeDialog()} wide>
-      <div className="grid gap-8 sm:grid-cols-2">
+      <div
+        className={`grid gap-8 ${identities.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}
+      >
         {identities.map((f, side) => (
           <section key={side}>
             <h3 className="mb-4 font-semibold text-[#211f1a]">
@@ -118,7 +125,7 @@ export function GameDialogs({
         ))}
       </div>
       <p className="mt-5 text-xs leading-6 text-[#80786d]">
-        前后以角色面朝方向为准。后＋U快速发波，后＋I重型音波，后＋O抛射投掷；前＋O仍为近身投技。技能受能量、地空姿态、冷却与命中取消条件限制。联机双方均使用1P键位。
+        前后以角色面朝方向为准。后＋U快速发波，后＋I重型音波，后＋O抛射投掷；前＋O仍为近身投技。技能受能量、地空姿态、冷却与命中取消条件限制。联机玩家均使用1P键位。
       </p>
     </Dialog>
   );

@@ -29,7 +29,7 @@ export function createBattleScene(
 ) {
   const camera = new Camera(),
     mujicaMotion = createMujicaMotion();
-  const colors = ["#f6a4c7", "#65d1ee"];
+  const colors = ["#f6a4c7", "#65d1ee", "#f6c665"];
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const stageRenderer = createStageRenderer(
     ctx,

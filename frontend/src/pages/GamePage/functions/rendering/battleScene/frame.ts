@@ -67,12 +67,15 @@ export function drawBattle(
   drawSuperAura(scene);
   scene.match.fighters.forEach((value) => drawMaskAura(scene, value));
   drawMujicaEffects(scene);
-  for (const side of [0, 1]) drawOffenseEffect(scene, side);
-  for (const side of [0, 1]) drawSoyoEffect(scene, side);
+  const visibleSides = scene.match.fighters.flatMap((f, side) =>
+    scene.match.isBrawl && f.hp <= 0 ? [] : [side],
+  );
+  for (const side of visibleSides) drawOffenseEffect(scene, side);
+  for (const side of visibleSides) drawSoyoEffect(scene, side);
   drawVocalAuras(scene);
   drawBlinkTrails(scene, dt);
   drawEntranceEffects(scene);
-  for (const side of [0, 1]) drawFighter(scene, side);
+  for (const side of visibleSides) drawFighter(scene, side);
   if (scene.match.phase === "fighting")
     for (const f of scene.match.fighters) {
       const move = MOVES[f.attack ?? ""];
@@ -81,7 +84,7 @@ export function drawBattle(
     }
   drawHeldProps(scene);
   drawSummons(scene);
-  for (const side of [0, 1]) drawShield(scene, side);
+  for (const side of visibleSides) drawShield(scene, side);
   scene.match.waves.forEach(scene.drawWave);
   drawFx(scene, dt);
   scene.ctx.restore();

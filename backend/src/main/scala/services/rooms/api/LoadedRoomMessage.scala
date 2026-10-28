@@ -26,7 +26,8 @@ final case class LoadedRoomMessage(session: Session, generation: Int, peerId: St
           ) *>
           room.state.update(s => s.copy(loaded = s.loaded + session.side)) *>
           room.state.get.flatMap { next =>
-            if next.phase == RoomPhase.Playing || next.loaded.size != 2 then room.broadcast
+            if next.phase == RoomPhase.Playing || next.loaded.size != next.players.size then
+              room.broadcast
             else
               val config = next.config.getOrElse(Json.Null)
               val options = config.deepMerge(

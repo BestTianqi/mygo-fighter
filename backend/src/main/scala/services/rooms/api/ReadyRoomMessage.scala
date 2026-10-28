@@ -15,7 +15,7 @@ final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIM
       room.state.get.flatMap { state =>
         IO.raiseUnless(state.phase == RoomPhase.Lobby)(IllegalArgumentException("对战正在准备或进行")) *>
           IO.raiseWhen(ready && !RoomDraft.complete(state))(
-            IllegalArgumentException("请先完成双方禁用和出战角色的选择")
+            IllegalArgumentException("请先完成所有玩家禁用和出战角色的选择")
           ) *>
           IO.raiseWhen(
             ready && !state

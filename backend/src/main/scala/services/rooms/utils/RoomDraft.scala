@@ -6,10 +6,11 @@ import services.rooms.objects.*
 object RoomDraft:
   private[rooms] def view(state: RoomState): Option[DraftView] = state.draft.map { draft =>
     val picks = state.players.flatten.map(_.team.size).sum
-    if draft.bans.size < state.rules.banCount * 2 then
-      DraftView(draft.bans, "ban", Some(draft.bans.size % 2))
-    else if picks < RoomRules.teamSize(state.format) * 2 then
-      DraftView(draft.bans, "pick", Some(picks % 2))
+    val count = RoomRules.playerCount(state.format)
+    if draft.bans.size < state.rules.banCount * count then
+      DraftView(draft.bans, "ban", Some(draft.bans.size % count))
+    else if picks < RoomRules.teamSize(state.format) * count then
+      DraftView(draft.bans, "pick", Some(picks % count))
     else DraftView(draft.bans, "complete", None)
   }
 
@@ -32,7 +33,7 @@ object RoomDraft:
       Either.cond(test, (), IllegalArgumentException(message))
     for
       draft <- state.draft.toRight(IllegalArgumentException("请先开启禁选模式"))
-      _ <- require(state.players.forall(_.exists(_.connected)), "请等待双方连接后再禁选")
+      _ <- require(state.players.forall(_.exists(_.connected)), "请等待所有玩家连接后再禁选")
       phase = view(state).get
       _ <- require(phase.turn.contains(side), "请等待对方完成当前禁选")
       _ <- require(phase.phase == (if banning then "ban" else "pick"), "当前禁选阶段不允许此操作")

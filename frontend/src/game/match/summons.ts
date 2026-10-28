@@ -11,8 +11,12 @@ export function hitMinion(
   attack: string,
   impact: Partial<Move> = {},
 ): void {
-  const owner = 1 - side,
-    group = match.fighters[owner].summons;
+  const owner = match.fighters.findIndex(
+    (fighter, target) =>
+      target !== side && fighter.summons?.units.includes(unit),
+  );
+  if (owner < 0) return;
+  const group = match.fighters[owner].summons;
   const move = { ...MOVES[attack], ...impact };
   if (!group?.units.includes(unit) || unit.hp <= 0 || move.category === "throw")
     return;
@@ -47,9 +51,9 @@ export function hitMinion(
 }
 
 export function updateSummons(match: Match): void {
-  for (let side = 0; side < 2; side++) {
+  for (let side = 0; side < match.playerCount; side++) {
     const f = match.fighters[side],
-      target = match.fighters[1 - side],
+      target = match.fighters[match.targetSide(side)],
       group = f.summons;
     if (!group) continue;
     if (group.bornAt !== match.elapsed) group.ms -= 10;
@@ -106,7 +110,14 @@ export function updateSummons(match: Match): void {
           !match.invulnerable(target) &&
           target.hp > 0
         ) {
-          match.hit(side, "tensoraHit", p.x, p.y + 40);
+          for (const victim of match.enemySides(side)) {
+            const enemy = match.fighters[victim];
+            if (
+              Math.abs(enemy.x - p.x) < 40 &&
+              Math.abs(enemy.y + 10 - p.y) < 60
+            )
+              match.hit(side, "tensoraHit", p.x, p.y + 40, {}, victim);
+          }
           match.events.push({
             type: "minionStrike",
             side,

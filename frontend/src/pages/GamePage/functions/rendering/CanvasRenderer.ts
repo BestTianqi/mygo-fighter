@@ -71,15 +71,15 @@ export class CanvasRenderer {
   }
   positions(match: Match) {
     return match.fighters.map((f, i) => ({
-      x: f.x + this.offsets[i].x,
-      y: f.y + this.offsets[i].y,
+      x: f.x + (this.offsets[i]?.x ?? 0),
+      y: f.y + (this.offsets[i]?.y ?? 0),
     }));
   }
   correct(match: Match, before: { x: number; y: number }[], snap: boolean) {
     let distance = 0;
     this.offsets = match.fighters.map((f, i) => {
-      const x = before[i].x - f.x,
-        y = before[i].y - f.y;
+      const x = (before[i]?.x ?? f.x) - f.x,
+        y = (before[i]?.y ?? f.y) - f.y;
       distance = Math.max(distance, Math.hypot(x, y));
       return snap || Math.hypot(x, y) > 80 ? { x: 0, y: 0 } : { x, y };
     });
@@ -493,8 +493,8 @@ export class CanvasRenderer {
       const target = (this.visualFighters[i] ??= { ...f });
       return Object.assign(target, f, {
         hp: authority?.fighters[i].hp ?? f.hp,
-        x: f.x + this.offsets[i].x,
-        y: f.y + this.offsets[i].y,
+        x: f.x + (this.offsets[i]?.x ?? 0),
+        y: f.y + (this.offsets[i]?.y ?? 0),
       });
     });
     this.scene.draw(visual, dt, videoBackground);

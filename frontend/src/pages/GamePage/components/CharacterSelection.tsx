@@ -41,6 +41,14 @@ export function CharacterSelection({
   };
   const stage = assets.stages[selection.settings.arena];
   const complete = controller.isComplete();
+  const brawl = selection.format === "3ffa";
+  const labels = selection.teams.map((_, side) =>
+    side === 0
+      ? "1P"
+      : selection.mode === "duel"
+        ? `${side + 1}P`
+        : `CPU ${side}`,
+  );
   function confirm() {
     if (!complete) return;
     const teams = selection.teams as number[][];
@@ -83,13 +91,17 @@ export function CharacterSelection({
                 update(() => controller.setMode(event.target.value as Mode))
               }
             >
-              <option value="cpu">单人对战</option>
-              <option value="duel">本地双人</option>
+              <option value="cpu">
+                {brawl ? "1P + 两位电脑" : "单人对战"}
+              </option>
+              <option value="duel" disabled={brawl}>
+                本地双人
+              </option>
               <option value="practice">自由练习</option>
             </select>
           </label>
           <label className="grid gap-1 text-xs text-[#80786d]">
-            出战人数
+            对战形式
             <select
               className={selectClass}
               value={selection.format}
@@ -100,7 +112,9 @@ export function CharacterSelection({
             >
               {MATCH_FORMATS.map((format) => (
                 <option key={format} value={format}>
-                  {format} {format === "1v1" ? "单人战" : "车轮战"}
+                  {format === "3ffa"
+                    ? "三人混战 · 每人 3 角色"
+                    : `${format} ${format === "1v1" ? "单人战" : "车轮战"}`}
                 </option>
               ))}
             </select>
@@ -126,7 +140,7 @@ export function CharacterSelection({
                   ? null
                   : selection.active
               }
-              labels={["1P", selection.mode === "duel" ? "2P" : "CPU"]}
+              labels={labels}
               statuses={selection.teams.map((team, side) =>
                 team.every((id) => id !== null)
                   ? "阵容已就绪"
@@ -186,7 +200,7 @@ export function CharacterSelection({
               <p className="text-xs text-[#80786d]">
                 {selection.phase === "ban"
                   ? `${selection.bans.length} / ${selection.rules.banCount * 2} 已禁用`
-                  : `${selection.teams.flat().filter((id) => id !== null).length} / ${teamSizeFor(selection.format) * 2} 已出战`}
+                  : `${selection.teams.flat().filter((id) => id !== null).length} / ${teamSizeFor(selection.format) * selection.teams.length} 已出战`}
               </p>
             </div>
             <RosterGrid
@@ -223,8 +237,16 @@ export function CharacterSelection({
                   ? "阵容已就绪，选择场地后登台。"
                   : selection.phase === "ban"
                     ? `轮到 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 禁用第 ${Math.floor(selection.bans.length / 2) + 1} 名角色。`
-                    : `为 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 选择第 ${selection.active[1] + 1} 位角色。`)}
+                    : `为 ${labels[selection.active[0]]} 选择第 ${selection.active[1] + 1} 位角色。`)}
             </p>
+            {brawl && (
+              <p className="mt-2 text-xs leading-5 text-[#80786d]">
+                三人同时登场，各带 3 名角色。击倒后等待 5
+                秒由下一名上场，最后存活的一方获胜。
+                {selection.mode === "cpu" && "你控制 1P，另外两方由电脑控制。"}
+                每队角色不可重复，不同队伍可以选择相同角色。
+              </p>
+            )}
           </div>
         </div>
         <section className="mt-3 pt-3" aria-label="场地与规则">

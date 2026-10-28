@@ -114,6 +114,14 @@ export function MainMenu({
               <button
                 className={menuButton}
                 disabled={!runtime}
+                onClick={() => runtime?.begin("cpu", "3ffa")}
+              >
+                三人混战{" "}
+                <span className="text-[10px] text-[#80786d]">每人 3 角色</span>
+              </button>
+              <button
+                className={menuButton}
+                disabled={!runtime}
                 onClick={() => runtime?.begin("practice")}
               >
                 自由练习{" "}

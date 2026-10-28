@@ -59,7 +59,10 @@ class Camera {
       this.pulse.ms -= dt;
       if (this.pulse.ms <= 0) this.pulse = null;
     }
-    const boxes = match.fighters.map(fighterBounds);
+    const alive = match.isBrawl
+      ? match.fighters.filter((f) => f.hp > 0)
+      : match.fighters;
+    const boxes = (alive.length ? alive : match.fighters).map(fighterBounds);
     const left = Math.min(...boxes.map((b) => b.left)),
       right = Math.max(...boxes.map((b) => b.right));
     const top = Math.min(...boxes.map((b) => b.top)),

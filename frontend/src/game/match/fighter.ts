@@ -6,8 +6,9 @@ import { integrateMovement, updateMovement } from "./movement";
 
 /** One fixed fighter step: timers, input/guard, buffered action, then movement. */
 export function updateFighter(match: Match, side: number, input: Input): void {
+  if (!match.active(side)) return;
   const f = match.fighters[side],
-    other = match.fighters[1 - side];
+    other = match.fighters[match.targetSide(side)];
   if (match.options.rules.infiniteEnergy) f.energy = 100;
   if (match.options.rules.noCooldowns) {
     f.moveCooldowns = {};

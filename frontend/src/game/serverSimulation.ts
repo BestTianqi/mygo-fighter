@@ -7,7 +7,7 @@ import type { MatchOptions } from "./objects/MatchOptions";
 /** Runs inside a private JVM polyglot context. No DOM, Node, timers or host access. */
 export function create(optionsJson: string) {
   const match = new Match(JSON.parse(optionsJson) as MatchOptions);
-  const inputs = new NetworkInputs();
+  const inputs = new NetworkInputs(match.playerCount);
   let time = 0,
     epoch = 0,
     eventId = 0;

@@ -1,6 +1,9 @@
 import type { Finisher } from "./Finisher";
 
 export type CombatEventType =
+  | "fighterKO"
+  | "fighterRespawn"
+  | "fighterEliminated"
   | "blink"
   | "dash"
   | "counter"

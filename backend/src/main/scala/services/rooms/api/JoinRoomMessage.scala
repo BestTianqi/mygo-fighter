@@ -16,7 +16,7 @@ final case class JoinRoomMessage(code: String) extends APIMessage[SessionRespons
           IO.raiseWhen(stopped.nonEmpty)(IllegalArgumentException("找不到房间，请核对房间码"))
         ) *> room.state.get.flatMap { state =>
           val side = state.players.indexWhere(_.isEmpty)
-          IO.raiseWhen(side < 0)(IllegalArgumentException("房间已有两名玩家")) *>
+          IO.raiseWhen(side < 0)(IllegalArgumentException("房间人数已满")) *>
             RoomAccess.nonce(24).flatMap { token =>
               val session = Session(java.util.UUID.randomUUID().toString, token, state.code, side)
               room.state.update(s =>

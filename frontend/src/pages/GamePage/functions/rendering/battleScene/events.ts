@@ -35,6 +35,19 @@ export function consumeEvent(scene: BattleSceneContext, event: CombatEvent) {
       color: tint,
       text,
     });
+  if (event.type === "fighterRespawn") {
+    scene.state.fx = scene.state.fx.filter(
+      (effect) => effect.type !== "blink" || effect.side !== side,
+    );
+    burst(`${side + 1}P 替补登场`, scene.colors[side], 230, 1000);
+    add(scene, {
+      type: "landing",
+      x: f.x,
+      y: 438 - f.y,
+      life: 500,
+      color: scene.colors[side],
+    });
+  }
   if (event.type === "roundAdvance" || event.type === "teamAdvance") {
     scene.state.fx = [];
     scene.state.flash = scene.state.inkMs = 0;

@@ -70,7 +70,7 @@ export function RosterGrid({
                 {sides.map((side) => (
                   <span
                     key={side}
-                    className={`rounded-none px-1.5 py-0.5 text-[9px] font-bold text-slate-950 ${side === 0 ? "bg-pink-200" : "bg-cyan-200"}`}
+                    className={`rounded-none px-1.5 py-0.5 text-[9px] font-bold text-slate-950 ${side === 0 ? "bg-pink-200" : side === 1 ? "bg-cyan-200" : "bg-amber-200"}`}
                   >
                     {side + 1}P
                   </span>

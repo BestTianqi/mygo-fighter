@@ -20,7 +20,7 @@ export function updateMovement(
 ): void {
   // A buffered action can transform the fighter before this movement step.
   const f = match.fighters[side],
-    other = match.fighters[1 - side],
+    other = match.fighters[match.targetSide(side)],
     profile = profileFor(f);
   const speed = profile.speed * match.options.rules.speedMultiplier;
   if (
@@ -46,7 +46,7 @@ export function updateMovement(
       f.airUsed = false;
       f.y += 0.01;
       f.vx = direction * speed * (ground ? 1 : FEEL.airRatio);
-      if (side === 1 && match.options.mode === "cpu" && match.aiGoal >= 0) {
+      if (side > 0 && match.options.mode === "cpu" && match.aiGoal >= 0) {
         const p = match.options.terrain!.platforms[match.aiGoal],
           time = match.jumpTime({ ...f, y: oldY }, p.height);
         f.vx = clamp(
@@ -171,7 +171,7 @@ export function updateMovement(
     !ground &&
     (!f.attack || MOVES[f.attack ?? ""].stance === "air") &&
     !f.dashMs &&
-    !(side === 1 && match.options.mode === "cpu")
+    !(side > 0 && match.options.mode === "cpu")
   ) {
     f.vx = direction * speed * FEEL.airRatio;
   }

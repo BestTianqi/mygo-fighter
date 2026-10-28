@@ -247,7 +247,8 @@ export class AudioDirector {
     this.voices?.stop();
     this.summons?.stop();
     this.music?.stop();
-    this.speeches?.stop(1 - finisher.side);
+    for (let side = 0; side < roundEnd.fighters.length; side++)
+      if (side !== finisher.side) this.speeches?.stop(side);
     if (voice) {
       state.audible =
         this.speeches?.playAfterCurrent(voice, finisher.side, () => {
@@ -319,7 +320,18 @@ export class AudioDirector {
         this.voices?.stop(side);
       }
       if (event.type === "hit" && !event.blocked && !event.armored)
-        this.voices?.stop(1 - side);
+        this.voices?.stop(event.target ?? 1 - side);
+      if (
+        ["fighterKO", "fighterRespawn", "fighterEliminated"].includes(
+          event.type,
+        )
+      ) {
+        this.voices?.stop(side);
+        this.speeches?.stop(side);
+        this.music?.stop(side);
+        for (let unit = 0; unit < 3; unit++)
+          this.summons?.stop(side * 3 + unit);
+      }
       if (["roundAdvance", "teamAdvance", "result"].includes(event.type)) {
         this.voices?.stop();
         this.summons?.stop();

@@ -2,7 +2,7 @@ import type { Match } from "./engine";
 import type { Input } from "./objects/Input";
 import type { CombatEvent } from "./objects/CombatEvent";
 
-export const NETWORK_PROTOCOL = 22;
+export const NETWORK_PROTOCOL = 23;
 export const HISTORY_MS = 2000;
 export type MatchState = Pick<
   Match,
@@ -14,7 +14,12 @@ export type MatchState = Pick<
 >;
 export type Snapshot = Omit<
   MatchState,
-  "options" | "events" | "isTeamBattle" | "teamRemaining"
+  | "options"
+  | "events"
+  | "isTeamBattle"
+  | "teamRemaining"
+  | "isBrawl"
+  | "playerCount"
 >;
 export interface InputState {
   inputs: Input[];

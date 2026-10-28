@@ -102,7 +102,9 @@ export function BattleRulesPanel({
   readOnly?: boolean;
   practice?: boolean;
 }) {
-  const maxBans = practice ? 0 : maxBanCount(teamSizeFor(format), rosterSize);
+  const brawl = format === "3ffa";
+  const maxBans =
+    practice || brawl ? 0 : maxBanCount(teamSizeFor(format), rosterSize);
   const enabled = toggleGroups
     .flatMap((group) =>
       group.items.map(([key, label]) =>
@@ -168,10 +170,14 @@ export function BattleRulesPanel({
             />
             <label className="grid min-w-0 gap-1 text-xs text-[#80786d]">
               每方禁用角色数
-              {practice ? " · 练习模式不禁选" : " · 随阵容人数调整"}
+              {practice
+                ? " · 练习模式不禁选"
+                : brawl
+                  ? " · 混战自由选人"
+                  : " · 随阵容人数调整"}
               <select
                 className={fieldClass}
-                disabled={practice}
+                disabled={practice || brawl}
                 value={rules.banCount}
                 onChange={(event) =>
                   onChange({ banCount: Number(event.target.value) })
@@ -267,7 +273,9 @@ export function BattleRulesPanel({
         <p className="mt-3 text-[10px] leading-5 text-[#80786d]">
           {rules.banCount > 0
             ? "双方轮流禁用角色，再轮流选择互不重复的阵容。更改禁用人数会重新禁选。"
-            : "每队角色不可重复，双方可选择相同角色。"}
+            : brawl
+              ? "每队角色不可重复，三方可选择相同角色。击倒后 5 秒由下一名上场。"
+              : "每队角色不可重复，双方可选择相同角色。"}
           {readOnly ? "规则由房主调整。" : "快捷预设会重置全部规则及禁用人数。"}
         </p>
       </fieldset>

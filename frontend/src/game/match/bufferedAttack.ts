@@ -14,7 +14,7 @@ export function startBufferedAttack(
   direction: number,
 ): void {
   const f = match.fighters[side],
-    other = match.fighters[1 - side];
+    other = match.fighters[match.targetSide(side)];
   if (f.buffer && !moveEnabled(match.options.rules, MOVES[f.buffer])) {
     f.buffer = null;
     f.bufferMs = 0;

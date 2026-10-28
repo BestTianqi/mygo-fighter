@@ -112,6 +112,13 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
   scene.ctx.beginPath();
   scene.ctx.ellipse(renderX, shadowY + 1, 31, 6, 0, 0, Math.PI * 2);
   scene.ctx.stroke();
+  if (scene.match.isBrawl) {
+    scene.ctx.globalAlpha = 1;
+    scene.ctx.fillStyle = scene.colors[side];
+    scene.ctx.textAlign = "center";
+    scene.ctx.font = "bold 16px sans-serif";
+    scene.ctx.fillText(`${side + 1}P`, renderX, shadowY + 26);
+  }
   scene.ctx.globalAlpha = 1;
   const heavy = acting ? heavyMotion(f, move, scene.reducedMotion) : null;
   const motion = entry

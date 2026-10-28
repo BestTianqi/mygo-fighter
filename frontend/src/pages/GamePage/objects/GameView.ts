@@ -27,6 +27,8 @@ export interface GameView {
   phaseMs: number;
   finishVideoMs: number | null;
   teamRemaining: number[];
+  respawnMs: number[];
+  eliminated: boolean[];
   config: MatchConfig | null;
   lastMove: string;
   connectionStalled: boolean;
@@ -52,6 +54,8 @@ export const initialView: GameView = {
   phaseMs: 0,
   finishVideoMs: null,
   teamRemaining: [1, 1],
+  respawnMs: [0, 0],
+  eliminated: [false, false],
   config: null,
   lastMove: "",
   connectionStalled: false,

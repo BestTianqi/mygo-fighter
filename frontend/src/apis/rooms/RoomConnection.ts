@@ -170,7 +170,7 @@ export class RoomConnection {
       const session = JSON.parse(saved) as SessionResponse;
       if (
         !/^[A-F0-9]{48}$/.test(session.token) ||
-        ![0, 1].includes(session.side)
+        ![0, 1, 2].includes(session.side)
       )
         return false;
       this.session = session;

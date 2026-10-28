@@ -64,7 +64,10 @@ export function LanLobby({
   );
   const team = room?.players[side]?.team ?? [];
   const ownReady = !!room?.players[side]?.ready;
-  const bothConnected = !!room?.players.every((player) => player?.connected);
+  const playerCount = room?.format === "3ffa" ? 3 : 2;
+  const bothConnected =
+    room?.players.length === playerCount &&
+    room.players.every((player) => player?.connected);
   const picked = room?.players.flatMap((player) => player?.team ?? []) ?? [];
   const myTurn = !!draft && draft.turn === side && draft.phase !== "complete";
   const draftSignature = draft
@@ -217,10 +220,10 @@ export function LanLobby({
   }
   const stage = assets.stages[room?.arena ?? 0];
   const selectionStatus = !bothConnected
-    ? "等待对方连接"
+    ? `等待 ${playerCount} 位玩家全部连接`
     : draft
       ? draft.phase === "complete"
-        ? "双方阵容已就绪，可以准备开战。"
+        ? "所有阵容已就绪，可以准备开战。"
         : `${draft.turn === side ? "轮到你" : `等待 ${(draft.turn ?? 0) + 1}P`} · ${draft.phase === "ban" ? `禁用第 ${Math.floor(draft.bans.length / 2) + 1} 名角色` : `选择${slotLabel(teamSize, room?.players[draft.turn ?? 0]?.team.length ?? 0)}`}`
       : ownReady
         ? "已准备。取消准备后可更换阵容。"
@@ -239,7 +242,8 @@ export function LanLobby({
       {!room ? (
         <div className="space-y-4">
           <p className="mb-5 text-sm leading-6 text-[#80786d]">
-            双方打开同一个游戏服务器地址。一人创建房间，另一人输入房间码。
+            所有玩家打开同一个游戏服务器地址。一人创建房间并选择对战形式，其他玩家输入房间码。三人混战支持三位玩家各带
+            3 名角色。
           </p>
           <Button
             tone="light"
@@ -317,7 +321,9 @@ export function LanLobby({
                 >
                   {MATCH_FORMATS.map((format) => (
                     <option key={format} value={format}>
-                      {format} {format === "1v1" ? "对战" : "车轮战"}
+                      {format === "3ffa"
+                        ? "三人混战 · 每人 3 角色"
+                        : `${format} ${format === "1v1" ? "对战" : "车轮战"}`}
                     </option>
                   ))}
                 </select>
@@ -351,10 +357,10 @@ export function LanLobby({
                         : null
                       : [side, activeSlot]
                   }
-                  labels={[
-                    `1P${side === 0 ? " · 我" : ""}`,
-                    `2P${side === 1 ? " · 我" : ""}`,
-                  ]}
+                  labels={room.players.map(
+                    (_, playerSide) =>
+                      `${playerSide + 1}P${side === playerSide ? " · 我" : ""}`,
+                  )}
                   statuses={room.players.map((player) =>
                     !player
                       ? "等待加入"
@@ -474,7 +480,7 @@ export function LanLobby({
                   <span className="text-[10px] text-[#80786d]">
                     {draft?.phase === "ban"
                       ? `${draft.bans.length} / ${rules.banCount * 2} 已禁用`
-                      : `${picked.length} / ${teamSize * 2} 已出战`}
+                      : `${picked.length} / ${teamSize * playerCount} 已出战 · ${room.players.filter((player) => player?.ready).length} / ${playerCount} 已准备`}
                   </span>
                 </div>
                 <RosterGrid
@@ -655,12 +661,12 @@ export function LanLobby({
       )}
       <p role="status" className="mt-2 shrink-0 text-[10px] text-[#80786d]">
         {status === "preparing"
-          ? "正在预载双方角色，完成后同时开战…"
+          ? "正在预载所有角色，完成后同时开战…"
           : status === "reconnecting"
             ? "对战已暂停，正在恢复连接…"
             : status === "connecting"
               ? "正在连接房间…"
-              : "双方使用 WASD、J/K/L、U/I/O、H、P 操作自己的角色。"}
+              : "每位玩家使用 WASD、J/K/L、U/I/O、H、P 操作自己的角色。"}
       </p>
     </Dialog>
   );

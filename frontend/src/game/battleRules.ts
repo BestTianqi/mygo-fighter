@@ -4,6 +4,7 @@ import type { Move } from "./objects/Move";
 
 export const MATCH_FORMATS: readonly Format[] = [
   "1v1",
+  "3ffa",
   "2v2",
   "3v3",
   "4v4",
@@ -64,12 +65,15 @@ export function normalizeBattleRules(
       ? Math.max(min, Math.min(max, Math.round(n)))
       : fallback;
   return {
-    banCount: integer(
-      value?.banCount,
-      0,
-      0,
-      maxBanCount(teamSizeFor(format), rosterSize),
-    ),
+    banCount:
+      format === "3ffa"
+        ? 0
+        : integer(
+            value?.banCount,
+            0,
+            0,
+            maxBanCount(teamSizeFor(format), rosterSize),
+          ),
     maxHealth: integer(value?.maxHealth, 200, 50, 2000),
     disableSupers: value?.disableSupers === true,
     infiniteEnergy: value?.infiniteEnergy === true,

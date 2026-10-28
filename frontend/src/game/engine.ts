@@ -71,6 +71,9 @@ class Match {
   entrySides = [false, false];
   reason = "";
   soyoSuperId = 0;
+  aiStates: { think: number; guard: number; goal: number }[] = [];
+  respawnMs: number[] = [];
+  eliminated: boolean[] = [];
 
   constructor(options: MatchOptions = {}) {
     this.options = {
@@ -87,14 +90,14 @@ class Match {
       ),
     };
     this.options.characters = [...this.options.characters];
-    this.teamIndices = [0, 0];
+    this.teamIndices = Array(this.playerCount).fill(0);
     this.teamCarry = null;
     if (this.isTeamBattle) {
       const teams = this.options.teams;
       const size = teamSizeFor(this.options.format);
       if (
         !Array.isArray(teams) ||
-        teams.length !== 2 ||
+        teams.length !== this.playerCount ||
         !Array.from(teams).every(
           (team) =>
             Array.isArray(team) &&
@@ -106,7 +109,7 @@ class Match {
         )
       ) {
         throw new RangeError(
-          `Team battle requires two teams of ${size} unique valid character IDs`,
+          `Team battle requires ${this.playerCount} teams of ${size} unique valid character IDs`,
         );
       }
       this.teams = teams.map((team) => [...team]);
@@ -114,7 +117,7 @@ class Match {
       this.options.characters = this.teams.map((team) => team[0]);
     }
     this.seed = this.options.seed || 1;
-    this.wins = [0, 0];
+    this.wins = Array(this.playerCount).fill(0);
     this.round = 1;
     this.phase = "idle";
     this.paused = false;
@@ -123,6 +126,41 @@ class Match {
     this.accumulator = 0;
     this.winner = -1;
     this.resetRound();
+  }
+  get isBrawl() {
+    return this.options.format === "3ffa";
+  }
+  get playerCount() {
+    return this.isBrawl ? 3 : 2;
+  }
+  active(side: number) {
+    return (
+      !!this.fighters[side] &&
+      this.fighters[side].hp > 0 &&
+      !this.respawnMs[side] &&
+      !this.eliminated[side]
+    );
+  }
+  enemySides(side: number) {
+    return this.fighters
+      .map((_, target) => target)
+      .filter((target) => target !== side && this.active(target));
+  }
+  targetSide(side: number) {
+    const source = this.fighters[side];
+    return (
+      this.enemySides(side).sort(
+        (a, b) =>
+          Math.hypot(
+            this.fighters[a].x - source.x,
+            this.fighters[a].y - source.y,
+          ) -
+          Math.hypot(
+            this.fighters[b].x - source.x,
+            this.fighters[b].y - source.y,
+          ),
+      )[0] ?? side
+    );
   }
   get isTeamBattle() {
     return teamSizeFor(this.options.format) > 1;
@@ -170,7 +208,7 @@ class Match {
         if (resources) Object.assign(this.fighters[side], resources);
       });
     this.phase = "ready";
-    this.entrySides = [0, 1].map((side) => !carry?.[side]);
+    this.entrySides = this.fighters.map((_, side) => !carry?.[side]);
     this.phaseMs = ENTRANCE_TIMING.total;
     this.paused = false;
   }
@@ -181,10 +219,10 @@ class Match {
     return forms.endPenguin(this, side);
   }
   restart() {
-    this.wins = [0, 0];
+    this.wins = Array(this.playerCount).fill(0);
     this.round = 1;
     this.events = [];
-    this.teamIndices = [0, 0];
+    this.teamIndices = Array(this.playerCount).fill(0);
     this.teamCarry = null;
     if (this.isTeamBattle)
       this.options.characters = this.teams.map((team) => team[0]);
@@ -194,7 +232,7 @@ class Match {
     return rounds.nextRound(this);
   }
   completeFinish(side: number, tick: number) {
-    if (this.roundEnd?.tick === tick && (side === 0 || side === 1))
+    if (this.roundEnd?.tick === tick && side >= 0 && side < this.playerCount)
       this.finishReady[side] = true;
   }
   setPaused(value: boolean) {
@@ -203,26 +241,42 @@ class Match {
     this.release();
   }
   release() {
-    this.previous = [{}, {}];
+    this.previous = this.fighters.map(() => ({}));
     this.fighters.forEach((f) => {
       f.buffer = null;
       f.bufferMs = f.jumpBufferMs = f.dashBufferMs = 0;
       f.motion = [];
     });
   }
-  advance(ms: number, p1: Input = {}, p2: Input = {}) {
+  advance(ms: number, p1: Input = {}, p2: Input = {}, p3: Input = {}) {
     if (this.paused || this.phase === "idle") return;
     this.accumulator += clamp(ms, 0, 60000);
     while (this.accumulator >= 10) {
       this.accumulator -= 10;
-      this.step(p1, p2);
+      this.step(p1, p2, p3);
     }
   }
-  aiInput(): Input {
-    return cpu.aiInput(this);
+  aiInput(side = 1): Input {
+    if (!this.isBrawl) return cpu.aiInput(this, side);
+    const state = this.aiStates[side];
+    this.aiThink = state.think;
+    this.aiGuard = state.guard;
+    this.aiGoal = state.goal;
+    const input = cpu.aiInput(this, side);
+    if (this.aiGuard > 0 && !this.options.rules.disableGuard) {
+      this.aiGuard = Math.max(0, this.aiGuard - 10);
+      input.guard = true;
+      input.left = input.right = false;
+    }
+    this.aiStates[side] = {
+      think: this.aiThink,
+      guard: this.aiGuard,
+      goal: this.aiGoal,
+    };
+    return input;
   }
-  step(p1: Input, p2: Input) {
-    return tick.step(this, p1, p2);
+  step(p1: Input, p2: Input, p3: Input = {}) {
+    return tick.step(this, p1, p2, p3);
   }
   recordDirection(f: Fighter, input: Input) {
     return commands.recordDirection(f, input);
@@ -286,8 +340,9 @@ class Match {
     x: number,
     y: number,
     impact: Partial<Move> = {},
+    targetSide = this.targetSide(side),
   ) {
-    return hits.hit(this, side, attack, x, y, impact);
+    return hits.hit(this, side, attack, x, y, impact, targetSide);
   }
   endRound() {
     return rounds.endRound(this);

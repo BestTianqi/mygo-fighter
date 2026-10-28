@@ -2,6 +2,7 @@ import type { Terrain } from "./Terrain";
 import type { BattleRules } from "./BattleRules";
 export type Mode = "cpu" | "duel" | "practice";
 export type Format =
+  | "3ffa"
   | "1v1"
   | "2v2"
   | "3v3"

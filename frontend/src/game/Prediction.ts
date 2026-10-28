@@ -9,7 +9,7 @@ interface RecordedInput {
   tick: number;
   input: Input;
 }
-/** Bounded replay of the same two-body simulation. Presentation never feeds back into physics. */
+/** Bounded replay of the shared simulation. Presentation never feeds back into physics. */
 export class Prediction {
   private history: RecordedInput[] = [];
   private inputs = new NetworkInputs();
@@ -43,6 +43,8 @@ export class Prediction {
     );
   }
   record(match: Match, side: number, seq: number, input: Input, now: number) {
+    if (this.inputs.state.inputs.length !== match.playerCount)
+      this.inputs = new NetworkInputs(match.playerCount);
     const value = structuredClone(input);
     this.history.push({
       seq,
@@ -80,7 +82,7 @@ export class Prediction {
     Object.assign(match, state);
     match.fighters = state.fighters.map((f, i) =>
       // Optional lethal metadata is absent on live fighters; clear the previous bout.
-      Object.assign(fighters[i], { defeatedBy: undefined }, f),
+      Object.assign(fighters[i] ?? {}, { defeatedBy: undefined }, f),
     );
     // Relay snapshots can restore a reserve fighter after local prediction advanced a round.
     // Keep the kernel's current-character configuration consistent with restored fighters.

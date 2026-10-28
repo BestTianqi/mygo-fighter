@@ -84,7 +84,7 @@ export function updateWaves(match: Match): void {
       continue;
     }
     if (w.homing) {
-      const target = match.fighters[1 - w.owner],
+      const target = match.fighters[match.targetSide(w.owner)],
         desired = Math.atan2(target.y + 80 - w.y, target.x - w.x),
         heading = Math.atan2(w.vy ?? 0, w.vx),
         delta = Math.atan2(
@@ -138,88 +138,115 @@ export function updateWaves(match: Match): void {
       }
     }
   for (const w of match.waves) {
-    const target = match.fighters[1 - w.owner];
     if (w.life <= 0) continue;
-    if (w.radial) {
-      const touches = (
-        body: Pick<Fighter, "x" | "y">,
-        height: number,
-        radius: number,
-      ) => {
-        const distance = Math.hypot(body.x - w.x, body.y + height - w.y);
-        return (
-          distance - radius <= w.radius! &&
-          distance + radius >= w.previousRadius!
-        );
-      };
+    const contacts: {
+      body: Fighter | Minion;
+      radius: number;
+      side: number;
+      minion: boolean;
+    }[] = [];
+    for (const targetSide of match.enemySides(w.owner)) {
+      const target = match.fighters[targetSide];
+      if (w.radial) {
+        const touches = (
+          body: Pick<Fighter, "x" | "y">,
+          height: number,
+          radius: number,
+        ) => {
+          const distance = Math.hypot(body.x - w.x, body.y + height - w.y);
+          return (
+            distance - radius <= w.radius! &&
+            distance + radius >= w.previousRadius!
+          );
+        };
+        if (
+          !w.hitTargets!.includes(targetSide) &&
+          !target.knockdown &&
+          !match.invulnerable(target) &&
+          touches(target, 80, 45)
+        ) {
+          w.hitTargets!.push(targetSide);
+          match.hit(w.owner, w.attack, w.x, w.y, w.impact, targetSide);
+        }
+        const group = target.summons;
+        for (const unit of [...(group?.units || [])]) {
+          const mark = targetSide + ":" + group!.bornAt + ":" + unit.id;
+          if (!w.hitMinions!.includes(mark) && touches(unit, 40, 30)) {
+            w.hitMinions!.push(mark);
+            match.hitMinion(w.owner, unit, w.attack, w.impact);
+          }
+        }
+        continue;
+      }
+      const inRange = (body: Pick<Fighter, "x" | "y">) =>
+        !w.maxReach ||
+        (Math.abs(body.x - w.originX!) <= w.maxReach &&
+          Math.abs(body.y - w.originY!) <= w.maxVertical!);
+      const sonic =
+        w.attack === "sonic" ||
+        MOVES[w.attack ?? ""]?.tomoriOnly ||
+        MOVES[w.attack ?? ""]?.ranaOnly ||
+        MOVES[w.attack ?? ""]?.rikiOnly ||
+        MOVES[w.attack ?? ""]?.ownerCharacter !== undefined;
+      const crawling = MOVES[target.attack ?? ""]?.crawl && target.crouch;
+      const center = target.y + (crawling ? 35 : 80),
+        halfHeight = crawling ? 35 : 50;
+      const fighterRadius = sonic ? w.rx! + 18 : 35;
+      const authoredHeight = crawling || sonic ? w.ry! + halfHeight : 80;
+      const heightTolerance = w.groundShock
+        ? authoredHeight
+        : Math.max(authoredHeight, FEEL.projectileHeightTolerance);
       if (
-        !w.hitTargets!.includes(1 - w.owner) &&
+        inRange(target) &&
         !target.knockdown &&
         !match.invulnerable(target) &&
-        touches(target, 80, 45)
-      ) {
-        w.hitTargets!.push(1 - w.owner);
-        match.hit(w.owner, w.attack, w.x, w.y, w.impact);
-      }
-      const group = target.summons;
-      for (const unit of [...(group?.units || [])]) {
-        const mark = group!.bornAt + ":" + unit.id;
-        if (!w.hitMinions!.includes(mark) && touches(unit, 40, 30)) {
-          w.hitMinions!.push(mark);
-          match.hitMinion(w.owner, unit, w.attack, w.impact);
-        }
-      }
-      continue;
-    }
-    const inRange = (body: Pick<Fighter, "x" | "y">) =>
-      !w.maxReach ||
-      (Math.abs(body.x - w.originX!) <= w.maxReach &&
-        Math.abs(body.y - w.originY!) <= w.maxVertical!);
-    const sonic =
-      w.attack === "sonic" ||
-      MOVES[w.attack ?? ""]?.tomoriOnly ||
-      MOVES[w.attack ?? ""]?.ranaOnly ||
-      MOVES[w.attack ?? ""]?.rikiOnly ||
-      MOVES[w.attack ?? ""]?.ownerCharacter !== undefined;
-    const crawling = MOVES[target.attack ?? ""]?.crawl && target.crouch;
-    const center = target.y + (crawling ? 35 : 80),
-      halfHeight = crawling ? 35 : 50;
-    const contacts = [];
-    const fighterRadius = sonic ? w.rx! + 18 : 35;
-    const authoredHeight = crawling || sonic ? w.ry! + halfHeight : 80;
-    const heightTolerance = w.groundShock
-      ? authoredHeight
-      : Math.max(authoredHeight, FEEL.projectileHeightTolerance);
-    if (
-      inRange(target) &&
-      !target.knockdown &&
-      !match.invulnerable(target) &&
-      Math.abs(target.x - w.x) < fighterRadius &&
-      Math.abs(center - w.y) <= heightTolerance
-    )
-      contacts.push({ body: target, radius: fighterRadius });
-    for (const unit of target.summons?.units || []) {
-      if (
-        inRange(unit) &&
-        Math.abs(unit.x - w.x) < w.rx! + 20 &&
-        Math.abs(unit.y + 40 - w.y) < w.ry! + 40
+        Math.abs(target.x - w.x) < fighterRadius &&
+        Math.abs(center - w.y) <= heightTolerance
       )
-        contacts.push({ body: unit, radius: w.rx! + 20 });
+        contacts.push({
+          body: target,
+          radius: fighterRadius,
+          side: targetSide,
+          minion: false,
+        });
+      for (const unit of target.summons?.units || []) {
+        if (
+          inRange(unit) &&
+          Math.abs(unit.x - w.x) < w.rx! + 20 &&
+          Math.abs(unit.y + 40 - w.y) < w.ry! + 40
+        )
+          contacts.push({
+            body: unit,
+            radius: w.rx! + 20,
+            side: targetSide,
+            minion: true,
+          });
+      }
     }
-    // The leading boundary determines which overlapping body intercepted the travelling shot.
+    if (w.radial) continue;
+    // Travelling shots are intercepted by the leading body across every opponent.
     const direction = Math.sign(w.vx) || match.fighters[w.owner].facing;
     contacts.sort(
       (a, b) => direction * (a.body.x - b.body.x) - a.radius + b.radius,
     );
-    const first = contacts[0]?.body;
+    const first = contacts[0];
     if (first) {
-      if (first === target)
-        match.hit(w.owner, w.attack || "wave", w.x, w.y, {
-          ...w.impact,
-          projectileRadiusY: w.ry,
-        });
+      if (!first.minion)
+        match.hit(
+          w.owner,
+          w.attack || "wave",
+          w.x,
+          w.y,
+          { ...w.impact, projectileRadiusY: w.ry },
+          first.side,
+        );
       else
-        match.hitMinion(w.owner, first as Minion, w.attack || "wave", w.impact);
+        match.hitMinion(
+          w.owner,
+          first.body as Minion,
+          w.attack || "wave",
+          w.impact,
+        );
       w.life = 0;
     }
   }

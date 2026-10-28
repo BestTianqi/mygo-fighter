@@ -160,36 +160,49 @@ export function nextPlatform(match: Match, a: Fighter, b: Fighter): number {
 }
 
 export function separate(match: Match): void {
-  const [a, b] = match.fighters;
-  if (Math.abs(a.y - b.y) > 34 * FEEL.scale || a.dashMs || b.dashMs) return;
-  const dx = b.x - a.x,
-    gap = Math.abs(dx);
-  if (gap >= FEEL.bodyGap) return;
-  const onFloor = match.fighters.map(
-    (f) => match.grounded(f) && Math.abs(f.y - match.floorHeight(f.x)) < 0.1,
-  );
-  const crawlSupports = match.fighters.map((f) =>
-    MOVES[f.attack ?? ""]?.crawl && match.grounded(f)
-      ? (match.options.terrain?.platforms || []).find(
-          (p) =>
-            f.x >= p.left && f.x <= p.right && Math.abs(p.height - f.y) < 0.1,
-        )
-      : null,
-  );
-  const sign = dx >= 0 ? 1 : -1,
-    push = (FEEL.bodyGap - gap) / 2;
-  const left = WORLD.left + 45,
-    right = WORLD.right - 45;
-  a.x = clamp(a.x - sign * push, left, right);
-  b.x = clamp(b.x + sign * push, left, right);
-  if (a.x === left || a.x === right) b.x = a.x + sign * FEEL.bodyGap;
-  if (b.x === left || b.x === right) a.x = b.x - sign * FEEL.bodyGap;
-  match.fighters.forEach((f, i) => {
-    if (crawlSupports[i])
-      f.x = clamp(f.x, crawlSupports[i].left + 18, crawlSupports[i].right - 18);
-    const floor = match.floorHeight(f.x);
-    if (onFloor[i]) f.y = floor;
-    else if (f.y < floor || (f.vy <= 0 && f.y <= floor + 0.1))
-      match.land(f, floor);
-  });
+  for (let first = 0; first < match.playerCount; first++)
+    for (let second = first + 1; second < match.playerCount; second++) {
+      if (!match.active(first) || !match.active(second)) continue;
+      const bodies = [match.fighters[first], match.fighters[second]];
+      const [a, b] = bodies;
+      if (Math.abs(a.y - b.y) > 34 * FEEL.scale || a.dashMs || b.dashMs)
+        continue;
+      const dx = b.x - a.x,
+        gap = Math.abs(dx);
+      if (gap >= FEEL.bodyGap) continue;
+      const onFloor = bodies.map(
+        (f) =>
+          match.grounded(f) && Math.abs(f.y - match.floorHeight(f.x)) < 0.1,
+      );
+      const crawlSupports = bodies.map((f) =>
+        MOVES[f.attack ?? ""]?.crawl && match.grounded(f)
+          ? (match.options.terrain?.platforms || []).find(
+              (p) =>
+                f.x >= p.left &&
+                f.x <= p.right &&
+                Math.abs(p.height - f.y) < 0.1,
+            )
+          : null,
+      );
+      const sign = dx >= 0 ? 1 : -1,
+        push = (FEEL.bodyGap - gap) / 2;
+      const left = WORLD.left + 45,
+        right = WORLD.right - 45;
+      a.x = clamp(a.x - sign * push, left, right);
+      b.x = clamp(b.x + sign * push, left, right);
+      if (a.x === left || a.x === right) b.x = a.x + sign * FEEL.bodyGap;
+      if (b.x === left || b.x === right) a.x = b.x - sign * FEEL.bodyGap;
+      bodies.forEach((f, i) => {
+        if (crawlSupports[i])
+          f.x = clamp(
+            f.x,
+            crawlSupports[i].left + 18,
+            crawlSupports[i].right - 18,
+          );
+        const floor = match.floorHeight(f.x);
+        if (onFloor[i]) f.y = floor;
+        else if (f.y < floor || (f.vy <= 0 && f.y <= floor + 0.1))
+          match.land(f, floor);
+      });
+    }
 }
