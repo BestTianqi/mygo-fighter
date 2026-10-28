@@ -1,6 +1,8 @@
 # Deployment and room capacity — 2026-10-27
 
-The latest matching frontend, Scala backend and shared TypeScript combat kernel are live at <https://mygo-123-57-149-254.sslip.io/>. Production is configured for **four simultaneous rooms / eight players** in `/etc/mygo-fighter.env` (`MAX_ROOMS=4`). Four was the highest count to pass warmed screening and remain stable through the observed confirmation from a restarted production process. The user ended that confirmation after approximately ten measured minutes; the planned fifteen-minute window was not completed.
+Historical protocol-20 deployment and capacity record. The [2026-10-28 deployment record](DEPLOYMENT_2026-10-28.md) supersedes the active release information below. The four-room setting is retained, but the newer custom rules and larger teams have not received a new capacity audit.
+
+This deployment installed the matching frontend, Scala backend and shared TypeScript combat kernel at <https://mygo-123-57-149-254.sslip.io/>. Production was configured for **four simultaneous rooms / eight players** in `/etc/mygo-fighter.env` (`MAX_ROOMS=4`). Four was the highest count to pass warmed screening and remain stable through the observed confirmation from a restarted production process. The user ended that confirmation after approximately ten measured minutes; the planned fifteen-minute window was not completed.
 
 ## Release
 
