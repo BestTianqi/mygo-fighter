@@ -99,6 +99,25 @@ function PauseOverlay({
               ? "不分胜负"
               : `${view.fighters[view.winner]?.name} 获胜`}
         </h2>
+        {view.config?.rules && (
+          <p className="mx-auto mb-5 max-w-lg text-xs leading-6 text-slate-300">
+            {[
+              `${view.config.rules.maxHealth} 生命`,
+              view.config.rules.infiniteTime
+                ? "无限时间"
+                : `${view.config.rules.roundSeconds} 秒`,
+              `伤害 ×${view.config.rules.damageMultiplier}`,
+              `移速 ×${view.config.rules.speedMultiplier}`,
+              view.config.rules.oneHitKO && "一击决胜",
+              view.config.rules.vampire && "吸血对战",
+              view.config.rules.lowGravity && "低重力",
+              view.config.rules.infiniteJumps && "无限空中跳跃",
+              view.config.rules.disableGuard && "禁用防御",
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        )}
         {view.paused && waitingForPlayers && (
           <p className="mb-5 text-sm text-cyan-100" role="status">
             等待双方重新连接并加载角色…
@@ -490,15 +509,25 @@ export function BattlePanel({
             )}
             <div className="text-center">
               <p
+                aria-label={
+                  view.config?.rules?.infiniteTime ? "无限时间" : "剩余时间"
+                }
                 className={`font-mono text-2xl font-bold text-white ${mobile ? "" : "sm:text-4xl"}`}
               >
-                {Math.ceil(view.remaining / 1000)
-                  .toString()
-                  .padStart(2, "0")}
+                {view.config?.rules?.infiniteTime
+                  ? "∞"
+                  : Math.ceil(view.remaining / 1000)
+                      .toString()
+                      .padStart(2, "0")}
               </p>
               <small className="text-[8px] text-slate-400 sm:text-[10px]">
                 ROUND {view.round}
               </small>
+              {view.config?.rules?.oneHitKO && (
+                <p className="mt-1 text-[9px] font-semibold text-amber-200">
+                  一击决胜
+                </p>
+              )}
             </div>
             {view.fighters[1] && (
               <FighterHUD
@@ -671,6 +700,11 @@ function FighterHUD({
               >
                 吸血 {Math.round(fighter.lifesteal.ratio * 100)}% ·{" "}
                 {Math.ceil(fighter.lifesteal.ms / 1000)}秒
+              </span>
+            )}
+            {view.config?.rules?.vampire && !fighter.lifesteal && (
+              <span className="ml-2 text-[9px] font-normal text-rose-200 sm:text-xs">
+                吸血 25%
               </span>
             )}
           </p>

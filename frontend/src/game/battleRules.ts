@@ -20,7 +20,19 @@ export const DEFAULT_BATTLE_RULES: Readonly<BattleRules> = Object.freeze({
   disableNormals: false,
   disableTransform: false,
   noCooldowns: false,
+  infiniteTime: false,
+  roundSeconds: 60,
+  initialEnergy: 0,
+  damageMultiplier: 1,
+  speedMultiplier: 1,
+  oneHitKO: false,
+  vampire: false,
+  lowGravity: false,
+  infiniteJumps: false,
+  disableGuard: false,
 });
+export const DAMAGE_MULTIPLIERS = [0.5, 1, 1.5, 2, 3] as const;
+export const SPEED_MULTIPLIERS = [0.75, 1, 1.25, 1.5, 2] as const;
 export function teamSizeFor(format: unknown): number {
   return MATCH_FORMATS.includes(format as Format)
     ? Number(String(format)[0])
@@ -64,5 +76,23 @@ export function normalizeBattleRules(
     disableNormals: value?.disableNormals === true,
     disableTransform: value?.disableTransform === true,
     noCooldowns: value?.noCooldowns === true,
+    infiniteTime: value?.infiniteTime === true,
+    roundSeconds: integer(value?.roundSeconds, 60, 30, 300),
+    initialEnergy: integer(value?.initialEnergy, 0, 0, 100),
+    damageMultiplier: DAMAGE_MULTIPLIERS.includes(
+      value?.damageMultiplier as (typeof DAMAGE_MULTIPLIERS)[number],
+    )
+      ? value!.damageMultiplier!
+      : 1,
+    speedMultiplier: SPEED_MULTIPLIERS.includes(
+      value?.speedMultiplier as (typeof SPEED_MULTIPLIERS)[number],
+    )
+      ? value!.speedMultiplier!
+      : 1,
+    oneHitKO: value?.oneHitKO === true,
+    vampire: value?.vampire === true,
+    lowGravity: value?.lowGravity === true,
+    infiniteJumps: value?.infiniteJumps === true,
+    disableGuard: value?.disableGuard === true,
   };
 }

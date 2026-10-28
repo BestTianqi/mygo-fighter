@@ -8,4 +8,14 @@ export interface BattleRules {
   disableNormals: boolean;
   disableTransform: boolean;
   noCooldowns: boolean;
+  infiniteTime: boolean;
+  roundSeconds: number;
+  initialEnergy: number;
+  damageMultiplier: number;
+  speedMultiplier: number;
+  oneHitKO: boolean;
+  vampire: boolean;
+  lowGravity: boolean;
+  infiniteJumps: boolean;
+  disableGuard: boolean;
 }

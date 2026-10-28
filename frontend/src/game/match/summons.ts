@@ -22,7 +22,10 @@ export function hitMinion(
       : move.damage;
   const damage =
     Math.round(
-      baseDamage * outgoingMultiplier(match.fighters[side], attack) * 10,
+      baseDamage *
+        outgoingMultiplier(match.fighters[side], attack) *
+        match.options.rules.damageMultiplier *
+        10,
     ) / 10;
   if (!(damage > 0)) return;
   unit.hp = Math.max(0, Math.round((unit.hp - damage) * 10) / 10);

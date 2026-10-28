@@ -35,6 +35,8 @@ After building once, `npm start` starts the server without rebuilding. It prints
 
 The same [custom battle rules](docs/CUSTOM_BATTLE_RULES.md) are available in local and CPU selection. Defaults retain 200 health and the standard attacks. Restart the host after updating to load the new room and combat rules.
 
+Rules also support unlimited time, 30–300 second rounds, starting energy, damage and movement multipliers, one-hit KO, vampire healing, low gravity, unlimited air jumps and disabled guarding. Try **一击决胜**, **月面乱斗** or **吸血拉锯** for a ready-made combination, then adjust individual options.
+
 Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
 
 On Windows, the firewall must allow the **Java executable that actually runs the backend**, on the active network profile and game TCP port. Allowing Node alone does not cover the Scala server. Campus and dorm networks may isolate devices even on the same Wi-Fi; if the host can open its LAN address but the other device cannot, try connecting both devices to the same phone hotspot or personal router.

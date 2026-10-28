@@ -155,7 +155,7 @@ class Match {
     return terrain.land(this, f, height);
   }
   jumpTime(f: Fighter, height: number) {
-    return terrain.jumpTime(f, height);
+    return terrain.jumpTime(this, f, height);
   }
   nextPlatform(a: Fighter, b: Fighter) {
     return terrain.nextPlatform(this, a, b);

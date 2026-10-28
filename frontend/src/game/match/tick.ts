@@ -70,7 +70,7 @@ export function step(match: Match, p1: Input, p2: Input): void {
     return;
   }
   match.inputTick++;
-  if (match.options.mode !== "practice")
+  if (match.options.mode !== "practice" && !match.options.rules.infiniteTime)
     match.remaining = Math.max(0, match.remaining - 10);
   const dummy = match.options.dummy;
   const inputs = [
@@ -84,7 +84,11 @@ export function step(match: Match, p1: Input, p2: Input): void {
         ? match.aiInput()
         : p2,
   ];
-  if (match.options.mode === "cpu" && match.aiGuard > 0) {
+  if (
+    match.options.mode === "cpu" &&
+    match.aiGuard > 0 &&
+    !match.options.rules.disableGuard
+  ) {
     match.aiGuard -= 10;
     inputs[1].guard = true;
     inputs[1].left = inputs[1].right = false;
@@ -404,7 +408,8 @@ export function step(match: Match, p1: Input, p2: Input): void {
   match.previous = inputs.map((input) => ({ ...input }));
   if (
     match.options.mode !== "practice" &&
-    (match.remaining <= 0 || match.fighters.some((f) => f.hp <= 0))
+    ((!match.options.rules.infiniteTime && match.remaining <= 0) ||
+      match.fighters.some((f) => f.hp <= 0))
   )
     match.endRound();
 }

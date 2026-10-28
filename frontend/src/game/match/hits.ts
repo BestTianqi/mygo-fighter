@@ -44,7 +44,8 @@ export function hit(
     b = match.fighters[1 - side],
     move = { ...MOVES[attack], ...impact };
   if (match.invulnerable(b)) return;
-  const multiplier = outgoingMultiplier(a, attack);
+  const multiplier =
+    outgoingMultiplier(a, attack) * match.options.rules.damageMultiplier;
   let damage =
     (attack === "heavy" ? ROSTER[a.character].heavyDamage : move.damage) *
     multiplier;
@@ -108,6 +109,7 @@ export function hit(
       !match.grounded(a) &&
       (attack === "light" || attack === "heavy"));
   const blocked =
+    !match.options.rules.disableGuard &&
     move.category !== "throw" &&
     b.guard &&
     (!low || b.crouch) &&
@@ -144,7 +146,7 @@ export function hit(
       match.events.push({ type: "beat", side, beats: a.beats });
     }
     if (!move.fixedDamage) {
-      const precision = multiplier > 1 ? 10 : 1;
+      const precision = multiplier !== 1 ? 10 : 1;
       damage =
         Math.round(
           damage *
@@ -162,17 +164,22 @@ export function hit(
   const reduction = MOVES[b.attack ?? ""]?.damageReduction;
   if (reduction) damage = Math.round(damage * (1 - reduction) * 10) / 10;
   damage = Math.round(damage * 10) / 10;
+  if (match.options.rules.oneHitKO && !blocked && damage > 0) damage = b.hp;
   const previousHp = b.hp;
   b.hp = Math.max(
     match.options.mode === "practice" && side === 0 ? 1 : 0,
     Math.round((b.hp - damage) * 10) / 10,
   );
-  if (a.lifesteal && a.hp > 0 && previousHp > b.hp) {
+  const lifesteal = Math.max(
+    a.lifesteal?.ratio ?? 0,
+    match.options.rules.vampire ? 0.25 : 0,
+  );
+  if (lifesteal > 0 && a.hp > 0 && previousHp > b.hp) {
     // Use HP actually removed after guards, shields, reductions and overkill.
     const previousSourceHp = a.hp;
     a.hp = Math.min(
       match.options.rules.maxHealth,
-      Math.round((a.hp + (previousHp - b.hp) * a.lifesteal.ratio) * 10) / 10,
+      Math.round((a.hp + (previousHp - b.hp) * lifesteal) * 10) / 10,
     );
     const amount = Math.round((a.hp - previousSourceHp) * 10) / 10;
     if (amount > 0) match.events.push({ type: "heal", side, attack, amount });

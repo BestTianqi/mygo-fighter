@@ -183,6 +183,7 @@ export function updateFighter(match: Match, side: number, input: Input): void {
         ? f.attackCrouch || !!MOVES[f.attack ?? ""].crawl
         : !!input.crouch);
   f.guard =
+    !match.options.rules.disableGuard &&
     ground &&
     !f.attack &&
     !f.knockdown &&

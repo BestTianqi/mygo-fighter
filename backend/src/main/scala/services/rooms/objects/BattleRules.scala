@@ -10,7 +10,17 @@ final case class BattleRules(
     infiniteEnergy: Boolean = false,
     disableNormals: Boolean = false,
     disableTransform: Boolean = false,
-    noCooldowns: Boolean = false
+    noCooldowns: Boolean = false,
+    infiniteTime: Boolean = false,
+    roundSeconds: Int = 60,
+    initialEnergy: Int = 0,
+    damageMultiplier: Double = 1,
+    speedMultiplier: Double = 1,
+    oneHitKO: Boolean = false,
+    vampire: Boolean = false,
+    lowGravity: Boolean = false,
+    infiniteJumps: Boolean = false,
+    disableGuard: Boolean = false
 )
 
 object BattleRules:

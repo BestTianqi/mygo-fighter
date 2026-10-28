@@ -1,8 +1,8 @@
-import { MOVES, bandFor, profileFor } from "../combatData";
+import { MOVES, bandFor } from "../combatData";
 import * as controls from "../controls";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
-import { clamp } from "./combatMath";
+import { clamp, movementSpeed } from "./combatMath";
 import { moveEnabled } from "../battleRules";
 
 /** CPU decisions use the match's seeded random source, shared by browser and JVM. */
@@ -11,6 +11,10 @@ export function aiInput(match: Match): Input {
   const f = match.fighters[1];
   const pressed = (key: string) => !!input[key as keyof Input];
   const rules = match.options.rules;
+  if (rules.disableGuard) {
+    input.guard = false;
+    match.aiGuard = 0;
+  }
   if (!rules.disableNormals && !rules.disableSupers && !rules.disableTransform)
     return input;
   // If a character tactic requests a banned action, choose a usable basic
@@ -62,7 +66,8 @@ function chooseInput(match: Match): Input {
   if (match.aiGoal >= 0 && !a.attack && !a.stun && !a.knockdown) {
     const platform = match.options.terrain!.platforms[match.aiGoal];
     if (match.grounded(a)) {
-      const travel = match.jumpTime(a, platform.height) * profileFor(a).speed;
+      const travel =
+        match.jumpTime(a, platform.height) * movementSpeed(match, a);
       const launch = clamp(
         a.x,
         platform.left + 18 - travel + 8,

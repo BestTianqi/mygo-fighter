@@ -18,8 +18,8 @@ export function resetRound(match: Match): void {
     energy: match.options.rules.infiniteEnergy
       ? 100
       : match.isTeamBattle && match.teamIndices[side] > 0
-        ? 30
-        : 0,
+        ? Math.max(30, match.options.rules.initialEnergy)
+        : match.options.rules.initialEnergy,
     attack: null,
     attackMs: 0,
     hit: false,
@@ -78,7 +78,7 @@ export function resetRound(match: Match): void {
     match.fighters[1].x = 480;
   }
   for (const f of match.fighters) f.y = match.floorHeight(f.x);
-  match.remaining = 60000;
+  match.remaining = match.options.rules.roundSeconds * 1000;
   match.waves = [];
   match.areas = [];
   match.freeze = 0;
@@ -143,7 +143,10 @@ export function endRound(match: Match): void {
     ),
   });
   match.finishReady = match.roundEnd.finisher ? [false, false] : [true, true];
-  match.reason = match.remaining <= 0 ? "TIME OVER" : "K.O.";
+  match.reason =
+    !match.options.rules.infiniteTime && match.remaining <= 0
+      ? "TIME OVER"
+      : "K.O.";
   if (match.winner >= 0) match.wins[match.winner]++;
   if (match.isTeamBattle) {
     // Rebuild both fighters between bouts, carrying only the survivor's persistent resources.

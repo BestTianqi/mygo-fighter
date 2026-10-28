@@ -2,7 +2,7 @@ import { FEEL, MOVES, profileFor, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
 import type { Terrain } from "../objects/Terrain";
-import { clamp } from "./combatMath";
+import { clamp, gravityFor, movementSpeed } from "./combatMath";
 
 export function floorHeight(match: Match, x: number): number {
   const points = match.options.terrain?.ground;
@@ -113,12 +113,11 @@ export function land(match: Match, f: Fighter, height: number): void {
   }
 }
 
-export function jumpTime(f: Fighter, height: number): number {
+export function jumpTime(match: Match, f: Fighter, height: number): number {
+  const gravity = gravityFor(match);
   const speed = profileFor(f).jump,
-    discriminant = speed * speed - 2 * FEEL.gravity * (height - f.y);
-  return discriminant < 0
-    ? -1
-    : (speed + Math.sqrt(discriminant)) / FEEL.gravity;
+    discriminant = speed * speed - 2 * gravity * (height - f.y);
+  return discriminant < 0 ? -1 : (speed + Math.sqrt(discriminant)) / gravity;
 }
 
 export function nextPlatform(match: Match, a: Fighter, b: Fighter): number {
@@ -137,7 +136,7 @@ export function nextPlatform(match: Match, a: Fighter, b: Fighter): number {
     ],
     visited = new Set([start]);
   const queue = [{ index: start, first: -1 }],
-    profile = profileFor(a);
+    speed = movementSpeed(match, a);
   while (queue.length) {
     const { index, first } = queue.shift()!,
       from = nodes[index];
@@ -150,7 +149,7 @@ export function nextPlatform(match: Match, a: Fighter, b: Fighter): number {
         to.left + 18 - (from.right - 18),
         from.left + 18 - (to.right - 18),
       );
-      if (time < 0 || time * profile.speed < gap + 8) continue;
+      if (time < 0 || time * speed < gap + 8) continue;
       const hop = first < 0 ? i : first;
       if (i === target) return hop;
       visited.add(i);

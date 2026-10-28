@@ -1,7 +1,7 @@
 import { FEEL, MOVES, profileFor, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
-import { clamp } from "./combatMath";
+import { clamp, gravityFor } from "./combatMath";
 
 interface MovementFrame {
   ground: boolean;
@@ -22,9 +22,13 @@ export function updateMovement(
   const f = match.fighters[side],
     other = match.fighters[1 - side],
     profile = profileFor(f);
+  const speed = profile.speed * match.options.rules.speedMultiplier;
   if (
     f.jumpBufferMs &&
-    (ground || f.coyoteMs || f.jumps > 0) &&
+    (ground ||
+      f.coyoteMs ||
+      f.jumps > 0 ||
+      match.options.rules.infiniteJumps) &&
     !f.attack &&
     !f.dashMs &&
     !plantedGuard
@@ -38,17 +42,17 @@ export function updateMovement(
       f.y -= 0.2;
     } else {
       f.vy = profile.jump * (groundJump ? 1 : FEEL.airJumpRatio);
-      f.jumps--;
+      if (!match.options.rules.infiniteJumps) f.jumps--;
       f.airUsed = false;
       f.y += 0.01;
-      f.vx = direction * profile.speed * (ground ? 1 : FEEL.airRatio);
+      f.vx = direction * speed * (ground ? 1 : FEEL.airRatio);
       if (side === 1 && match.options.mode === "cpu" && match.aiGoal >= 0) {
         const p = match.options.terrain!.platforms[match.aiGoal],
           time = match.jumpTime({ ...f, y: oldY }, p.height);
         f.vx = clamp(
           (clamp(other.x, p.left + 18, p.right - 18) - f.x) / time,
-          -profile.speed,
-          profile.speed,
+          -speed,
+          speed,
         );
       }
     }
@@ -84,13 +88,20 @@ export function updateMovement(
       blink = f.blinkBuffer;
     if (blink) {
       f.x = clamp(
-        f.x + (f.dashDirection * FEEL.dashSpeed * FEEL.dashDuration) / 1000,
+        f.x +
+          (f.dashDirection *
+            FEEL.dashSpeed *
+            match.options.rules.speedMultiplier *
+            FEEL.dashDuration) /
+            1000,
         WORLD.left + 45,
         WORLD.right - 45,
       );
       f.vx = 0;
       f.dashMs = 10;
-    } else f.vx = f.dashDirection * FEEL.dashSpeed;
+    } else
+      f.vx =
+        f.dashDirection * FEEL.dashSpeed * match.options.rules.speedMultiplier;
     f.dashBufferMs = 0;
     f.blinkBuffer = false;
     f.motion = [];
@@ -103,8 +114,7 @@ export function updateMovement(
     });
   }
   if (ground && f.vy <= 0 && !f.dropMs && !f.dashMs) {
-    f.vx =
-      !f.attack && !plantedGuard && !f.crouch ? direction * profile.speed : 0;
+    f.vx = !f.attack && !plantedGuard && !f.crouch ? direction * speed : 0;
     if (
       f.attack === "special" &&
       f.character === 0 &&
@@ -163,7 +173,7 @@ export function updateMovement(
     !f.dashMs &&
     !(side === 1 && match.options.mode === "cpu")
   ) {
-    f.vx = direction * profile.speed * FEEL.airRatio;
+    f.vx = direction * speed * FEEL.airRatio;
   }
 }
 
@@ -219,7 +229,7 @@ export function integrateMovement(
     );
   if (onFloor && f.vy <= 0 && !f.dropMs) f.y = match.floorHeight(f.x);
   if (!match.grounded(f) || f.vy > 0) {
-    f.vy -= FEEL.gravity * 0.01;
+    f.vy -= gravityFor(match) * 0.01;
     f.y += f.vy * 0.01;
     if (f.y > WORLD.top) {
       f.y = WORLD.top;
