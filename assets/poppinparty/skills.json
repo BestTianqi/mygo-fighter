@@ -53,7 +53,7 @@
             "startupMs": 160,
             "recoveryMs": 400,
             "cooldownMs": 2200,
-            "voiceKey": ""
+            "voiceKey": "kasumi-u"
           },
           "I": {
             "name": "心动追星",
@@ -65,7 +65,7 @@
             "startupMs": 170,
             "recoveryMs": 300,
             "cooldownMs": 2700,
-            "voiceKey": ""
+            "voiceKey": "kasumi-i"
           },
           "O": {
             "name": "星之鼓动",
@@ -77,7 +77,7 @@
             "startupMs": 150,
             "recoveryMs": 300,
             "cooldownMs": 3200,
-            "voiceKey": ""
+            "voiceKey": "kasumi-o"
           },
           "P": {
             "name": "我们的星之鼓动",
@@ -89,7 +89,7 @@
             "startupMs": 120,
             "recoveryMs": 300,
             "cooldownMs": 0,
-            "voiceKey": ""
+            "voiceKey": "kasumi-p"
           }
         },
         "backwardSkills": {
@@ -99,12 +99,12 @@
         },
         "entry": {
           "description": "轻跳落地，扶正星形吉他，笑着举手招呼",
-          "voiceKey": ""
+          "voiceKey": "kasumi-entry"
         },
         "ultimateFinish": {
           "description": "红色星形吉他举起，夜空与五色舞台灯从立绘背后展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
           "artReference": "assets/poppinparty/portraits/kasumi.png",
-          "voiceKey": ""
+          "voiceKey": "kasumi-finish"
         }
       },
       "moves": {
@@ -465,7 +465,111 @@
           "omni": true
         }
       },
-      "archetype": "均衡突进／周身压制"
+      "archetype": "均衡突进／周身压制",
+      "voices": [
+        {
+          "key": "kasumi-entry",
+          "character": "kasumi",
+          "slot": "entry",
+          "file": "kasumi-entry.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1hs411371z",
+          "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+          "startSeconds": 0.12,
+          "endSeconds": 2.55,
+          "durationMs": 2430,
+          "lineJapanese": "私、戸山香澄、16歳！",
+          "lineChinese": "我是户山香澄，16岁！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "kasumi-u",
+          "character": "kasumi",
+          "slot": "u",
+          "file": "kasumi-u.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1AF411U7Hi",
+          "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
+          "startSeconds": 0.08,
+          "endSeconds": 5.9,
+          "durationMs": 5820,
+          "lineJapanese": "星のギター！見つけた！キラキラドキドキできるもの！",
+          "lineChinese": "星星的吉他！我找到了，让人闪闪发光、心动不已的东西！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "kasumi-i",
+          "character": "kasumi",
+          "slot": "i",
+          "file": "kasumi-i.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1hs411371z",
+          "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+          "startSeconds": 37.5,
+          "endSeconds": 40.42,
+          "durationMs": 2920,
+          "lineJapanese": "真っ赤なランダムスターをジャーンってしちゃうから！",
+          "lineChinese": "我要让鲜红的星形吉他响起来！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "kasumi-o",
+          "character": "kasumi",
+          "slot": "o",
+          "file": "kasumi-o.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1AF411U7Hi",
+          "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
+          "startSeconds": 31.83,
+          "endSeconds": 33.78,
+          "durationMs": 1950,
+          "lineJapanese": "バンド始めてよかった！",
+          "lineChinese": "能开始组乐队真是太好了！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "kasumi-p",
+          "character": "kasumi",
+          "slot": "p",
+          "file": "kasumi-p.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1hs411371z",
+          "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+          "startSeconds": 14.3,
+          "endSeconds": 19.62,
+          "durationMs": 5320,
+          "lineJapanese": "私ね、小さい頃、夜空を見上げた時に、星の鼓動が聞こえたんだ！",
+          "lineChinese": "小时候仰望夜空时，我听到了星之鼓动！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "kasumi-finish",
+          "character": "kasumi",
+          "slot": "finish",
+          "file": "kasumi-finish.mp3",
+          "speaker": "户山香澄",
+          "voiceActor": "愛美",
+          "bvid": "BV1hs411371z",
+          "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+          "startSeconds": 32.82,
+          "endSeconds": 37.3,
+          "durationMs": 4480,
+          "lineJapanese": "だから今、みんなとPoppin'Partyができて、すっごく楽しい！",
+          "lineChinese": "所以现在能和大家一起组成Poppin'Party，我非常开心！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        }
+      ]
     },
     {
       "key": "tae",
@@ -516,7 +620,7 @@
             "startupMs": 130,
             "recoveryMs": 340,
             "cooldownMs": 2200,
-            "voiceKey": ""
+            "voiceKey": "tae-u"
           },
           "I": {
             "name": "滑音疾走",
@@ -528,7 +632,7 @@
             "startupMs": 150,
             "recoveryMs": 300,
             "cooldownMs": 2800,
-            "voiceKey": ""
+            "voiceKey": "tae-i"
           },
           "O": {
             "name": "兔耳上行音阶",
@@ -540,7 +644,7 @@
             "startupMs": 170,
             "recoveryMs": 390,
             "cooldownMs": 3200,
-            "voiceKey": ""
+            "voiceKey": "tae-o"
           },
           "P": {
             "name": "花园电吉他",
@@ -552,7 +656,7 @@
             "startupMs": 100,
             "recoveryMs": 340,
             "cooldownMs": 0,
-            "voiceKey": ""
+            "voiceKey": "tae-p"
           }
         },
         "backwardSkills": {
@@ -562,12 +666,12 @@
         },
         "entry": {
           "description": "侧耳听音，轻拨一弦，再抬眼望向对手",
-          "voiceKey": ""
+          "voiceKey": "tae-entry"
         },
         "ultimateFinish": {
           "description": "蓝色吉他长音化成平行弦线，练习室窗光与蓝色聚光灯铺开。此项为后续奥义图构图方案，本次未另绘奥义图。",
           "artReference": "assets/poppinparty/portraits/tae.png",
-          "voiceKey": ""
+          "voiceKey": "tae-finish"
         }
       },
       "moves": {
@@ -894,7 +998,111 @@
           ]
         }
       },
-      "archetype": "高速连击／对空"
+      "archetype": "高速连击／对空",
+      "voices": [
+        {
+          "key": "tae-entry",
+          "character": "tae",
+          "slot": "entry",
+          "file": "tae-entry.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1bs411g7X4",
+          "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+          "startSeconds": 0.95,
+          "endSeconds": 2.95,
+          "durationMs": 2000,
+          "lineJapanese": "こんにちは、花園たえです。",
+          "lineChinese": "你好，我是花园多惠。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "tae-u",
+          "character": "tae",
+          "slot": "u",
+          "file": "tae-u.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1bs411g7X4",
+          "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+          "startSeconds": 49.76,
+          "endSeconds": 51.74,
+          "durationMs": 1980,
+          "lineJapanese": "私、結構得意なんだ。",
+          "lineChinese": "我还挺擅长的。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "tae-i",
+          "character": "tae",
+          "slot": "i",
+          "file": "tae-i.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1bs411g7X4",
+          "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+          "startSeconds": 52.16,
+          "endSeconds": 54.85,
+          "durationMs": 2690,
+          "lineJapanese": "Poppin'Partyはすごく楽しい。",
+          "lineChinese": "Poppin'Party非常有趣。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "tae-o",
+          "character": "tae",
+          "slot": "o",
+          "file": "tae-o.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1qC4y1f7X1",
+          "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+          "startSeconds": 21.45,
+          "endSeconds": 23.7,
+          "durationMs": 2250,
+          "lineJapanese": "バンドって本当にすごいよね。",
+          "lineChinese": "乐队真的很厉害呢。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "tae-p",
+          "character": "tae",
+          "slot": "p",
+          "file": "tae-p.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1qC4y1f7X1",
+          "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+          "startSeconds": 47.4,
+          "endSeconds": 51.16,
+          "durationMs": 3760,
+          "lineJapanese": "ポピパって、私たち5人でポピパだよね。",
+          "lineChinese": "我们五个人在一起，才是Popipa，对吧。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "tae-finish",
+          "character": "tae",
+          "slot": "finish",
+          "file": "tae-finish.mp3",
+          "speaker": "花园多惠",
+          "voiceActor": "大塚紗英",
+          "bvid": "BV1qC4y1f7X1",
+          "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+          "startSeconds": 57.12,
+          "endSeconds": 59.48,
+          "durationMs": 2360,
+          "lineJapanese": "この音は一生忘れないよ。",
+          "lineChinese": "我一辈子都不会忘记这个声音。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        }
+      ]
     },
     {
       "key": "rimi",
@@ -948,7 +1156,7 @@
             "startupMs": 160,
             "recoveryMs": 400,
             "cooldownMs": 2200,
-            "voiceKey": ""
+            "voiceKey": "rimi-u"
           },
           "I": {
             "name": "闷弦低鸣",
@@ -960,7 +1168,7 @@
             "startupMs": 170,
             "recoveryMs": 300,
             "cooldownMs": 2800,
-            "voiceKey": ""
+            "voiceKey": "rimi-i"
           },
           "O": {
             "name": "我也要向前一步",
@@ -972,7 +1180,7 @@
             "startupMs": 190,
             "recoveryMs": 370,
             "cooldownMs": 3300,
-            "voiceKey": ""
+            "voiceKey": "rimi-o"
           },
           "P": {
             "name": "巧克力低音交响",
@@ -984,7 +1192,7 @@
             "startupMs": 140,
             "recoveryMs": 300,
             "cooldownMs": 0,
-            "voiceKey": ""
+            "voiceKey": "rimi-p"
           }
         },
         "backwardSkills": {
@@ -994,12 +1202,12 @@
         },
         "entry": {
           "description": "抱着贝斯深呼吸，从害羞低头转为坚定抬头",
-          "voiceKey": ""
+          "voiceKey": "rimi-entry"
         },
         "ultimateFinish": {
           "description": "粉色贝斯与巧克力螺旋面包的暖色剪影，面包店橱窗和舞台光扩展背景。此项为后续奥义图构图方案，本次未另绘奥义图。",
           "artReference": "assets/poppinparty/portraits/rimi.png",
-          "voiceKey": ""
+          "voiceKey": "rimi-finish"
         }
       },
       "moves": {
@@ -1340,7 +1548,111 @@
           "omni": true
         }
       },
-      "archetype": "抛射牵制／低段击退"
+      "archetype": "抛射牵制／低段击退",
+      "voices": [
+        {
+          "key": "rimi-entry",
+          "character": "rimi",
+          "slot": "entry",
+          "file": "rimi-entry.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Ls411u7ss",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+          "startSeconds": 0,
+          "endSeconds": 3.06,
+          "durationMs": 3060,
+          "lineJapanese": "はじめまして、牛込りみです。",
+          "lineChinese": "初次见面，我是牛込里美。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "rimi-u",
+          "character": "rimi",
+          "slot": "u",
+          "file": "rimi-u.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Ls411u7ss",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+          "startSeconds": 52.18,
+          "endSeconds": 57.4,
+          "durationMs": 5220,
+          "lineJapanese": "でも、一番のおすすめは沙綾ちゃんちのパン屋さんのチョココロネ。",
+          "lineChinese": "不过最推荐的，是沙绫家面包店的巧克力螺旋面包。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "rimi-i",
+          "character": "rimi",
+          "slot": "i",
+          "file": "rimi-i.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Lp4y1c7Ns",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+          "startSeconds": 10.6,
+          "endSeconds": 12.87,
+          "durationMs": 2270,
+          "lineJapanese": "でも、もう怖くない。",
+          "lineChinese": "但是，我已经不害怕了。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "rimi-o",
+          "character": "rimi",
+          "slot": "o",
+          "file": "rimi-o.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Lp4y1c7Ns",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+          "startSeconds": 53.82,
+          "endSeconds": 57.68,
+          "durationMs": 3860,
+          "lineJapanese": "私も今、キラキラドキドキを感じてるよ。",
+          "lineChinese": "现在我也感受到了闪闪发光、心动不已。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "rimi-p",
+          "character": "rimi",
+          "slot": "p",
+          "file": "rimi-p.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Lp4y1c7Ns",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+          "startSeconds": 48.85,
+          "endSeconds": 53.6,
+          "durationMs": 4750,
+          "lineJapanese": "私、ポピパでよかったなって、改めて思ったんだ。",
+          "lineChinese": "我再次觉得，能加入Popipa真是太好了。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "rimi-finish",
+          "character": "rimi",
+          "slot": "finish",
+          "file": "rimi-finish.mp3",
+          "speaker": "牛込里美",
+          "voiceActor": "西本りみ",
+          "bvid": "BV1Ls411u7ss",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+          "startSeconds": 75.05,
+          "endSeconds": 79.22,
+          "durationMs": 4170,
+          "lineJapanese": "少しだけでもいいので、応援してくれたら嬉しいです。",
+          "lineChinese": "哪怕只有一点点，能得到你的支持我就很开心了。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        }
+      ]
     },
     {
       "key": "saaya",
@@ -1394,7 +1706,7 @@
             "startupMs": 120,
             "recoveryMs": 340,
             "cooldownMs": 2200,
-            "voiceKey": ""
+            "voiceKey": "saaya-u"
           },
           "I": {
             "name": "这一拍由我接住",
@@ -1406,7 +1718,7 @@
             "startupMs": 80,
             "recoveryMs": 300,
             "cooldownMs": 4200,
-            "voiceKey": ""
+            "voiceKey": "saaya-i"
           },
           "O": {
             "name": "守住节拍",
@@ -1418,7 +1730,7 @@
             "startupMs": 130,
             "recoveryMs": 330,
             "cooldownMs": 5000,
-            "voiceKey": ""
+            "voiceKey": "saaya-o"
           },
           "P": {
             "name": "为你敲响的鼓动",
@@ -1430,7 +1742,7 @@
             "startupMs": 100,
             "recoveryMs": 300,
             "cooldownMs": 0,
-            "voiceKey": ""
+            "voiceKey": "saaya-p"
           }
         },
         "backwardSkills": {
@@ -1440,12 +1752,12 @@
         },
         "entry": {
           "description": "转动鼓棒，交叉敲两拍，微笑站稳",
-          "voiceKey": ""
+          "voiceKey": "saaya-entry"
         },
         "ultimateFinish": {
           "description": "双棒交叉定格，金色鼓面圆环与面包店暖灯展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
           "artReference": "assets/poppinparty/portraits/saaya.png",
-          "voiceKey": ""
+          "voiceKey": "saaya-finish"
         }
       },
       "moves": {
@@ -1808,7 +2120,111 @@
           "omni": true
         }
       },
-      "archetype": "反击防护／节奏压制"
+      "archetype": "反击防护／节奏压制",
+      "voices": [
+        {
+          "key": "saaya-entry",
+          "character": "saaya",
+          "slot": "entry",
+          "file": "saaya-entry.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1js411M77x",
+          "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
+          "startSeconds": 0,
+          "endSeconds": 2.12,
+          "durationMs": 2120,
+          "lineJapanese": "私は山吹沙綾。",
+          "lineChinese": "我是山吹沙绫。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "saaya-u",
+          "character": "saaya",
+          "slot": "u",
+          "file": "saaya-u.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1Pz4y1G7Yj",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+          "startSeconds": 5.72,
+          "endSeconds": 7.88,
+          "durationMs": 2160,
+          "lineJapanese": "私だってバンドしたい！",
+          "lineChinese": "我也想玩乐队！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "saaya-i",
+          "character": "saaya",
+          "slot": "i",
+          "file": "saaya-i.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1Pz4y1G7Yj",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+          "startSeconds": 11.02,
+          "endSeconds": 12.86,
+          "durationMs": 1840,
+          "lineJapanese": "一人で決めちゃうの、ずるい！",
+          "lineChinese": "一个人就擅自决定，太狡猾了！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "saaya-o",
+          "character": "saaya",
+          "slot": "o",
+          "file": "saaya-o.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1js411M77x",
+          "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
+          "startSeconds": 34.21,
+          "endSeconds": 36.1,
+          "durationMs": 1890,
+          "lineJapanese": "いつも助かってます。",
+          "lineChinese": "一直都帮了我的大忙。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "saaya-p",
+          "character": "saaya",
+          "slot": "p",
+          "file": "saaya-p.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1Pz4y1G7Yj",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+          "startSeconds": 43.7,
+          "endSeconds": 49.12,
+          "durationMs": 5420,
+          "lineJapanese": "聴いてもらいたい、見てもらいたい！私の大好きなポピパのライブ！",
+          "lineChinese": "想让大家听到、看到，我最喜欢的Popipa演出！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "saaya-finish",
+          "character": "saaya",
+          "slot": "finish",
+          "file": "saaya-finish.mp3",
+          "speaker": "山吹沙绫",
+          "voiceActor": "大橋彩香",
+          "bvid": "BV1Pz4y1G7Yj",
+          "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+          "startSeconds": 58.8,
+          "endSeconds": 59.9,
+          "durationMs": 1100,
+          "lineJapanese": "ありがとうね。",
+          "lineChinese": "谢谢你。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        }
+      ]
     },
     {
       "key": "arisa",
@@ -1862,7 +2278,7 @@
             "startupMs": 160,
             "recoveryMs": 400,
             "cooldownMs": 2200,
-            "voiceKey": ""
+            "voiceKey": "arisa-u"
           },
           "I": {
             "name": "仓库练习·落键",
@@ -1874,7 +2290,7 @@
             "startupMs": 150,
             "recoveryMs": 380,
             "cooldownMs": 3200,
-            "voiceKey": ""
+            "voiceKey": "arisa-i"
           },
           "O": {
             "name": "才没有担心你",
@@ -1886,7 +2302,7 @@
             "startupMs": 160,
             "recoveryMs": 400,
             "cooldownMs": 3000,
-            "voiceKey": ""
+            "voiceKey": "arisa-o"
           },
           "P": {
             "name": "流星堂·全键齐奏",
@@ -1898,7 +2314,7 @@
             "startupMs": 120,
             "recoveryMs": 300,
             "cooldownMs": 0,
-            "voiceKey": ""
+            "voiceKey": "arisa-p"
           }
         },
         "backwardSkills": {
@@ -1908,12 +2324,12 @@
         },
         "entry": {
           "description": "抱臂轻哼，抬手唤出紫色琴键，整理站姿",
-          "voiceKey": ""
+          "voiceKey": "arisa-entry"
         },
         "ultimateFinish": {
           "description": "紫色键盘音阶与流星堂仓库练习空间展开，表情嘴硬而自信。此项为后续奥义图构图方案，本次未另绘奥义图。",
           "artReference": "assets/poppinparty/portraits/arisa.png",
-          "voiceKey": ""
+          "voiceKey": "arisa-finish"
         }
       },
       "moves": {
@@ -2237,7 +2653,111 @@
           "areaRadius": 220
         }
       },
-      "archetype": "预警控场／距离管理"
+      "archetype": "预警控场／距离管理",
+      "voices": [
+        {
+          "key": "arisa-entry",
+          "character": "arisa",
+          "slot": "entry",
+          "file": "arisa-entry.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1gW411d7jB",
+          "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+          "startSeconds": 0,
+          "endSeconds": 1.72,
+          "durationMs": 1720,
+          "lineJapanese": "市ヶ谷有咲です。",
+          "lineChinese": "我是市谷有咲。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "arisa-u",
+          "character": "arisa",
+          "slot": "u",
+          "file": "arisa-u.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1gW411d7jB",
+          "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+          "startSeconds": 16.33,
+          "endSeconds": 21.95,
+          "durationMs": 5620,
+          "lineJapanese": "じゃねえよ！お前だよ、お前！戸山香澄！",
+          "lineChinese": "不是啦！说的就是你，你！户山香澄！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "arisa-i",
+          "character": "arisa",
+          "slot": "i",
+          "file": "arisa-i.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1gW411d7jB",
+          "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+          "startSeconds": 31.91,
+          "endSeconds": 35.3,
+          "durationMs": 3390,
+          "lineJapanese": "は？キャラが変？うるせえよ、もう！",
+          "lineChinese": "哈？性格变了？吵死了！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "arisa-o",
+          "character": "arisa",
+          "slot": "o",
+          "file": "arisa-o.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1gW411d7jB",
+          "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+          "startSeconds": 44.2,
+          "endSeconds": 46.9,
+          "durationMs": 2700,
+          "lineJapanese": "まあ、別にそこまで嫌じゃねえけど。",
+          "lineChinese": "也不是那么讨厌啦。",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "arisa-p",
+          "character": "arisa",
+          "slot": "p",
+          "file": "arisa-p.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1HC4y1f7m5",
+          "sourceUrl": "https://www.bilibili.com/video/BV1HC4y1f7m5/",
+          "startSeconds": 43.9,
+          "endSeconds": 46.3,
+          "durationMs": 2400,
+          "lineJapanese": "嫌いになるわけねえじゃん！",
+          "lineChinese": "怎么可能会讨厌你啊！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        },
+        {
+          "key": "arisa-finish",
+          "character": "arisa",
+          "slot": "finish",
+          "file": "arisa-finish.mp3",
+          "speaker": "市谷有咲",
+          "voiceActor": "伊藤彩沙",
+          "bvid": "BV1gW411d7jB",
+          "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+          "startSeconds": 61.14,
+          "endSeconds": 62.99,
+          "durationMs": 1850,
+          "lineJapanese": "よし、終わり終わり！",
+          "lineChinese": "好，结束了，结束了！",
+          "playbackRate": 1,
+          "verification": "官方账号来源与角色简介；原片画面／字幕核对说话人，逐段ASR复核；未合成、未变声。"
+        }
+      ]
     }
   ]
 }

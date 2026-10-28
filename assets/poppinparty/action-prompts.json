@@ -1,0 +1,119 @@
+{
+  "mode": "built-in image_gen",
+  "layout": {
+    "columns": 4,
+    "rows": 4
+  },
+  "jobs": [
+    {
+      "key": "kasumi",
+      "actions": [
+        "standing cheerful ready with red star guitar",
+        "walking right, left leg forward",
+        "running right torso leaning, guitar secure",
+        "jumping right, knees bent",
+        "guarding behind guitar, hunched",
+        "recoiling backwards with hurt expression",
+        "fallen seated sideways, guitar safely across lap",
+        "entry smiling right hand raised greeting",
+        "jab1 short right hand string pluck front leg probe",
+        "jab2 reverse strum with shoulders rotated",
+        "jab3 full downward strum with guitar neck raised",
+        "heavy wide step power-strum, weight forward",
+        "U right hand flicking pick forward",
+        "I long forward lunge strumming, guitar held close",
+        "O feet planted broad strum producing surrounding resonance, no actual effects",
+        "P triumphant upward guitar pose, mouth open calling out"
+      ],
+      "prompt": "Use case: identity-preserve. Make one clean production 4 COLUMNS by 4 ROWS transparent character ACTION SPRITE SHEET, portrait canvas aspect 2:3, ideally 2048x3072. Reference is kasumi's approved full-body character portrait; match this exact one character's FACE, HAIR, EYES, uniform colors, body proportions and instrument in ALL sixteen cells. Draw 16 distinct full-body action poses, one character per cell, all predominantly facing RIGHT in three-quarter view, at identical scale and baseline. Strict evenly spaced row-major grid with transparent empty gutters, no drawn grid, NO TEXT or numbers or labels. Each figure fits entirely inside its own cell with generous margin. Do not overlap cells, cut off feet/hair/instruments or make chibi bodies. Crisp original 2D anime cel-shaded linework, same neutral light in every cell. Keep tan sailor school uniform and red bow, correct stockings and loafers from reference. Transparent empty background, no ground plane, no ghosting or multiple exposure, NO energy effects that obscure limbs. Instruments are props not weapons striking people; all battle poses are expressive music strums and gestures. A character sheet ONLY, never draw other band members. Sixteen cell poses in reading order: 1: standing cheerful ready with red star guitar; 2: walking right, left leg forward; 3: running right torso leaning, guitar secure; 4: jumping right, knees bent; 5: guarding behind guitar, hunched; 6: recoiling backwards with hurt expression; 7: fallen seated sideways, guitar safely across lap; 8: entry smiling right hand raised greeting; 9: jab1 short right hand string pluck front leg probe; 10: jab2 reverse strum with shoulders rotated; 11: jab3 full downward strum with guitar neck raised; 12: heavy wide step power-strum, weight forward; 13: U right hand flicking pick forward; 14: I long forward lunge strumming, guitar held close; 15: O feet planted broad strum producing surrounding resonance, no actual effects; 16: P triumphant upward guitar pose, mouth open calling out. The four rows must align exactly; each cell equally sized. Preserve recognizable original facial features and realistic anime proportions, modest skirt in all movement poses."
+    },
+    {
+      "key": "tae",
+      "actions": [
+        "relaxed calm ready with blue guitar",
+        "walking right left foot forward",
+        "running right hair flowing backwards",
+        "jumping knees bent with blue guitar",
+        "guarding with forearm and guitar",
+        "hurt recoil leaning backward",
+        "knocked down seated to side, guitar across lap",
+        "entry listening to string with tilted head",
+        "jab1 short delicate downward pluck",
+        "jab2 sideways reverse pluck and hand sliding fretboard",
+        "jab3 forward step and upward neck sweep",
+        "heavy deep weight shift and strong two-hand strum",
+        "U two-finger fast forward pick gesture",
+        "I long sliding step right and rapid string sweep",
+        "O rising uppercut-like guitar neck lift, rabbit-ear gesture of arm silhouette",
+        "P planted wide stance powerful long chord, both hands playing blue guitar"
+      ],
+      "prompt": "Use case: identity-preserve. Make one clean production 4 COLUMNS by 4 ROWS transparent character ACTION SPRITE SHEET, portrait canvas aspect 2:3, ideally 2048x3072. Reference is tae's approved full-body character portrait; match this exact one character's FACE, HAIR, EYES, uniform colors, body proportions and instrument in ALL sixteen cells. Draw 16 distinct full-body action poses, one character per cell, all predominantly facing RIGHT in three-quarter view, at identical scale and baseline. Strict evenly spaced row-major grid with transparent empty gutters, no drawn grid, NO TEXT or numbers or labels. Each figure fits entirely inside its own cell with generous margin. Do not overlap cells, cut off feet/hair/instruments or make chibi bodies. Crisp original 2D anime cel-shaded linework, same neutral light in every cell. Keep tan sailor school uniform and red bow, correct stockings and loafers from reference. Transparent empty background, no ground plane, no ghosting or multiple exposure, NO energy effects that obscure limbs. Instruments are props not weapons striking people; all battle poses are expressive music strums and gestures. A character sheet ONLY, never draw other band members. Sixteen cell poses in reading order: 1: relaxed calm ready with blue guitar; 2: walking right left foot forward; 3: running right hair flowing backwards; 4: jumping knees bent with blue guitar; 5: guarding with forearm and guitar; 6: hurt recoil leaning backward; 7: knocked down seated to side, guitar across lap; 8: entry listening to string with tilted head; 9: jab1 short delicate downward pluck; 10: jab2 sideways reverse pluck and hand sliding fretboard; 11: jab3 forward step and upward neck sweep; 12: heavy deep weight shift and strong two-hand strum; 13: U two-finger fast forward pick gesture; 14: I long sliding step right and rapid string sweep; 15: O rising uppercut-like guitar neck lift, rabbit-ear gesture of arm silhouette; 16: P planted wide stance powerful long chord, both hands playing blue guitar. The four rows must align exactly; each cell equally sized. Preserve recognizable original facial features and realistic anime proportions, modest skirt in all movement poses."
+    },
+    {
+      "key": "rimi",
+      "actions": [
+        "shy firm ready holding pink bass",
+        "walking right careful short step",
+        "running right hugging bass close",
+        "jumping with both knees bent",
+        "guard arms around bass chest",
+        "hurt recoil eyes briefly shut",
+        "fallen seated sideways bass across lap",
+        "entry deep breath shy smile lifting gaze",
+        "jab1 right finger plucks bass with slight lean",
+        "jab2 alternate fingers hook strings and step",
+        "jab3 wide feet and palm-muted heavy pluck",
+        "heavy deep step with strong forward low-bass pluck",
+        "U one hand tosses ONE small chocolate cornet forward, bass on strap",
+        "I low crouching double bass pluck",
+        "O forward charging step with bass held steady",
+        "P confident wide planted stance two hands powerful bass chord"
+      ],
+      "prompt": "Use case: identity-preserve. Make one clean production 4 COLUMNS by 4 ROWS transparent character ACTION SPRITE SHEET, portrait canvas aspect 2:3, ideally 2048x3072. Reference is rimi's approved full-body character portrait; match this exact one character's FACE, HAIR, EYES, uniform colors, body proportions and instrument in ALL sixteen cells. Draw 16 distinct full-body action poses, one character per cell, all predominantly facing RIGHT in three-quarter view, at identical scale and baseline. Strict evenly spaced row-major grid with transparent empty gutters, no drawn grid, NO TEXT or numbers or labels. Each figure fits entirely inside its own cell with generous margin. Do not overlap cells, cut off feet/hair/instruments or make chibi bodies. Crisp original 2D anime cel-shaded linework, same neutral light in every cell. Keep tan sailor school uniform and red bow, correct stockings and loafers from reference. Transparent empty background, no ground plane, no ghosting or multiple exposure, NO energy effects that obscure limbs. Instruments are props not weapons striking people; all battle poses are expressive music strums and gestures. A character sheet ONLY, never draw other band members. Sixteen cell poses in reading order: 1: shy firm ready holding pink bass; 2: walking right careful short step; 3: running right hugging bass close; 4: jumping with both knees bent; 5: guard arms around bass chest; 6: hurt recoil eyes briefly shut; 7: fallen seated sideways bass across lap; 8: entry deep breath shy smile lifting gaze; 9: jab1 right finger plucks bass with slight lean; 10: jab2 alternate fingers hook strings and step; 11: jab3 wide feet and palm-muted heavy pluck; 12: heavy deep step with strong forward low-bass pluck; 13: U one hand tosses ONE small chocolate cornet forward, bass on strap; 14: I low crouching double bass pluck; 15: O forward charging step with bass held steady; 16: P confident wide planted stance two hands powerful bass chord. The four rows must align exactly; each cell equally sized. Preserve recognizable original facial features and realistic anime proportions, modest skirt in all movement poses."
+    },
+    {
+      "key": "saaya",
+      "actions": [
+        "warm ready stance holding exactly two drumsticks",
+        "walking right alternating step",
+        "running right both sticks tucked close",
+        "jump knees bent holding drumsticks",
+        "guard two sticks crossed in front",
+        "hurt recoil arms withdrawing",
+        "fallen seated sideways sticks retained",
+        "entry twirling one stick warm smile",
+        "jab1 right drumstick diagonal strike",
+        "jab2 left stick horizontal reverse strike",
+        "jab3 both sticks crossing then thrust forward",
+        "heavy both sticks raised overhead in downstroke follow-through",
+        "U alternated forward drumstick thrust",
+        "I defensive cross-stick parry, firm gaze",
+        "O hands spread drumsticks forming protective drum arc pose, no shield itself",
+        "P energetic strong wide stance with both sticks raised high"
+      ],
+      "prompt": "Use case: identity-preserve. Make one clean production 4 COLUMNS by 4 ROWS transparent character ACTION SPRITE SHEET, portrait canvas aspect 2:3, ideally 2048x3072. Reference is saaya's approved full-body character portrait; match this exact one character's FACE, HAIR, EYES, uniform colors, body proportions and instrument in ALL sixteen cells. Draw 16 distinct full-body action poses, one character per cell, all predominantly facing RIGHT in three-quarter view, at identical scale and baseline. Strict evenly spaced row-major grid with transparent empty gutters, no drawn grid, NO TEXT or numbers or labels. Each figure fits entirely inside its own cell with generous margin. Do not overlap cells, cut off feet/hair/instruments or make chibi bodies. Crisp original 2D anime cel-shaded linework, same neutral light in every cell. Keep tan sailor school uniform and red bow, correct stockings and loafers from reference. Transparent empty background, no ground plane, no ghosting or multiple exposure, NO energy effects that obscure limbs. Instruments are props not weapons striking people; all battle poses are expressive music strums and gestures. A character sheet ONLY, never draw other band members. Sixteen cell poses in reading order: 1: warm ready stance holding exactly two drumsticks; 2: walking right alternating step; 3: running right both sticks tucked close; 4: jump knees bent holding drumsticks; 5: guard two sticks crossed in front; 6: hurt recoil arms withdrawing; 7: fallen seated sideways sticks retained; 8: entry twirling one stick warm smile; 9: jab1 right drumstick diagonal strike; 10: jab2 left stick horizontal reverse strike; 11: jab3 both sticks crossing then thrust forward; 12: heavy both sticks raised overhead in downstroke follow-through; 13: U alternated forward drumstick thrust; 14: I defensive cross-stick parry, firm gaze; 15: O hands spread drumsticks forming protective drum arc pose, no shield itself; 16: P energetic strong wide stance with both sticks raised high. The four rows must align exactly; each cell equally sized. Preserve recognizable original facial features and realistic anime proportions, modest skirt in all movement poses."
+    },
+    {
+      "key": "arisa",
+      "actions": [
+        "slightly annoyed ready stance one hand hip",
+        "walking right with confident posture",
+        "running right blonde twin tails trailing",
+        "jump knees bent arms raised for balance",
+        "guard crossed forearms",
+        "hurt recoil head turned aside",
+        "fallen seated sideways modest pose",
+        "entry arms crossed then one hand poised over imaginary keys",
+        "jab1 right finger pressing a short invisible key",
+        "jab2 left hand sweeping sideways over invisible keyboard",
+        "jab3 both palms pressing strong forward chord",
+        "heavy raised right arm forcefully pressing down keys",
+        "U right palm pushes a row of imaginary keys forward",
+        "I left arm pointing at floor ahead right hand pressing key",
+        "O both hands pushing outward to sides to repel",
+        "P wide commanding pose both hands above broad invisible keyboard orchestra"
+      ],
+      "prompt": "Use case: identity-preserve. Make one clean production 4 COLUMNS by 4 ROWS transparent character ACTION SPRITE SHEET, portrait canvas aspect 2:3, ideally 2048x3072. Reference is arisa's approved full-body character portrait; match this exact one character's FACE, HAIR, EYES, uniform colors, body proportions and instrument in ALL sixteen cells. Draw 16 distinct full-body action poses, one character per cell, all predominantly facing RIGHT in three-quarter view, at identical scale and baseline. Strict evenly spaced row-major grid with transparent empty gutters, no drawn grid, NO TEXT or numbers or labels. Each figure fits entirely inside its own cell with generous margin. Do not overlap cells, cut off feet/hair/instruments or make chibi bodies. Crisp original 2D anime cel-shaded linework, same neutral light in every cell. Keep tan sailor school uniform and red bow, correct stockings and loafers from reference. Transparent empty background, no ground plane, no ghosting or multiple exposure, NO energy effects that obscure limbs. Instruments are props not weapons striking people; all battle poses are expressive music strums and gestures. A character sheet ONLY, never draw other band members. Sixteen cell poses in reading order: 1: slightly annoyed ready stance one hand hip; 2: walking right with confident posture; 3: running right blonde twin tails trailing; 4: jump knees bent arms raised for balance; 5: guard crossed forearms; 6: hurt recoil head turned aside; 7: fallen seated sideways modest pose; 8: entry arms crossed then one hand poised over imaginary keys; 9: jab1 right finger pressing a short invisible key; 10: jab2 left hand sweeping sideways over invisible keyboard; 11: jab3 both palms pressing strong forward chord; 12: heavy raised right arm forcefully pressing down keys; 13: U right palm pushes a row of imaginary keys forward; 14: I left arm pointing at floor ahead right hand pressing key; 15: O both hands pushing outward to sides to repel; 16: P wide commanding pose both hands above broad invisible keyboard orchestra. The four rows must align exactly; each cell equally sized. Preserve recognizable original facial features and realistic anime proportions, modest skirt in all movement poses."
+    }
+  ]
+}

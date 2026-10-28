@@ -67,7 +67,7 @@
           "startupMs": 160,
           "recoveryMs": 400,
           "cooldownMs": 2200,
-          "voiceKey": ""
+          "voiceKey": "arisa-u"
         },
         "I": {
           "name": "仓库练习·落键",
@@ -79,7 +79,7 @@
           "startupMs": 150,
           "recoveryMs": 380,
           "cooldownMs": 3200,
-          "voiceKey": ""
+          "voiceKey": "arisa-i"
         },
         "O": {
           "name": "才没有担心你",
@@ -91,7 +91,7 @@
           "startupMs": 160,
           "recoveryMs": 400,
           "cooldownMs": 3000,
-          "voiceKey": ""
+          "voiceKey": "arisa-o"
         },
         "P": {
           "name": "流星堂·全键齐奏",
@@ -103,7 +103,7 @@
           "startupMs": 120,
           "recoveryMs": 300,
           "cooldownMs": 0,
-          "voiceKey": ""
+          "voiceKey": "arisa-p"
         }
       },
       "backwardSkills": {
@@ -113,12 +113,12 @@
       },
       "entry": {
         "description": "抱臂轻哼，抬手唤出紫色琴键，整理站姿",
-        "voiceKey": ""
+        "voiceKey": "arisa-entry"
       },
       "ultimateFinish": {
         "description": "紫色键盘音阶与流星堂仓库练习空间展开，表情嘴硬而自信。此项为后续奥义图构图方案，本次未另绘奥义图。",
         "artReference": "assets/poppinparty/portraits/arisa.png",
-        "voiceKey": ""
+        "voiceKey": "arisa-finish"
       }
     }
   ],
@@ -140,6 +140,72 @@
       "localPath": "assets/poppinparty/portraits/arisa.png",
       "sourceUrl": "",
       "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    },
+    {
+      "key": "arisa-entry",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-entry.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+      "speaker": "市谷有咲",
+      "line": "市ヶ谷有咲です。",
+      "startSeconds": 0,
+      "endSeconds": 1.72,
+      "notes": "我是市谷有咲。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "arisa-u",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-u.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+      "speaker": "市谷有咲",
+      "line": "じゃねえよ！お前だよ、お前！戸山香澄！",
+      "startSeconds": 16.33,
+      "endSeconds": 21.95,
+      "notes": "不是啦！说的就是你，你！户山香澄！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "arisa-i",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-i.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+      "speaker": "市谷有咲",
+      "line": "は？キャラが変？うるせえよ、もう！",
+      "startSeconds": 31.91,
+      "endSeconds": 35.3,
+      "notes": "哈？性格变了？吵死了！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "arisa-o",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-o.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+      "speaker": "市谷有咲",
+      "line": "まあ、別にそこまで嫌じゃねえけど。",
+      "startSeconds": 44.2,
+      "endSeconds": 46.9,
+      "notes": "也不是那么讨厌啦。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "arisa-p",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-p.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1HC4y1f7m5/",
+      "speaker": "市谷有咲",
+      "line": "嫌いになるわけねえじゃん！",
+      "startSeconds": 43.9,
+      "endSeconds": 46.3,
+      "notes": "怎么可能会讨厌你啊！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "arisa-finish",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/arisa-finish.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1gW411d7jB/",
+      "speaker": "市谷有咲",
+      "line": "よし、終わり終わり！",
+      "startSeconds": 61.14,
+      "endSeconds": 62.99,
+      "notes": "好，结束了，结束了！；官方游戏原声，原速，保留原片背景音。"
     }
   ],
   "notes": [
@@ -147,7 +213,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

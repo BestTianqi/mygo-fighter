@@ -67,7 +67,7 @@
           "startupMs": 120,
           "recoveryMs": 340,
           "cooldownMs": 2200,
-          "voiceKey": ""
+          "voiceKey": "saaya-u"
         },
         "I": {
           "name": "这一拍由我接住",
@@ -79,7 +79,7 @@
           "startupMs": 80,
           "recoveryMs": 300,
           "cooldownMs": 4200,
-          "voiceKey": ""
+          "voiceKey": "saaya-i"
         },
         "O": {
           "name": "守住节拍",
@@ -91,7 +91,7 @@
           "startupMs": 130,
           "recoveryMs": 330,
           "cooldownMs": 5000,
-          "voiceKey": ""
+          "voiceKey": "saaya-o"
         },
         "P": {
           "name": "为你敲响的鼓动",
@@ -103,7 +103,7 @@
           "startupMs": 100,
           "recoveryMs": 300,
           "cooldownMs": 0,
-          "voiceKey": ""
+          "voiceKey": "saaya-p"
         }
       },
       "backwardSkills": {
@@ -113,12 +113,12 @@
       },
       "entry": {
         "description": "转动鼓棒，交叉敲两拍，微笑站稳",
-        "voiceKey": ""
+        "voiceKey": "saaya-entry"
       },
       "ultimateFinish": {
         "description": "双棒交叉定格，金色鼓面圆环与面包店暖灯展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
         "artReference": "assets/poppinparty/portraits/saaya.png",
-        "voiceKey": ""
+        "voiceKey": "saaya-finish"
       }
     }
   ],
@@ -140,6 +140,72 @@
       "localPath": "assets/poppinparty/portraits/saaya.png",
       "sourceUrl": "",
       "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    },
+    {
+      "key": "saaya-entry",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-entry.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
+      "speaker": "山吹沙绫",
+      "line": "私は山吹沙綾。",
+      "startSeconds": 0,
+      "endSeconds": 2.12,
+      "notes": "我是山吹沙绫。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "saaya-u",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-u.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+      "speaker": "山吹沙绫",
+      "line": "私だってバンドしたい！",
+      "startSeconds": 5.72,
+      "endSeconds": 7.88,
+      "notes": "我也想玩乐队！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "saaya-i",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-i.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+      "speaker": "山吹沙绫",
+      "line": "一人で決めちゃうの、ずるい！",
+      "startSeconds": 11.02,
+      "endSeconds": 12.86,
+      "notes": "一个人就擅自决定，太狡猾了！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "saaya-o",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-o.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
+      "speaker": "山吹沙绫",
+      "line": "いつも助かってます。",
+      "startSeconds": 34.21,
+      "endSeconds": 36.1,
+      "notes": "一直都帮了我的大忙。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "saaya-p",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-p.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+      "speaker": "山吹沙绫",
+      "line": "聴いてもらいたい、見てもらいたい！私の大好きなポピパのライブ！",
+      "startSeconds": 43.7,
+      "endSeconds": 49.12,
+      "notes": "想让大家听到、看到，我最喜欢的Popipa演出！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "saaya-finish",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/saaya-finish.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
+      "speaker": "山吹沙绫",
+      "line": "ありがとうね。",
+      "startSeconds": 58.8,
+      "endSeconds": 59.9,
+      "notes": "谢谢你。；官方游戏原声，原速，保留原片背景音。"
     }
   ],
   "notes": [
@@ -147,7 +213,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

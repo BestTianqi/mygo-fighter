@@ -67,7 +67,7 @@
           "startupMs": 160,
           "recoveryMs": 400,
           "cooldownMs": 2200,
-          "voiceKey": ""
+          "voiceKey": "rimi-u"
         },
         "I": {
           "name": "闷弦低鸣",
@@ -79,7 +79,7 @@
           "startupMs": 170,
           "recoveryMs": 300,
           "cooldownMs": 2800,
-          "voiceKey": ""
+          "voiceKey": "rimi-i"
         },
         "O": {
           "name": "我也要向前一步",
@@ -91,7 +91,7 @@
           "startupMs": 190,
           "recoveryMs": 370,
           "cooldownMs": 3300,
-          "voiceKey": ""
+          "voiceKey": "rimi-o"
         },
         "P": {
           "name": "巧克力低音交响",
@@ -103,7 +103,7 @@
           "startupMs": 140,
           "recoveryMs": 300,
           "cooldownMs": 0,
-          "voiceKey": ""
+          "voiceKey": "rimi-p"
         }
       },
       "backwardSkills": {
@@ -113,12 +113,12 @@
       },
       "entry": {
         "description": "抱着贝斯深呼吸，从害羞低头转为坚定抬头",
-        "voiceKey": ""
+        "voiceKey": "rimi-entry"
       },
       "ultimateFinish": {
         "description": "粉色贝斯与巧克力螺旋面包的暖色剪影，面包店橱窗和舞台光扩展背景。此项为后续奥义图构图方案，本次未另绘奥义图。",
         "artReference": "assets/poppinparty/portraits/rimi.png",
-        "voiceKey": ""
+        "voiceKey": "rimi-finish"
       }
     }
   ],
@@ -140,6 +140,72 @@
       "localPath": "assets/poppinparty/portraits/rimi.png",
       "sourceUrl": "",
       "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    },
+    {
+      "key": "rimi-entry",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-entry.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+      "speaker": "牛込里美",
+      "line": "はじめまして、牛込りみです。",
+      "startSeconds": 0,
+      "endSeconds": 3.06,
+      "notes": "初次见面，我是牛込里美。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "rimi-u",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-u.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+      "speaker": "牛込里美",
+      "line": "でも、一番のおすすめは沙綾ちゃんちのパン屋さんのチョココロネ。",
+      "startSeconds": 52.18,
+      "endSeconds": 57.4,
+      "notes": "不过最推荐的，是沙绫家面包店的巧克力螺旋面包。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "rimi-i",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-i.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+      "speaker": "牛込里美",
+      "line": "でも、もう怖くない。",
+      "startSeconds": 10.6,
+      "endSeconds": 12.87,
+      "notes": "但是，我已经不害怕了。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "rimi-o",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-o.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+      "speaker": "牛込里美",
+      "line": "私も今、キラキラドキドキを感じてるよ。",
+      "startSeconds": 53.82,
+      "endSeconds": 57.68,
+      "notes": "现在我也感受到了闪闪发光、心动不已。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "rimi-p",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-p.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Lp4y1c7Ns/",
+      "speaker": "牛込里美",
+      "line": "私、ポピパでよかったなって、改めて思ったんだ。",
+      "startSeconds": 48.85,
+      "endSeconds": 53.6,
+      "notes": "我再次觉得，能加入Popipa真是太好了。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "rimi-finish",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/rimi-finish.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1Ls411u7ss/",
+      "speaker": "牛込里美",
+      "line": "少しだけでもいいので、応援してくれたら嬉しいです。",
+      "startSeconds": 75.05,
+      "endSeconds": 79.22,
+      "notes": "哪怕只有一点点，能得到你的支持我就很开心了。；官方游戏原声，原速，保留原片背景音。"
     }
   ],
   "notes": [
@@ -147,7 +213,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

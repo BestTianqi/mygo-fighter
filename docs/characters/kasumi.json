@@ -68,7 +68,7 @@
           "startupMs": 160,
           "recoveryMs": 400,
           "cooldownMs": 2200,
-          "voiceKey": ""
+          "voiceKey": "kasumi-u"
         },
         "I": {
           "name": "心动追星",
@@ -80,7 +80,7 @@
           "startupMs": 170,
           "recoveryMs": 300,
           "cooldownMs": 2700,
-          "voiceKey": ""
+          "voiceKey": "kasumi-i"
         },
         "O": {
           "name": "星之鼓动",
@@ -92,7 +92,7 @@
           "startupMs": 150,
           "recoveryMs": 300,
           "cooldownMs": 3200,
-          "voiceKey": ""
+          "voiceKey": "kasumi-o"
         },
         "P": {
           "name": "我们的星之鼓动",
@@ -104,7 +104,7 @@
           "startupMs": 120,
           "recoveryMs": 300,
           "cooldownMs": 0,
-          "voiceKey": ""
+          "voiceKey": "kasumi-p"
         }
       },
       "backwardSkills": {
@@ -114,12 +114,12 @@
       },
       "entry": {
         "description": "轻跳落地，扶正星形吉他，笑着举手招呼",
-        "voiceKey": ""
+        "voiceKey": "kasumi-entry"
       },
       "ultimateFinish": {
         "description": "红色星形吉他举起，夜空与五色舞台灯从立绘背后展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
         "artReference": "assets/poppinparty/portraits/kasumi.png",
-        "voiceKey": ""
+        "voiceKey": "kasumi-finish"
       }
     }
   ],
@@ -141,6 +141,72 @@
       "localPath": "assets/poppinparty/portraits/kasumi.png",
       "sourceUrl": "",
       "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    },
+    {
+      "key": "kasumi-entry",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-entry.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+      "speaker": "户山香澄",
+      "line": "私、戸山香澄、16歳！",
+      "startSeconds": 0.12,
+      "endSeconds": 2.55,
+      "notes": "我是户山香澄，16岁！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "kasumi-u",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-u.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
+      "speaker": "户山香澄",
+      "line": "星のギター！見つけた！キラキラドキドキできるもの！",
+      "startSeconds": 0.08,
+      "endSeconds": 5.9,
+      "notes": "星星的吉他！我找到了，让人闪闪发光、心动不已的东西！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "kasumi-i",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-i.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+      "speaker": "户山香澄",
+      "line": "真っ赤なランダムスターをジャーンってしちゃうから！",
+      "startSeconds": 37.5,
+      "endSeconds": 40.42,
+      "notes": "我要让鲜红的星形吉他响起来！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "kasumi-o",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-o.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
+      "speaker": "户山香澄",
+      "line": "バンド始めてよかった！",
+      "startSeconds": 31.83,
+      "endSeconds": 33.78,
+      "notes": "能开始组乐队真是太好了！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "kasumi-p",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-p.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+      "speaker": "户山香澄",
+      "line": "私ね、小さい頃、夜空を見上げた時に、星の鼓動が聞こえたんだ！",
+      "startSeconds": 14.3,
+      "endSeconds": 19.62,
+      "notes": "小时候仰望夜空时，我听到了星之鼓动！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "kasumi-finish",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/kasumi-finish.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
+      "speaker": "户山香澄",
+      "line": "だから今、みんなとPoppin'Partyができて、すっごく楽しい！",
+      "startSeconds": 32.82,
+      "endSeconds": 37.3,
+      "notes": "所以现在能和大家一起组成Poppin'Party，我非常开心！；官方游戏原声，原速，保留原片背景音。"
     }
   ],
   "notes": [
@@ -148,7 +214,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

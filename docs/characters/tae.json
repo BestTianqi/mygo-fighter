@@ -64,7 +64,7 @@
           "startupMs": 130,
           "recoveryMs": 340,
           "cooldownMs": 2200,
-          "voiceKey": ""
+          "voiceKey": "tae-u"
         },
         "I": {
           "name": "滑音疾走",
@@ -76,7 +76,7 @@
           "startupMs": 150,
           "recoveryMs": 300,
           "cooldownMs": 2800,
-          "voiceKey": ""
+          "voiceKey": "tae-i"
         },
         "O": {
           "name": "兔耳上行音阶",
@@ -88,7 +88,7 @@
           "startupMs": 170,
           "recoveryMs": 390,
           "cooldownMs": 3200,
-          "voiceKey": ""
+          "voiceKey": "tae-o"
         },
         "P": {
           "name": "花园电吉他",
@@ -100,7 +100,7 @@
           "startupMs": 100,
           "recoveryMs": 340,
           "cooldownMs": 0,
-          "voiceKey": ""
+          "voiceKey": "tae-p"
         }
       },
       "backwardSkills": {
@@ -110,12 +110,12 @@
       },
       "entry": {
         "description": "侧耳听音，轻拨一弦，再抬眼望向对手",
-        "voiceKey": ""
+        "voiceKey": "tae-entry"
       },
       "ultimateFinish": {
         "description": "蓝色吉他长音化成平行弦线，练习室窗光与蓝色聚光灯铺开。此项为后续奥义图构图方案，本次未另绘奥义图。",
         "artReference": "assets/poppinparty/portraits/tae.png",
-        "voiceKey": ""
+        "voiceKey": "tae-finish"
       }
     }
   ],
@@ -137,6 +137,72 @@
       "localPath": "assets/poppinparty/portraits/tae.png",
       "sourceUrl": "",
       "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+    },
+    {
+      "key": "tae-entry",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-entry.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+      "speaker": "花园多惠",
+      "line": "こんにちは、花園たえです。",
+      "startSeconds": 0.95,
+      "endSeconds": 2.95,
+      "notes": "你好，我是花园多惠。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "tae-u",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-u.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+      "speaker": "花园多惠",
+      "line": "私、結構得意なんだ。",
+      "startSeconds": 49.76,
+      "endSeconds": 51.74,
+      "notes": "我还挺擅长的。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "tae-i",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-i.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
+      "speaker": "花园多惠",
+      "line": "Poppin'Partyはすごく楽しい。",
+      "startSeconds": 52.16,
+      "endSeconds": 54.85,
+      "notes": "Poppin'Party非常有趣。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "tae-o",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-o.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+      "speaker": "花园多惠",
+      "line": "バンドって本当にすごいよね。",
+      "startSeconds": 21.45,
+      "endSeconds": 23.7,
+      "notes": "乐队真的很厉害呢。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "tae-p",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-p.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+      "speaker": "花园多惠",
+      "line": "ポピパって、私たち5人でポピパだよね。",
+      "startSeconds": 47.4,
+      "endSeconds": 51.16,
+      "notes": "我们五个人在一起，才是Popipa，对吧。；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "tae-finish",
+      "kind": "voice",
+      "localPath": "assets/poppinparty/voices/tae-finish.mp3",
+      "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
+      "speaker": "花园多惠",
+      "line": "この音は一生忘れないよ。",
+      "startSeconds": 57.12,
+      "endSeconds": 59.48,
+      "notes": "我一辈子都不会忘记这个声音。；官方游戏原声，原速，保留原片背景音。"
     }
   ],
   "notes": [
@@ -144,7 +210,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "动作描述和招式特效方向已明确；本次不包含逐帧动作图、额外奥义背景图或新录音视频。技能语音为空，避免误用其他角色声音。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }
