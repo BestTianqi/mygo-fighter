@@ -15,6 +15,7 @@ import { finishArtFor } from "../finishArtFor";
 
 import { createBattleScene } from "./createBattleScene";
 import { PreScaledSpriteCache } from "./PreScaledSpriteCache";
+import { maximumRenderScale, RENDER_SCALES } from "./renderResolution";
 
 export interface SpriteSource {
   x: number;
@@ -31,7 +32,6 @@ export interface Sprite {
   animation: string | null;
 }
 
-const RENDER_SCALES = [1, 1.25, 1.5, 2];
 const QUALITY_WARMUP_FRAMES = 30;
 const SLOW_QUALITY_FRAMES = 30;
 const FAST_QUALITY_FRAMES = 240;
@@ -89,6 +89,9 @@ export class CanvasRenderer {
   private readonly context: CanvasRenderingContext2D;
   private readonly scene: ReturnType<typeof createBattleScene>;
   private readonly spriteCache = new PreScaledSpriteCache();
+  private readonly resizeObserver: ResizeObserver;
+  private viewportWidth = 960;
+  private viewportHeight = 540;
   private renderScale = 1;
   private maximumRenderScale = 0;
   private qualityIndex = 0;
@@ -105,6 +108,17 @@ export class CanvasRenderer {
     const context = canvas.getContext("2d");
     if (!context) throw new Error("浏览器无法启用游戏画布。");
     this.context = context;
+    const bounds = canvas.getBoundingClientRect();
+    if (bounds.width > 0 && bounds.height > 0) {
+      this.viewportWidth = bounds.width;
+      this.viewportHeight = bounds.height;
+    }
+    this.resizeObserver = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width <= 0 || entry.contentRect.height <= 0) return;
+      this.viewportWidth = entry.contentRect.width;
+      this.viewportHeight = entry.contentRect.height;
+    });
+    this.resizeObserver.observe(canvas);
     this.syncRenderQuality();
     this.renderScale = this.targetRenderScale();
     this.scene = createBattleScene(
@@ -129,7 +143,11 @@ export class CanvasRenderer {
   }
 
   private syncRenderQuality() {
-    const maximum = Math.min(2, window.devicePixelRatio || 1);
+    const maximum = maximumRenderScale(
+      this.viewportWidth,
+      this.viewportHeight,
+      window.devicePixelRatio || 1,
+    );
     if (maximum === this.maximumRenderScale) return;
     this.maximumRenderScale = maximum;
     this.qualityIndex = qualityIndexFor(maximum);
@@ -445,6 +463,10 @@ export class CanvasRenderer {
       0,
       0,
     );
+    // Assigning canvas.width/height resets sampling to the browser's low
+    // default. Keep cel-shaded edges and facial details in the final draw.
+    this.context.imageSmoothingEnabled = true;
+    this.context.imageSmoothingQuality = "high";
     const renderStarted = performance.now();
     this.context.clearRect(0, 0, 960, 540);
     if (this.correctionMs > 0) {
@@ -477,5 +499,9 @@ export class CanvasRenderer {
     });
     this.scene.draw(visual, dt, videoBackground);
     this.recordRenderCost(performance.now() - renderStarted, dt);
+  }
+
+  dispose() {
+    this.resizeObserver.disconnect();
   }
 }

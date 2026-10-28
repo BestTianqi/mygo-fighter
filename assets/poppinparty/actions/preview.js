@@ -22,6 +22,7 @@
     const frames = manifest.characters[key].frames;
     const select = widget.querySelector("select");
     const canvas = widget.querySelector("canvas");
+    canvas.style.aspectRatio = "480 / 520";
     const status = widget.querySelector("[role=status]");
     const context = canvas.getContext("2d");
     let token = 0;
@@ -29,13 +30,29 @@
       const frame = frames[name];
       const image = await load(frame.file);
       if (ticket !== token) return;
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      const ratio = Math.min(
+        3,
+        Math.max(
+          1,
+          (canvas.clientWidth / 480) * (window.devicePixelRatio || 1),
+        ),
+      );
+      const pixelWidth = Math.round(480 * ratio);
+      const pixelHeight = Math.round(520 * ratio);
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+      context.setTransform(pixelWidth / 480, 0, 0, pixelHeight / 520, 0, 0);
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
+      context.clearRect(0, 0, 480, 520);
       const [x, y, width, height] = frame.rect;
       const scale = Math.min((370 * frame.heightRatio) / height, 420 / width);
       const bottom = name === "jump" ? 402 : 478;
       context.save();
       context.translate(
-        (canvas.width - width * scale) / 2 + (frame.mirror ? width * scale : 0),
+        (480 - width * scale) / 2 + (frame.mirror ? width * scale : 0),
         bottom - height * scale,
       );
       context.scale(frame.mirror ? -scale : scale, scale);
@@ -58,6 +75,10 @@
     const onError = () => {
       status.textContent = "动作图载入失败，请检查同目录素材。";
     };
+    const resizeObserver = new ResizeObserver(() => {
+      if (canvas.dataset.pose) draw(canvas.dataset.pose).catch(onError);
+    });
+    resizeObserver.observe(canvas);
     select.addEventListener("change", () => {
       token++;
       draw(select.value).catch(onError);

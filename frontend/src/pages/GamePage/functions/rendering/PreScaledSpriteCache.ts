@@ -26,9 +26,12 @@ export class PreScaledSpriteCache {
       1,
       Math.max(
         SCALE_STEP,
-        Math.round((sprite.scale * renderScale) / SCALE_STEP) * SCALE_STEP,
+        Math.ceil((sprite.scale * renderScale) / SCALE_STEP) * SCALE_STEP,
       ),
     );
+    // Full-resolution sprites already have the best source. Avoid copying and
+    // resampling them a second time, especially at fullscreen/Retina sizes.
+    if (rasterScale >= 1) return sprite;
     const width = Math.max(1, Math.round(frame.w * rasterScale));
     const height = Math.max(1, Math.round(frame.h * rasterScale));
     const pixels = width * height;

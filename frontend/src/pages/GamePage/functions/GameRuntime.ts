@@ -471,6 +471,7 @@ export class GameRuntime {
     this.lan.dispose();
     this.input.dispose();
     this.audio.dispose();
+    this.renderer.dispose();
     this.listeners.clear();
   }
 }
