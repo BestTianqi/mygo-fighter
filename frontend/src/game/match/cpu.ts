@@ -3,9 +3,54 @@ import * as controls from "../controls";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import { clamp } from "./combatMath";
+import { moveEnabled } from "../battleRules";
 
 /** CPU decisions use the match's seeded random source, shared by browser and JVM. */
 export function aiInput(match: Match): Input {
+  const input = chooseInput(match);
+  const f = match.fighters[1];
+  const pressed = (key: string) => !!input[key as keyof Input];
+  // If a character tactic requests a banned action, choose a usable basic
+  // skill instead. This also covers MyGO's legacy per-character commands.
+  if (match.resolveAttack(f, input, pressed)) return input;
+  const rules = match.options.rules;
+  if (!rules.disableNormals && !rules.disableSupers && !rules.disableTransform)
+    return input;
+  const action = Object.keys(input).some(
+    (key) =>
+      ![
+        "left",
+        "right",
+        "jump",
+        "crouch",
+        "guard",
+        "dash",
+        "blink",
+        "unified",
+      ].includes(key) && pressed(key),
+  );
+  if (!action || !match.grounded(f)) return input;
+  const scheme = controls.schemeFor(f);
+  const available = scheme.base.findIndex((key) => {
+    const move = MOVES[key];
+    return (
+      moveEnabled(rules, move) &&
+      !move.airOnly &&
+      f.energy >= (move.cost ?? 0) &&
+      (rules.noCooldowns || !f.moveCooldowns[key])
+    );
+  });
+  return available >= 0
+    ? { unified: true, ["skill" + (available + 1)]: true }
+    : {
+        left: input.left,
+        right: input.right,
+        jump: input.jump,
+        guard: input.guard,
+      };
+}
+
+function chooseInput(match: Match): Input {
   const a = match.fighters[1],
     b = match.fighters[0];
   const d = Math.abs(a.x - b.x),
@@ -61,6 +106,7 @@ export function aiInput(match: Match): Input {
         return { unified: true, crouch: true, skill1: true };
       if (
         band.transform &&
+        !match.options.rules.disableTransform &&
         !a.stageForm &&
         a.energy >= 75 &&
         match.elapsed > 8000 &&
@@ -69,6 +115,7 @@ export function aiInput(match: Match): Input {
         return { unified: true, transform: true };
       if (
         a.energy === 100 &&
+        !match.options.rules.disableSupers &&
         d <= 420 &&
         Math.abs(a.y - b.y) <= 300 &&
         match.random() < 0.45
@@ -79,7 +126,7 @@ export function aiInput(match: Match): Input {
         .filter(
           ({ key, move }) =>
             a.energy >= move.cost! &&
-            !a.moveCooldowns[key] &&
+            (match.options.rules.noCooldowns || !a.moveCooldowns[key]) &&
             (!move.delayedArea ||
               !match.areas.some(
                 (area) => area.owner === 1 && area.attack === key,
@@ -94,7 +141,7 @@ export function aiInput(match: Match): Input {
       if (b.attack && d < 200 && match.random() < 0.4)
         return { guard: true, crouch: b.crouch };
     }
-    if (d < 180)
+    if (d < 180 && !match.options.rules.disableNormals)
       return {
         unified: true,
         [match.random() < 0.65 ? "light" : "heavy"]: true,

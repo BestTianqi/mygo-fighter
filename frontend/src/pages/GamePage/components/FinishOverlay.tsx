@@ -1,4 +1,5 @@
 import { MOVES, ROSTER } from "../../../game/engine";
+import { teamSizeFor } from "../../../game/battleRules";
 import type { Assets } from "../../../game/objects/Assets";
 import { finishArtFor } from "../functions/finishArtFor";
 import { finishMotion } from "../functions/finishMotion";
@@ -115,7 +116,7 @@ export function FinishOverlay({
           {winner ? ROSTER[winner.character].name : "不分胜负"}
         </p>
         <p className="mt-1 text-[10px] text-slate-400 sm:mt-3 sm:text-sm">
-          {view.config?.format === "3v3"
+          {teamSizeFor(view.config?.format) > 1
             ? `剩余队员 ${view.teamRemaining.join(" : ")}`
             : `回合比分 ${view.wins.join(" : ")}`}
         </p>

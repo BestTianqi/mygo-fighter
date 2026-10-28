@@ -11,6 +11,8 @@ import { Button } from "../../../components/ui/Button";
 import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
 import { RosterGrid } from "./RosterGrid";
 import { SelectionLineups } from "./SelectionLineups";
+import { BattleRulesPanel } from "./BattleRulesPanel";
+import { MATCH_FORMATS, teamSizeFor } from "../../../game/battleRules";
 const selectClass =
   "min-h-11 rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a] touch-manipulation focus-visible:outline-2 focus-visible:outline-cyan-200";
 export function CharacterSelection({
@@ -46,8 +48,9 @@ export function CharacterSelection({
       mode: selection.mode,
       format: selection.format,
       characters: teams.map((team) => team[0]),
-      ...(selection.format === "3v3" ? { teams } : {}),
+      ...(teamSizeFor(selection.format) > 1 ? { teams } : {}),
       settings: selection.settings,
+      rules: selection.rules,
     });
   }
   return (
@@ -95,8 +98,11 @@ export function CharacterSelection({
                 update(() => controller.setFormat(event.target.value as Format))
               }
             >
-              <option value="1v1">1v1 单人战</option>
-              <option value="3v3">3v3 车轮战</option>
+              {MATCH_FORMATS.map((format) => (
+                <option key={format} value={format}>
+                  {format} {format === "1v1" ? "单人战" : "车轮战"}
+                </option>
+              ))}
             </select>
           </label>
         </div>
@@ -114,7 +120,12 @@ export function CharacterSelection({
             <SelectionLineups
               assets={assets}
               teams={selection.teams}
-              active={selection.active}
+              active={
+                selection.phase === "ban" ||
+                (selection.rules.banCount > 0 && complete)
+                  ? null
+                  : selection.active
+              }
               labels={["1P", selection.mode === "duel" ? "2P" : "CPU"]}
               statuses={selection.teams.map((team, side) =>
                 team.every((id) => id !== null)
@@ -131,12 +142,51 @@ export function CharacterSelection({
               onClear={(side, slot) =>
                 update(() => controller.clearSlot(side, slot))
               }
+              isDisabled={() => selection.rules.banCount > 0}
             />
+            {selection.rules.banCount > 0 && (
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2 bg-[#30251a]/4 px-3 py-2 text-xs">
+                <div className="min-w-0 space-y-1">
+                  {[0, 1].map((side) => (
+                    <p
+                      key={side}
+                      className={
+                        side === 0 ? "text-[#8f354e]" : "text-[#2a5f5a]"
+                      }
+                    >
+                      {side === 0
+                        ? "1P"
+                        : selection.mode === "duel"
+                          ? "2P"
+                          : "CPU"}{" "}
+                      禁用：
+                      {Array.from(
+                        { length: selection.rules.banCount },
+                        (_, slot) => {
+                          const id = selection.bans[slot * 2 + side];
+                          return id === undefined ? "待禁用" : ROSTER[id].name;
+                        },
+                      ).join(" / ")}
+                    </p>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => update(() => controller.restartDraft())}
+                  className="min-h-11 px-2 text-[#80786d] hover:text-[#8f354e]"
+                >
+                  重新禁选
+                </button>
+              </div>
+            )}
             <div className="mb-3 flex items-center justify-between [@media(max-height:500px)]:mb-1">
-              <h2 className="text-xs text-[#80786d]">选择阵容</h2>
+              <h2 className="text-xs text-[#80786d]">
+                {selection.phase === "ban" ? "轮流禁用角色" : "选择阵容"}
+              </h2>
               <p className="text-xs text-[#80786d]">
-                {selection.teams.flat().filter((id) => id !== null).length} /{" "}
-                {selection.format === "3v3" ? 6 : 2}
+                {selection.phase === "ban"
+                  ? `${selection.bans.length} / ${selection.rules.banCount * 2} 已禁用`
+                  : `${selection.teams.flat().filter((id) => id !== null).length} / ${teamSizeFor(selection.format) * 2} 已出战`}
               </p>
             </div>
             <RosterGrid
@@ -144,9 +194,23 @@ export function CharacterSelection({
               preview={preview}
               onPreview={setPreview}
               teams={selection.teams}
+              bans={selection.bans}
+              disabled={selection.rules.banCount > 0 && complete}
+              isDisabled={(id) =>
+                selection.rules.banCount > 0
+                  ? selection.teams.some((team) => team.includes(id))
+                  : selection.teams[selection.active[0]].some(
+                      (pick, slot) =>
+                        pick === id && slot !== selection.active[1],
+                    )
+              }
               onChoose={(id) => {
                 setPreview(id);
-                setError(controller.pick(id) ? "" : "同一队伍请选择不同角色。");
+                setError(
+                  controller.pick(id)
+                    ? ""
+                    : "请选择未禁用且未被当前阵容占用的角色。",
+                );
                 setSelection(controller.snapshot());
               }}
             />
@@ -157,11 +221,20 @@ export function CharacterSelection({
               {error ||
                 (complete
                   ? "阵容已就绪，选择场地后登台。"
-                  : `为 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 选择第 ${selection.active[1] + 1} 位角色。`)}
+                  : selection.phase === "ban"
+                    ? `轮到 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 禁用第 ${Math.floor(selection.bans.length / 2) + 1} 名角色。`
+                    : `为 ${selection.active[0] === 0 ? "1P" : selection.mode === "duel" ? "2P" : "CPU"} 选择第 ${selection.active[1] + 1} 位角色。`)}
             </p>
           </div>
         </div>
         <section className="mt-3 pt-3" aria-label="场地与规则">
+          <BattleRulesPanel
+            rules={selection.rules}
+            format={selection.format}
+            rosterSize={ROSTER.length}
+            practice={selection.mode === "practice"}
+            onChange={(changes) => update(() => controller.setRules(changes))}
+          />
           <div className="mb-2 flex flex-wrap items-end justify-between gap-2">
             <div>
               <p className="text-xs text-[#80786d]">场地与规则</p>

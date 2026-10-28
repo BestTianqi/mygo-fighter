@@ -11,6 +11,7 @@ import type { GameView } from "../objects/GameView";
 import { bandPortrait } from "../functions/bandArt";
 import { Button } from "../../../components/ui/Button";
 import { schemeFor } from "../../../game/controls";
+import { teamSizeFor } from "../../../game/battleRules";
 import {
   enterImmersive,
   exitImmersive,
@@ -309,7 +310,9 @@ export function BattlePanel({
     penguin: !!localFighter?.transformed,
     stageForm: !!localFighter?.transformed,
   };
-  const canTransform = !!schemeFor(localIdentity).transform;
+  const canTransform =
+    !!schemeFor(localIdentity).transform &&
+    !view.config?.rules?.disableTransform;
   const videos = view.cutins.flatMap((media, side) =>
     media?.video ? [{ media, side }] : [],
   );
@@ -577,7 +580,7 @@ export function BattlePanel({
           </nav>
           <p className="mt-3 text-center text-[10px] text-slate-500">
             {view.lastMove ||
-              `AD 移动 · W 跳跃 · J/K 攻击 · L 瞬移 · U/I/O 技能${canTransform ? " · H 变身" : ""} · P 大招`}
+              `AD 移动 · W 跳跃${view.config?.rules?.disableNormals ? "" : " · J/K 攻击"} · L 瞬移 · U/I/O 技能${canTransform ? " · H 变身" : ""}${view.config?.rules?.disableSupers ? "" : " · P 大招"}`}
           </p>
           {(view.error || view.network.error) && (
             <p role="alert" className="mt-3 text-center text-xs text-pink-200">
@@ -597,7 +600,11 @@ export function BattlePanel({
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-slate-950/85 via-slate-950/35 to-transparent pt-14">
           <div className="pointer-events-auto pl-[max(0.25rem,env(safe-area-inset-left))] pr-[max(0.25rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
             {runtime && (
-              <TouchControls input={runtime.input} fighter={localIdentity} />
+              <TouchControls
+                input={runtime.input}
+                fighter={localIdentity}
+                rules={view.config?.rules}
+              />
             )}
           </div>
         </div>
@@ -675,7 +682,8 @@ function FighterHUD({
               : view.network.room || view.config?.mode === "duel"
                 ? "2P"
                 : "CPU"}{" "}
-            · {fighter.hp} HP {fighter.beats > 0 && `· ${fighter.beats} 拍`}
+            · {fighter.hp} / {view.config?.rules?.maxHealth ?? 200} HP{" "}
+            {fighter.beats > 0 && `· ${fighter.beats} 拍`}
           </p>
         </div>
       </div>
@@ -683,13 +691,15 @@ function FighterHUD({
         role="meter"
         aria-label={`${side + 1}P 生命`}
         aria-valuemin={0}
-        aria-valuemax={200}
+        aria-valuemax={view.config?.rules?.maxHealth ?? 200}
         aria-valuenow={fighter.hp}
         className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "sm:h-3" : "sm:h-4"}`}
       >
         <div
           className={`h-full transition-[width] duration-75 ${side ? "ml-auto bg-cyan-200" : "bg-pink-200"}`}
-          style={{ width: `${Math.max(0, fighter.hp / 2)}%` }}
+          style={{
+            width: `${Math.max(0, Math.min(100, (fighter.hp / (view.config?.rules?.maxHealth ?? 200)) * 100))}%`,
+          }}
         />
       </div>
       <div
@@ -710,13 +720,15 @@ function FighterHUD({
           aria-hidden="true"
           className={`w-[9ch] shrink-0 whitespace-nowrap text-center font-mono text-[8px] tabular-nums text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
         >
-          {fighter.energy} / 100
+          {view.config?.rules?.infiniteEnergy
+            ? "∞ 共鸣"
+            : `${fighter.energy} / 100`}
         </span>
       </div>
       <p
         className={`mt-1 text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
       >
-        {view.config?.format === "3v3"
+        {teamSizeFor(view.config?.format) > 1
           ? `剩余 ${view.teamRemaining[side]} 人`
           : "●".repeat(view.wins[side])}{" "}
         {fighter.combo > 1 && (

@@ -12,11 +12,21 @@ import { bandPortrait } from "../functions/bandArt";
 import { CharacterPortraitPreview } from "./CharacterPortraitPreview";
 import { RosterGrid } from "./RosterGrid";
 import { SelectionLineups } from "./SelectionLineups";
+import { BattleRulesPanel } from "./BattleRulesPanel";
+import {
+  MATCH_FORMATS,
+  normalizeBattleRules,
+  teamSizeFor,
+} from "../../../game/battleRules";
+import type { BattleRules } from "../../../game/objects/BattleRules";
+import type { Format } from "../../../game/objects/MatchOptions";
 import { enterImmersive } from "../functions/immersive";
 
 const selectClass =
   "min-h-11 touch-manipulation rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a]";
 const orders = ["先锋", "中坚", "大将"];
+const slotLabel = (size: number, slot: number) =>
+  size === 1 ? "出战角色" : size === 3 ? orders[slot] : `第 ${slot + 1} 位角色`;
 interface PendingCommand {
   baseline: RoomView | null;
   echo?: (room: RoomView) => boolean;
@@ -46,7 +56,12 @@ export function LanLobby({
     busy || ["connecting", "preparing", "reconnecting"].includes(status);
   const locked =
     working || !!room?.playing || !!room?.preparing || status !== "lobby";
-  const teamSize = room?.format === "3v3" ? 3 : 1;
+  const teamSize = teamSizeFor(room?.format);
+  const rules = normalizeBattleRules(
+    room?.rules,
+    room?.format ?? "1v1",
+    ROSTER.length,
+  );
   const team = room?.players[side]?.team ?? [];
   const ownReady = !!room?.players[side]?.ready;
   const bothConnected = !!room?.players.every((player) => player?.connected);
@@ -113,6 +128,37 @@ export function LanLobby({
     // authoritative room fields arrive, even if an unrelated room update wins the race.
     if (!succeeded || !echo || hasEcho(command)) release(command);
   }
+  function changeRules(
+    changes: Partial<BattleRules>,
+    format: Format = room!.format,
+  ) {
+    if (side !== 0 || locked || !room) return;
+    const next = normalizeBattleRules(
+      { ...rules, ...changes },
+      format,
+      ROSTER.length,
+    );
+    void run(
+      () =>
+        new ChooseRoomMessage(
+          runtime.lan.token,
+          undefined,
+          undefined,
+          undefined,
+          format,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          next,
+        ).send(),
+      (current) =>
+        current.format === format &&
+        (Object.keys(next) as (keyof BattleRules)[]).every(
+          (key) => current.rules[key] === next[key],
+        ),
+    );
+  }
   function chooseTeam(id: number) {
     if (
       locked ||
@@ -175,10 +221,10 @@ export function LanLobby({
     : draft
       ? draft.phase === "complete"
         ? "双方阵容已就绪，可以准备开战。"
-        : `${draft.turn === side ? "轮到你" : `等待 ${(draft.turn ?? 0) + 1}P`} · ${draft.phase === "ban" ? "禁用一名角色" : `选择${orders[room?.players[draft.turn ?? 0]?.team.length ?? 0] ?? "出战角色"}`}`
+        : `${draft.turn === side ? "轮到你" : `等待 ${(draft.turn ?? 0) + 1}P`} · ${draft.phase === "ban" ? `禁用第 ${Math.floor(draft.bans.length / 2) + 1} 名角色` : `选择${slotLabel(teamSize, room?.players[draft.turn ?? 0]?.team.length ?? 0)}`}`
       : ownReady
         ? "已准备。取消准备后可更换阵容。"
-        : `为 ${side + 1}P 选择${teamSize === 3 ? orders[activeSlot] : "出战角色"}，点击己方位置可更换。`;
+        : `为 ${side + 1}P 选择${slotLabel(teamSize, activeSlot)}，点击己方位置可更换。`;
   const allTeamsComplete = !!room?.players.every(
     (player) => player?.team.length === teamSize,
   );
@@ -263,33 +309,17 @@ export function LanLobby({
                 <select
                   aria-label="联机对战模式"
                   className={selectClass}
-                  disabled={side !== 0 || locked || ownReady}
-                  value={draft ? "draft" : room.format}
+                  disabled={side !== 0 || locked}
+                  value={room.format}
                   onChange={(event) => {
-                    const draftMode = event.target.value === "draft";
-                    const format = draftMode
-                      ? "3v3"
-                      : (event.target.value as "1v1" | "3v3");
-                    void run(
-                      () =>
-                        new ChooseRoomMessage(
-                          runtime.lan.token,
-                          undefined,
-                          undefined,
-                          undefined,
-                          format,
-                          undefined,
-                          draftMode,
-                        ).send(),
-                      (current) =>
-                        current.format === format &&
-                        !!current.draft === draftMode,
-                    );
+                    changeRules({}, event.target.value as Format);
                   }}
                 >
-                  <option value="1v1">1v1 对战</option>
-                  <option value="3v3">3v3 车轮战</option>
-                  <option value="draft">禁选 3v3 车轮战</option>
+                  {MATCH_FORMATS.map((format) => (
+                    <option key={format} value={format}>
+                      {format} {format === "1v1" ? "对战" : "车轮战"}
+                    </option>
+                  ))}
                 </select>
               </label>
             </header>
@@ -352,48 +382,52 @@ export function LanLobby({
                 {draft && (
                   <section
                     aria-label="禁选进度"
-                    className="mb-2 flex flex-wrap items-center justify-between gap-3 rounded-none bg-[#30251a]/4 p-2 [@media(max-height:500px)]:hidden"
+                    className="mb-2 flex flex-wrap items-center justify-between gap-3 rounded-none bg-[#30251a]/4 p-2"
                   >
                     <div className="flex flex-wrap items-center gap-3">
                       <span className="text-[10px] tracking-widest text-[#80786d]">
                         BAN / 先禁后选
                       </span>
-                      {[0, 1].map((banSide) => {
-                        const id = draft.bans[banSide];
-                        return (
-                          <div
-                            key={banSide}
-                            className="flex items-center gap-2 text-xs"
-                          >
-                            <span
-                              className={
-                                banSide === 0
-                                  ? "text-[#8f354e]"
-                                  : "text-[#2a5f5a]"
-                              }
+                      {Array.from(
+                        { length: rules.banCount * 2 },
+                        (_, banIndex) => {
+                          const banSide = banIndex % 2;
+                          const id = draft.bans[banIndex];
+                          return (
+                            <div
+                              key={banIndex}
+                              className="flex items-center gap-2 text-xs"
                             >
-                              {banSide + 1}P
-                            </span>
-                            {id === undefined ? (
-                              <span className="grid size-9 place-items-center rounded-none bg-[#30251a]/5 text-[#80786d]">
-                                —
-                              </span>
-                            ) : (
-                              <img
-                                src={
-                                  bandPortrait(assets, id)?.face ??
-                                  assets.characters[id].portrait
+                              <span
+                                className={
+                                  banSide === 0
+                                    ? "text-[#8f354e]"
+                                    : "text-[#2a5f5a]"
                                 }
-                                alt=""
-                                className="size-9 rounded-none object-cover object-center grayscale"
-                              />
-                            )}
-                            <span className="text-[10px] text-[#80786d]">
-                              {id === undefined ? "待禁用" : ROSTER[id].name}
-                            </span>
-                          </div>
-                        );
-                      })}
+                              >
+                                {banSide + 1}P · {Math.floor(banIndex / 2) + 1}
+                              </span>
+                              {id === undefined ? (
+                                <span className="grid size-9 place-items-center rounded-none bg-[#30251a]/5 text-[#80786d]">
+                                  —
+                                </span>
+                              ) : (
+                                <img
+                                  src={
+                                    bandPortrait(assets, id)?.face ??
+                                    assets.characters[id].portrait
+                                  }
+                                  alt=""
+                                  className="size-9 rounded-none object-cover object-center grayscale"
+                                />
+                              )}
+                              <span className="text-[10px] text-[#80786d]">
+                                {id === undefined ? "待禁用" : ROSTER[id].name}
+                              </span>
+                            </div>
+                          );
+                        },
+                      )}
                     </div>
                     {side === 0 && (
                       <Button
@@ -407,9 +441,12 @@ export function LanLobby({
                                 undefined,
                                 undefined,
                                 undefined,
-                                "3v3",
+                                room.format,
                                 undefined,
                                 true,
+                                undefined,
+                                undefined,
+                                rules,
                               ).send(),
                             (current) =>
                               current.draft?.phase === "ban" &&
@@ -436,7 +473,7 @@ export function LanLobby({
                   </p>
                   <span className="text-[10px] text-[#80786d]">
                     {draft?.phase === "ban"
-                      ? `${draft.bans.length} / 2 已禁用`
+                      ? `${draft.bans.length} / ${rules.banCount * 2} 已禁用`
                       : `${picked.length} / ${teamSize * 2} 已出战`}
                   </span>
                 </div>
@@ -469,6 +506,14 @@ export function LanLobby({
               </div>
             </div>
             <section className="mt-3 min-w-0 pt-2" aria-label="场地与规则">
+              <BattleRulesPanel
+                rules={rules}
+                format={room.format}
+                rosterSize={ROSTER.length}
+                readOnly={side !== 0}
+                disabled={locked}
+                onChange={changeRules}
+              />
               <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
                 <div>
                   <p className="text-[10px] text-[#80786d]">场地 · 房主选择</p>

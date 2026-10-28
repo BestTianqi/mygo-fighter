@@ -1,4 +1,5 @@
-import { bandFor, MAX_HEALTH, MOVES, verticalScale, WORLD } from "../combatData";
+import { bandFor, MOVES, verticalScale, WORLD } from "../combatData";
+import { moveEnabled } from "../battleRules";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import { clamp } from "./combatMath";
@@ -14,6 +15,11 @@ export function startBufferedAttack(
 ): void {
   const f = match.fighters[side],
     other = match.fighters[1 - side];
+  if (f.buffer && !moveEnabled(match.options.rules, MOVES[f.buffer])) {
+    f.buffer = null;
+    f.bufferMs = 0;
+    return;
+  }
   const cancel = f.buffer && match.canCancel(f, f.buffer);
   if (
     f.buffer &&
@@ -43,7 +49,7 @@ export function startBufferedAttack(
       f.energy >= (move.cost || 0) &&
       legalStance &&
       legalOwner &&
-      !f.moveCooldowns[name] &&
+      (match.options.rules.noCooldowns || !f.moveCooldowns[name]) &&
       (!move.delayedArea ||
         !match.areas.some((a) => a.owner === side && a.attack === name)) &&
       (!move.anonOnly || f.character === 0) &&
@@ -54,7 +60,10 @@ export function startBufferedAttack(
       (!move.penguinOnly || f.penguin) &&
       (!move.nativeOnly || !f.penguin) &&
       (name !== "summon" || !f.summons) &&
-      (name !== "heal" || (f.hp > 0 && f.hp < MAX_HEALTH && !f.healCooldown)) &&
+      (name !== "heal" ||
+        (f.hp > 0 &&
+          f.hp < match.options.rules.maxHealth &&
+          !f.healCooldown)) &&
       (name !== "ranaTune" || (!f.tuneCooldown && f.energy < 100)) &&
       (name !== "rikiCalibrate" || (!f.calibrateCooldown && f.beats < 4))
     ) {
@@ -63,7 +72,8 @@ export function startBufferedAttack(
         name = upgraded;
         move = MOVES[name];
       }
-      f.energy -= move.cost || 0;
+      if (!moveEnabled(match.options.rules, move)) return;
+      if (!match.options.rules.infiniteEnergy) f.energy -= move.cost || 0;
       f.guard = false;
       f.attack = name;
       f.attackMs = 0;

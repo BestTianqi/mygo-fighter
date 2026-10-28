@@ -3,6 +3,12 @@ import type {
   MatchConfig,
   Mode,
 } from "../../../game/objects/MatchOptions";
+import type { BattleRules } from "../../../game/objects/BattleRules";
+import {
+  MATCH_FORMATS,
+  normalizeBattleRules,
+  teamSizeFor,
+} from "../../../game/battleRules";
 type Settings = MatchConfig["settings"];
 interface Seed {
   mode?: Mode;
@@ -10,6 +16,7 @@ interface Seed {
   teams?: number[][];
   characters?: number[];
   settings?: Partial<Settings>;
+  rules?: Partial<BattleRules>;
 }
 export function createSelectionState(rosterSize: number) {
   let mode: Mode = "cpu",
@@ -24,9 +31,13 @@ export function createSelectionState(rosterSize: number) {
     dummy: "idle",
   };
   let settings = { ...defaults };
+  let rules = normalizeBattleRules(undefined, format, rosterSize);
+  let bans: number[] = [];
   const valid = (id: unknown): id is number =>
     Number.isInteger(id) && Number(id) >= 0 && Number(id) < rosterSize;
-  const count = () => (format === "3v3" ? 3 : 1);
+  const count = () => teamSizeFor(format);
+  const banning = () => bans.length < rules.banCount * 2;
+  const complete = () => !banning() && teams.every((team) => team.every(valid));
   function nextEmpty() {
     for (let side = 0; side < 2; side++)
       for (let slot = 0; slot < count(); slot++) {
@@ -43,11 +54,22 @@ export function createSelectionState(rosterSize: number) {
     active = [0, 0];
     nextEmpty();
   }
+  function restartDraft() {
+    bans = [];
+    teams = [Array(count()).fill(null), Array(count()).fill(null)];
+    active = [0, 0];
+  }
   return {
     open(options: Seed = {}) {
       settings = { ...defaults, ...options.settings };
       mode = options.mode ?? "cpu";
-      format = mode !== "practice" && options.format === "3v3" ? "3v3" : "1v1";
+      format =
+        mode !== "practice" && MATCH_FORMATS.includes(options.format as Format)
+          ? options.format!
+          : "1v1";
+      rules = normalizeBattleRules(options.rules, format, rosterSize);
+      if (mode === "practice") rules.banCount = 0;
+      bans = [];
       teams = [0, 1].map((side) => {
         const seen = new Set<number>();
         return Array.from({ length: count() }, (_, slot) => {
@@ -59,8 +81,10 @@ export function createSelectionState(rosterSize: number) {
       });
       active = [0, 0];
       nextEmpty();
+      if (rules.banCount > 0) restartDraft();
     },
     selectSlot(side: number, slot: number) {
+      if (rules.banCount > 0) return;
       if (
         (side === 0 || side === 1) &&
         Number.isInteger(slot) &&
@@ -70,6 +94,7 @@ export function createSelectionState(rosterSize: number) {
         active = [side, slot];
     },
     clearSlot(side: number, slot: number) {
+      if (rules.banCount > 0) return;
       if (
         (side !== 0 && side !== 1) ||
         !Number.isInteger(slot) ||
@@ -81,31 +106,63 @@ export function createSelectionState(rosterSize: number) {
       active = [side, slot];
     },
     pick(id: number) {
+      if (!valid(id) || bans.includes(id)) return false;
+      if (banning()) {
+        bans.push(id);
+        active = [bans.length % 2, 0];
+        return true;
+      }
+      if (
+        rules.banCount > 0 &&
+        (complete() || teams.some((team) => team.includes(id)))
+      )
+        return false;
       if (
         !valid(id) ||
         teams[active[0]].some((pick, slot) => pick === id && slot !== active[1])
       )
         return false;
       teams[active[0]][active[1]] = id;
-      nextEmpty();
+      if (rules.banCount > 0) {
+        const side = 1 - active[0];
+        const slot = teams[side].findIndex((pick) => pick === null);
+        active = [side, Math.max(0, slot)];
+      } else nextEmpty();
       return true;
     },
     setFormat(value: Format) {
-      format = mode !== "practice" && value === "3v3" ? "3v3" : "1v1";
+      format =
+        mode !== "practice" && MATCH_FORMATS.includes(value) ? value : "1v1";
+      const wasDraft = rules.banCount > 0;
+      rules = normalizeBattleRules(rules, format, rosterSize);
       resize();
+      if (wasDraft || rules.banCount > 0) restartDraft();
     },
     setMode(value: Mode) {
       mode = value;
       if (mode === "practice") {
         format = "1v1";
+        rules.banCount = 0;
+        bans = [];
         resize();
       }
     },
     setSettings(changes: Partial<Settings>) {
       settings = { ...settings, ...changes };
     },
+    setRules(changes: Partial<BattleRules>) {
+      const previousBanCount = rules.banCount;
+      rules = normalizeBattleRules(
+        { ...rules, ...changes },
+        format,
+        rosterSize,
+      );
+      if (mode === "practice") rules.banCount = 0;
+      if (previousBanCount !== rules.banCount) restartDraft();
+    },
+    restartDraft,
     isComplete() {
-      return teams.every((team) => team.every(valid));
+      return complete();
     },
     snapshot() {
       return {
@@ -115,6 +172,13 @@ export function createSelectionState(rosterSize: number) {
         teams: teams.map((team) => [...team]),
         active: [...active],
         settings: { ...settings },
+        rules: { ...rules },
+        bans: [...bans],
+        phase: complete()
+          ? ("complete" as const)
+          : banning()
+            ? ("ban" as const)
+            : ("pick" as const),
       };
     },
   };

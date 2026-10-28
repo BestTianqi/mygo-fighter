@@ -1,4 +1,6 @@
 import type { SimulationPacket } from "../../game/networkProtocol";
+import type { BattleRules } from "../../game/objects/BattleRules";
+import type { Format } from "../../game/objects/MatchOptions";
 export interface RoomPlayer {
   character: number;
   team: number[];
@@ -8,7 +10,8 @@ export interface RoomPlayer {
 }
 export interface RoomView {
   code: string;
-  format: "1v1" | "3v3";
+  format: Format;
+  rules: BattleRules;
   arena: number;
   terrain: boolean;
   generation: number;

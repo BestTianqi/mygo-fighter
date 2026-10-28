@@ -1,11 +1,4 @@
-import {
-  MAX_HEALTH,
-  MOVES,
-  ROSTER,
-  ROUND_END_TIMING,
-  WORLD,
-  bandFor,
-} from "../combatData";
+import { MOVES, ROSTER, ROUND_END_TIMING, WORLD, bandFor } from "../combatData";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import type { Move, Pulse } from "../objects/Move";
@@ -220,7 +213,10 @@ export function step(match: Match, p1: Input, p2: Input): void {
       continue;
     }
     if (f.attack === "heal") {
-      const amount = Math.min(move.healing!, MAX_HEALTH - f.hp);
+      const amount = Math.min(
+        move.healing!,
+        match.options.rules.maxHealth - f.hp,
+      );
       if (f.hp > 0) {
         f.hp += amount;
         match.events.push({ type: "heal", side, amount });

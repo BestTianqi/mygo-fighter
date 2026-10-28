@@ -3,6 +3,8 @@ import type { Assets } from "../../../game/objects/Assets";
 import { bandPortrait } from "../functions/bandArt";
 
 const orders = ["先锋", "中坚", "大将"];
+const slotLabel = (size: number, slot: number) =>
+  size === 1 ? "出战角色" : size === 3 ? orders[slot] : `第 ${slot + 1} 位`;
 export function SelectionLineups({
   assets,
   teams,
@@ -40,7 +42,7 @@ export function SelectionLineups({
             </small>
           </h2>
           <div
-            className={`grid min-w-0 gap-1.5 sm:gap-2 ${team.length === 3 ? "grid-cols-3" : "grid-cols-1"}`}
+            className={`grid min-w-0 gap-1.5 sm:gap-2 ${team.length === 1 ? "grid-cols-1" : team.length === 2 ? "grid-cols-2" : team.length === 3 ? "grid-cols-3" : "grid-cols-2 min-[600px]:grid-cols-4"}`}
           >
             {team.map((id, slot) => {
               const selected = active?.[0] === side && active?.[1] === slot;
@@ -49,19 +51,21 @@ export function SelectionLineups({
                   <p
                     className={`hidden text-[9px] sm:block [@media(max-height:500px)]:hidden ${side === 0 ? "text-[#8f354e]/80" : "text-[#2a5f5a]/80"}`}
                   >
-                    {team.length === 3 ? orders[slot] : "出战角色"}
+                    {slotLabel(team.length, slot)}
                   </p>
                   <button
                     type="button"
                     disabled={!onSlot || isDisabled?.(side, slot)}
                     onClick={() => onSlot?.(side, slot)}
                     onDoubleClick={() => onClear?.(side, slot)}
-                    aria-label={`${side + 1}P ${team.length === 3 ? orders[slot] : "出战角色"}：${id === null ? "未选择" : ROSTER[id].name}`}
+                    aria-label={`${side + 1}P ${slotLabel(team.length, slot)}：${id === null ? "未选择" : ROSTER[id].name}`}
                     aria-pressed={selected}
                     className={`relative flex h-[clamp(44px,8dvh,76px)] w-full min-w-0 touch-manipulation overflow-hidden rounded-none ${team.length === 1 ? "flex-row items-center gap-3 px-2 text-left" : "flex-col justify-end text-center"} disabled:cursor-default focus-visible:outline-2 focus-visible:outline-cyan-200  ${selected ? (side === 0 ? "bg-[#a44761]/12" : "bg-[#2a5f5a]/12") : "bg-[#30251a]/4"}`}
                   >
-                    <span className="absolute left-1 top-0 z-10 hidden text-[8px] text-white [@media(max-height:500px)]:block">
-                      {side + 1}P
+                    <span
+                      className={`absolute left-1 top-0 z-10 text-[8px] ${id === null ? "text-[#80786d]" : "text-white"} ${team.length > 3 ? "block" : "hidden [@media(max-height:500px)]:block"}`}
+                    >
+                      {team.length > 3 ? `第 ${slot + 1} 位` : `${side + 1}P`}
                     </span>
                     {id !== null ? (
                       <img

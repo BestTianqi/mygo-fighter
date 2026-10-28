@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { schemeFor } from "../../../game/controls";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
+import type { BattleRules } from "../../../game/objects/BattleRules";
 import type { InputController } from "../functions/InputController";
 import { TouchStick } from "./TouchStick";
 
@@ -10,12 +11,14 @@ function TouchKey({
   input,
   className = "",
   children,
+  disabled = false,
 }: {
   code: string;
   label: string;
   input: InputController;
   className?: string;
   children: ReactNode;
+  disabled?: boolean;
 }) {
   const [pressed, setPressed] = useState(false);
   const pointers = useRef(new Set<number>());
@@ -34,6 +37,7 @@ function TouchKey({
   return (
     <button
       type="button"
+      disabled={disabled}
       aria-label={label}
       onContextMenu={(event) => event.preventDefault()}
       onPointerDown={(event) => {
@@ -52,7 +56,7 @@ function TouchKey({
         pointers.current.delete(event.pointerId);
         if (pointers.current.size === 0) release();
       }}
-      className={`flex touch-none items-center justify-center font-semibold backdrop-blur-sm transition-colors select-none [-webkit-touch-callout:none] ${
+      className={`flex touch-none items-center justify-center font-semibold backdrop-blur-sm transition-colors select-none disabled:opacity-30 [-webkit-touch-callout:none] ${
         pressed
           ? "bg-pink-200 text-slate-950"
           : "bg-slate-900/50 text-slate-100"
@@ -80,9 +84,11 @@ const key =
 export function TouchControls({
   input,
   fighter,
+  rules,
 }: {
   input: InputController;
   fighter: FighterIdentity;
+  rules?: BattleRules;
 }) {
   return (
     <div className="w-full touch-none select-none">
@@ -107,6 +113,12 @@ export function TouchControls({
               code={code}
               label={label}
               input={input}
+              disabled={
+                (code === "KeyP" && rules?.disableSupers) ||
+                ((code === "KeyJ" || code === "KeyK") &&
+                  rules?.disableNormals) ||
+                (code === "KeyH" && rules?.disableTransform)
+              }
               className={`${key} ${code === "KeyJ" ? "bg-pink-500/35" : code === "KeyP" ? "bg-amber-500/25 text-amber-100" : ""}`}
             >
               {code === "KeyP" ? "✦ 大招" : label}

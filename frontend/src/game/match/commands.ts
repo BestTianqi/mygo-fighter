@@ -3,6 +3,7 @@ import * as controls from "../controls";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
 import type { Input } from "../objects/Input";
+import { moveEnabled } from "../battleRules";
 
 export function recordDirection(f: Fighter, input: Input): void {
   f.controlMs += 10;
@@ -23,6 +24,16 @@ export function motionMatches(f: Fighter, pattern: number[]): boolean {
 }
 
 export function resolveAttack(
+  match: Match,
+  f: Fighter,
+  input: Input,
+  pressed: (key: string) => boolean,
+): string | null {
+  const name = resolveRequestedAttack(match, f, input, pressed);
+  return name && moveEnabled(match.options.rules, MOVES[name]) ? name : null;
+}
+
+function resolveRequestedAttack(
   match: Match,
   f: Fighter,
   input: Input,

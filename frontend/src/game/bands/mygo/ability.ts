@@ -1,8 +1,4 @@
-import {
-  MAX_HEALTH,
-  NORMAL_BUTTONS,
-  verticalScale,
-} from "../../data/rules";
+import { NORMAL_BUTTONS, verticalScale } from "../../data/rules";
 import { moveCatalog } from "../shared/catalog";
 import type { Band } from "../../objects/Band";
 import type { Match } from "../../engine";
@@ -10,8 +6,7 @@ import type { Fighter, FighterIdentity } from "../../objects/Fighter";
 import type { Input } from "../../objects/Input";
 import { chainPrefix, firstJab } from "./forms";
 
-const sideOf = (match: Match, f: Fighter) =>
-  match.fighters[0] === f ? 0 : 1;
+const sideOf = (match: Match, f: Fighter) => (match.fighters[0] === f ? 0 : 1);
 
 /**
  * MyGO's command table: each character has a hand-written button mapping.
@@ -194,7 +189,8 @@ export function mygoSkill(
 export const mygoStanceLocked = (f: FighterIdentity) =>
   !!f.penguin || (f.character !== 1 && f.character !== 2);
 
-export const mygoCancelDepth = (f: FighterIdentity) => (f.character === 0 ? 5 : 4);
+export const mygoCancelDepth = (f: FighterIdentity) =>
+  f.character === 0 ? 5 : 4;
 
 export const mygoAirCancel = (f: Fighter, name: string) =>
   (f.character === 0 && name === "dive") ||
@@ -248,9 +244,7 @@ export function mygoOnStart(
   }
   if (name === "penguinKick") {
     f.airUsed = true;
-    f.vy = ground
-      ? 340 * verticalScale
-      : Math.max(140 * verticalScale, f.vy);
+    f.vy = ground ? 340 * verticalScale : Math.max(140 * verticalScale, f.vy);
     f.y += 0.01;
     f.vx = f.facing * 400;
   }
@@ -332,7 +326,7 @@ export function mygoAi(match: Match, side: number, input: Input): Input {
   if (
     a.character === 2 &&
     !a.penguin &&
-    a.hp <= MAX_HEALTH * 0.7 &&
+    a.hp <= match.options.rules.maxHealth * 0.7 &&
     a.energy >= 50 &&
     match.grounded(a) &&
     d > 120
@@ -360,7 +354,7 @@ export function mygoAi(match: Match, side: number, input: Input): Input {
   }
   if (
     a.character === 1 &&
-    a.hp <= MAX_HEALTH * 0.65 &&
+    a.hp <= match.options.rules.maxHealth * 0.65 &&
     !a.healCooldown &&
     match.grounded(a) &&
     a.energy >= MOVES.heal.cost! &&

@@ -1,6 +1,6 @@
 # MyGO!!!!! Fighter
 
-A TypeScript + React fighting game with a Scala 3 server. It preserves the original combat rules, transformations, 15 stages, local versus, CPU, practice and local 3v3 relay battles. Network battles support two players per room in 1v1 or 3v3 relay, with independent rooms running simultaneously.
+A TypeScript + React fighting game with a Scala 3 server. It preserves the original characters, transformations and 15 stages, with local versus, CPU, practice and configurable 1v1–8v8 relay battles. Network battles support two players per room, custom bans and combat rules, with independent rooms running simultaneously.
 
 ## Run
 
@@ -29,9 +29,11 @@ After building once, `npm start` starts the server without rebuilding. It prints
 
 1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
 2. Choose **联机对战**. One player creates a room; the other enters its six-character code.
-3. The host chooses **1v1 对战**, **3v3 车轮战** or **禁选 3v3 车轮战**, plus stage and terrain. The online lobby uses the same square character cards, portrait previews and ordered lineup slots as local play. In ordinary modes, each player fills their own lineup; click a slot to replace its character.
-4. In **禁选 3v3**, 1P and 2P each confirm one banned character, then alternate choosing three characters each. Banned characters are unavailable to both sides, and a picked character cannot appear in both teams. Picks lock in先锋、中坚、大将 order. Refresh/reconnect preserves progress; the host can use **重新禁选** to start again. After both lineups are complete, both press **准备开战**. The server waits for both clients to finish loading their artwork.
+3. The host chooses **1v1–8v8**, stage and terrain. Expand **自定义对战规则** to set health, bans, infinite energy or disabled attacks. Guests see the same rules. The online lobby uses the same character cards, portrait previews and ordered lineup slots as local play. With zero bans, each player fills their own lineup; click a slot to replace its character.
+4. With bans enabled, 1P and 2P alternate banning the configured number of characters, then alternate exclusive picks until both lineups are full. The available ban count reserves enough characters for both teams. Refresh/reconnect preserves progress; the host can use **重新禁选** to start again. After both lineups are complete, both press **准备开战**. The server waits for both clients to finish loading their artwork.
 5. Both players use the **1P keys** to control their own character.
+
+The same [custom battle rules](docs/CUSTOM_BATTLE_RULES.md) are available in local and CPU selection. Defaults retain 200 health and the standard attacks. Restart the host after updating to load the new room and combat rules.
 
 Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
 

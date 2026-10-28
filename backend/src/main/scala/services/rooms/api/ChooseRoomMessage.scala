@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.syntax.all.*
 
 import services.rooms.objects.*
-import services.rooms.utils.{RoomAccess, RoomDraft}
+import services.rooms.utils.{RoomAccess, RoomDraft, RoomRules}
 import services.system.api.APIMessage
 import services.system.objects.Connection
 
@@ -17,19 +17,28 @@ final case class ChooseRoomMessage(
     team: Option[Vector[Int]],
     draft: Option[Boolean],
     ban: Option[Int],
-    pick: Option[Int]
+    pick: Option[Int],
+    rules: Option[BattleRules]
 ) extends APIMessage[Unit]:
   def plan(connection: Connection): IO[Unit] =
     RoomAccess.withPlayer(connection, session) { room =>
       room.state.get.flatMap { state =>
         val nextFormat = format.getOrElse(state.format)
-        val size = if nextFormat == "3v3" then 3 else 1
+        val size = RoomRules.teamSize(nextFormat)
+        val nextRules = rules.getOrElse(
+          draft.fold(state.rules)(enabled => state.rules.copy(banCount = if enabled then 1 else 0))
+        )
+        val nextDraft = nextRules.banCount > 0
+        val draftLayoutChanged =
+          nextFormat != state.format || nextRules.banCount != state.rules.banCount
         val hasDraftAction = ban.nonEmpty || pick.nonEmpty
-        val hasSettings = arena.nonEmpty || terrain.nonEmpty || format.nonEmpty || draft.nonEmpty
+        val hasSettings =
+          arena.nonEmpty || terrain.nonEmpty || format.nonEmpty || draft.nonEmpty || rules.nonEmpty
         val hasSelection = character.nonEmpty || team.nonEmpty
-        IO.raiseUnless(Set("1v1", "3v3").contains(nextFormat))(
-          IllegalArgumentException("对战模式无效")
-        ) *>
+        IO.fromEither(RoomRules.validate(nextFormat, nextRules, connection.limits.characters)) *>
+          IO.raiseWhen(rules.nonEmpty && draft.exists(_ != nextDraft))(
+            IllegalArgumentException("禁选开关与禁用人数不一致")
+          ) *>
           IO.raiseUnless(
             team.forall(t =>
               t.nonEmpty && t.size <= size && t.distinct.size == t.size && t.forall(n =>
@@ -45,10 +54,7 @@ final case class ChooseRoomMessage(
           )(
             IllegalArgumentException("请每次只提交一个禁用或选人操作")
           ) *>
-          IO.raiseUnless(!draft.contains(true) || nextFormat == "3v3")(
-            IllegalArgumentException("禁选仅适用于3v3车轮战")
-          ) *>
-          IO.raiseWhen(hasSelection && (state.draft.nonEmpty || draft.contains(true)))(
+          IO.raiseWhen(hasSelection && nextDraft)(
             IllegalArgumentException("禁选模式请按顺序确认角色")
           ) *>
           IO.raiseUnless(state.phase == RoomPhase.Lobby)(IllegalArgumentException("请先返回房间再选人")) *>
@@ -60,7 +66,7 @@ final case class ChooseRoomMessage(
           IO.raiseWhen(
             session.side != 0 && hasSettings
           )(
-            IllegalArgumentException("只有房主可以选择模式和地图")
+            IllegalArgumentException("只有房主可以选择对战规则和地图")
           ) *>
           (if hasDraftAction then
              IO.fromEither(
@@ -76,10 +82,8 @@ final case class ChooseRoomMessage(
              IO.pure {
                val next = state.copy(
                  format = nextFormat,
-                 draft =
-                   if nextFormat != "3v3" || draft.contains(false) then None
-                   else if draft.contains(true) then Some(DraftState())
-                   else state.draft,
+                 rules = nextRules,
+                 draft = if nextDraft then state.draft.orElse(Some(DraftState())) else None,
                  players = state.players.zipWithIndex.map((p, i) =>
                    p.map(player =>
                      player.copy(
@@ -96,7 +100,9 @@ final case class ChooseRoomMessage(
                  arena = arena.getOrElse(state.arena),
                  terrain = terrain.getOrElse(state.terrain)
                )
-               if draft.contains(true) then RoomDraft.reset(next) else next
+               if draft.contains(true) || draftLayoutChanged && (state.draft.nonEmpty || nextDraft)
+               then RoomDraft.reset(next)
+               else next
              }
           ).flatMap(next =>
             room.state.set(

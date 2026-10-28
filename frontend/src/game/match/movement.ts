@@ -74,7 +74,7 @@ export function updateMovement(
     !f.dashCooldown &&
     f.energy >= FEEL.dashCost
   ) {
-    f.energy -= FEEL.dashCost;
+    if (!match.options.rules.infiniteEnergy) f.energy -= FEEL.dashCost;
     f.guard = false;
     f.dashMs = FEEL.dashDuration;
     f.dashCooldown = FEEL.dashCooldown;

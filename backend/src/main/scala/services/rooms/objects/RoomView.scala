@@ -12,7 +12,8 @@ final case class RoomView(
     players: Vector[Option[PlayerView]],
     playing: Boolean,
     preparing: Boolean,
-    draft: Option[DraftView]
+    draft: Option[DraftView],
+    rules: BattleRules
 )
 
 object RoomView:

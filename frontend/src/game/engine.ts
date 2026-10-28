@@ -26,6 +26,8 @@ import type { CombatEvent } from "./objects/CombatEvent";
 import type { Fighter } from "./objects/Fighter";
 import type { Input } from "./objects/Input";
 import type { MatchOptions } from "./objects/MatchOptions";
+import type { BattleRules } from "./objects/BattleRules";
+import { normalizeBattleRules, teamSizeFor } from "./battleRules";
 import type { Minion } from "./objects/Minion";
 import type { Move } from "./objects/Move";
 import type { RoundEnd } from "./objects/RoundEnd";
@@ -39,7 +41,7 @@ class Match {
   options: Required<
     Pick<MatchOptions, "mode" | "format" | "difficulty" | "characters" | "seed">
   > &
-    MatchOptions;
+    Omit<MatchOptions, "rules"> & { rules: BattleRules };
   teamIndices: number[];
   teamCarry: ({ hp: number; energy: number; beats?: number } | null)[] | null;
   teams: number[][] = [];
@@ -78,27 +80,33 @@ class Match {
       characters: [0, 0],
       seed: 128,
       ...options,
+      rules: normalizeBattleRules(
+        options.rules,
+        options.format ?? "1v1",
+        ROSTER.length,
+      ),
     };
     this.options.characters = [...this.options.characters];
     this.teamIndices = [0, 0];
     this.teamCarry = null;
     if (this.isTeamBattle) {
       const teams = this.options.teams;
+      const size = teamSizeFor(this.options.format);
       if (
         !Array.isArray(teams) ||
         teams.length !== 2 ||
         !Array.from(teams).every(
           (team) =>
             Array.isArray(team) &&
-            team.length === 3 &&
-            new Set(team).size === 3 &&
+            team.length === size &&
+            new Set(team).size === size &&
             Array.from(team).every(
               (id) => Number.isInteger(id) && id >= 0 && id < ROSTER.length,
             ),
         )
       ) {
         throw new RangeError(
-          "Team battle requires two teams of three unique valid character IDs",
+          `Team battle requires two teams of ${size} unique valid character IDs`,
         );
       }
       this.teams = teams.map((team) => [...team]);
@@ -117,10 +125,12 @@ class Match {
     this.resetRound();
   }
   get isTeamBattle() {
-    return this.options.format === "3v3";
+    return teamSizeFor(this.options.format) > 1;
   }
   get teamRemaining() {
-    return this.teamIndices.map((index) => Math.max(0, 3 - index));
+    return this.teamIndices.map((index, side) =>
+      Math.max(0, this.teams[side].length - index),
+    );
   }
   random() {
     this.seed = (Math.imul(this.seed, 1664525) + 1013904223) >>> 0;

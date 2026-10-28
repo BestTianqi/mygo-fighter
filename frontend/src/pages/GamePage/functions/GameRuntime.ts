@@ -13,6 +13,7 @@ import type {
   Mode,
 } from "../../../game/objects/MatchOptions";
 import { Prediction } from "../../../game/Prediction";
+import { normalizeBattleRules } from "../../../game/battleRules";
 import { PresentationEvents } from "../../../game/PresentationEvents";
 import type { GameView } from "../objects/GameView";
 import { initialView } from "../objects/GameView";
@@ -153,6 +154,7 @@ export class GameRuntime {
         mode,
         format,
         characters: [0, 1],
+        rules: this.view.config?.rules,
         settings: this.view.config?.settings ?? {
           arena: 0,
           difficulty: 1,
@@ -183,6 +185,10 @@ export class GameRuntime {
     this.publish({ screen: "menu", dialog: null, cutins: [null, null] });
   }
   async start(config: MatchConfig, network = false) {
+    config = {
+      ...config,
+      rules: normalizeBattleRules(config.rules, config.format, ROSTER.length),
+    };
     if (network)
       config = {
         ...config,

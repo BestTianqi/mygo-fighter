@@ -5,7 +5,7 @@ import cats.syntax.all.*
 import io.circe.{Decoder, Json}
 import io.circe.syntax.*
 import services.rooms.api.*
-import services.rooms.objects.Session
+import services.rooms.objects.{BattleRules, Session}
 import services.system.objects.Connection
 import services.system.routes.APIRegistration
 import scala.reflect.ClassTag
@@ -44,9 +44,12 @@ object RoomRoutes:
         field[Option[Vector[Int]]](j, "team"),
         field[Option[Boolean]](j, "draft"),
         field[Option[Int]](j, "ban"),
-        field[Option[Int]](j, "pick")
-      ).tupled.flatMap((character, arena, terrain, format, team, draft, ban, pick) =>
-        ChooseRoomMessage(s, character, arena, terrain, format, team, draft, ban, pick).plan(c)
+        field[Option[Int]](j, "pick"),
+        field[Option[BattleRules]](j, "rules")
+      ).tupled.flatMap((character, arena, terrain, format, team, draft, ban, pick, rules) =>
+        ChooseRoomMessage(s, character, arena, terrain, format, team, draft, ban, pick, rules).plan(
+          c
+        )
       )
     ),
     authenticated[ReadyRoomMessage]((j, s, c) =>

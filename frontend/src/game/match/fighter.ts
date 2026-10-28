@@ -8,6 +8,11 @@ import { integrateMovement, updateMovement } from "./movement";
 export function updateFighter(match: Match, side: number, input: Input): void {
   const f = match.fighters[side],
     other = match.fighters[1 - side];
+  if (match.options.rules.infiniteEnergy) f.energy = 100;
+  if (match.options.rules.noCooldowns) {
+    f.moveCooldowns = {};
+    f.healCooldown = f.tuneCooldown = f.calibrateCooldown = 0;
+  }
   if (f.lifesteal) {
     f.lifesteal.ms -= 10;
     if (f.lifesteal.ms <= 0) f.lifesteal = null;
@@ -113,7 +118,7 @@ export function updateFighter(match: Match, side: number, input: Input): void {
       !f.landingRecovery &&
       f.energy >= transform.energy
     ) {
-      f.energy -= transform.energy;
+      if (!match.options.rules.infiniteEnergy) f.energy -= transform.energy;
       f.stageForm = { ms: transform.duration };
 
       f.buffer = null;

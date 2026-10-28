@@ -1,4 +1,4 @@
-import { MAX_HEALTH, ROUND_END_TIMING } from "../combatData";
+import { ROUND_END_TIMING } from "../combatData";
 import type { Match } from "../engine";
 
 export function resetRound(match: Match): void {
@@ -12,10 +12,14 @@ export function resetRound(match: Match): void {
     vy: 0,
     pushVx: 0,
     facing: side ? -1 : 1,
-    hp: MAX_HEALTH,
+    hp: match.options.rules.maxHealth,
     lifesteal: null,
     // New reserves receive entry energy; start(carry) restores the survivor's resources.
-    energy: match.isTeamBattle && match.teamIndices[side] > 0 ? 30 : 0,
+    energy: match.options.rules.infiniteEnergy
+      ? 100
+      : match.isTeamBattle && match.teamIndices[side] > 0
+        ? 30
+        : 0,
     attack: null,
     attackMs: 0,
     hit: false,
@@ -154,7 +158,9 @@ export function endRound(match: Match): void {
         ...(f.character === 4 ? { beats: f.beats } : {}),
       };
     });
-    const exhausted = match.teamIndices.map((index) => index >= 3);
+    const exhausted = match.teamIndices.map(
+      (index, side) => index >= match.teams[side].length,
+    );
     match.phase = exhausted.some(Boolean) ? "finished" : "roundOver";
     if (match.phase === "finished")
       match.winner = exhausted[0] === exhausted[1] ? -1 : exhausted[0] ? 1 : 0;
