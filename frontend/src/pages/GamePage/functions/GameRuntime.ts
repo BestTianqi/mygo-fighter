@@ -22,6 +22,7 @@ import { InputController } from "./InputController";
 import { NetworkDiagnostics } from "./NetworkDiagnostics";
 import { presentationFor } from "./presentationFor";
 import { CanvasRenderer } from "./rendering/CanvasRenderer";
+import { backgroundVideoEnabled } from "./backgroundVideoEnabled";
 
 /** Coordinates effects at the page boundary. Combat and React rendering stay independent. */
 export class GameRuntime {
@@ -380,7 +381,7 @@ export class GameRuntime {
             this.match.fighters[side],
             event.attack,
           );
-        if (media?.video && media.slot === "p")
+        if (media?.video && media.slot === "p" && backgroundVideoEnabled())
           this.publish({
             cutins: this.view.cutins.map((entry, i) =>
               i === side ? media : entry,

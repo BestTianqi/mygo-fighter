@@ -7,6 +7,7 @@ import { ultimateFinishFor } from "../functions/ultimateFinishFor";
 import type { GameView } from "../objects/GameView";
 import { FinishEffects } from "./FinishEffects";
 import { FinishBackground } from "./FinishBackground";
+import { backgroundVideoEnabled } from "../functions/backgroundVideoEnabled";
 
 /** Result art follows the shared round-end clock rather than a mount-time animation. */
 export function FinishOverlay({
@@ -28,6 +29,7 @@ export function FinishOverlay({
   const presentation = ultimate
     ? ultimateFinishFor(assets, ultimate)
     : undefined;
+  const showVideo = !!presentation?.video && backgroundVideoEnabled();
   const winner =
     ultimate ?? (finish.winner >= 0 ? finish.fighters[finish.winner] : null);
   const left = finish.winner === 0;
@@ -47,7 +49,7 @@ export function FinishOverlay({
         transitionDuration,
       }}
     >
-      {presentation?.video && (
+      {showVideo && presentation?.video && (
         <FinishBackground
           key={`${finish.tick}:${presentation.video}`}
           src={presentation.video}
@@ -60,7 +62,7 @@ export function FinishOverlay({
           src={finishArt}
           alt={`${ROSTER[winner.character].name}奥义图`}
           draggable={false}
-          className={`absolute transition-transform ease-linear motion-reduce:transition-none ${presentation?.video ? (left ? "[mask-image:linear-gradient(to_right,black_40%,transparent_95%)]" : "[mask-image:linear-gradient(to_left,black_40%,transparent_95%)]") : ""} ${
+          className={`absolute transition-transform ease-linear motion-reduce:transition-none ${showVideo ? (left ? "[mask-image:linear-gradient(to_right,black_40%,transparent_95%)]" : "[mask-image:linear-gradient(to_left,black_40%,transparent_95%)]") : ""} ${
             presentation
               ? "inset-0 h-full w-full object-cover opacity-80 portrait:object-contain"
               : winner.character === 12
@@ -75,7 +77,7 @@ export function FinishOverlay({
       )}
       <div
         aria-hidden="true"
-        className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} ${presentation?.video ? "from-slate-950/75" : "from-slate-950/95"} via-slate-950/25 to-transparent`}
+        className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} ${showVideo ? "from-slate-950/75" : "from-slate-950/95"} via-slate-950/25 to-transparent`}
       />
       {ultimate && (
         <div className={`absolute inset-0 ${left ? "" : "-scale-x-100"}`}>

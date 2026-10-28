@@ -21,6 +21,7 @@ import { TouchControls } from "./TouchControls";
 import { FinishOverlay } from "./FinishOverlay";
 import { BattleConnection } from "./BattleConnection";
 import { MobileDisplayHint } from "./MobileDisplayHint";
+import { backgroundVideoEnabled } from "../functions/backgroundVideoEnabled";
 
 function UltimateBackgroundVideo({
   media,
@@ -45,6 +46,7 @@ function UltimateBackgroundVideo({
     else void video.play().catch(() => {});
     return () => video.pause();
   }, [paused, media]);
+  if (!backgroundVideoEnabled()) return null;
   return (
     <video
       ref={ref}
@@ -465,7 +467,7 @@ export function BattlePanel({
               : "relative overflow-hidden rounded-none bg-slate-950 shadow-2xl"
           }
         >
-          {videos.length > 0 && (
+          {videos.length > 0 && backgroundVideoEnabled() && (
             <div
               aria-hidden="true"
               className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}

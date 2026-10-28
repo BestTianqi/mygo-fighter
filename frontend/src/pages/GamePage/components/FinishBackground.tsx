@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { backgroundVideoEnabled } from "../functions/backgroundVideoEnabled";
 
 /** Silent video follows the voice channel rather than a second audio track. */
 export function FinishBackground({
@@ -30,6 +31,7 @@ export function FinishBackground({
     element.addEventListener("loadedmetadata", sync);
     return () => element.removeEventListener("loadedmetadata", sync);
   }, [src, timeMs, paused]);
+  if (!backgroundVideoEnabled()) return null;
   return (
     <video
       ref={video}
