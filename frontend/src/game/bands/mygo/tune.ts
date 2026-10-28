@@ -17,4 +17,18 @@ export function tuneMygo(MOVES: Record<string, Move>): void {
     speed: PENGUIN_SUPER_TUNING.speed,
     lifetime: PENGUIN_SUPER_TUNING.lifetime,
   });
+  const riki = MOVES.rikiSuper;
+  Object.assign(riki, {
+    duration: 1000,
+    end: 660,
+    damage: 64,
+    reach: 560,
+    vertical: 420,
+    pulses: riki.pulses!.map((pulse, i) => ({
+      ...pulse,
+      at: 80 + i * 170,
+      damage: [12, 14, 16, 22][i],
+      reach: 380 + i * 60,
+    })),
+  });
 }

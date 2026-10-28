@@ -4,18 +4,64 @@ import type { Move } from "../../objects/Move";
 export function tuneMewtype(MOVES: Record<string, Move>): void {
   const arale = MOVES.mewtype_10_virtual_super;
   Object.assign(arale, {
-    duration: 1200,
-    start: 120,
-    end: 810,
+    duration: 1060,
+    start: 100,
+    end: 650,
+    damage: 60,
+    fixedDamage: true,
     hitstop: 30,
-    shots: [120, 420, 720],
-    pulses: arale.pulses!.map((pulse, i) => ({ ...pulse, at: 120 + i * 300 })),
-    speed: 700,
-    lifetime: 1400,
+    shots: [100, 340, 580],
+    pulses: arale.pulses!.map((pulse, i) => ({
+      ...pulse,
+      at: 100 + i * 240,
+      damage: [14, 18, 28][i],
+    })),
+    homing: true,
+    speed: 920,
+    lifetime: 1800,
     height: 110,
-    radiusX: 34,
-    radiusY: 100,
-    maxReach: 900,
-    reach: 900,
+    radiusX: 46,
+    radiusY: 140,
+    maxReach: 1200,
+    reach: 1200,
+  });
+  const ritsu = MOVES.mewtype_11_virtual_super;
+  Object.assign(ritsu, {
+    duration: 1000,
+    start: 80,
+    end: 730,
+    damage: 65,
+    fixedDamage: true,
+    reach: 500,
+    vertical: 420,
+    movementEnd: 750,
+    pulses: ritsu.pulses!.map((pulse, i) => ({
+      ...pulse,
+      at: 80 + i * 150,
+      damage: 13,
+      reach: 320 + i * 45,
+      stun: 340,
+      push: i === 4 ? pulse.push : 0,
+      ...(i === 4 ? { knockdown: 600 } : {}),
+    })),
+  });
+  const yuno = MOVES.mewtype_13_virtual_super;
+  Object.assign(yuno, {
+    duration: 1120,
+    start: 160,
+    end: 820,
+    damage: 60,
+    fixedDamage: true,
+    reach: 600,
+    vertical: 420,
+    pulses: yuno.pulses!.map((pulse, i) => ({
+      ...pulse,
+      at: 160 + i * 300,
+      damage: [14, 18, 28][i],
+      reach: 360 + i * 120,
+      stun: 360,
+      push: i === 2 ? pulse.push : 0,
+      ...(i === 2 ? { knockdown: 650 } : {}),
+    })),
   });
 }

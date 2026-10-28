@@ -137,7 +137,10 @@ function createAnimator() {
             ? "heavy-impact"
             : "skill-o-recover";
       if (move.ritsu === "hungry" && t >= move.start && t <= move.end)
-        return Math.floor((t - move.start) / 180) % 2
+        return move.pulses!.reduce(
+          (last, pulse, i) => (t >= pulse.at ? i : last),
+          0,
+        ) % 2
           ? "skill-o-impact"
           : "skill-u-impact";
       if (move.yuno === "release" && t <= move.end) return "dash-back";

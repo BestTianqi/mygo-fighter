@@ -101,7 +101,7 @@ export function drawRitsuSkill(
       ctx.globalAlpha = (1 - time / 160) * (reduced ? 0.45 : 0.9);
       ctx.strokeStyle = i % 2 ? "#ffcd8f" : "#b1dfff";
       ctx.lineWidth = i === 4 ? 4 : 2;
-      slash(ctx, 140 + i * 16, i % 2 ? 170 : 115);
+      slash(ctx, (pulse.reach ?? move.reach!) * 0.85, i % 2 ? 170 : 115);
     }
     ctx.globalAlpha = 0.75;
     // A growling stomach and a hot meal, without covering her face or guitar.
