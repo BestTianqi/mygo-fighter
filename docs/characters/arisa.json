@@ -206,6 +206,20 @@
       "startSeconds": 61.14,
       "endSeconds": 62.99,
       "notes": "好，结束了，结束了！；官方游戏原声，原速，保留原片背景音。"
+    },
+    {
+      "key": "action-arisa",
+      "kind": "image",
+      "localPath": "assets/poppinparty/actions/arisa.png",
+      "sourceUrl": "",
+      "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
+    },
+    {
+      "key": "action-arisa-entry",
+      "kind": "image",
+      "localPath": "assets/poppinparty/actions/arisa-entry.png",
+      "sourceUrl": "",
+      "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     }
   ],
   "notes": [
@@ -213,7 +227,8 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]
 }

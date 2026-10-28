@@ -1,0 +1,71 @@
+{
+  "mode": "built-in image_gen",
+  "status": "reviewed-with-five-isolated-repairs",
+  "atlases": [
+    {
+      "key": "kasumi",
+      "file": "actions/kasumi.png",
+      "reference": "portraits/kasumi.png",
+      "promptReference": "action-prompts.json"
+    },
+    {
+      "key": "tae",
+      "file": "actions/tae.png",
+      "reference": "portraits/tae.png",
+      "promptReference": "action-prompts.json"
+    },
+    {
+      "key": "rimi",
+      "file": "actions/rimi.png",
+      "reference": "portraits/rimi.png",
+      "promptReference": "action-prompts.json"
+    },
+    {
+      "key": "saaya",
+      "file": "actions/saaya.png",
+      "reference": "portraits/saaya.png",
+      "promptReference": "action-prompts.json"
+    },
+    {
+      "key": "arisa",
+      "file": "actions/arisa.png",
+      "reference": "portraits/arisa.png",
+      "promptReference": "action-prompts.json"
+    }
+  ],
+  "gridPaddingPrefix": "CRITICAL SPRITE LAYOUT: precisely 4 columns x 4 rows. Every figure occupies only the CENTRAL 70% width and 76% height of its cell; reserve wide transparent margins on ALL four sides of EVERY cell, including outer edges. Instruments, hair, sticks and outstretched limbs MUST NOT extend outside their own cell. Feet aligned inside cell, NEVER touch the cell borders. Visibly separate all 16 figures.",
+  "kasumiRepairPrompt": "Edit this Kasumi action sprite sheet ONLY to fix packing. Preserve all sixteen existing distinct poses, original face, hair, tan uniform, red star guitar, colors and 2D style. RE-LAYOUT as EXACTLY 4 equal columns x4 equal rows. Each figure including entire guitar, hair, outstretched limbs, fingers and feet must fit completely in the CENTRAL 70% WIDTH and CENTRAL 76% HEIGHT of its OWN cell. Shrink every complete figure about 25% to leave wide transparent gutters at all four sides. Absolutely no part crossing a cell boundary: especially the last cell's raised guitar must start BELOW its cell's top boundary. Row-major same pose order. Same canvas 2:3, transparent background. No added figures, text, grid lines or energy effects. Output a clean sprite atlas whose 16 equal rectangular cell crops each contain exactly one complete character, with every neighboring sprite excluded.",
+  "isolatedRepairs": [
+    {
+      "key": "arisa-entry",
+      "file": "actions/arisa-entry.png",
+      "reference": "portraits/arisa.png",
+      "prompt": "Create ONE single transparent full-body 2D anime character action sprite based exactly on this approved character portrait. Preserve exact recognizable face, eye color, hairstyle, uniform, instrument, natural proportions and clean cel shading. Action: entrance greeting: both feet planted, arms initially crossed with one hand lifted in a poised piano-key gesture, slightly annoyed confident expression, preserve black opaque tights and both brown loafers. Facing right in three-quarter view. Centered, entire head through feet and entire instrument inside the frame with wide 12% transparent margin all around. No other character, no multiple exposure, no shadow, background, labels or effects. This is one isolated pose for a fighting-game action pack, NOT a sprite sheet."
+    },
+    {
+      "key": "kasumi-u",
+      "file": "actions/kasumi-u.png",
+      "reference": "portraits/kasumi.png",
+      "prompt": "Create ONE single transparent full-body 2D anime character action sprite based exactly on this approved character portrait. Preserve exact recognizable face, eye color, hairstyle, uniform, instrument, natural proportions and clean cel shading. Action: U forward star pick flick: feet planted, right hand extended forward flicking one guitar pick, left hand holds red star-shaped guitar neck; cheerful determined expression. Facing right in three-quarter view. Centered, entire head through feet and entire instrument inside the frame with wide 12% transparent margin all around. No other character, no multiple exposure, no shadow, background, labels or effects. This is one isolated pose for a fighting-game action pack, NOT a sprite sheet."
+    },
+    {
+      "key": "kasumi-i",
+      "file": "actions/kasumi-i.png",
+      "reference": "portraits/kasumi.png",
+      "prompt": "Create ONE single transparent full-body 2D anime character action sprite based exactly on this approved character portrait. Preserve exact recognizable face, eye color, hairstyle, uniform, instrument, natural proportions and clean cel shading. Action: I forward lunging guitar strum: long forward step toward RIGHT, rear foot planted and front knee bent, right hand sweeping strings of red star-shaped guitar, determined gaze. Facing right in three-quarter view. Centered, entire head through feet and entire instrument inside the frame with wide 12% transparent margin all around. No other character, no multiple exposure, no shadow, background, labels or effects. This is one isolated pose for a fighting-game action pack, NOT a sprite sheet."
+    },
+    {
+      "key": "tae-jump",
+      "file": "actions/tae-jump.png",
+      "reference": "portraits/tae.png",
+      "prompt": "Create ONE single transparent full-body 2D anime character action sprite based exactly on this approved character portrait. Preserve exact recognizable face, eye color, hairstyle, uniform, instrument, natural proportions and clean cel shading. Action: jumping to RIGHT, both knees bent midair, blue guitar held securely against torso, guitar neck angled upward but entirely inside frame, very long hair flowing left, calm focused expression. Facing right in three-quarter view. Centered, entire head through feet and entire instrument inside the frame with wide 12% transparent margin all around. No other character, no multiple exposure, no shadow, background, labels or effects. This is one isolated pose for a fighting-game action pack, NOT a sprite sheet."
+    },
+    {
+      "key": "rimi-k",
+      "file": "actions/rimi-k.png",
+      "reference": "portraits/rimi.png",
+      "prompt": "Create ONE single transparent full-body 2D anime character action sprite based exactly on this approved character portrait. Preserve exact recognizable face, eye color, hairstyle, uniform, instrument, natural proportions and clean cel shading. Action: heavy K strike musical pose: strong wide planted step toward RIGHT, pink bass guitar secure on shoulder strap, right hand making a strong downward pluck, left hand on neck, determined face. Facing right in three-quarter view. Centered, entire head through feet and entire instrument inside the frame with wide 12% transparent margin all around. No other character, no multiple exposure, no shadow, background, labels or effects. This is one isolated pose for a fighting-game action pack, NOT a sprite sheet."
+    }
+  ],
+  "note": "Source PNGs retained unchanged; source rectangles and outlines select independent poses for preview. The three original cropped/overlapping poses and two edge-truncated instruments are replaced by five separately generated poses."
+}

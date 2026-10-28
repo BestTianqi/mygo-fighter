@@ -4,6 +4,12 @@ import path from "node:path";
 import { evaluate } from "../scripts/kernel.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
+const actionManifest = JSON.parse(
+  await readFile(
+    path.join(root, "assets/poppinparty/actions/manifest.json"),
+    "utf8",
+  ),
+);
 const voiceManifest = JSON.parse(
   await readFile(
     path.join(root, "assets/poppinparty/voices/sources.json"),
@@ -155,12 +161,29 @@ for (const key of POPPINPARTY_KEYS) {
   }
   form.entry.voiceKey = voiceFor(key, "entry").key;
   form.ultimateFinish.voiceKey = voiceFor(key, "finish").key;
+  for (const file of new Set(
+    Object.values(actionManifest.characters[key].frames).map(
+      (frame) => frame.file,
+    ),
+  )) {
+    const localPath = `assets/poppinparty/actions/${file}`;
+    await access(path.join(root, localPath));
+    spec.media.push({
+      key: `action-${file.replace(/\.png$/, "")}`,
+      kind: "image",
+      localPath,
+      sourceUrl: "",
+      notes:
+        "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。",
+    });
+  }
   spec.notes = [
     "状态：立绘与离线技能定义已制作，未接入游戏；没有分配运行时ID。",
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。动作图生成仍在重试，未另绘奥义背景图。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。",
   ];
   await writeFile(specPath, JSON.stringify(spec, null, 2) + "\n");
@@ -192,10 +215,18 @@ const voicePlayer = (key, slot) => {
   return `<div class="voice"><audio controls preload="none" src="voices/${v.file}" aria-label="${v.speaker}${label}语音"></audio><small>${escape(v.lineChinese)} <a href="${v.sourceUrl}" target="_blank" rel="noreferrer">来源</a></small></div>`;
 };
 const gallery = `<div class="gallery" aria-label="五人立绘总览">${all.map((c) => `<a href="#${c.key}"><img src="portraits/${c.key}.png" alt="${c.identity.name}"><b>${c.identity.name}</b></a>`).join("")}</div>`;
+const actionWidget = (key) =>
+  `<div class="action-widget" data-action-character="${key}"><canvas width="480" height="520" role="img" aria-label="动作图预览"></canvas><div class="action-controls"><label>选择动作 <select aria-label="${key}动作">${Object.entries(
+    actionManifest.characters[key].frames,
+  )
+    .map(([id, frame]) => `<option value="${id}">${frame.label}</option>`)
+    .join(
+      "",
+    )}</select></label><button type="button" data-play-pose>播放动作与语音</button><button type="button" data-play-combo>J三段连播</button><a href="portraits/${key}.png" target="_blank">高清立绘</a><p role="status" aria-live="polite">载入动作图…</p></div></div>`;
 const sections = all
   .map(
     ({ key, identity, form, archetype }) =>
-      `<section id="${key}" style="--accent:${identity.color}"><div class="portrait"><img src="portraits/${key}.png" alt="${identity.name}全身校服立绘" loading="lazy"></div><article><p class="eyebrow">POPPIN'PARTY / ${identity.role}</p><h2>${identity.name}</h2><p class="role">${archetype}</p><div class="normals"><b>J 三段普攻 · 5 / 6 / 8</b><ol>${form.attacks.J.chain.map((x) => `<li>${escape(x)}</li>`).join("")}</ol><p><b>K 重击 · 13</b>　${escape(form.attacks.K.description)}</p></div><div class="skills">${Object.entries(
+      `<section id="${key}" style="--accent:${identity.color}"><div class="portrait"><img src="portraits/${key}.png" alt="${identity.name}全身校服立绘" loading="lazy">${actionWidget(key)}</div><article><p class="eyebrow">POPPIN'PARTY / ${identity.role}</p><h2>${identity.name}</h2><p class="role">${archetype}</p><div class="normals"><b>J 三段普攻 · 5 / 6 / 8</b><ol>${form.attacks.J.chain.map((x) => `<li>${escape(x)}</li>`).join("")}</ol><p><b>K 重击 · 13</b>　${escape(form.attacks.K.description)}</p></div><div class="skills">${Object.entries(
         form.skills,
       )
         .map(
@@ -217,8 +248,8 @@ await writeFile(
   path.join(root, "assets/poppinparty/preview.html"),
   `<!doctype html>
 <html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Poppin'Party · 角色制作预览</title><style>
-.voice{margin-top:12px}.voice audio{display:block;width:100%;max-width:340px;height:34px}.voice small{display:block;color:#beb8c9;margin-top:8px}.skill>div{min-width:0;flex:1}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:25px 0 35px}.gallery a{display:block;min-width:0;background:#252737;border-radius:12px;text-align:center;text-decoration:none;padding-bottom:15px}.gallery img{width:100%;display:block}.gallery b{font-size:14px}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}body{margin:0;background:#151827;color:#f6f1eb;font:15px/1.65 system-ui,"Microsoft YaHei",sans-serif}header,main,footer{max-width:1280px;margin:auto;padding:30px}header{padding-top:55px}h1{font-size:clamp(32px,6vw,64px);line-height:1.1;margin:10px 0 20px;letter-spacing:-2px}.eyebrow{font-size:12px;letter-spacing:2px;color:#d7a7bc}.lead{color:#c0bfca;max-width:720px}nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}nav a{padding:8px 17px;border:1px solid #535063;border-radius:30px;color:inherit;text-decoration:none}nav a:hover{background:#343046}section{display:grid;grid-template-columns:minmax(260px,42%) 1fr;gap:36px;border-top:1px solid #494151;padding:40px 0;align-items:start}.portrait{position:sticky;top:25px;border-radius:24px;background:radial-gradient(ellipse at 50% 45%,#3f354c,#202333 70%);overflow:hidden}.portrait img{display:block;width:100%;height:auto}h2{font-size:34px;line-height:1.2;margin:0}.role{color:var(--accent);font-weight:bold}.normals,details{background:#202333;padding:15px 20px;border-radius:12px;margin:18px 0}.normals p,ol{margin:8px 0}ol{padding-left:20px}.skill{display:flex;gap:15px;padding:18px 0;border-bottom:1px solid #343344}.skill kbd{background:var(--accent);color:white;border-radius:10px;font:bold 22px system-ui;width:44px;height:44px;display:grid;place-items:center;flex-shrink:0}.skill h3{margin:0;font-size:19px}.skill p{margin:6px 0;color:#d0cdd8}.skill .stats{color:var(--accent);font-size:13px}summary{cursor:pointer}footer{color:#aaa5b6}a{color:#eab7cf}@media(max-width:700px){header,main,footer{padding:20px}section{grid-template-columns:1fr;gap:24px}.portrait{position:static;max-width:420px;margin:auto;width:100%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style><header><p class="eyebrow">CHARACTER COLLECTION · 01</p><h1>Poppin'Party</h1><p class="lead">五位成员的独立校服立绘与技能制作预览。立绘采用正常身材与原作面部风格，招式围绕乐器、性格与动画意象创作。</p><p class="lead">当前为离线素材包，尚未加入游戏。页面可直接在浏览器打开；实际可玩名单仍为16人。</p><nav>${all.map((c) => `<a href="#${c.key}">${c.identity.name}</a>`).join("")}</nav>${gallery}</header><main>${sections}</main><footer>全员：J范围200，K范围240；L为10共鸣虚影瞬移；H未启用；P释放时霸体。<br>技能表为基础伤害；普通连击会衰减，P全中50仍受防御与减伤影响。<br>已配30条官方游戏原声，可按技能逐条试听；动作图仍在等待绘图服务恢复。<br><a href="https://gamebiz.jp/news/366083">官方校服视觉参考出处</a> · 图片由内置 image_gen 生成，提示词见同目录 prompts.json。</footer><script>document.addEventListener("play",event=>{if(event.target.tagName!=="AUDIO")return;for(const audio of document.querySelectorAll("audio")){if(audio!==event.target){audio.pause();audio.currentTime=0}}event.target.playbackRate=1},true)</script></html>`,
+.action-widget{border-top:1px solid #474150;padding:10px}.action-widget canvas{display:block;width:100%;height:auto}.action-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px}.action-controls button,.action-controls select{font:inherit;color:inherit;background:#39364a;border:1px solid #736078;border-radius:8px;padding:8px;max-width:100%}.action-controls p{margin:0;color:#c9bdd2}.voice{margin-top:12px}.voice audio{display:block;width:100%;max-width:340px;height:34px}.voice small{display:block;color:#beb8c9;margin-top:8px}.skill>div{min-width:0;flex:1}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:25px 0 35px}.gallery a{display:block;min-width:0;background:#252737;border-radius:12px;text-align:center;text-decoration:none;padding-bottom:15px}.gallery img{width:100%;display:block}.gallery b{font-size:14px}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}body{margin:0;background:#151827;color:#f6f1eb;font:15px/1.65 system-ui,"Microsoft YaHei",sans-serif}header,main,footer{max-width:1280px;margin:auto;padding:30px}header{padding-top:55px}h1{font-size:clamp(32px,6vw,64px);line-height:1.1;margin:10px 0 20px;letter-spacing:-2px}.eyebrow{font-size:12px;letter-spacing:2px;color:#d7a7bc}.lead{color:#c0bfca;max-width:720px}nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}nav a{padding:8px 17px;border:1px solid #535063;border-radius:30px;color:inherit;text-decoration:none}nav a:hover{background:#343046}section{display:grid;grid-template-columns:minmax(260px,42%) 1fr;gap:36px;border-top:1px solid #494151;padding:40px 0;align-items:start}.portrait{position:sticky;top:25px;border-radius:24px;background:radial-gradient(ellipse at 50% 45%,#3f354c,#202333 70%);overflow:hidden}.portrait>img{display:none;width:100%;height:auto}h2{font-size:34px;line-height:1.2;margin:0}.role{color:var(--accent);font-weight:bold}.normals,details{background:#202333;padding:15px 20px;border-radius:12px;margin:18px 0}.normals p,ol{margin:8px 0}ol{padding-left:20px}.skill{display:flex;gap:15px;padding:18px 0;border-bottom:1px solid #343344}.skill kbd{background:var(--accent);color:white;border-radius:10px;font:bold 22px system-ui;width:44px;height:44px;display:grid;place-items:center;flex-shrink:0}.skill h3{margin:0;font-size:19px}.skill p{margin:6px 0;color:#d0cdd8}.skill .stats{color:var(--accent);font-size:13px}summary{cursor:pointer}footer{color:#aaa5b6}a{color:#eab7cf}@media(max-width:700px){header,main,footer{padding:20px}section{grid-template-columns:1fr;gap:24px}.portrait{position:static;max-width:420px;margin:auto;width:100%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style><header><p class="eyebrow">CHARACTER COLLECTION · 01</p><h1>Poppin'Party</h1><p class="lead">五位成员的独立校服立绘与技能制作预览。立绘采用正常身材与原作面部风格，招式围绕乐器、性格与动画意象创作。</p><p class="lead">当前为离线素材包，尚未加入游戏。页面可直接在浏览器打开；实际可玩名单仍为16人。</p><nav>${all.map((c) => `<a href="#${c.key}">${c.identity.name}</a>`).join("")}</nav>${gallery}</header><main>${sections}</main><footer>全员：J范围200，K范围240；L为10共鸣虚影瞬移；H未启用；P释放时霸体。<br>技能表为基础伤害；普通连击会衰减，P全中50仍受防御与减伤影响。<br>已绘制80种关键动作姿势、配30条官方游戏原声；动作演示为关键姿势切换，可按技能试听。<br><a href="https://gamebiz.jp/news/366083">官方校服视觉参考出处</a> · 图片由内置 image_gen 生成，提示词见同目录 prompts.json。</footer><script id="action-data" type="application/json">${JSON.stringify(actionManifest).replace(/</g, "\u003c")}</script><script id="skill-data" type="application/json">${JSON.stringify(all).replace(/</g, "\u003c")}</script><script src="actions/preview.js"></script><script>document.addEventListener("play",event=>{if(event.target.tagName!=="AUDIO")return;for(const audio of document.querySelectorAll("audio")){if(audio!==event.target){audio.pause();audio.currentTime=0}}event.target.playbackRate=1},true)</script></html>`,
 );
 console.log(
   `Exported ${all.length} offline characters, ${Object.keys(moves).length} move definitions; no runtime registration.`,
