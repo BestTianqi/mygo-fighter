@@ -215,6 +215,25 @@ assert.throws(
     ),
   /eight|8/,
 );
+for (const rules of [{}, { disableSupers: true }]) {
+  const decision = create(rules, { mode: "cpu", characters: [0, 0] });
+  const f = decision.fighters[1];
+  f.x = 380;
+  f.controlMs = 300;
+  f.motion = [
+    { d: 2, t: 100 },
+    { d: 3, t: 200 },
+    { d: 6, t: 300 },
+  ];
+  decision.aiThink = 0;
+  const history = JSON.stringify(f.motion);
+  decision.aiInput();
+  assert.equal(
+    JSON.stringify(f.motion),
+    history,
+    "CPU rule inspection must not consume a motion before the input step",
+  );
+}
 console.log(
   `Verified custom health/healing, five-person wheel, ${formsChecked} forms, CPU action bans, infinite energy and recast rules.`,
 );

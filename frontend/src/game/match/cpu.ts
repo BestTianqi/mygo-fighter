@@ -10,11 +10,12 @@ export function aiInput(match: Match): Input {
   const input = chooseInput(match);
   const f = match.fighters[1];
   const pressed = (key: string) => !!input[key as keyof Input];
-  // If a character tactic requests a banned action, choose a usable basic
-  // skill instead. This also covers MyGO's legacy per-character commands.
-  if (match.resolveAttack(f, input, pressed)) return input;
   const rules = match.options.rules;
   if (!rules.disableNormals && !rules.disableSupers && !rules.disableTransform)
+    return input;
+  // If a character tactic requests a banned action, choose a usable basic
+  // skill instead. This also covers MyGO's legacy per-character commands.
+  if (match.resolveAttack({ ...f, motion: [...f.motion] }, input, pressed))
     return input;
   const action = Object.keys(input).some(
     (key) =>
