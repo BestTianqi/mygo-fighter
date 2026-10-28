@@ -287,8 +287,8 @@
           "voice": "meme_2_p",
           "label": "一辈子乐队",
           "slot": "p",
-          "audio": "assets/meme-media/recordings/tomori-p.mp3",
-          "duration": 7.1,
+          "audio": "assets/meme-media/recordings/tomori-p-own.mp3",
+          "duration": 3.7,
           "source": {
             "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
             "uploader": "一色さんが一番好き",
@@ -296,13 +296,14 @@
             "cid": 1422539141,
             "page": 1,
             "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
-            "start": 0.25,
+            "start": 3.65,
             "end": 7.35,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "proof": "Rechecked the exported clip with Japanese word timestamps and decoded source frames. The previous 0.25–7.35 excerpt included Anon's short ん？ reaction between Tomori's first hesitant 一生 and her repeated complete question. Retain only the second complete Tomori question, beginning after that reaction and ending after くれる; original speed. Tomori mouth/face close-ups identify her throughout the retained question.",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           },
-          "video": "assets/meme-media/recordings/tomori-p.mp4",
-          "videoRate": 1
+          "video": "assets/meme-media/recordings/tomori-p-own.mp4",
+          "videoRate": 1,
+          "spokenJapanese": "一生、バンドしてくれる？"
         },
         "u": {
           "voice": "meme_2_u",
@@ -408,11 +409,26 @@
         },
         "penguinSuper": {
           "voice": "meme_2_penguin_p",
-          "label": "春日影·企鹅演唱",
+          "label": "一辈子乐队·企鹅形态",
           "slot": "p",
-          "audio": "assets/meme-media/recordings/penguin-p.mp3",
-          "duration": 2.9,
+          "audio": "assets/meme-media/recordings/tomori-p-own.mp3",
+          "duration": 3.7,
           "source": {
+            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+            "uploader": "一色さんが一番好き",
+            "bvid": "BV1bg4y1e7Yb",
+            "cid": 1422539141,
+            "page": 1,
+            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+            "start": 3.65,
+            "end": 7.35,
+            "proof": "2026-10-28: decoded video frames and fresh Japanese word timestamps cross-checked. Removed Anon reaction ん？ between Tomori hesitant first 一生 and repeated complete question; retain only Tomori 一生、バンドしてくれる？ at original speed. Original mixed-speaker tomori-p files retained as source history. Penguin form intentionally shares this verified Tomori anime line; penguin video remains the separately credited meme visual. Processed crying audio is no longer used for Penguin P.",
+            "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
+          },
+          "video": "assets/meme-media/recordings/penguin-p.mp4",
+          "videoRate": 1,
+          "spokenJapanese": "一生、バンドしてくれる？",
+          "videoSource": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
             "uploader": "byd小绫",
             "bvid": "BV1mTXKB4EjG",
@@ -423,9 +439,7 @@
             "end": 7.15,
             "proof": null,
             "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
-          },
-          "video": "assets/meme-media/recordings/penguin-p.mp4",
-          "videoRate": 1
+          }
         },
         "penguinKick": {
           "voice": "penguinKick",
@@ -1373,7 +1387,7 @@
           "label": "吵架等练习结束后随意",
           "slot": "p",
           "audio": "assets/meme-media/research-mygo/umiri-p-quarrel.mp3",
-          "duration": 3.4,
+          "duration": 3.25,
           "source": {
             "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
             "uploader": "砂锅竹鼠",
@@ -1381,13 +1395,13 @@
             "cid": 29512106891,
             "page": 1,
             "title": "八幡海铃mujica动画全语音分享",
-            "start": 59.65,
-            "end": 63.05,
-            "proof": "Burned bilingual subtitles verified at59.9 and61.5s; base ASR 健康でしたら練習の後で好きなだけどうぞ",
+            "start": 59.55,
+            "end": 62.8,
+            "proof": "2026-10-28重新核对原片60.0秒反应镜头及61.5/62.4秒海铃近景口型、中日字幕，完整一句「喧嘩でしたら、練習の後で好きなだけどうぞ」。small词级ASR59.66–62.80秒；原63.05秒尾部已混入下一句「あれとは」开头，改为59.55–62.80秒，保留海铃完整句且在下一位说话前结束。",
             "catalog": "assets/meme-media/research-mygo/sources-mygo-extra.json"
           },
           "video": "assets/meme-media/research-mygo/umiri-p-quarrel.mp4",
-          "spokenJapanese": "喧嘩でしたら 練習の後で好きなだけどうぞ",
+          "spokenJapanese": "喧嘩でしたら、練習の後で好きなだけどうぞ。",
           "videoRate": 1
         },
         "h": {
@@ -2207,10 +2221,10 @@
       "slots": {
         "p": {
           "voice": "meme_9_p",
-          "label": "完美笑容",
+          "label": "谁都不想要僵硬的笑容",
           "slot": "p",
           "audio": "assets/meme-media/recordings/nyamu-p.mp3",
-          "duration": 3.4,
+          "duration": 4.6,
           "source": {
             "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
             "uploader": "丰川祥子ObIivionis",
@@ -2218,20 +2232,21 @@
             "cid": 27679326900,
             "page": 1,
             "title": "mujica第一话喵梦摘面具名场面",
-            "start": 0.35,
-            "end": 3.75,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "start": 8.45,
+            "end": 13.05,
+            "proof": "2026-10-28重新逐镜核对：原0.35–3.75秒为蓝发金眼的祥子/Oblivionis，不是喵梦；改取8.45–13.05秒，紫色短发、粉紫眼睛的喵梦/Amoris在9.8及12.0秒连续开口，对应中日字幕。small词级ASR完整句为8.56–12.82秒；句首句尾留足余量，13.93秒下一句前结束。",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           },
           "video": "assets/meme-media/recordings/nyamu-p.mp4",
-          "videoRate": 1
+          "videoRate": 1,
+          "spokenJapanese": "こんな張り付いた笑顔なんて、誰も欲しくない！"
         },
         "u": {
           "voice": "meme_9_u",
-          "label": "请看清楚",
+          "label": "完美？",
           "slot": "u",
           "audio": "assets/meme-media/recordings/nyamu-u.mp3",
-          "duration": 1.4,
+          "duration": 1.23,
           "source": {
             "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
             "uploader": "丰川祥子ObIivionis",
@@ -2239,11 +2254,12 @@
             "cid": 27679326900,
             "page": 1,
             "title": "mujica第一话喵梦摘面具名场面",
-            "start": 0.35,
-            "end": 1.75,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "start": 3.82,
+            "end": 5.05,
+            "proof": "2026-10-28重新核对：原0.35–1.75秒为祥子/Oblivionis；改取3.82–5.05秒喵梦/Amoris回应的完整疑问「完璧？」。3.95秒紫发喵梦嘴部近景，small/base转写3.92–4.72秒，前后留白且不含祥子前句。",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+          },
+          "spokenJapanese": "完璧？"
         },
         "i": {
           "voice": "meme_9_i",
@@ -2328,7 +2344,7 @@
           "label": "素颜公开·摘下面具",
           "slot": "u",
           "audio": "assets/meme-media/recordings/nyamu-u.mp3",
-          "duration": 1.4,
+          "duration": 1.23,
           "source": {
             "url": "https://www.bilibili.com/video/BV1XM62YsEgE/",
             "uploader": "丰川祥子ObIivionis",
@@ -2336,11 +2352,12 @@
             "cid": 27679326900,
             "page": 1,
             "title": "mujica第一话喵梦摘面具名场面",
-            "start": 0.35,
-            "end": 1.75,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
+            "start": 3.82,
+            "end": 5.05,
+            "proof": "2026-10-28重新核对：原0.35–1.75秒为祥子/Oblivionis；改取3.82–5.05秒喵梦/Amoris回应的完整疑问「完璧？」。3.95秒紫发喵梦嘴部近景，small/base转写3.92–4.72秒，前后留白且不含祥子前句。",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
-          }
+          },
+          "spokenJapanese": "完璧？"
         },
         "mujica_9_stage_i": {
           "voice": "meme_9_i",

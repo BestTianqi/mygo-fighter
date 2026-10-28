@@ -159,12 +159,12 @@
     "character": 13,
     "voice": "finish_13",
     "sourceUrl": "https://www.bilibili.com/video/BV1cWYx6bEM4/",
-    "sourceStart": 34.35,
-    "sourceEnd": 38.98,
-    "durationMs": 4630,
+    "sourceStart": 38.9,
+    "sourceEnd": 40.4,
+    "durationMs": 2000,
     "output": "assets/finish-art/v2/videos/yuno.mp4",
-    "bytes": 74677,
-    "sha256": "cf11208a725ecbaed3ecd3466d5a1afb510565669d13bee01a39fc6b2ca30066",
+    "bytes": 23794,
+    "sha256": "a39e0f14627f4fbb0bbdc93019dee553b1be5f140cbcc53bf26a46161ee11414",
     "processing": "Original speed, no audio track; 640x360 H.264, 24 fps. Any padded voice silence holds the final video frame. Blur is applied at runtime."
   },
   {

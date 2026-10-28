@@ -243,8 +243,12 @@ export class AudioDirector {
       audible: false,
     };
     this.finish = state;
+    // The defeated fighter's queued speech must not bleed into the winner's scene.
+    this.voices?.stop();
+    this.summons?.stop();
+    this.music?.stop();
+    this.speeches?.stop(1 - finisher.side);
     if (voice) {
-      this.voices?.stop(finisher.side);
       state.audible =
         this.speeches?.playAfterCurrent(voice, finisher.side, () => {
           if (this.finish !== state) return;

@@ -9,10 +9,12 @@ export function finishMotion(
   phaseMs: number,
   winnerSide: number,
   reducedMotion = false,
+  cutinMs?: number,
 ) {
-  const duration = ROUND_END_TIMING.total - ROUND_END_TIMING.knockout;
-  const age = duration - phaseMs;
-  if (age < 0 || phaseMs <= 0) return null;
+  const sceneDuration = ROUND_END_TIMING.total - ROUND_END_TIMING.knockout;
+  const duration = cutinMs ?? sceneDuration;
+  const age = sceneDuration - phaseMs;
+  if (age < 0 || phaseMs <= 0 || age >= duration) return null;
   const enter = clamp(age / ENTER_MS);
   const leave = clamp((age - (duration - EXIT_MS)) / EXIT_MS);
   const incoming = (1 - enter) ** 3;

@@ -14,7 +14,23 @@
       "page": 1,
       "title": "🐧盘点凑企鹅各项技能🐧",
       "author": "byd小绫",
-      "source": "https://www.bilibili.com/video/BV1mTXKB4EjG/"
+      "source": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+      "audioSource": {
+        "bvid": "BV1bg4y1e7Yb",
+        "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
+        "author": "一色さんが一番好き",
+        "cid": 1422539141,
+        "duration": 3.7,
+        "source": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
+        "character": "tomori",
+        "slot": "p",
+        "label": "一辈子乐队",
+        "start": 3.65,
+        "end": 7.35,
+        "audio": "meme-media/recordings/tomori-p-own.mp3",
+        "speakerVerification": "2026-10-28: decoded video frames and fresh Japanese word timestamps cross-checked. Removed Anon reaction ん？ between Tomori hesitant first 一生 and repeated complete question; retain only Tomori 一生、バンドしてくれる？ at original speed. Original mixed-speaker tomori-p files retained as source history. Penguin form intentionally shares this verified Tomori anime line; penguin video remains the separately credited meme visual. Processed crying audio is no longer used for Penguin P.",
+        "spokenJapanese": "一生、バンドしてくれる？"
+      }
     }
   ]
 }

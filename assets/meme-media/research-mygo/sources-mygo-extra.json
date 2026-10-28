@@ -214,11 +214,11 @@
       "character": "umiri",
       "slot": "P",
       "label": "吵架等练习结束后随意",
-      "spokenJapanese": "喧嘩でしたら 練習の後で好きなだけどうぞ",
+      "spokenJapanese": "喧嘩でしたら、練習の後で好きなだけどうぞ。",
       "audio": "umiri-p-quarrel.mp3",
-      "start": 59.65,
-      "end": 63.05,
-      "duration": 3.3999999999999986,
+      "start": 59.55,
+      "end": 62.8,
+      "duration": 3.25,
       "source": {
         "bvid": "BV1s65fzcEi2",
         "title": "八幡海铃mujica动画全语音分享",
@@ -233,8 +233,8 @@
         "part": "八幡海铃mujica动画全语音分享"
       },
       "url": "https://www.bilibili.com/video/BV1s65fzcEi2",
-      "evidence": "Burned bilingual subtitles verified at59.9 and61.5s; base ASR 健康でしたら練習の後で好きなだけどうぞ",
-      "sha256": "6a04848661b9888db7d590ce11576eff6af6ad3d554489ab02830e1c62c3aeaf",
+      "evidence": "2026-10-28重新核对原片60.0秒反应镜头及61.5/62.4秒海铃近景口型、中日字幕，完整一句「喧嘩でしたら、練習の後で好きなだけどうぞ」。small词级ASR59.66–62.80秒；原63.05秒尾部已混入下一句「あれとは」开头，改为59.55–62.80秒，保留海铃完整句且在下一位说话前结束。",
+      "sha256": "3231dca20fa878c14616aa941dd79f5e1e5c3d7d0d8d276d5015e34627377c56",
       "video": "umiri-p-quarrel.mp4"
     },
     {
