@@ -21,13 +21,13 @@ export function tuneMygo(MOVES: Record<string, Move>): void {
   Object.assign(riki, {
     duration: 1000,
     end: 660,
-    damage: 64,
+    damage: 50,
     reach: 560,
     vertical: 420,
     pulses: riki.pulses!.map((pulse, i) => ({
       ...pulse,
       at: 80 + i * 170,
-      damage: [12, 14, 16, 22][i],
+      damage: [10, 12, 12, 16][i],
       reach: 380 + i * 60,
     })),
   });

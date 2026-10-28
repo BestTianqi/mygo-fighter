@@ -5,10 +5,10 @@ const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
   "MOVES",
 ]);
 const cases = [
-  { id: 10, key: "mewtype_10_virtual_super", damage: 60, hits: 3 },
-  { id: 11, key: "mewtype_11_virtual_super", damage: 65, hits: 5 },
-  { id: 13, key: "mewtype_13_virtual_super", damage: 60, hits: 3 },
-  { id: 4, key: "rikiSuper", damage: 64, hits: 4 },
+  { id: 10, key: "mewtype_10_virtual_super", damage: 40, hits: 3 },
+  { id: 11, key: "mewtype_11_virtual_super", damage: 50, hits: 5 },
+  { id: 13, key: "mewtype_13_virtual_super", damage: 50, hits: 3 },
+  { id: 4, key: "rikiSuper", damage: 50, hits: 4 },
 ];
 function start(id, distance = 160, rules = {}) {
   const match = new Match({
@@ -55,7 +55,7 @@ for (const item of cases) {
 }
 const remote = start(10, 1000);
 remote.advance(5000, { super: true });
-assert.equal(1000 - remote.fighters[1].hp, 60, "Arale reaches1000 units");
+assert.equal(1000 - remote.fighters[1].hp, 40, "Arale reaches1000 units");
 const homing = start(10, 700);
 homing.advance(140, { super: true });
 homing.fighters[1].y = 480;
