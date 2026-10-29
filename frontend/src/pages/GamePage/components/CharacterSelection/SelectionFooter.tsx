@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "../ArrowUpRight";
 import { Button } from "../../../../components/ui/Button";
 import { CPU_DIFFICULTIES } from "../../../../game/cpuDifficulty";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
@@ -50,7 +51,8 @@ export function SelectionFooter({ model }: { model: CharacterSelectionModel }) {
         disabled={!complete}
         className="min-w-32 flex-1 sm:max-w-64"
       >
-        登台对战 ↗
+        登台对战{" "}
+        <ArrowUpRight className="ml-2 inline-block size-4 align-text-bottom" />
       </Button>
     </footer>
   );

@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "./ArrowUpRight";
 import { useState } from "react";
 import { bandPortrait } from "../../../assets/bandArt";
 import type { Assets } from "../../../assets/objects/Assets";
@@ -43,7 +44,8 @@ export function MainMenu({
           className="min-h-11 rounded-none bg-[#30251a]/5 px-5 text-xs font-bold hover:text-[#8f354e]"
           onClick={() => runtime?.showDialog("help")}
         >
-          HOW TO PLAY ↗
+          HOW TO PLAY{" "}
+          <ArrowUpRight className="ml-1 inline-block size-3.5 align-text-bottom" />
         </button>
       </header>
       <div className="relative mx-auto grid w-full max-w-[1700px] flex-1 lg:grid-cols-[44%_56%]">
@@ -65,7 +67,8 @@ export function MainMenu({
           <div className="mt-6 max-w-lg">
             {view.phase !== "idle" && (
               <Button primary onClick={onResume} className="mb-3 w-full">
-                继续对战 ↗
+                继续对战{" "}
+                <ArrowUpRight className="ml-2 inline-block size-4 align-text-bottom" />
               </Button>
             )}
             <Button
@@ -80,7 +83,7 @@ export function MainMenu({
                   SOLO BATTLE
                 </small>
               </span>
-              <span className="text-xl">↗</span>
+              <ArrowUpRight className="size-6 shrink-0" />
             </Button>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <button
@@ -101,7 +104,10 @@ export function MainMenu({
                 }
               >
                 联机对战{" "}
-                <span className="text-[10px] text-[#80786d]">ONLINE ↗</span>
+                <span className="text-[10px] text-[#80786d]">
+                  ONLINE{" "}
+                  <ArrowUpRight className="ml-1 inline-block size-3 align-text-bottom" />
+                </span>
               </button>
               <button
                 className={menuButton}

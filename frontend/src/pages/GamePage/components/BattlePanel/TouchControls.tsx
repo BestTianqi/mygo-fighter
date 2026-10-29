@@ -1,8 +1,13 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { schemeFor } from "../../../../game/controls";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import type { Assets } from "../../../../assets/objects/Assets";
+import { KEYS1, schemeFor } from "../../../../game/controls";
 import type { BattleRules } from "../../../../game/objects/BattleRules";
 import type { FighterIdentity } from "../../../../game/objects/Fighter";
 import type { TouchInput } from "../../runtime/input/InputController";
+import { touchActionArtworkFor } from "./functions/touchActionArtworkFor";
+import type { TouchAction } from "./objects/TouchAction";
+import { TouchActionIcon } from "./TouchActionIcon";
+import { TouchAttackButton } from "./TouchAttackButton";
 import { TouchStick } from "./TouchStick";
 
 function TouchKey({
@@ -29,16 +34,25 @@ function TouchKey({
   };
   useEffect(() => {
     window.addEventListener("blur", release);
+    const hidden = () => {
+      if (document.hidden) release();
+    };
+    document.addEventListener("visibilitychange", hidden);
     return () => {
       window.removeEventListener("blur", release);
+      document.removeEventListener("visibilitychange", hidden);
       input.release(code);
     };
   }, [input, code]);
+  useEffect(() => {
+    if (disabled) release();
+  }, [disabled, input, code]);
   return (
     <button
       type="button"
       disabled={disabled}
       aria-label={label}
+      aria-pressed={pressed}
       onContextMenu={(event) => event.preventDefault()}
       onPointerDown={(event) => {
         event.preventDefault();
@@ -56,10 +70,10 @@ function TouchKey({
         pointers.current.delete(event.pointerId);
         if (pointers.current.size === 0) release();
       }}
-      className={`flex touch-none items-center justify-center font-semibold backdrop-blur-sm transition-colors select-none disabled:opacity-30 [-webkit-touch-callout:none] ${
+      className={`pointer-events-auto absolute aspect-square touch-none overflow-hidden rounded-full border-2 bg-slate-900/90 shadow-[0_3px_12px_#0009,inset_0_0_12px_#ffffff20] outline-none backdrop-blur-sm transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
         pressed
-          ? "bg-pink-200 text-slate-950"
-          : "bg-slate-900/50 text-slate-100"
+          ? "scale-95 brightness-125 ring-2 ring-white/80"
+          : "brightness-100"
       } ${className}`}
     >
       {children}
@@ -67,64 +81,109 @@ function TouchKey({
   );
 }
 
-const actions: [string, string][] = [
-  ["KeyU", "技能一"],
-  ["KeyI", "技能二"],
-  ["KeyO", "技能三"],
-  ["KeyP", "大招"],
-  ["KeyJ", "普攻"],
-  ["KeyK", "重击"],
-  ["KeyL", "瞬移"],
+// The three skills arc around J/K; P stays on the right and H keeps its own slot.
+const actions: {
+  action: Exclude<TouchAction, "light" | "heavy" | "blink">;
+  label: string;
+  position: string;
+}[] = [
+  {
+    action: "skill1",
+    label: "技能一",
+    position: "left-[13.5%] top-[65%] w-[24%] border-cyan-200/70",
+  },
+  {
+    action: "skill2",
+    label: "技能二",
+    position: "left-[23.5%] top-[37.27%] w-[24%] border-violet-200/70",
+  },
+  {
+    action: "skill3",
+    label: "技能三",
+    position: "left-[53%] top-[27.27%] w-[24%] border-fuchsia-200/70",
+  },
+  {
+    action: "super",
+    label: "大招",
+    position:
+      "left-[85.5%] top-[44.55%] w-[28%] border-amber-200 shadow-[0_0_14px_#fbbf2455,inset_0_0_8px_#fbbf2466]",
+  },
+  {
+    action: "transform",
+    label: "变身",
+    position: "left-[82.5%] top-[10.91%] w-[22%] border-pink-200/65",
+  },
 ];
 
-/** Square action pads stay reachable beside the thumb stick, from phones to tablets. */
-const key =
-  "size-[clamp(48px,12vw,76px)] landscape:size-[clamp(48px,16dvh,76px)] rounded-none text-[11px] leading-tight shadow-lg sm:text-xs";
-
 export function TouchControls({
+  assets,
   input,
   fighter,
   rules,
+  interactionKey = "",
 }: {
+  assets: Assets;
   input: TouchInput;
   fighter: FighterIdentity;
   rules?: BattleRules;
+  interactionKey?: string;
 }) {
+  const art = useMemo(() => {
+    const forAction = (action: TouchAction) =>
+      touchActionArtworkFor(assets, fighter, action);
+    return {
+      light: forAction("light"),
+      heavy: forAction("heavy"),
+      blink: forAction("blink"),
+      skill1: forAction("skill1"),
+      skill2: forAction("skill2"),
+      skill3: forAction("skill3"),
+      super: forAction("super"),
+      transform: forAction("transform"),
+    };
+  }, [assets, fighter.character, !!fighter.penguin, !!fighter.stageForm]);
+  const canTransform = !!schemeFor(fighter).transform;
+  const gestureKey = `${fighter.character}:${!!fighter.penguin}:${!!fighter.stageForm}:${interactionKey}`;
   return (
-    <div className="w-full touch-none select-none">
-      <p className="mb-1.5 text-center text-[10px] text-slate-400 landscape:hidden">
-        横屏游玩画面更大
-      </p>
-      <div
-        className="flex w-full items-end justify-between gap-2"
-        role="group"
-        aria-label="触屏操作"
+    <div
+      className="pointer-events-none relative grid w-full grid-cols-[minmax(96px,1fr)_clamp(200px,55vw,250px)] items-end gap-2 touch-none select-none [@media(orientation:landscape)_and_(max-height:500px)]:grid-cols-[minmax(96px,1fr)_200px]"
+      role="group"
+      aria-label="触屏操作"
+    >
+      <TouchStick input={input} />
+      <TouchKey
+        code={KEYS1.blink}
+        label="瞬移"
+        input={input}
+        className="bottom-0 left-[calc(clamp(96px,26vw,160px)+0.5rem)] w-11 border-sky-200/65 landscape:left-[calc(clamp(96px,36dvh,160px)+0.5rem)]"
       >
-        <TouchStick input={input} />
-        <div className="grid grid-cols-4 gap-1.5 max-[380px]:grid-cols-3 max-[360px]:gap-1 sm:gap-2">
-          {[
-            ...actions,
-            ...(schemeFor(fighter).transform
-              ? ([["KeyH", "变身"]] as [string, string][])
-              : []),
-          ].map(([code, label]) => (
+        <TouchActionIcon artwork={art.blink} />
+      </TouchKey>
+      <div className="relative aspect-[10/11] w-full" aria-label="攻击与技能">
+        <TouchAttackButton
+          input={input}
+          light={art.light}
+          heavy={art.heavy}
+          disabled={!!rules?.disableNormals}
+          interactionKey={gestureKey}
+        />
+        {actions
+          .filter(({ action }) => action !== "transform" || canTransform)
+          .map(({ action, label, position }) => (
             <TouchKey
-              key={code}
-              code={code}
+              key={action}
+              code={KEYS1[action]}
               label={label}
               input={input}
               disabled={
-                (code === "KeyP" && rules?.disableSupers) ||
-                ((code === "KeyJ" || code === "KeyK") &&
-                  rules?.disableNormals) ||
-                (code === "KeyH" && rules?.disableTransform)
+                (action === "super" && rules?.disableSupers) ||
+                (action === "transform" && rules?.disableTransform)
               }
-              className={`${key} ${code === "KeyJ" ? "bg-pink-500/35" : code === "KeyP" ? "bg-amber-500/25 text-amber-100" : ""}`}
+              className={`-translate-x-1/2 -translate-y-1/2 ${position}`}
             >
-              {code === "KeyP" ? "✦ 大招" : label}
+              <TouchActionIcon artwork={art[action]} />
             </TouchKey>
           ))}
-        </div>
       </div>
     </div>
   );

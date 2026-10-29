@@ -5,7 +5,6 @@ interface OrientationLock {
 }
 interface WebkitDocument extends Document {
   webkitFullscreenElement?: Element;
-  webkitFullscreenEnabled?: boolean;
   webkitExitFullscreen?: () => Promise<void> | void;
 }
 interface WebkitElement extends HTMLElement {
@@ -18,14 +17,6 @@ export function isImmersive() {
   return !!(
     document.fullscreenElement ||
     (document as WebkitDocument).webkitFullscreenElement
-  );
-}
-export function canEnterImmersive() {
-  return !!(
-    (document.fullscreenEnabled &&
-      document.documentElement.requestFullscreen) ||
-    ((document as WebkitDocument).webkitFullscreenEnabled !== false &&
-      (document.documentElement as WebkitElement).webkitRequestFullscreen)
   );
 }
 export async function enterImmersive(

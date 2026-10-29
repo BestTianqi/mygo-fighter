@@ -1,10 +1,10 @@
 import { type RefObject } from "react";
 import type { Assets } from "../../../../assets/objects/Assets";
 import { schemeFor } from "../../../../game/controls";
+import { bandFor } from "../../../../game/bands";
 import type { GameView } from "../../objects/GameView";
 import { BattleConnection } from "./BattleConnection";
 import { FinishOverlay } from "./FinishOverlay";
-import { MobileDisplayHint } from "./MobileDisplayHint";
 import type { BattleActions } from "./objects/BattleActions";
 import { TouchControls } from "./TouchControls";
 
@@ -34,10 +34,11 @@ export function BattlePanel({
   mobile: boolean;
 }) {
   const localFighter = view.fighters[view.network.room ? view.network.side : 0];
+  const localBand = bandFor(localFighter?.character ?? 0).id;
   const localIdentity = {
     character: localFighter?.character ?? 0,
-    penguin: !!localFighter?.transformed,
-    stageForm: !!localFighter?.transformed,
+    penguin: localBand === "mygo" && !!localFighter?.transformed,
+    stageForm: localBand === "mujica" && !!localFighter?.transformed,
   };
   const canTransform =
     !!schemeFor(localIdentity).transform &&
@@ -121,12 +122,13 @@ export function BattlePanel({
           ESC 退出全屏 · 右上角暂停设置
         </p>
       )}
-      {mobile && view.screen === "battle" && <MobileDisplayHint />}
-      {mobile && (
+      {mobile && view.screen === "battle" && (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-slate-950/85 via-slate-950/35 to-transparent pt-14">
-          <div className="pointer-events-auto pl-[max(0.25rem,env(safe-area-inset-left))] pr-[max(0.25rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
+          <div className="pointer-events-none pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
             {runtime && (
               <TouchControls
+                assets={assets}
+                interactionKey={`${view.round}:${view.phase}:${view.paused}`}
                 input={runtime.input}
                 fighter={localIdentity}
                 rules={view.config?.rules}
