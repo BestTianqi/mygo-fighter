@@ -1,57 +1,39 @@
 import type { Move } from "../../objects/Move";
-import { registerBaseNormals } from "./normalMoves";
-import {
-  registerPenguinNormals,
-  registerPenguinSpecials,
-} from "./penguinMoves";
-import { registerRanaMoves } from "./ranaMoves";
-import { registerRangedMoves } from "./rangedMoves";
-import { registerRikiMoves } from "./rikiMoves";
-import { registerMygoSkills } from "./skillMoves";
-import { registerBackSkills } from "../shared/backSkills";
-
-/** Authored MyGO moves in their original registration order. */
+import { registerUniversalMoves } from "../shared/universalMoves";
+import * as anon from "./characters/anon/base";
+import * as rana from "./characters/rana/base";
+import * as riki from "./characters/riki/base";
+import * as soyo from "./characters/soyo/base";
+import * as tomori from "./characters/tomori/base";
+import * as penguin from "./characters/tomori/penguin";
+import { COMMON_MOVES } from "./shared/commonMoves";
+import { registerBaseNormals } from "./shared/registerNormals";
+/** Assembly preserves the shipped catalog and command-list order across authored forms. */
 const MOVES: Record<string, Move> = {};
 registerBaseNormals(MOVES);
-registerPenguinSpecials(MOVES);
-registerRangedMoves(MOVES);
-registerMygoSkills(MOVES);
-registerRanaMoves(MOVES);
-registerPenguinNormals(MOVES);
-registerRikiMoves(MOVES);
-registerBackSkills(MOVES, 0, "anon", ["anonCry", "sonic", "waveHeavy"]);
-registerBackSkills(MOVES, 1, "soyo", ["wave", "wave", "wave"], {
-  soyoOnly: true,
+penguin.registerSkills(MOVES);
+Object.assign(MOVES, COMMON_MOVES, tomori.MOVES, {
+  penguinSuper: penguin.SUPER,
+  sonic: anon.MOVES.sonic,
+  anonCry: anon.MOVES.anonCry,
+  thrust: anon.MOVES.thrust,
+  rush: anon.MOVES.rush,
+  dive: anon.MOVES.dive,
 });
-registerBackSkills(
-  MOVES,
-  2,
-  "tomori",
-  ["tomoriNote", "tomoriEcho", "tomoriNote"],
-  {
-    tomoriOnly: true,
-    nativeOnly: true,
-  },
-);
-registerBackSkills(
-  MOVES,
-  2,
-  "penguin",
-  ["penguinCryWave", "penguinCryWave", "penguinCall"],
-  {
-    tomoriOnly: true,
-    penguinOnly: true,
-  },
-);
-registerBackSkills(MOVES, 3, "rana", ["ranaPick", "ranaChord", "ranaParfait"], {
-  ranaOnly: true,
+registerUniversalMoves(MOVES);
+MOVES.shield = anon.MOVES.shield;
+soyo.registerMoves(MOVES);
+Object.assign(MOVES, {
+  rising: anon.MOVES.rising,
+  spin: anon.MOVES.spin,
+  overhead: anon.MOVES.overhead,
+  super: anon.MOVES.super,
+  waveLight: anon.MOVES.waveLight,
+  waveHeavy: anon.MOVES.waveHeavy,
 });
-registerBackSkills(
-  MOVES,
-  4,
-  "riki",
-  ["rikiShock", "rikiShockBoost", "rikiShock"],
-  { rikiOnly: true },
-);
-
+rana.registerMoves(MOVES);
+penguin.registerNormals(MOVES);
+riki.registerMoves(MOVES);
+for (const form of [anon, soyo, tomori, penguin, rana, riki])
+  form.registerBackSkills(MOVES);
 export { MOVES };

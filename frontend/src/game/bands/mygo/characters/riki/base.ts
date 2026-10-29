@@ -1,7 +1,8 @@
-import type { Move } from "../../objects/Move";
-import { NORMAL_BUTTONS } from "../../data/rules";
-
-export function registerRikiMoves(MOVES: Record<string, Move>): void {
+import { NORMAL_BUTTONS } from "../../../../data/rules";
+import type { Move } from "../../../../objects/Move";
+import { registerBackSkills as registerBackSkillTemplate } from "../../../shared/backSkills";
+import type { ChainSpec } from "../../shared/registerChains";
+export function registerMoves(MOVES: Record<string, Move>): void {
   const rikiNames = [
     "轻鼓棒",
     "交叉双棒",
@@ -236,3 +237,20 @@ export function registerRikiMoves(MOVES: Record<string, Move>): void {
     chip: 1,
   };
 }
+export function registerBackSkills(moves: Record<string, Move>): void {
+  registerBackSkillTemplate(
+    moves,
+    4,
+    "riki",
+    ["rikiShock", "rikiShockBoost", "rikiShock"],
+    { rikiOnly: true },
+  );
+}
+
+export const CHAIN = {
+  prefix: "riki",
+  source: "riki_light",
+  names: ["交叉双棒", "重拍上挑"],
+  secondNormalIndex: 1,
+  ownership: { rikiOnly: true },
+} satisfies ChainSpec;

@@ -11,32 +11,45 @@ decision from the registry in `frontend/src/game/bands/`.
 
 ## Layout
 
-```
+```text
 frontend/src/game/bands/
-  index.ts               registry: BANDS, bandFor(id), CHARACTERS
-  contract.ts            defineBand() defaults; Band type is in game/objects/
-  validation.ts          validateBands(), validateCatalog()
-  shared/                moves every band may use, shared passes
-    universalMoves.ts    throw (registered once, exempt from ownership)
-    skill.ts             unified U/I/O skill resolution
-    command.ts           scheme-band light/heavy command mapping
-    derivedSupers.ts     numbers shared between two bands' supers
-  mygo/
-    index.ts             defineBand({...}) — the band facade
-    roster.ts            CHARACTERS
-    forms.ts             SCHEMES, penguin scheme, prefix/chain helpers
-    moves.ts             authored moves, in registration order
-    normalMoves.ts, skillMoves.ts, rangedMoves.ts,
-    penguinMoves.ts, ranaMoves.ts, rikiMoves.ts, chains.ts
-    movesFor.ts          move-list rules (filters + display overrides)
-    tune.ts              post-balance overrides
-    ability.ts           command table, cancel rules, start effects, CPU AI
-  mujica/, mewtype/      the same shape, less special behaviour
+  index.ts                       registry: BANDS, bandFor(id), CHARACTERS
+  contract.ts                    defineBand() defaults
+  validation.ts                  validateBands(), validateCatalog()
+  shared/                        cross-band commands, derived moves and templates
+    superPulses.ts               common pulse spacing, without character choices
+  <band>/
+    index.ts                     defineBand({...})
+    roster.ts, forms.ts           roster and form-selection rules
+    moves.ts                     catalog assembly and registration order
+    characters/
+      <character-key>/
+        <form>.ts                this character/form's authored move definitions
+    shared/                      reusable normal, projectile and registrar templates
+    ability.ts, tune.ts           band behavior and post-balance tuning
 ```
 
-`data/` keeps only cross-band assembly: `roster.ts` (flat list + shared speed /
+The same ownership rule applies to every registered character. MyGO's Anon,
+Soyo, Tomori, Rana and Riki use `characters/<key>/base.ts`; Tomori's transformed
+moves live beside her base moves in `characters/tomori/penguin.ts`. Mujica has
+`normal.ts` and `stage.ts` for each character. MewType has `virtual.ts` for each
+character, including Viola. Character modules own their authored normal names,
+skills, supers, wave variants, back-skill sources and MyGO jab-chain choices.
+Shared templates contain the construction logic reused by those modules.
+
+A band's `moves.ts` assembles the forms in the shipped registration order.
+Normals, skills, supers and derived moves may require separate passes; grouping
+source files by character must not change catalog insertion order or command-list
+row order. MyGO's `chains.ts` likewise assembles character-owned chain choices
+around the shared scaling pass. Character forms may import their own other forms
+or shared templates; they must not reach into another character's implementation.
+The frontend ownership check enforces that boundary.
+
+`data/` keeps only cross-band assembly: `roster.ts` (flat list and shared speed /
 jump scaling), `createMoveCatalog.ts` (pass order), `listMoves.ts` (dispatch),
-`moves/scale.ts` (shared movement scaling), `moves/balance.ts` (shared tuning pass). Mujica and MewType keep all authored move registration in their own `moves.ts`; no legacy band folders or forwarding facades are needed. The `poppinparty/draftMoves.ts` authoring factory remains unregistered and does not make those characters playable.
+`moves/scale.ts` (shared movement scaling) and `moves/balance.ts` (shared tuning).
+The `poppinparty/draftMoves.ts` authoring factory remains unregistered and does
+not make those characters playable.
 
 ## The Band contract
 
@@ -72,7 +85,9 @@ cancel depth 4, no command/ai/tune/transform.
 1. **Create the folder** `frontend/src/game/bands/<id>/`. Add `roster.ts` with
    consecutive explicit `id`s. Ids must stay contiguous across the whole
    registry (the current roster ends at 15, so a new band starts at 16).
-2. **Add moves.** Author `Record<string, Move>` with unique keys, using
+2. **Add moves.** Put authored values in `characters/<key>/<form>.ts` and reusable
+   construction logic in the band's `shared/`. Assemble the resulting
+   `Record<string, Move>` in `moves.ts` with unique keys, using
    `<band>_<id>_<form>_<slot>` for a new band's standard scheme.
    Keys cross the LAN boundary, so never rename a shipped key
    without a protocol bump. Give each move `ownerCharacter` and, if the band has

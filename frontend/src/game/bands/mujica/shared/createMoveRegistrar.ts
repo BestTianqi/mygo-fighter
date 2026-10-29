@@ -1,4 +1,4 @@
-import type { Move } from "../../objects/Move";
+import type { Move } from "../../../objects/Move";
 export function createMoveRegistrar(MOVES: Record<string, Move>) {
   return function add(
     id: number,
@@ -44,3 +44,16 @@ export const missile = {
   radiusX: 22,
   radiusY: 42,
 };
+
+export const combo = (damages: number[], interval = 160, start = 120) => ({
+  duration: start + interval * (damages.length - 1) + 360,
+  start,
+  end: start + interval * (damages.length - 1) + 80,
+  pulses: damages.map((damage, i) => ({
+    at: start + i * interval,
+    damage,
+    reach: 190,
+    stun: 320,
+    push: i === damages.length - 1 ? 220 : 25,
+  })),
+});

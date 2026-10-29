@@ -97,7 +97,7 @@ establish the invariant.
 `combatData.ts` remains the shared catalog entry. Each registered band under
 `bands/` owns its roster, local move assembly, forms, move list, command table,
 cancel rules, CPU tactics and post-balance tuning. Mujica and MewType no longer
-split implementations across legacy folders. Shared dispatch uses `bandFor(id)`.
+split implementations across legacy folders. Shared dispatch uses `bandFor(id)`. Authored moves live in each band's `characters/<key>/<form>.ts`; the band's `shared/` holds reusable construction templates, and `moves.ts` preserves registration order. Penguin is Tomori's form, and Viola follows the same virtual-form layout as the other MewType characters.
 `data/createMoveCatalog.ts` keeps the pass order visible: merge band move records,
 register MyGO jabs, apply shared movement scaling, register chains, apply shared
 balance, run each band's `tune`, then validate the catalog. These passes run once

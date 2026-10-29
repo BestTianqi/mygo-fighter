@@ -19,10 +19,20 @@ const region = (name) =>
   /^pages\/GamePage\/components\/(BattlePanel|CharacterSelection|LanLobby)\//.exec(
     name,
   )?.[1];
+const character = (name) =>
+  /^game\/bands\/([^/]+)\/characters\/([^/]+)\//.exec(name)?.slice(1).join("/");
 
 /** Keep dependency direction independent of file names and import aliases. */
 function violations(owner, target) {
   const errors = [];
+  if (
+    character(owner) &&
+    character(target) &&
+    character(owner) !== character(target)
+  )
+    errors.push(
+      "character forms must share construction logic through shared templates",
+    );
   if (inside(owner, "game") && !inside(target, "game"))
     errors.push("shared combat may import only shared combat modules");
   if (

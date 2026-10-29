@@ -1,4 +1,4 @@
-import type { Move } from "../../objects/Move";
+import type { Move } from "../../../objects/Move";
 export function createMoveRegistrar(MOVES: Record<string, Move>) {
   return function add(
     id: number,
@@ -30,3 +30,12 @@ export function createMoveRegistrar(MOVES: Record<string, Move>) {
     return key;
   };
 }
+
+export const missile = {
+  projectile: true,
+  speed: 520,
+  lifetime: 1100,
+  height: 100,
+  radiusX: 24,
+  radiusY: 45,
+};

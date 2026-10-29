@@ -1,5 +1,5 @@
-import type { Move } from "../../objects/Move";
-import { NORMAL_BUTTONS, NORMAL_KEYS } from "../../data/rules";
+import { NORMAL_BUTTONS, NORMAL_KEYS } from "../../../data/rules";
+import type { Move } from "../../../objects/Move";
 
 export function registerBaseNormals(MOVES: Record<string, Move>): void {
   const normalSpecs: [

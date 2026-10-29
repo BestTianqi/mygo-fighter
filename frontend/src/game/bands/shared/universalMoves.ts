@@ -12,7 +12,7 @@ export const isUniversalMove = (name: string) =>
 export const UNIVERSAL_MOVES: readonly string[] = UNIVERSAL;
 
 /**
- * Registers the authored universal definitions. `bands/mygo/skillMoves` calls
+ * Registers the authored universal definitions. `bands/mygo/moves` calls
  * this between its skill groups on purpose: the catalog key order is
  * behavioural (the F1 move list renders `Object.entries(MOVES)`), so the throw
  * has to keep its original slot even though every band may use it.

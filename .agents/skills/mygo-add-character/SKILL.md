@@ -29,7 +29,7 @@ npm run character:new -- <唯一英文标识> --name "角色名" --work "作品�
 
 ## 按当前架构接入
 
-- 读取 `docs/BANDS.md`、`game/bands/<band>/index.ts`，以及同一 band 目录中的角色、招式与形态源文件。各 band 的 `moves.ts` 负责本组招式组装；浏览器动画与特效位于 `pages/GamePage/runtime/rendering/`，素材加载与类型位于 `frontend/src/assets/`。
+- 读取 `docs/BANDS.md`、`game/bands/<band>/index.ts`，以及同一 band 目录中的角色与形态源文件；招式按 `characters/<角色 key>/<形态>.ts` 归属，复用构造逻辑位于 band 的 `shared/`。各 band 的 `moves.ts` 负责本组招式组装；浏览器动画与特效位于 `pages/GamePage/runtime/rendering/`，素材加载与类型位于 `frontend/src/assets/`。
 - 使用读取报告中的实时ID，保留所有已发布ID与招式键。既有 band 不是编号末尾时，不直接追加、不重排旧ID；检查连续区间约束并选择兼容的注册方案。资料中的形态名需映射为模块实际使用的名称。
 - J三段动作有差异，K为重击、L为虚影瞬移，U/I/O基础技能、H变身、P大招。后退+技能为发波或投掷。共享血量、判定范围、共鸣与多段预算由当前内核规则决定。
 - 每个技能都有实际伤害或明确功能。`totalDamage` 表示总伤害，不能误当每段伤害；区分控制、治疗、护盾等功能，避免空技能和重复形态。

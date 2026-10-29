@@ -1,7 +1,8 @@
-import type { Move } from "../../objects/Move";
-import { NORMAL_BUTTONS } from "../../data/rules";
-
-export function registerRanaMoves(MOVES: Record<string, Move>): void {
+import { NORMAL_BUTTONS } from "../../../../data/rules";
+import type { Move } from "../../../../objects/Move";
+import { registerBackSkills as registerBackSkillTemplate } from "../../../shared/backSkills";
+import type { ChainSpec } from "../../shared/registerChains";
+export function registerMoves(MOVES: Record<string, Move>): void {
   const ranaNames = [
     "猫掌轻拍",
     "琴身碰撞",
@@ -239,3 +240,20 @@ export function registerRanaMoves(MOVES: Record<string, Move>): void {
     },
   });
 }
+export function registerBackSkills(moves: Record<string, Move>): void {
+  registerBackSkillTemplate(
+    moves,
+    3,
+    "rana",
+    ["ranaPick", "ranaChord", "ranaParfait"],
+    { ranaOnly: true },
+  );
+}
+
+export const CHAIN = {
+  prefix: "rana",
+  source: "rana_light",
+  names: ["琴身撞击", "琴锋上挑"],
+  secondNormalIndex: 1,
+  ownership: { ranaOnly: true },
+} satisfies ChainSpec;

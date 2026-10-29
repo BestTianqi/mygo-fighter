@@ -8,7 +8,7 @@ const PENGUIN_SUPER_SHOTS = [50, 230, 410, 590, 770] as const;
  * after tuning. Both bands apply these values directly instead of copying from
  * each other, so the band tune order cannot change the result.
  *
- * The authored values live in `bands/mygo/rangedMoves.ts`; the derived ones
+ * The authored values live in `bands/mygo/characters/tomori/penguin.ts`; the derived ones
  * (`push`) are what the shared passes below produce from them.
  */
 export const PENGUIN_SUPER_TUNING = {

@@ -1,8 +1,15 @@
-import type { Move } from "../../objects/Move";
-import { createMoveRegistrar } from "./createMoveRegistrar";
-
-/** Camera, editing and audience pressure adapt Viola's anime scenes into combat. */
-export function registerViolaMoves(MOVES: Record<string, Move>): void {
+import type { Move } from "../../../../objects/Move";
+import { createMoveRegistrar } from "../../shared/createMoveRegistrar";
+import { registerNormals as registerNormalTemplate } from "../../shared/registerNormals";
+export function registerNormals(MOVES: Record<string, Move>): void {
+  registerNormalTemplate(MOVES, 15, [
+    "指尖试探",
+    "转身横掌",
+    "镜头上挑",
+    "退场重踢",
+  ]);
+}
+export function registerSkills(MOVES: Record<string, Move>): void {
   const add = createMoveRegistrar(MOVES);
   add(15, "u", "镜头闪拍", {
     viola: "flash",
@@ -46,6 +53,8 @@ export function registerViolaMoves(MOVES: Record<string, Move>): void {
     knockdown: 450,
     recast: 2000,
   });
+}
+export function registerWave(MOVES: Record<string, Move>): void {
   MOVES.mewtype_15_virtual_wave = {
     ownerCharacter: 15,
     form: "virtual",
@@ -72,7 +81,9 @@ export function registerViolaMoves(MOVES: Record<string, Move>): void {
     push: 150,
     chip: 2,
   };
-  // Shared super tuning halves these authored timings; media stays at rate 1.
+}
+export function registerSuper(MOVES: Record<string, Move>): void {
+  const add = createMoveRegistrar(MOVES);
   add(15, "super", "引爆点·剪辑放送", {
     viola: "broadcast",
     category: "super",

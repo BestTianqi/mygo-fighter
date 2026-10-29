@@ -1,7 +1,8 @@
-import type { Move } from "../../objects/Move";
-import { NORMAL_BUTTONS } from "../../data/rules";
-
-export function registerPenguinSpecials(MOVES: Record<string, Move>): void {
+import { NORMAL_BUTTONS } from "../../../../data/rules";
+import type { Move } from "../../../../objects/Move";
+import { registerBackSkills as registerBackSkillTemplate } from "../../../shared/backSkills";
+import type { ChainSpec } from "../../shared/registerChains";
+export function registerSkills(MOVES: Record<string, Move>): void {
   Object.assign(MOVES, {
     penguinTransform: {
       name: "凑企鹅变身",
@@ -129,7 +130,7 @@ export function registerPenguinSpecials(MOVES: Record<string, Move>): void {
     },
   });
 }
-export function registerPenguinNormals(MOVES: Record<string, Move>): void {
+export function registerNormals(MOVES: Record<string, Move>): void {
   const penguinNames = [
     "鳍拍·轻",
     "鳍拍·连",
@@ -155,3 +156,47 @@ export function registerPenguinNormals(MOVES: Record<string, Move>): void {
       };
     });
 }
+export const SUPER: Move = {
+  name: "司凤版春日影演唱",
+  command: "P / 2P 小键盘8",
+  category: "super",
+  ownerCharacter: 2,
+  tomoriOnly: true,
+  penguinOnly: true,
+  ground: true,
+  projectile: true,
+  cost: 100,
+  duration: 8300,
+  start: 500,
+  end: 7990,
+  invuln: 100,
+  shots: [500, 1700, 2900, 4100, 5300],
+  damage: 10,
+  radial: true,
+  fixedDamage: true,
+  omni: true,
+  reach: 650,
+  speed: 250,
+  lifetime: 2800,
+  height: 100,
+  stun: 360,
+  push: 10,
+  pulses: [500, 1700, 2900, 4100, 5300].map((at) => ({ at, damage: 10 })),
+};
+export function registerBackSkills(moves: Record<string, Move>): void {
+  registerBackSkillTemplate(
+    moves,
+    2,
+    "penguin",
+    ["penguinCryWave", "penguinCryWave", "penguinCall"],
+    { tomoriOnly: true, penguinOnly: true },
+  );
+}
+
+export const CHAIN = {
+  prefix: "penguin",
+  source: "penguin_light",
+  names: ["蹬脚", "企鹅顶撞"],
+  secondNormalIndex: 3,
+  ownership: { tomoriOnly: true, penguinOnly: true },
+} satisfies ChainSpec;
