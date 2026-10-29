@@ -10,6 +10,20 @@ export function updateFighter(match: Match, side: number, input: Input): void {
   const f = match.fighters[side],
     other = match.fighters[match.targetSide(side)];
   if (match.options.rules.infiniteEnergy) f.energy = 100;
+  // updateFighter runs once per active 10 ms combat tick, after hit freeze.
+  // Only living, present fighters pass active(); recovery cannot undo a KO.
+  if (match.phase === "fighting" && !match.paused) {
+    if (match.options.rules.energyRegen > 0)
+      f.energy = Math.min(
+        100,
+        f.energy + match.options.rules.energyRegen * 0.01,
+      );
+    if (match.options.rules.healthRegen > 0)
+      f.hp = Math.min(
+        match.options.rules.maxHealth,
+        f.hp + match.options.rules.healthRegen * 0.01,
+      );
+  }
   if (match.options.rules.noCooldowns) {
     f.moveCooldowns = {};
     f.healCooldown = f.tuneCooldown = f.calibrateCooldown = 0;

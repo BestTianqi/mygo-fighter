@@ -18,4 +18,8 @@ export interface BattleRules {
   lowGravity: boolean;
   infiniteJumps: boolean;
   disableGuard: boolean;
+  energyRegen: number;
+  healthRegen: number;
+  freeDash: boolean;
+  knockbackMultiplier: number;
 }

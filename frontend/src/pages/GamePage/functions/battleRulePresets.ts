@@ -12,6 +12,37 @@ export const BATTLE_RULE_PRESETS: {
     rules: { ...DEFAULT_BATTLE_RULES },
   },
   {
+    label: "游击充能",
+    hint: "每秒 10 能量 · 免费冲刺 · 1.25× 移速",
+    rules: {
+      ...DEFAULT_BATTLE_RULES,
+      energyRegen: 10,
+      freeDash: true,
+      speedMultiplier: 1.25,
+    },
+  },
+  {
+    label: "再生拉锯",
+    hint: "每秒回复 5 生命 · 300 生命 · 120 秒",
+    rules: {
+      ...DEFAULT_BATTLE_RULES,
+      healthRegen: 5,
+      maxHealth: 300,
+      roundSeconds: 120,
+    },
+  },
+  {
+    label: "弹珠乱斗",
+    hint: "3× 击退 · 低重力 · 免费冲刺 · 每秒 5 能量",
+    rules: {
+      ...DEFAULT_BATTLE_RULES,
+      knockbackMultiplier: 3,
+      lowGravity: true,
+      freeDash: true,
+      energyRegen: 5,
+    },
+  },
+  {
     label: "仅技能",
     hint: "禁用普攻 · 无限能量",
     rules: {

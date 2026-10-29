@@ -756,7 +756,8 @@ function FighterHUD({
           <p
             className={`text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
           >
-            {label} · {fighter.hp} / {view.config?.rules?.maxHealth ?? 200} HP{" "}
+            {label} · {Math.ceil(fighter.hp)} /{" "}
+            {view.config?.rules?.maxHealth ?? 200} HP{" "}
             {fighter.beats > 0 && `· ${fighter.beats} 拍`}
           </p>
         </div>

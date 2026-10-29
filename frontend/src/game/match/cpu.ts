@@ -4,6 +4,8 @@ import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import { clamp, movementSpeed } from "./combatMath";
 import { moveEnabled } from "../battleRules";
+import { cpuDifficulty } from "../cpuDifficulty";
+import { advancedInput } from "./cpuTactics";
 
 /** CPU decisions use the match's seeded random source, shared by browser and JVM. */
 export function aiInput(match: Match, side = 1): Input {
@@ -93,9 +95,13 @@ function chooseInput(match: Match, side: number): Input {
     }
   }
   match.aiThink -= 10;
-  if (match.aiThink > 0) return input;
-  const level = match.options.difficulty;
-  match.aiThink = [440, 260, 150][level] + match.random() * 160;
+  const difficulty = cpuDifficulty(match.options.difficulty);
+  if (match.aiThink > 0)
+    return difficulty.id >= 3 && match.aiGuard > 0
+      ? { guard: true, crouch: a.crouch }
+      : input;
+  match.aiThink = difficulty.reaction + match.random() * difficulty.jitter;
+  if (difficulty.id >= 3) return advancedInput(match, side, input, difficulty);
   if (a.stun || a.attack || a.knockdown) return input;
   const band = bandFor(a.character);
   if (band.unified) {

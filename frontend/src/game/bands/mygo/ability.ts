@@ -5,6 +5,7 @@ import type { Match } from "../../engine";
 import type { Fighter, FighterIdentity } from "../../objects/Fighter";
 import type { Input } from "../../objects/Input";
 import { chainPrefix, firstJab } from "./forms";
+import { cpuDifficulty } from "../../cpuDifficulty";
 
 const sideOf = (match: Match, f: Fighter) => match.fighters.indexOf(f);
 
@@ -434,7 +435,7 @@ export function mygoAi(match: Match, side: number, input: Input): Input {
         return { heal: true };
     }
   }
-  if (b.attack && d < 170 && match.random() < [0.2, 0.55, 0.8][level]) {
+  if (b.attack && d < 170 && match.random() < cpuDifficulty(level).guard) {
     input.guard = true;
     input.crouch = b.crouch;
     match.aiGuard = 260;

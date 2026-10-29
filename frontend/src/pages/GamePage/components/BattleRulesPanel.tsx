@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   DAMAGE_MULTIPLIERS,
+  KNOCKBACK_MULTIPLIERS,
   SPEED_MULTIPLIERS,
   maxBanCount,
   teamSizeFor,
@@ -15,6 +16,7 @@ const toggleGroups = [
     items: [
       ["infiniteTime", "无限时间", "不因时间结束而判胜，击倒仍可决胜"],
       ["infiniteEnergy", "无限能量", "技能始终拥有足够能量"],
+      ["freeDash", "免费冲刺", "冲刺与闪现不消耗能量，保留冲刺间隔"],
     ],
   },
   {
@@ -120,6 +122,13 @@ export function BattleRulesPanel({
       ? [`伤害 ${rules.damageMultiplier}×`]
       : []),
     ...(rules.speedMultiplier !== 1 ? [`移速 ${rules.speedMultiplier}×`] : []),
+    ...(rules.knockbackMultiplier !== 1
+      ? [`击退 ${rules.knockbackMultiplier}×`]
+      : []),
+    ...(rules.energyRegen > 0 && !rules.infiniteEnergy
+      ? [`回能 ${rules.energyRegen}/秒`]
+      : []),
+    ...(rules.healthRegen > 0 ? [`回血 ${rules.healthRegen}/秒`] : []),
     ...(rules.initialEnergy > 0 && !rules.infiniteEnergy
       ? [`初始能量 ${rules.initialEnergy}`]
       : []),
@@ -206,6 +215,37 @@ export function BattleRulesPanel({
               disabled={rules.infiniteEnergy}
               onChange={(initialEnergy) => onChange({ initialEnergy })}
             />
+            <RuleNumberInput
+              label="每秒回复能量 · 0–20，0 为关闭"
+              value={rules.energyRegen}
+              min={0}
+              max={20}
+              disabled={rules.infiniteEnergy}
+              onChange={(energyRegen) => onChange({ energyRegen })}
+            />
+            <RuleNumberInput
+              label="每秒回复生命 · 0–20，倒地不回复"
+              value={rules.healthRegen}
+              min={0}
+              max={20}
+              onChange={(healthRegen) => onChange({ healthRegen })}
+            />
+            <label className="grid min-w-0 gap-1 text-xs text-[#80786d]">
+              击退倍率 · 水平击退与浮空，不影响拉拽
+              <select
+                className={fieldClass}
+                value={rules.knockbackMultiplier}
+                onChange={(event) =>
+                  onChange({ knockbackMultiplier: Number(event.target.value) })
+                }
+              >
+                {KNOCKBACK_MULTIPLIERS.map((multiplier) => (
+                  <option key={multiplier} value={multiplier}>
+                    {multiplier}×{multiplier === 1 ? " · 标准" : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label className="grid min-w-0 gap-1 text-xs text-[#80786d]">
               伤害倍率
               <select

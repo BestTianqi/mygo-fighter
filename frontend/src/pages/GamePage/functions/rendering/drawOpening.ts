@@ -68,10 +68,13 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   const { ctx, reducedMotion } = scene;
   const p = cue.progress;
   const versus = cue.kind === "versus";
+  const threeWay = versus && scene.match.isBrawl;
   const round = cue.kind === "round";
   const fight = cue.kind === "fight";
   const label = versus
-    ? "VS"
+    ? threeWay
+      ? "3-WAY BATTLE"
+      : "VS"
     : round
       ? `ROUND ${scene.match.round}`
       : fight
@@ -95,13 +98,13 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   ctx.translate(
     480 +
       (!reducedMotion && fight ? Math.max(0, (p - 0.7) / 0.3) ** 2 * 100 : 0),
-    versus ? 195 : 267,
+    threeWay ? 450 : versus ? 195 : 267,
   );
   ctx.scale(slam, slam);
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.lineJoin = "round";
-  ctx.font = `italic 900 ${versus ? 58 : round ? 44 : 88}px Impact,"Arial Black",sans-serif`;
+  ctx.font = `italic 900 ${threeWay ? 24 : versus ? 58 : round ? 44 : 88}px Impact,"Arial Black",sans-serif`;
   ctx.strokeStyle = INK;
   ctx.lineWidth = versus ? 9 : 13;
   ctx.strokeText(label, 0, 4);

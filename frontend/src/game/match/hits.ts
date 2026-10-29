@@ -251,7 +251,8 @@ export function hit(
       (move.minion || move.omni
         ? Math.sign(b.x - sourceX) || a.facing
         : a.facing) *
-      (blocked ? (move.minion ? 25 : 40 * FEEL.scale) : move.push)!;
+      (blocked ? (move.minion ? 25 : 40 * FEEL.scale) : move.push)! *
+      match.options.rules.knockbackMultiplier;
     if (!blocked && move.pull) {
       if (move.ownerCharacter !== undefined) {
         const onFloor =
@@ -284,7 +285,8 @@ export function hit(
       b.vy =
         (move.launch ||
           (move.knockdown ? 280 * verticalScale : 90 * FEEL.scale)) *
-        Math.max(0.5, 1 - a.combo * 0.05);
+        Math.max(0.5, 1 - a.combo * 0.05) *
+        match.options.rules.knockbackMultiplier;
       b.y += 0.01;
       b.launched = true;
     }

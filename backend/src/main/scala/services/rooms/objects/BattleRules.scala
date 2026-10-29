@@ -20,7 +20,11 @@ final case class BattleRules(
     vampire: Boolean = false,
     lowGravity: Boolean = false,
     infiniteJumps: Boolean = false,
-    disableGuard: Boolean = false
+    disableGuard: Boolean = false,
+    energyRegen: Int = 0,
+    healthRegen: Int = 0,
+    freeDash: Boolean = false,
+    knockbackMultiplier: Double = 1
 )
 
 object BattleRules:

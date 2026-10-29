@@ -41,7 +41,7 @@ export function FinishBackground({
       preload="metadata"
       aria-hidden="true"
       data-finish-background="true"
-      className={`absolute inset-0 h-full w-full scale-110 object-cover blur-md brightness-75 ${timeMs === null ? "opacity-0" : "opacity-80"}`}
+      className={`absolute inset-0 h-full w-full object-contain ${timeMs === null ? "opacity-0" : "opacity-100"}`}
     />
   );
 }

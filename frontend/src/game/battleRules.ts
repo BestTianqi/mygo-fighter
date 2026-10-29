@@ -31,9 +31,14 @@ export const DEFAULT_BATTLE_RULES: Readonly<BattleRules> = Object.freeze({
   lowGravity: false,
   infiniteJumps: false,
   disableGuard: false,
+  energyRegen: 0,
+  healthRegen: 0,
+  freeDash: false,
+  knockbackMultiplier: 1,
 });
 export const DAMAGE_MULTIPLIERS = [0.5, 1, 1.5, 2, 3] as const;
 export const SPEED_MULTIPLIERS = [0.75, 1, 1.25, 1.5, 2] as const;
+export const KNOCKBACK_MULTIPLIERS = [0.5, 1, 1.5, 2, 3] as const;
 export function teamSizeFor(format: unknown): number {
   return MATCH_FORMATS.includes(format as Format)
     ? Number(String(format)[0])
@@ -98,5 +103,13 @@ export function normalizeBattleRules(
     lowGravity: value?.lowGravity === true,
     infiniteJumps: value?.infiniteJumps === true,
     disableGuard: value?.disableGuard === true,
+    energyRegen: integer(value?.energyRegen, 0, 0, 20),
+    healthRegen: integer(value?.healthRegen, 0, 0, 20),
+    freeDash: value?.freeDash === true,
+    knockbackMultiplier: KNOCKBACK_MULTIPLIERS.includes(
+      value?.knockbackMultiplier as (typeof KNOCKBACK_MULTIPLIERS)[number],
+    )
+      ? value!.knockbackMultiplier!
+      : 1,
   };
 }

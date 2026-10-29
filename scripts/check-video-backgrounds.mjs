@@ -92,6 +92,14 @@ try {
     "ordinary browsers keep original video playback",
   );
   assert.ok(/playsinline/i.test(html));
+  assert.ok(
+    !/blur-|brightness-|scale-110/.test(html),
+    "finish video remains sharp and unzoomed",
+  );
+  assert.ok(
+    html.includes("object-contain"),
+    "finish video preserves its full frame",
+  );
   for (const side of [0, 1]) {
     for (const reduced of [false, true]) {
       reducedMotion = reduced;

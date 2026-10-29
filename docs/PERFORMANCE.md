@@ -1,6 +1,6 @@
 # Gameplay performance
 
-The current protocol is 23, including three-player wheel battles. The [2026-10-29 LAN stutter investigation](LAN_STUTTER_2026-10-29.md) records the latest decoded-image, client replay and targeting fixes with measured before/after browser results. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under protocol 15. Earlier measurements below retain their original protocol context.
+The current protocol is 24, including three-player wheel battles and the [additional custom rules](CUSTOM_PLAY_EXPANSION_2026-10-29.md). The [2026-10-29 LAN stutter investigation](LAN_STUTTER_2026-10-29.md) records the latest decoded-image, client replay and targeting fixes with measured before/after browser results. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under protocol 15. Earlier measurements below retain their original protocol context.
 
 ## Implemented optimizations
 

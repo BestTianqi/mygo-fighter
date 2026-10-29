@@ -13,6 +13,7 @@ import { RosterGrid } from "./RosterGrid";
 import { SelectionLineups } from "./SelectionLineups";
 import { BattleRulesPanel } from "./BattleRulesPanel";
 import { MATCH_FORMATS, teamSizeFor } from "../../../game/battleRules";
+import { CPU_DIFFICULTIES } from "../../../game/cpuDifficulty";
 const selectClass =
   "min-h-11 rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a] touch-manipulation focus-visible:outline-2 focus-visible:outline-cyan-200";
 export function CharacterSelection({
@@ -352,9 +353,11 @@ export function CharacterSelection({
                 )
               }
             >
-              <option value={0}>轻松</option>
-              <option value={1}>标准</option>
-              <option value={2}>认真</option>
+              {CPU_DIFFICULTIES.map(({ id, label }) => (
+                <option key={id} value={id}>
+                  {label}
+                </option>
+              ))}
             </select>
           )}
         </label>

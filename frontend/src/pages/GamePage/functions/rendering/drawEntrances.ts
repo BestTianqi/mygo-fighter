@@ -347,7 +347,17 @@ export function drawEntranceTitles(scene: BattleSceneContext) {
       ctx.clip();
       ctx.fillStyle = "#0b1022ee";
       ctx.fillRect(4, 110, 312, 302);
-      ctx.drawImage(image, 12, 110, 296, 270);
+      // Three narrow cards need a torso crop, not a stretched full-body image.
+      // Keep one scale on both axes so faces and bodies retain their proportions.
+      const scale = Math.min(292 / image.width, 440 / image.height);
+      const width = image.width * scale;
+      const height = image.height * scale;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(4, 113, 312, 237);
+      ctx.clip();
+      ctx.drawImage(image, 160 - width / 2, 116, width, height);
+      ctx.restore();
       ctx.fillStyle = "#0b1022dd";
       ctx.fillRect(4, 350, 312, 62);
       ctx.fillStyle = scene.colors[side];

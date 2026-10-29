@@ -31,4 +31,10 @@ object RoomRules:
       Left(IllegalArgumentException("伤害倍率无效"))
     else if !Set(0.75d, 1d, 1.25d, 1.5d, 2d).contains(rules.speedMultiplier) then
       Left(IllegalArgumentException("对战速度无效"))
+    else if rules.energyRegen < 0 || rules.energyRegen > 20 then
+      Left(IllegalArgumentException("每秒回复能量必须为0至20"))
+    else if rules.healthRegen < 0 || rules.healthRegen > 20 then
+      Left(IllegalArgumentException("每秒回复生命必须为0至20"))
+    else if !Set(0.5d, 1d, 1.5d, 2d, 3d).contains(rules.knockbackMultiplier) then
+      Left(IllegalArgumentException("击退倍率无效"))
     else Right(())
