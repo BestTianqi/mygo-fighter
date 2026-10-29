@@ -1,6 +1,6 @@
 import type { ConnectionView } from "../../../apis/rooms/objects";
 import type { MatchConfig } from "../../../game/objects/MatchOptions";
-import type { Presentation } from "../../../game/objects/Assets";
+import type { Presentation } from "../../../assets/objects/Assets";
 import type { RoundEnd } from "../../../game/objects/RoundEnd";
 export interface FighterView {
   character: number;

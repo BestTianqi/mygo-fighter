@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { evaluate } from "./kernel.mjs";
 
-const rendering = "frontend/src/pages/GamePage/functions/rendering/";
+const rendering = "frontend/src/pages/GamePage/runtime/rendering/";
 const { CanvasRenderer } = await evaluate(`${rendering}CanvasRenderer.ts`, [
   "CanvasRenderer",
 ]);

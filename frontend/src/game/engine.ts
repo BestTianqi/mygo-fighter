@@ -9,7 +9,7 @@ import {
   moveList,
 } from "./combatData";
 import * as areas from "./match/areas";
-import { ENTRANCE_TIMING } from "./animation/entrance";
+import { ENTRANCE_TIMING } from "./data/rules";
 import { clamp } from "./match/combatMath";
 import * as commands from "./match/commands";
 import * as cpu from "./match/cpu";

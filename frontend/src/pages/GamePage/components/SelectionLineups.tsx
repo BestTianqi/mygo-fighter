@@ -1,6 +1,6 @@
+import { bandPortrait } from "../../../assets/bandArt";
+import type { Assets } from "../../../assets/objects/Assets";
 import { ROSTER } from "../../../game/engine";
-import type { Assets } from "../../../game/objects/Assets";
-import { bandPortrait } from "../functions/bandArt";
 
 const orders = ["先锋", "中坚", "大将"];
 const slotLabel = (size: number, slot: number) =>

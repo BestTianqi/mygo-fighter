@@ -1,9 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { ROSTER, MOVES } from "../../../game/engine";
+import { bandPortrait } from "../../../assets/bandArt";
+import type { Assets } from "../../../assets/objects/Assets";
 import { schemeFor } from "../../../game/controls";
-import type { Assets } from "../../../game/objects/Assets";
+import { MOVES, ROSTER } from "../../../game/engine";
 import { BAND_LABEL } from "../../../game/objects/BandId";
-import { bandPortrait } from "../functions/bandArt";
 
 /** The same character art and move preview serves local and online selection. */
 export function CharacterPortraitPreview({

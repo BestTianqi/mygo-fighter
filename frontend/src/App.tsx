@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Assets } from "./game/objects/Assets";
-import { loadAssets } from "./pages/GamePage/functions/loadAssets";
+import type { Assets } from "./assets/objects/Assets";
+import { loadAssets } from "./assets/loadAssets";
 import { GamePage } from "./pages/GamePage";
 import { Button } from "./components/ui/Button";
 type AppState =

@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { evaluate } from "./kernel.mjs";
 
 const { PendingSimulationState } = await evaluate(
-  "frontend/src/pages/GamePage/functions/PendingSimulationState.ts",
+  "frontend/src/pages/GamePage/runtime/network/PendingSimulationState.ts",
   ["PendingSimulationState"],
 );
 const { PresentationEvents } = await evaluate(
-  "frontend/src/game/PresentationEvents.ts",
+  "frontend/src/pages/GamePage/runtime/network/PresentationEvents.ts",
   ["PresentationEvents"],
 );
 const queue = new PendingSimulationState();

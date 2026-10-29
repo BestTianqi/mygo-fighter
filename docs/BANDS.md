@@ -14,11 +14,10 @@ decision from the registry in `frontend/src/game/bands/`.
 ```
 frontend/src/game/bands/
   index.ts               registry: BANDS, bandFor(id), CHARACTERS
-  contract.ts            Band type + defineBand() defaults + validation
+  contract.ts            defineBand() defaults; Band type is in game/objects/
   validation.ts          validateBands(), validateCatalog()
   shared/                moves every band may use, shared passes
     universalMoves.ts    throw (registered once, exempt from ownership)
-    scale.ts             shared movement scaling
     skill.ts             unified U/I/O skill resolution
     command.ts           scheme-band light/heavy command mapping
     derivedSupers.ts     numbers shared between two bands' supers
@@ -37,32 +36,32 @@ frontend/src/game/bands/
 
 `data/` keeps only cross-band assembly: `roster.ts` (flat list + shared speed /
 jump scaling), `createMoveCatalog.ts` (pass order), `listMoves.ts` (dispatch),
-`moves/balance.ts` (shared tuning pass).
+`moves/scale.ts` (shared movement scaling), `moves/balance.ts` (shared tuning pass). Mujica and MewType keep all authored move registration in their own `moves.ts`; no legacy band folders or forwarding facades are needed. The `poppinparty/draftMoves.ts` authoring factory remains unregistered and does not make those characters playable.
 
 ## The Band contract
 
 `defineBand(spec)` fills every default, so a band with no special mechanics
 declares only `id`, `characters` and `moves`. The returned `Band` exposes:
 
-| Field | Meaning |
-| --- | --- |
-| `id`, `label`, `characters`, `moves`, `forms` | identity and data |
-| `unified` | play with the U/I/O skill scheme instead of a command table |
-| `formFor`, `prefixFor`, `normalFor` | form and move-key naming |
-| `schemeFor`, `extraBindings` | controls list and in-game command list |
-| `movesFor(all, character, penguin)` | the move list shown for a fighter |
-| `owns(f, move, name)` | move legality for this band |
-| `profileFor(f)` | the `Character` profile, including form variants |
-| `stanceLocked(f)`, `cancelDepth(f)` | stance restrictions and cancel budget |
-| `command(match, f, requested, input)` | button → move name |
-| `skill(f, input, pressed, airborne)` | extra unified-mode skill |
-| `airCancel`, `extraCancel` | cancel exceptions |
-| `beforeStart(match, f, name)` | upgrade a move before it starts (beat boost) |
-| `onStart(match, f, move, name, ground)` | per-move startup physics |
-| `ai(match, side, input)` | band CPU tactics |
-| `tune(moves)` | post-balance move overrides |
-| `transform` | optional staged form (`move`, `duration`, `energy`, multipliers) |
-| `presentation` | optional asset section hints for the UI |
+| Field                                         | Meaning                                                          |
+| --------------------------------------------- | ---------------------------------------------------------------- |
+| `id`, `label`, `characters`, `moves`, `forms` | identity and data                                                |
+| `unified`                                     | play with the U/I/O skill scheme instead of a command table      |
+| `formFor`, `prefixFor`, `normalFor`           | form and move-key naming                                         |
+| `schemeFor`, `extraBindings`                  | controls list and in-game command list                           |
+| `movesFor(all, character, penguin)`           | the move list shown for a fighter                                |
+| `owns(f, move, name)`                         | move legality for this band                                      |
+| `profileFor(f)`                               | the `Character` profile, including form variants                 |
+| `stanceLocked(f)`, `cancelDepth(f)`           | stance restrictions and cancel budget                            |
+| `command(match, f, requested, input)`         | button → move name                                               |
+| `skill(f, input, pressed, airborne)`          | extra unified-mode skill                                         |
+| `airCancel`, `extraCancel`                    | cancel exceptions                                                |
+| `beforeStart(match, f, name)`                 | upgrade a move before it starts (beat boost)                     |
+| `onStart(match, f, move, name, ground)`       | per-move startup physics                                         |
+| `ai(match, side, input)`                      | band CPU tactics                                                 |
+| `tune(moves)`                                 | post-balance move overrides                                      |
+| `transform`                                   | optional staged form (`move`, `duration`, `energy`, multipliers) |
+| `presentation`                                | optional asset section hints for the UI                          |
 
 Defaults: single form `"base"`, keys `<band>_<id>_<form>_<slot>` (or the band's
 `prefixFor`), ownership by `ownerCharacter`/universal moves, `stanceLocked` true,
@@ -97,6 +96,7 @@ cancel depth 4, no command/ai/tune/transform.
    Only add hooks the band actually needs (`schemeFor`, `command`, `ai`,
    `transform`, `tune`, …). A band that declares several forms must also pass
    `formFor`.
+
 4. **Register it** in `frontend/src/game/bands/index.ts`:
 
    ```ts
@@ -105,6 +105,7 @@ cancel depth 4, no command/ai/tune/transform.
    ```
 
    Registration order does not matter: `validateBands` sorts by character id.
+
 5. **Add artwork** to the runtime manifest and `scripts/check-assets.mjs` data:
    characters/stages counts are read from the kernel registry now, so no count
    literal has to be edited. Update `frontend/src/game/objects/BandId.ts`

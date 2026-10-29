@@ -2,14 +2,14 @@ import { Dialog } from "../../../components/ui/Dialog";
 import { bandFor } from "../../../game/bands";
 import { bindingList } from "../../../game/controls";
 import { MOVES, ROSTER } from "../../../game/engine";
-import type { GameRuntime } from "../functions/GameRuntime";
 import type { GameView } from "../objects/GameView";
+import type { GameRuntime } from "../runtime/GameRuntime";
 export function GameDialogs({
   view,
   runtime,
 }: {
   view: GameView;
-  runtime: GameRuntime;
+  runtime: Pick<GameRuntime, "closeDialog">;
 }) {
   if (!view.dialog) return null;
   if (view.dialog === "help")

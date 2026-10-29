@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import type { Assets } from "../../game/objects/Assets";
-import { enterImmersive, exitImmersive } from "./functions/immersive";
+import type { Assets } from "../../assets/objects/Assets";
+import { enterImmersive, exitImmersive } from "./runtime/display/immersive";
 import { useGame } from "./hooks/useGame";
 import { useMobilePlay } from "./hooks/useMobilePlay";
 import { MainMenu } from "./components/MainMenu";

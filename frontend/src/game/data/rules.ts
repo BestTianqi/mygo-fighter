@@ -1,4 +1,9 @@
 const MAX_HEALTH = 200;
+export const ENTRANCE_TIMING = Object.freeze({
+  performance: 2100,
+  ready: 650,
+  total: 2750,
+});
 const ROUND_END_TIMING = Object.freeze({
   impact: 120,
   knockout: 700,

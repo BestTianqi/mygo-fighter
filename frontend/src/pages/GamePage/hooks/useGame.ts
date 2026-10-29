@@ -5,8 +5,8 @@ import {
   useSyncExternalStore,
   type RefObject,
 } from "react";
-import type { Assets } from "../../../game/objects/Assets";
-import { GameRuntime } from "../functions/GameRuntime";
+import type { Assets } from "../../../assets/objects/Assets";
+import { GameRuntime } from "../runtime/GameRuntime";
 import { initialView } from "../objects/GameView";
 export function useGame(
   assets: Assets,

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { Assets } from "../../../game/objects/Assets";
-import type { GameRuntime } from "../functions/GameRuntime";
-import type { GameView } from "../objects/GameView";
+import { bandPortrait } from "../../../assets/bandArt";
+import type { Assets } from "../../../assets/objects/Assets";
 import { Button } from "../../../components/ui/Button";
-import { bandPortrait } from "../functions/bandArt";
 import { publicGameURL } from "../functions/publicGameURL";
+import type { GameView } from "../objects/GameView";
+import type { GameRuntime } from "../runtime/GameRuntime";
 const bands = [
   { key: "mygo", name: "MyGO!!!!!", ids: [1, 4, 3, 2, 0] },
   { key: "mujica", name: "Ave Mujica", ids: [5, 7, 8, 9, 6] },
@@ -17,7 +17,7 @@ export function MainMenu({
   onResume,
 }: {
   assets: Assets;
-  runtime: GameRuntime | null;
+  runtime: Pick<GameRuntime, "showDialog" | "begin" | "openLobby"> | null;
   view: GameView;
   onResume: () => void;
 }) {

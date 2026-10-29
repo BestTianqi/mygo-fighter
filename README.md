@@ -104,8 +104,9 @@ The production frontend puts React in a separate shared chunk so the game bundle
 ## Review map
 
 - `frontend/src/pages/GamePage/index.tsx`: page skeleton. Page components, hooks, state objects and effects live nearby.
-- `frontend/src/game/engine.ts`: match state and the public combat API. `game/match/` separates rule implementations by responsibility; `game/data/`, `game/mujica/` and `game/mewtype/` organize roster and move definitions. Animation lives under `game/animation/`. The shared combat kernel has no browser globals, network calls or Node dependencies.
-- `frontend/src/pages/GamePage/functions/rendering/`: image loading, the battle frame pipeline, character effects, projectiles and scenery. Audio, input and page coordination stay in the parent folder.
+- `frontend/src/game/engine.ts`: match state and the public combat API. `game/match/` separates rule implementations by responsibility; `game/data/` assembles cross-band data, and each `game/bands/<band>/` owns its roster, moves and forms. The shared combat kernel has no browser globals, network calls or Node dependencies.
+- `frontend/src/pages/GamePage/runtime/`: page coordination, audio, input, networking and browser display adapters. Its `rendering/` folder owns image decoding, animation, camera, battle effects and scenery.
+- `frontend/src/assets/`: manifest loading, media types and band artwork lookup, shared by startup and page presentation.
 - `frontend/src/apis/rooms/`: one HTTP caller per registered Scala room message, plus the persistent socket connection.
 - `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration and private runtime helpers.
 - `backend/src/main/scala/services/system/`: Cats Effect startup, application resources, shared routing and static serving.

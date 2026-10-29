@@ -1,6 +1,6 @@
-import type { Assets } from "../../../game/objects/Assets";
+import type { Assets } from "../../../assets/objects/Assets";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
-import { bandPortrait } from "./bandArt";
+import { bandPortrait } from "../../../assets/bandArt";
 import { ultimateFinishFor } from "./ultimateFinishFor";
 
 /** One source choice for both preloading and the result cut-in. */

@@ -18,7 +18,7 @@
     "format": "prettier --write frontend/src scripts docs/*.md README.md",
     "format:backend": "node scripts/scala.mjs scalafmtAll",
     "start": "node scripts/start.mjs",
-    "check": "npm run typecheck && node scripts/check-assets.mjs && node scripts/check-kernel.mjs && node scripts/check-battle-rules.mjs && node scripts/check-fun-rules.mjs && node scripts/check-brawl.mjs && node scripts/check-cpu-levels.mjs && node scripts/check-extra-rules.mjs && node scripts/check-super-buffs.mjs && node scripts/check-video-backgrounds.mjs && node scripts/check-ultimate-voices.mjs && node scripts/check-network-presentation.mjs && node scripts/check-server-snapshots.mjs && node scripts/check-render-images.mjs && node scripts/check-protocol.mjs",
+    "check": "npm run typecheck && node scripts/check-frontend-structure.mjs && node scripts/check-assets.mjs && node scripts/check-kernel.mjs && node scripts/check-battle-rules.mjs && node scripts/check-fun-rules.mjs && node scripts/check-brawl.mjs && node scripts/check-cpu-levels.mjs && node scripts/check-extra-rules.mjs && node scripts/check-super-buffs.mjs && node scripts/check-video-backgrounds.mjs && node scripts/check-ultimate-voices.mjs && node scripts/check-network-presentation.mjs && node scripts/check-server-snapshots.mjs && node scripts/check-render-images.mjs && node scripts/check-protocol.mjs",
     "check:backend": "node scripts/build-simulation.mjs && node scripts/scala.mjs compile scalafmtCheckAll",
     "lan": "npm run build && npm start"
   },

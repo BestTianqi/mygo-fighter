@@ -6,8 +6,8 @@ const bundle = await build({
   stdin: {
     contents: `import { createElement } from "react";
       import { renderToStaticMarkup } from "react-dom/server";
-      import { FinishBackground } from "./frontend/src/pages/GamePage/components/FinishBackground";
-      import { FinishOverlay } from "./frontend/src/pages/GamePage/components/FinishOverlay";
+      import { FinishBackground } from "./frontend/src/pages/GamePage/components/BattlePanel/FinishBackground";
+      import { FinishOverlay } from "./frontend/src/pages/GamePage/components/BattlePanel/FinishOverlay";
       export const render = (props) => renderToStaticMarkup(createElement(FinishBackground, props));
       export const renderFinish = (props) => renderToStaticMarkup(createElement(FinishOverlay, props));`,
     resolveDir: process.cwd(),

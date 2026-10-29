@@ -1,4 +1,4 @@
-import type { Assets } from "../../../game/objects/Assets";
+import type { Assets } from "../../../assets/objects/Assets";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
 
 /** Use the lethal attack's captured form, even after the round clears transformations. */

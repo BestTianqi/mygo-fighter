@@ -1,7 +1,7 @@
+import { bandPortrait } from "../../../assets/bandArt";
+import type { Assets } from "../../../assets/objects/Assets";
 import { ROSTER } from "../../../game/engine";
 import { BAND_LABEL } from "../../../game/objects/BandId";
-import type { Assets } from "../../../game/objects/Assets";
-import { bandPortrait } from "../functions/bandArt";
 
 /** Square face cards keep the local and online rosters visually identical. */
 export function RosterGrid({

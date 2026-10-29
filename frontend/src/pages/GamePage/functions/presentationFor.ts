@@ -1,4 +1,4 @@
-import type { Assets, Presentation } from "../../../game/objects/Assets";
+import type { Assets, Presentation } from "../../../assets/objects/Assets";
 import type { FighterIdentity } from "../../../game/objects/Fighter";
 import type { Scheme } from "../../../game/objects/Scheme";
 import { schemeFor } from "../../../game/controls";

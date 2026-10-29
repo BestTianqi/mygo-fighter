@@ -1,7 +1,7 @@
 import { WORLD } from "../../data/rules";
 import type { Move } from "../../objects/Move";
-import { STAGE_FORM } from "../../mujica/forms";
-import { CHARACTERS } from "../../mujica/roster";
+import { STAGE_FORM } from "./forms";
+import { CHARACTERS } from "./roster";
 import {
   PENGUIN_SUPER_TUNING,
   penguinSuperPulses,

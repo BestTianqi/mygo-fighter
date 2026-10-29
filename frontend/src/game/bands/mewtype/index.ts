@@ -1,4 +1,6 @@
-import * as mewtype from "../../mewtype";
+import { MOVES } from "./moves";
+import { CHARACTERS } from "./roster";
+import { formFor, normalFor, prefixFor, schemeFor } from "./forms";
 import type { Band } from "../../objects/Band";
 import { defineBand } from "../contract";
 import { isUniversalMove } from "../shared/universalMoves";
@@ -8,13 +10,13 @@ import { tuneMewtype } from "./tune";
 const BAND: Band = defineBand({
   id: "mewtype",
   label: "夢限大 MEWTYPE",
-  characters: mewtype.CHARACTERS,
-  moves: mewtype.MOVES,
+  characters: CHARACTERS,
+  moves: MOVES,
   forms: ["virtual"],
-  formFor: mewtype.formFor,
-  prefixFor: mewtype.prefixFor,
-  normalFor: mewtype.normalFor,
-  schemeFor: mewtype.schemeFor,
+  formFor,
+  prefixFor,
+  normalFor,
+  schemeFor,
   movesFor: (all, character) =>
     Object.entries(all)
       .filter(([key, move]) => {

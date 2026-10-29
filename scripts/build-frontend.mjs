@@ -28,6 +28,11 @@ function run(script, args) {
 }
 
 run(require.resolve("typescript/bin/tsc"), ["--noEmit"]);
+run(require.resolve("typescript/bin/tsc"), [
+  "--noEmit",
+  "-p",
+  "tsconfig.kernel.json",
+]);
 run(join(dirname(require.resolve("vite/package.json")), "bin/vite.js"), [
   "build",
   ...process.argv.slice(2),
