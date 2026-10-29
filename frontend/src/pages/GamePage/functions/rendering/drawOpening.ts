@@ -73,7 +73,7 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   const fight = cue.kind === "fight";
   const label = versus
     ? threeWay
-      ? "3-WAY BATTLE"
+      ? "3 WAY"
       : "VS"
     : round
       ? `ROUND ${scene.match.round}`
@@ -104,12 +104,12 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.lineJoin = "round";
-  ctx.font = `italic 900 ${threeWay ? 24 : versus ? 58 : round ? 44 : 88}px Impact,"Arial Black",sans-serif`;
+  ctx.font = `italic 900 ${threeWay ? 36 : versus ? 58 : round ? 44 : 88}px Impact,"Arial Black",sans-serif`;
   ctx.strokeStyle = INK;
-  ctx.lineWidth = versus ? 9 : 13;
+  ctx.lineWidth = threeWay ? 5 : versus ? 9 : 13;
   ctx.strokeText(label, 0, 4);
   ctx.strokeStyle = fight || versus ? GOLD : "#d0dfef";
-  ctx.lineWidth = 3;
+  ctx.lineWidth = threeWay ? 1.5 : 3;
   ctx.strokeText(label, 0, 0);
   const fill = ctx.createLinearGradient(0, -40, 0, 40);
   fill.addColorStop(0, PAPER);
