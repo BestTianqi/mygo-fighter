@@ -16,6 +16,11 @@ import { finishArtFor } from "../finishArtFor";
 import { createBattleScene } from "./createBattleScene";
 import { PreScaledSpriteCache } from "./PreScaledSpriteCache";
 import { maximumRenderScale, RENDER_SCALES } from "./renderResolution";
+import {
+  releaseRenderImage,
+  retainRenderImage,
+  type RenderImage,
+} from "./RenderImage";
 
 export interface SpriteSource {
   x: number;
@@ -49,8 +54,9 @@ function qualityIndexFor(maximum: number) {
 
 /** Canvas rendering owns no gameplay state. React owns menus, HUD and controls. */
 export class CanvasRenderer {
-  private readonly images = new Map<string, HTMLImageElement>();
-  private readonly loading = new Map<string, Promise<HTMLImageElement>>();
+  private readonly images = new Map<string, RenderImage>();
+  private readonly loading = new Map<string, Promise<RenderImage>>();
+  private disposed = false;
   private readonly animate = createAnimator();
   private readonly reducedMotion = matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -196,20 +202,31 @@ export class CanvasRenderer {
     }
   }
 
-  private load(url: string): Promise<HTMLImageElement> {
+  private load(url: string): Promise<RenderImage> {
+    if (this.disposed)
+      return Promise.reject(new Error("Renderer has been disposed."));
     if (this.images.has(url)) return Promise.resolve(this.images.get(url)!);
     if (!this.loading.has(url))
       this.loading.set(
         url,
-        new Promise<HTMLImageElement>((resolve, reject) => {
+        new Promise<RenderImage>((resolve, reject) => {
           const image = new Image();
           image.decoding = "async";
           image.onload = () =>
             image.decode().then(
-              () => {
-                this.images.set(url, image);
+              async () => {
+                // Keep an immutable decoded surface. The browser may evict an
+                // HTML image's decoded WebP and block drawImage to decode again.
+                const drawable = await retainRenderImage(image);
+                if (this.disposed) {
+                  releaseRenderImage(drawable);
+                  this.loading.delete(url);
+                  resolve(image);
+                  return;
+                }
+                this.images.set(url, drawable);
                 this.loading.delete(url);
-                resolve(image);
+                resolve(drawable);
               },
               (error: unknown) => {
                 this.loading.delete(url);
@@ -231,7 +248,7 @@ export class CanvasRenderer {
     let total = 0,
       required = 0;
     for (const [url, image] of this.images) {
-      const bytes = image.naturalWidth * image.naturalHeight * 4;
+      const bytes = image.width * image.height * 4;
       sizes.set(url, bytes);
       total += bytes;
       if (retain.has(url)) required += bytes;
@@ -243,11 +260,13 @@ export class CanvasRenderer {
       if (total <= budget) break;
       if (retain.has(url)) continue;
       total -= sizes.get(url) ?? 0;
+      releaseRenderImage(this.images.get(url)!);
       this.images.delete(url);
     }
   }
 
   async prepare(config: MatchConfig) {
+    if (this.disposed) return;
     this.scene.reset(config.settings.arena);
     this.visualFighters = [];
     this.resetCorrection();
@@ -272,8 +291,10 @@ export class CanvasRenderer {
     // Six fighters include large normal, action and transformation atlases.
     // Limit simultaneous decoder allocations while still warming every reserve.
     const pending = [...urls];
-    for (let i = 0; i < pending.length; i += 2)
+    for (let i = 0; i < pending.length; i += 2) {
       await Promise.all(pending.slice(i, i + 2).map((url) => this.load(url)));
+      if (this.disposed) return;
+    }
     // Decode and rasterize before the ready countdown starts.
     for (const art of atlases) {
       const frame = art.frames[0];
@@ -502,6 +523,9 @@ export class CanvasRenderer {
   }
 
   dispose() {
+    this.disposed = true;
     this.resizeObserver.disconnect();
+    for (const image of this.images.values()) releaseRenderImage(image);
+    this.images.clear();
   }
 }

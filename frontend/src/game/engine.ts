@@ -147,20 +147,25 @@ class Match {
       .filter((target) => target !== side && this.active(target));
   }
   targetSide(side: number) {
+    // Two-player movement asks for a target several times per fixed step.
+    // Its sole opponent needs no candidate arrays or distance sorting.
+    if (!this.isBrawl) {
+      const target = 1 - side;
+      return this.active(target) ? target : side;
+    }
     const source = this.fighters[side];
-    return (
-      this.enemySides(side).sort(
-        (a, b) =>
-          Math.hypot(
-            this.fighters[a].x - source.x,
-            this.fighters[a].y - source.y,
-          ) -
-          Math.hypot(
-            this.fighters[b].x - source.x,
-            this.fighters[b].y - source.y,
-          ),
-      )[0] ?? side
-    );
+    let nearest = side,
+      distance = Infinity;
+    for (let target = 0; target < this.fighters.length; target++) {
+      if (target === side || !this.active(target)) continue;
+      const other = this.fighters[target];
+      const next = Math.hypot(other.x - source.x, other.y - source.y);
+      if (next < distance) {
+        nearest = target;
+        distance = next;
+      }
+    }
+    return nearest;
   }
   get isTeamBattle() {
     return teamSizeFor(this.options.format) > 1;

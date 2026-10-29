@@ -1,6 +1,6 @@
-# Gameplay performance and protocol 11
+# Gameplay performance
 
-The current protocol is 16. It retains the performance/transport changes below and adds ultimate-finisher metadata/events and 30 resonance for reserve entrants. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under the preceding protocol 15.
+The current protocol is 23, including three-player wheel battles. The [2026-10-29 LAN stutter investigation](LAN_STUTTER_2026-10-29.md) records the latest decoded-image, client replay and targeting fixes with measured before/after browser results. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under protocol 15. Earlier measurements below retain their original protocol context.
 
 ## Implemented optimizations
 

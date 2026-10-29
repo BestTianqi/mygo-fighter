@@ -1,3 +1,4 @@
+import type { RenderImage } from "./RenderImage";
 import type { Assets } from "../../../../game/objects/Assets";
 import type { Wave } from "../../../../game/objects/Wave";
 import { drawWave } from "./projectiles/base";
@@ -6,7 +7,7 @@ import type { ProjectileContext } from "./projectiles/ProjectileContext";
 export function createProjectileRenderer(
   ctx: CanvasRenderingContext2D,
   assets: Assets,
-  getImage: (url: string) => HTMLImageElement | undefined,
+  getImage: (url: string) => RenderImage | undefined,
   reducedMotion: boolean,
 ) {
   const scene: ProjectileContext = {

@@ -1,3 +1,4 @@
+import type { RenderImage } from "./RenderImage";
 import type { Camera } from "../../../../game/camera";
 import { WORLD, type Match } from "../../../../game/engine";
 import type { Assets, Stage } from "../../../../game/objects/Assets";
@@ -7,7 +8,7 @@ export function createStageRenderer(
   ctx: CanvasRenderingContext2D,
   assets: Assets,
   camera: Camera,
-  getImage: (url: string) => HTMLImageElement | undefined,
+  getImage: (url: string) => RenderImage | undefined,
   reducedMotion: boolean,
 ) {
   let battleArena = 0,

@@ -20,6 +20,7 @@ import { initialView } from "../objects/GameView";
 import { AudioDirector } from "./AudioDirector";
 import { InputController } from "./InputController";
 import { NetworkDiagnostics } from "./NetworkDiagnostics";
+import { PendingSimulationState } from "./PendingSimulationState";
 import { presentationFor } from "./presentationFor";
 import { CanvasRenderer } from "./rendering/CanvasRenderer";
 import { backgroundVideoEnabled } from "./backgroundVideoEnabled";
@@ -38,6 +39,7 @@ export class GameRuntime {
   private lastPublish = 0;
   private readonly prediction = new Prediction();
   private readonly diagnostics = new NetworkDiagnostics();
+  private readonly pendingState = new PendingSimulationState();
   private authoritativeMatch: Match | null = null;
   private readonly presentationEvents = new PresentationEvents();
   private request = 0;
@@ -79,6 +81,7 @@ export class GameRuntime {
         }
       },
       onDisconnect: () => {
+        this.pendingState.clear();
         this.prediction.reset();
         this.renderer.resetCorrection();
         this.match?.setPaused(true);
@@ -88,6 +91,7 @@ export class GameRuntime {
         this.publishMatch();
       },
       onLobby: () => {
+        this.pendingState.clear();
         this.request++;
         this.match = null;
         this.audio.stop();
@@ -178,6 +182,7 @@ export class GameRuntime {
     this.publish({ lobbyOpen: false });
   }
   back() {
+    this.pendingState.clear();
     this.input.clear();
     this.audio.stop();
     this.match?.setPaused(true);
@@ -199,6 +204,7 @@ export class GameRuntime {
         settings: { ...config.settings, sound: this.view.sound },
       };
     const request = ++this.request;
+    this.pendingState.clear();
     this.diagnostics.reset();
     this.publish({
       screen: "loadingBattle",
@@ -330,20 +336,27 @@ export class GameRuntime {
   private receive(packet: StatePacket, wireBytes: number) {
     if (!this.match || this.view.screen !== "battle") return;
     const now = performance.now();
-    const before = this.renderer.positions(this.match);
-    const priorPhase = this.authoritativeMatch?.phase;
-    const priorPause = this.authoritativeMatch?.paused;
     this.diagnostics.acknowledge(
       packet.inputState.received,
       packet.inputState.applied,
       this.lan.side,
       now,
     );
+    if (this.diagnostics.enabled)
+      this.diagnostics.snapshot(now, packet.serverUpdateMs, wireBytes);
+    this.pendingState.push(packet, now);
+  }
+  private applyState(packet: StatePacket, receivedAt: number) {
+    if (!this.match || this.view.screen !== "battle") return;
+    const now = performance.now();
+    const before = this.renderer.positions(this.match);
+    const priorPhase = this.authoritativeMatch?.phase;
+    const priorPause = this.authoritativeMatch?.paused;
     const reset = this.prediction.receive(
       this.match,
       packet,
       this.lan.side,
-      now,
+      receivedAt,
       this.lan.rtt,
     );
     // Prediction drives visible movement; keep the server snapshot separate so
@@ -362,8 +375,6 @@ export class GameRuntime {
       );
     const correction = this.renderer.correct(this.match, before, snap);
     this.diagnostics.add("correctionPx", correction);
-    if (this.diagnostics.enabled)
-      this.diagnostics.snapshot(now, packet.serverUpdateMs, wireBytes);
     this.audio.pause(this.match.paused);
     this.consume(events);
     if (this.view.lobbyOpen) this.publish({ lobbyOpen: false });
@@ -416,6 +427,10 @@ export class GameRuntime {
     const dt = Math.min(50, elapsed);
     if (this.view.screen === "battle") this.diagnostics.add("frameMs", elapsed);
     this.lastTime = now;
+    // Drain even while the lobby overlay is open: the first authority packet
+    // closes it. Coalescing avoids replaying obsolete states after a slow frame.
+    const pending = this.pendingState.take();
+    if (pending) this.applyState(pending.packet, pending.receivedAt);
     if (this.match && this.view.screen === "battle" && !this.view.lobbyOpen) {
       const previous = this.match.inputTick;
       if (this.lan.connected) {
@@ -489,6 +504,7 @@ export class GameRuntime {
   };
   dispose() {
     this.disposed = true;
+    this.pendingState.clear();
     this.request++;
     cancelAnimationFrame(this.frameId);
     this.lan.dispose();

@@ -1,3 +1,4 @@
+import type { RenderImage } from "../RenderImage";
 import { createMujicaMotion } from "../../../../../game/animation";
 import { Camera } from "../../../../../game/camera";
 import { type Match } from "../../../../../game/engine";
@@ -63,7 +64,7 @@ export interface BattleSceneState {
 export interface BattleSceneContext {
   ctx: CanvasRenderingContext2D;
   assets: Assets;
-  getImage: (url: string) => HTMLImageElement | undefined;
+  getImage: (url: string) => RenderImage | undefined;
   spriteFor: (
     match: Match,
     side: number,
