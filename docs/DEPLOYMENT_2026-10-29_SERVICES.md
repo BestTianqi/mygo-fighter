@@ -7,18 +7,18 @@ now carry the room code and clients connect to `/ws?room=CODE`. `edge`,
 `lobby` and `rooms` replace the single `mygo-fighter.service` layout; Caddy is
 unchanged and still proxies the public hostname to `127.0.0.1:8080`.
 
-| Item                    | Value                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------- |
-| Change date             | 2026-10-29                                                                                    |
-| Application commit      | Not recorded yet; this change was prepared in the working tree and not committed by this task |
-| Release ID              | To be assigned after the integration checks and packaging                                     |
-| Archive SHA-256         | To be recorded after upload                                                                   |
-| WebSocket protocol      | `25`                                                                                          |
-| Services                | `edge` public 8080, `lobby` internal 8079, `rooms` internal 8091 (8092 for instance `b`)      |
-| Public default          | One rooms instance, global and per-instance `MAX_ROOMS=4`                                     |
-| LAN default             | Three local processes (`npm run lan`), `MAX_ROOMS=20`                                         |
-| Service memory ceilings | edge 192 MiB, lobby 128 MiB, each rooms instance 512 MiB                                      |
-| Public proxy            | Caddy unchanged; TLS/WSS to `127.0.0.1:8080`                                                  |
+| Item                    | Value                                                                                          |
+| ----------------------- | ---------------------------------------------------------------------------------------------- |
+| Change date             | 2026-10-29                                                                                     |
+| Application commit      | `ca01050` (protocol 25 services split)                                                         |
+| Release ID              | `20261029-ca01050-protocol25` (public host not activated yet)                                  |
+| Archive SHA-256         | `0aff77bc74caa49bb88e1943d784452b0e9ce353bb92ce1774b61aaeaa61d87e` (local build, not uploaded) |
+| WebSocket protocol      | `25`                                                                                           |
+| Services                | `edge` public 8080, `lobby` internal 8079, `rooms` internal 8091 (8092 for instance `b`)       |
+| Public default          | One rooms instance, global and per-instance `MAX_ROOMS=4`                                      |
+| LAN default             | Three local processes (`npm run lan`), `MAX_ROOMS=20`                                          |
+| Service memory ceilings | edge 192 MiB, lobby 128 MiB, each rooms instance 512 MiB                                       |
+| Public proxy            | Caddy unchanged; TLS/WSS to `127.0.0.1:8080`                                                   |
 
 The public AliCloud host still runs the protocol-22 single-unit release until the
 steps below are executed. GitHub Pages is unaffected.
@@ -118,13 +118,14 @@ split roles. Those are the public-host steps below.
 
 ## Pending public-host steps
 
-1. Complete the integration pass on a clean checkout: `npm run check`
-   (now includes the API and service-boundary checks), `npm run check:backend`,
-   `npm run build` and `npm run package:server`. Confirm the packaged artifact
-   embeds protocol 25 and the matching frontend, and run the three-process local
-   check (`npm run lan`, plus `npm run check:e2e` where the environment allows).
-2. Record the application commit, release ID and archive SHA-256 in this table
-   and in the follow-up deployment record.
+1. The integration pass was completed on commit `ca01050` (see Local
+   verification status). Re-run `npm run check`, `npm run check:backend`,
+   `npm run build`, `npm run package:server` and `npm run check:e2e` on the
+   release commit before upload, and confirm the packaged artifact embeds
+   protocol 25 and the matching frontend.
+2. Application commit, release ID and the local archive SHA-256 are recorded in
+   the table above. Confirm the uploaded archive's checksum against it and
+   record the activation time in the deployment record.
 3. Upload the package and verify its checksum before activation:
 
    ```sh
