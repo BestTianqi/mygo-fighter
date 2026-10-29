@@ -6,8 +6,7 @@ import io.circe.{Decoder, Json}
 import io.circe.syntax.*
 import services.rooms.api.*
 import services.rooms.objects.{BattleRules, Session}
-import services.system.objects.Connection
-import services.system.routes.APIRegistration
+import services.rooms.objects.Connection
 import scala.reflect.ClassTag
 
 object RoomRoutes:
@@ -31,7 +30,11 @@ object RoomRoutes:
     }
 
   val apiMessages: Vector[APIRegistration] = Vector(
-    APIRegistration.named[CreateRoomMessage]((_, c) => CreateRoomMessage().plan(c).map(_.asJson)),
+    APIRegistration.named[CreateRoomMessage]((j, c) =>
+      field[Option[String]](j, "code")
+        .flatMap(code => CreateRoomMessage(code).plan(c))
+        .map(_.asJson)
+    ),
     APIRegistration.named[JoinRoomMessage]((j, c) =>
       field[String](j, "code").flatMap(code => JoinRoomMessage(code).plan(c)).map(_.asJson)
     ),

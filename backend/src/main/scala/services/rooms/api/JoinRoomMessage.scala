@@ -5,8 +5,6 @@ import cats.syntax.all.*
 import services.rooms.objects.*
 import services.rooms.objects.apiTypes.SessionResponse
 import services.rooms.utils.{RoomAccess, RoomRuntime}
-import services.system.api.APIMessage
-import services.system.objects.Connection
 
 final case class JoinRoomMessage(code: String) extends APIMessage[SessionResponse]:
   def plan(connection: Connection): IO[SessionResponse] =
@@ -17,7 +15,8 @@ final case class JoinRoomMessage(code: String) extends APIMessage[SessionRespons
         ) *> room.state.get.flatMap { state =>
           val side = state.players.indexWhere(_.isEmpty)
           IO.raiseWhen(side < 0)(IllegalArgumentException("房间人数已满")) *>
-            RoomAccess.nonce(24).flatMap { token =>
+            RoomAccess.nonce(24).flatMap { suffix =>
+              val token = s"${state.code}.$suffix"
               val session = Session(java.util.UUID.randomUUID().toString, token, state.code, side)
               room.state.update(s =>
                 s.copy(players =

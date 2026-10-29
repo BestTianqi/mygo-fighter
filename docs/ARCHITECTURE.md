@@ -7,15 +7,20 @@ flowchart LR
   Runtime --> Renderer[Canvas and Web Audio]
   Runtime --> HTTP[Typed room API callers]
   Runtime <--> Socket[Persistent WebSocket]
-  HTTP --> Router[Scala message router]
-  Router --> Resolve[Resolve trusted session]
+  HTTP --> Caddy[Caddy HTTPS and WSS]
+  Socket <--> Caddy
+  Caddy --> Edge["edge role: admission, static files, forwarding, WS proxy"]
+  Edge -->|"POST /internal/api, GET /internal/ws"| Rooms["rooms role: sessions, tick loop, snapshots"]
+  Edge -->|"/internal/place, /internal/rooms"| Lobby["lobby role: registry, placement, directory"]
+  Rooms -.->|"registration and heartbeats"| Lobby
+  Rooms --> Resolve[Resolve trusted session]
   Resolve --> Plan[Room message plan]
-  Socket --> Resolve
   Plan --> Ref[Immutable room state in Ref]
   Plan --> Kernel[Shared combat kernel inside JVM]
   Ref --> Broadcast[Latest snapshot per peer]
   Kernel --> Broadcast
-  Broadcast --> Socket
+  Broadcast --> Edge
+  Edge --> Caddy
 ```
 
 ## Frontend
@@ -117,20 +122,24 @@ Rendering code belongs to `pages/GamePage/runtime/rendering/`. `CanvasRenderer.t
 
 ## Backend
 
-There are two logical services in one JVM:
+One release artifact contains three deployable roles plus shared system infrastructure. Production runs `SERVICE_ROLE=edge|lobby|rooms` as separate systemd units; the default `all` mode composes the same roles in one JVM behind loopback for local debugging. [Backend services](SERVICES.md) is the reference for topology, the internal contract, configuration and failure behavior.
 
-- `rooms`: session ownership, room membership, selection, readiness, loading barriers, match lifecycle, input validation and snapshots.
-- `system`: shared message infrastructure, application resources, HTTP startup and static serving.
+- `edge`: the only public listener. It serves static files and `/api/health`, applies per-client admission limits to room creation, joining and socket handshakes, forwards `POST /api/{name}` to the owning rooms instance and bridges `GET /ws?room=CODE` WebSocket frames. It keeps a short-lived room-code → instance cache and owns no room state.
+- `lobby`: internal `127.0.0.1:8079`. It rebuilds an instance registry and room-code directory from rooms heartbeats, owns the global room budget and placement reservations, and answers placement and owner lookups for the edge. It holds no durable state and is not in the combat path.
+- `rooms`: one internal process per instance. It owns sessions, room membership, selection, readiness, loading barriers, match lifecycle, input validation, the 120 Hz room loop and snapshots. It enforces its own `MAX_ROOMS`, runs the shared combat kernel in per-room restricted GraalJS contexts and reports registrations/heartbeats to the lobby.
+- `system`: role dispatch in `Main`, static serving, the shared `OriginCheck`/`InternalGuard` and the cross-process payload types. The room message framework (`APIMessage`, `APIMessageRouter`, `APIRegistration`) belongs to `services/rooms` because only that role executes room messages.
+
+Cross-process payload types live in `services/system/objects/internal/`. Internal endpoints require a loopback peer and, when `INTERNAL_SECRET` is configured, the `X-Mygo-Internal` header. Room API calls cross one loopback hop from the edge; the room tick path never makes cross-process calls, so the tick loop, its semaphore and its kernel remain process-local.
 
 HTTP operations are `final case class ...Message` values with constructor inputs and `plan(connection): IO[Response]`. Every frontend operation has a matching caller under `frontend/src/apis/rooms/`. Registered names are derived by removing `Message` and lowercasing the type name. Vite preserves API class names during minification.
 
-`RoomRoutes.apiMessages` registers public HTTP operations once. Internal operations such as `AttachRoomMessage`, `SubmitInputMessage` and `DisconnectRoomMessage` are used by the socket boundary and have no unnecessary HTTP endpoints or frontend caller files. The top-level server combines service routing rather than listing individual APIs.
+`RoomRoutes.apiMessages` registers public HTTP operations once. Internal operations such as `AttachRoomMessage`, `SubmitInputMessage` and `DisconnectRoomMessage` are used by the socket boundary and have no unnecessary HTTP endpoints or frontend caller files. The rooms process exposes them internally under `/internal/api` and `/internal/ws`; the edge forwards the same public protocol rather than duplicating room logic. The top-level process combines role routing rather than listing individual APIs.
 
-The router resolves bearer tokens before constructing messages containing a trusted `Session`. The client never chooses its player side. Host-only operations inspect that trusted side. A replacement socket invalidates the previous peer's ability to submit inputs.
+The rooms router resolves bearer tokens before constructing messages containing a trusted `Session`. The client never chooses its player side. Host-only operations inspect that trusted side. A replacement socket invalidates the previous peer's ability to submit inputs.
 
 `RoomState` is immutable. Its owning `Ref` stores successive states. One `Semaphore` per room serializes commands and simulation calls, so two joins cannot claim the same slot and two JVM fibers cannot enter the same GraalJS context concurrently. Separate rooms can advance concurrently. A busy room skips its own clock iteration, so preparing a new match does not stall existing rooms. Helpers in the rooms runtime use `private[rooms]` visibility.
 
-The application connection and room runtime hold actual effect resources. They are intentionally separate from serializable domain data. No SQL, persistence layer or forwarding-only service layer is needed for ephemeral matches.
+The application connection and room runtime hold actual effect resources. They are intentionally separate from serializable domain data. No SQL, persistence layer or forwarding-only service layer is needed for ephemeral matches. The lobby's registry and the edge's owner cache are bounded in-memory structures rebuilt after a restart; the rooms process remains the only owner of live room state.
 
 ## Shared simulation
 

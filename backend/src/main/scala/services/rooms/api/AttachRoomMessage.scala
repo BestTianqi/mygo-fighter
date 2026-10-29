@@ -7,8 +7,8 @@ import io.circe.syntax.*
 import org.http4s.websocket.WebSocketFrame
 import services.rooms.objects.{RoomPhase, Session}
 import services.rooms.utils.{Peer, RoomAccess}
-import services.system.api.APIMessage
-import services.system.objects.Connection
+
+import services.rooms.objects.Connection
 
 /** A trusted session may have one active socket. Replacements cannot control its old peer. */
 final case class AttachRoomMessage(session: Session, peer: Peer) extends APIMessage[Unit]:

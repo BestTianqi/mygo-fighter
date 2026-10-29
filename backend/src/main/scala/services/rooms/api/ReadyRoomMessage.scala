@@ -6,8 +6,6 @@ import io.circe.Json
 import io.circe.syntax.*
 import services.rooms.objects.*
 import services.rooms.utils.{RoomAccess, RoomDraft, RoomRules}
-import services.system.api.APIMessage
-import services.system.objects.Connection
 
 final case class ReadyRoomMessage(session: Session, ready: Boolean) extends APIMessage[Unit]:
   def plan(connection: Connection): IO[Unit] =

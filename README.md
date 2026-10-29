@@ -11,9 +11,9 @@ npm ci
 npm run lan
 ```
 
-The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher prints the local address and the computer's LAN addresses. The default port is **8080**.
+The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher builds and stages the JVM artifact, then starts the same three backend roles used in production — `rooms`, `lobby` and `edge` — as three local processes. Commands and printed output are unchanged: it prints the local address and the computer's LAN addresses, and the default public port is **8080** (rooms and lobby stay on loopback ports 8091 and 8079). See [backend services](docs/SERVICES.md) for the topology.
 
-On Windows, double-click `start-lan.cmd`. It keeps the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala server. Java handles HTTP, static files, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
+On Windows, double-click `start-lan.cmd`. It keeps the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala backend roles. Java handles HTTP, static files, the room directory, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
 
 Windows frontend builds use the ignored `output/build-temp/` directory for esbuild temporary files, avoiding access-denied cleanup errors in the system temp directory. This applies to the launchers, `npm run build`, `npm run build:pages` and builds run from `frontend/`; system environment settings are unchanged.
 
@@ -23,7 +23,7 @@ All launch commands, including `npm start`, reuse an existing portable JDK and s
 
 Windows launchers use `output/java-tmp/` for Java temporary files, including JLine's console DLL. This avoids startup errors when the Windows user temporary folder denies access; no administrator launch or system folder permission changes are needed.
 
-After building once, `npm start` starts the server without rebuilding. It prints playable addresses after the backend responds. If a MyGO server already exists, it prints its addresses and leaves that backend running in its original window. Close the original server before restarting to load changed combat rules. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
+After building once, `npm start` starts the backend without rebuilding the frontend. The launcher restages the JVM artifact, starts the three roles, and prints playable addresses after the backend responds. If a MyGO server already exists, it prints its addresses and leaves that backend running in its original window. Close the original server before restarting to load changed combat rules. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
 
 ## LAN play
 
@@ -90,8 +90,12 @@ npm run dev            # Vite frontend, port 5173; API/WebSocket proxy to port 8
 npm run build          # Strict TypeScript check, production UI and shared combat kernel
 npm run build:pages    # Static browser version for GitHub Pages; no JVM server required
 npm run package:server # Build UI/kernel and a deployable Scala/JVM distribution
-npm start              # Scala server serving the production build
-npm run check          # TypeScript and runtime media integrity checks
+npm run stage          # Stage the JVM distribution without starting it
+npm start              # Three local backend roles serving the production build
+npm run check          # TypeScript, media, protocol and service-boundary checks
+npm run check:api      # Registered API names, frontend callers and protocol version
+npm run check:services # Service folders, internal contracts and systemd units
+npm run check:e2e      # Start three local role processes and drive a room end to end
 npm run check:backend  # Scala compilation and formatting checks
 npm run format         # Format frontend, scripts and documentation
 npm run format:backend # Format Scala sources
@@ -108,15 +112,17 @@ The production frontend puts React in a separate shared chunk so the game bundle
 - `frontend/src/pages/GamePage/runtime/`: page coordination, audio, input, networking and browser display adapters. Its `rendering/` folder owns image decoding, animation, camera, battle effects and scenery.
 - `frontend/src/assets/`: manifest loading, media types and band artwork lookup, shared by startup and page presentation.
 - `frontend/src/apis/rooms/`: one HTTP caller per registered Scala room message, plus the persistent socket connection.
-- `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration and private runtime helpers.
-- `backend/src/main/scala/services/system/`: Cats Effect startup, application resources, shared routing and static serving.
+- `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration, the 120 Hz room runtime and the socket boundary. It is the only owner of live room state.
+- `backend/src/main/scala/services/lobby/`: instance registry, global room budget, placement and the room-code directory.
+- `backend/src/main/scala/services/edge/`: public admission limits, static files, API forwarding, the owner cache and WebSocket proxying.
+- `backend/src/main/scala/services/system/`: role dispatch and Cats Effect startup, application resources, shared routing and static serving. Cross-process payload types live under `objects/internal/`.
 - `frontend/public/`: media manifest and cacheable runtime assets.
 - `assets/`: source artwork grouped by band, character or feature, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
 - `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
 
-The Scala backend embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside the JVM. Rooms, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.
+The Scala backend runs as the `edge`, `lobby` and `rooms` roles from one release artifact and embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside each rooms process. Room execution, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.
 
-See [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
+See [backend services](docs/SERVICES.md), [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
 
 GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3. Network rooms require a Scala server. An optional `PUBLIC_GAME_URL` repository Actions variable enables a link to a public server; it is unset for this trial. Local static builds can use `VITE_PUBLIC_GAME_URL` (see `frontend/.env.example`). All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
 

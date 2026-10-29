@@ -5,8 +5,6 @@ import cats.syntax.all.*
 
 import services.rooms.objects.*
 import services.rooms.utils.{RoomAccess, RoomDraft, RoomRules}
-import services.system.api.APIMessage
-import services.system.objects.Connection
 
 final case class ChooseRoomMessage(
     session: Session,

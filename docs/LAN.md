@@ -32,14 +32,20 @@ Public callers and Scala messages share these derived names:
 | LoadedRoomMessage  | `/api/loadedroom`  | Trusted session, generation and attached peer |
 | PauseRoomMessage   | `/api/pauseroom`   | Trusted session; resume requires both peers   |
 | RestartRoomMessage | `/api/restartroom` | Host                                          |
+| FinishRoomMessage  | `/api/finishroom`  | Trusted session and presentation tick         |
 | LobbyRoomMessage   | `/api/lobbyroom`   | Trusted session                               |
 | LeaveRoomMessage   | `/api/leaveroom`   | Revokes session                               |
 
-`GET /api/health` identifies the server and timing targets. HTTP bodies are limited to 8 KiB. Cross-origin browser requests are rejected. Tokens never appear in WebSocket URLs.
+The public edge forwards these calls to the rooms instance that owns the room
+code; the room messages still run in the rooms process. `GET /api/health`
+identifies the server and timing targets and reports the edge/lobby/rooms
+status. HTTP bodies are limited to 8 KiB. Cross-origin browser requests are
+rejected. Tokens never appear in WebSocket URLs; the shareable room code appears
+as the `/ws?room=CODE` query. See [backend services](SERVICES.md).
 
 ## Socket messages
 
-Connect to `/ws`, then send `{"type":"authenticate","token":"...","protocol":16}`. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws?room=CODE`, then send `{"type":"authenticate","token":"<six-hex-code>.<48 hex>","protocol":25}`. The token's code and the query code must identify the same room. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 

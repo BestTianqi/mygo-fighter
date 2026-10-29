@@ -3,7 +3,7 @@ package services.rooms.utils
 import cats.effect.IO
 
 import services.rooms.objects.Session
-import services.system.objects.Connection
+import services.rooms.objects.Connection
 
 object RoomAccess:
   private[rooms] def withPlayer[A](connection: Connection, session: Session)(

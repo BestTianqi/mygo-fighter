@@ -1,7 +1,7 @@
-package services.system.api
+package services.rooms.api
 
 import cats.effect.IO
-import services.system.objects.Connection
+import services.rooms.objects.Connection
 
 trait APIMessage[Response]:
   def plan(connection: Connection): IO[Response]

@@ -5,8 +5,6 @@ import cats.syntax.all.*
 
 import services.rooms.objects.*
 import services.rooms.utils.{RoomAccess, RoomDraft}
-import services.system.api.APIMessage
-import services.system.objects.Connection
 
 final case class LobbyRoomMessage(session: Session) extends APIMessage[Unit]:
   def plan(connection: Connection): IO[Unit] =

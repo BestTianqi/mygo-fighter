@@ -6,8 +6,6 @@ import io.circe.Json
 
 import services.rooms.objects.*
 import services.rooms.utils.{RoomAccess, Simulation}
-import services.system.api.APIMessage
-import services.system.objects.Connection
 
 final case class LoadedRoomMessage(session: Session, generation: Int, peerId: String)
     extends APIMessage[Unit]:

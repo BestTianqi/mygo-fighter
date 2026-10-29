@@ -169,7 +169,7 @@ export class RoomConnection {
       if (!saved) return false;
       const session = JSON.parse(saved) as SessionResponse;
       if (
-        !/^[A-F0-9]{48}$/.test(session.token) ||
+        !/^[A-F0-9]{6}\.[A-F0-9]{48}$/.test(session.token) ||
         ![0, 1, 2].includes(session.side)
       )
         return false;
@@ -191,7 +191,10 @@ export class RoomConnection {
     if (this.disposed || !this.session) return;
     clearTimeout(this.retry);
     const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-    const socket = new WebSocket(`${protocol}//${location.host}/ws`);
+    const room = encodeURIComponent(this.token.slice(0, 6));
+    const socket = new WebSocket(
+      `${protocol}//${location.host}/ws?room=${room}`,
+    );
     this.socket = socket;
     this.authenticated = false;
     this.pendingEvents = [];

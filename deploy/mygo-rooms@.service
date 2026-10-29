@@ -1,0 +1,42 @@
+[Unit]
+Description=MyGO Fighter rooms role (instance %i)
+After=network-online.target
+Wants=network-online.target
+# Rooms instances are independent. deploy/activate.sh starts every instance
+# listed in ROOMS_INSTANCES before the lobby and edge roles.
+
+[Service]
+Type=simple
+User=mygo
+Group=mygo
+WorkingDirectory=/srv/mygo-fighter/current
+Environment=SERVICE_ROLE=rooms
+# The template instance name is the rooms instance ID accepted by the service.
+Environment=INSTANCE_ID=%i
+Environment="XDG_CACHE_HOME=/var/cache/mygo-fighter/rooms-%i"
+# Overridable from /etc/mygo-fighter/rooms.env (all instances) and
+# /etc/mygo-fighter/rooms-%i.env (one instance, for example ROOMS_PORT=8092).
+Environment="JAVA_OPTS=-Xms64m -Xmx256m -XX:ReservedCodeCacheSize=64m -Dpolyglot.engine.WarnInterpreterOnly=false"
+EnvironmentFile=-/etc/mygo-fighter/base.env
+EnvironmentFile=-/etc/mygo-fighter/rooms.env
+EnvironmentFile=-/etc/mygo-fighter/rooms-%i.env
+# CacheDirectory= creates /var/cache/mygo-fighter writable by the service; the
+# per-instance subdirectory keeps GraalJS native resources separate.
+CacheDirectory=mygo-fighter
+CacheDirectoryMode=0750
+ExecStartPre=/usr/bin/install -d -m 0750 /var/cache/mygo-fighter/rooms-%i
+ExecStart=/srv/mygo-fighter/current/bin/mygo-server
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+MemoryMax=512M
+MemorySwapMax=0
+TasksMax=96
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

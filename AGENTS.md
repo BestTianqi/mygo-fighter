@@ -690,3 +690,5 @@ Simple independent forms can remain simple. If local submission state and error 
       | { status: "empty" }
       | { status: "error"; message: string }
       | { status: "submitting" }
+
+61. Keep cross-process service contracts in the shared system module, and keep the rooms tick path in-process. Internal payload types exchanged by the edge, lobby and rooms roles belong in `services/system/objects/internal/`; internal endpoints must stay behind `services/system/routes/InternalGuard`. The authoritative rooms tick loop must never make a cross-process call: room state, the GraalJS simulation and snapshot serialization stay inside one rooms process.

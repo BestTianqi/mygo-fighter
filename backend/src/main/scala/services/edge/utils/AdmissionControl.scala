@@ -1,4 +1,4 @@
-package services.system.utils
+package services.edge.utils
 
 import cats.data.Kleisli
 import cats.effect.{IO, Ref}
@@ -11,11 +11,11 @@ import org.typelevel.ci.CIString
 import scala.concurrent.duration.*
 
 /** Bounded, per-client admission counters. Established sockets retain their own input limits. */
-private[system] final class AdmissionControl private (
+private[edge] final class AdmissionControl private (
     counters: Ref[IO, Map[(String, String), (FiniteDuration, Int)]],
     trustLocalProxy: Boolean
 ):
-  private[system] def client(request: Request[IO]): String =
+  private[edge] def client(request: Request[IO]): String =
     val remote = request.remoteAddr.fold("unknown")(_.toString)
     if trustLocalProxy && Set("127.0.0.1", "::1", "::ffff:127.0.0.1").contains(remote) then
       request.headers
@@ -25,7 +25,7 @@ private[system] final class AdmissionControl private (
         .fold(remote)(_.toString)
     else remote
 
-  private[system] def wrap(app: HttpApp[IO]): HttpApp[IO] = Kleisli { request =>
+  private[edge] def wrap(app: HttpApp[IO]): HttpApp[IO] = Kleisli { request =>
     val admission = (request.method, request.uri.path.segments.map(_.decoded()).toList) match
       case (Method.POST, List("api", "createroom" | "joinroom")) => Some(("rooms", 20))
       case (Method.GET, List("ws"))                              => Some(("sockets", 60))
@@ -51,8 +51,8 @@ private[system] final class AdmissionControl private (
     }
   }
 
-private[system] object AdmissionControl:
-  private[system] def create(trustLocalProxy: Boolean): IO[AdmissionControl] =
+private[edge] object AdmissionControl:
+  private[edge] def create(trustLocalProxy: Boolean): IO[AdmissionControl] =
     Ref
       .of[IO, Map[(String, String), (FiniteDuration, Int)]](Map.empty)
       .map(new AdmissionControl(_, trustLocalProxy))

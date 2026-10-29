@@ -1,29 +1,20 @@
-package services.system.routes
+package services.rooms.routes
 
 import cats.effect.IO
-import io.circe.{parser, Json}
 import io.circe.syntax.*
-import org.http4s.{HttpRoutes, Request}
+import io.circe.{parser, Json}
+import org.http4s.HttpRoutes
 import org.http4s.dsl.io.*
 import org.http4s.circe.*
-import org.typelevel.ci.CIString
-import services.system.objects.Connection
+import services.rooms.objects.Connection
+import services.system.routes.OriginCheck
 
+/** Dispatches `POST /api/{name}` to the registered public room message. */
 object APIMessageRouter:
-  def sameOrigin(request: Request[IO]): Boolean =
-    request.headers.get(CIString("Origin")).forall { origin =>
-      scala.util
-        .Try(java.net.URI.create(origin.head.value).getAuthority)
-        .toOption
-        .exists(authority =>
-          request.headers.get(CIString("Host")).exists(_.head.value == authority)
-        )
-    }
-
   def routes(registrations: Vector[APIRegistration], connection: Connection): HttpRoutes[IO] =
     val apis = registrations.map(api => api.name -> api).toMap
     HttpRoutes.of[IO] { case request @ POST -> Root / "api" / name =>
-      if !sameOrigin(request) then Forbidden(Json.obj("error" -> "请从联机服务页面进入".asJson))
+      if !OriginCheck.sameOrigin(request) then Forbidden(Json.obj("error" -> "请从联机服务页面进入".asJson))
       else
         apis.get(name).fold(NotFound()) { api =>
           request.body

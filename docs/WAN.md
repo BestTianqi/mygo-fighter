@@ -1,10 +1,12 @@
 # Public online hosting
 
-The complete game can run on one Linux server. A Scala JVM process owns independent two-player rooms and executes the same TypeScript battle kernel used by local play. Caddy serves HTTPS and forwards HTTP and WebSockets to that process. Players open one shared game URL; no player hosts a public port or installs a backend.
+The complete game can run on one Linux server. The Scala backend runs as independent `edge`, `lobby` and `rooms` roles: rooms execute authoritative two-player matches with the same TypeScript battle kernel used by local play, the lobby tracks instance and room capacity, and the edge accepts public traffic. Caddy serves HTTPS and forwards HTTP and WebSockets to the edge on `127.0.0.1:8080`. Players open one shared game URL; no player hosts a public port or installs a backend.
 
 The **AliCloud Beijing** deployment runs on the `alicloud` SSH host (`123.57.149.254`, Ubuntu 24.04, x86-64, two vCPUs and approximately 1.6 GiB RAM). Play at [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/). The matching frontend, Scala backend and shared combat kernel are application commit `8051ba8`, protocol **22**, release `20261028-8051ba8-protocol22`. GitHub Pages does not link to the server.
 
-Production allows **four rooms / eight players** (`MAX_ROOMS=4`). The [2026-10-28 deployment record](DEPLOYMENT_2026-10-28.md) records the current release and verification; the [2026-10-27 capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) explains the inherited room limit. Capacity has not been re-established for the newer custom rules or 8v8 teams. `deployment.json` in the active release records the application commit, archive checksum and runtime configuration. OpenJDK 21 and the existing 512 MiB service memory ceiling remain in use.
+The public host still runs that single-unit protocol-22 release at the time of writing. The three-service release (protocol **25**) is prepared and locally verified; activating it requires the pending public-host steps in the [2026-10-29 services deployment note](DEPLOYMENT_2026-10-29_SERVICES.md). Clients must refresh after that activation.
+
+Production allows **four rooms / eight players**. In the three-service layout the lobby owns the global `MAX_ROOMS=4` ceiling and every rooms instance owns its own per-instance `MAX_ROOMS`; the currently deployed single-unit release keeps the same four-room setting through its one `MAX_ROOMS` value. The [2026-10-28 deployment record](DEPLOYMENT_2026-10-28.md) records the current release and verification; the [2026-10-27 capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) explains the inherited room limit. Capacity has not been re-established for the newer custom rules or 8v8 teams. `deployment.json` in the active release records the application commit, archive checksum and runtime configuration. OpenJDK 21 remains in use.
 
 The preceding protocol-20 release, the `previous` link and the uploaded package were removed on 2026-10-28 at the user's request. Only the current protocol-22 release remains, with no old release available for rollback. Three earlier AliCloud releases and their uploaded packages had already been deleted on 2026-10-27. The **Azure game trial is retired**: its service, all three releases and uploaded packages were removed, and its game-specific Caddy configuration was replaced with the original configuration. The Azure VPN remains active. The Azure installation and acceptance details below are historical.
 
@@ -14,17 +16,94 @@ The [runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md), [protocol-12 audit
 
 Run the normal checks, then `npm run package:server` on the development machine. The resulting `backend/target/universal/mygo-server-2.0.0.tgz` contains the JVM dependency jars, startup scripts, frontend and original runtime media, plus the matching embedded combat kernel and terrain catalog. The source artwork is retained in Git and does not need to be uploaded. The target host needs Java 21, not Node or sbt.
 
-The root-level `deploy/` folder contains operating-system installation and service files. These are deployment infrastructure rather than backend business code, so they are kept outside Scala's `services/` tree.
+The root-level `deploy/` folder contains operating-system installation and service files. These are deployment infrastructure rather than backend business code, so they are kept outside Scala's `services/` tree. [Backend services](SERVICES.md) documents the runtime topology, internal endpoints and full configuration matrix.
 
-On the provisioned AliCloud host, activation and rollback scripts are installed persistently in `/opt/mygo-fighter/`. To deploy a new application release:
+## Three-service layout
+
+One release artifact serves all three roles; each systemd unit sets `SERVICE_ROLE` and reads shared plus role-specific environment files. Caddy is unchanged: it still proxies `PUBLIC_HOSTNAME` to `127.0.0.1:8080`, where only the edge listens.
+
+| Unit                      | Role    | Listener                                                 | Environment files                                                    |
+| ------------------------- | ------- | -------------------------------------------------------- | -------------------------------------------------------------------- |
+| `mygo-edge.service`       | `edge`  | public `127.0.0.1:8080`                                  | `/etc/mygo-fighter/base.env`, `/etc/mygo-fighter/edge.env`           |
+| `mygo-lobby.service`      | `lobby` | internal `127.0.0.1:8079`                                | `/etc/mygo-fighter/base.env`, `/etc/mygo-fighter/lobby.env`          |
+| `mygo-rooms@<id>.service` | `rooms` | internal `127.0.0.1:8091` (instance `a`; `8092` for `b`) | `/etc/mygo-fighter/base.env`, `rooms.env`, optional `rooms-<id>.env` |
+
+`base.env` holds the installer-generated `INTERNAL_SECRET` and the
+`ROOMS_INSTANCES` list that activation uses. The initial deployed budget is one
+rooms instance with global and per-instance `MAX_ROOMS=4`, `edge` capped at
+192 MiB, `lobby` at 128 MiB and `rooms` at 512 MiB, split from the previous
+single 512 MiB service ceiling. Confirm the observed memory before raising room
+counts; these limits are configuration, not a capacity claim.
+
+First installation on a fresh dedicated host:
+
+```sh
+tar -czf output/wan/hosting.tar.gz deploy
+scp output/wan/hosting.tar.gz alicloud:/tmp/mygo-hosting.tar.gz
+ssh alicloud 'mkdir -p /tmp/mygo-hosting && tar -xzf /tmp/mygo-hosting.tar.gz -C /tmp/mygo-hosting'
+ssh alicloud 'sudo bash /tmp/mygo-hosting/deploy/install.sh PUBLIC_HOSTNAME'
+```
+
+`install.sh` creates the `mygo` account and release directories, installs the
+three units plus `activate.sh`/`rollback.sh` under `/opt/mygo-fighter`, creates
+`/etc/mygo-fighter/{base,edge,lobby,rooms}.env` only when missing, appends a
+generated `INTERNAL_SECRET` when absent, and enables Caddy plus every unit in
+`ROOMS_INSTANCES` (default `a`). It preserves the Caddy safety check and is
+idempotent. On a host that still runs the old single unit it disables and stops
+`mygo-fighter` so both layouts cannot own port 8080, keeps
+`/etc/mygo-fighter.env` for comparison, and prints the migration steps.
+Migration values map as follows: `HOST`, `PORT`, `WEB_ROOT` and
+`TRUST_LOCAL_PROXY` to `edge.env`; the old `MAX_ROOMS` to `lobby.env` (global)
+and `rooms.env` (per instance). Re-running `install.sh` after editing
+`ROOMS_INSTANCES` enables the added instance units.
+
+To deploy a new application release:
 
 ```sh
 scp backend/target/universal/mygo-server-2.0.0.tgz alicloud:/tmp/mygo-server-2.0.0.tgz
 ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
-ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
+ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID COMMIT'
 ```
 
-Compare the uploaded checksum with the local archive before activation. The same `install.sh` provisions a fresh dedicated AliCloud host using its public hostname. AliCloud's instance firewall already permits TCP 80/443; the application binds only to `127.0.0.1:8080`. Caddy manages the public certificate and WebSocket forwarding. Check services with `ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'`; a future activation can retain its predecessor for rollback with `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'`. No predecessor is retained after the explicit 2026-10-28 cleanup.
+Compare the uploaded checksum with the local archive before activation. The
+optional third argument records the application commit in `deployment.json`.
+Activation stops the edge, then the lobby, then every rooms instance, switches
+`/srv/mygo-fighter/current` to the extracted release, starts rooms instances,
+then the lobby, then the edge, and waits for each internal `/internal/health` and
+for the edge `/api/health` to report `"app":"mygo-scala"`. It then writes
+`deployment.json` with the release ID, optional commit, archive SHA-256,
+activation time and the role/instance ports, and retains the replaced release as
+`previous`. A failed start or health check restores the previous release and
+restarts the full set. No predecessor is retained after the explicit 2026-10-28
+cleanup, so the first activation of the new layout starts from the current
+protocol-22 directory.
+
+Use a new, descriptive `RELEASE_ID` containing only letters, numbers, dots,
+hyphens and underscores. The installer uses Ubuntu's Java and Caddy packages and
+creates a dedicated `mygo` account. It refuses to replace an unrelated existing
+Caddy installation, backs up the initial Caddy configuration and preserves any
+existing game environment file. The roles stop during activation, so a release
+switch ends temporary rooms and clients must refresh; protocol 24 and earlier
+clients are rejected by the protocol-25 release.
+
+```sh
+ssh alicloud 'systemctl status mygo-edge mygo-lobby caddy --no-pager'
+ssh alicloud 'systemctl list-units "mygo-rooms@*" --all --no-pager'
+ssh alicloud 'sudo journalctl -u mygo-edge -u mygo-lobby -n 100 --no-pager'
+ssh alicloud 'sudo systemctl show mygo-edge mygo-lobby "mygo-rooms@a" -p MemoryCurrent -p MemoryPeak -p NRestarts'
+ssh alicloud 'sudo cat /srv/mygo-fighter/current/deployment.json'
+ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'
+```
+
+Add one `journalctl -u mygo-rooms@<id>` and one instance to the memory check per
+rooms instance. `rollback.sh` reverses the whole set with the same stop, start
+and health-check sequence; if the rollback itself fails it restarts the active
+release and leaves the links unchanged. For an internal health check, the
+generated secret can be read from `base.env`:
+
+```sh
+ssh alicloud 'sudo bash -c ". /etc/mygo-fighter/base.env; curl -fsS -H \"X-Mygo-Internal: \$INTERNAL_SECRET\" http://127.0.0.1:8079/internal/health"'
+```
 
 Historical provisioning procedure for the Azure SSH alias (the game trial is now removed):
 
@@ -37,15 +116,19 @@ scp backend/target/universal/mygo-server-2.0.0.tgz azure:/tmp/mygo-server-2.0.0.
 ssh azure 'sudo bash /tmp/mygo-hosting/deploy/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
 ```
 
-Use a new, descriptive `RELEASE_ID` containing only letters, numbers, dots, hyphens and underscores. The installer uses Ubuntu's Java and Caddy packages, creates a dedicated `mygo` account and installs system services. It refuses to replace an unrelated existing Caddy installation. It backs up the initial Caddy configuration and preserves an existing game environment file.
-
-Permit inbound **TCP 80 and 443** in the VM's Azure network security group. Do not open 8080 or change the existing UDP 443 VPN rule. HTTP/3 is disabled in the supplied Caddy configuration so it does not claim the VPN's UDP port. The proxy preserves Host and handles WebSocket upgrades. Its ACME certificate data remains under Caddy's persistent service storage.
+The Azure commands above describe the retired trial that used the single unit;
+the current `install.sh` installs the three-service layout instead. Permit
+inbound **TCP 80 and 443** in the VM's Azure network security group. Do not open
+8080 or change the existing UDP 443 VPN rule. HTTP/3 is disabled in the supplied
+Caddy configuration so it does not claim the VPN's UDP port. The proxy preserves
+Host and handles WebSocket upgrades. Its ACME certificate data remains under
+Caddy's persistent service storage.
 
 The trial uses `MyGO-Web-TCP-80-443` at priority 330 in `azure-vm-nsg`, attached only to this VM's network interface. The existing `Hysteria2-UDP-443` rule at priority 320 is unchanged. Caddy owns TCP 80/443; the JVM remains bound to loopback port 8080 and Hysteria retains UDP 443.
 
-## Historical trial configuration and shared behavior
+## Historical single-unit configuration and shared behavior
 
-`/etc/mygo-fighter.env` holds runtime settings:
+`/etc/mygo-fighter.env` held runtime settings for the retired single-unit layout. It is preserved on migrated hosts but **no longer read** by the edge/lobby/rooms units; the three-service equivalents live in `/etc/mygo-fighter/{base,edge,lobby,rooms}.env` as described above.
 
 | Setting             | Trial value                     | Meaning                                                            |
 | ------------------- | ------------------------------- | ------------------------------------------------------------------ |
@@ -55,15 +138,19 @@ The trial uses `MyGO-Web-TCP-80-443` at priority 330 in `azure-vm-nsg`, attached
 | `MAX_ROOMS`         | `2`                             | Positive room limit; ordinary LAN default remains 20               |
 | `TRUST_LOCAL_PROXY` | `true`                          | Accept the last forwarded client address only from a loopback peer |
 
-The service starts with a 64 MB minimum / 256 MB maximum Java heap, a 64 MB reserved code cache and a 512 MB service memory ceiling, with no service swap allowance. These settings reserve room for Ubuntu, Caddy and the existing VPN; they are a trial budget, not a capacity guarantee. There is no automatic VM resize.
+The single unit started with a 64 MB minimum / 256 MB maximum Java heap, a 64 MB reserved code cache and a 512 MB service memory ceiling, with no service swap allowance. The three-service layout instead caps the edge at 192 MB, the lobby at 128 MB and each rooms instance at 512 MB; this reserves room for Ubuntu, Caddy and the existing VPN. These settings are a trial budget, not a capacity guarantee. There is no automatic VM resize.
 
-The service unit gives the embedded GraalJS runtime a dedicated cache at `/var/cache/mygo-fighter` using `CacheDirectory` and `XDG_CACHE_HOME`. This allows native runtime resources to be unpacked while application releases and the service home remain read-only. Without this cache, GraalJS reports a misleading missing-`truffleattach` warning caused by an access-denied error under `/srv/mygo-fighter/.cache`. Existing installations need the updated service unit followed by `systemctl daemon-reload` and a game service restart. See [GraalVM's internal resource documentation](https://www.graalvm.org/latest/reference-manual/embed-languages/#managing-internal-resources).
+Every rooms unit gives the embedded GraalJS runtime a dedicated per-instance cache at `/var/cache/mygo-fighter/rooms-<id>` using `CacheDirectory` and `XDG_CACHE_HOME`. This allows native runtime resources to be unpacked while application releases and the service home remain read-only. Without this cache, GraalJS reports a misleading missing-`truffleattach` warning caused by an access-denied error under `/srv/mygo-fighter/.cache`. Existing installations need the updated units followed by `systemctl daemon-reload` and a service restart. See [GraalVM's internal resource documentation](https://www.graalvm.org/latest/reference-manual/embed-languages/#managing-internal-resources).
 
-Room creation and joining share a limit of 20 attempts per client address per minute. Socket handshakes have a separate limit of 60 per minute. Counters expire and the address/category map is capped at 4,096 entries. Rejection uses HTTP 429, a JSON retry message and `Retry-After: 60`. Established sockets retain their existing 300-message-per-second and 8 KiB message limits. Browser requests retain same-origin checks; sessions are resolved before player commands and never appear in socket URLs. Caddy ignores untrusted incoming forwarding claims; only enable `TRUST_LOCAL_PROXY` behind a trusted loopback proxy.
+The edge keeps the same admission behavior: room creation and joining share a limit of 20 attempts per client address per minute, socket handshakes have a separate limit of 60 per minute, counters expire, and the address/category map is capped at 4,096 entries. Rejection uses HTTP 429, a JSON retry message and `Retry-After: 60`. Established sockets retain their existing 300-message-per-second and 8 KiB message limits. The edge enforces same-origin browser requests; the rooms process resolves the session token before player commands. The room code appears in the WebSocket URL (`/ws?room=CODE`) but the token never does. Caddy ignores untrusted incoming forwarding claims; only enable `TRUST_LOCAL_PROXY` behind a trusted loopback proxy.
 
 The server accepts two human players per room and preserves host-only rule changes, 1v1 and 3v3 team relay, authoritative combat and the reconnect loading barrier. A disconnect pauses the match. After all sockets have been absent for two minutes, room cleanup stops its clock, closes the simulation, revokes its sessions and frees its capacity. Thirty-minute inactivity expiry and immediate cleanup after everyone explicitly leaves remain in place. Server restarts discard temporary rooms.
 
 ## Historical Azure operations and general rollback behavior
+
+The Azure commands below are kept for the retired single-unit trial. For the
+current AliCloud host, use the three-service commands in
+[Three-service layout](#three-service-layout) instead.
 
 ```sh
 ssh azure 'systemctl status mygo-fighter caddy hysteria-server --no-pager'
@@ -73,9 +160,27 @@ ssh azure 'sudo systemctl restart mygo-fighter'
 curl --fail https://mygo-20-78-1-182.sslip.io/api/health
 ```
 
-The release installer extracts to `/srv/mygo-fighter/releases/RELEASE_ID`, stops the game, atomically switches `current`, starts the matching JVM and checks backend health. Stopping before switching prevents the previous JVM from serving a newer frontend. A failed switch, start or health check restores the preceding release when one exists. Successful activation records it as `previous`; run `sudo bash /tmp/mygo-hosting/deploy/rollback.sh` on the host to restore it. Deployment and rollback are serialized with a host-local lock. Both switching and restarting end current temporary matches. Normally retain the active and previous directories when pruning releases. The explicit 2026-10-28 request to delete the old version overrides that default for this deployment; only the active AliCloud directory remains.
+The release installer extracts to `/srv/mygo-fighter/releases/RELEASE_ID`, stops
+the role units, atomically switches `current`, starts them in dependency order
+and checks internal and public health. Stopping before switching prevents the
+previous JVM from serving a newer frontend. A failed switch, start or health
+check restores the preceding release when one exists and restarts the full set.
+Successful activation records it as `previous`; run
+`sudo bash /opt/mygo-fighter/rollback.sh` on the host to restore it. Deployment
+and rollback are serialized with a host-local lock. Both switching and restarting
+end current temporary matches. Normally retain the active and previous
+directories when pruning releases. The explicit 2026-10-28 request to delete the
+old version overrides that default for this deployment; only the active AliCloud
+directory remains.
 
-To retire the trial, stop and disable `mygo-fighter`, remove only the trial's Azure TCP 80/443 inbound rule, then stop Caddy if it still serves only this game. Restore `/etc/caddy/Caddyfile.before-mygo` if retaining Caddy for other use. The game release directories, its service unit, `/etc/mygo-fighter.env` and dedicated `mygo` account can then be removed after any desired backups. Leave the VPN service, its certificates and UDP 443 rule intact.
+To retire the trial, stop and disable the role units (the historical single unit
+was `mygo-fighter`; the current layout uses `mygo-edge`, `mygo-lobby` and
+`mygo-rooms@<id>`), remove only the trial's Azure TCP 80/443 inbound rule, then
+stop Caddy if it still serves only this game. Restore
+`/etc/caddy/Caddyfile.before-mygo` if retaining Caddy for other use. The game
+release directories, its service units, `/etc/mygo-fighter*` configuration and
+dedicated `mygo` account can then be removed after any desired backups. Leave the
+VPN service, its certificates and UDP 443 rule intact.
 
 ## Historical Azure trial verification
 

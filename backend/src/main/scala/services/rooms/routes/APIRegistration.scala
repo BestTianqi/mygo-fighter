@@ -1,9 +1,9 @@
-package services.system.routes
+package services.rooms.routes
 
 import cats.effect.IO
 import io.circe.Json
 import scala.reflect.ClassTag
-import services.system.objects.Connection
+import services.rooms.objects.Connection
 
 final case class APIRegistration(name: String, run: (Json, Connection) => IO[Json])
 

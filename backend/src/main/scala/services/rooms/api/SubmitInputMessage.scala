@@ -4,8 +4,8 @@ import cats.effect.IO
 import cats.syntax.all.*
 import services.rooms.objects.{PlayerInput, Session}
 import services.rooms.utils.RoomAccess
-import services.system.api.APIMessage
-import services.system.objects.Connection
+
+import services.rooms.objects.Connection
 
 final case class SubmitInputMessage(session: Session, peerId: String, input: PlayerInput)
     extends APIMessage[Unit]:

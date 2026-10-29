@@ -14,7 +14,7 @@ if not exist node_modules (
 call npm run lan
 if errorlevel 1 goto failed
 echo.
-echo The launcher has finished. Any existing backend remains in its original window.
+echo The launcher has finished. The local backend services have stopped.
 pause
 exit /b 0
 :failed

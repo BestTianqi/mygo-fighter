@@ -18,14 +18,14 @@ import services.rooms.api.{
 }
 import services.rooms.objects.{GameProtocol, PlayerInput, Session}
 
-import services.system.objects.Connection
+import services.rooms.objects.Connection
 
 object RoomSocket:
   private[rooms] def routes(
       connection: Connection,
       builder: WebSocketBuilder2[IO]
   ): HttpRoutes[IO] = HttpRoutes.of[IO] { case request @ GET -> Root / "ws" =>
-    if !services.system.routes.APIMessageRouter.sameOrigin(request) then Forbidden()
+    if !services.system.routes.OriginCheck.sameOrigin(request) then Forbidden()
     else
       (
         Peer.create,
@@ -68,7 +68,11 @@ object RoomSocket:
                       IO.fromEither(json.hcursor.get[String]("token"))
                         .flatMap(token => ResolveSessionMessage(token).plan(connection))
                         .flatMap { session =>
-                          AttachRoomMessage(session, peer)
+                          val expectedRoom =
+                            request.uri.query.params.get("room").map(_.trim.toUpperCase)
+                          IO.raiseUnless(expectedRoom.forall(_ == session.code))(
+                            IllegalArgumentException("房间连接已失效，请重新加入")
+                          ) *> AttachRoomMessage(session, peer)
                             .plan(connection) *> identity.set(Some(session))
                         }
                   case "ping" =>

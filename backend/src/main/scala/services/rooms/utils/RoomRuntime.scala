@@ -9,7 +9,6 @@ import io.circe.syntax.*
 import org.http4s.websocket.WebSocketFrame
 import scala.concurrent.duration.*
 import services.rooms.objects.*
-import services.system.objects.Connection
 
 final case class RoomRuntime(
     state: Ref[IO, RoomState],

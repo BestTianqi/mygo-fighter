@@ -2,8 +2,8 @@ package services.rooms.api
 
 import cats.effect.IO
 import cats.syntax.all.*
-import services.system.api.NoRequestMessage
-import services.system.objects.Connection
+
+import services.rooms.objects.Connection
 
 final case class CloseRoomsMessage() extends NoRequestMessage[Unit]:
   def plan(connection: Connection): IO[Unit] =
