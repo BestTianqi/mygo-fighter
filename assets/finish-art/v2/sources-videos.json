@@ -2,38 +2,38 @@
   {
     "character": 0,
     "voice": "finish_0",
-    "sourceUrl": "https://www.bilibili.com/video/BV14m1SBYEth/",
-    "sourceStart": 64.22,
-    "sourceEnd": 66.12,
-    "durationMs": 2000,
+    "sourceUrl": "https://www.bilibili.com/video/BV1FgL9zgEQJ/",
+    "sourceStart": 0,
+    "sourceEnd": 7.2,
+    "durationMs": 7208,
     "output": "assets/finish-art/v2/videos/anon.mp4",
-    "bytes": 41889,
-    "sha256": "bb83361c7392ab6dd910ef277fb564a60c5cf4a5acf06f29997d076b5a37fe33",
-    "processing": "Original speed, no audio track; 640x360 H.264, 24 fps. Any padded voice silence holds the final video frame. Blur is applied at runtime."
+    "bytes": 82014,
+    "sha256": "449563d31540113eb91a29413135b7a2a42320f6bd1c86cf3043cffa3c9b76ac",
+    "processing": "Original speed; silent H.264 640x360, 24 fps, proportional letterboxing. No content crop or time stretching."
   },
   {
     "character": 1,
     "voice": "finish_1",
-    "sourceUrl": "https://www.bilibili.com/video/BV14m1SBYEth/",
-    "sourceStart": 58.45,
-    "sourceEnd": 59.82,
-    "durationMs": 2000,
+    "sourceUrl": "https://www.bilibili.com/video/BV1BzcGefE4d/",
+    "sourceStart": 123,
+    "sourceEnd": 128,
+    "durationMs": 5000,
     "output": "assets/finish-art/v2/videos/soyo.mp4",
-    "bytes": 48573,
-    "sha256": "c8144ecf23424ecbc44d6d6c51bf26fb13c0cbed9de41344648d4aeccdc664f1",
-    "processing": "Original speed, no audio track; 640x360 H.264, 24 fps. Any padded voice silence holds the final video frame. Blur is applied at runtime."
+    "bytes": 148358,
+    "sha256": "71d411dee7d11583fdbabea302ff0f5277b83e7b169aae62163e886db8646b18",
+    "processing": "Original speed; silent H.264 640x360, 24 fps, proportional letterboxing. No content crop or time stretching."
   },
   {
     "character": 2,
     "voice": "finish_2",
-    "sourceUrl": "https://www.bilibili.com/video/BV1U2mEBSEux/",
-    "sourceStart": 233.18,
-    "sourceEnd": 235.2,
-    "durationMs": 2020,
+    "sourceUrl": "https://www.bilibili.com/video/BV18nHz6mEKc/",
+    "sourceStart": 0,
+    "sourceEnd": 18.784989,
+    "durationMs": 18792,
     "output": "assets/finish-art/v2/videos/tomori.mp4",
-    "bytes": 29828,
-    "sha256": "0178776b880a0a37d773d362304e4a2e7f15739b7cce3d4064a0be8b7d109037",
-    "processing": "Original speed, no audio track; 640x360 H.264, 24 fps. Any padded voice silence holds the final video frame. Blur is applied at runtime."
+    "bytes": 1095530,
+    "sha256": "7454c2cfd8440e12cc7909f65e246a89efee62c908fd7b0abff99711706b8a16",
+    "processing": "Original speed; silent H.264 640x360, 24 fps, proportional letterboxing. No content crop or time stretching."
   },
   {
     "character": 3,
@@ -74,14 +74,14 @@
   {
     "character": 6,
     "voice": "finish_6",
-    "sourceUrl": "https://www.bilibili.com/video/BV13KXeYpEcL/",
-    "sourceStart": 30.7,
-    "sourceEnd": 34.18,
-    "durationMs": 3480,
+    "sourceUrl": "https://www.bilibili.com/video/BV1sf1uYWEV1/",
+    "sourceStart": 58.603,
+    "sourceEnd": 66.603,
+    "durationMs": 8000,
     "output": "assets/finish-art/v2/videos/sakiko.mp4",
-    "bytes": 77819,
-    "sha256": "26f4323095f382c988ae81d70f1015684979da768c9b8412922a18f1663d57d5",
-    "processing": "Original speed, no audio track; 640x360 H.264, 24 fps. Any padded voice silence holds the final video frame. Blur is applied at runtime."
+    "bytes": 168918,
+    "sha256": "f4b1eb2a069385db7511bfdf5bd385ad051dca6a6c5820416a751b1b008d402e",
+    "processing": "Original speed; silent H.264 640x360, 24 fps, proportional letterboxing. Final frame held ~0.125s to match original audio end."
   },
   {
     "character": 7,
