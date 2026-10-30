@@ -18,7 +18,7 @@ export function GamePage({ assets }: { assets: Assets }) {
       "content",
       view.screen === "battle" || view.screen === "loadingBattle"
         ? "#080e1c"
-        : "#f5f0e5",
+        : "#f3f7fc",
     );
   }, [view.screen]);
   useEffect(() => {
@@ -26,7 +26,7 @@ export function GamePage({ assets }: { assets: Assets }) {
       void exitImmersive();
   }, [mobile, view.screen]);
   return (
-    <main className="min-h-dvh bg-[#f5f0e5] text-[#211f1a]">
+    <main className="min-h-dvh bg-[#f3f7fc] text-[#101d33]">
       {view.screen === "menu" && (
         <MainMenu
           assets={assets}
@@ -57,10 +57,25 @@ export function GamePage({ assets }: { assets: Assets }) {
         mobile={mobile}
       />
       {view.screen === "loadingBattle" && (
-        <div className="flex min-h-dvh items-center justify-center">
-          <p role="status" className="animate-pulse text-sm text-pink-100">
-            正在准备双方角色与舞台…
-          </p>
+        <div className="flex min-h-dvh items-center justify-center px-5 text-center">
+          <div className="max-w-sm">
+            <span
+              aria-hidden="true"
+              className="mx-auto mb-6 block h-1 w-14 animate-pulse bg-[#1aa8b8] motion-reduce:animate-none"
+            />
+            <h2 role="status" className="text-xl font-bold text-[#101d33]">
+              正在准备角色与舞台
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-[#61718b]">
+              首次进入需要加载角色素材，请稍候。
+            </p>
+            <button
+              onClick={() => runtime?.returnToMenu()}
+              className="mt-6 min-h-11 px-4 text-sm font-semibold text-[#982650]"
+            >
+              取消并返回主菜单
+            </button>
+          </div>
         </div>
       )}
       {view.error && view.screen !== "battle" && (

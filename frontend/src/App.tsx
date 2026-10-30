@@ -26,14 +26,19 @@ export function App() {
   }, [attempt]);
   if (state.status === "ready") return <GamePage assets={state.assets} />;
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[#f5f0e5] p-6 text-[#211f1a]">
+    <main className="flex min-h-dvh items-center justify-center bg-[#f3f7fc] p-6 text-[#101d33]">
       <div className="space-y-5 text-center">
         <h1 className="text-3xl font-medium">MyGO!!!!! 格斗</h1>
-        <p role="status" className="text-sm text-[#80786d]">
+        <p
+          role={state.status === "error" ? "alert" : "status"}
+          className="text-sm text-[#61718b]"
+        >
           {state.status === "loading" ? "正在准备角色与舞台…" : state.message}
         </p>
         {state.status === "error" && (
-          <Button onClick={() => setAttempt((n) => n + 1)}>重新加载</Button>
+          <Button primary onClick={() => setAttempt((n) => n + 1)}>
+            重新加载
+          </Button>
         )}
       </div>
     </main>

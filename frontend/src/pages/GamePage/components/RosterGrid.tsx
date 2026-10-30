@@ -43,7 +43,7 @@ export function RosterGrid({
             onClick={() => onChoose(id)}
             aria-label={`${banned ? "已禁用" : "选择"}${character.name}`}
             aria-pressed={preview === id}
-            className={`group relative h-[clamp(56px,8dvh,80px)] min-[600px]:h-[clamp(64px,11dvh,112px)] [@media(max-height:500px)]:h-14 min-w-0 touch-manipulation overflow-hidden rounded-none text-center text-white transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "bg-[#a44761]/10 shadow-[0_6px_20px_#a4476130] opacity-100" : "bg-[#30251a]/4 opacity-80 hover:opacity-100"}`}
+            className={`group relative h-[clamp(56px,8dvh,80px)] min-[600px]:h-[clamp(64px,11dvh,112px)] [@media(max-height:500px)]:h-14 min-w-0 touch-manipulation overflow-hidden rounded-none text-center text-white transition motion-safe:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${preview === id ? "bg-[#bb3266]/10 shadow-[0_6px_20px_#bb326630] opacity-100" : "bg-[#244566]/4 opacity-80 hover:opacity-100"}`}
           >
             <img
               src={

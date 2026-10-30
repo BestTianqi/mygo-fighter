@@ -29,6 +29,7 @@ export function useLanLobby(
 ) {
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [pendingLabel, setPendingLabel] = useState("");
   const [preview, setPreview] = useState(0);
   const [candidate, setCandidate] = useState<number | null>(null);
   const [activeSlot, setActiveSlot] = useState(0);
@@ -70,6 +71,7 @@ export function useLanLobby(
     if (pending.current !== command) return;
     pending.current = null;
     setBusy(false);
+    setPendingLabel("");
   }
   function hasEcho(command: PendingCommand) {
     const current = latestNetwork.current.room;
@@ -101,6 +103,7 @@ export function useLanLobby(
   async function run(
     action: () => Promise<unknown>,
     echo?: (room: RoomView) => boolean,
+    label = "正在同步房间…",
   ) {
     if (pending.current) return;
     const command: PendingCommand = {
@@ -110,6 +113,7 @@ export function useLanLobby(
     };
     pending.current = command;
     setBusy(true);
+    setPendingLabel(label);
     const succeeded = await runtime.runCommand(Promise.resolve().then(action));
     command.httpComplete = true;
     // HTTP only acknowledges receipt; selections stay locked until their own
@@ -272,6 +276,7 @@ export function useLanLobby(
     code,
     setCode,
     busy,
+    pendingLabel,
     preview,
     setPreview,
     candidate,
@@ -298,9 +303,12 @@ export function useLanLobby(
     setTerrain,
     setArena,
     toggleReady,
-    createRoom: () => void run(() => runtime.lan.connect()),
-    joinRoom: () => void run(() => runtime.lan.connect(code)),
-    leaveRoom: () => void run(() => runtime.lan.leave()),
+    createRoom: () =>
+      void run(() => runtime.lan.connect(), undefined, "正在创建房间…"),
+    joinRoom: () =>
+      void run(() => runtime.lan.connect(code), undefined, "正在加入房间…"),
+    leaveRoom: () =>
+      void run(() => runtime.lan.leave(), undefined, "正在离开房间…"),
     closeLobby: () => runtime.closeLobby(),
     setSound: (sound: boolean) => runtime.setSound(sound),
   };

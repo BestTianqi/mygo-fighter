@@ -118,11 +118,11 @@ export function LobbyRoster({
           <p
             role="status"
             aria-live="polite"
-            className={`text-xs ${draft?.turn === 1 ? "text-[#2a5f5a]" : "text-[#8f354e]"}`}
+            className={`text-xs font-medium leading-5 ${draft && !myTurn ? "text-[#61718b]" : "text-[#bb3266]"}`}
           >
             {selectionStatus}
           </p>
-          <span className="text-[10px] text-[#80786d]">
+          <span className="text-[11px] leading-5 text-[#61718b]">
             {draft?.phase === "ban"
               ? `${draft.bans.length} / ${rules.banCount * 2} 已禁用`
               : `${picked.length} / ${teamSize * playerCount} 已出战 · ${room.players.filter((player) => player?.ready).length} / ${playerCount} 已准备`}

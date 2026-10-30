@@ -1,8 +1,26 @@
 # Frontend presentation and mobile play
 
-The visual direction uses the warm ivory, ink typography, open spacing and quiet accents of [the supplied Notes reference](https://12chasse-neige.github.io/notes/), combined with the original BanG Dream character artwork. Menus, selection, room setup and help share borderless, square-cornered surfaces and muted rose/teal accents. Battles retain their dark concert stages and existing combat effects, transformations, videos and finish cut-ins. Styling stays in Tailwind utilities; the React frontend, Scala backend and shared combat kernel remain separate.
+The current interface combines a deep concert-stage navy (`#101d33`), cool-white panels (`#f3f7fc`), rose primary actions (`#bb3266`) and teal feedback (`#1aa8b8`) with the original BanG Dream artwork. The main menu separates mode selection from an illustrated stage with three switchable bands. Menus share readable controls and focus states; battle presentation and touch artwork retain their own stage treatment. The refactored page regions, shared controls, runtime and combat kernel keep their existing ownership boundaries.
+
+## October 30 flow update
+
+- Every mode has a clear entry and short explanation. Continue appears only for an unfinished match, never for an already completed result.
+- Selection shows ban/pick/ready progress and how many slots remain. Lineup cards preserve square, centered faces; long teams scroll horizontally on phones and follow the active slot. Arena selection precedes optional collapsed custom rules.
+- The LAN entry shows create/join pending feedback, copyable room codes and connection counts. Host controls, draft confirmation, missing players and readiness have explicit instructions.
+- Pausing and final results use the existing overlay with clear resume/replay/selection/menu actions. Online guests wait for the host to restart; returning to the room and leaving the room are distinct actions. Battle HUD numbers and player identity remain readable with two or three players.
+- Loading can be cancelled. Runtime request invalidation and renderer preparation generations prevent delayed loads from opening an abandoned match or trimming a newer match's artwork.
+- Help prioritizes basic controls and uses expandable sections for detail. Dialog headers and close controls stay in the normal layout, preventing overlap with room settings.
 
 ## Selection and battle flow
+
+The October 30 update was checked in real Edge browsers at desktop, 390×844 portrait and 844×390 landscape sizes. Evidence under ignored `output/` includes:
+
+- `ui-flow/main-report.json`: main-menu band switching, loading cancellation with delayed completion, asset-fetch failure and successful retry.
+- `selection-ux-report.json`: incomplete/complete lineups, mobile 8v8, three-player teams, practice settings, alternating bans/picks and restarting the draft.
+- `ui-flow-battle/report.json` and `report-final.json`: 12 battle checks including both orientations, actual combat results, replay/reselect/menu actions and native touch scrolling in short pause menus.
+- `ui-flow-lan/report.json`: 17 checks through isolated edge/lobby/rooms services, including join failures, clipboard feedback, host permissions, 8v8, bans, two-/three-player real combat and five acknowledged leave requests with cleared browser sessions.
+
+The UI update keeps the 160 illustrated touch action assets, all character art, combat rules and ultimate voice/video timing. The render-image checks now cover cancelled/superseded preload generations as well as disposal and resource release.
 
 - Local selection and online rooms have a viewport-sized shell, a scrollable central region and a persistent action footer. All roster cards remain together; stage thumbnails scroll horizontally. Short landscape layouts reduce descriptions before reducing usable controls.
 - Lineup slots show compact face portraits and readable names. Online bans and picks use the same persistent footer as readiness, so confirming a draft never requires finding a button below a long character description.

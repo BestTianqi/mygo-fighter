@@ -1,30 +1,65 @@
+import { useState } from "react";
+import { Button } from "../../../../components/ui/Button";
 import { MATCH_FORMATS } from "../../../../game/battleRules";
 import type { Format } from "../../../../game/objects/MatchOptions";
 
 import type { LanLobbyModel } from "./hooks/useLanLobby";
 
 const selectClass =
-  "min-h-11 touch-manipulation rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a]";
+  "min-h-11 w-full touch-manipulation rounded-none border border-[#d9e2ef] bg-white px-3 py-2 text-sm text-[#101d33] disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-[#1aa8b8]";
 export function LobbyHeader({ model }: { model: LanLobbyModel }) {
   const { room, side, locked, changeRules } = model;
+  const [copyStatus, setCopyStatus] = useState<{
+    code: string;
+    message: string;
+  } | null>(null);
   if (!room) return null;
+  const connectedCount = room.players.filter(
+    (player) => player?.connected,
+  ).length;
   return (
-    <header className="mb-2 flex flex-wrap items-end justify-between gap-2  pb-2 pr-14">
-      <div>
-        <p className="text-[10px] tracking-[.25em] text-[#2a5f5a] [@media(max-height:500px)]:hidden">
-          ONLINE CHARACTER SELECT
+    <header className="mb-4 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-[#d9e2ef] pb-4">
+      <div className="min-w-0">
+        <p className="text-[10px] font-semibold tracking-[.18em] text-[#61718b] [@media(max-height:500px)]:hidden">
+          ONLINE LOBBY / 联机大厅
         </p>
-        <p className="mt-2 text-xs text-[#80786d]">
-          房间{" "}
-          <strong className="ml-1 font-mono text-lg tracking-[.18em] text-[#211f1a]">
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <span className="text-xs text-[#61718b]">房间码</span>
+          <strong className="select-all font-mono text-2xl tracking-[.18em] text-[#101d33]">
             {room.code}
           </strong>
-          <span className="ml-3">
-            你是 {side + 1}P{side === 0 ? " · 房主" : ""}
-          </span>
+          <Button
+            tone="light"
+            className="min-h-9 px-3 text-xs"
+            aria-label="复制房间码"
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(room.code);
+                setCopyStatus({ code: room.code, message: "房间码已复制" });
+              } catch {
+                setCopyStatus({
+                  code: room.code,
+                  message: "请长按或选中房间码复制",
+                });
+              }
+            }}
+          >
+            复制房间码
+          </Button>
+        </div>
+        <p role="status" className="mt-2 text-xs leading-5 text-[#61718b]">
+          你是{" "}
+          <strong className="text-[#101d33]">
+            {side + 1}P{side === 0 ? " · 房主" : ""}
+          </strong>
+          <span className="mx-2 text-[#d9e2ef]">/</span>
+          {connectedCount} / {model.playerCount} 人已连接
+          {copyStatus?.code === room.code && (
+            <span className="ml-3 text-[#147d89]">{copyStatus.message}</span>
+          )}
         </p>
       </div>
-      <label className="grid gap-1 text-xs text-[#80786d]">
+      <label className="grid w-full gap-1 text-xs text-[#61718b] sm:w-auto">
         <span className="[@media(max-height:500px)]:hidden">
           对战模式 · 房主选择
         </span>

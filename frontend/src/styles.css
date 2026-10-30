@@ -7,7 +7,7 @@
   body {
     margin: 0;
     font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #f5f0e5;
+    background: #f3f7fc;
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
@@ -21,6 +21,25 @@
     cursor: pointer;
   }
   input[type="checkbox"] {
-    accent-color: #a44761;
+    accent-color: #bb3266;
+  }
+  :is(button, a, input, select, summary):focus-visible {
+    outline: 2px solid #1aa8b8;
+    outline-offset: 3px;
+  }
+  button,
+  input,
+  select {
+    touch-action: manipulation;
+  }
+  ::selection {
+    background: #1aa8b830;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+    }
   }
 }

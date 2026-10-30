@@ -19,9 +19,9 @@ export function BattleHUD({
   return (
     <div
       aria-label="对战状态"
-      className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-3 bg-linear-to-b from-slate-950/95 to-transparent ${
+      className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-2 bg-linear-to-b from-slate-950/95 via-slate-950/65 to-transparent text-white ${
         fullField
-          ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-8 sm:gap-6"
+          ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-6 portrait:pt-3 sm:gap-6"
           : mobile
             ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-6 pb-8"
             : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
@@ -30,7 +30,7 @@ export function BattleHUD({
       {brawl ? (
         <>
           <div
-            className="col-span-3 -mb-1 flex items-center justify-center gap-2 text-[9px] text-slate-300"
+            className="col-span-3 flex items-center justify-center gap-2 text-[10px] text-slate-200"
             aria-label="混战剩余时间"
           >
             <span>三人混战 · 每人 3 角色</span>
@@ -68,8 +68,8 @@ export function BattleHUD({
                     .toString()
                     .padStart(2, "0")}
             </p>
-            <small className="text-[8px] text-slate-400 sm:text-[10px]">
-              ROUND {view.round}
+            <small className="whitespace-nowrap text-[9px] text-slate-200 sm:text-[10px]">
+              第 {view.round} 回合
             </small>
             {view.config?.rules?.oneHitKO && (
               <p className="mt-1 text-[9px] font-semibold text-amber-200">
@@ -112,10 +112,11 @@ function FighterHUD({
         : "CPU";
   return (
     <div
-      className={`min-w-0 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-45" : ""}`}
+      aria-label={`${label} · ${fighter.name}${view.network.room && view.network.side === side ? " · 你" : ""}`}
+      className={`min-w-0 bg-slate-950/55 p-1.5 sm:p-2 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
     >
       <div
-        className={`mb-1 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
+        className={`mb-1.5 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
       >
         {!mobile && (
           <img
@@ -129,7 +130,13 @@ function FighterHUD({
         )}
         <div className="min-w-0">
           <p
-            className={`truncate text-[10px] font-semibold ${mobile ? "sm:text-xs" : "sm:text-base"}`}
+            className={`mb-0.5 text-[9px] font-bold ${side === 0 ? "text-pink-200" : side === 1 ? "text-cyan-200" : "text-amber-200"}`}
+          >
+            {label}
+            {view.network.room && view.network.side === side ? " · 你" : ""}
+          </p>
+          <p
+            className={`truncate text-[11px] font-bold ${mobile ? "sm:text-xs" : "sm:text-base"}`}
           >
             {fighter.name}
             {fighter.transformed && (
@@ -151,9 +158,9 @@ function FighterHUD({
             )}
           </p>
           <p
-            className={`text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
+            className={`whitespace-nowrap font-mono text-[9px] tabular-nums text-slate-100 ${mobile ? "" : "sm:text-xs"}`}
           >
-            {label} · {Math.ceil(fighter.hp)} /{" "}
+            {Math.max(0, Math.ceil(fighter.hp))} /{" "}
             {view.config?.rules?.maxHealth ?? 200} HP{" "}
             {fighter.beats > 0 && `· ${fighter.beats} 拍`}
           </p>
@@ -165,7 +172,7 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={view.config?.rules?.maxHealth ?? 200}
         aria-valuenow={fighter.hp}
-        className={`h-2.5 overflow-hidden rounded-none bg-slate-700 ${mobile ? "sm:h-3" : "sm:h-4"}`}
+        className={`h-2.5 overflow-hidden rounded-none bg-slate-600 ring-1 ring-white/15 ${mobile ? "sm:h-3" : "sm:h-4"}`}
       >
         <div
           className={`h-full transition-[width] duration-75 ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-pink-200" : side === 1 ? "bg-cyan-200" : "bg-amber-200"}`}
@@ -190,30 +197,30 @@ function FighterHUD({
         </div>
         <span
           aria-hidden="true"
-          className={`w-[9ch] shrink-0 whitespace-nowrap text-center font-mono text-[8px] tabular-nums text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
+          className={`shrink-0 whitespace-nowrap font-mono text-[9px] tabular-nums text-slate-100 ${mobile ? "" : "sm:text-[10px]"}`}
         >
           {view.config?.rules?.infiniteEnergy
             ? "∞ 共鸣"
-            : `${fighter.energy} / 100`}
+            : `${Math.round(fighter.energy)} 共鸣`}
         </span>
       </div>
       <p
-        className={`mt-1 text-[8px] text-slate-400 ${mobile ? "" : "sm:text-[10px]"}`}
+        className={`mt-1 text-[9px] text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
       >
         {brawl
           ? remaining === 0
             ? "已淘汰"
             : respawn > 0
-              ? `替补上场 ${Math.ceil(respawn / 1000)} 秒 · 剩余 ${remaining} 人`
+              ? `${Math.ceil(respawn / 1000)} 秒后上场 · 余 ${remaining} 人`
               : `剩余 ${remaining} 人`
           : teamSizeFor(view.config?.format) > 1
             ? `剩余 ${view.teamRemaining[side]} 人`
-            : "●".repeat(view.wins[side])}{" "}
+            : `胜 ${view.wins[side] ?? 0} 回合`}{" "}
         {fighter.combo > 1 && (
           <span className="ml-2 text-white">{fighter.combo} HITS</span>
         )}
       </p>
-      {brawl && (
+      {brawl && !mobile && (
         <div
           className="mt-1 flex min-w-0 gap-1"
           aria-label={`${label} 出场顺序`}

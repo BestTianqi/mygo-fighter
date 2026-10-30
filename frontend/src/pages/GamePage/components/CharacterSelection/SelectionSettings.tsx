@@ -16,28 +16,25 @@ export function SelectionSettings({
   const { selection } = model;
   const stage = assets.stages[selection.settings.arena];
   return (
-    <section className="mt-3 pt-3" aria-label="场地与规则">
-      <BattleRulesPanel
-        rules={selection.rules}
-        format={selection.format}
-        rosterSize={ROSTER.length}
-        practice={selection.mode === "practice"}
-        onChange={(changes) => model.setRules(changes)}
-      />
-      <div className="mb-2 flex flex-wrap items-end justify-between gap-2">
+    <section
+      className="mt-5 border-t border-[#d9e2ef] pt-4"
+      aria-label="场地与规则"
+    >
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-1">
         <div>
-          <p className="text-xs text-[#80786d]">场地与规则</p>
-          <h2 className="mt-1 text-sm font-semibold">
-            {stage.name}{" "}
-            <small className="ml-2 hidden text-[10px] font-normal text-[#80786d] lg:inline">
-              {stage.layout}
-            </small>
+          <h2 className="text-sm font-semibold">
+            选择场地{" "}
+            <span className="ml-2 text-xs font-normal text-[#61718b]">
+              {stage.name}
+            </span>
           </h2>
+          <p className="mt-1 text-[11px] text-[#61718b]">{stage.layout}</p>
         </div>
-        <div className="flex flex-wrap gap-4 text-xs">
+        <div className="flex flex-wrap gap-4 text-xs text-[#61718b]">
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
+              className="size-4 accent-[#bb3266]"
               checked={selection.settings.terrain}
               onChange={(event) =>
                 model.setSettings({ terrain: event.target.checked })
@@ -48,6 +45,7 @@ export function SelectionSettings({
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
+              className="size-4 accent-[#bb3266]"
               checked={selection.settings.sound}
               onChange={(event) =>
                 model.setSettings({ sound: event.target.checked })
@@ -59,27 +57,43 @@ export function SelectionSettings({
       </div>
       <div
         aria-label="选择场地"
-        className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:thin]"
+        className="flex snap-x gap-2 overflow-x-auto px-0.5 pb-3 pt-0.5 [scrollbar-width:thin]"
       >
         {assets.stages.map((scene, arena) => (
           <button
             key={scene.id}
+            type="button"
             onClick={() => model.setSettings({ arena })}
             aria-pressed={selection.settings.arena === arena}
-            className={`group relative w-24 shrink-0 overflow-hidden rounded-none text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 lg:pointer-fine:w-56 xl:pointer-fine:w-64 ${selection.settings.arena === arena ? "bg-white/70 shadow-lg shadow-[#946b2a]/10" : "bg-[#30251a]/4 opacity-65 hover:opacity-100"}`}
+            className={`group relative w-32 shrink-0 snap-start overflow-hidden rounded-lg border-2 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1aa8b8] sm:w-40 lg:w-44 ${selection.settings.arena === arena ? "border-[#bb3266] bg-white text-[#bb3266]" : "border-transparent bg-white text-[#61718b] hover:border-[#d9e2ef] hover:text-[#101d33]"}`}
           >
             <img
               src={scene.thumbnail}
               alt=""
               loading="lazy"
-              className="h-10 w-full object-cover lg:pointer-fine:aspect-video lg:pointer-fine:h-auto"
+              className="aspect-[16/7] w-full object-cover"
             />
-            <span className="block truncate px-2 py-1 text-[10px] lg:pointer-fine:py-2 lg:pointer-fine:text-xs">
-              {scene.name}
+            <span className="flex items-center justify-between gap-2 px-2 py-2 text-[11px]">
+              <span className="truncate">{scene.name}</span>
+              {selection.settings.arena === arena && (
+                <span aria-label="已选场地">✓</span>
+              )}
             </span>
           </button>
         ))}
       </div>
+      <BattleRulesPanel
+        rules={selection.rules}
+        format={selection.format}
+        rosterSize={ROSTER.length}
+        practice={selection.mode === "practice"}
+        onChange={(changes) => model.setRules(changes)}
+      />
+      {selection.mode !== "practice" && selection.format !== "3ffa" && (
+        <p className="mt-2 text-[11px] leading-5 text-[#61718b]">
+          需要禁选？展开对战规则设置。更改每方禁用人数会重新开始选角。
+        </p>
+      )}
     </section>
   );
 }
