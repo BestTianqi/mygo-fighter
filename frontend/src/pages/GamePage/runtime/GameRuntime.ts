@@ -392,7 +392,20 @@ export class GameRuntime {
             ),
           });
       }
-      if (["roundAdvance", "teamAdvance", "result"].includes(event.type)) {
+      if (event.type === "result") {
+        this.input.clear();
+        this.finishVideoMs = null;
+        const finishingSide = this.match.roundEnd?.finisher?.side;
+        this.publish({
+          finishVideoMs: null,
+          // Keep the lethal super visible while its sentence finishes and the
+          // queued finish video is waiting for its audio clock to start.
+          cutins: this.view.cutins.map((media, side) =>
+            side === finishingSide ? media : null,
+          ),
+        });
+      }
+      if (["roundAdvance", "teamAdvance"].includes(event.type)) {
         this.input.clear();
         this.publish({ cutins: this.match.fighters.map(() => null) });
       }

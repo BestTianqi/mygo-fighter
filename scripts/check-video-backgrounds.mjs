@@ -8,6 +8,8 @@ const bundle = await build({
       import { renderToStaticMarkup } from "react-dom/server";
       import { FinishBackground } from "./frontend/src/pages/GamePage/components/BattlePanel/FinishBackground";
       import { FinishOverlay } from "./frontend/src/pages/GamePage/components/BattlePanel/FinishOverlay";
+      export { GameRuntime } from "./frontend/src/pages/GamePage/runtime/GameRuntime";
+      export { finishMotion } from "./frontend/src/pages/GamePage/components/BattlePanel/functions/finishMotion";
       export const render = (props) => renderToStaticMarkup(createElement(FinishBackground, props));
       export const renderFinish = (props) => renderToStaticMarkup(createElement(FinishOverlay, props));`,
     resolveDir: process.cwd(),
@@ -129,7 +131,73 @@ try {
         normal.includes("data-finish-foreground"),
         "ordinary KO timing retained",
       );
+      const delayed = finishProps(2200, side);
+      delayed.view.finishVideoMs = null;
+      assert.match(
+        module.exports.renderFinish(delayed),
+        /style="opacity:0;/,
+        "queued finish overlay must not cover the continuing super video",
+      );
+      delayed.view.finishVideoMs = 500;
+      const started = module.exports.renderFinish(delayed);
+      assert.ok(
+        started.includes('data-finish-foreground="hold"'),
+        "late finish playback still gets its complete art entrance",
+      );
+      delayed.view.finishVideoMs = 1100;
+      assert.ok(
+        !module.exports
+          .renderFinish(delayed)
+          .includes("data-finish-foreground"),
+        "art exits one second into actual finish playback",
+      );
+      delayed.view.finishVideoMs = 3800;
+      assert.ok(
+        module.exports.renderFinish(delayed).includes("<video"),
+        "long finish videos remain visible while the shared exit waits",
+      );
+      const exit = module.exports.finishMotion(
+        150,
+        side,
+        reduced,
+        undefined,
+        2000,
+      );
+      assert.equal(
+        exit.phase,
+        "exit",
+        "shared clock still drives the final exit",
+      );
+      assert.equal(exit.opacity, reduced ? 1 : 0.5);
     }
+  }
+  for (const side of [0, 1, 2, null]) {
+    const cutins = Array.from({ length: 3 }, (_, i) => ({ video: `${i}.mp4` }));
+    const runtime = Object.assign(
+      Object.create(module.exports.GameRuntime.prototype),
+      {
+        match: {
+          roundEnd: { finisher: side === null ? null : { side } },
+          fighters: [{}, {}, {}],
+        },
+        renderer: { consume() {} },
+        audio: { consume() {} },
+        input: { clear() {} },
+        view: { cutins, finishVideoMs: 2000 },
+        finishVideoMs: 2000,
+        listeners: new Set(),
+      },
+    );
+    runtime.consume([{ type: "result" }]);
+    assert.deepEqual(
+      runtime.view.cutins,
+      cutins.map((media, i) => (i === side ? media : null)),
+      "KO retains only the lethal super background, including three-way battles",
+    );
+    assert.equal(runtime.finishVideoMs, null);
+    assert.equal(runtime.view.finishVideoMs, null);
+    runtime.consume([{ type: "roundAdvance" }]);
+    assert.deepEqual(runtime.view.cutins, [null, null, null]);
   }
 } finally {
   globalThis.matchMedia = originalMatchMedia;
@@ -137,5 +205,5 @@ try {
   else delete globalThis.navigator;
 }
 console.log(
-  "Verified Baidu backgrounds cannot invoke native video; standard inline playback retained.",
+  "Verified continuous super-to-finish playback, queued art timing, shared exits and Baidu video suppression.",
 );

@@ -9,7 +9,7 @@ import { FinishBackground } from "./FinishBackground";
 import { FinishEffects } from "./FinishEffects";
 import { finishMotion } from "./functions/finishMotion";
 
-/** Result art follows the shared round-end clock rather than a mount-time animation. */
+/** Finish video and its entrance follow the queued voice; the shared clock owns the exit. */
 export function FinishOverlay({
   view,
   assets,
@@ -23,17 +23,31 @@ export function FinishOverlay({
   if (!finish || (view.phase !== "roundOver" && view.phase !== "finished"))
     return null;
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const motion = finishMotion(view.phaseMs, finish.winner, reducedMotion);
-  if (!motion) return null;
   const ultimate = finish.finisher;
   const presentation = ultimate
     ? ultimateFinishFor(assets, ultimate)
     : undefined;
   const showVideo = !!presentation?.video && backgroundVideoEnabled();
-  // The shared clock includes the entrance and exit in the one-second cut-in.
+  const waitingForVideo = showVideo && view.finishVideoMs === null;
+  const presentationMs = showVideo ? (view.finishVideoMs ?? 0) : undefined;
+  const motion = finishMotion(
+    view.phaseMs,
+    finish.winner,
+    reducedMotion,
+    undefined,
+    presentationMs,
+  );
+  if (!motion) return null;
+  // Start the one-second cut-in with the finish sentence, even after a long super.
   // Keep static art visible where native video is disabled (Baidu).
   const foreground = showVideo
-    ? finishMotion(view.phaseMs, finish.winner, reducedMotion, 1000)
+    ? finishMotion(
+        view.phaseMs,
+        finish.winner,
+        reducedMotion,
+        1000,
+        presentationMs,
+      )
     : motion;
   const winner =
     ultimate ?? (finish.winner >= 0 ? finish.fighters[finish.winner] : null);
@@ -49,7 +63,7 @@ export function FinishOverlay({
       data-finish-scene={!!presentation}
       className={`${className} pointer-events-none flex items-center overflow-hidden bg-void/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
       style={{
-        opacity: motion.opacity,
+        opacity: waitingForVideo ? 0 : motion.opacity,
         clipPath: motion.clipPath,
         transitionDuration,
       }}

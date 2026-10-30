@@ -4,19 +4,24 @@ const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const ENTER_MS = 240;
 const EXIT_MS = 300;
 
-/** Project the existing round-end clock, so pause and reconnect never replay a cut-in. */
+/** Enter with the presentation clock when supplied; the shared clock owns the final exit. */
 export function finishMotion(
   phaseMs: number,
   winnerSide: number,
   reducedMotion = false,
   cutinMs?: number,
+  presentationMs?: number,
 ) {
   const sceneDuration = ROUND_END_TIMING.total - ROUND_END_TIMING.knockout;
   const duration = cutinMs ?? sceneDuration;
-  const age = sceneDuration - phaseMs;
-  if (age < 0 || phaseMs <= 0 || age >= duration) return null;
+  const age = presentationMs ?? sceneDuration - phaseMs;
+  if (age < 0 || phaseMs <= 0 || (cutinMs !== undefined && age >= duration))
+    return null;
   const enter = clamp(age / ENTER_MS);
-  const leave = clamp((age - (duration - EXIT_MS)) / EXIT_MS);
+  const leave =
+    cutinMs === undefined
+      ? clamp((EXIT_MS - phaseMs) / EXIT_MS)
+      : clamp((age - (duration - EXIT_MS)) / EXIT_MS);
   const incoming = (1 - enter) ** 3;
   const outgoing = leave ** 3;
   const direction = winnerSide === 0 ? -1 : 1;
