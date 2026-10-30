@@ -28,11 +28,11 @@
     "voice": "finish_2",
     "sourceUrl": "https://www.bilibili.com/video/BV18nHz6mEKc/",
     "sourceStart": 0,
-    "sourceEnd": 18.784989,
-    "durationMs": 18792,
+    "sourceEnd": 8,
+    "durationMs": 8000,
     "output": "assets/finish-art/v2/videos/tomori.mp4",
-    "bytes": 1095530,
-    "sha256": "7454c2cfd8440e12cc7909f65e246a89efee62c908fd7b0abff99711706b8a16",
+    "bytes": 298705,
+    "sha256": "5e74bcc79005448ecb9adb12553b90be836ba412bc9405be883e920d3795c520",
     "processing": "Original speed; silent H.264 640x360, 24 fps, proportional letterboxing. No content crop or time stretching."
   },
   {

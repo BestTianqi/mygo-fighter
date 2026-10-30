@@ -68,12 +68,12 @@
     "line": "哒啦……哔哩哔哩……",
     "spokenJapanese": "",
     "sourceStart": 0,
-    "sourceEnd": 18.784989,
+    "sourceEnd": 8,
     "output": "assets/finish-art/v2/voices/tomori.mp3",
-    "duration": 18.784989,
-    "bytes": 301976,
-    "sha256": "fa05513b9f5730b3c0254e1c6ccbe4823b72fa07882d0a4feb61854c3b7b9a35",
-    "verification": "User-selected meme recording; no canonical dialogue or voice-actor identity claim. Entire short source video retained.",
+    "duration": 8,
+    "bytes": 129359,
+    "sha256": "4a1cb49fde7c1c173a4f0e30131fa74082e9fc8b40845503aead4938484a897e",
+    "verification": "User explicitly requested the first eight seconds of the previously selected meme source. No canonical dialogue or voice-actor identity claim.",
     "processing": "Original speed; synchronous source audio, mono MP3, normalized around -18 LUFS. No time stretching.",
     "speakers": [
       "unverified-meme"

@@ -29,7 +29,7 @@ const selectedSources = {
     speaker: "user-meme",
     speakers: ["unverified-meme"],
     start: 0,
-    end: 18.784989,
+    end: 8,
   },
   6: {
     bvid: "BV1sf1uYWEV1",
