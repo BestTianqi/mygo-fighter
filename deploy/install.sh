@@ -117,8 +117,8 @@ do not read /etc/mygo-fighter.env. Before activating the new release:
      rerun this installer to enable their template units.
   3. Install the packaged release with
         sudo bash /opt/mygo-fighter/activate.sh ARCHIVE RELEASE_ID [COMMIT]
-  4. After the new layout is verified, remove the old unit and environment:
-        rm /etc/systemd/system/mygo-fighter.service /etc/mygo-fighter.env
-        systemctl daemon-reload
+  4. Keep the disabled legacy unit and /etc/mygo-fighter.env while a legacy
+     release is retained as previous; rollback needs both. Remove them only
+     after no retained rollback target uses the single-unit layout.
 NOTE
 fi

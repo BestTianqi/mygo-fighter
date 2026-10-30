@@ -253,14 +253,16 @@ Every role reads environment variables. Deployment adds the shared
 
 Deployed unit limits:
 
-| Role    | Unit                  | `JAVA_OPTS`                                                                                  | MemoryMax | Cache                              |
-| ------- | --------------------- | -------------------------------------------------------------------------------------------- | --------- | ---------------------------------- |
-| `edge`  | `mygo-edge.service`   | `-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -Xss512k`                                     | 192M      | none                               |
-| `lobby` | `mygo-lobby.service`  | `-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -Xss512k`                                     | 128M      | none                               |
-| `rooms` | `mygo-rooms@.service` | `-Xms64m -Xmx256m -XX:ReservedCodeCacheSize=64m -Dpolyglot.engine.WarnInterpreterOnly=false` | 512M      | `/var/cache/mygo-fighter/rooms-%i` |
+| Role    | Unit                  | `JAVA_OPTS`                                                                                                          | MemoryMax | Cache                              |
+| ------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------- |
+| `edge`  | `mygo-edge.service`   | `-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -XX:MetaspaceSize=96m -Xss512k`                                       | 256M      | none                               |
+| `lobby` | `mygo-lobby.service`  | `-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -XX:MetaspaceSize=96m -Xss512k`                                       | 192M      | none                               |
+| `rooms` | `mygo-rooms@.service` | `-Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128m -XX:MetaspaceSize=96m -Dpolyglot.engine.WarnInterpreterOnly=false` | 512M      | `/var/cache/mygo-fighter/rooms-%i` |
 
-These ceilings are the initial budget on a two-vCPU, approximately 1.6 GiB host;
-they are configuration, not measured capacity. Confirm them with
+These ceilings were selected on the two-vCPU, approximately 1.6 GiB host during
+the [2026-10-30 gameplay audit](DEPLOYMENT_2026-10-30.md), which also selected
+a two-room public ceiling. They are resource limits rather than a guarantee for
+every workload. Confirm them with
 `systemctl show` and the deployment checks before raising `MAX_ROOMS`.
 
 ## Failure modes and graceful degradation
@@ -291,6 +293,9 @@ Responses that cross process boundaries are limited to the request path:
 - Join and other room messages add at most one owner lookup: memory cache first,
   otherwise a lobby call with `OWNER_LOOKUP_TIMEOUT_MS` (default 300 ms). A
   successful lookup is cached for `ROOM_CACHE_TTL_MS` (default 3 s).
+- The final `loadedroom` acknowledgement also initializes a GraalJS context. It
+  has a minimum 60 s forwarding budget and a 65 s browser budget so cold
+  initialization is not mistaken for a failed service. Other API budgets are unchanged.
 - Socket traffic is proxied as WebSocket frames without re-serialization through
   a bounded queue (`WS_QUEUE_FRAMES`, default 64). A full queue closes the
   proxied connection instead of buffering without limit.

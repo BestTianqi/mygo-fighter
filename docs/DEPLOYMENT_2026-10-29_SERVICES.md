@@ -1,5 +1,7 @@
 # Services deployment — 2026-10-29
 
+Historical preparation record. The [2026-10-30 deployment and gameplay audit](DEPLOYMENT_2026-10-30.md) records activation of protocol 25, revised resource budgets, the two-room ceiling and verified legacy rollback. The pending steps and initial budgets below describe the earlier preparation state.
+
 This change splits the Scala backend into three deployed roles, `edge`, `lobby`
 and `rooms`, still shipped as one `mygo-server-2.0.0.tgz` artifact selected by
 `SERVICE_ROLE`. It also bumps the public protocol to **25** because room tokens
