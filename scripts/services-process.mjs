@@ -149,7 +149,12 @@ export function startService({ role, port, env, stdio = "inherit" }) {
   const base = baseEnvironment();
   const child = spawn(
     javaCommand(base),
-    ["-cp", path.join(stageLibDir, "*"), mainClass],
+    [
+      "-Dpolyglot.engine.WarnInterpreterOnly=false",
+      "-cp",
+      path.join(stageLibDir, "*"),
+      mainClass,
+    ],
     {
       cwd: projectRoot,
       env: { ...base, ...env },
