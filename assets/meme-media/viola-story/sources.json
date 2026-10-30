@@ -103,22 +103,25 @@
       "character": "viola",
       "slot": "p",
       "move": "mewtype_15_virtual_super",
-      "voice": "violaAnimeIgnition",
+      "voice": "violaAnimeMewtype",
       "label": "引爆点·剪辑放送",
-      "audio": "violaAnimeIgnition.mp3",
-      "start": 16.85,
-      "end": 20.9,
-      "duration": 4.05,
-      "bvid": "BV11uK36xEs2",
-      "cid": 39994722827,
-      "page": 1,
-      "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
-      "uploader": "梦限大MewType",
-      "sourceURL": "https://www.bilibili.com/video/BV11uK36xEs2/",
-      "subtitle_zh": "这个数字，感觉会成为不错的引爆点呢",
-      "speakerVerification": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
-      "sha256": "2815d9fc9667f36090c55635368bd2aad89f4f93a2b65179343d6ac0edf32a0b",
-      "transcriptionNote": "The automatic Japanese transcript has errors around suuji/kibakuzai. The exact spoken wording is not asserted as a verified Japanese transcript; the official Chinese subtitle and visible speaker establish the line and speaker.",
+      "audio": "violaAnimeMewtype.mp3",
+      "start": 1359.0,
+      "end": 1364.046,
+      "duration": 5.046,
+      "sourceURL": "https://anime.bang-dream.com/yumemita/",
+      "sourceNote": "TV anime episode 3, taken from the local SubsPlease 1080p release; this file has no bilibili BV id.",
+      "episode": {
+        "title": "TV动画「BanG Dream! YUME∞MITA」第3话",
+        "file": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+        "start": 1359.0,
+        "end": 1364.046
+      },
+      "subtitle_en": "Was it MewType? (22:39.48–22:42.36)",
+      "speakerVerification": "Not lip-sync verified. The tooling in this change had no image input, so only the official English subtitle at 22:39.48–22:42.36 (\"Was it MewType?\") and the continuous-shot timing were reviewed; the speaking character is not established here by mouth movement or by surrounding dialogue. The segment was chosen by the repository owner for this super. No livestream commentary or synthetic speech.",
+      "sha256": "9048b79bb997ff524056ef2628ca8933914af0f44676a70b5d0e172ece615d8a",
+      "audioProcessing": "The decoded anime mix measured -24.6 LUFS; +6 dB brings the line to -18.6 LUFS, matching the other Viola voice assets (-18.0 to -19.7 LUFS). 12 ms fade-in and 25 ms fade-out avoid boundary clicks; 44.1 kHz mono 96 kbps MP3. The cut starts at the same 22:39.000 as the video, and the decoded MP3 correlates 0.994 with the video's audio track at zero sample offset.",
+      "transcriptionNote": "The release carries only English subtitles, so no Japanese transcript is asserted for this excerpt.",
       "video": "viola-ep3-2239-cutin.mp4",
       "videoRate": 1,
       "videoSHA256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
@@ -129,8 +132,9 @@
         "end": 1364.0,
         "subtitleAtStart": "22:39.48–22:42.36 official English subtitle \"Was it MewType?\"",
         "scene": "22:39.000–22:44.000 is one continuous shot (no scene cut at 0.3 threshold between 22:35 and 22:50); luma and saturation stay in normal range, so no fade or black frames.",
-        "processing": "1138x640 H.264 CRF 24 at 24000/1001 fps with setsar=1, AAC 96k stereo original audio retained. The runtime background element is muted; the super voice stays violaAnimeIgnition.mp3."
+        "processing": "1138x640 H.264 CRF 24 at 24000/1001 fps with setsar=1, AAC 96k stereo original audio retained. The background element is muted; the same 22:39 audio is installed as the super voice MP3."
       },
+      "previousAudio": "violaAnimeIgnition.mp3 (CM 16.85–20.90 s, the ignition line) stays archived in this folder but is no longer installed.",
       "previousVideo": "viola-ignition-cutin.mp4 (CM 16.85–20.90 s) is kept in this folder as an archived source but is no longer installed."
     }
   ],
@@ -145,8 +149,8 @@
   "notes": [
     "The phone/recording/editing/trap/pressure abilities are game adaptations of the anime portrayal; they are not asserted as canonical supernatural abilities.",
     "CM title and account establish Viola identity. Initial introduction shows the whole Fairybouquet group; Viola is the fourth member with dark-green hair, and remains the sole speaker of the selected introduction.",
-    "The super is a 4.05-second intact original-speed sentence. Do not speed playback to match combat recovery.",
-    "The super background video was replaced by the 22:39 scene of episode 3 (5.05 s, original speed, its own audio kept in the file); the earlier CM cut-in (16.85–20.90 s) stays archived as viola-ignition-cutin.mp4. The background element is muted at runtime, so the spoken line is still violaAnimeIgnition.mp3.",
-    "P Japanese automatic transcription was not accurate enough to publish as verbatim; official Chinese subtitles are supplied instead."
+    "The super voice and its background video both come from the 22:39 excerpt of episode 3 (5.05 s, original speed, loudness matched to her other lines). Do not speed the recording to match combat recovery.",
+    "The earlier CM super assets (voice 16.85–20.90 s, cut-in 16.85–20.90 s) stay archived in this folder but are no longer installed; the finish still from that CM is unchanged.",
+    "The episode-3 excerpt has no verified Japanese transcript or lip-sync proof; only the official English subtitle and shot continuity were checked. Nothing here claims a canonical power."
   ]
 }

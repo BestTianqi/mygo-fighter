@@ -24,11 +24,11 @@
       "audio": "assets/meme-media/viola-story/violaAnimeStay.mp3"
     },
     "p": {
-      "voice": "violaAnimeIgnition",
+      "voice": "violaAnimeMewtype",
       "label": "引爆点·剪辑放送",
-      "duration": 4.05,
+      "duration": 5.046,
       "slot": "p",
-      "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+      "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
       "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
       "videoRate": 1
     }
@@ -63,11 +63,11 @@
       "audio": "assets/meme-media/viola-story/violaAnimePraise.mp3"
     },
     "mewtype_15_virtual_super": {
-      "voice": "violaAnimeIgnition",
+      "voice": "violaAnimeMewtype",
       "label": "引爆点·剪辑放送",
-      "duration": 4.05,
+      "duration": 5.046,
       "slot": "p",
-      "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
+      "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
       "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
       "videoRate": 1
     },

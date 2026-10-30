@@ -298,12 +298,11 @@
             "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
             "start": 3.65,
             "end": 7.35,
-            "proof": "Rechecked the exported clip with Japanese word timestamps and decoded source frames. The previous 0.25–7.35 excerpt included Anon's short ん？ reaction between Tomori's first hesitant 一生 and her repeated complete question. Retain only the second complete Tomori question, beginning after that reaction and ending after くれる; original speed. Tomori mouth/face close-ups identify her throughout the retained question.",
+            "proof": "2026-10-28: decoded video frames and fresh Japanese word timestamps cross-checked. Removed Anon reaction ん？ between Tomori hesitant first 一生 and repeated complete question; retain only Tomori 一生、バンドしてくれる？ at original speed. Original mixed-speaker tomori-p files retained as source history.",
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           },
           "video": "assets/meme-media/recordings/tomori-p-own.mp4",
-          "videoRate": 1,
-          "spokenJapanese": "一生、バンドしてくれる？"
+          "videoRate": 1
         },
         "u": {
           "voice": "meme_2_u",
@@ -426,8 +425,6 @@
             "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
           },
           "video": "assets/meme-media/recordings/penguin-p.mp4",
-          "videoRate": 1,
-          "spokenJapanese": "一生、バンドしてくれる？",
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
             "uploader": "byd小绫",
@@ -439,7 +436,9 @@
             "end": 7.15,
             "proof": null,
             "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
-          }
+          },
+          "spokenJapanese": "一生、バンドしてくれる？",
+          "videoRate": 1
         },
         "penguinKick": {
           "voice": "penguinKick",
@@ -2238,8 +2237,8 @@
             "catalog": "assets/meme-media/recordings/sources-recordings.json"
           },
           "video": "assets/meme-media/recordings/nyamu-p.mp4",
-          "videoRate": 1,
-          "spokenJapanese": "こんな張り付いた笑顔なんて、誰も欲しくない！"
+          "spokenJapanese": "こんな張り付いた笑顔なんて、誰も欲しくない！",
+          "videoRate": 1
         },
         "u": {
           "voice": "meme_9_u",
@@ -3684,25 +3683,24 @@
           "subtitle_zh": "做得真好"
         },
         "p": {
-          "voice": "violaAnimeIgnition",
+          "voice": "violaAnimeMewtype",
           "label": "引爆点·剪辑放送",
           "slot": "p",
-          "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
-          "duration": 4.05,
+          "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
+          "duration": 5.046,
           "source": {
-            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
-            "uploader": "梦限大MewType",
-            "bvid": "BV11uK36xEs2",
-            "cid": 39994722827,
+            "url": "https://anime.bang-dream.com/yumemita/",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
             "page": 1,
-            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
-            "start": 16.85,
-            "end": 20.9,
-            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "title": null,
+            "start": 1359.0,
+            "end": 1364.046,
+            "proof": "Not lip-sync verified. The tooling in this change had no image input, so only the official English subtitle at 22:39.48–22:42.36 (\"Was it MewType?\") and the continuous-shot timing were reviewed; the speaking character is not established here by mouth movement or by surrounding dialogue. The segment was chosen by the repository owner for this super. No livestream commentary or synthetic speech.",
             "catalog": "assets/meme-media/viola-story/sources.json"
           },
           "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
-          "subtitle_zh": "这个数字，感觉会成为不错的引爆点呢",
           "videoRate": 1
         }
       },
@@ -3813,25 +3811,24 @@
           "subtitle_zh": "做得真好"
         },
         "mewtype_15_virtual_super": {
-          "voice": "violaAnimeIgnition",
+          "voice": "violaAnimeMewtype",
           "label": "引爆点·剪辑放送",
           "slot": "p",
-          "audio": "assets/meme-media/viola-story/violaAnimeIgnition.mp3",
-          "duration": 4.05,
+          "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
+          "duration": 5.046,
           "source": {
-            "url": "https://www.bilibili.com/video/BV11uK36xEs2/",
-            "uploader": "梦限大MewType",
-            "bvid": "BV11uK36xEs2",
-            "cid": 39994722827,
+            "url": "https://anime.bang-dream.com/yumemita/",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
             "page": 1,
-            "title": "【角色CM】薇欧拉（Viola） TV动画「バンドリ！ ゆめ∞みた（BanG Dream! YUME∞MITA）」",
-            "start": 16.85,
-            "end": 20.9,
-            "proof": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
+            "title": null,
+            "start": 1359.0,
+            "end": 1364.046,
+            "proof": "Not lip-sync verified. The tooling in this change had no image input, so only the official English subtitle at 22:39.48–22:42.36 (\"Was it MewType?\") and the continuous-shot timing were reviewed; the speaking character is not established here by mouth movement or by surrounding dialogue. The segment was chosen by the repository owner for this super. No livestream commentary or synthetic speech.",
             "catalog": "assets/meme-media/viola-story/sources.json"
           },
           "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
-          "subtitle_zh": "这个数字，感觉会成为不错的引爆点呢",
           "videoRate": 1
         }
       }
