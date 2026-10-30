@@ -16,7 +16,7 @@ Environment=INSTANCE_ID=%i
 Environment="XDG_CACHE_HOME=/var/cache/mygo-fighter/rooms-%i"
 # Overridable from /etc/mygo-fighter/rooms.env (all instances) and
 # /etc/mygo-fighter/rooms-%i.env (one instance, for example ROOMS_PORT=8092).
-Environment="JAVA_OPTS=-Xms64m -Xmx256m -XX:ReservedCodeCacheSize=64m -Dpolyglot.engine.WarnInterpreterOnly=false"
+Environment="JAVA_OPTS=-Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128m -XX:MetaspaceSize=96m -Dpolyglot.engine.WarnInterpreterOnly=false"
 EnvironmentFile=-/etc/mygo-fighter/base.env
 EnvironmentFile=-/etc/mygo-fighter/rooms.env
 EnvironmentFile=-/etc/mygo-fighter/rooms-%i.env

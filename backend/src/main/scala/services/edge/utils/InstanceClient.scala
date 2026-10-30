@@ -82,7 +82,10 @@ private[edge] final class InstanceClient private (
     postJson(
       s"${trimTrailingSlash(instanceUrl)}/internal/api/$name",
       body,
-      config.forwardTimeoutMs.millis
+      // The final loading acknowledgement creates a cold GraalJS context. Keep
+      // ordinary forwarding fast, but allow that initialization to finish.
+      if name == "loadedroom" then config.forwardTimeoutMs.millis.max(60.seconds)
+      else config.forwardTimeoutMs.millis
     )
 
   /** Cheap health probe; the caller decides how a failed probe is reported. */

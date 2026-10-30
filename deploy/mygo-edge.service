@@ -11,14 +11,14 @@ WorkingDirectory=/srv/mygo-fighter/current
 Environment=SERVICE_ROLE=edge
 # Overridable from /etc/mygo-fighter/edge.env; keep the heap small because the
 # edge only forwards requests and does not run the combat kernel.
-Environment="JAVA_OPTS=-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -Xss512k"
+Environment="JAVA_OPTS=-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -XX:MetaspaceSize=96m -Xss512k"
 EnvironmentFile=-/etc/mygo-fighter/base.env
 EnvironmentFile=-/etc/mygo-fighter/edge.env
 ExecStart=/srv/mygo-fighter/current/bin/mygo-server
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
-MemoryMax=192M
+MemoryMax=256M
 MemorySwapMax=0
 TasksMax=64
 NoNewPrivileges=true

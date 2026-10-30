@@ -11,14 +11,14 @@ WorkingDirectory=/srv/mygo-fighter/current
 Environment=SERVICE_ROLE=lobby
 # Overridable from /etc/mygo-fighter/lobby.env; the lobby keeps only an
 # in-memory directory and never runs a combat simulation.
-Environment="JAVA_OPTS=-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -Xss512k"
+Environment="JAVA_OPTS=-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -XX:MetaspaceSize=96m -Xss512k"
 EnvironmentFile=-/etc/mygo-fighter/base.env
 EnvironmentFile=-/etc/mygo-fighter/lobby.env
 ExecStart=/srv/mygo-fighter/current/bin/mygo-server
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
-MemoryMax=128M
+MemoryMax=192M
 MemorySwapMax=0
 TasksMax=64
 NoNewPrivileges=true

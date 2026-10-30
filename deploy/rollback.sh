@@ -90,14 +90,17 @@ stop_role_set() {
   for instance in "${instance_list[@]}"; do
     systemctl stop "mygo-rooms@$instance" 2>/dev/null || true
   done
+  systemctl stop mygo-fighter 2>/dev/null || true
 }
 start_role_set() {
   local instance
   # Room execution first, then the directory, then the public entry.
   for instance in "${instance_list[@]}"; do
     systemctl start "mygo-rooms@$instance" || return 1
+    wait_healthy "rooms@$instance" '"ok":true' probe_rooms "$(instance_port "$instance")" || return 1
   done
   systemctl start mygo-lobby || return 1
+  wait_healthy 'lobby' '"ok":true' probe_lobby "$lobby_port" || return 1
   systemctl start mygo-edge || return 1
 }
 health_all() {
@@ -111,12 +114,23 @@ health_all() {
 switch_to() {
   ln -sfn "$1" "$next" && mv -Tf "$next" "$root/current"
 }
+start_release() {
+  if ! grep -Eq '"layout"[[:space:]]*:[[:space:]]*"edge-lobby-rooms"' "$1/deployment.json" 2>/dev/null; then
+    systemctl disable mygo-edge mygo-lobby "${instance_list[@]/#/mygo-rooms@}" || return 1
+    systemctl enable mygo-fighter || return 1
+    systemctl start mygo-fighter || return 1
+    wait_healthy 'legacy server' '"app":"mygo-scala"' probe_edge "$(probe_host "$edge_host")" "$edge_port"
+  else
+    systemctl disable mygo-fighter 2>/dev/null || true
+    systemctl enable mygo-edge mygo-lobby "${instance_list[@]/#/mygo-rooms@}" || return 1
+    start_role_set && health_all
+  fi
+}
 restore_current() {
   stop_role_set
   echo "Restoring current release: $current" >&2
   switch_to "$current" || return 1
-  start_role_set || return 1
-  health_all || return 1
+  start_release "$current" || return 1
 }
 
 previous=$(readlink "$root/previous" || true)
@@ -134,13 +148,8 @@ if ! switch_to "$previous"; then
   restore_current || echo 'Current release did not become healthy; inspect systemctl status.' >&2
   exit 1
 fi
-if ! start_role_set; then
+if ! start_release "$previous"; then
   echo 'Cannot start the previous release; restarting the current release.' >&2
-  restore_current || echo 'Current release did not become healthy; inspect systemctl status.' >&2
-  exit 1
-fi
-if ! health_all; then
-  echo 'Previous release failed its health check; restarting the current release.' >&2
   restore_current || echo 'Current release did not become healthy; inspect systemctl status.' >&2
   exit 1
 fi

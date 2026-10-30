@@ -99,14 +99,17 @@ stop_role_set() {
   for instance in "${instance_list[@]}"; do
     systemctl stop "mygo-rooms@$instance" 2>/dev/null || true
   done
+  systemctl stop mygo-fighter 2>/dev/null || true
 }
 start_role_set() {
   local instance
   # Room execution first, then the directory, then the public entry.
   for instance in "${instance_list[@]}"; do
     systemctl start "mygo-rooms@$instance" || return 1
+    wait_healthy "rooms@$instance" '"ok":true' probe_rooms "$(instance_port "$instance")" || return 1
   done
   systemctl start mygo-lobby || return 1
+  wait_healthy 'lobby' '"ok":true' probe_lobby "$lobby_port" || return 1
   systemctl start mygo-edge || return 1
 }
 health_all() {
@@ -121,6 +124,13 @@ switch_to() {
   ln -sfn "$1" "$next" && mv -Tf "$next" "$root/current"
 }
 previous=$(readlink "$root/current" || true)
+legacy_release() {
+  ! grep -Eq '"layout"[[:space:]]*:[[:space:]]*"edge-lobby-rooms"' "$1/deployment.json" 2>/dev/null
+}
+enable_role_set() {
+  systemctl disable mygo-fighter 2>/dev/null || true
+  systemctl enable mygo-edge mygo-lobby "${instance_list[@]/#/mygo-rooms@}"
+}
 restore_previous() {
   stop_role_set
   if test -z "$previous"; then
@@ -129,6 +139,14 @@ restore_previous() {
   fi
   echo "Restoring previous release: $previous" >&2
   switch_to "$previous" || return 1
+  if legacy_release "$previous"; then
+    systemctl disable mygo-edge mygo-lobby "${instance_list[@]/#/mygo-rooms@}" || return 1
+    systemctl enable mygo-fighter || return 1
+    systemctl start mygo-fighter || return 1
+    wait_healthy 'legacy server' '"app":"mygo-scala"' probe_edge "$(probe_host "$edge_host")" "$edge_port"
+    return $?
+  fi
+  enable_role_set || return 1
   start_role_set || return 1
   health_all || return 1
 }
@@ -161,6 +179,7 @@ if ! health_all; then
   restore_previous || echo 'Previous release did not become healthy; inspect systemctl status.' >&2
   exit 1
 fi
+enable_role_set
 
 activated_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 rooms_json=

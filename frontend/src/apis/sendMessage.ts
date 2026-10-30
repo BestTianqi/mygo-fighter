@@ -1,12 +1,13 @@
 import { getAPIName } from "./getAPIName";
 export async function sendMessage<Response>(
   message: object,
+  timeoutMs = 15000,
 ): Promise<Response> {
   const response = await fetch(`/api/${getAPIName(message)}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(message),
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   const result = await response.json();
   if (!response.ok)

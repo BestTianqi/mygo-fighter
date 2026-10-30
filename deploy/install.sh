@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 hostname=${1:?Usage: sudo bash install.sh PUBLIC_HOSTNAME}
+prepare_only=${2:-}
+[[ -z "$prepare_only" || "$prepare_only" == --prepare-only ]] || { echo 'Unsupported option' >&2; exit 1; }
 [[ "$hostname" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]+$ ]] || { echo 'Invalid hostname' >&2; exit 1; }
 [[ $(id -u) == 0 ]] || { echo 'Run this installer as root' >&2; exit 1; }
 script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
@@ -87,11 +89,16 @@ for instance in "${instance_list[@]}"; do rooms_units+=("mygo-rooms@$instance");
 systemctl enable caddy mygo-edge mygo-lobby "${rooms_units[@]}"
 # The new layout owns port 8080. Leave the old unit file for comparison, but
 # stop it so both layouts can never fight over the public port.
-if test -f "$legacy_unit"; then
+if test -f "$legacy_unit" && test "$prepare_only" != --prepare-only; then
   systemctl disable --now mygo-fighter 2>/dev/null || true
   echo 'Disabled and stopped the legacy mygo-fighter.service.'
 fi
-systemctl restart caddy
+if test "$prepare_only" = --prepare-only; then
+  echo 'Prepared role units; the legacy service remains running until activation.'
+  systemctl reload caddy
+else
+  systemctl restart caddy
+fi
 echo "Host installed with mygo-edge, mygo-lobby and ${#instance_list[@]} rooms instance(s): ${instance_list[*]}."
 echo 'Upload a packaged release and run deploy/activate.sh.'
 if test "$legacy" -eq 1; then
