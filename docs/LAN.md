@@ -17,6 +17,8 @@ TCP WebSockets can still delay later messages when a network packet is lost. Act
 
 ## Local runtime cache
 
+The project Scala launcher (`node scripts/scala.mjs`, also used by `npm start` and `npm run lan`) stores sbt's Ivy cache in `output/toolchain/ivy/`. Packaging still uses Ivy's lock even when dependencies download through Coursier. This avoids `failed to create lock file .../.ivy2/.sbt.ivy.lock` on Windows profiles that deny access to the default cache. The launcher creates the ignored project directory automatically; no administrator access or changes to the user profile are required.
+
 `npm start`, `npm run lan` and `sbt run` use the writable project directory `output/polyglot-cache/` for Graal's extracted native resources. This fixes Windows profiles where creating `%LOCALAPPDATA%/org.graalvm.polyglot` is denied and the runtime misleadingly reports a missing `truffleattach` resource. The cache is generated, ignored by Git and recreated when needed. Restart the local backend after updating. Do not suppress the warning with `polyglotimpl.AttachLibraryFailureAction=ignore`; it hides the failed resource extraction. The existing public-service cache settings in [WAN.md](WAN.md) remain separate. A successful extraction alone does not establish that the JVM provides an optimizing JavaScript compiler.
 
 ## HTTP operations

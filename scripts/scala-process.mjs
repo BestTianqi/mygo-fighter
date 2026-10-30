@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { javaEnvironment } from "./java.mjs";
 
@@ -12,6 +12,11 @@ export function launchScala(
   const toolchain = new URL("../output/toolchain/", import.meta.url);
   const path = (name) => fileURLToPath(new URL(name, toolchain));
   const portable = existsSync(path("sbt-launch.jar"));
+  // Packaging (makePom) still uses Ivy even when dependency downloads use
+  // Coursier. Windows profiles may deny Ivy's default ~/.ivy2 lock file.
+  const ivyHome = path("ivy");
+  mkdirSync(ivyHome, { recursive: true });
+  const ivyOption = `-Dsbt.ivy.home=${ivyHome}`;
   const java = env.JAVA_HOME
     ? `${env.JAVA_HOME}/bin/java${process.platform === "win32" ? ".exe" : ""}`
     : "java";
@@ -23,6 +28,7 @@ export function launchScala(
         "-Dsbt.server.autostart=false",
         `-Dsbt.boot.directory=${path("sbt-boot")}`,
         `-Dsbt.global.base=${path("sbt-global")}`,
+        ivyOption,
         ...(existsSync(path("repositories"))
           ? [
               `-Dsbt.repository.config=${path("repositories")}`,
@@ -35,6 +41,12 @@ export function launchScala(
       ]
     : args;
   if (portable) env.COURSIER_CACHE ??= path("coursier");
+  else
+    // Installed sbt launchers also inherit JVM options, including paths with
+    // spaces. Keep this setting local to the child process, not the user profile.
+    env.JAVA_TOOL_OPTIONS = [env.JAVA_TOOL_OPTIONS, `"${ivyOption}"`]
+      .filter(Boolean)
+      .join(" ");
   return spawn(portable ? java : "sbt", options, {
     cwd: new URL("../backend/", import.meta.url),
     env,
