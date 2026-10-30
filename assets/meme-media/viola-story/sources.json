@@ -119,9 +119,19 @@
       "speakerVerification": "Official Viola character CM published by MewType. The 4-second character card names Viola and CV Kaede Hondo. Her dark-green hime-cut hair, side bun, gold-green eyes, hairpins and lips are visible throughout these source scenes. Chinese burned-in subtitles and Japanese word timestamps were cross-checked; the super begins with her comment about the numbers while Arale is pictured and then cuts to Viola speaking in close-up. Arale does not speak within that excerpt. The complete sentence extends through approximately 20.85 s: cutting at 20.6 s would truncate the final sou syllable. No livestream commentary or synthetic speech. Original speed retained.",
       "sha256": "2815d9fc9667f36090c55635368bd2aad89f4f93a2b65179343d6ac0edf32a0b",
       "transcriptionNote": "The automatic Japanese transcript has errors around suuji/kibakuzai. The exact spoken wording is not asserted as a verified Japanese transcript; the official Chinese subtitle and visible speaker establish the line and speaker.",
-      "video": "viola-ignition-cutin.mp4",
+      "video": "viola-ep3-2239-cutin.mp4",
       "videoRate": 1,
-      "videoSHA256": "b92667a8a81b2904dd2cff339f8f1bd747a9904e9163556665b571fc4f47b45e"
+      "videoSHA256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
+      "videoSource": {
+        "episode": "TV动画「BanG Dream! YUME∞MITA」第3话",
+        "file": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+        "start": 1359.0,
+        "end": 1364.0,
+        "subtitleAtStart": "22:39.48–22:42.36 official English subtitle \"Was it MewType?\"",
+        "scene": "22:39.000–22:44.000 is one continuous shot (no scene cut at 0.3 threshold between 22:35 and 22:50); luma and saturation stay in normal range, so no fade or black frames.",
+        "processing": "1138x640 H.264 CRF 24 at 24000/1001 fps with setsar=1, AAC 96k stereo original audio retained. The runtime background element is muted; the super voice stays violaAnimeIgnition.mp3."
+      },
+      "previousVideo": "viola-ignition-cutin.mp4 (CM 16.85–20.90 s) is kept in this folder as an archived source but is no longer installed."
     }
   ],
   "finishArt": {
@@ -135,7 +145,8 @@
   "notes": [
     "The phone/recording/editing/trap/pressure abilities are game adaptations of the anime portrayal; they are not asserted as canonical supernatural abilities.",
     "CM title and account establish Viola identity. Initial introduction shows the whole Fairybouquet group; Viola is the fourth member with dark-green hair, and remains the sole speaker of the selected introduction.",
-    "The super is a 4.05-second intact original-speed sentence plus matching video. Do not speed playback to match combat recovery.",
+    "The super is a 4.05-second intact original-speed sentence. Do not speed playback to match combat recovery.",
+    "The super background video was replaced by the 22:39 scene of episode 3 (5.05 s, original speed, its own audio kept in the file); the earlier CM cut-in (16.85–20.90 s) stays archived as viola-ignition-cutin.mp4. The background element is muted at runtime, so the spoken line is still violaAnimeIgnition.mp3.",
     "P Japanese automatic transcription was not accurate enough to publish as verbatim; official Chinese subtitles are supplied instead."
   ]
 }
