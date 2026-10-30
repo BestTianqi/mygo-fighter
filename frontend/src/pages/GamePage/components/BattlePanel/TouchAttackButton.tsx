@@ -96,7 +96,7 @@ export function TouchAttackButton({
         if (!pointers.current.delete(event.pointerId)) return;
         if (!pointers.current.size) finish(false);
       }}
-      className={`pointer-events-auto absolute left-[77%] top-[78.64%] aspect-square w-[44%] -translate-x-1/2 -translate-y-1/2 touch-none overflow-hidden rounded-none bg-crimson/90 outline-none transition-[filter] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
+      className={`pointer-events-auto absolute left-[77%] top-[78.64%] aspect-square w-[44%] -translate-x-1/2 -translate-y-1/2 touch-none overflow-hidden rounded-full bg-crimson/90 outline-none transition-[filter] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
         phase === "heavy"
           ? "brightness-125"
           : phase === "pending"

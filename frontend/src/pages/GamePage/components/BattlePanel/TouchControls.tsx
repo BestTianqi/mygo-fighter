@@ -70,7 +70,7 @@ function TouchKey({
         pointers.current.delete(event.pointerId);
         if (pointers.current.size === 0) release();
       }}
-      className={`pointer-events-auto absolute aspect-square touch-none overflow-hidden rounded-none bg-panel/90 outline-none backdrop-blur-sm transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
+      className={`pointer-events-auto absolute aspect-square touch-none overflow-hidden rounded-full bg-panel/90 outline-none backdrop-blur-sm transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
         pressed ? "brightness-150" : "brightness-100"
       } ${className}`}
     >
