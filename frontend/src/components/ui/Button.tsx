@@ -11,7 +11,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={`${primary ? "bg-[#a44761] text-white shadow-[0_8px_24px_#a4476125] hover:bg-[#8f354e]" : tone === "light" ? "bg-[#30251a]/6 text-[#565045] hover:bg-[#30251a]/12" : "bg-white/8 text-slate-100 hover:bg-white/15"} min-h-11 touch-manipulation rounded-none px-4 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a44761] ${className}`}
+      className={`${primary ? "bg-[#bb3266] text-white shadow-[0_6px_18px_#bb326620] hover:bg-[#982650]" : tone === "light" ? "bg-[#e5edf6] text-[#32455f] hover:bg-[#d9e5f2]" : "bg-white/8 text-slate-100 hover:bg-white/15"} min-h-11 touch-manipulation rounded-md px-4 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#1aa8b8] ${className}`}
     />
   );
 }

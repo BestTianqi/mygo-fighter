@@ -61,6 +61,7 @@ export class CanvasRenderer {
   private readonly images = new Map<string, RenderImage>();
   private readonly loading = new Map<string, Promise<RenderImage>>();
   private disposed = false;
+  private prepareId = 0;
   private readonly animate = createAnimator();
   private readonly reducedMotion = matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -269,8 +270,13 @@ export class CanvasRenderer {
     }
   }
 
+  cancelPrepare() {
+    this.prepareId++;
+  }
+
   async prepare(config: MatchConfig) {
     if (this.disposed) return;
+    const prepareId = ++this.prepareId;
     this.scene.reset(config.settings.arena);
     this.visualFighters = [];
     this.resetCorrection();
@@ -297,7 +303,7 @@ export class CanvasRenderer {
     const pending = [...urls];
     for (let i = 0; i < pending.length; i += 2) {
       await Promise.all(pending.slice(i, i + 2).map((url) => this.load(url)));
-      if (this.disposed) return;
+      if (this.disposed || prepareId !== this.prepareId) return;
     }
     // Decode and rasterize before the ready countdown starts.
     for (const art of atlases) {

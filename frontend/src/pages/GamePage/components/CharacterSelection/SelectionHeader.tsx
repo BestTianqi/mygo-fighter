@@ -3,38 +3,70 @@ import type { Format, Mode } from "../../../../game/objects/MatchOptions";
 import type { CharacterSelectionModel } from "./hooks/useCharacterSelection";
 
 const selectClass =
-  "min-h-11 rounded-none bg-[#30251a]/6 px-3 py-2 text-sm text-[#211f1a] touch-manipulation focus-visible:outline-2 focus-visible:outline-cyan-200";
+  "w-full min-h-11 min-w-0 rounded-lg border border-[#d9e2ef] bg-white px-3 py-2 text-sm font-medium text-[#101d33] touch-manipulation focus-visible:outline-2 focus-visible:outline-[#1aa8b8] disabled:opacity-60";
 export function SelectionHeader({
   model,
   onBack,
 }: {
   model: Pick<
     CharacterSelectionModel,
-    "selection" | "brawl" | "setMode" | "setFormat"
+    "selection" | "brawl" | "complete" | "setMode" | "setFormat"
   >;
   onBack: () => void;
 }) {
-  const { selection, brawl } = model;
+  const { selection, brawl, complete } = model;
+  const steps = [
+    ...(selection.rules.banCount > 0
+      ? [
+          {
+            label: "禁用角色",
+            done: selection.phase !== "ban",
+            current: selection.phase === "ban",
+          },
+        ]
+      : []),
+    { label: "选择阵容", done: complete, current: selection.phase === "pick" },
+    { label: "准备登台", done: false, current: complete },
+  ];
   return (
-    <header className="flex flex-wrap items-center justify-between gap-2 py-2 sm:py-3 max-[380px]:py-1 [@media(max-height:500px)]:py-1">
-      <div className="max-[380px]:grid max-[380px]:grid-cols-[auto_1fr] max-[380px]:items-center max-[380px]:gap-x-3">
+    <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-[#d9e2ef] py-3 sm:py-4 [@media(max-height:500px)]:py-2">
+      <div className="min-w-0">
         <button
+          type="button"
           onClick={onBack}
-          className="max-[380px]:row-span-2 inline-flex min-h-8 touch-manipulation items-center text-xs text-[#80786d] hover:text-[#211f1a]"
+          className="inline-flex min-h-8 touch-manipulation items-center gap-2 rounded text-xs text-[#61718b] hover:text-[#bb3266] focus-visible:outline-2 focus-visible:outline-[#1aa8b8]"
         >
           ← 主菜单
         </button>
-        <p className="max-[380px]:col-start-2 text-[9px] font-bold tracking-[.3em] text-[#946b2a] [@media(max-height:500px)]:hidden">
-          CHARACTER SELECT
-        </p>
-        <h1 className="max-[380px]:col-start-2 text-lg font-medium tracking-tight sm:text-2xl [@media(max-height:500px)]:hidden">
-          选择对战角色
+        <h1 className="text-xl font-bold tracking-tight sm:text-2xl [@media(max-height:500px)]:hidden">
+          组建你的出战阵容
         </h1>
+        <ol
+          aria-label="准备进度"
+          className="mt-2 flex flex-wrap items-center gap-3 text-[11px] sm:gap-4 [@media(max-height:500px)]:hidden"
+        >
+          {steps.map((step, index) => (
+            <li
+              key={step.label}
+              aria-current={step.current ? "step" : undefined}
+              className={`flex items-center gap-1.5 ${step.current ? "font-semibold text-[#bb3266]" : step.done ? "text-[#16818f]" : "text-[#61718b]"}`}
+            >
+              <span
+                className={`grid size-5 place-items-center rounded-full text-[10px] ${step.current ? "bg-[#bb3266] text-white" : step.done ? "bg-[#1aa8b8]/12" : "bg-[#d9e2ef]/70"}`}
+                aria-hidden="true"
+              >
+                {step.done ? "✓" : index + 1}
+              </span>
+              {step.label}
+            </li>
+          ))}
+        </ol>
       </div>
-      <div className="flex flex-wrap gap-3">
-        <label className="grid gap-1 text-xs text-[#80786d]">
+      <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:gap-3">
+        <label className="grid min-w-0 gap-1.5 text-[11px] text-[#61718b]">
           对战模式
           <select
+            aria-label="对战模式"
             className={selectClass}
             value={selection.mode}
             onChange={(event) => model.setMode(event.target.value as Mode)}
@@ -46,9 +78,10 @@ export function SelectionHeader({
             <option value="practice">自由练习</option>
           </select>
         </label>
-        <label className="grid gap-1 text-xs text-[#80786d]">
+        <label className="grid min-w-0 gap-1.5 text-[11px] text-[#61718b]">
           对战形式
           <select
+            aria-label="对战形式"
             className={selectClass}
             value={selection.format}
             disabled={selection.mode === "practice"}

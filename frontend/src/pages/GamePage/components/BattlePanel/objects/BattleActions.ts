@@ -6,6 +6,7 @@ export type BattleActions = Pick<
   | "restart"
   | "begin"
   | "back"
+  | "returnToMenu"
   | "showDialog"
   | "setSound"
   | "clearCutin"

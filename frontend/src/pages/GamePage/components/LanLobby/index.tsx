@@ -40,18 +40,28 @@ export function LanLobby({
         </>
       )}
       {(error || view.error) && (
-        <p role="alert" className="mt-4 text-sm text-[#8f354e]">
+        <p
+          role="alert"
+          className="mt-3 shrink-0 border-l-2 border-[#bb3266] bg-[#bb3266]/5 px-3 py-2 text-sm leading-6 text-[#a52a58]"
+        >
           {error || view.error}
         </p>
       )}
-      <p role="status" className="mt-2 shrink-0 text-[10px] text-[#80786d]">
+      <p
+        role="status"
+        className="mt-2 shrink-0 text-[11px] leading-5 text-[#61718b]"
+      >
         {status === "preparing"
           ? "正在预载所有角色，完成后同时开战…"
           : status === "reconnecting"
             ? "对战已暂停，正在恢复连接…"
             : status === "connecting"
-              ? "正在连接房间…"
-              : "每位玩家使用 WASD、J/K/L、U/I/O、H、P 操作自己的角色。"}
+              ? model.pendingLabel || "正在连接房间…"
+              : model.busy
+                ? model.pendingLabel
+                : room
+                  ? "所有玩家准备后自动开战。操作：WASD 移动 · J/K/L、U/I/O、H、P 技能。"
+                  : "房间码由 6 位数字或 A–F 字母组成。"}
       </p>
     </Dialog>
   );

@@ -1,7 +1,7 @@
 import { Button } from "../../../../components/ui/Button";
+import { teamSizeFor } from "../../../../game/battleRules";
 import type { GameView } from "../../objects/GameView";
 import type { BattleActions } from "./objects/BattleActions";
-
 import { isWaitingForPlayers } from "./functions/isWaitingForPlayers";
 
 export function PauseOverlay({
@@ -17,75 +17,95 @@ export function PauseOverlay({
   onToggleFull?: () => void;
   className: string;
 }) {
-  if (!view.paused && !(view.phase === "finished" && view.phaseMs <= 0))
-    return null;
+  const finished = view.phase === "finished" && view.phaseMs <= 0;
+  if (!view.paused && !finished) return null;
   const waitingForPlayers = isWaitingForPlayers(view);
+  const online = !!view.network.room;
+  const host = !online || view.network.side === 0;
+  const rules = view.config?.rules;
   return (
     <div
-      className={`${className} flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm`}
+      data-battle-menu={finished ? "result" : "pause"}
+      className={`${className} flex items-center justify-center overflow-y-auto bg-[#101d33]/80 px-[max(1rem,env(safe-area-inset-left))] py-[max(1rem,env(safe-area-inset-top),env(safe-area-inset-bottom))] pr-[max(1rem,env(safe-area-inset-right))]`}
     >
-      <div className="text-center">
-        <p className="mb-2 text-[10px] tracking-[.3em] text-cyan-200">
-          {view.paused ? "TAKE A BREAK" : "MATCH RESULT"}
+      <section
+        aria-label={finished ? "对战结果" : "暂停菜单"}
+        className="my-auto w-full max-w-lg bg-[#f3f7fc] p-5 text-[#101d33] shadow-2xl sm:p-7 [@media(max-height:500px)]:max-w-2xl [@media(max-height:500px)]:p-4"
+      >
+        <p className="mb-2 text-xs font-semibold tracking-[.16em] text-[#61718b]">
+          {finished
+            ? "本场对战结束"
+            : online
+              ? "联机对战 · 已暂停"
+              : "对战已暂停"}
         </p>
-        <h2 className="mb-6 text-3xl font-bold">
-          {view.paused
-            ? "对战已暂停"
-            : view.winner < 0
+        <h2 className="text-2xl font-black sm:text-3xl">
+          {finished
+            ? view.winner < 0
               ? "不分胜负"
-              : `${view.config?.format === "3ffa" ? `${view.winner + 1}P · ` : ""}${view.fighters[view.winner]?.name} 获胜`}
+              : `${view.winner + 1}P · ${view.fighters[view.winner]?.name} 获胜`
+            : waitingForPlayers
+              ? "等待玩家重新连接"
+              : "休息一下，随时继续"}
         </h2>
-        {view.config?.rules && (
-          <p className="mx-auto mb-5 max-w-lg text-xs leading-6 text-slate-300">
-            {[
-              `${view.config.rules.maxHealth} 生命`,
-              view.config.rules.infiniteTime
-                ? "无限时间"
-                : `${view.config.rules.roundSeconds} 秒`,
-              `伤害 ×${view.config.rules.damageMultiplier}`,
-              `移速 ×${view.config.rules.speedMultiplier}`,
-              view.config.rules.oneHitKO && "一击决胜",
-              view.config.rules.vampire && "吸血对战",
-              view.config.rules.lowGravity && "低重力",
-              view.config.rules.infiniteJumps && "无限空中跳跃",
-              view.config.rules.disableGuard && "禁用防御",
-            ]
-              .filter(Boolean)
-              .join(" · ")}
+        {finished && (
+          <div className="mt-4 flex items-center justify-between gap-3 border-y border-[#101d33]/10 py-3">
+            <span className="text-xs text-[#61718b]">
+              {teamSizeFor(view.config?.format) > 1 ? "剩余角色" : "回合比分"}
+            </span>
+            <strong className="font-mono text-xl tabular-nums">
+              {(teamSizeFor(view.config?.format) > 1
+                ? view.teamRemaining
+                : view.wins
+              ).join(" : ")}
+            </strong>
+          </div>
+        )}
+        {online && (
+          <p className="mt-3 text-sm leading-6 text-[#61718b]" role="status">
+            {waitingForPlayers
+              ? "所有玩家恢复连接并加载完成后，即可继续。"
+              : !host
+                ? finished
+                  ? "等待房主再开一局，也可以返回房间更换角色。"
+                  : "暂停会同步给所有玩家；任意玩家都可继续对战。"
+                : finished
+                  ? "再来一局沿用当前阵容；返回房间可重新选人。"
+                  : "暂停已同步给所有玩家。"}
           </p>
         )}
-        {view.paused && waitingForPlayers && (
-          <p className="mb-5 text-sm text-cyan-100" role="status">
-            等待所有玩家重新连接并加载角色…
-          </p>
-        )}
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="mt-5 grid grid-cols-2 gap-2">
           <Button
             primary
+            className="col-span-2"
+            disabled={!runtime || waitingForPlayers || (finished && !host)}
             onClick={() =>
-              view.paused ? void runtime?.pause(false) : void runtime?.restart()
-            }
-            disabled={
-              view.network.room !== null &&
-              ((!view.paused && view.network.side !== 0) || waitingForPlayers)
+              finished ? void runtime?.restart() : void runtime?.pause(false)
             }
           >
-            {view.paused ? "继续对战" : "原阵容再战"}
+            {finished
+              ? host
+                ? "再来一局"
+                : "等待房主再开一局"
+              : waitingForPlayers
+                ? "等待连接恢复…"
+                : "继续对战"}
           </Button>
-          {view.paused && (
+          {!finished && host && (
             <Button
-              disabled={
-                !!view.network.room &&
-                (view.network.side !== 0 || waitingForPlayers)
-              }
+              tone="light"
+              disabled={!runtime || waitingForPlayers}
               onClick={() => void runtime?.restart()}
             >
               重新开始
             </Button>
           )}
           <Button
+            tone="light"
+            className={finished || !host ? "col-span-2" : ""}
+            disabled={!runtime}
             onClick={() =>
-              view.network.room
+              online
                 ? runtime?.back()
                 : runtime?.begin(
                     view.config?.mode ?? "cpu",
@@ -93,39 +113,76 @@ export function PauseOverlay({
                   )
             }
           >
-            重新选人
+            {online ? "返回房间选人" : "重新选人"}
           </Button>
-          <Button onClick={() => runtime?.back()}>主菜单</Button>
-          {view.paused && (
-            <>
-              <Button
-                disabled={!runtime}
-                onClick={() => runtime?.showDialog("moves")}
-              >
-                招式表
-              </Button>
-              <Button
-                disabled={!runtime}
-                onClick={() => runtime?.showDialog("help")}
-              >
-                操作说明
-              </Button>
-              <Button
-                disabled={!runtime}
-                aria-pressed={view.sound}
-                onClick={() => runtime?.setSound(!view.sound)}
-              >
-                {view.sound ? "音效开" : "音效关"}
-              </Button>
-            </>
-          )}
-          {onToggleFull && (
-            <Button onClick={onToggleFull}>
-              {fullField ? "退出全屏" : "全屏"}
-            </Button>
-          )}
+          <Button
+            tone="light"
+            className="col-span-2"
+            disabled={!runtime}
+            onClick={() => runtime?.returnToMenu()}
+          >
+            {online ? "离开房间 · 返回主菜单" : "返回主菜单"}
+          </Button>
         </div>
-      </div>
+        {!finished && (
+          <div className="mt-4 flex flex-wrap gap-2 border-t border-[#101d33]/10 pt-4">
+            <Button
+              tone="light"
+              disabled={!runtime}
+              onClick={() => runtime?.showDialog("moves")}
+            >
+              招式表
+            </Button>
+            <Button
+              tone="light"
+              disabled={!runtime}
+              onClick={() => runtime?.showDialog("help")}
+            >
+              操作说明
+            </Button>
+            <Button
+              tone="light"
+              disabled={!runtime}
+              aria-pressed={view.sound}
+              onClick={() => runtime?.setSound(!view.sound)}
+            >
+              {view.sound ? "音效：开" : "音效：关"}
+            </Button>
+            {onToggleFull && (
+              <Button tone="light" onClick={onToggleFull}>
+                {fullField ? "退出全屏" : "进入全屏"}
+              </Button>
+            )}
+          </div>
+        )}
+        {rules && !finished && (
+          <details className="mt-3 text-xs leading-6 text-[#61718b]">
+            <summary className="w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-[#1aa8b8]">
+              本局规则
+            </summary>
+            <p className="mt-1">
+              {[
+                `${rules.maxHealth} 生命`,
+                rules.infiniteTime ? "无限时间" : `${rules.roundSeconds} 秒`,
+                `伤害 ×${rules.damageMultiplier}`,
+                `移速 ×${rules.speedMultiplier}`,
+                rules.oneHitKO && "一击决胜",
+                rules.vampire && "吸血对战",
+                rules.lowGravity && "低重力",
+                rules.infiniteJumps && "无限空中跳跃",
+                rules.disableGuard && "禁用防御",
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          </details>
+        )}
+        {(view.error || view.network.error) && (
+          <p role="alert" className="mt-3 text-sm text-[#bb3266]">
+            {view.error || view.network.error}
+          </p>
+        )}
+      </section>
     </div>
   );
 }

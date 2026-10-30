@@ -20,11 +20,16 @@ export function DraftProgress({
   return (
     <section
       aria-label="禁选进度"
-      className="mb-2 flex flex-wrap items-center justify-between gap-3 rounded-none bg-[#30251a]/4 p-2"
+      className="mb-3 flex flex-wrap items-center justify-between gap-3 border border-[#d9e2ef] bg-[#f3f7fc] p-3"
     >
       <div className="flex flex-wrap items-center gap-3">
-        <span className="text-[10px] tracking-widest text-[#80786d]">
-          BAN / 先禁后选
+        <span className="text-xs font-semibold text-[#61718b]">
+          {draft.phase === "ban"
+            ? "正在禁用"
+            : draft.phase === "pick"
+              ? "正在选人"
+              : "禁选完成"}{" "}
+          · 先禁后选
         </span>
         {Array.from({ length: rules.banCount * 2 }, (_, banIndex) => {
           const banSide = banIndex % 2;
@@ -32,12 +37,12 @@ export function DraftProgress({
           return (
             <div key={banIndex} className="flex items-center gap-2 text-xs">
               <span
-                className={banSide === 0 ? "text-[#8f354e]" : "text-[#2a5f5a]"}
+                className={banSide === 0 ? "text-[#bb3266]" : "text-[#147d89]"}
               >
                 {banSide + 1}P · {Math.floor(banIndex / 2) + 1}
               </span>
               {id === undefined ? (
-                <span className="grid size-9 place-items-center rounded-none bg-[#30251a]/5 text-[#80786d]">
+                <span className="grid size-9 place-items-center rounded-none border border-dashed border-[#d9e2ef] bg-white text-[#61718b]">
                   —
                 </span>
               ) : (
@@ -50,7 +55,7 @@ export function DraftProgress({
                   className="size-9 rounded-none object-cover object-center grayscale"
                 />
               )}
-              <span className="text-[10px] text-[#80786d]">
+              <span className="text-[11px] text-[#61718b]">
                 {id === undefined ? "待禁用" : ROSTER[id].name}
               </span>
             </div>

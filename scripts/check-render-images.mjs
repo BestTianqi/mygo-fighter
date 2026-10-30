@@ -26,7 +26,7 @@ class FakeImage {
   width = 100;
   height = 200;
   decode() {
-    return decode();
+    return decode(this.url);
   }
   set src(url) {
     this.url = url;
@@ -59,6 +59,7 @@ const renderer = () => {
     images: new Map(),
     loading: new Map(),
     disposed: false,
+    prepareId: 0,
     resizeObserver: { disconnect() {} },
     scene: { reset() {} },
     context: {
@@ -197,6 +198,44 @@ try {
       assert(surfaces.every((surface) => surface.closed === 1));
       await instance.prepare({});
       assert.equal(instance.images.size, 0);
+    },
+  );
+
+  await check(
+    "cancelled or superseded preparation cannot warm or trim the next match",
+    async () => {
+      const gate = deferred();
+      decode = () => gate.promise;
+      const instance = renderer();
+      let warms = 0;
+      instance.context.drawImage = () => {
+        warms++;
+      };
+      const prior = instance.prepare({
+        characters: [0, 1],
+        settings: { arena: 0 },
+      });
+      await flush();
+      assert.equal(created.length, 2);
+      instance.cancelPrepare();
+      decode = () => Promise.resolve();
+      await instance.prepare({ characters: [3, 4], settings: { arena: 1 } });
+      const count = created.length,
+        warmed = warms;
+      assert(warmed > 0);
+      gate.resolve();
+      await prior;
+      assert.equal(
+        created.length,
+        count,
+        "old preparation stops after its in-flight pair",
+      );
+      assert.equal(
+        warms,
+        warmed,
+        "old preparation cannot draw over a new match",
+      );
+      instance.dispose();
     },
   );
 

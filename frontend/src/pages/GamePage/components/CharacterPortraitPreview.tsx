@@ -36,13 +36,13 @@ export function CharacterPortraitPreview({
         <span className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-[#f7f3eb] to-transparent" />
       </div>
       <div className="relative min-w-0 p-3">
-        <p className="text-[9px] tracking-widest text-[#80786d]">
+        <p className="text-[9px] tracking-widest text-[#61718b]">
           {BAND_LABEL[profile.band ?? "mygo"]}
         </p>
-        <h2 className="mt-1 text-lg font-medium text-[#211f1a] sm:text-xl">
+        <h2 className="mt-1 text-lg font-medium text-[#101d33] sm:text-xl">
           {profile.name}
         </h2>
-        <p className="mt-2 text-[10px] text-[#80786d] sm:text-xs">
+        <p className="mt-2 text-[10px] text-[#61718b] sm:text-xs">
           {profile.role} / {profile.archetype}
         </p>
         {assets.mujicaPortraits[character] && (
@@ -50,7 +50,7 @@ export function CharacterPortraitPreview({
             type="button"
             aria-pressed={stageForm}
             onClick={() => setStageForm(!stageForm)}
-            className="mt-2 min-h-11 rounded-none bg-[#30251a]/6 px-3 py-1 text-[10px] focus-visible:outline-2 focus-visible:outline-cyan-200"
+            className="mt-2 min-h-11 rounded-none bg-[#244566]/6 px-3 py-1 text-[10px] focus-visible:outline-2 focus-visible:outline-cyan-200"
           >
             {stageForm ? "演出服" : "常态"} · 切换预览
           </button>
@@ -61,10 +61,10 @@ export function CharacterPortraitPreview({
               (move, i) =>
                 move && (
                   <div key={move} className="flex items-baseline gap-2  pb-1.5">
-                    <dt className="min-w-5 rounded-none bg-[#a44761]/8 text-center font-mono text-[#8f354e]">
+                    <dt className="min-w-5 rounded-none bg-[#bb3266]/8 text-center font-mono text-[#982650]">
                       {["U", "I", "O", "P"][i]}
                     </dt>
-                    <dd className="text-[#565045]">{MOVES[move]?.name}</dd>
+                    <dd className="text-[#32455f]">{MOVES[move]?.name}</dd>
                   </div>
                 ),
             )}

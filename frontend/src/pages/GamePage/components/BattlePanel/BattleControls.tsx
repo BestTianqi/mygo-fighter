@@ -23,7 +23,7 @@ function BarButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-none bg-white/8 backdrop-blur-sm text-sm font-semibold text-slate-100 select-none active:bg-white/20 disabled:opacity-35"
+      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-none bg-white/10 text-sm font-semibold text-white select-none active:bg-white/20 disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-cyan-200"
     >
       {children}
     </button>
@@ -48,7 +48,7 @@ function FieldButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-none bg-slate-950/55 backdrop-blur-md text-sm font-semibold text-slate-100 shadow-lg select-none active:bg-white/20 disabled:opacity-35"
+      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-none bg-slate-950/90 text-xs font-semibold text-white shadow-lg select-none active:bg-white/20 disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-cyan-200"
     >
       {children}
     </button>
@@ -78,20 +78,26 @@ export function MobileBattleBar({
   return (
     <header className="relative z-40 flex shrink-0 items-center justify-between gap-2 border-b border-white/10 bg-slate-950/80 px-[max(0.5rem,env(safe-area-inset-left))] py-1.5 pr-[max(0.5rem,env(safe-area-inset-right))] pt-[calc(0.375rem+env(safe-area-inset-top))]">
       <div className="flex min-w-0 items-center gap-2">
-        <BarButton label="返回主菜单" onClick={() => runtime?.back()}>
-          ←
+        <BarButton
+          label="打开对战菜单"
+          onClick={() => void runtime?.pause(true)}
+          disabled={!runtime || view.phase === "finished"}
+        >
+          菜单
         </BarButton>
-        <span className="truncate text-[10px] tracking-widest text-slate-400 landscape:inline">
-          {status}
-        </span>
+        <span className="truncate text-[10px] text-slate-200">{status}</span>
       </div>
       <div className="flex items-center gap-1.5">
         <BarButton
           label={view.paused ? "继续对战" : "暂停对战"}
           onClick={() => void runtime?.pause()}
-          disabled={!runtime || (view.paused && isWaitingForPlayers(view))}
+          disabled={
+            !runtime ||
+            view.phase === "finished" ||
+            (view.paused && isWaitingForPlayers(view))
+          }
         >
-          {view.paused ? "▶" : "Ⅱ"}
+          {view.paused ? "继续" : "暂停"}
         </BarButton>
         <BarButton
           label="招式表"
@@ -142,9 +148,13 @@ export function FullFieldControls({
       <FieldButton
         label={view.paused ? "继续对战" : "暂停对战"}
         onClick={() => void runtime?.pause()}
-        disabled={!runtime || (view.paused && waitingForPlayers)}
+        disabled={
+          !runtime ||
+          view.phase === "finished" ||
+          (view.paused && waitingForPlayers)
+        }
       >
-        {view.paused ? "▶" : "Ⅱ"}
+        {view.paused ? "继续" : "暂停"}
       </FieldButton>
       <FieldButton label="退出全屏" onClick={toggleFullField}>
         退出
@@ -172,12 +182,16 @@ export function BattleToolbar({
         className="mt-4 flex flex-wrap items-center justify-center gap-2"
         aria-label="游戏操作"
       >
-        <Button onClick={() => runtime?.back()}>主菜单</Button>
+        <Button onClick={() => runtime?.returnToMenu()}>返回主菜单</Button>
         <Button
-          disabled={view.paused && waitingForPlayers}
+          disabled={
+            !runtime ||
+            view.phase === "finished" ||
+            (view.paused && waitingForPlayers)
+          }
           onClick={() => void runtime?.pause()}
         >
-          {view.paused ? "继续" : "暂停"}
+          {view.paused ? "继续对战" : "暂停与设置"}
         </Button>
         <Button
           disabled={
@@ -186,7 +200,7 @@ export function BattleToolbar({
           }
           onClick={() => void runtime?.restart()}
         >
-          重开
+          重新开始
         </Button>
         <Button onClick={() => runtime?.showDialog("moves")}>招式表</Button>
         <Button onClick={() => runtime?.showDialog("help")}>操作说明</Button>
@@ -198,7 +212,7 @@ export function BattleToolbar({
         </Button>
         <Button onClick={toggleFullField}>全屏</Button>
       </nav>
-      <p className="mt-3 text-center text-[10px] text-slate-500">
+      <p className="mt-3 text-center text-xs leading-6 text-slate-300">
         {view.lastMove ||
           `AD 移动 · W 跳跃${view.config?.rules?.disableNormals ? "" : " · J/K 攻击"} · L 瞬移 · U/I/O 技能${canTransform ? " · H 变身" : ""}${view.config?.rules?.disableSupers ? "" : " · P 大招"}`}
       </p>

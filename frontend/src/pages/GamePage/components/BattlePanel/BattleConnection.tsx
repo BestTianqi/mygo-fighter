@@ -7,23 +7,22 @@ export function BattleConnection({ view }: { view: GameView }) {
     (status === "reconnecting" ||
       room.players.some((player) => !player?.connected));
   const delayed = view.connectionStalled || (rtt !== null && rtt > 150);
+  if (!room) return null;
   return (
     <output
       aria-label="网络延迟"
-      className={`pointer-events-none absolute left-1/2 top-[max(0.25rem,env(safe-area-inset-top))] z-40 -translate-x-1/2 whitespace-nowrap rounded-none bg-slate-950/65 backdrop-blur-sm px-2 py-1 font-mono text-[10px] tabular-nums ${reconnecting || delayed ? "text-amber-300" : "text-cyan-200"}`}
+      className={`pointer-events-none absolute left-[max(0.5rem,env(safe-area-inset-left))] top-[max(0.5rem,env(safe-area-inset-top))] z-40 max-w-[calc(100%-8rem)] truncate rounded-none bg-slate-950/90 px-2 py-2 font-mono text-[10px] tabular-nums ${reconnecting || delayed ? "text-amber-200" : "text-cyan-100"}`}
     >
       <span aria-hidden="true" className="mr-1">
         ●
       </span>
-      {!room
-        ? "本地 · 无网络延迟"
-        : reconnecting
-          ? "连接恢复中…"
-          : view.connectionStalled
-            ? "同步等待中…"
-            : rtt === null
-              ? "延迟测量中…"
-              : `${Math.round(rtt)} ms RTT`}
+      {reconnecting
+        ? "连接恢复中…"
+        : view.connectionStalled
+          ? "同步等待中…"
+          : rtt === null
+            ? "延迟测量中…"
+            : `${view.network.side + 1}P · 延迟 ${Math.round(rtt)} ms`}
     </output>
   );
 }

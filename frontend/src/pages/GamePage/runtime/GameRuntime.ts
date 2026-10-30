@@ -156,6 +156,18 @@ export class GameRuntime {
     void this.lan.leave();
     this.publish({ lobbyOpen: false });
   }
+  returnToMenu() {
+    // Invalidate an unfinished preload before leaving its screen.
+    this.request++;
+    this.renderer.cancelPrepare();
+    if (!this.lan.connected) {
+      this.back();
+      return;
+    }
+    // leave() clears the local session before its HTTP cleanup completes.
+    void this.lan.leave();
+    this.publish({ screen: "menu", lobbyOpen: false, dialog: null, error: "" });
+  }
   back() {
     this.pendingState.clear();
     this.input.clear();
