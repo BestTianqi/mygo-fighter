@@ -53,8 +53,8 @@ export function BattlePanel({
       hidden={view.screen !== "battle"}
       className={
         immersive
-          ? "fixed inset-0 z-30 flex h-dvh touch-manipulation flex-col overflow-hidden bg-[#080e1c] text-slate-100 select-none"
-          : "mx-auto flex min-h-dvh max-w-[1440px] flex-col bg-[#080e1c] text-slate-100 px-2 py-3 sm:px-6 sm:py-6"
+          ? "fixed inset-0 z-30 flex h-dvh touch-manipulation flex-col overflow-hidden bg-void text-ivory select-none"
+          : "mx-auto flex min-h-dvh max-w-[1440px] flex-col bg-void text-ivory px-2 py-3 sm:px-6 sm:py-6"
       }
       aria-label="对战舞台"
     >
@@ -118,7 +118,7 @@ export function BattlePanel({
       )}
       {fullField && <BattleConnection view={view} />}
       {fullField && !mobile && (
-        <p className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-[10px] tracking-widest text-slate-400">
+        <p className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-[10px] tracking-widest text-muted">
           ESC 退出全屏 · 右上角暂停设置
         </p>
       )}
@@ -127,7 +127,7 @@ export function BattlePanel({
         !view.paused &&
         view.phase !== "finished" &&
         !view.dialog && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-slate-950/85 via-slate-950/35 to-transparent pt-14">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-void/85 via-void/35 to-transparent pt-14">
             <div className="pointer-events-none pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
               {runtime && (
                 <TouchControls

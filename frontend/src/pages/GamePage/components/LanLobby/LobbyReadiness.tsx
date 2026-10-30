@@ -40,17 +40,16 @@ export function LobbyReadiness({ model }: { model: LanLobbyModel }) {
                 ? `你已准备 · ${readyCount} / ${model.playerCount} 人已准备，等待其他玩家。`
                 : "阵容已齐，点击准备开战。所有人准备后自动开始。";
   return (
-    <footer className="mt-3 shrink-0 border-t border-[#d9e2ef] pt-3 pb-[env(safe-area-inset-bottom)]">
+    <footer className="mt-3 shrink-0 pt-3 pb-[env(safe-area-inset-bottom)]">
       <p
         role="status"
         aria-live="polite"
-        className="mb-3 text-xs leading-5 text-[#61718b]"
+        className="mb-3 text-xs leading-5 text-muted"
       >
         {guidance}
       </p>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Button
-          tone="light"
           disabled={busy}
           onClick={model.leaveRoom}
           className="max-sm:flex-1"
@@ -61,7 +60,6 @@ export function LobbyReadiness({ model }: { model: LanLobbyModel }) {
         </Button>
         {drafting ? (
           <Button
-            tone="light"
             primary
             onClick={submitDraft}
             disabled={candidate === null || !myTurn || locked || !bothConnected}
@@ -75,7 +73,6 @@ export function LobbyReadiness({ model }: { model: LanLobbyModel }) {
           </Button>
         ) : (
           <Button
-            tone="light"
             primary
             disabled={
               locked ||

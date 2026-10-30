@@ -11,25 +11,25 @@ export function WindowedBattleHeader({
   return (
     <>
       {view.network.status === "error" && view.network.error && (
-        <p role="alert" className="text-center text-pink-200">
+        <p role="alert" className="text-center text-ember">
           {view.network.error}
         </p>
       )}
       {view.connectionStalled && (
-        <p role="status" className="text-center text-amber-200">
+        <p role="status" className="text-center text-gold">
           网络更新延迟，正在等待同步…
         </p>
       )}
       {view.diagnostics && (
-        <output className="text-xs text-slate-400" aria-label="联机性能">
+        <output className="text-xs text-muted" aria-label="联机性能">
           {view.diagnostics}
         </output>
       )}
-      <header className="mb-3 flex flex-wrap items-center justify-between gap-2 px-2 text-xs text-slate-300">
+      <header className="mb-3 flex flex-wrap items-center justify-between gap-2 px-2 text-xs text-muted">
         <span>MYGO!!!!! / {view.config?.format ?? "1v1"}</span>
         <span>{assets.stages[view.config?.settings.arena ?? 0].name}</span>
         {view.network.room && (
-          <span className="text-cyan-200" role="status">
+          <span className="text-silver" role="status">
             {view.network.status === "reconnecting"
               ? "正在重连"
               : view.network.room.players.some((player) => !player?.connected)
@@ -49,7 +49,7 @@ export function MobileBattleNotices({ view }: { view: GameView }) {
   return (
     <p
       role={error ? "alert" : "status"}
-      className={`pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 bg-slate-950/95 px-3 py-2 text-center text-xs ${error ? "text-pink-200" : "text-amber-200"}`}
+      className={`pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 bg-void/95 px-3 py-2 text-center text-xs ${error ? "text-ember" : "text-gold"}`}
     >
       {message}
     </p>

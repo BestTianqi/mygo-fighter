@@ -42,14 +42,14 @@ export function LanLobby({
       {(error || view.error) && (
         <p
           role="alert"
-          className="mt-3 shrink-0 border-l-2 border-[#bb3266] bg-[#bb3266]/5 px-3 py-2 text-sm leading-6 text-[#a52a58]"
+          className="mt-3 shrink-0 bg-crimson/20 px-3 py-2 text-sm leading-6 text-ember"
         >
           {error || view.error}
         </p>
       )}
       <p
         role="status"
-        className="mt-2 shrink-0 text-[11px] leading-5 text-[#61718b]"
+        className="mt-2 shrink-0 text-[11px] leading-5 text-muted"
       >
         {status === "preparing"
           ? "正在预载所有角色，完成后同时开战…"

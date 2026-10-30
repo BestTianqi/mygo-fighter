@@ -31,8 +31,8 @@ export function BattleStage({
       <div
         className={
           immersive
-            ? "relative aspect-video w-[min(100cqw,calc(100cqh*16/9))] overflow-hidden bg-slate-950"
-            : "relative overflow-hidden rounded-none bg-slate-950 shadow-2xl"
+            ? "relative aspect-video w-[min(100cqw,calc(100cqh*16/9))] overflow-hidden bg-void"
+            : "relative overflow-hidden rounded-none bg-void shadow-2xl"
         }
       >
         {videos.length > 0 && backgroundVideoEnabled() && (
@@ -48,7 +48,7 @@ export function BattleStage({
                 onEnd={() => onClearCutin(side)}
               />
             ))}
-            <div className="absolute inset-0 bg-slate-950/25" />
+            <div className="absolute inset-0 bg-void/25" />
           </div>
         )}
         <canvas

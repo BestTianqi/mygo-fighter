@@ -96,33 +96,19 @@ export function TouchAttackButton({
         if (!pointers.current.delete(event.pointerId)) return;
         if (!pointers.current.size) finish(false);
       }}
-      className={`pointer-events-auto absolute left-[77%] top-[78.64%] aspect-square w-[44%] -translate-x-1/2 -translate-y-1/2 touch-none overflow-hidden rounded-full border-2 bg-[radial-gradient(ellipse_at_center,#9b466a,#121a30)] shadow-[0_3px_12px_#0009,inset_0_0_12px_#ffffff20] outline-none transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
+      className={`pointer-events-auto absolute left-[77%] top-[78.64%] aspect-square w-[44%] -translate-x-1/2 -translate-y-1/2 touch-none overflow-hidden rounded-none bg-crimson/90 outline-none transition-[filter] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
         phase === "heavy"
-          ? "border-amber-200 brightness-125 ring-2 ring-amber-200/60"
+          ? "brightness-125"
           : phase === "pending"
-            ? "border-pink-100 brightness-110"
-            : "border-pink-200/85"
+            ? " brightness-110"
+            : ""
       }`}
     >
       <TouchActionIcon artwork={phase === "heavy" ? heavy : light} />
-      <svg
+      <span
         aria-hidden="true"
-        viewBox="0 0 100 100"
-        className={`pointer-events-none absolute inset-0 size-full -rotate-90 ${phase === "idle" ? "opacity-0" : "opacity-100"}`}
-      >
-        <circle
-          cx="50"
-          cy="50"
-          r="46"
-          pathLength="100"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeDasharray="100"
-          strokeDashoffset={phase === "idle" ? 100 : 0}
-          className={`text-amber-200 ${phase === "pending" ? "transition-[stroke-dashoffset] duration-300 ease-linear" : "duration-0"}`}
-        />
-      </svg>
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left bg-gold ${phase === "idle" ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"} ${phase === "pending" ? "transition-transform duration-300 ease-linear motion-reduce:transition-none" : "duration-0"}`}
+      />
     </button>
   );
 }

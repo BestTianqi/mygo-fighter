@@ -19,7 +19,7 @@ export function BattleHUD({
   return (
     <div
       aria-label="对战状态"
-      className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-2 bg-linear-to-b from-slate-950/95 via-slate-950/65 to-transparent text-white ${
+      className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-2 bg-linear-to-b from-void/95 via-void/65 to-transparent text-white ${
         fullField
           ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-6 portrait:pt-3 sm:gap-6"
           : mobile
@@ -30,7 +30,7 @@ export function BattleHUD({
       {brawl ? (
         <>
           <div
-            className="col-span-3 flex items-center justify-center gap-2 text-[10px] text-slate-200"
+            className="col-span-3 flex items-center justify-center gap-2 text-[10px] text-ivory/80"
             aria-label="混战剩余时间"
           >
             <span>三人混战 · 每人 3 角色</span>
@@ -68,11 +68,11 @@ export function BattleHUD({
                     .toString()
                     .padStart(2, "0")}
             </p>
-            <small className="whitespace-nowrap text-[9px] text-slate-200 sm:text-[10px]">
+            <small className="whitespace-nowrap text-[9px] text-ivory/80 sm:text-[10px]">
               第 {view.round} 回合
             </small>
             {view.config?.rules?.oneHitKO && (
-              <p className="mt-1 text-[9px] font-semibold text-amber-200">
+              <p className="mt-1 text-[9px] font-semibold text-gold">
                 一击决胜
               </p>
             )}
@@ -113,7 +113,7 @@ function FighterHUD({
   return (
     <div
       aria-label={`${label} · ${fighter.name}${view.network.room && view.network.side === side ? " · 你" : ""}`}
-      className={`min-w-0 bg-slate-950/55 p-1.5 sm:p-2 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
+      className={`min-w-0 bg-void/55 p-1.5 sm:p-2 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
     >
       <div
         className={`mb-1.5 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
@@ -130,7 +130,7 @@ function FighterHUD({
         )}
         <div className="min-w-0">
           <p
-            className={`mb-0.5 text-[9px] font-bold ${side === 0 ? "text-pink-200" : side === 1 ? "text-cyan-200" : "text-amber-200"}`}
+            className={`mb-0.5 text-[9px] font-bold ${side === 0 ? "text-ember" : side === 1 ? "text-silver" : "text-gold"}`}
           >
             {label}
             {view.network.room && view.network.side === side ? " · 你" : ""}
@@ -139,9 +139,7 @@ function FighterHUD({
             className={`truncate text-[11px] font-bold ${mobile ? "sm:text-xs" : "sm:text-base"}`}
           >
             {fighter.name}
-            {fighter.transformed && (
-              <span className="ml-1 text-pink-200">✦</span>
-            )}
+            {fighter.transformed && <span className="ml-1 text-ember">✦</span>}
             {fighter.lifesteal && (
               <span
                 aria-label="吸血效果"
@@ -158,7 +156,7 @@ function FighterHUD({
             )}
           </p>
           <p
-            className={`whitespace-nowrap font-mono text-[9px] tabular-nums text-slate-100 ${mobile ? "" : "sm:text-xs"}`}
+            className={`whitespace-nowrap font-mono text-[9px] tabular-nums text-ivory ${mobile ? "" : "sm:text-xs"}`}
           >
             {Math.max(0, Math.ceil(fighter.hp))} /{" "}
             {view.config?.rules?.maxHealth ?? 200} HP{" "}
@@ -172,10 +170,10 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={view.config?.rules?.maxHealth ?? 200}
         aria-valuenow={fighter.hp}
-        className={`h-2.5 overflow-hidden rounded-none bg-slate-600 ring-1 ring-white/15 ${mobile ? "sm:h-3" : "sm:h-4"}`}
+        className={`h-2.5 overflow-hidden rounded-none bg-line ${mobile ? "sm:h-3" : "sm:h-4"}`}
       >
         <div
-          className={`h-full transition-[width] duration-75 ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-pink-200" : side === 1 ? "bg-cyan-200" : "bg-amber-200"}`}
+          className={`h-full transition-[width] duration-75 ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-ember" : side === 1 ? "bg-silver" : "bg-gold"}`}
           style={{
             width: `${Math.max(0, Math.min(100, (fighter.hp / (view.config?.rules?.maxHealth ?? 200)) * 100))}%`,
           }}
@@ -189,7 +187,7 @@ function FighterHUD({
         aria-valuenow={fighter.energy}
         className={`mt-1 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
       >
-        <div className="h-1 min-w-0 flex-1 overflow-hidden rounded-none bg-slate-700">
+        <div className="h-1 min-w-0 flex-1 overflow-hidden rounded-none bg-raised">
           <div
             className={`h-full ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-pink-100" : side === 1 ? "bg-cyan-100" : "bg-amber-100"}`}
             style={{ width: `${fighter.energy}%` }}
@@ -197,7 +195,7 @@ function FighterHUD({
         </div>
         <span
           aria-hidden="true"
-          className={`shrink-0 whitespace-nowrap font-mono text-[9px] tabular-nums text-slate-100 ${mobile ? "" : "sm:text-[10px]"}`}
+          className={`shrink-0 whitespace-nowrap font-mono text-[9px] tabular-nums text-ivory ${mobile ? "" : "sm:text-[10px]"}`}
         >
           {view.config?.rules?.infiniteEnergy
             ? "∞ 共鸣"
@@ -205,7 +203,7 @@ function FighterHUD({
         </span>
       </div>
       <p
-        className={`mt-1 text-[9px] text-slate-200 ${mobile ? "" : "sm:text-[10px]"}`}
+        className={`mt-1 text-[9px] text-ivory/80 ${mobile ? "" : "sm:text-[10px]"}`}
       >
         {brawl
           ? remaining === 0
@@ -238,7 +236,7 @@ function FighterHUD({
                 alt={ROSTER[id]?.name ?? "角色"}
                 className="h-5 w-full object-cover object-center sm:h-7"
               />
-              <span className="absolute bottom-0 inset-x-0 bg-slate-950/75 text-center text-[7px] text-white">
+              <span className="absolute bottom-0 inset-x-0 bg-void/75 text-center text-[7px] text-white">
                 {slot < currentSlot
                   ? "退场"
                   : slot === currentSlot

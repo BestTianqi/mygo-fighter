@@ -16,25 +16,21 @@ export function SelectionSettings({
   const { selection } = model;
   const stage = assets.stages[selection.settings.arena];
   return (
-    <section
-      className="mt-5 border-t border-[#d9e2ef] pt-4"
-      aria-label="场地与规则"
-    >
+    <section className="mt-5 pt-4" aria-label="场地与规则">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-1">
         <div>
           <h2 className="text-sm font-semibold">
             选择场地{" "}
-            <span className="ml-2 text-xs font-normal text-[#61718b]">
+            <span className="ml-2 text-xs font-normal text-muted">
               {stage.name}
             </span>
           </h2>
-          <p className="mt-1 text-[11px] text-[#61718b]">{stage.layout}</p>
         </div>
-        <div className="flex flex-wrap gap-4 text-xs text-[#61718b]">
+        <div className="flex flex-wrap gap-4 text-xs text-muted">
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
-              className="size-4 accent-[#bb3266]"
+              className="size-4 accent-crimson"
               checked={selection.settings.terrain}
               onChange={(event) =>
                 model.setSettings({ terrain: event.target.checked })
@@ -45,7 +41,7 @@ export function SelectionSettings({
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
-              className="size-4 accent-[#bb3266]"
+              className="size-4 accent-crimson"
               checked={selection.settings.sound}
               onChange={(event) =>
                 model.setSettings({ sound: event.target.checked })
@@ -65,7 +61,7 @@ export function SelectionSettings({
             type="button"
             onClick={() => model.setSettings({ arena })}
             aria-pressed={selection.settings.arena === arena}
-            className={`group relative w-32 shrink-0 snap-start overflow-hidden rounded-lg border-2 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1aa8b8] sm:w-40 lg:w-44 ${selection.settings.arena === arena ? "border-[#bb3266] bg-white text-[#bb3266]" : "border-transparent bg-white text-[#61718b] hover:border-[#d9e2ef] hover:text-[#101d33]"}`}
+            className={`group relative w-32 shrink-0 snap-start overflow-hidden rounded-none text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember sm:w-40 lg:w-44 ${selection.settings.arena === arena ? "bg-crimson text-white" : "bg-panel text-muted hover:bg-raised hover:text-ivory"}`}
           >
             <img
               src={scene.thumbnail}
@@ -89,11 +85,6 @@ export function SelectionSettings({
         practice={selection.mode === "practice"}
         onChange={(changes) => model.setRules(changes)}
       />
-      {selection.mode !== "practice" && selection.format !== "3ffa" && (
-        <p className="mt-2 text-[11px] leading-5 text-[#61718b]">
-          需要禁选？展开对战规则设置。更改每方禁用人数会重新开始选角。
-        </p>
-      )}
     </section>
   );
 }

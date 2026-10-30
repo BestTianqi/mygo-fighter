@@ -47,7 +47,7 @@ export function FinishOverlay({
       data-ultimate-finish={!!ultimate}
       data-finish-attack={ultimate?.attack}
       data-finish-scene={!!presentation}
-      className={`${className} pointer-events-none flex items-center overflow-hidden bg-slate-950/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
+      className={`${className} pointer-events-none flex items-center overflow-hidden bg-void/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
       style={{
         opacity: motion.opacity,
         clipPath: motion.clipPath,
@@ -88,7 +88,7 @@ export function FinishOverlay({
           )}
           <div
             aria-hidden="true"
-            className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} ${showVideo ? "from-slate-950/75" : "from-slate-950/95"} via-slate-950/25 to-transparent`}
+            className={`absolute inset-0 ${left ? "bg-linear-to-l" : "bg-linear-to-r"} ${showVideo ? "from-void/75" : "from-void/95"} via-void/25 to-transparent`}
           />
           {ultimate && (
             <div className={`absolute inset-0 ${left ? "" : "-scale-x-100"}`}>
@@ -107,7 +107,7 @@ export function FinishOverlay({
               transitionDuration,
             }}
           >
-            <p className="mb-1 text-[8px] tracking-[.2em] text-pink-200 sm:mb-2 sm:text-xs sm:tracking-[.3em]">
+            <p className="mb-1 text-[8px] tracking-[.2em] text-ember sm:mb-2 sm:text-xs sm:tracking-[.3em]">
               {ultimate ? "ULTIMATE FINISH" : view.reason}
             </p>
             <p
@@ -116,7 +116,7 @@ export function FinishOverlay({
               {ultimate ? "奥义终结" : winner ? "胜 利" : "平 局"}
             </p>
             {ultimate && (
-              <p className="mt-1 text-[10px] font-bold tracking-[.12em] text-amber-200 sm:mt-3 sm:text-sm sm:tracking-[.22em]">
+              <p className="mt-1 text-[10px] font-bold tracking-[.12em] text-gold sm:mt-3 sm:text-sm sm:tracking-[.22em]">
                 {MOVES[ultimate.attack]?.name}
               </p>
             )}
@@ -128,12 +128,12 @@ export function FinishOverlay({
             <p className="mt-1 text-sm sm:mt-3 sm:text-xl">
               {winner ? ROSTER[winner.character].name : "不分胜负"}
             </p>
-            <p className="mt-1 text-[10px] text-slate-400 sm:mt-3 sm:text-sm">
+            <p className="mt-1 text-[10px] text-muted sm:mt-3 sm:text-sm">
               {teamSizeFor(view.config?.format) > 1
                 ? `剩余队员 ${view.teamRemaining.join(" : ")}`
                 : `回合比分 ${view.wins.join(" : ")}`}
             </p>
-            <p className="mt-1 text-[9px] text-slate-500 sm:mt-2 sm:text-xs">
+            <p className="mt-1 text-[9px] text-muted sm:mt-2 sm:text-xs">
               {view.phase === "finished" ? "本场对战结束" : "下一战即将开始"}
             </p>
           </div>

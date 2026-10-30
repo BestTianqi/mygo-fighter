@@ -47,20 +47,20 @@ export function SelectionLineups({
       {teams.map((team, side) => (
         <section
           key={side}
-          className={`min-w-0 rounded-xl border p-2 sm:p-3 [@media(max-height:500px)]:p-1.5 ${teams.length === 3 ? "grid grid-cols-[48px_minmax(0,1fr)] items-center gap-2 min-[600px]:block" : ""} ${active?.[0] === side ? (side === 0 ? "border-[#bb3266]/45 bg-[#bb3266]/5" : side === 1 ? "border-[#1aa8b8]/50 bg-[#1aa8b8]/5" : "border-[#647bd4]/45 bg-[#647bd4]/5") : "border-[#d9e2ef] bg-white/70"}`}
+          className={`min-w-0 rounded-none p-2 sm:p-3 [@media(max-height:500px)]:p-1.5 ${teams.length === 3 ? "grid grid-cols-[48px_minmax(0,1fr)] items-center gap-2 min-[600px]:block" : ""} ${active?.[0] === side ? (side === 0 ? "bg-crimson/20" : side === 1 ? "bg-silver/10" : "bg-gold/10") : "bg-panel"}`}
           aria-label={`${side + 1}P 出战阵容`}
         >
           <h2
-            className={`mb-2 flex flex-wrap items-center justify-between gap-1 text-xs font-bold ${teams.length === 3 ? "max-[599px]:mb-0 max-[599px]:flex-col max-[599px]:text-center" : ""} ${side === 0 ? "text-[#bb3266]" : side === 1 ? "text-[#16818f]" : "text-[#596bbb]"}`}
+            className={`mb-2 flex flex-wrap items-center justify-between gap-1 text-xs font-bold ${teams.length === 3 ? "max-[599px]:mb-0 max-[599px]:flex-col max-[599px]:text-center" : ""} ${side === 0 ? "text-ember" : side === 1 ? "text-silver" : "text-gold"}`}
           >
             <span>{labels[side]}</span>
-            <small className="text-[10px] font-normal text-[#61718b]">
+            <small className="text-[10px] font-normal text-muted">
               {statuses?.[side] ??
                 (active?.[0] === side ? "正在选择" : "出战阵容")}
             </small>
           </h2>
           {team.length > 3 && (
-            <p className="mb-1 text-[9px] text-[#61718b] min-[600px]:hidden">
+            <p className="mb-1 text-[9px] text-muted min-[600px]:hidden">
               左右滑动查看 {team.length} 个位置
             </p>
           )}
@@ -74,7 +74,7 @@ export function SelectionLineups({
                   key={slot}
                   className={`relative w-full min-w-0 max-w-28 ${teams.length === 3 ? "max-[599px]:max-w-16" : ""}`}
                 >
-                  <p className="mb-1 text-center text-[9px] text-[#61718b] [@media(max-height:500px)]:hidden">
+                  <p className="mb-1 text-center text-[9px] text-muted [@media(max-height:500px)]:hidden">
                     {slotLabel(team.length, slot)}
                   </p>
                   <button
@@ -84,10 +84,10 @@ export function SelectionLineups({
                     onDoubleClick={() => onClear?.(side, slot)}
                     aria-label={`${side + 1}P ${slotLabel(team.length, slot)}：${id === null ? "未选择" : ROSTER[id].name}`}
                     aria-pressed={selected}
-                    className={`relative flex aspect-square w-full min-w-0 touch-manipulation flex-col items-center justify-end overflow-hidden rounded-lg border-2 text-center disabled:cursor-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1aa8b8] [@media(max-height:500px)]:mx-auto [@media(max-height:500px)]:max-w-16 ${selected ? (side === 0 ? "border-[#bb3266] bg-[#bb3266]/8" : side === 1 ? "border-[#1aa8b8] bg-[#1aa8b8]/8" : "border-[#647bd4] bg-[#647bd4]/8") : "border-transparent bg-[#d9e2ef]/60"}`}
+                    className={`relative flex aspect-square w-full min-w-0 touch-manipulation flex-col items-center justify-end overflow-hidden rounded-none text-center disabled:cursor-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember [@media(max-height:500px)]:mx-auto [@media(max-height:500px)]:max-w-16 ${selected ? (side === 0 ? "bg-crimson/25" : side === 1 ? "bg-silver/15" : "bg-gold/15") : "bg-raised"}`}
                   >
                     <span
-                      className={`absolute left-1 top-1 z-10 rounded bg-[#101d33]/75 px-1 text-[8px] text-white ${team.length > 3 ? "block" : "hidden [@media(max-height:500px)]:block"}`}
+                      className={`absolute left-1 top-1 z-10 rounded-none bg-void/75 px-1 text-[8px] text-white ${team.length > 3 ? "block" : "hidden [@media(max-height:500px)]:block"}`}
                     >
                       {team.length > 3 ? `第 ${slot + 1} 位` : `${side + 1}P`}
                     </span>
@@ -101,12 +101,12 @@ export function SelectionLineups({
                         className="absolute inset-0 size-full object-cover object-center"
                       />
                     ) : (
-                      <span className="absolute inset-0 grid place-items-center pb-5 text-2xl font-light text-[#61718b]">
+                      <span className="absolute inset-0 grid place-items-center pb-5 text-2xl font-light text-muted">
                         +
                       </span>
                     )}
                     <span
-                      className={`relative block w-full truncate px-1 py-1.5 text-[10px] font-medium sm:text-xs ${id === null ? "text-[#61718b]" : "bg-linear-to-t from-[#101d33] via-[#101d33]/90 to-transparent pt-5 text-white"}`}
+                      className={`relative block w-full truncate px-1 py-1.5 text-[10px] font-medium sm:text-xs ${id === null ? "text-muted" : "bg-linear-to-t from-void via-void/90 to-transparent pt-5 text-white"}`}
                     >
                       {id === null
                         ? selected
@@ -120,7 +120,7 @@ export function SelectionLineups({
                       type="button"
                       onClick={() => onClear(side, slot)}
                       aria-label={`移除 ${labels[side]} ${ROSTER[id].name}`}
-                      className="absolute right-0 top-4 z-20 grid size-8 place-items-center rounded-bl-lg rounded-tr-lg bg-[#101d33]/80 text-sm text-white hover:bg-[#bb3266] focus-visible:outline-2 focus-visible:outline-[#1aa8b8]"
+                      className="absolute right-0 top-4 z-20 grid size-8 place-items-center rounded-none bg-void/80 text-sm text-white hover:bg-crimson focus-visible:outline-2 focus-visible:outline-ember"
                     >
                       ×
                     </button>

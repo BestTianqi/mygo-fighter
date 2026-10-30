@@ -13,20 +13,11 @@ export function GamePage({ assets }: { assets: Assets }) {
   const mobile = useMobilePlay();
   const { runtime, view } = useGame(assets, canvas);
   useEffect(() => {
-    const theme = document.querySelector('meta[name="theme-color"]');
-    theme?.setAttribute(
-      "content",
-      view.screen === "battle" || view.screen === "loadingBattle"
-        ? "#080e1c"
-        : "#f3f7fc",
-    );
-  }, [view.screen]);
-  useEffect(() => {
     if (view.screen === "menu" || view.screen === "selection")
       void exitImmersive();
   }, [mobile, view.screen]);
   return (
-    <main className="min-h-dvh bg-[#f3f7fc] text-[#101d33]">
+    <main className="min-h-dvh bg-void text-ivory">
       {view.screen === "menu" && (
         <MainMenu
           assets={assets}
@@ -61,19 +52,19 @@ export function GamePage({ assets }: { assets: Assets }) {
           <div className="max-w-sm">
             <span
               aria-hidden="true"
-              className="mx-auto mb-6 block h-1 w-14 animate-pulse bg-[#1aa8b8] motion-reduce:animate-none"
+              className="mx-auto mb-6 block h-1 w-14 animate-pulse bg-silver motion-reduce:animate-none"
             />
-            <h2 role="status" className="text-xl font-bold text-[#101d33]">
-              正在准备角色与舞台
+            <h2 role="status" className="text-xl font-bold text-ivory">
+              准备登台
             </h2>
-            <p className="mt-3 text-sm leading-6 text-[#61718b]">
-              首次进入需要加载角色素材，请稍候。
+            <p className="mt-3 text-sm leading-6 text-muted">
+              正在加载角色与舞台…
             </p>
             <button
               onClick={() => runtime?.returnToMenu()}
-              className="mt-6 min-h-11 px-4 text-sm font-semibold text-[#982650]"
+              className="mt-6 min-h-11 px-4 text-sm font-semibold text-ember"
             >
-              取消并返回主菜单
+              返回主菜单
             </button>
           </div>
         </div>
@@ -81,7 +72,7 @@ export function GamePage({ assets }: { assets: Assets }) {
       {view.error && view.screen !== "battle" && (
         <p
           role="alert"
-          className="fixed inset-x-4 bottom-4 rounded-xl border border-pink-200/30 bg-slate-950 p-4 text-center text-sm text-pink-200"
+          className="fixed inset-x-4 bottom-4 rounded-none bg-void p-4 text-center text-sm text-ember"
         >
           {view.error}
         </p>

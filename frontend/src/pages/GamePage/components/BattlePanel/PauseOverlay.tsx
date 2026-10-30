@@ -26,13 +26,13 @@ export function PauseOverlay({
   return (
     <div
       data-battle-menu={finished ? "result" : "pause"}
-      className={`${className} flex items-center justify-center overflow-y-auto bg-[#101d33]/80 px-[max(1rem,env(safe-area-inset-left))] py-[max(1rem,env(safe-area-inset-top),env(safe-area-inset-bottom))] pr-[max(1rem,env(safe-area-inset-right))]`}
+      className={`${className} flex items-center justify-center overflow-y-auto bg-void/80 px-[max(1rem,env(safe-area-inset-left))] py-[max(1rem,env(safe-area-inset-top),env(safe-area-inset-bottom))] pr-[max(1rem,env(safe-area-inset-right))]`}
     >
       <section
         aria-label={finished ? "对战结果" : "暂停菜单"}
-        className="my-auto w-full max-w-lg bg-[#f3f7fc] p-5 text-[#101d33] shadow-2xl sm:p-7 [@media(max-height:500px)]:max-w-2xl [@media(max-height:500px)]:p-4"
+        className="my-auto w-full max-w-lg bg-void p-5 text-ivory shadow-2xl sm:p-7 [@media(max-height:500px)]:max-w-2xl [@media(max-height:500px)]:p-4"
       >
-        <p className="mb-2 text-xs font-semibold tracking-[.16em] text-[#61718b]">
+        <p className="mb-2 text-xs font-semibold tracking-[.16em] text-muted">
           {finished
             ? "本场对战结束"
             : online
@@ -49,8 +49,8 @@ export function PauseOverlay({
               : "休息一下，随时继续"}
         </h2>
         {finished && (
-          <div className="mt-4 flex items-center justify-between gap-3 border-y border-[#101d33]/10 py-3">
-            <span className="text-xs text-[#61718b]">
+          <div className="mt-4 flex items-center justify-between gap-3 py-3">
+            <span className="text-xs text-muted">
               {teamSizeFor(view.config?.format) > 1 ? "剩余角色" : "回合比分"}
             </span>
             <strong className="font-mono text-xl tabular-nums">
@@ -62,7 +62,7 @@ export function PauseOverlay({
           </div>
         )}
         {online && (
-          <p className="mt-3 text-sm leading-6 text-[#61718b]" role="status">
+          <p className="mt-3 text-sm leading-6 text-muted" role="status">
             {waitingForPlayers
               ? "所有玩家恢复连接并加载完成后，即可继续。"
               : !host
@@ -93,7 +93,6 @@ export function PauseOverlay({
           </Button>
           {!finished && host && (
             <Button
-              tone="light"
               disabled={!runtime || waitingForPlayers}
               onClick={() => void runtime?.restart()}
             >
@@ -101,7 +100,6 @@ export function PauseOverlay({
             </Button>
           )}
           <Button
-            tone="light"
             className={finished || !host ? "col-span-2" : ""}
             disabled={!runtime}
             onClick={() =>
@@ -116,7 +114,6 @@ export function PauseOverlay({
             {online ? "返回房间选人" : "重新选人"}
           </Button>
           <Button
-            tone="light"
             className="col-span-2"
             disabled={!runtime}
             onClick={() => runtime?.returnToMenu()}
@@ -125,23 +122,20 @@ export function PauseOverlay({
           </Button>
         </div>
         {!finished && (
-          <div className="mt-4 flex flex-wrap gap-2 border-t border-[#101d33]/10 pt-4">
+          <div className="mt-4 flex flex-wrap gap-2 pt-4">
             <Button
-              tone="light"
               disabled={!runtime}
               onClick={() => runtime?.showDialog("moves")}
             >
               招式表
             </Button>
             <Button
-              tone="light"
               disabled={!runtime}
               onClick={() => runtime?.showDialog("help")}
             >
               操作说明
             </Button>
             <Button
-              tone="light"
               disabled={!runtime}
               aria-pressed={view.sound}
               onClick={() => runtime?.setSound(!view.sound)}
@@ -149,15 +143,15 @@ export function PauseOverlay({
               {view.sound ? "音效：开" : "音效：关"}
             </Button>
             {onToggleFull && (
-              <Button tone="light" onClick={onToggleFull}>
+              <Button onClick={onToggleFull}>
                 {fullField ? "退出全屏" : "进入全屏"}
               </Button>
             )}
           </div>
         )}
         {rules && !finished && (
-          <details className="mt-3 text-xs leading-6 text-[#61718b]">
-            <summary className="w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-[#1aa8b8]">
+          <details className="mt-3 text-xs leading-6 text-muted">
+            <summary className="w-fit cursor-pointer focus-visible:outline-2 focus-visible:outline-ember">
               本局规则
             </summary>
             <p className="mt-1">
@@ -178,7 +172,7 @@ export function PauseOverlay({
           </details>
         )}
         {(view.error || view.network.error) && (
-          <p role="alert" className="mt-3 text-sm text-[#bb3266]">
+          <p role="alert" className="mt-3 text-sm text-ember">
             {view.error || view.network.error}
           </p>
         )}

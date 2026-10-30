@@ -70,10 +70,8 @@ function TouchKey({
         pointers.current.delete(event.pointerId);
         if (pointers.current.size === 0) release();
       }}
-      className={`pointer-events-auto absolute aspect-square touch-none overflow-hidden rounded-full border-2 bg-slate-900/90 shadow-[0_3px_12px_#0009,inset_0_0_12px_#ffffff20] outline-none backdrop-blur-sm transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
-        pressed
-          ? "scale-95 brightness-125 ring-2 ring-white/80"
-          : "brightness-100"
+      className={`pointer-events-auto absolute aspect-square touch-none overflow-hidden rounded-none bg-panel/90 outline-none backdrop-blur-sm transition-[scale,filter,box-shadow] select-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-35 disabled:grayscale [-webkit-touch-callout:none] ${
+        pressed ? "brightness-150" : "brightness-100"
       } ${className}`}
     >
       {children}
@@ -90,28 +88,27 @@ const actions: {
   {
     action: "skill1",
     label: "技能一",
-    position: "left-[13.5%] top-[65%] w-[24%] border-cyan-200/70",
+    position: "left-[13.5%] top-[65%] w-[24%]",
   },
   {
     action: "skill2",
     label: "技能二",
-    position: "left-[23.5%] top-[37.27%] w-[24%] border-violet-200/70",
+    position: "left-[23.5%] top-[37.27%] w-[24%]",
   },
   {
     action: "skill3",
     label: "技能三",
-    position: "left-[53%] top-[27.27%] w-[24%] border-fuchsia-200/70",
+    position: "left-[53%] top-[27.27%] w-[24%]",
   },
   {
     action: "super",
     label: "大招",
-    position:
-      "left-[85.5%] top-[44.55%] w-[28%] border-amber-200 shadow-[0_0_14px_#fbbf2455,inset_0_0_8px_#fbbf2466]",
+    position: "left-[85.5%] top-[44.55%] w-[28%]",
   },
   {
     action: "transform",
     label: "变身",
-    position: "left-[82.5%] top-[10.91%] w-[22%] border-pink-200/65",
+    position: "left-[82.5%] top-[10.91%] w-[22%]",
   },
 ];
 
@@ -155,7 +152,7 @@ export function TouchControls({
         code={KEYS1.blink}
         label="瞬移"
         input={input}
-        className="bottom-0 left-[calc(clamp(96px,26vw,160px)+0.5rem)] w-11 border-sky-200/65 landscape:left-[calc(clamp(96px,36dvh,160px)+0.5rem)]"
+        className="bottom-0 left-[calc(clamp(96px,26vw,160px)+0.5rem)] w-11 landscape:left-[calc(clamp(96px,36dvh,160px)+0.5rem)]"
       >
         <TouchActionIcon artwork={art.blink} />
       </TouchKey>

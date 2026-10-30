@@ -23,7 +23,7 @@ function BarButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-none bg-white/10 text-sm font-semibold text-white select-none active:bg-white/20 disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-cyan-200"
+      className="flex size-11 shrink-0 touch-none items-center justify-center rounded-none bg-panel/90 text-sm font-semibold text-white select-none active:bg-raised disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-ember"
     >
       {children}
     </button>
@@ -48,7 +48,7 @@ function FieldButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-none bg-slate-950/90 text-xs font-semibold text-white shadow-lg select-none active:bg-white/20 disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-cyan-200"
+      className="pointer-events-auto flex size-11 touch-none items-center justify-center rounded-none bg-void/90 text-xs font-semibold text-white shadow-lg select-none active:bg-raised disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-ember"
     >
       {children}
     </button>
@@ -76,7 +76,7 @@ export function MobileBattleBar({
         : `${view.network.side + 1}P · ${view.network.rtt === null ? "连接中" : view.network.rtt + " ms RTT"}`
     : assets.stages[view.config?.settings.arena ?? 0].name;
   return (
-    <header className="relative z-40 flex shrink-0 items-center justify-between gap-2 border-b border-white/10 bg-slate-950/80 px-[max(0.5rem,env(safe-area-inset-left))] py-1.5 pr-[max(0.5rem,env(safe-area-inset-right))] pt-[calc(0.375rem+env(safe-area-inset-top))]">
+    <header className="relative z-40 flex shrink-0 items-center justify-between gap-2 bg-void/80 px-[max(0.5rem,env(safe-area-inset-left))] py-1.5 pr-[max(0.5rem,env(safe-area-inset-right))] pt-[calc(0.375rem+env(safe-area-inset-top))]">
       <div className="flex min-w-0 items-center gap-2">
         <BarButton
           label="打开对战菜单"
@@ -85,7 +85,7 @@ export function MobileBattleBar({
         >
           菜单
         </BarButton>
-        <span className="truncate text-[10px] text-slate-200">{status}</span>
+        <span className="truncate text-[10px] text-ivory/80">{status}</span>
       </div>
       <div className="flex items-center gap-1.5">
         <BarButton
@@ -212,12 +212,12 @@ export function BattleToolbar({
         </Button>
         <Button onClick={toggleFullField}>全屏</Button>
       </nav>
-      <p className="mt-3 text-center text-xs leading-6 text-slate-300">
+      <p className="mt-3 text-center text-xs leading-6 text-muted">
         {view.lastMove ||
           `AD 移动 · W 跳跃${view.config?.rules?.disableNormals ? "" : " · J/K 攻击"} · L 瞬移 · U/I/O 技能${canTransform ? " · H 变身" : ""}${view.config?.rules?.disableSupers ? "" : " · P 大招"}`}
       </p>
       {(view.error || view.network.error) && (
-        <p role="alert" className="mt-3 text-center text-xs text-pink-200">
+        <p role="alert" className="mt-3 text-center text-xs text-ember">
           {view.error || view.network.error}
         </p>
       )}

@@ -62,7 +62,7 @@ export function TouchActionIcon({ artwork }: { artwork: TouchActionArtwork }) {
         w: image.naturalWidth,
         h: image.naturalHeight,
       };
-      // Upper-body crops keep faces, hands and weapons legible on small skill circles.
+      // Upper-body crops keep faces, hands and weapons legible on small skill buttons.
       const crop = Math.min(rect.w, rect.h);
       const x = rect.x + (rect.w - crop) / 2;
       const y = rect.y + (rect.h - crop) * (sprite ? 0.08 : 0.3);

@@ -40,7 +40,7 @@ const toggleGroups = [
   },
 ] as const;
 const fieldClass =
-  "min-h-11 w-full min-w-0 rounded-none bg-[#244566]/6 px-3 py-2 text-sm text-[#101d33] focus-visible:outline-2 focus-visible:outline-cyan-200 disabled:opacity-50";
+  "min-h-11 w-full min-w-0 rounded-none bg-raised px-3 py-2 text-sm text-ivory focus-visible:outline-2 focus-visible:outline-ember disabled:opacity-50";
 
 function RuleNumberInput({
   label,
@@ -60,7 +60,7 @@ function RuleNumberInput({
   const [draft, setDraft] = useState(String(value));
   useEffect(() => setDraft(String(value)), [value]);
   return (
-    <label className="grid min-w-0 gap-1 text-xs text-[#61718b]">
+    <label className="grid min-w-0 gap-1 text-xs text-muted">
       {label}
       <input
         type="number"
@@ -136,16 +136,16 @@ export function BattleRulesPanel({
     ...(enabled.length > 3 ? [`另 ${enabled.length - 3} 项`] : []),
   ];
   return (
-    <details className="mt-3 bg-[#244566]/4 px-3 py-1 text-[#101d33]">
-      <summary className="min-h-11 cursor-pointer py-2 text-xs focus-visible:outline-2 focus-visible:outline-cyan-200">
+    <details className="mt-3 bg-panel px-3 py-1 text-ivory">
+      <summary className="min-h-11 cursor-pointer py-2 text-xs focus-visible:outline-2 focus-visible:outline-ember">
         <strong className="mr-3 font-semibold">自定义对战规则</strong>
-        <span className="leading-6 text-[#61718b]">{summary.join(" · ")}</span>
-        {readOnly && <span className="ml-3 text-[#257b8a]">房主设置</span>}
+        <span className="leading-6 text-muted">{summary.join(" · ")}</span>
+        {readOnly && <span className="ml-3 text-silver">房主设置</span>}
       </summary>
       <fieldset disabled={disabled || readOnly} className="min-w-0 pb-3">
         <legend className="sr-only">自定义对战规则</legend>
         <div className="mb-4">
-          <p className="mb-2 text-[10px] text-[#61718b]">
+          <p className="mb-2 text-[10px] text-muted">
             快捷预设 · 应用后仍可逐项调整
           </p>
           <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -155,10 +155,10 @@ export function BattleRulesPanel({
                 type="button"
                 onClick={() => onChange({ ...preset.rules })}
                 aria-label={preset.label}
-                className="min-h-14 min-w-0 bg-[#f3f7fc]/70 px-3 py-2 text-left text-xs text-[#982650] hover:bg-[#bb3266]/8 disabled:cursor-default disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-cyan-200"
+                className="min-h-14 min-w-0 bg-void/70 px-3 py-2 text-left text-xs text-ember hover:bg-crimson/25 disabled:cursor-default disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-ember"
               >
                 <span className="font-semibold">{preset.label}</span>
-                <small className="mt-1 block text-[10px] leading-4 text-[#61718b]">
+                <small className="mt-1 block text-[10px] leading-4 text-muted">
                   {preset.hint}
                 </small>
               </button>
@@ -166,9 +166,7 @@ export function BattleRulesPanel({
           </div>
         </div>
         <section aria-label="基础参数">
-          <h3 className="mb-2 text-xs font-semibold text-[#257b8a]">
-            基础参数
-          </h3>
+          <h3 className="mb-2 text-xs font-semibold text-silver">基础参数</h3>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <RuleNumberInput
               label="每名角色生命值 · 50–2000"
@@ -177,7 +175,7 @@ export function BattleRulesPanel({
               max={2000}
               onChange={(maxHealth) => onChange({ maxHealth })}
             />
-            <label className="grid min-w-0 gap-1 text-xs text-[#61718b]">
+            <label className="grid min-w-0 gap-1 text-xs text-muted">
               每方禁用角色数
               {practice
                 ? " · 练习模式不禁选"
@@ -230,7 +228,7 @@ export function BattleRulesPanel({
               max={20}
               onChange={(healthRegen) => onChange({ healthRegen })}
             />
-            <label className="grid min-w-0 gap-1 text-xs text-[#61718b]">
+            <label className="grid min-w-0 gap-1 text-xs text-muted">
               击退倍率 · 水平击退与浮空，不影响拉拽
               <select
                 className={fieldClass}
@@ -246,7 +244,7 @@ export function BattleRulesPanel({
                 ))}
               </select>
             </label>
-            <label className="grid min-w-0 gap-1 text-xs text-[#61718b]">
+            <label className="grid min-w-0 gap-1 text-xs text-muted">
               伤害倍率
               <select
                 className={fieldClass}
@@ -262,7 +260,7 @@ export function BattleRulesPanel({
                 ))}
               </select>
             </label>
-            <label className="grid min-w-0 gap-1 text-xs text-[#61718b]">
+            <label className="grid min-w-0 gap-1 text-xs text-muted">
               移动速度倍率 · 不影响出招速度
               <select
                 className={fieldClass}
@@ -282,7 +280,7 @@ export function BattleRulesPanel({
         </section>
         {toggleGroups.map((group) => (
           <section key={group.title} className="mt-4" aria-label={group.title}>
-            <h3 className="mb-1 text-xs font-semibold text-[#257b8a]">
+            <h3 className="mb-1 text-xs font-semibold text-silver">
               {group.title}
             </h3>
             <div className="grid gap-x-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -297,11 +295,11 @@ export function BattleRulesPanel({
                     onChange={(event) =>
                       onChange({ [key]: event.target.checked })
                     }
-                    className="size-4 shrink-0 accent-[#bb3266]"
+                    className="size-4 shrink-0 accent-crimson"
                   />
                   <span>
                     {label}
-                    <small className="mt-1 block text-[10px] leading-4 text-[#61718b]">
+                    <small className="mt-1 block text-[10px] leading-4 text-muted">
                       {hint}
                     </small>
                   </span>
@@ -310,7 +308,7 @@ export function BattleRulesPanel({
             </div>
           </section>
         ))}
-        <p className="mt-3 text-[10px] leading-5 text-[#61718b]">
+        <p className="mt-3 text-[10px] leading-5 text-muted">
           {rules.banCount > 0
             ? "双方轮流禁用角色，再轮流选择互不重复的阵容。更改禁用人数会重新禁选。"
             : brawl

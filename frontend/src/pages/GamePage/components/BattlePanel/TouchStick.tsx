@@ -79,16 +79,16 @@ export function TouchStick({ input }: { input: TouchInput }) {
       onLostPointerCapture={(event) => {
         if (event.pointerId === pointer.current) release();
       }}
-      className="pointer-events-auto relative mb-4 aspect-square w-[clamp(96px,26vw,160px)] max-w-full justify-self-start touch-none overflow-hidden rounded-full bg-slate-950/45 shadow-[inset_0_0_28px_#ffffff15] backdrop-blur-sm select-none [-webkit-touch-callout:none] landscape:w-[clamp(96px,36dvh,160px)]"
+      className="pointer-events-auto relative mb-4 aspect-square w-[clamp(96px,26vw,160px)] max-w-full justify-self-start touch-none overflow-hidden rounded-none bg-void/45 backdrop-blur-sm select-none [-webkit-touch-callout:none] landscape:w-[clamp(96px,36dvh,160px)]"
     >
       <span
         aria-hidden="true"
-        className="absolute left-1/2 top-1/2 -ml-[22%] -mt-[22%] size-[44%] rounded-full bg-cyan-100/30 shadow-[0_0_24px_#67e8f933]"
+        className="absolute left-1/2 top-1/2 -ml-[22%] -mt-[22%] size-[44%] rounded-none bg-silver/30"
         style={{ transform: `translate(${position.x}px,${position.y}px)` }}
       />
       <span
         aria-hidden="true"
-        className={`absolute inset-x-0 bottom-0 h-1/3 min-h-9 ${position.crouching ? "bg-pink-300/20" : "bg-white/5"}`}
+        className={`absolute inset-x-0 bottom-0 h-1/3 min-h-9 ${position.crouching ? "bg-ember/20" : "bg-panel/5"}`}
       />
     </button>
   );

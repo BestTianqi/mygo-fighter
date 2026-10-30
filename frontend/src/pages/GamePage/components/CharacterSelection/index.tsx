@@ -20,13 +20,15 @@ export function CharacterSelection({
   const model = useCharacterSelection(config, onStart);
   return (
     <section
-      className="mx-auto grid h-dvh max-w-[1600px] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-[#f3f7fc] px-3 text-[#101d33] sm:px-6 lg:px-8"
+      className="grid h-dvh grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-void text-ivory"
       aria-label="角色选择"
     >
       <SelectionHeader model={model} onBack={onBack} />
-      <div className="min-h-0 overflow-y-auto overscroll-contain py-4 [scrollbar-width:thin] sm:py-5">
-        <SelectionRoster model={model} assets={assets} />
-        <SelectionSettings model={model} assets={assets} />
+      <div className="min-h-0 overflow-y-auto overscroll-contain py-4 [scrollbar-width:none] sm:py-5 [&::-webkit-scrollbar]:hidden">
+        <div className="mx-auto w-full max-w-[1600px] px-3 sm:px-6 lg:px-8">
+          <SelectionRoster model={model} assets={assets} />
+          <SelectionSettings model={model} assets={assets} />
+        </div>
       </div>
       <SelectionFooter
         model={model}

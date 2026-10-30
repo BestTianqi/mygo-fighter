@@ -1,13 +1,152 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Noto Serif SC";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/noto-serif-sc-ui-1.woff2") format("woff2");
+  unicode-range:
+    U+20-7e, U+b7, U+d7, U+2013-2014, U+2026, U+2190, U+2192, U+21c4, U+221e,
+    U+2713, U+3001-3002, U+300c-300d, U+3010-3011, U+306e, U+3078-3079, U+3099,
+    U+30c8-30c9, U+30cf-30d0, U+30f3, U+4e00, U+4e03, U+4e09-4e0b, U+4e0d-4e0e,
+    U+4e13-4e14, U+4e16, U+4e1a, U+4e22, U+4e24, U+4e2a, U+4e2d, U+4e30, U+4e34,
+    U+4e3a-4e3b, U+4e3e, U+4e43, U+4e48-4e49, U+4e4b, U+4e50, U+4e5f-4e60,
+    U+4e71, U+4e86, U+4e8b-4e8c, U+4e92, U+4e94, U+4ea4, U+4eab, U+4eae, U+4eb2,
+    U+4eba, U+4ec0, U+4ec5, U+4ecd-4ece, U+4ed3, U+4ed6, U+4ee3-4ee5, U+4eec,
+    U+4ef2, U+4ef6, U+4efb, U+4f01, U+4f10-4f11, U+4f18, U+4f1a, U+4f20, U+4f24,
+    U+4f4d-4f4f, U+4f53, U+4f55, U+4f59, U+4f5c, U+4f60, U+4f7f, U+4f9b, U+4fa7,
+    U+4fc3, U+4fdd, U+4fe1, U+4fef, U+500d, U+5012, U+5019, U+503c, U+503e,
+    U+505a, U+505c, U+5076, U+5080, U+50cf, U+5121, U+5143, U+5145, U+5148-5149,
+    U+514b, U+514d, U+5154, U+5165, U+5168, U+516b-516d, U+5171, U+5173-5177,
+    U+5185, U+518d, U+5199, U+51b2-51b3, U+51b7, U+51c6, U+51cf, U+51d1, U+51e4,
+    U+51fa-51fb, U+5206-5207, U+5217, U+5219, U+521b, U+521d, U+5224, U+5229,
+    U+522b, U+5230, U+5236-5237, U+523a, U+524d, U+5267, U+5269-526a, U+529b,
+    U+52a0-52a1, U+52a8, U+52bf, U+52fe, U+5305, U+5316, U+533a, U+5343, U+5347,
+    U+534e, U+5355, U+5360-5361, U+5370, U+5373-5374, U+5385, U+538b, U+539a,
+    U+539f, U+53c2, U+53c9-53cd, U+53d1, U+53d6-53d8, U+53e3, U+53e5-53e6,
+    U+53ea-53ec, U+53ef-53f0, U+53f3, U+53f6, U+53f8, U+5403-5404, U+5408-5409,
+    U+540c-540e, U+5411, U+5417, U+5426, U+542c, U+542f, U+5435, U+5438, U+5458,
+    U+545c, U+5468, U+5473, U+547c-547d, U+548c, U+5495, U+54ac, U+54c0-54c1,
+    U+54cd, U+54e6, U+54ed, U+54fc, U+5510, U+5524, U+5531, U+554a, U+5566,
+    U+559d, U+560e, U+5634, U+5668-5669, U+56da-56db, U+56de, U+56e0, U+56ed,
+    U+56f4, U+56fe, U+5706, U+ff01, U+ff05, U+ff08-ff09, U+ff0b-ff0c,
+    U+ff1a-ff1b, U+ff1f;
+}
+
+@font-face {
+  font-family: "Noto Serif SC";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/noto-serif-sc-ui-2.woff2") format("woff2");
+  unicode-range:
+    U+5728, U+5730, U+573a, U+5740, U+5747, U+575a, U+578b, U+57df, U+57fa,
+    U+5802, U+5821, U+5835, U+5883, U+58a8, U+58eb, U+58f0, U+58f3, U+5907,
+    U+590d, U+591a, U+591c, U+591f, U+5922, U+5927, U+5929-592a, U+5931, U+5934,
+    U+5948, U+594f, U+5965, U+5973, U+5976, U+597d, U+59cb, U+59ff, U+5b50,
+    U+5b57-5b58, U+5b88-5b89, U+5b8c, U+5b98, U+5b9a, U+5b9e, U+5ba2, U+5ba4,
+    U+5bab, U+5bb3, U+5bb6, U+5bb9, U+5bbd, U+5bcc, U+5be1, U+5bf9-5bfb, U+5c01,
+    U+5c04, U+5c06, U+5c0f, U+5c16, U+5c31, U+5c40, U+5c42, U+5c4f, U+5c51,
+    U+5c55, U+5c81, U+5cf0, U+5d0e, U+5ddd, U+5de5-5de8, U+5dee, U+5df1-5df2,
+    U+5e03, U+5e08, U+5e0c, U+5e38, U+5e45, U+5e55, U+5e61, U+5e73, U+5e76,
+    U+5e8f, U+5e93-5e94, U+5e97, U+5ea6, U+5ef6, U+5efa, U+5f00, U+5f0f, U+5f15,
+    U+5f26-5f27, U+5f39-5f3a, U+5f52-5f53, U+5f62, U+5f71, U+5f80, U+5f85,
+    U+5f88, U+5f8b, U+5f97, U+5fa1, U+5fae, U+5fc3, U+5fc5, U+5fd8, U+5feb,
+    U+6001, U+6027, U+6062, U+606f, U+60b2, U+60c5, U+60f3, U+6108, U+610f,
+    U+6151, U+61be, U+61c2, U+620f-6211, U+6216, U+6218, U+622a, U+6237,
+    U+623f-6240, U+624b, U+624d, U+6253, U+6269, U+626b, U+6276, U+627e, U+6280,
+    U+6295, U+629b, U+62a2, U+62a4, U+62ac, U+62b1, U+62b9, U+62c5, U+62c9,
+    U+62cd, U+62d2, U+62db-62dc, U+62df, U+62e2, U+62e5, U+62e8-62e9, U+62f3,
+    U+62fd, U+6301, U+6307, U+6309, U+6311, U+6325, U+6362, U+6377, U+638c,
+    U+6392, U+63a2, U+63a5, U+63a7-63a8, U+63b7, U+63d0, U+63e1, U+63f4, U+6413,
+    U+641c, U+6447, U+6454, U+6458, U+649e, U+64ad, U+64c5, U+64cd, U+652f,
+    U+6536, U+6539, U+653b, U+653e, U+6548, U+654c, U+6563, U+6570, U+6572,
+    U+6574, U+6597, U+659c, U+65a9, U+65ad, U+65af-65b0, U+65b9, U+65bd, U+65cb,
+    U+65e0, U+65e5, U+65e9, U+65f6, U+660e, U+661f, U+6625, U+662f, U+663e,
+    U+666e-666f, U+6682, U+6696, U+66f2, U+66f4, U+66ff-6700, U+6708-6709,
+    U+670b, U+670d, U+671b, U+671d, U+671f, U+6728, U+672a, U+672c, U+672f,
+    U+673a, U+6746, U+6750, U+675f, U+6761, U+6765, U+677e-677f, U+679a, U+679c,
+    U+67aa, U+67b6, U+67e5, U+6807, U+6821, U+6837, U+6839, U+683c, U+6869,
+    U+68a6, U+68d2, U+690e, U+6a21, U+6a2a, U+6a71, U+6b21, U+6b27, U+6b32,
+    U+6b4c, U+6b63, U+6b65-6b66, U+6b7b, U+6bb5, U+6bcd, U+6bcf, U+6bd4, U+6beb,
+    U+6c14, U+6c34, U+6c38, U+6c49, U+6c70, U+6c89, U+6ca1, U+6cb9, U+6cbf,
+    U+6cd5, U+6ce2, U+6d3b, U+6d41, U+6d4b, U+6d4f, U+6d6e, U+6d77, U+6d88,
+    U+6dd8, U+6df1, U+6df7, U+6e05, U+6e0a, U+6e38, U+6e90, U+6ed1, U+6ee1,
+    U+6f14, U+6f2b, U+706b, U+706f, U+7075, U+7099, U+70b8-70b9, U+70e4, U+7136,
+    U+7167, U+718a, U+719f, U+7206, U+722a, U+7231, U+7247-7248, U+7262, U+7275,
+    U+72b6, U+72c2, U+72ec, U+732b, U+7387, U+73a9, U+73af-73b0, U+73e0, U+7406,
+    U+7434, U+74dc, U+751f, U+7528-7529, U+7531, U+7535, U+753a-753b, U+754c,
+    U+7559, U+7565, U+75be, U+767b, U+767e;
+}
+
+@font-face {
+  font-family: "Noto Serif SC";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("../../assets/fonts/noto-serif-sc-ui-3.woff2") format("woff2");
+  unicode-range:
+    U+7684, U+7686, U+76c8, U+76d8, U+76f4, U+76f8, U+76fe, U+770b, U+771f,
+    U+773c, U+7740, U+7766, U+77ac, U+77e9, U+77ed, U+77f3, U+7801, U+7834,
+    U+7838, U+7840, U+786c, U+786e, U+788e, U+78b0, U+78c5, U+793a, U+793c,
+    U+7950, U+795e, U+7965, U+7981, U+79bb, U+79c1, U+79cb, U+79d2, U+79ef,
+    U+79fb, U+7a0b, U+7a0d, U+7a33, U+7a3f, U+7a7a, U+7a7f, U+7a81, U+7a97,
+    U+7acb, U+7ad9, U+7ae0, U+7aef, U+7b11, U+7b14, U+7b26, U+7b2c, U+7b3c,
+    U+7b49, U+7bc7, U+7c89, U+7cbe, U+7cd6, U+7cfb, U+7d20, U+7d27, U+7d2b,
+    U+7d2f, U+7ea2, U+7eb9, U+7ebf, U+7ec3-7ec4, U+7ec6, U+7ec8, U+7ed3,
+    U+7ed8-7ed9, U+7edc-7edd, U+7ee7, U+7eea, U+7eed, U+7eef, U+7f51, U+7f57,
+    U+7f6a, U+7f6e, U+7f8a, U+7f8e, U+7f9e, U+7fb9, U+7ffb, U+8000, U+8005,
+    U+800c, U+8017, U+8033, U+804a, U+8054, U+805a, U+8089, U+8098, U+80a9,
+    U+80cc, U+80d6, U+80dc, U+80fd, U+8111, U+811a, U+817e, U+8180, U+81c2,
+    U+81ea, U+81f3-81f4, U+821e, U+822a, U+8272, U+8282, U+82ad, U+82b1, U+82e5,
+    U+8303, U+8336, U+8361, U+83b7, U+83dc, U+83f2, U+8425, U+843d, U+84dd,
+    U+857e, U+8587, U+85e4, U+865a, U+87ba, U+8840, U+884c, U+8854, U+8861,
+    U+8865, U+8868, U+88ab, U+88ad, U+88c5, U+8981, U+89c1, U+89c4, U+89c6,
+    U+89c8-89c9, U+89d2, U+89e3, U+89e6, U+8a00, U+8ba1, U+8ba4, U+8ba9, U+8bbe,
+    U+8bcd, U+8bd5, U+8bd7, U+8bdd, U+8bed, U+8bf4, U+8bf7, U+8bfb, U+8c01,
+    U+8c03, U+8c15, U+8c22, U+8c61, U+8c8c, U+8d1d, U+8d1f, U+8d25, U+8d34,
+    U+8d39, U+8d44, U+8d4e, U+8d70, U+8d76-8d77, U+8d8a, U+8da3, U+8db3, U+8dc3,
+    U+8ddd, U+8ddf, U+8de8, U+8def, U+8df3, U+8e0f, U+8e22, U+8e2a, U+8e6c,
+    U+8e72, U+8eab, U+8f66, U+8f6c, U+8f6e, U+8f7b, U+8f7d, U+8f83, U+8f88,
+    U+8f91, U+8f93, U+8fb9, U+8fc7-8fc8, U+8fd1, U+8fd4, U+8fd8-8fd9,
+    U+8fdb-8fdc, U+8fde-8fdf, U+8ff7, U+8ffd, U+9000-9001, U+9009, U+9010,
+    U+9014, U+901a, U+901f-9020, U+9053, U+9057, U+9080, U+90e8, U+90fd, U+9171,
+    U+91cc-91cf, U+91d1, U+94a2, U+94ae, U+94c3, U+94fa, U+9501, U+950b, U+951a,
+    U+9522, U+952e-952f, U+955c, U+957f, U+95ea, U+95ed-95ee, U+95f4, U+95f7,
+    U+961f, U+9631-9632, U+9635-9636, U+963f, U+9645, U+964d, U+9650, U+9664,
+    U+9677, U+968f, U+9694, U+969c, U+96be, U+96c5, U+96f6, U+9700, U+9707,
+    U+9752, U+9759, U+975e, U+9762, U+97f3, U+9875-9876, U+9879-987a, U+9884,
+    U+9888, U+9891, U+989c, U+98ce, U+98de-98df, U+9965, U+996d, U+997f, U+9986,
+    U+9a6c, U+9a71, U+9a8c, U+9ad8, U+9b54, U+9c7c, U+9ccd, U+9e23, U+9e45,
+    U+9ea6, U+9ed1, U+9ed8, U+9f13, U+9f50, U+9f99;
+}
+
+@theme {
+  --color-void: #0d0b0e;
+  --color-panel: #191419;
+  --color-raised: #271e25;
+  --color-line: #45353f;
+  --color-ivory: #f2e9dd;
+  --color-muted: #b4a5ae;
+  --color-crimson: #a32946;
+  --color-crimson-hover: #ba3655;
+  --color-ember: #ec8c9d;
+  --color-silver: #b5c7d8;
+  --color-gold: #d4b78b;
+  --font-display: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-sans: "Noto Serif SC", "Songti SC", "SimSun", serif;
+}
+
 @layer base {
   html {
-    color-scheme: light;
+    color-scheme: dark;
   }
   body {
     margin: 0;
-    font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #f3f7fc;
+    font-family: var(--font-display);
+    background: var(--color-void);
+    color: var(--color-ivory);
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
@@ -21,10 +160,10 @@
     cursor: pointer;
   }
   input[type="checkbox"] {
-    accent-color: #bb3266;
+    accent-color: var(--color-crimson);
   }
   :is(button, a, input, select, summary):focus-visible {
-    outline: 2px solid #1aa8b8;
+    outline: 2px solid var(--color-ember);
     outline-offset: 3px;
   }
   button,
@@ -33,7 +172,7 @@
     touch-action: manipulation;
   }
   ::selection {
-    background: #1aa8b830;
+    background: #a3294660;
   }
   @media (prefers-reduced-motion: reduce) {
     *,

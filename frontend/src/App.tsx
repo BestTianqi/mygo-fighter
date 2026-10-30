@@ -26,12 +26,12 @@ export function App() {
   }, [attempt]);
   if (state.status === "ready") return <GamePage assets={state.assets} />;
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[#f3f7fc] p-6 text-[#101d33]">
+    <main className="flex min-h-dvh items-center justify-center bg-void p-6 text-ivory">
       <div className="space-y-5 text-center">
         <h1 className="text-3xl font-medium">MyGO!!!!! 格斗</h1>
         <p
           role={state.status === "error" ? "alert" : "status"}
-          className="text-sm text-[#61718b]"
+          className="text-sm text-muted"
         >
           {state.status === "loading" ? "正在准备角色与舞台…" : state.message}
         </p>

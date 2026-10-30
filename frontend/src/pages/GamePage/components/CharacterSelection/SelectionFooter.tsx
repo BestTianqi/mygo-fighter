@@ -1,11 +1,10 @@
-import { ArrowUpRight } from "../ArrowUpRight";
 import { Button } from "../../../../components/ui/Button";
 import { CPU_DIFFICULTIES } from "../../../../game/cpuDifficulty";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
 import type { CharacterSelectionModel } from "./hooks/useCharacterSelection";
 
 const selectClass =
-  "min-h-11 min-w-0 rounded-lg border border-[#d9e2ef] bg-white px-2 py-2 text-xs text-[#101d33] touch-manipulation focus-visible:outline-2 focus-visible:outline-[#1aa8b8]";
+  "min-h-11 min-w-0 rounded-none bg-panel px-2 py-2 text-xs text-ivory touch-manipulation focus-visible:outline-2 focus-visible:outline-ember";
 export function SelectionFooter({
   model,
   stageName,
@@ -17,13 +16,13 @@ export function SelectionFooter({
   const missing = selection.teams.flat().filter((id) => id === null).length;
   const remainingBans = selection.rules.banCount * 2 - selection.bans.length;
   return (
-    <footer className="z-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-[#d9e2ef] bg-[#f3f7fc] py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <footer className="z-10 mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-between gap-x-4 gap-y-2 bg-void px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 lg:px-8">
       <div
         className="w-full min-w-0 sm:w-auto sm:flex-1"
         id="selection-start-status"
       >
         <p
-          className={`text-xs font-semibold ${complete ? "text-[#16818f]" : "text-[#101d33]"}`}
+          className={`text-xs font-semibold ${complete ? "text-silver" : "text-ivory"}`}
         >
           {complete
             ? "✓ 阵容已就绪"
@@ -31,7 +30,7 @@ export function SelectionFooter({
               ? `还需禁用 ${remainingBans} 名角色`
               : `还差 ${missing} 位出战角色`}
         </p>
-        <p className="mt-1 text-[11px] text-[#61718b]">
+        <p className="mt-1 text-[11px] text-muted">
           {complete
             ? `登台场地：${stageName}`
             : selection.phase === "ban"
@@ -40,7 +39,7 @@ export function SelectionFooter({
         </p>
       </div>
       {selection.mode !== "duel" && (
-        <label className="flex min-w-0 flex-1 items-center gap-2 text-[11px] text-[#61718b] sm:flex-none">
+        <label className="flex min-w-0 flex-1 items-center gap-2 text-[11px] text-muted sm:flex-none">
           {selection.mode === "practice" ? "练习木桩" : "电脑难度"}
           {selection.mode === "practice" ? (
             <select
@@ -84,8 +83,7 @@ export function SelectionFooter({
         aria-describedby="selection-start-status"
         className="min-h-12 min-w-36 flex-1 sm:max-w-56 sm:flex-none"
       >
-        {selection.mode === "practice" ? "开始练习" : "登台对战"}{" "}
-        <ArrowUpRight className="ml-2 inline-block size-4 align-text-bottom" />
+        {selection.mode === "practice" ? "开始练习" : "登台对战"}
       </Button>
     </footer>
   );

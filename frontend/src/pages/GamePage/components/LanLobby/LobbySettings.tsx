@@ -28,13 +28,10 @@ export function LobbySettings({
   if (!room) return null;
   const stage = assets.stages[room.arena];
   return (
-    <section
-      className="mt-4 min-w-0 border-t border-[#d9e2ef] pt-4"
-      aria-label="场地与规则"
-    >
+    <section className="mt-4 min-w-0 pt-4" aria-label="场地与规则">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-1">
-        <h3 className="text-sm font-semibold text-[#101d33]">对战设置</h3>
-        <p className="text-xs text-[#61718b]">
+        <h3 className="text-sm font-semibold text-ivory">对战设置</h3>
+        <p className="text-xs text-muted">
           {side === 0 ? "房主调整规则与场地" : "规则与场地由房主设置"} ·
           音效仅对自己生效
         </p>
@@ -49,10 +46,10 @@ export function LobbySettings({
       />
       <div className="mb-2 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs text-[#61718b]">场地 · 房主选择</p>
+          <p className="text-xs text-muted">场地 · 房主选择</p>
           <h3 className="mt-1 text-sm font-semibold">
             {stage.name}
-            <small className="ml-2 text-[11px] font-normal text-[#61718b]">
+            <small className="ml-2 text-[11px] font-normal text-muted">
               {stage.layout}
             </small>
           </h3>
@@ -61,7 +58,7 @@ export function LobbySettings({
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
-              className="size-4 accent-[#bb3266]"
+              className="size-4 accent-crimson"
               checked={room.terrain}
               disabled={side !== 0 || locked || ownReady}
               onChange={(event) => model.setTerrain(event.target.checked)}
@@ -71,7 +68,7 @@ export function LobbySettings({
           <label className="flex min-h-11 items-center gap-2">
             <input
               type="checkbox"
-              className="size-4 accent-[#bb3266]"
+              className="size-4 accent-crimson"
               checked={sound}
               onChange={(event) => model.setSound(event.target.checked)}
             />
@@ -87,7 +84,7 @@ export function LobbySettings({
             disabled={side !== 0 || locked || ownReady}
             onClick={() => model.setArena(arena)}
             aria-pressed={room.arena === arena}
-            className={`w-28 shrink-0 touch-manipulation overflow-hidden rounded-none border text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-[#1aa8b8] lg:pointer-fine:w-56 xl:pointer-fine:w-64 ${room.arena === arena ? "border-[#bb3266] bg-[#bb3266]/5 text-[#101d33]" : "border-[#d9e2ef] bg-[#f3f7fc] text-[#61718b] hover:border-[#1aa8b8] hover:text-[#101d33]"}`}
+            className={`w-28 shrink-0 touch-manipulation overflow-hidden rounded-none text-left disabled:cursor-default focus-visible:outline-2 focus-visible:outline-ember lg:pointer-fine:w-56 xl:pointer-fine:w-64 ${room.arena === arena ? "bg-crimson/20 text-ivory" : "bg-void text-muted hover:text-ivory"}`}
           >
             <img
               src={scene.thumbnail}

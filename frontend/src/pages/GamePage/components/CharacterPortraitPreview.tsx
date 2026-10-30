@@ -11,19 +11,23 @@ export function CharacterPortraitPreview({
   character,
   children,
   compact = false,
+  fillHeight = false,
 }: {
   assets: Assets;
   character: number;
   children?: ReactNode;
   compact?: boolean;
+  fillHeight?: boolean;
 }) {
   const [stageForm, setStageForm] = useState(false);
   const profile = ROSTER[character];
   const scheme = schemeFor({ character, stageForm });
   return (
-    <aside className="grid min-w-0 grid-cols-[120px_minmax(0,1fr)] self-start overflow-hidden rounded-none bg-white/40 sm:block">
+    <aside
+      className={`grid min-w-0 grid-cols-[120px_minmax(0,1fr)] overflow-hidden rounded-none bg-panel ${fillHeight ? "h-full sm:flex sm:flex-col" : "self-start sm:block"}`}
+    >
       <div
-        className={`relative min-h-0 overflow-hidden bg-linear-to-br from-[#d1d5c3]/30 via-transparent to-[#dab2bb]/20 ${compact ? "h-[clamp(100px,20dvh,200px)]" : "h-[clamp(120px,25dvh,280px)]"}`}
+        className={`relative overflow-hidden bg-panel ${fillHeight ? "min-h-40 flex-1" : compact ? "h-[clamp(100px,20dvh,200px)]" : "h-[clamp(120px,25dvh,280px)]"}`}
       >
         <img
           src={
@@ -33,26 +37,27 @@ export function CharacterPortraitPreview({
           alt={profile.name}
           className="absolute inset-0 size-full object-contain object-top h-[120%]"
         />
-        <span className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-[#f7f3eb] to-transparent" />
+        <span className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-panel to-transparent" />
       </div>
-      <div className="relative min-w-0 p-3">
-        <p className="text-[9px] tracking-widest text-[#61718b]">
+      <div className="relative min-w-0 shrink-0 p-3">
+        <p className="text-[9px] tracking-widest text-muted">
           {BAND_LABEL[profile.band ?? "mygo"]}
         </p>
-        <h2 className="mt-1 text-lg font-medium text-[#101d33] sm:text-xl">
+        <h2 className="mt-1 text-lg font-medium text-ivory sm:text-xl">
           {profile.name}
         </h2>
-        <p className="mt-2 text-[10px] text-[#61718b] sm:text-xs">
+        <p className="mt-2 text-[10px] text-muted sm:text-xs">
           {profile.role} / {profile.archetype}
         </p>
         {assets.mujicaPortraits[character] && (
           <button
             type="button"
             aria-pressed={stageForm}
+            aria-label="切换角色形态预览"
             onClick={() => setStageForm(!stageForm)}
-            className="mt-2 min-h-11 rounded-none bg-[#244566]/6 px-3 py-1 text-[10px] focus-visible:outline-2 focus-visible:outline-cyan-200"
+            className="mt-2 min-h-11 rounded-none bg-raised px-3 py-1 text-[10px] focus-visible:outline-2 focus-visible:outline-ember"
           >
-            {stageForm ? "演出服" : "常态"} · 切换预览
+            {stageForm ? "演出服" : "常态"}
           </button>
         )}
         {!compact && (
@@ -60,11 +65,11 @@ export function CharacterPortraitPreview({
             {[...scheme.base, scheme.super].map(
               (move, i) =>
                 move && (
-                  <div key={move} className="flex items-baseline gap-2  pb-1.5">
-                    <dt className="min-w-5 rounded-none bg-[#bb3266]/8 text-center font-mono text-[#982650]">
+                  <div key={move} className="flex items-baseline gap-2 pb-1.5">
+                    <dt className="min-w-5 rounded-none bg-crimson/25 text-center font-mono text-ember">
                       {["U", "I", "O", "P"][i]}
                     </dt>
-                    <dd className="text-[#32455f]">{MOVES[move]?.name}</dd>
+                    <dd className="text-muted">{MOVES[move]?.name}</dd>
                   </div>
                 ),
             )}
