@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('source', type=Path)
 args = parser.parse_args()
-folder = ROOT / 'assets/audio'
+folder = ROOT / 'assets/characters/mygo/tomori/voices'
 manifest = json.loads((folder / 'penguin-voices.json').read_text(encoding='utf-8'))
 for clip in manifest['clips']:
     duration = clip['end'] - clip['start']

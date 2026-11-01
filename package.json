@@ -24,7 +24,8 @@
     "check:api": "node scripts/check-api.mjs",
     "check:services": "node scripts/check-services.mjs",
     "check:e2e": "node scripts/check-services-e2e.mjs",
-    "lan": "npm run build && npm start"
+    "lan": "npm run build && npm start",
+    "assets:find": "node scripts/find-assets.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

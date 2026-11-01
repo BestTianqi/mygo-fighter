@@ -16,13 +16,13 @@ from PIL import Image, ImageDraw, ImageFont
 from build import ROOT, data_url, figures_from_sheet, game_atlas
 from build_mujica_assets import extract_group, pack_pieces
 
-FOLDER = ROOT / 'assets/mewtype/viola'
+FOLDER = ROOT / 'assets/characters/mewtype/viola'
 ID = 15
 GROUPS = [
-    dict(file='mewtype/viola/actions-locomotion-source-v1.png', columns=4, rows=2,
+    dict(file='characters/mewtype/viola/actions-locomotion-source-v1.png', columns=4, rows=2,
          names=['walk-contact', 'walk-pass', 'dash-forward', 'guard-standing',
                 'guard-crouch', 'jump-rise', 'hit-high', 'knockdown-ground']),
-    dict(file='mewtype/viola/actions-combat-source-v2.png', columns=4, rows=2,
+    dict(file='characters/mewtype/viola/actions-combat-source-v2.png', columns=4, rows=2,
          names=['jab-1-impact', 'jab-2-impact', 'jab-3-impact', 'heavy-impact',
                 'skill-u-impact', 'skill-i-impact', 'skill-o-impact', 'super-impact']),
 ]
@@ -105,7 +105,7 @@ def build_viola_art():
     proof_folder = ROOT / 'output/artwork/mewtype/viola'
     proof_folder.mkdir(parents=True, exist_ok=True)
     proof.save(proof_folder / 'proof.png')
-    sources = ['mewtype/viola/portrait-source-v1.png'] + [group['file'] for group in GROUPS]
+    sources = ['characters/mewtype/viola/portrait-source-v1.png'] + [group['file'] for group in GROUPS]
     metadata = dict(id=ID, key='viola', name='薇欧拉', form='virtual',
                     sourceFiles=sources, groups=GROUPS, actualDrawings=len(pieces),
                     aliases=aliases,

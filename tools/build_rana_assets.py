@@ -13,7 +13,7 @@ LABELS=['待机','迈步触地','迈步经过','站立防御','上升跳跃','�
     '拨弦释放','低姿突进','吉他上挑','低位滑踢','空中俯冲','吉他独奏','大招蓄势','大招释放']
 
 def build():
-    groups=json.loads((ROOT/'assets/mygo/rana/rana-actions.json').read_text(encoding='utf-8'))
+    groups=json.loads((ROOT/'assets/characters/mygo/rana/rana-actions.json').read_text(encoding='utf-8'))
     poses=[]
     for group in groups:
         sprites=figures_from_sheet(ROOT/'assets'/group['file'],2,2)
@@ -31,9 +31,9 @@ def build():
         atlas.paste(sprite,(x,y))
         frames.append(dict(name=name,label=LABELS[i],x=x,y=y,w=sprite.width,h=sprite.height,
             ax=round(sprite.width/2 if name=='knockdown-ground' else anchor,2),ay=sprite.height,height=height,group=i//4))
-    atlas.save(ROOT/'assets/mygo/rana/rana-runtime.webp',lossless=True,method=6)
-    poses[0][2].save(ROOT/'assets/mygo/rana/rana-idle.png')
-    (ROOT/'assets/mygo/rana/rana-frames.json').write_text(json.dumps(frames,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    atlas.save(ROOT/'assets/characters/mygo/rana/rana-runtime.webp',lossless=True,method=6)
+    poses[0][2].save(ROOT/'assets/characters/mygo/rana/rana-idle.png')
+    (ROOT/'assets/characters/mygo/rana/rana-frames.json').write_text(json.dumps(frames,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(f'Packed {len(frames)} Rana poses; atlas {atlas.size}.')
 
 if __name__=='__main__':build()

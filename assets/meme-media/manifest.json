@@ -216,7 +216,7 @@
           "voice": "soyoSuper",
           "label": "为什么要演奏春日影",
           "slot": "p",
-          "audio": "assets/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3",
+          "audio": "assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3",
           "duration": 2.8,
           "source": {
             "url": "https://www.bilibili.com/video/BV1Va67YjEPr/",
@@ -228,9 +228,9 @@
             "start": 58.8,
             "end": 61.4,
             "proof": "Existing verified Haruhikage cut; legacy sidecar does not record cid.",
-            "catalog": "assets/mygo/soyo/haruhikage/sources.json"
+            "catalog": "assets/characters/mygo/soyo/haruhikage/sources.json"
           },
-          "video": "assets/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4",
+          "video": "assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4",
           "voiceRef": "soyoSuper",
           "videoRef": "soyoSuperVideo",
           "videoRate": 1
@@ -368,7 +368,7 @@
           "voice": "penguinCall",
           "label": "咕咕嘎嘎",
           "slot": "penguinCall",
-          "audio": "assets/audio/penguin-call.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-call.mp3",
           "duration": 2.45,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -380,7 +380,7 @@
             "start": 14.4,
             "end": 16.85,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinCall"
         }
@@ -444,7 +444,7 @@
           "voice": "penguinKick",
           "label": "飞踢",
           "slot": "penguinKick",
-          "audio": "assets/audio/penguin-kick.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-kick.mp3",
           "duration": 2.1,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -456,7 +456,7 @@
             "start": 1.55,
             "end": 3.65,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinKick"
         },
@@ -464,7 +464,7 @@
           "voice": "penguinCry",
           "label": "糖哭",
           "slot": "penguinCry",
-          "audio": "assets/audio/penguin-cry.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-cry.mp3",
           "duration": 3.15,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -476,7 +476,7 @@
             "start": 4.25,
             "end": 7.4,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinCry"
         },
@@ -484,7 +484,7 @@
           "voice": "penguinHey",
           "label": "hey?",
           "slot": "penguinHey",
-          "audio": "assets/audio/penguin-hey.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-hey.mp3",
           "duration": 2.0,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -496,7 +496,7 @@
             "start": 9.65,
             "end": 11.65,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinHey"
         },
@@ -504,7 +504,7 @@
           "voice": "penguinLaugh",
           "label": "唐笑",
           "slot": "penguinLaugh",
-          "audio": "assets/audio/penguin-laugh.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-laugh.mp3",
           "duration": 2.45,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -516,7 +516,7 @@
             "start": 11.8,
             "end": 14.25,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinLaugh"
         },
@@ -524,7 +524,7 @@
           "voice": "penguinCall",
           "label": "咕咕嘎嘎",
           "slot": "penguinCall",
-          "audio": "assets/audio/penguin-call.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-call.mp3",
           "duration": 2.45,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -536,7 +536,7 @@
             "start": 14.4,
             "end": 16.85,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinCall"
         },
@@ -544,7 +544,7 @@
           "voice": "penguinCry",
           "label": "糖哭",
           "slot": "penguinCry",
-          "audio": "assets/audio/penguin-cry.mp3",
+          "audio": "assets/characters/mygo/tomori/voices/penguin-cry.mp3",
           "duration": 3.15,
           "source": {
             "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
@@ -556,7 +556,7 @@
             "start": 4.25,
             "end": 7.4,
             "proof": null,
-            "catalog": "assets/audio/penguin-voices.json"
+            "catalog": "assets/characters/mygo/tomori/voices/penguin-voices.json"
           },
           "voiceRef": "penguinCry"
         }

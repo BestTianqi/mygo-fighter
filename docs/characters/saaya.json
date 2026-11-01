@@ -40,7 +40,7 @@
       "key": "normal",
       "label": "常态",
       "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
-      "portraitReference": "assets/poppinparty/portraits/saaya.png",
+      "portraitReference": "assets/characters/poppinparty/portraits/saaya.png",
       "attacks": {
         "J": {
           "chain": [
@@ -117,7 +117,7 @@
       },
       "ultimateFinish": {
         "description": "双棒交叉定格，金色鼓面圆环与面包店暖灯展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
-        "artReference": "assets/poppinparty/portraits/saaya.png",
+        "artReference": "assets/characters/poppinparty/portraits/saaya.png",
         "voiceKey": "saaya-finish"
       }
     }
@@ -137,14 +137,14 @@
     {
       "key": "portrait-normal",
       "kind": "image",
-      "localPath": "assets/poppinparty/portraits/saaya.png",
+      "localPath": "assets/characters/poppinparty/portraits/saaya.png",
       "sourceUrl": "",
-      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/characters/poppinparty/prompts.json。未导出到游戏运行素材。"
     },
     {
       "key": "saaya-entry",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-entry.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-entry.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
       "speaker": "山吹沙绫",
       "line": "私は山吹沙綾。",
@@ -155,7 +155,7 @@
     {
       "key": "saaya-u",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-u.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-u.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
       "speaker": "山吹沙绫",
       "line": "私だってバンドしたい！",
@@ -166,7 +166,7 @@
     {
       "key": "saaya-i",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-i.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-i.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
       "speaker": "山吹沙绫",
       "line": "一人で決めちゃうの、ずるい！",
@@ -177,7 +177,7 @@
     {
       "key": "saaya-o",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-o.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-o.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1js411M77x/",
       "speaker": "山吹沙绫",
       "line": "いつも助かってます。",
@@ -188,7 +188,7 @@
     {
       "key": "saaya-p",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-p.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-p.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
       "speaker": "山吹沙绫",
       "line": "聴いてもらいたい、見てもらいたい！私の大好きなポピパのライブ！",
@@ -199,7 +199,7 @@
     {
       "key": "saaya-finish",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/saaya-finish.mp3",
+      "localPath": "assets/characters/poppinparty/voices/saaya-finish.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1Pz4y1G7Yj/",
       "speaker": "山吹沙绫",
       "line": "ありがとうね。",
@@ -210,7 +210,7 @@
     {
       "key": "action-saaya",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/saaya.png",
+      "localPath": "assets/characters/poppinparty/actions/saaya.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     }
@@ -220,7 +220,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/characters/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
     "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]

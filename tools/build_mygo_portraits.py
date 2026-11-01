@@ -8,7 +8,7 @@ import json
 from PIL import Image
 from build import ROOT, data_url, export_assets, figures_from_sheet, game_atlas
 
-FOLDER = ROOT / 'assets/mygo/portraits-v1'
+FOLDER = ROOT / 'assets/characters/mygo/portraits-v1'
 CHARACTERS = [('anon', 0), ('soyo', 1), ('tomori', 2), ('rana', 3), ('riki', 4)]
 
 

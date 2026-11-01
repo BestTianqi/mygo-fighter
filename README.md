@@ -117,7 +117,7 @@ The production frontend puts React in a separate shared chunk so the game bundle
 - `backend/src/main/scala/services/edge/`: public admission limits, static files, API forwarding, the owner cache and WebSocket proxying.
 - `backend/src/main/scala/services/system/`: role dispatch and Cats Effect startup, application resources, shared routing and static serving. Cross-process payload types live under `objects/internal/`.
 - `frontend/public/`: media manifest and cacheable runtime assets.
-- `assets/`: source artwork grouped by band, character or feature, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
+- `assets/`: source artwork under `assets/characters/<band>/`, plus shared feature folders, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
 - `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
 
 The Scala backend runs as the `edge`, `lobby` and `rooms` roles from one release artifact and embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside each rooms process. Room execution, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.

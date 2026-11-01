@@ -2,7 +2,7 @@
 from PIL import Image
 from build import ROOT, data_url, figures_from_sheet, game_atlas
 
-FOLDER = ROOT / 'assets/mujica/portraits-v2'
+FOLDER = ROOT / 'assets/characters/mujica/portraits-v2'
 CHARACTERS = [('umiri', 5), ('sakiko', 6), ('uika', 7), ('mutsumi', 8), ('nyamu', 9)]
 # Face centers in each tightly packed full-body drawing, reviewed at portrait scale.
 FACE_X = {'umiri': [.53, .50], 'sakiko': [.54, .52], 'uika': [.39, .49],

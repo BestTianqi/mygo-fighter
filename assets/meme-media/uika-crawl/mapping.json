@@ -12,11 +12,11 @@
     "uniformGridExtractionSafe": false
   },
   "references": [
-    "D:/workspace/mygo-fighter/assets/mujica/uika/normal-idle.webp",
-    "D:/workspace/mygo-fighter/assets/mujica/uika/stage-idle.webp",
-    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_casual_official.png",
-    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_stage_official.png",
-    "D:/workspace/mygo-fighter/assets/mujica/uika/reference/mujica_uika_face_official.jpg"
+    "D:/workspace/mygo-fighter/assets/characters/mujica/uika/normal-idle.webp",
+    "D:/workspace/mygo-fighter/assets/characters/mujica/uika/stage-idle.webp",
+    "D:/workspace/mygo-fighter/assets/characters/mujica/uika/reference/mujica_uika_casual_official.png",
+    "D:/workspace/mygo-fighter/assets/characters/mujica/uika/reference/mujica_uika_stage_official.png",
+    "D:/workspace/mygo-fighter/assets/characters/mujica/uika/reference/mujica_uika_face_official.jpg"
   ],
   "frames": [
     {

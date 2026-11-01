@@ -8,7 +8,7 @@
 
 角色ID：八幡海铃5、丰川祥子6、三角初华7、若叶睦8、祐天寺若麦9。界面按祥子、初华、海铃、睦、若麦排序。
 
-每形态56帧，7张4列×2行透明图，每格一个完整人物，按照下面的顺序命名。源稿在 assets/mujica/<key>/<normal|stage>/group-<1..7>-v1.png；清单在 assets/mujica/<key>/manifest.json。人物key为sakiko/uika/umiri/mutsumi/nyamu。常态与演出形态的姿势、服装和动作都需实际绘制，不通过同一立绘位移伪造。
+每形态56帧，7张4列×2行透明图，每格一个完整人物，按照下面的顺序命名。源稿在 assets/characters/mujica/<key>/<normal|stage>/group-<1..7>-v1.png；清单在 assets/characters/mujica/<key>/manifest.json。人物key为sakiko/uika/umiri/mutsumi/nyamu。常态与演出形态的姿势、服装和动作都需实际绘制，不通过同一立绘位移伪造。
 
 1. idle, walk-contact, walk-pass, guard-standing, guard-crouch, dash-forward, dash-back, jump-rise
 2. jump-fall, landing, hit-high, hit-low, knockdown-fall, knockdown-ground, getup, victory
@@ -40,4 +40,4 @@ Manifest schema: {key,id,name,references:[{path,source}],forms:{normal:{groups:[
 
 验收已通过：213项战斗与动作测试、16项素材/打包/离线一致性测试，以及正式HTML中五人十形态的UIO/P、J三连、虚影瞬移、2P、电脑实际攻击、菜单冻结/到期恢复、K.O./下一回合和横竖屏触控。旧五人及企鹅统一键位、主菜单、虚影与实时移动/三连回归亦通过。浏览器检查无页面错误或联网请求。正式HTML实盘79,202,238字节，低于95MiB。
 
-所有人物图均由内置imagegen生成。完整逐组提示词、官方参考来源和最终版本选择保存在：[祥子](mujica/sakiko/manifest.json)、[初华](mujica/uika/manifest.json)、[海铃](mujica/umiri/manifest.json)、[睦](mujica/mutsumi/manifest.json)、[若麦](mujica/nyamu/manifest.json)。原稿与修稿均保留；运行图采用保留精确透明度的高质量WebP，完整动作在 mujica-preview.html 中离线查看。
+所有人物图均由内置imagegen生成。完整逐组提示词、官方参考来源和最终版本选择保存在：[祥子](../characters/mujica/sakiko/manifest.json)、[初华](../characters/mujica/uika/manifest.json)、[海铃](../characters/mujica/umiri/manifest.json)、[睦](../characters/mujica/mutsumi/manifest.json)、[若麦](../characters/mujica/nyamu/manifest.json)。原稿与修稿均保留；运行图采用保留精确透明度的高质量WebP，完整动作在 mujica-preview.html 中离线查看。

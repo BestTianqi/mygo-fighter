@@ -92,11 +92,11 @@ def build_catalog():
     profiles['1']['variants']['soyoCutline'] = normalize_clip(read_json(cutline_catalog)['cutline'], cutline_catalog, 1, 'i', 'meme_1_cutline')
 
     # Preserve the already integrated Haruhikage recording without embedding it twice.
-    soyo_catalog = ASSETS / 'mygo/soyo/haruhikage/sources.json'
+    soyo_catalog = ASSETS / 'characters/mygo/soyo/haruhikage/sources.json'
     soyo_source = read_json(soyo_catalog)
     selected = soyo_source['selectedSource']
-    soyo_row = dict(label=soyo_source['superName'], audio='assets/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3',
-                    video='assets/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4', source=selected['url'],
+    soyo_row = dict(label=soyo_source['superName'], audio='assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3',
+                    video='assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4', source=selected['url'],
                     author=selected['uploader'], start=selected['startSeconds'], end=selected['endSeconds'])
     soyo = normalize_clip(soyo_row, soyo_catalog, 1, 'p', 'soyoSuper')
     soyo.update(duration=2.8, voiceRef='soyoSuper', videoRef='soyoSuperVideo')
@@ -225,14 +225,14 @@ def build_catalog():
         for clip in [*profile['slots'].values(), *profile['variants'].values()]:
             if clip['slot'] == 'p':
                 clip['videoRate'] = 1
-    old_catalog = ASSETS / 'audio/penguin-voices.json'
+    old_catalog = ASSETS / 'characters/mygo/tomori/voices/penguin-voices.json'
     old = read_json(old_catalog)
     labels = dict(penguinCry='糖哭', penguinHey='hey?', penguinCall='咕咕嘎嘎',
                   penguinKick='飞踢', penguinLaugh='唐笑')
     for row in old['clips']:
         move = row['move']
         merged = dict(penguin_row, **row)
-        merged.update(audio=(ASSETS / 'audio' / row['file']).relative_to(ROOT).as_posix(), label=labels[move])
+        merged.update(audio=(ASSETS / 'characters/mygo/tomori/voices' / row['file']).relative_to(ROOT).as_posix(), label=labels[move])
         merged.pop('video', None)
         clip = normalize_clip(merged, old_catalog, 2, move, move)
         clip['voiceRef'] = move

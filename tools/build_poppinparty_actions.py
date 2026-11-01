@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-DEST = ROOT / "assets/poppinparty/actions"
+DEST = ROOT / "assets/characters/poppinparty/actions"
 NAMES = ["idle", "walk", "run", "jump", "guard", "hit", "knockdown", "entry",
          "j1", "j2", "j3", "k", "u", "i", "o", "p"]
 LABELS = ["待机", "行走", "奔跑", "跳跃", "防御", "受击", "倒地", "入场",

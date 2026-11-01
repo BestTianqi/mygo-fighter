@@ -41,7 +41,7 @@
       "key": "normal",
       "label": "常态",
       "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
-      "portraitReference": "assets/poppinparty/portraits/kasumi.png",
+      "portraitReference": "assets/characters/poppinparty/portraits/kasumi.png",
       "attacks": {
         "J": {
           "chain": [
@@ -118,7 +118,7 @@
       },
       "ultimateFinish": {
         "description": "红色星形吉他举起，夜空与五色舞台灯从立绘背后展开。此项为后续奥义图构图方案，本次未另绘奥义图。",
-        "artReference": "assets/poppinparty/portraits/kasumi.png",
+        "artReference": "assets/characters/poppinparty/portraits/kasumi.png",
         "voiceKey": "kasumi-finish"
       }
     }
@@ -138,14 +138,14 @@
     {
       "key": "portrait-normal",
       "kind": "image",
-      "localPath": "assets/poppinparty/portraits/kasumi.png",
+      "localPath": "assets/characters/poppinparty/portraits/kasumi.png",
       "sourceUrl": "",
-      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/characters/poppinparty/prompts.json。未导出到游戏运行素材。"
     },
     {
       "key": "kasumi-entry",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-entry.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-entry.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
       "speaker": "户山香澄",
       "line": "私、戸山香澄、16歳！",
@@ -156,7 +156,7 @@
     {
       "key": "kasumi-u",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-u.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-u.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
       "speaker": "户山香澄",
       "line": "星のギター！見つけた！キラキラドキドキできるもの！",
@@ -167,7 +167,7 @@
     {
       "key": "kasumi-i",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-i.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-i.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
       "speaker": "户山香澄",
       "line": "真っ赤なランダムスターをジャーンってしちゃうから！",
@@ -178,7 +178,7 @@
     {
       "key": "kasumi-o",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-o.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-o.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1AF411U7Hi/",
       "speaker": "户山香澄",
       "line": "バンド始めてよかった！",
@@ -189,7 +189,7 @@
     {
       "key": "kasumi-p",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-p.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-p.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
       "speaker": "户山香澄",
       "line": "私ね、小さい頃、夜空を見上げた時に、星の鼓動が聞こえたんだ！",
@@ -200,7 +200,7 @@
     {
       "key": "kasumi-finish",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/kasumi-finish.mp3",
+      "localPath": "assets/characters/poppinparty/voices/kasumi-finish.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1hs411371z/",
       "speaker": "户山香澄",
       "line": "だから今、みんなとPoppin'Partyができて、すっごく楽しい！",
@@ -211,21 +211,21 @@
     {
       "key": "action-kasumi",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/kasumi.png",
+      "localPath": "assets/characters/poppinparty/actions/kasumi.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     },
     {
       "key": "action-kasumi-u",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/kasumi-u.png",
+      "localPath": "assets/characters/poppinparty/actions/kasumi-u.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     },
     {
       "key": "action-kasumi-i",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/kasumi-i.png",
+      "localPath": "assets/characters/poppinparty/actions/kasumi-i.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     }
@@ -235,7 +235,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/characters/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
     "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]

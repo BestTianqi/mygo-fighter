@@ -34,26 +34,47 @@ for (const filename of files)
 // Action catalogs use assets-relative paths; stage entries use repository paths.
 // Check both conventions so source reorganization cannot silently break packing.
 const sourceReferences = new Set();
-for (const catalog of [
-  "mygo/anon/anon-extra-actions.json",
-  "mygo/soyo/soyo-extra-actions.json",
-  "mygo/tomori/tomori-actions.json",
-  "mygo/tomori/tomori-penguin-actions.json",
-  "mygo/rana/rana-actions.json",
-  "mygo/riki/riki-actions.json",
-  "mygo/jab-actions.json",
-]) {
-  const groups = JSON.parse(await readFile(new URL(catalog, sources), "utf8"));
-  for (const group of groups) {
-    sourceReferences.add(group.file);
-    for (const override of Object.values(group.overrides ?? {}))
-      sourceReferences.add(override);
+// Inspect every band's action groups, including form manifests and drafts.
+// Only executable sheet references are checked; historical provenance and
+// optional review screenshots are not build inputs.
+async function inspectCatalogs(directory) {
+  for (const entry of await readdir(new URL(directory, sources), {
+    withFileTypes: true,
+  })) {
+    const path = `${directory}${entry.name}`;
+    if (entry.isDirectory()) await inspectCatalogs(`${path}/`);
+    else if (entry.name.endsWith(".json")) {
+      const catalog = JSON.parse(
+        await readFile(new URL(path, sources), "utf8"),
+      );
+      function collectSheets(value) {
+        if (!value || typeof value !== "object") return;
+        if (
+          typeof value.file === "string" &&
+          (value.names || value.heights || (value.columns && value.rows))
+        ) {
+          sourceReferences.add(value.file);
+          for (const override of Object.values(value.overrides ?? {}))
+            sourceReferences.add(override);
+        }
+        for (const filename of value.sourceFiles ?? [])
+          sourceReferences.add(filename);
+        Object.values(value).forEach(collectSheets);
+      }
+      collectSheets(catalog);
+    }
   }
 }
-const viola = JSON.parse(
-  await readFile(new URL("mewtype/viola/manifest.json", sources), "utf8"),
+await inspectCatalogs("characters/");
+const penguinDirectory = "characters/mygo/tomori/voices/";
+const penguin = JSON.parse(
+  await readFile(
+    new URL(`${penguinDirectory}penguin-voices.json`, sources),
+    "utf8",
+  ),
 );
-for (const filename of viola.sourceFiles) sourceReferences.add(filename);
+for (const clip of penguin.clips)
+  sourceReferences.add(`${penguinDirectory}${clip.file}`);
 const stages = JSON.parse(
   await readFile(new URL("stages/stages.json", sources), "utf8"),
 );

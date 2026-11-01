@@ -4,7 +4,7 @@ import json
 from PIL import Image
 from build import ROOT, data_url, export_assets, figures_from_sheet, game_atlas
 
-FOLDER = ROOT / 'assets/mewtype/portraits-v1'
+FOLDER = ROOT / 'assets/characters/mewtype/portraits-v1'
 CHARACTERS = [('arale', 10), ('ritsu', 11), ('miyako', 12), ('yuno', 13), ('nonoka', 14)]
 
 

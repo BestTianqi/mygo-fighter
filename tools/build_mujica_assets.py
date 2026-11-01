@@ -57,7 +57,7 @@ def validate_groups(groups, partial=False):
 
 
 def source_groups(key, form, partial=False):
-    folder = ROOT / 'assets/mujica' / key
+    folder = ROOT / 'assets/characters/mujica' / key
     manifest_path = folder / 'manifest.json'
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
@@ -148,7 +148,7 @@ def pack_form(key, form, partial=False):
         return None
     proof_folder = ROOT / 'output/artwork/mujica' / key
     proof_folder.mkdir(parents=True, exist_ok=True)
-    folder = proof_folder if partial else ROOT / 'assets/mujica' / key
+    folder = proof_folder if partial else ROOT / 'assets/characters/mujica' / key
     pieces = []
     for group in groups:
         source = ROOT / 'assets' / group['file']
@@ -190,7 +190,7 @@ def pack_all():
     forms, characters = {}, []
     for key, identifier in KEYS:
         forms[identifier] = {form: pack_form(key, form) for form in ('normal', 'stage')}
-        portrait = (ROOT / 'assets/mujica' / key / 'normal-idle.webp').read_bytes()
+        portrait = (ROOT / 'assets/characters/mujica' / key / 'normal-idle.webp').read_bytes()
         characters.append(dict(id=identifier, key=key, portrait='data:image/webp;base64,' + base64.b64encode(portrait).decode()))
     return forms, characters
 

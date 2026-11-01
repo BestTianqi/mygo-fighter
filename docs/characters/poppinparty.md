@@ -2,7 +2,7 @@
 
 状态：**五位成员的独立立绘与技能包已制作，暂不接入游戏**。这是待接入素材，不是已发布的可玩角色。
 
-[打开立绘与技能预览](../../assets/poppinparty/preview.html)（可直接用浏览器打开）。
+[打开立绘与技能预览](../../assets/characters/poppinparty/preview.html)（可直接用浏览器打开）。
 
 | 角色 | 标识 | 乐器 | 资料 |
 | --- | --- | --- | --- |
@@ -12,7 +12,7 @@
 | 山吹沙绫 | `saaya` | 鼓手 | [saaya.json](saaya.json) |
 | 市谷有咲 | `arisa` | 键盘 | [arisa.json](arisa.json) |
 
-角色身份参考 [官方成员介绍](https://anime.bang-dream.com/bandorichan/character/poppinparty/)。五张立绘使用[官方校服视觉参考](https://gamebiz.jp/news/366083)由内置 image_gen 分别生成，保留正常身材、角色发型瞳色与统一校服。源图、透明PNG与完整提示词存于 `assets/poppinparty/`。
+角色身份参考 [官方成员介绍](https://anime.bang-dream.com/bandorichan/character/poppinparty/)。五张立绘使用[官方校服视觉参考](https://gamebiz.jp/news/366083)由内置 image_gen 分别生成，保留正常身材、角色发型瞳色与统一校服。源图、透明PNG与完整提示词存于 `assets/characters/poppinparty/`。
 
 技能定义位于 `frontend/src/game/bands/poppinparty/draftMoves.ts`，其工厂仅返回招式数据，不修改全局注册表。全套包含55个招式和沙绫的1个内部反击波，共56个定义。通过共享战斗内核离线验证；正式名单未导入此模块。
 
@@ -41,8 +41,8 @@ npm run character:check -- kasumi
 
 ## 后续制作
 
-已制作独立立绘、技能定义、三段普攻与入场的动作说明，以及每人6条、共30条官方游戏原声。可在预览页试听；完整来源与截取时间见[语音资料](../../assets/poppinparty/voices/sources.json)。保持 `transformation.enabled: false`，直到明确需要变身。
+已制作独立立绘、技能定义、三段普攻与入场的动作说明，以及每人6条、共30条官方游戏原声。可在预览页试听；完整来源与截取时间见[语音资料](../../assets/characters/poppinparty/voices/sources.json)。保持 `transformation.enabled: false`，直到明确需要变身。
 
-动作图已制作，每人16种关键姿势，共80种，覆盖移动、防御、受击、入场、三段普攻、重击和U/I/O/P。预览页可切换姿势、播放J三段，并用对应技能语音演示；动作结束不会截断完整台词。源图和取图清单见[动作说明](../../assets/poppinparty/actions/README.md)。完整连续逐帧动画、奥义背景图和正式战斗中的动作／特效接入仍待后续制作。
+动作图已制作，每人16种关键姿势，共80种，覆盖移动、防御、受击、入场、三段普攻、重击和U/I/O/P。预览页可切换姿势、播放J三段，并用对应技能语音演示；动作结束不会截断完整台词。源图和取图清单见[动作说明](../../assets/characters/poppinparty/actions/README.md)。完整连续逐帧动画、奥义背景图和正式战斗中的动作／特效接入仍待后续制作。
 
 **仅在用户明确要求加入游戏后接入。** 接入时按最新注册表分配 ID，保留现有角色编号；遵循 [新角色模板说明](README.md) 完成本地与联机验证。

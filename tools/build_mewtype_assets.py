@@ -36,7 +36,7 @@ def validate_groups(groups, partial=False):
 
 
 def source_groups(key, partial=False):
-    folder = ROOT / 'assets/mewtype' / key
+    folder = ROOT / 'assets/characters/mewtype' / key
     manifest_path = folder / 'manifest.json'
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
@@ -87,7 +87,7 @@ def pack_character(key, partial=False):
     packed = pack_pieces(pieces)
     proof_folder = ROOT / 'output/artwork/mewtype' / key
     proof_folder.mkdir(parents=True, exist_ok=True)
-    folder = proof_folder if partial else ROOT / 'assets/mewtype' / key
+    folder = proof_folder if partial else ROOT / 'assets/characters/mewtype' / key
     stem = 'virtual-partial' if partial else 'virtual'
     runtime_bytes = base64.b64decode(packed['atlas'].split(',', 1)[1])
     (folder / f'{stem}-runtime.webp').write_bytes(runtime_bytes)
@@ -119,7 +119,7 @@ def pack_all():
     forms, characters = {}, []
     for key, identifier in KEYS:
         forms[identifier] = dict(virtual=pack_character(key))
-        portrait = (ROOT / 'assets/mewtype' / key / 'virtual-idle.webp').read_bytes()
+        portrait = (ROOT / 'assets/characters/mewtype' / key / 'virtual-idle.webp').read_bytes()
         characters.append(dict(id=identifier, key=key, portrait='data:image/webp;base64,' + base64.b64encode(portrait).decode()))
     return forms, characters
 

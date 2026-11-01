@@ -37,7 +37,7 @@
       "key": "normal",
       "label": "常态",
       "appearance": "已绘制花咲川校服立绘，原作2D面部、正常身材；独立透明PNG，持各自乐器（沙绫持鼓棒、有咲用按键手势）。",
-      "portraitReference": "assets/poppinparty/portraits/tae.png",
+      "portraitReference": "assets/characters/poppinparty/portraits/tae.png",
       "attacks": {
         "J": {
           "chain": [
@@ -114,7 +114,7 @@
       },
       "ultimateFinish": {
         "description": "蓝色吉他长音化成平行弦线，练习室窗光与蓝色聚光灯铺开。此项为后续奥义图构图方案，本次未另绘奥义图。",
-        "artReference": "assets/poppinparty/portraits/tae.png",
+        "artReference": "assets/characters/poppinparty/portraits/tae.png",
         "voiceKey": "tae-finish"
       }
     }
@@ -134,14 +134,14 @@
     {
       "key": "portrait-normal",
       "kind": "image",
-      "localPath": "assets/poppinparty/portraits/tae.png",
+      "localPath": "assets/characters/poppinparty/portraits/tae.png",
       "sourceUrl": "",
-      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。"
+      "notes": "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/characters/poppinparty/prompts.json。未导出到游戏运行素材。"
     },
     {
       "key": "tae-entry",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-entry.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-entry.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
       "speaker": "花园多惠",
       "line": "こんにちは、花園たえです。",
@@ -152,7 +152,7 @@
     {
       "key": "tae-u",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-u.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-u.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
       "speaker": "花园多惠",
       "line": "私、結構得意なんだ。",
@@ -163,7 +163,7 @@
     {
       "key": "tae-i",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-i.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-i.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1bs411g7X4/",
       "speaker": "花园多惠",
       "line": "Poppin'Partyはすごく楽しい。",
@@ -174,7 +174,7 @@
     {
       "key": "tae-o",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-o.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-o.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
       "speaker": "花园多惠",
       "line": "バンドって本当にすごいよね。",
@@ -185,7 +185,7 @@
     {
       "key": "tae-p",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-p.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-p.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
       "speaker": "花园多惠",
       "line": "ポピパって、私たち5人でポピパだよね。",
@@ -196,7 +196,7 @@
     {
       "key": "tae-finish",
       "kind": "voice",
-      "localPath": "assets/poppinparty/voices/tae-finish.mp3",
+      "localPath": "assets/characters/poppinparty/voices/tae-finish.mp3",
       "sourceUrl": "https://www.bilibili.com/video/BV1qC4y1f7X1/",
       "speaker": "花园多惠",
       "line": "この音は一生忘れないよ。",
@@ -207,14 +207,14 @@
     {
       "key": "action-tae",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/tae.png",
+      "localPath": "assets/characters/poppinparty/actions/tae.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     },
     {
       "key": "action-tae-jump",
       "kind": "image",
-      "localPath": "assets/poppinparty/actions/tae-jump.png",
+      "localPath": "assets/characters/poppinparty/actions/tae-jump.png",
       "sourceUrl": "",
       "notes": "已绘制关键姿势；取图矩形、轮廓与统一比例见 actions/manifest.json。"
     }
@@ -224,7 +224,7 @@
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/characters/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
     "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。"
   ]

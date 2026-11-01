@@ -6,7 +6,7 @@ from pathlib import Path
 from PIL import Image
 from build import figures_from_sheet
 ROOT=Path(__file__).resolve().parents[1]
-FOLDER=ROOT/'assets/mujica/mask-transformation'
+FOLDER=ROOT/'assets/characters/mujica/mask-transformation'
 NAMES=['mask-take','mask-raise','mask-settle']
 
 def pack_mask_assets():

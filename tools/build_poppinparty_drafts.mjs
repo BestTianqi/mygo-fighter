@@ -6,13 +6,13 @@ import { evaluate } from "../scripts/kernel.mjs";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const actionManifest = JSON.parse(
   await readFile(
-    path.join(root, "assets/poppinparty/actions/manifest.json"),
+    path.join(root, "assets/characters/poppinparty/actions/manifest.json"),
     "utf8",
   ),
 );
 const voiceManifest = JSON.parse(
   await readFile(
-    path.join(root, "assets/poppinparty/voices/sources.json"),
+    path.join(root, "assets/characters/poppinparty/voices/sources.json"),
     "utf8",
   ),
 );
@@ -74,7 +74,7 @@ const all = [];
 for (const key of POPPINPARTY_KEYS) {
   const specPath = path.join(root, `docs/characters/${key}.json`);
   const spec = JSON.parse(await readFile(specPath, "utf8"));
-  const portrait = `assets/poppinparty/portraits/${key}.png`;
+  const portrait = `assets/characters/poppinparty/portraits/${key}.png`;
   await access(path.join(root, portrait));
   const form = spec.forms[0],
     actions = POPPINPARTY_ACTIONS[key];
@@ -139,13 +139,13 @@ for (const key of POPPINPARTY_KEYS) {
       localPath: portrait,
       sourceUrl: "",
       notes:
-        "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/poppinparty/prompts.json。未导出到游戏运行素材。",
+        "内置image_gen依据官方校服参考新绘；完整提示词和参考来源见 assets/characters/poppinparty/prompts.json。未导出到游戏运行素材。",
     },
   ];
   for (const voice of voiceManifest.clips.filter(
     (clip) => clip.character === key,
   )) {
-    const localPath = `assets/poppinparty/voices/${voice.file}`;
+    const localPath = `assets/characters/poppinparty/voices/${voice.file}`;
     await access(path.join(root, localPath));
     spec.media.push({
       key: voice.key,
@@ -166,7 +166,7 @@ for (const key of POPPINPARTY_KEYS) {
       (frame) => frame.file,
     ),
   )) {
-    const localPath = `assets/poppinparty/actions/${file}`;
+    const localPath = `assets/characters/poppinparty/actions/${file}`;
     await access(path.join(root, localPath));
     spec.media.push({
       key: `action-${file.replace(/\.png$/, "")}`,
@@ -182,7 +182,7 @@ for (const key of POPPINPARTY_KEYS) {
     "技能工厂：frontend/src/game/bands/poppinparty/draftMoves.ts；不被正式注册表导入。",
     "J三段伤害5／6／8，范围200；K伤害13、范围240。L沿用10共鸣虚影瞬移，H未启用。",
     "技能表为基础伤害，普通攻击与小技能受共享连击衰减影响。P消耗100，无防御或减伤时完整命中50伤害，不受连击衰减；释放时霸体。多段共鸣沿用共享预算。",
-    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
+    "已绘制16种关键动作姿势：待机、行走、奔跑、跳跃、防御、受击、倒地、入场、J三段、K、U/I/O/P。取图清单见 assets/characters/poppinparty/actions/manifest.json。它们是关键姿势，尚非每招完整逐帧动画。",
     "已配入场、U/I/O/P和终结的6条官方游戏原声，保持原速及完整短句；后退派生复用对应基础技能语音。未另绘奥义背景图。",
     "仅在用户后续明确要求加入游戏后注册，并完成按键、动作渲染、音视频和联机接入。",
   ];
@@ -197,7 +197,7 @@ for (const key of POPPINPARTY_KEYS) {
   });
 }
 await writeFile(
-  path.join(root, "assets/poppinparty/skills.json"),
+  path.join(root, "assets/characters/poppinparty/skills.json"),
   JSON.stringify({ status: "offline-unregistered", characters: all }, null, 2) +
     "\n",
 );
@@ -245,7 +245,7 @@ const sections = all
   )
   .join("\n");
 await writeFile(
-  path.join(root, "assets/poppinparty/preview.html"),
+  path.join(root, "assets/characters/poppinparty/preview.html"),
   `<!doctype html>
 <html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Poppin'Party · 角色制作预览</title><style>
 .action-widget{border-top:1px solid #474150;padding:10px}.action-widget canvas{display:block;width:100%;height:auto}.action-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px}.action-controls button,.action-controls select{font:inherit;color:inherit;background:#39364a;border:1px solid #736078;border-radius:8px;padding:8px;max-width:100%}.action-controls p{margin:0;color:#c9bdd2}.voice{margin-top:12px}.voice audio{display:block;width:100%;max-width:340px;height:34px}.voice small{display:block;color:#beb8c9;margin-top:8px}.skill>div{min-width:0;flex:1}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:25px 0 35px}.gallery a{display:block;min-width:0;background:#252737;border-radius:12px;text-align:center;text-decoration:none;padding-bottom:15px}.gallery img{width:100%;display:block}.gallery b{font-size:14px}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}body{margin:0;background:#151827;color:#f6f1eb;font:15px/1.65 system-ui,"Microsoft YaHei",sans-serif}header,main,footer{max-width:1280px;margin:auto;padding:30px}header{padding-top:55px}h1{font-size:clamp(32px,6vw,64px);line-height:1.1;margin:10px 0 20px;letter-spacing:-2px}.eyebrow{font-size:12px;letter-spacing:2px;color:#d7a7bc}.lead{color:#c0bfca;max-width:720px}nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}nav a{padding:8px 17px;border:1px solid #535063;border-radius:30px;color:inherit;text-decoration:none}nav a:hover{background:#343046}section{display:grid;grid-template-columns:minmax(260px,42%) 1fr;gap:36px;border-top:1px solid #494151;padding:40px 0;align-items:start}.portrait{position:sticky;top:25px;border-radius:24px;background:radial-gradient(ellipse at 50% 45%,#3f354c,#202333 70%);overflow:hidden}.portrait>img{display:none;width:100%;height:auto}h2{font-size:34px;line-height:1.2;margin:0}.role{color:var(--accent);font-weight:bold}.normals,details{background:#202333;padding:15px 20px;border-radius:12px;margin:18px 0}.normals p,ol{margin:8px 0}ol{padding-left:20px}.skill{display:flex;gap:15px;padding:18px 0;border-bottom:1px solid #343344}.skill kbd{background:var(--accent);color:white;border-radius:10px;font:bold 22px system-ui;width:44px;height:44px;display:grid;place-items:center;flex-shrink:0}.skill h3{margin:0;font-size:19px}.skill p{margin:6px 0;color:#d0cdd8}.skill .stats{color:var(--accent);font-size:13px}summary{cursor:pointer}footer{color:#aaa5b6}a{color:#eab7cf}@media(max-width:700px){header,main,footer{padding:20px}section{grid-template-columns:1fr;gap:24px}.portrait{position:static;max-width:420px;margin:auto;width:100%}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

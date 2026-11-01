@@ -7,7 +7,7 @@ from pathlib import Path
 import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[1]
-DEST = ROOT / "assets/poppinparty/voices"
+DEST = ROOT / "assets/characters/poppinparty/voices"
 
 
 def main():

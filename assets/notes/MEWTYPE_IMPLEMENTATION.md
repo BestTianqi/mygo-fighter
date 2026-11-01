@@ -20,7 +20,7 @@ J 为三段差异化普攻；K 为重击；蹲下和空中各有 J/K 动作；L 
 
 每人 54 张真实动作：复用 Mujica 命名顺序的前 54 帧，去掉最后两个变身动作。前六张源图各 4×2，第七张 3×2。每帧需要完整人物，服装与发色一致；不能用一张立绘位移替代不同攻击。源图为透明 PNG，运行图为保留透明度的 WebP 图集。
 
-参考资料来源与用途记录在 assets/mewtype/reference；生成提示词、采用源图和帧顺序记录在每人 manifest.json。官方虚拟形象与真人照片、动画便服要明确区分。
+参考资料来源与用途记录在 assets/characters/mewtype/reference；生成提示词、采用源图和帧顺序记录在每人 manifest.json。官方虚拟形象与真人照片、动画便服要明确区分。
 
 运行数据：src/mewtype.js 导出五人资料、独立招式、键位方案与 virtual 形态；assets.mewtypeForms[id].virtual 保存图集和命名帧；characters 只新增轻量菜单立绘。按选择的双方加载、解码并预热图集。选人分为 MyGO、Ave Mujica、梦限大 MewType 三组。
 
@@ -41,4 +41,4 @@ J 为三段差异化普攻；K 为重击；蹲下和空中各有 J/K 动作；L 
 - tests/mewtype_browser.py：五人分别实测1P、2P、CPU、四个技能的三个动作阶段、J三段、蹲空J/K、H无变身、L虚影、暂停/菜单/重开、KO/平局/下一回合；手机844×390和390×844触控通过，无页面异常、无远程或失败请求。报告：tests/artifacts/mewtype-browser-report.json。
 - 修复同帧音波发出后被打断导致音效读到空招式的问题。voicePulse事件保存发出时招式，音效读取事件快照。Node复现测试先失败后通过，开启声音的实际浏览器复现也通过；报告：tests/artifacts/mewtype-audio-interruption-report.json。
 - Mujica五人两形态、原五人统一键位、主菜单、虚影瞬移均通过浏览器回归。企鹅五段录音实际解码和播放通过（tests/penguin_voice_browser.py 输出）；素世大招原视频、原语音、三段伤害（8/11/22）、暂停后续播、双人独立播放及触屏操作通过，报告见 tests/artifacts/soyo-super-browser-report.json。
-- 全部五人的初期服装参考见 assets/mewtype/reference/SOURCES.md，采用版本、提示词和审查记录见各角色manifest.json；保留被替换源稿，未用缺帧或旧角色图片填充。
+- 全部五人的初期服装参考见 assets/characters/mewtype/reference/SOURCES.md，采用版本、提示词和审查记录见各角色manifest.json；保留被替换源稿，未用缺帧或旧角色图片填充。
