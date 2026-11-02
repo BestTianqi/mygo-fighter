@@ -1,0 +1,196 @@
+{
+  "date": "2026-11-02",
+  "selection": "Local original-scene supers selected by user; Tomori normal only; Umiri and Nyamu normal/stage share recordings.",
+  "processing": "Original speed; silent H264, separate normalized mono original MP3; timed Chinese subtitles burned into video. No combat, finish-art or finish-media changes.",
+  "clips": [
+    {
+      "character": "tomori",
+      "slot": "p",
+      "label": "我的歌是内心的呐喊",
+      "start": 931.9583333333334,
+      "end": 940.4166666666666,
+      "audio": "assets/meme-media/local-anime-supers/tomori-p.mp3",
+      "video": "assets/meme-media/local-anime-supers/tomori-p.mp4",
+      "localSource": {
+        "type": "local-anime",
+        "series": "BanG Dream! It's MyGO!!!!!",
+        "episode": 7,
+        "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
+        "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
+        "speaker": "tomori",
+        "speakerEvidence": {
+          "speaker": "高松灯",
+          "basis": [
+            "Original embedded English mov_text subtitles directly extracted as ep07.srt.",
+            "Visual inspection of successive frames: same purple-haired Tomori holding microphone, eyes wet, continuous synchronised open-mouth speech and closed mouth at 15:40.300.",
+            "Local Japanese ASR corroborates heart-scream phrase; ASR is supplemental only, not speaker evidence.",
+            "At 15:40.500 the source cuts to silent Sakiko reaction; final clip ends before that reaction.",
+            "Last ASR syllable ends around source 15:39.980; final clip preserves another 0.437s and closes after mouth has shut.",
+            "No dialogue from any other character is included.",
+            "Both outputs fully decoded successfully; video silent."
+          ],
+          "no_speed_change": true,
+          "no_blur": true,
+          "aspect_ratio": "16:9",
+          "video": {
+            "codec": "h264",
+            "width": 640,
+            "height": 360,
+            "fps": "24/1",
+            "frames": 203,
+            "duration_seconds": 8.458333333333334,
+            "audio_stream_count": 0
+          },
+          "audio": {
+            "codec": "mp3float",
+            "sample_rate": 44100,
+            "channels": 1,
+            "decoded_samples": 373012,
+            "decoded_duration_seconds": 8.458321995464853,
+            "container_duration_seconds": 8.458322
+          },
+          "encoded_audio_loudness": {
+            "input_i": "-18.01",
+            "input_tp": "-4.29",
+            "input_lra": "3.80",
+            "input_thresh": "-28.93",
+            "output_i": "-17.20",
+            "output_tp": "-2.39",
+            "output_lra": "3.10",
+            "output_thresh": "-28.37",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.80"
+          },
+          "audio_normalization": "Two-pass mono loudnorm I=-18 TP=-2 LRA=11, then -1.08 dB correction before MP3 encoding; final MP3 measured -18.01 LUFS and -4.29 dBTP (ceiling <= -2 dBTP)."
+        },
+        "subtitles": [
+          {
+            "start": 0.209,
+            "end": 4.089,
+            "text": "我只能拼尽全力去做！",
+            "originalEnglish": "I can only do things by throwing all of myself into it!"
+          },
+          {
+            "start": 4.089,
+            "end": 8.458,
+            "text": "因为我的歌是内心的呐喊！",
+            "originalEnglish": "Because my songs are screams from my heart!"
+          }
+        ]
+      },
+      "speakerVerification": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
+      "sha256": {
+        "audio": "93ab2d9f59e6a5600b74ddf6e6c9858467988d269bcae1dc1989d8133e090792",
+        "video": "e102a6a55e4c3b189fd0acd1a8488d69700ff607cf5b31981c1aee8a224ee824"
+      },
+      "playbackRate": 1
+    },
+    {
+      "character": "umiri",
+      "slot": "p",
+      "label": "我想彼此信任！",
+      "start": 1263.6,
+      "end": 1271.9,
+      "audio": "assets/meme-media/local-anime-supers/umiri-p.mp3",
+      "video": "assets/meme-media/local-anime-supers/umiri-p.mp4",
+      "localSource": {
+        "type": "local-anime",
+        "series": "BanG Dream! Ave Mujica",
+        "episode": 9,
+        "fileName": "[SubsPlease] BanG Dream! Ave Mujica - 09 (1080p) [B38E9747].mkv",
+        "sha256": "f23f99a4318305fcd21277056a0e5135769b1d211e14d59c85b6ba0ae626ae86",
+        "speaker": "umiri",
+        "speakerEvidence": {
+          "method": "embedded English ASS + continuous mouth/gesture shot inspection + local Japanese ASR crosscheck",
+          "speaker": "Yahata Umiri throughout the selected dialogue",
+          "visual_evidence": "The dark-haired green-eyed woman in a black jacket over red is the moving/talking character in the wide shot; camera cuts directly to her moving mouth at 21:09.9–21:10.6, then she lowers her head.",
+          "asr_file": "asr-ja-verification.json",
+          "asr_note": "Local small-model ASR has a proper-name error (安倍矛盾 for Ave Mujica); corrected only the band name against the embedded subtitle. ASR last speech ends at clip-relative 7.34 s, leaving 0.96 s after the recognized complete ending.",
+          "previous_spoken_subtitle_end": "00:21:00.28",
+          "next_spoken_subtitle_start": "00:21:17.22",
+          "no_adjacent_speaker_in_clip": true
+        },
+        "subtitles": [
+          {
+            "start": 0.22,
+            "end": 2.12,
+            "text": "这样也还不能信任我吗？",
+            "originalEnglish": "Am I still not trustworthy?"
+          },
+          {
+            "start": 2.41,
+            "end": 4.24,
+            "text": "我也是认真的！",
+            "originalEnglish": "I mean it, too."
+          },
+          {
+            "start": 4.24,
+            "end": 6.14,
+            "text": "我想让 Ave Mujica 重聚！",
+            "originalEnglish": "I want to reunite Ave Mujica!"
+          },
+          {
+            "start": 6.14,
+            "end": 7.88,
+            "text": "我想彼此信任！",
+            "originalEnglish": "I want to believe in each other!"
+          }
+        ]
+      },
+      "speakerVerification": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
+      "sha256": {
+        "audio": "1dbe71117cabedf7a1a9aae2404174fce5020b74e77e26b17c82ac8c6671e2c0",
+        "video": "b8578b6d4ab49f17c8e2ce1d3077228d1030f6bb281024121ebbbc7479bfd11c"
+      },
+      "playbackRate": 1
+    },
+    {
+      "character": "nyamu",
+      "slot": "p",
+      "label": "没空陪大小姐过家家！",
+      "start": 1129.75,
+      "end": 1138.6,
+      "audio": "assets/meme-media/local-anime-supers/nyamu-p.mp3",
+      "video": "assets/meme-media/local-anime-supers/nyamu-p.mp4",
+      "localSource": {
+        "type": "local-anime",
+        "series": "BanG Dream! Ave Mujica",
+        "episode": 4,
+        "fileName": "[SubsPlease] BanG Dream! Ave Mujica - 04 (1080p) [FCD1B2F8].mkv",
+        "sha256": "e9c88d1c171053f7f1aee1f3addf5b2f7b0ef234b5aceceeca34dd2ddaace5fa",
+        "speaker": "nyamu",
+        "speakerEvidence": {
+          "visual_context": "18:43.45–18:52.9 is the continuous Nyamu turn. Nyamu appears with moving mouth in profile through 18:52.7; 18:53.1 onward cuts to Sakiko listening with a closed mouth and tense eyes. No subtitle turn interrupts the three selected lines.",
+          "dialogue_continuity": "Three consecutive accusations are part of Nyamu’s departure announcement beginning 18:40.85 (I will quit), directed to Sakiko; first two long close-ups establish Nyamu mouth movements before a reaction shot of Sakiko.",
+          "verification_limit": "Evidence combines consecutive original subtitle lines, the continuous scene turn, and Nyamu mouth movements. No speaker-tagged subtitle exists. Original audio is preserved in the review preview for final aural confirmation."
+        },
+        "subtitles": [
+          {
+            "start": 0.18,
+            "end": 3.36,
+            "text": "我真以为我们能一起登顶。",
+            "originalEnglish": "I really thought we'd climb to the top together."
+          },
+          {
+            "start": 3.37,
+            "end": 4.95,
+            "text": "还说什么「把人生交给我」！",
+            "originalEnglish": "What \"Give me your life\"!"
+          },
+          {
+            "start": 4.95,
+            "end": 8.49,
+            "text": "我可没空陪大小姐过家家！",
+            "originalEnglish": "I don't have the time to play house with a rich girl!"
+          }
+        ]
+      },
+      "speakerVerification": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
+      "sha256": {
+        "audio": "1d578552fa090a9f18a3102c16e369796a357202b0ae6f2aa6d0799542c86ef8",
+        "video": "9f8049a9eb1c3276ec975198452a25e81e7dc9f869b1b91dd3b14643e5e1926a"
+      },
+      "playbackRate": 1
+    }
+  ]
+}

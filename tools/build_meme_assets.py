@@ -21,7 +21,8 @@ CHARACTERS = ['anon', 'soyo', 'tomori', 'rana', 'taki', 'umiri', 'sakiko',
 CATALOGS = ['recordings/sources-recordings.json', 'research-mygo/sources-mygo-extra.json',
             'research-mygo/sources-mygo-additional.json', 'research-mewtype/manifest.json',
             'revision-anon-tensora/sources-revision.json',
-            'miyako-skill-voices/sources.json', 'viola-story/sources.json']
+            'miyako-skill-voices/sources.json', 'viola-story/sources.json',
+            'local-anime-supers/sources.json']
 CRAWL_NAMES = ['crawl-windup', 'crawl-a', 'crawl-b', 'crawl-recover']
 
 
@@ -68,6 +69,8 @@ def normalize_clip(row, catalog, identifier, slot, voice=None):
     clip = dict(voice=voice or f'meme_{identifier}_{slot}', label=row['label'], slot=slot,
                 audio=asset_path(row['audio'], catalog), duration=round(row['end'] - row['start'], 3),
                 source=source_info(row, catalog))
+    if row.get('localSource'):
+        clip['source']['localSource'] = row['localSource']
     if row.get('video'):
         clip['video'] = asset_path(row['video'], catalog)
     for field in ('spokenJapanese', 'transcript_ja', 'subtitle_zh'):
