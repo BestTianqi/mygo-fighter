@@ -113,13 +113,14 @@ def build_catalog():
     penguin_catalog = MEDIA / 'recordings/sources-penguin-p.json'
     penguin_row = read_json(penguin_catalog)['clips'][0]
     penguin = normalize_clip(penguin_row, penguin_catalog, 2, 'p', 'meme_2_penguin_p')
-    # Keep the penguin visual; both Tomori forms deliberately share her own
-    # complete anime question instead of the processed crying soundtrack.
+    # Keep the penguin visual and resolve its independently selected audio.
     penguin['videoSource'] = penguin['source']
     penguin_audio = normalize_clip(penguin_row['audioSource'], penguin_catalog, 2, 'p')
-    penguin.update(label='一辈子乐队·企鹅形态', audio=penguin_audio['audio'],
-                   duration=penguin_audio['duration'], source=penguin_audio['source'],
-                   spokenJapanese=penguin_audio['spokenJapanese'])
+    penguin.update(label=penguin_audio['label'], audio=penguin_audio['audio'],
+                   duration=penguin_audio['duration'], source=penguin_audio['source'])
+    for field in ('spokenJapanese', 'transcript_ja', 'subtitle_zh'):
+        if penguin_audio.get(field):
+            penguin[field] = penguin_audio[field]
     profiles['2']['variants']['penguinSuper'] = penguin
     revision_catalog = MEDIA / 'penguin-mortis/sources.json'
     revision = read_json(revision_catalog)

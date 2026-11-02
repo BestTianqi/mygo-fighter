@@ -408,20 +408,20 @@
         },
         "penguinSuper": {
           "voice": "meme_2_penguin_p",
-          "label": "一辈子乐队·企鹅形态",
+          "label": "凑企鹅·通透演唱",
           "slot": "p",
-          "audio": "assets/meme-media/recordings/tomori-p-own.mp3",
-          "duration": 3.7,
+          "audio": "assets/meme-media/penguin-mortis/penguin-super-tongtou.mp3",
+          "duration": 5,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1bg4y1e7Yb/",
-            "uploader": "一色さんが一番好き",
-            "bvid": "BV1bg4y1e7Yb",
-            "cid": 1422539141,
+            "url": "https://www.bilibili.com/video/BV1SbHC6ZEAn/",
+            "uploader": "惊的一声蕾",
+            "bvid": "BV1SbHC6ZEAn",
+            "cid": 42539354176,
             "page": 1,
-            "title": "【mygo名场面＃1】你愿意和我组一辈子乐队吗",
-            "start": 3.65,
-            "end": 7.35,
-            "proof": "2026-10-28: decoded video frames and fresh Japanese word timestamps cross-checked. Removed Anon reaction ん？ between Tomori hesitant first 一生 and repeated complete question; retain only Tomori 一生、バンドしてくれる？ at original speed. Original mixed-speaker tomori-p files retained as source history. Penguin form intentionally shares this verified Tomori anime line; penguin video remains the separately credited meme visual. Processed crying audio is no longer used for Penguin P.",
+            "title": "每天听一下 人都会变的很通透🐧",
+            "start": 0,
+            "end": 5,
+            "proof": "User explicitly selected this penguin singing meme, then selected the first five seconds. Decoded source frames show the penguin singing throughout 0–5s; original speed, volume normalization and short boundary fades only. Not claimed as official Tomori dialogue. The original penguin casting video and all finish scenes are preserved independently.",
             "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
           },
           "video": "assets/meme-media/recordings/penguin-p.mp4",
@@ -437,7 +437,6 @@
             "proof": null,
             "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
           },
-          "spokenJapanese": "一生、バンドしてくれる？",
           "videoRate": 1
         },
         "penguinKick": {
