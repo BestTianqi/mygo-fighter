@@ -150,8 +150,14 @@ export function updateMovement(
     )
       f.vx = f.facing * 200;
     const jab = MOVES[f.attack ?? ""];
-    if (jab?.movement && f.attackMs < jab.movementEnd!)
-      f.vx = (f.facing * jab.movement) / (jab.movementEnd! / 1000);
+    const movementStart = jab?.nonoka === "headbutt" ? jab.start : 0;
+    if (
+      jab?.movement &&
+      f.attackMs >= movementStart &&
+      f.attackMs < jab.movementEnd!
+    )
+      f.vx =
+        (f.facing * jab.movement) / ((jab.movementEnd! - movementStart) / 1000);
     if (jab?.crawl && f.attackMs >= jab.start && f.attackMs <= jab.end) {
       f.facing = jab.forwardCrawl ? f.crawlFacing! : other.x >= f.x ? 1 : -1;
       if (Math.abs(other.x - f.x) > FEEL.bodyGap + 8)

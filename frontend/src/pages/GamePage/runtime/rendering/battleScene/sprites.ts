@@ -148,6 +148,18 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
     scene.ctx.scale(entry.scaleX, entry.scaleY);
   }
   if (f.attack === "dive" && acting) scene.ctx.rotate(0.18);
+  if (move?.nonoka === "headbutt" && acting) {
+    const lean =
+      f.attackMs < move.start
+        ? 0.12 * (f.attackMs / move.start)
+        : f.attackMs <= move.end
+          ? 0.5
+          : 0.25 * (1 - (f.attackMs - move.end) / (move.duration - move.end));
+    // Pivot above the feet so the head leads without tilting the ground anchor.
+    scene.ctx.translate(0, -65 / scale);
+    scene.ctx.rotate(lean);
+    scene.ctx.translate(0, 65 / scale);
+  }
   if (!animation && f.crouch && !f.attack && !f.guard)
     scene.ctx.scale(1.06, 0.87);
   scene.ctx.shadowColor = ["special", "super"].includes(f.attack ?? "")

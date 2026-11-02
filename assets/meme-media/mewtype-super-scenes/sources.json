@@ -1,0 +1,214 @@
+{
+  "date": "2026-11-02",
+  "processing": "Original anime audio and original-speed landscape video. Content cropped to fill16:9, no padding; Chinese dialogue subtitled below HUD. Edited excerpts list their source segments. Miyako and Viola excluded.",
+  "clips": [
+    {
+      "character": "arale",
+      "characterId": 10,
+      "label": "夢限大·无数次做梦",
+      "start": 3520.1,
+      "end": 3527.75,
+      "duration": 7.65,
+      "sourceURL": "https://www.bilibili.com/video/BV1313v6UExo/",
+      "bvid": "BV1313v6UExo",
+      "cid": 41831043001,
+      "title": "「BanG Dream! YUME∞MITA」仲町阿拉蕾说话全收集（梦限大动画1～13集）",
+      "uploader": "隐匿小之",
+      "segments": [
+        {
+          "sourceStart": 3520.1,
+          "sourceEnd": 3527.75,
+          "outputStart": 0,
+          "outputEnd": 7.65
+        }
+      ],
+      "spokenJapanese": "無限の「無」を「夢」にして。ぼくたちは何度だって夢を見る！「夢限大みゅーたいぷ」なんだ！",
+      "speakerVerification": "First shot shows the band name being changed from 無限大 to 夢限大 on the phone. The scene then cuts to Arale in twin-tails at center-left, with Ritsu listening silently, followed by Arale frontal close-up speaking the full declaration. Lip movement and burned Chinese subtitles agree with the prior verified official BV1vueJ6qE1L at 38.95–43.95s. This expanded native landscape cut includes the preceding naming line, and excludes Ritsu's earlier question 夢? and the following scene. No synthesized or speed-changed speech.",
+      "subtitles": [
+        {
+          "start": 0,
+          "end": 2.75,
+          "text": "把无限的“无”改成“梦”！"
+        },
+        {
+          "start": 2.75,
+          "end": 5.6,
+          "text": "无论多少次，我们都会做梦！"
+        },
+        {
+          "start": 5.6,
+          "end": 7.65,
+          "text": "我们就是梦限大MewType！"
+        }
+      ],
+      "crop": {
+        "filter": "scale=960:540:force_original_aspect_ratio=increase,crop=960:540,setsar=1,fps=24",
+        "padding": false,
+        "width": 960,
+        "height": 540,
+        "verification": "Selected source decoded fully with cropdetect: 640:354:0:0. No solid source borders. Centered aspect-fill crop to 16:9, no padding; output contact sheet visually checked."
+      },
+      "audio": "assets/meme-media/mewtype-super-scenes/arale-super.mp3",
+      "video": "assets/meme-media/mewtype-super-scenes/arale-super.mp4",
+      "slot": "p",
+      "voice": "mewtypeSuper10",
+      "move": "mewtype_10_virtual_super",
+      "sha256": {
+        "audio": "cf5ffc63e5379c3d30282114f465ac6b36fdf6ebcaa7f0ae721aeb42b1111927",
+        "video": "aaec4d0b9e1d2878fcc1062aee34c11f905128556017f0f1ac3603131f34e768"
+      }
+    },
+    {
+      "character": "ritsu",
+      "characterId": 11,
+      "label": "绝不退让·愤怒宣言",
+      "start": 132.25,
+      "end": 137.25,
+      "duration": 5.0,
+      "sourceURL": "https://www.bilibili.com/video/BV173tU6ME92/",
+      "bvid": "BV173tU6ME92",
+      "cid": 41831763213,
+      "title": "「BanG Dream! YUME∞MITA」峰月律说话全收集（梦限大动画1～13集）",
+      "uploader": "隐匿小之",
+      "segments": [
+        {
+          "sourceStart": 132.25,
+          "sourceEnd": 137.25,
+          "outputStart": 0,
+          "outputEnd": 5.0
+        }
+      ],
+      "spokenJapanese": "あられちゃんとは二度と関わらないから！",
+      "speakerVerification": "School-uniform Ritsu is visible in frontal close-up under purple sunset reflections, raising her face with angry eyes and mouth movement throughout the entire line. Chinese burned subtitles independently read 我不会和小阿拉蕾再有任何关系. The ambiguous preceding interruption was excluded.",
+      "subtitles": [
+        {
+          "start": 0,
+          "end": 5.0,
+          "text": "我不会再和小阿拉蕾有任何关系！"
+        }
+      ],
+      "crop": {
+        "filter": "scale=960:540:force_original_aspect_ratio=increase,crop=960:540,setsar=1,fps=24",
+        "padding": false,
+        "width": 960,
+        "height": 540,
+        "verification": "Full selected source decoded with cropdetect; source has image to all four edges. Uniform aspect-fill scaling then centered 960x540 crop; no padding."
+      },
+      "audio": "assets/meme-media/mewtype-super-scenes/ritsu-super.mp3",
+      "video": "assets/meme-media/mewtype-super-scenes/ritsu-super.mp4",
+      "slot": "p",
+      "voice": "mewtypeSuper11",
+      "move": "mewtype_11_virtual_super",
+      "sha256": {
+        "audio": "86e246412f8da6278c15a17e10a0b7bdb0a162c16059eb7052e43ea19995ee93",
+        "video": "0b5514681688021d070b9476f6a8157cd61add9740b942144b5f673f1ce58e87"
+      }
+    },
+    {
+      "character": "yuno",
+      "characterId": 13,
+      "label": "靠音乐活下去！",
+      "start": 536.05,
+      "end": 541.7,
+      "duration": 5.65,
+      "sourceURL": "https://www.bilibili.com/video/BV1tNMW6iES1/",
+      "bvid": "BV1tNMW6iES1",
+      "cid": 41792439551,
+      "title": "「BanG Dream! YUME∞MITA」千石由乃说话全收集（梦限大动画1～13集）",
+      "uploader": "隐匿小之",
+      "segments": [
+        {
+          "sourceStart": 536.05,
+          "sourceEnd": 541.7,
+          "outputStart": 0,
+          "outputEnd": 5.65
+        }
+      ],
+      "spokenJapanese": "まあね。こいつらと生きていくんだ。音楽で！",
+      "speakerVerification": "Red-haired Yuno leans forward in close-up then the scene cuts to her holding bass on stage, smiling and opening her mouth on the resolved phrase 音楽で. Burned Chinese subtitle says 我要和这些家伙一起靠音乐生存下去. Stops before next sentence 来年も. No other speaker included.",
+      "subtitles": [
+        {
+          "start": 0,
+          "end": 5.650000000000091,
+          "text": "是啊。我要和这帮家伙一起，靠音乐活下去！"
+        }
+      ],
+      "crop": {
+        "filter": "scale=960:540:force_original_aspect_ratio=increase,crop=960:540,setsar=1,fps=24",
+        "padding": false,
+        "width": 960,
+        "height": 540,
+        "verification": "Full selected source decoded with cropdetect; source has image to all four edges. Uniform aspect-fill scaling then centered 960x540 crop; no padding."
+      },
+      "audio": "assets/meme-media/mewtype-super-scenes/yuno-super.mp3",
+      "video": "assets/meme-media/mewtype-super-scenes/yuno-super.mp4",
+      "slot": "p",
+      "voice": "mewtypeSuper13",
+      "move": "mewtype_13_virtual_super",
+      "sha256": {
+        "audio": "1c2d77bb0e9a684e0d7d5f991b71baa7a27d2d4e2b2946e76864e97f66e11322",
+        "video": "b5f1e1d1ae59c40c53b9f0de1bf76bf6da4a75c43e11962892ef4081059926b5"
+      }
+    },
+    {
+      "character": "nonoka",
+      "characterId": 14,
+      "label": "心意直达·兔兔头槌",
+      "start": 856.6,
+      "end": 876.4,
+      "duration": 8.4,
+      "sourceURL": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
+      "bvid": "BV1SMTY6hEfY",
+      "cid": 39554125532,
+      "title": "「BanG Dream! YUME∞MITA」#2【试看】",
+      "uploader": "梦限大MewType",
+      "segments": [
+        {
+          "sourceStart": 856.6,
+          "sourceEnd": 860.8,
+          "outputStart": 0.0,
+          "outputEnd": 4.2
+        },
+        {
+          "sourceStart": 872.2,
+          "sourceEnd": 876.4,
+          "outputStart": 4.2,
+          "outputEnd": 8.4
+        }
+      ],
+      "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
+      "speakerVerification": "Official episode2 original animation: Nonoka leans forward and strikes Arale with her forehead, then speaks in close-up. First4.2s original Arale cries are muted; second excerpt retains only Nonoka sentence at its original relative time. Two original-speed excerpts, not a continuous source cut.",
+      "subtitles": [
+        {
+          "start": 4.26,
+          "end": 7.88,
+          "text": "感受到小野乃的心意了吗？"
+        }
+      ],
+      "crop": {
+        "detectedSourceContentRect": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "sourceBlackBars": "None detected over both excerpts; cropdetect at threshold 24, round 2 returned crop=1280:720:0:0.",
+        "filter": "crop=1280:720:0:0,scale=960:540:force_original_aspect_ratio=increase,crop=960:540,setsar=1,fps=24",
+        "padding": false,
+        "outputSize": [
+          960,
+          540
+        ]
+      },
+      "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp3",
+      "video": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp4",
+      "slot": "p",
+      "voice": "mewtypeSuper14",
+      "move": "mewtype_14_virtual_super",
+      "sha256": {
+        "audio": "c343df5329423c6c11536baa8ee26af691759ca2519d681b2a9bc02632fdaa09",
+        "video": "471a6804c8fbe0a4f06f1899eab6d8d527ae754b448a19d306a4881d550bafe0"
+      }
+    }
+  ]
+}

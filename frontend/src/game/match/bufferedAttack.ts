@@ -120,7 +120,7 @@ export function startBufferedAttack(
         f.y += 0.01;
       }
       if (move.forwardCrawl) f.crawlFacing = f.facing;
-      if (move.movement)
+      if (move.movement && move.nonoka !== "headbutt")
         f.vx = (f.facing * move.movement) / (move.movementEnd! / 1000);
       if (move.stance === "air" || move.airOnly) f.airUsed = true;
       band.onStart?.(match, f, move, name, ground);

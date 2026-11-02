@@ -172,20 +172,37 @@ export function drawNonokaSkill(
   } else if (move.nonoka === "bite" && age <= move.end + 100) {
     ctx.globalAlpha = active ? 0.75 : 0.35;
     jaws(ctx, 60, -130, 32, age < move.start ? 18 : 8);
-  } else if (move.nonoka === "eater") {
-    for (const pulse of move.pulses!) {
-      const time = age - pulse.at;
-      if (time < -70 || time > 190) continue;
-      const p = Math.max(0, time / 190);
-      ctx.globalAlpha = (1 - p) * (reduced ? 0.55 : 0.9);
-      jaws(
-        ctx,
-        Math.min(190, pulse.reach! * 0.6),
-        -130,
-        50 + p * 40,
-        4 + (1 - p) * 24,
-      );
-      heart(ctx, 35, -235, 12);
+  } else if (move.nonoka === "headbutt") {
+    if (age < move.start) {
+      const charge = age / move.start;
+      ctx.globalAlpha = 0.35 + charge * 0.4;
+      // Compress the ground ring under the crouch before the forward release.
+      ctx.beginPath();
+      ctx.ellipse(0, -8, 44 - charge * 15, 8, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (active) {
+      ctx.globalAlpha = reduced ? 0.45 : 0.8;
+      ctx.lineWidth = 3;
+      // A compact leading arc sits at the lowered forehead; the open end
+      // and straight trails make the physical forward thrust legible.
+      ctx.beginPath();
+      ctx.ellipse(176, -73, 25, 31, -0.2, -1.3, 1.3);
+      ctx.stroke();
+      for (let i = 0; i < (reduced ? 2 : 4); i++) {
+        const y = -55 - i * 32;
+        const drift = reduced ? 0 : ((age - move.start) % 100) / 5;
+        ctx.beginPath();
+        ctx.moveTo(-115 - drift, y + 7);
+        ctx.lineTo(-35, y);
+        ctx.stroke();
+      }
+    } else {
+      ctx.globalAlpha = Math.max(0, 1 - (age - move.end) / 170) * 0.4;
+      for (const x of [-18, 24]) {
+        ctx.beginPath();
+        ctx.ellipse(x, -4, 24, 6, 0, Math.PI, Math.PI * 2);
+        ctx.stroke();
+      }
     }
   }
   ctx.restore();

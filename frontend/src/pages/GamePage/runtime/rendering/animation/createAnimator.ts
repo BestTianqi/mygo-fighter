@@ -165,6 +165,12 @@ function createAnimator() {
             : "skill-o-recover";
       if (move.nonoka === "comfort" && t >= move.start && t <= move.end)
         return "guard-standing";
+      if (move.nonoka === "headbutt")
+        return t < move.start
+          ? "crouch-heavy-windup"
+          : t <= move.end
+            ? "dash-forward"
+            : "crouch-heavy-recover";
       if (
         (move.nyamu === "smile" || move.umiri === "schedule") &&
         t >= move.start &&

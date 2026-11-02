@@ -102,7 +102,7 @@ export interface Move {
   nyamu?: "reveal" | "sticks" | "encore" | "smile";
   umiri?: "bass" | "hook" | "toss" | "schedule" | "pursuit";
   uika?: "denial" | "pursuit" | "cage" | "crescent";
-  nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "eater";
+  nonoka?: "hug" | "search" | "tuna" | "bite" | "comfort" | "headbutt";
   yuno?: "bass" | "release" | "seaside" | "wave" | "band" | "world";
   ritsu?: "meat" | "polite" | "steak" | "wave" | "hungry";
   miyako?: "draft" | "stamp" | "marathon" | "ink" | "yokan";

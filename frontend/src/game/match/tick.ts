@@ -369,6 +369,7 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
     const vertical =
       move.vertical ||
       (f.attack === "special" ? profile.specialVertical || 130 : 88);
+    const headbutt = move.nonoka === "headbutt";
     let connected = false;
     for (const target of match.enemySides(side)) {
       const other = match.fighters[target];
@@ -386,7 +387,7 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
         }
       }
       if (
-        f.hit ||
+        (headbutt ? f.hitMarks.includes(target) : f.hit) ||
         (move.pulses && f.hitMarks.includes(pulse!)) ||
         !match.meleeConnects(f, other, move, reach, vertical) ||
         other.knockdown > 0 ||
@@ -402,6 +403,9 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
       )
         continue;
       connected = true;
+      // A traveling headbutt may meet another opponent later in the rush,
+      // but cannot hit the same opponent again, even after block or parry.
+      if (headbutt) f.hitMarks.push(target);
       hits.push({
         side,
         target,
@@ -417,7 +421,7 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
     }
     if (connected) {
       if (move.pulses) f.hitMarks.push(pulse!);
-      else f.hit = true;
+      else if (!headbutt) f.hit = true;
     }
   }
   for (const hit of hits)

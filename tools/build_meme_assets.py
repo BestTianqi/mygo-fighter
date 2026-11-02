@@ -285,6 +285,17 @@ def build_catalog():
     ]:
         profiles['4']['variants'][move] = dict(profiles['4']['variants'][source])
     catalog['sourceCatalogs'].append(taki_catalog.relative_to(ROOT).as_posix())
+    super_catalog = MEDIA / 'mewtype-super-scenes/sources.json'
+    for row in read_json(super_catalog)['clips']:
+        identifier = str(CHARACTERS.index(row['character']))
+        clip = normalize_clip(row, super_catalog, identifier, 'p', row['voice'])
+        # Edited original-speed scenes can omit pauses between source excerpts.
+        clip['duration'] = row['duration']
+        clip['source']['segments'] = row['segments']
+        clip['videoRate'] = 1
+        profiles[identifier]['slots']['p'] = dict(clip)
+        profiles[identifier]['variants'][row['move']] = dict(clip)
+    catalog['sourceCatalogs'].append(super_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog

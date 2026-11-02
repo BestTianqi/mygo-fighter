@@ -1,5 +1,4 @@
-import type { Move, Pulse } from "../../../../objects/Move";
-import { createSuperPulses } from "../../../shared/superPulses";
+import type { Move } from "../../../../objects/Move";
 import { createMoveRegistrar } from "../../shared/createMoveRegistrar";
 import { registerNormals as registerNormalTemplate } from "../../shared/registerNormals";
 import { registerWave as registerWaveTemplate } from "../../shared/registerWave";
@@ -91,19 +90,23 @@ export function registerWave(MOVES: Record<string, Move>): void {
 }
 export function registerSuper(MOVES: Record<string, Move>): void {
   const add = createMoveRegistrar(MOVES);
-  const duration = 5150;
-  const damages = Array(6).fill(8);
-  const pulses: Pulse[] = createSuperPulses(duration, damages);
-  add(14, "super", "兔食者·不会放开由乃亲", {
+  add(14, "super", "心意直达·兔兔头槌", {
     category: "super",
-    duration,
-    start: 500,
-    end: pulses.at(-1)!.at + 90,
-    damage: 48,
+    // Shared super balance halves these timings:160ms crouch,600ms rush,
+    // then340ms recovery. Movement is distance, so it remains600 world units.
+    duration: 2200,
+    start: 320,
+    end: 1520,
+    movement: 600,
+    movementEnd: 1520,
+    damage: 50,
+    fixedDamage: true,
     invuln: 100,
-    reach: 420,
+    reach: 180,
     vertical: 300,
-    pulses,
-    nonoka: "eater" as const,
+    stun: 460,
+    push: 340,
+    hitstop: 100,
+    nonoka: "headbutt",
   });
 }
