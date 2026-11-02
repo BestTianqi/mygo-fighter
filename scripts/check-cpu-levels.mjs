@@ -159,20 +159,28 @@ for (let level = 0; level <= 5; level++) {
   let damage = 0,
     received = 0,
     attacks = 0;
-  for (let character = 0; character < ROSTER.length; character++) {
-    const result = play(level, character);
-    damage += 200 - result.hp[0];
-    received += 200 - result.hp[1];
-    const cpuAttacks = result.trace.filter(
-      (e) => e.type === "attack" && e.side === 1,
-    );
-    assert(
-      cpuAttacks.length > 0,
-      `level ${level}, character ${character} acts`,
-    );
-    attacks += cpuAttacks.length;
-    if (level >= 3)
-      assert.deepEqual(play(level, character), result, "seeded match replay");
+  // Compare tiers across several fixed openings; balance changes can shift
+  // individual matchups without changing the overall difficulty ladder.
+  for (const seed of [731, 917, 128]) {
+    for (let character = 0; character < ROSTER.length; character++) {
+      const result = play(level, character, seed);
+      damage += 200 - result.hp[0];
+      received += 200 - result.hp[1];
+      const cpuAttacks = result.trace.filter(
+        (e) => e.type === "attack" && e.side === 1,
+      );
+      assert(
+        cpuAttacks.length > 0,
+        `level ${level}, character ${character} acts`,
+      );
+      attacks += cpuAttacks.length;
+      if (level >= 3)
+        assert.deepEqual(
+          play(level, character, seed),
+          result,
+          "seeded match replay",
+        );
+    }
   }
   totals.push({
     level,
@@ -194,7 +202,7 @@ for (const level of [4, 5])
     `level ${level} improves pressure and defense over the previous tier`,
   );
 console.log(
-  `PASS all ${ROSTER.length} characters across six levels; advanced replays deterministic`,
+  `PASS all ${ROSTER.length} characters across six levels and three seeds; advanced replays deterministic`,
 );
 
 for (const level of [3, 4, 5]) {

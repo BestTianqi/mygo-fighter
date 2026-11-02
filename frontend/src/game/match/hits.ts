@@ -209,7 +209,7 @@ export function hit(
     !move.minion
   )
     a.energy = clamp(
-      a.energy + (blocked ? 1 : move.category === "normal" ? 12 : 2),
+      a.energy + (blocked ? 1 : move.category === "normal" ? 10 : 2),
       0,
       100,
     );

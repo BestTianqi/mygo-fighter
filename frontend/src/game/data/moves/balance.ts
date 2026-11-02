@@ -4,8 +4,11 @@ import { FEEL } from "../rules";
 
 /** Shared balance runs once after every band and chain has been registered. */
 export function applyBalance(MOVES: Record<string, Move>): void {
-  const normalDamage = (damage: number) =>
-    Math.max(1, Math.round(Math.round(damage * 0.75) * 0.9));
+  const normalDamage = (damage: number) => {
+    const baseDamage = Math.round(Math.round(damage * 0.75) * 0.9);
+    // Keep the small reduction visible even on low-damage combo hits.
+    return Math.max(1, Math.round(baseDamage * 0.9 * 10) / 10);
+  };
   for (const profile of ROSTER) {
     profile.heavyDamage = normalDamage(profile.heavyDamage);
     profile.lightReach = FEEL.normalReach;

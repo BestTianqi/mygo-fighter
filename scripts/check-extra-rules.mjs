@@ -235,6 +235,8 @@ local.advance(local.phaseMs);
 server.advance(JSON.parse(server.packet()).state.phaseMs);
 compare();
 let seq = 0;
+let observedDamage = false;
+let observedRecovery = false;
 for (let tick = 0; tick < 500; tick++) {
   const p1 =
     tick < 65 ? { right: true } : tick % 100 < 50 ? { light: true } : {};
@@ -242,12 +244,19 @@ for (let tick = 0; tick < 500; tick++) {
     tick < 65 ? { left: true } : tick % 100 >= 50 ? { heavy: true } : {};
   server.input(0, ++seq, JSON.stringify(p1));
   server.input(1, seq, JSON.stringify(p2));
+  const previousHp = local.fighters.map((fighter) => fighter.hp);
   local.advance(10, p1, p2);
   server.advance(10);
   compare();
+  observedDamage ||= local.fighters.some(
+    (fighter, side) => fighter.hp < previousHp[side],
+  );
+  observedRecovery ||= local.fighters.some(
+    (fighter, side) => fighter.hp > previousHp[side],
+  );
 }
 assert.ok(
-  local.fighters.some((fighter) => fighter.hp < 200),
+  observedDamage && observedRecovery,
   "replay exercises actual damage and recovery",
 );
 local.setPaused(true);

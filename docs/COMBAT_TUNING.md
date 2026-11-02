@@ -1,5 +1,9 @@
 # Combat timing retained by the rewrite
 
+## 2026-11-02: 普攻小幅下调
+
+全员普通攻击类招式（含三段 J、蹲下／空中普攻及 K 重击）在此前伤害基础上降低约 10%，保留一位小数，最低伤害为 1。每次普攻命中回能由 12 降为 10；防御命中仍为 1，技能命中仍为 2。动作、三段连击节奏、攻击范围及技能伤害保持原配置，本地与联机共用同一套数值。
+
 ## 2026-10-28: 阿拉蕾、律、由乃、立希大招强化
 
 下表为默认规则、未防御且未减伤时完整命中的实际总伤害。四个大招仍消耗 100 能量，保持霸体、语音和视频原速；三人混战使用同一规则。
@@ -54,7 +58,7 @@ Mujica's stage damage multiplier applies once: Uika's transformed strike deals 2
 
 A complete damaging skill grants its target 8 resonance, or 3 when fully guarded. Multi-hit strikes and volleys split this amount across their authored hit count; a skill declaring both pulses and shots uses the larger count once. Partial hits grant only their corresponding share. For example, all five penguin/Mortis rings grant 8 total (1.6 each), and all nine Miyako seal hits also grant 8 total. Riki's internal bonus projectile shares the two-shot parent's budget.
 
-The three Tensora summons share one cast budget: each contact grants up to 2, capped at 8 total for that summon (3 when fully guarded). Recasting creates a fresh budget. Absorbed or invulnerable hits grant nothing. Attacker gains remain 12 per normal hit, 2 per skill hit, 1 on guard, and zero for supers or summons.
+The three Tensora summons share one cast budget: each contact grants up to 2, capped at 8 total for that summon (3 when fully guarded). Recasting creates a fresh budget. Absorbed or invulnerable hits grant nothing. Attacker gains are 10 per normal hit (updated 2026-11-02), 2 per skill hit, 1 on guard, and zero for supers or summons.
 
 Combat keeps fractional resonance precisely; the HUD truncates it to one decimal so a displayed spend threshold is actually available. Summon budget usage is included in LAN snapshots and prediction replay.
 
