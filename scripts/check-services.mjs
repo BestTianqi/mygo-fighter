@@ -21,6 +21,18 @@ function fail(message) {
   console.log(`FAIL ${message}`);
 }
 
+// Windows PowerShell 5.1 reads BOM-less scripts using the system ANSI codepage.
+// Chinese messages can then become quote characters and break script parsing.
+const stopScript = await readFile(
+  path.join(projectRoot, "scripts/stop-lan.ps1"),
+);
+const hasUtf8Bom = stopScript
+  .subarray(0, 3)
+  .equals(Buffer.from([0xef, 0xbb, 0xbf]));
+if (stopScript.some((byte) => byte > 0x7f) && !hasUtf8Bom)
+  fail("scripts/stop-lan.ps1 needs a UTF-8 BOM for Windows PowerShell 5.1");
+else pass("Windows stop script encoding is compatible with PowerShell 5.1");
+
 function relative(target) {
   return path.relative(projectRoot, target);
 }

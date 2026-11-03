@@ -19,6 +19,8 @@ Windows frontend builds use the ignored `output/build-temp/` directory for esbui
 
 To stop the local game server on Windows, double-click `stop-lan.cmd`. The window closes automatically after success; errors stay visible. The script identifies the game service before stopping the process listening on port 8080. It also honors `PORT`, or accepts `stop-lan.cmd -Port 8181` for another port. Closing the server disconnects its current players. The stop script uses Windows PowerShell and does not require Node.js.
 
+Keep `scripts/stop-lan.ps1` saved as UTF-8 with BOM so Windows PowerShell 5.1 can read its Chinese messages correctly. `chcp 65001` controls the console codepage and does not select the script file encoding.
+
 All launch commands, including `npm start`, reuse an existing portable JDK and sbt launcher under `output/toolchain/`, when available. A compatible `JAVA_HOME` takes priority; an older system Java does not prevent use of the portable JDK. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.
 
 Windows launchers use `output/java-tmp/` for Java temporary files, including JLine's console DLL. This avoids startup errors when the Windows user temporary folder denies access; no administrator launch or system folder permission changes are needed.

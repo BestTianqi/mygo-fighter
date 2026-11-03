@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [ValidateRange(1, 65535)]
     [int]$Port = $(if ($env:PORT) { $env:PORT } else { 8080 })
@@ -57,7 +57,9 @@ function Stop-TrackedServices {
     param([string]$Path)
     $raw = Get-Content -LiteralPath $Path -Raw
     if ([string]::IsNullOrWhiteSpace($raw)) { return 0 }
-    $services = @(ConvertFrom-Json -InputObject $raw)
+    # PowerShell 5.1 returns a JSON array as one pipeline object. Wrapping the
+    # command in @() nests that array, so multiple PIDs cannot be cast to int.
+    $services = ConvertFrom-Json -InputObject $raw
     $stopped = 0
     foreach ($service in $services) {
         $serverProcessId = 0
