@@ -1,50 +1,52 @@
-# Backend resource allocation — 2026-10-29
+**简体中文** | [English](BACKEND_RESOURCE_2026-10-29.en.md) | [日本語](BACKEND_RESOURCE_2026-10-29.ja.md)
 
-Baseline: `cc9a1dc`, protocol 24. The Scala service continues to run the same restricted, private GraalJS simulation per room. This change reduces temporary allocation in the bundled server kernel; it does not change room limits, combat timing or the wire protocol.
+# 后端资源分配 — 2026-10-29
 
-## Changes
+基线：`cc9a1dc`，协议 24。Scala 服务继续在每个房间运行同一套受限的私有 GraalJS 模拟。本次改动减少打包服务端内核中的临时内存分配；它不改变房间上限、战斗时序或线协议。
 
-- Snapshot serialization constructs its 31 fields directly rather than enumerating/copying the Match instance with object rest. The field list is checked against `Snapshot`. A permanent check compares every serialized own Match field with emitted snapshots, covering every character, two/three players, pause and restart.
-- Input processing remains the baseline implementation after the input-reuse experiment was withdrawn.
+## 变更
 
-## Isolated JVM measurements
+- 快照序列化直接构造自己的 31 个字段，而不是用对象展开逐个枚举/复制 Match 实例。字段列表会对照 `Snapshot` 校验。一项常驻检查会把每个被序列化的 Match 自有字段与发出的快照比较，覆盖全部角色、双人/三人、暂停与重开。
+- 输入处理保持基线实现，输入复用实验已被撤回。
 
-The probes use the installed portable JDK 21, application GraalJS classpath, a private context and caller-thread `ThreadMXBean.getThreadAllocatedBytes`. Benchmarks ran serially, without concurrent service load. Allocation is cumulative temporary allocation, not retained heap or resident memory.
+## 隔离 JVM 测量
 
-| Probe                                                         |     Before |      After |
-| ------------------------------------------------------------- | ---------: | ---------: |
-| Snapshot only, 12,000 packets                                 | 217.53 MiB | 179.99 MiB |
-| Snapshot change alone, integrated 6,000 steps / 3,000 packets | 531.07 MiB | 523.03 MiB |
-| Input experiment (withdrawn), integrated warm mean            | 531.19 MiB | 528.79 MiB |
+这些探针使用已安装的便携 JDK 21、应用 GraalJS 类路径、私有上下文与调用线程的 `ThreadMXBean.getThreadAllocatedBytes`。基准串行运行，没有并发服务负载。分配量是累计的临时分配，不是保留的堆或常驻内存。
 
-The isolated snapshot path allocated 17.26% less, approximately 3,280 bytes saved per packet in this JVM. Snapshot-only warm elapsed runs were 292/296/276 ms before and 267/259/244 ms after. Integrated snapshot allocation dropped 1.51%; input-only integrated allocation dropped 0.45%. These separate percentages are not added or presented as a whole-service CPU or memory reduction. Input timing showed warm-up/order effects, so it is not used as a CPU improvement claim. The input change is not shipped.
+| 探针                                       |       之前 |       之后 |
+| ------------------------------------------ | ---------: | ---------: |
+| 仅快照，12,000 个数据包                    | 217.53 MiB | 179.99 MiB |
+| 仅快照改动，集成 6,000 步 / 3,000 个数据包 | 531.07 MiB | 523.03 MiB |
+| 输入实验（已撤回），集成预热均值           | 531.19 MiB | 528.79 MiB |
 
-Rejected alternatives included a generic key loop, which increased integrated allocation, and getters, which provided no benefit. A reusable mutable snapshot envelope saved only slightly more than the typed literal and was discarded in favor of the simpler implementation.
+隔离的快照路径分配减少 17.26%，在该 JVM 中每个数据包约节省 3,280 字节。仅快照的预热耗时在改动前为 292/296/276 ms，改动后为 267/259/244 ms。集成场景的快照分配下降 1.51%；仅输入的集成分配下降 0.45%。这些独立百分比没有相加，也没有作为整体服务的 CPU 或内存降幅呈现。输入时序呈现预热/顺序效应，因此未被当作 CPU 改善的依据。输入改动没有上线。
 
-## Correctness evidence
+被否决的方案包括通用键循环（它增加了集成分配）和 getter（没有带来收益）。可复用的可变快照信封只比类型化字面量多省一点，因此被放弃，改用更简单的实现。
 
-- Snapshot transformation: 70,656 exact serialized packet/event checkpoints across all 16 characters and four formats, including actual KO, reserve entry, result, pause, restart and settled matches.
-- Permanent `check-server-snapshots.mjs` runs in `npm run check` and verifies 1,280 complete snapshot states.
-- Full check, production build, backend compile/format checks and Pages build passed. A browser served at `/mygo-fighter/` loaded resources, entered local combat, moved, attacked, paused and returned to the menu without errors.
+## 正确性证据
 
-## Service measurements and selection
+- 快照变换：在全部 16 个角色与四种格式上，70,656 个精确序列化的数据包/事件检查点，包含实际 KO、替补入场、结果、暂停、重开与已结算对局。
+- 常驻的 `check-server-snapshots.mjs` 在 `npm run check` 中运行，验证 1,280 个完整快照状态。
+- 完整检查、生产构建、后端编译/格式检查与 Pages 构建均通过。在 `/mygo-fighter/` 上提供的页面加载资源、进入本地战斗、移动、攻击、暂停并返回菜单，均无报错。
 
-Windows, portable JDK 21, interpreted GraalJS, `-Xms256m -Xmx2g`, port 8181. Each comparison used a fresh JVM and loopback clients with the existing admission limits, 2000 HP and unlimited time. Snapshots remain 60 Hz; simulation remains at its existing cadence. Other benchmark processes were withheld. Two peers per room alternated movement and attacks at 20 inputs/second; all paired reliable event ID sequences matched and no protocol errors occurred.
+## 服务测量与选择
 
-An initial single-room then eight-room trial tested both optimizations together (10/30 seconds warmup and combat, then paused/lobby phases). In the eight-room combat window mean CPU was 1.101 -> 1.282 logical cores and peak working set 437.4 -> 507.1 MiB. Despite lower isolated allocation, these results did not support shipping the combined variant. The input-reuse change and its allocation-specific tests were withdrawn.
+Windows、便携 JDK 21、解释执行的 GraalJS、`-Xms256m -Xmx2g`、端口 8181。每次对比都使用全新 JVM 与环回客户端，沿用现有准入限制、2000 HP 与不限时间。快照仍为 60 Hz；模拟保持原有节奏。其他基准进程已停用。每个房间两个对端以每秒 20 次输入的频率交替移动与攻击；所有成对的可靠事件 ID 序列一致，没有协议错误。
 
-A second matched pair started fresh JVMs directly with eight rooms, twenty seconds warmup and twenty seconds measured combat, followed by five-second paused/lobby phases. It compared baseline against **only the snapshot literal**, which is the final implementation:
+最初先做单房间、再做八房间的试验，把两项优化放在一起测试（10/30 秒预热与战斗，随后暂停/大厅阶段）。在八房间战斗窗口中，平均 CPU 为 1.101 -> 1.282 逻辑核，峰值工作集 437.4 -> 507.1 MiB。尽管隔离分配更低，这些结果不足以支持上线组合变体。输入复用改动及其分配专项测试被撤回。
 
-| Eight-room combat metric                     |   Baseline | Final snapshot-only |
-| -------------------------------------------- | ---------: | ------------------: |
-| Mean CPU, logical cores                      |    1.23685 |             1.16590 |
-| Peak working set                             | 449.73 MiB |          454.54 MiB |
-| Server update work p95                       |  1.7908 ms |           1.7722 ms |
-| Snapshot arrival gap p95                     | 25.1590 ms |          26.2999 ms |
-| Input send-to-receipt p95                    | 21.6117 ms |          23.1623 ms |
-| Combat packets received, all peers           |     19,254 |              19,284 |
-| Protocol errors / mismatched event sequences |      0 / 0 |               0 / 0 |
+第二组配对的对比直接用全新 JVM 从八个房间开始，二十秒预热、二十秒计量战斗，随后五秒暂停/大厅阶段。它把基线与**仅快照字面量**（即最终实现）比较：
 
-This pair observed about 5.7% less active CPU. Resident memory was about 1.1% higher, so no retained-memory reduction is claimed. The delivery p95 increased by roughly 1-1.6 ms in this loopback run; this is not a network-latency improvement claim or a capacity guarantee. Short-run GC/warmup and workload variation affect these service numbers; the isolated allocation measurement is the more reproducible benefit. Initial harness phases called `empty` also include room setup and must not be used as idle measurements. A separate post-cleanup baseline sample reported 0 CPU at one-second sampling with no rooms left.
+| 八房间战斗指标             |       基线 | 仅快照最终版 |
+| -------------------------- | ---------: | -----------: |
+| 平均 CPU，逻辑核           |    1.23685 |      1.16590 |
+| 峰值工作集                 | 449.73 MiB |   454.54 MiB |
+| 服务端更新耗时 p95         |  1.7908 ms |    1.7722 ms |
+| 快照到达间隔 p95           | 25.1590 ms |   26.2999 ms |
+| 输入发送到接收 p95         | 21.6117 ms |   23.1623 ms |
+| 全部对端收到的战斗数据包数 |     19,254 |       19,284 |
+| 协议错误 / 事件序列不一致  |      0 / 0 |        0 / 0 |
 
-Raw probes, JVM logs and service measurements are in ignored `output/backend-reduce/`. The probes establish behavior and allocation for the tested workload; actual server resident memory remains affected by GC, runtime warm-up and room working sets.
+这一组观察到活跃 CPU 减少约 5.7%。常驻内存高出约 1.1%，因此没有声称减少常驻内存。在该环回运行中投递 p95 增加了约 1–1.6 ms；这既不是网络延迟改善的声明，也不是容量保证。短时运行的 GC/预热与负载波动会影响这些服务数值；隔离分配测量是更可复现的收益。测试脚本最初的 `empty` 阶段还包含建局开销，不能当作空闲测量使用。另有一次清理后的基线采样显示，在没有任何房间时以一秒采样得到 0 CPU。
+
+原始探针、JVM 日志与服务测量位于已忽略的 `output/backend-reduce/`。这些探针确立了所测负载下的行为与分配；实际服务器常驻内存仍受 GC、运行时预热与房间工作集影响。

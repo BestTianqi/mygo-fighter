@@ -1,3 +1,5 @@
+**简体中文** | [English](THREE_PLAYER_BRAWL.en.md) | [日本語](THREE_PLAYER_BRAWL.ja.md)
+
 # 三人混战
 
 主菜单选择「三人混战」，本地以 1P 对抗两名电脑；每方依次选择 3 名角色。

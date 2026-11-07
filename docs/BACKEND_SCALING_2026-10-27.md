@@ -1,61 +1,63 @@
-# Backend room scaling — 2026-10-27
+**简体中文** | [English](BACKEND_SCALING_2026-10-27.en.md) | [日本語](BACKEND_SCALING_2026-10-27.ja.md)
 
-This update reduces server work per battle and removes most paused/lobby clock work. It preserves the Scala server, per-room restricted GraalJS contexts, shared TypeScript combat rules, all assets and protocol 15. The server still targets 100 fixed combat steps and 60 active snapshots per second.
+# 后端房间扩展 — 2026-10-27
 
-## Changes
+本次更新降低了每场对战的服务器开销，并去掉了暂停与大厅状态下的大部分时钟工作。它保留 Scala 服务端、每房间受限的 GraalJS 上下文、共享 TypeScript 战斗规则、全部素材与协议 15。服务端仍以每秒 100 个固定战斗步长与 60 个活跃快照为目标。
 
-- Active room scheduling retains a monotonic 120 Hz deadline. Missed deadlines are skipped rather than accumulated into an unbounded timer backlog; kernel catch-up remains capped at 50 ms.
-- Lobby, paused and fully settled matches use a 250 ms idle interval. A bounded wake queue interrupts idle sleep on room/control changes. Busy room locks retry at active cadence, and control changes force the next state publication. The complete final KO/countdown runs before sleeping.
-- Active ticks use ordinary sleeps, not a pair of newly raced fibers every tick. Idle waits alone race their wake queue.
-- Disconnected rooms skip snapshot serialization. Returning to the lobby closes the private context and clears each peer's retained state frame. Existing two-minute abandoned-room cleanup and explicit-leave cleanup remain intact.
-- A room constructs each immutable WebSocket state/event frame once and shares it between peers. Latest-only states, bounded reliable events, room ownership and reconnect barriers remain intact.
-- Each simulation resolves its immutable Polyglot call targets once. Skill resolution builds a form's skill scheme only when a skill button is actually pressed; movement and normal-attack steps avoid that allocation.
-- Client prediction understands the lower paused/result snapshot cadence. It still uses the original short horizon during combat, stops extrapolating a settled match, and continues to detect missing idle traffic and socket disconnection.
+## 变更
 
-## Same-machine comparison
+- 活跃房间调度保留单调递增的 120 Hz 截止时间。错过截止时间的迭代直接跳过，而不是累积成无上限的定时器积压；内核追赶仍以 50 ms 为上限。
+- 大厅、暂停中与已完全结算的对局使用 250 ms 的空闲间隔。有界的唤醒队列会在房间或控制状态变化时打断空闲休眠。忙碌的房间锁按活跃节奏重试，控制状态变化会强制下一次状态发布。完整的最终 KO/倒计时演出在进入休眠前跑完。
+- 活跃 tick 使用普通休眠，而不是每个 tick 都新建一对互相竞速的 fiber。只有空闲等待会与自己的唤醒队列竞速。
+- 没有已连接对端的房间跳过快照序列化。返回大厅时关闭私有上下文，并清除每个对端保留的状态帧。已有的两分钟废弃房间清理与显式离开清理保持不变。
+- 房间只构造一次每个不可变的 WebSocket 状态/事件帧，并在对端之间共享。“仅保留最新状态”、有界可靠事件、房间归属与重连屏障保持不变。
+- 每个模拟实例只解析一次自己那份不可变的 Polyglot 调用目标。技能解析只在真正按下技能键时构建某个形态的技能方案；移动与普通攻击步长不产生这部分分配。
+- 客户端预测理解暂停/结果状态下更低的快照节奏。战斗中仍使用原来的短预测视野，对已结算的对局停止外推，并继续检测空闲流量缺失与 socket 断开。
 
-Baseline: application `c184e45`. Windows, Intel Core Ultra 9 185H (16 cores / 22 logical processors), Microsoft OpenJDK 21.0.12.1, interpreted GraalJS. Both runs use the existing development JVM settings (`-Xms256m -Xmx2g`). Each starts a fresh backend on the isolated port 8181, with eight rooms / sixteen WebSocket clients, 30 seconds of combat warm-up, 30 seconds measured combat, 10 seconds paused, then 10 seconds in the lobby. Clients alternate movement and attacks at 20 inputs/second; peers receive identical event ID sequences. This is a short loopback workload, not an Internet or production-host capacity guarantee.
+## 同机对比
 
-| Metric | Baseline | Updated |
-| --- | ---: | ---: |
-| Mean battle CPU, logical cores | 1.302 | 1.045 |
-| Mean paused CPU, logical cores | 0.668 | 0.078 |
-| Mean lobby CPU, logical cores | 0.375 | 0.147 |
-| Paused snapshot traffic over 10 s, all clients | 27,260,286 B | 2,101,758 B |
-| Battle server update work p95 | 1.84 ms | 1.74 ms |
-| Battle snapshot arrival gap p95 | 27.08 ms | 29.37 ms |
-| Input send → receipt observed in returned state p95 | 23.67 ms | 29.16 ms |
-| Battle peak process working set | 434.9 MiB | 482.9 MiB |
-| Protocol errors / divergent peer event sequences | 0 / 0 | 0 / 0 |
+基线：应用版本 `c184e45`。Windows，Intel Core Ultra 9 185H（16 核 / 22 逻辑处理器），Microsoft OpenJDK 21.0.12.1，解释执行的 GraalJS。两次运行都使用现有开发 JVM 设置（`-Xms256m -Xmx2g`）。各自在隔离端口 8181 启动全新后端，八个房间 / 十六个 WebSocket 客户端，30 秒战斗预热、30 秒计量战斗、10 秒暂停，随后 10 秒停留在大厅。客户端以每秒 20 次输入的频率交替移动与攻击；对端收到完全相同的事件 ID 序列。这是短时环回负载，不是对公网或生产主机的容量保证。
 
-The observed CPU reductions were approximately 20% active, 88% paused and 61% lobby; paused snapshot traffic fell approximately 92%. The full-process working set did **not** decrease in the selected run, and input/snapshot delivery p95 was higher. These measurements do not establish lower end-to-end latency or lower resident memory. The changes reduce CPU/temporary allocation pressure; GC, scheduling, workload and runtime warm-up still affect process memory and delivery timing. No claim is made that the reduced server-update time is an equivalent Internet ping improvement.
+| 指标                                  |         基线 |      更新后 |
+| ------------------------------------- | -----------: | ----------: |
+| 战斗平均 CPU，逻辑核                  |        1.302 |       1.045 |
+| 暂停平均 CPU，逻辑核                  |        0.668 |       0.078 |
+| 大厅平均 CPU，逻辑核                  |        0.375 |       0.147 |
+| 10 秒内暂停快照流量，全部客户端       | 27,260,286 B | 2,101,758 B |
+| 战斗服务端更新耗时 p95                |      1.84 ms |     1.74 ms |
+| 战斗快照到达间隔 p95                  |     27.08 ms |    29.37 ms |
+| 输入发送 → 在返回状态中观测到接收 p95 |     23.67 ms |    29.16 ms |
+| 战斗进程峰值工作集                    |    434.9 MiB |   482.9 MiB |
+| 协议错误 / 对端事件序列不一致         |        0 / 0 |       0 / 0 |
 
-## Allocation measurement
+观测到的 CPU 降幅约为：活跃 20%、暂停 88%、大厅 61%；暂停快照流量下降约 92%。在所选这次运行中，整个进程的工作集**没有**下降，输入/快照投递 p95 反而更高。这些测量不能证明端到端延迟更低或常驻内存更低。这些改动降低的是 CPU 与临时内存分配压力；GC、调度、负载与运行时预热仍会影响进程内存与投递时序。没有声称服务端更新耗时的下降等同于公网 ping 的改善。
 
-A separate single-thread JVM probe runs the old and new bundled kernels with identical characters, inputs and 6,000 fixed steps / 3,000 snapshots per pass. Each fresh JVM uses `-Xms64m -Xmx256m`; pass zero warms the runtime, and `ThreadMXBean.getThreadAllocatedBytes` measures passes one and two. Serialized output character counts match.
+## 分配测量
 
-| Warm pass | Baseline elapsed / allocated | Updated elapsed / allocated |
-| --- | ---: | ---: |
-| 1 | 957.44 ms / 506.77 MiB | 867.95 ms / 460.72 MiB |
-| 2 | 971.18 ms / 506.76 MiB | 861.33 ms / 460.70 MiB |
+另有一个单线程 JVM 探针，用相同的角色、输入与每轮 6,000 个固定步长 / 3,000 个快照分别运行新旧打包内核。每个全新 JVM 使用 `-Xms64m -Xmx256m`；第零轮用于预热运行时，`ThreadMXBean.getThreadAllocatedBytes` 测量第一、二轮。序列化输出的字符数一致。
 
-This is about 9% less temporary allocation in this kernel workload. Allocated bytes are cumulative allocations, not live heap or resident memory saved. These figures isolate skill-resolution work and do not include the WebSocket shared-frame savings or idle-room savings.
+| 预热轮次 |      基线耗时 / 分配量 |    更新后耗时 / 分配量 |
+| -------- | ---------------------: | ---------------------: |
+| 1        | 957.44 ms / 506.77 MiB | 867.95 ms / 460.72 MiB |
+| 2        | 971.18 ms / 506.76 MiB | 861.33 ms / 460.70 MiB |
 
-## Capacity and lifecycle checks
+在该内核负载下临时内存分配减少约 9%。分配字节数是累计分配量，不是存活的堆或节省的常驻内存。这些数字只隔离技能解析这一部分工作，不包含 WebSocket 共享帧与空闲房间带来的节省。
 
-A further short run used sixteen simultaneous rooms / thirty-two clients, with the same 30-second measured combat window. It received 57,844 battle snapshots with zero protocol errors and matching peer event IDs in all sixteen rooms. Battle update work p95 was 1.96 ms, arrival gap p95 28.56 ms, and input receipt p95 26.19 ms. Mean battle CPU was 3.54 logical cores and peak working set 493.2 MiB. Setup respected existing admission limits; it did not bypass them. This workstation result does not validate sixteen rooms on a two-vCPU/512 MiB public service.
+## 容量与生命周期检查
 
-Additional checks passed:
+随后还有一次短时运行，使用十六个同时存在的房间 / 三十二个客户端，计量战斗窗口同为 30 秒。它收到 57,844 个战斗快照，零协议错误，且全部十六个房间的对端事件 ID 一致。战斗更新耗时 p95 为 1.96 ms，到达间隔 p95 为 28.56 ms，输入接收 p95 为 26.19 ms。战斗平均 CPU 为 3.54 个逻辑核，峰值工作集 493.2 MiB。建局过程遵守现有准入限制，没有绕过它们。这一工作站结果不能验证在 2 vCPU/512 MiB 的公网服务上跑十六个房间。
 
-- 17,600 exact serialized state/event checkpoints across all sixteen characters against the baseline kernel, including pause/restart.
-- Full 1v1 and 3v3 final KO/countdown completion, idle result state and restart; 132 directional skill cases and 88 three-hit combo cases.
-- Real JVM 3v3 through all three defeated reserves, matching final results, twenty pause/resume cycles, reconnect with retained fighters, and silent-peer timeout. Pause publication p95 was 45.6 ms and resume 33.6 ms in that separate local lifecycle run.
-- Two real browser clients complete bans/picks, enter 3v3, pause without false connection warnings and resume.
-- Production build under `/mygo-fighter/`, all fifteen stages, movement and no browser/resource errors.
-- `npm run check`, `npm run build`, `npm run check:backend`, `npm run build:pages`.
+额外检查均通过：
 
-Temporary harnesses, raw reports and screenshots are under ignored `output/server-performance/`; no removed test directory was restored.
+- 对照基线内核，覆盖全部十六个角色的 17,600 个精确序列化状态/事件检查点，包含暂停/重开。
+- 完整的 1v1 与 3v3 最终 KO/倒计时跑完、空闲结果状态与重开；132 个方向性技能用例与 88 个三段连击用例。
+- 真实 JVM 上的 3v3 打穿全部三名败退替补，最终结果一致，二十次暂停/恢复循环，重连后保留战士，以及静默对端超时。在该独立的本地生命周期运行中，暂停发布 p95 为 45.6 ms，恢复为 33.6 ms。
+- 两个真实浏览器客户端完成禁选/选人，进入 3v3，暂停时没有误报连接警告，并能恢复。
+- `/mygo-fighter/` 下的生产构建、全部十五个关卡与移动正常，没有浏览器或资源报错。
+- `npm run check`、`npm run build`、`npm run check:backend`、`npm run build:pages`。
 
-## Rollout and room limits
+临时测试脚本、原始报告与截图位于已忽略的 `output/server-performance/`；没有恢复任何已删除的测试目录。
 
-Update/restart the backend and refresh clients to obtain both scheduling and idle-prediction changes. The ordinary LAN default remains `MAX_ROOMS=20`; this is an admission ceiling, not a promise of twenty simultaneous battles. CPU saturation and memory should be measured on the actual host before increasing its configured limit. The previously documented public services use an explicit two-room/512 MiB budget; this code change does not alter or deploy those services, their limits or their JVM configuration.
+## 上线与房间上限
+
+更新/重启后端并刷新客户端，才能同时获得调度与空闲预测这两项改动。局域网默认仍为 `MAX_ROOMS=20`；这是准入上限，不是二十场同时对战的承诺。提高配置上限之前，应在实际主机上测量 CPU 饱和度与内存。此前记录的公网服务使用明确的“两房间/512 MiB”预算；本次代码改动不会修改或部署那些服务、它们的限制或其 JVM 配置。

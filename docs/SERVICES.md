@@ -1,16 +1,12 @@
-# Backend services
+**简体中文** | [English](SERVICES.en.md) | [日本語](SERVICES.ja.md)
 
-The Scala backend runs as three roles — `edge`, `lobby` and `rooms` — from one
-release artifact. Production starts each role as its own systemd unit; the local
-launcher (`npm run lan`) starts the same three roles as three JVMs on loopback.
-`SERVICE_ROLE` selects the role at startup, and the packaged `bin/mygo-server`
-entry point is unchanged.
+# 后端服务
 
-This split was adopted on 2026-10-29 for separate public admission, directory
-and room-execution scaling. The authoritative combat tick loop deliberately
-stays inside one process; see [Latency budget and the tick loop](#latency-budget-and-the-tick-loop).
+Scala 后端以一个发布产物中的三个角色——`edge`、`lobby` 与 `rooms`——运行。生产环境把每个角色作为独立的 systemd 单元启动；本地启动器（`npm run lan`）在回环地址上把同样的三个角色作为三个 JVM 启动。`SERVICE_ROLE` 在启动时选择角色，打包后的 `bin/mygo-server` 入口保持不变。
 
-## Topology
+这次拆分于 2026-10-29 采用，目的是让公网准入、目录与房间执行能够分别伸缩。权威战斗 tick 循环有意保留在单个进程内；见[延迟预算与 tick 循环](#延迟预算与-tick-循环)。
+
+## 拓扑
 
 ```mermaid
 flowchart LR
@@ -25,65 +21,50 @@ flowchart LR
   RoomsB --- KernelB[GraalJS combat kernel in process]
 ```
 
-Only the edge listens on a public-facing address. Caddy still forwards HTTPS and
-WSS to `127.0.0.1:8080`, so the public proxy configuration is unchanged. Every
-edge/lobby/rooms call is loopback HTTP and must present the shared
-`INTERNAL_SECRET` when one is configured. Rooms instances send registrations and
-heartbeats to the lobby but never call the edge. The edge never owns room state.
+只有 edge 监听面向公网的地址。Caddy 仍把 HTTPS 与 WSS 转发到 `127.0.0.1:8080`，因此公网代理配置不变。每次 edge/lobby/rooms 调用都是回环 HTTP，在配置了共享的 `INTERNAL_SECRET` 时必须携带它。rooms 实例向 lobby 发送注册与心跳，但从不调用 edge。edge 从不持有房间状态。
 
-## Role responsibilities
+## 角色职责
 
-| Role     | Listener                                      | Owns                                                                                                                                               | Does not do                                            |
-| -------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `edge`   | public `HOST:PORT`                            | Static files, `/api/health`, per-client admission counters, same-origin checks, forwarding of public API messages, WebSocket proxying, owner cache | Room state, sessions, placement, combat simulation     |
-| `lobby`  | internal `LOBBY_HOST:LOBBY_PORT`              | Global room budget, instance registry from heartbeats, room-code directory, placement/reservations, global `MAX_ROOMS`                             | Player sockets, room messages, combat, snapshots       |
-| `rooms`  | internal `ROOMS_HOST:ROOMS_PORT` per instance | Room lifecycle, sessions, membership, selection/readiness/lifecycle, the combat kernel, the 120 Hz tick loop, snapshots, per-instance `MAX_ROOMS`  | Public HTTP, WebSockets, placement, global room budget |
-| `system` | none                                          | Role dispatch (`Main`), static serving, `OriginCheck`/`InternalGuard`, cross-process payload types under `objects/internal/`                       | Room messages, room API registration, business state   |
+| 角色     | 监听地址                               | 负责                                                                                                    | 不负责                                   |
+| -------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `edge`   | 公网 `HOST:PORT`                       | 静态文件、`/api/health`、逐客户端准入计数、同源检查、公网 API 消息转发、WebSocket 代理、owner 缓存      | 房间状态、会话、放置、战斗模拟           |
+| `lobby`  | 内部 `LOBBY_HOST:LOBBY_PORT`           | 全局房间预算、由心跳构建的实例注册表、房间码目录、放置/预留、全局 `MAX_ROOMS`                           | 玩家 socket、房间消息、战斗、快照        |
+| `rooms`  | 每个实例的内部 `ROOMS_HOST:ROOMS_PORT` | 房间生命周期、会话、成员关系、选择/准备/生命周期、战斗内核、120 Hz tick 循环、快照、每实例 `MAX_ROOMS`  | 公网 HTTP、WebSocket、放置、全局房间预算 |
+| `system` | 无                                     | 角色分发（`Main`）、静态文件服务、`OriginCheck`/`InternalGuard`、`objects/internal/` 下的跨进程负载类型 | 房间消息、房间 API 注册、业务状态        |
 
-`services/system/objects/internal/` is the single home for payload types shared
-across processes: `PlacementResult`, `RoomOwnerResult`, `RegisteredRoom`,
-`InstanceSummary`, `RoomSummary` and `InternalError`. Internal endpoints are
-guarded by `services/system/routes/InternalGuard`, so a caller must arrive over
-loopback and, when `INTERNAL_SECRET` is set, present
-`X-Mygo-Internal: <secret>`.
+`services/system/objects/internal/` 是跨进程共享负载类型的唯一归属地：`PlacementResult`、`RoomOwnerResult`、`RegisteredRoom`、`InstanceSummary`、`RoomSummary` 与 `InternalError`。内部端点由 `services/system/routes/InternalGuard` 守卫，因此调用方必须经由回环到达，并且在设置了 `INTERNAL_SECRET` 时出示 `X-Mygo-Internal: <secret>`。
 
-## Release and role selection
+## 发布与角色选择
 
-`backend/build.sbt` packages one `mygo-server-2.0.0.tgz` containing every role.
-At startup `services/system/api/Main.scala` reads `SERVICE_ROLE`:
+`backend/build.sbt` 打包一个包含所有角色的 `mygo-server-2.0.0.tgz`。启动时 `services/system/api/Main.scala` 读取 `SERVICE_ROLE`：
 
-| Value           | Behavior                                                                                                                            |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `edge`          | Starts only the public edge role.                                                                                                   |
-| `lobby`         | Starts only the internal lobby role.                                                                                                |
-| `rooms`         | Starts one internal rooms instance; `INSTANCE_ID`, `INSTANCE_URL` and the port identify it.                                         |
-| `all` (default) | Composes lobby, rooms and edge in one JVM behind loopback. Intended for local debugging and latency comparison, not for deployment. |
-| anything else   | Startup fails with `Unsupported SERVICE_ROLE: ...`.                                                                                 |
+| 取值          | 行为                                                                                     |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `edge`        | 只启动公网 edge 角色。                                                                   |
+| `lobby`       | 只启动内部 lobby 角色。                                                                  |
+| `rooms`       | 启动一个内部 rooms 实例；由 `INSTANCE_ID`、`INSTANCE_URL` 与端口标识它。                 |
+| `all`（默认） | 在同一个 JVM 中于回环后面组合 lobby、rooms 与 edge。用于本地调试与延迟对比，不用于部署。 |
+| 其他任意值    | 启动失败，并报 `Unsupported SERVICE_ROLE: ...`。                                         |
 
-The deployed units are `mygo-edge.service`, `mygo-lobby.service` and the
-instance template `mygo-rooms@.service` (`%i` is the rooms instance ID). See
-[Deployment and rollback](#deployment-and-rollback).
+部署单元为 `mygo-edge.service`、`mygo-lobby.service` 与实例模板 `mygo-rooms@.service`（`%i` 是 rooms 实例 ID）。见[部署与回滚](#部署与回滚)。
 
-## Internal service contract
+## 内部服务契约
 
-All paths below are prefixed with `/internal` and are reachable only over
-loopback. When `INTERNAL_SECRET` is configured, a request without a matching
-`X-Mygo-Internal` header is rejected with `403` and
-`{"error":"内部接口不允许外部访问"}`.
+下面所有路径都以 `/internal` 为前缀，且只能通过回环访问。配置了 `INTERNAL_SECRET` 时，缺少匹配 `X-Mygo-Internal` 头的请求会以 `403` 与 `{"error":"内部接口不允许外部访问"}` 被拒绝。
 
-| Endpoint                     | Caller → callee                               | Request body                                                                 | Success                 | Failure                                                                       |
-| ---------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------- |
-| `POST /internal/place`       | edge → lobby                                  | `{}` (body ignored)                                                          | `200` `PlacementResult` | `503` `InternalError` room-full message; edge maps transport failure to `502` |
-| `GET /internal/rooms/{code}` | edge → lobby                                  | none; `code` path segment normalized to uppercase                            | `200` `RoomOwnerResult` | `404` `InternalError` missing-room message                                    |
-| `POST /internal/registered`  | rooms → lobby                                 | `RegisteredRoom`                                                             | `204`                   | Rooms treats the call as best effort and ignores the result                   |
-| `POST /internal/heartbeat`   | rooms → lobby                                 | `InstanceSummary` (instance identity, capacity and current rooms)            | `204`                   | Rooms treats the call as best effort and ignores the result                   |
-| `POST /internal/api/{name}`  | edge → rooms                                  | Public JSON body unchanged; `createroom` is rewritten to `{"code":"ABC123"}` | `200` public response   | `400` invalid request, `404` unknown name, `429` with `Retry-After` preserved |
-| `GET /internal/ws?room=CODE` | edge → rooms                                  | WebSocket upgrade; the room code query is the owner routing key              | `101` upgrade           | Missing room/owner closes with an error frame; room mismatch is rejected      |
-| `GET /internal/health`       | edge → lobby/rooms, activate/rollback → roles | none                                                                         | `200` role health JSON  | Non-200 or timeout marks the dependency unavailable                           |
+| 端点                         | 调用方 → 被调用方                              | 请求体                                                          | 成功                    | 失败                                                            |
+| ---------------------------- | ---------------------------------------------- | --------------------------------------------------------------- | ----------------------- | --------------------------------------------------------------- |
+| `POST /internal/place`       | edge → lobby                                   | `{}`（请求体被忽略）                                            | `200` `PlacementResult` | `503` `InternalError` 房间已满消息；edge 把传输失败映射为 `502` |
+| `GET /internal/rooms/{code}` | edge → lobby                                   | 无；`code` 路径段会被规范化为大写                               | `200` `RoomOwnerResult` | `404` `InternalError` 房间不存在消息                            |
+| `POST /internal/registered`  | rooms → lobby                                  | `RegisteredRoom`                                                | `204`                   | rooms 把该调用视为尽力而为并忽略结果                            |
+| `POST /internal/heartbeat`   | rooms → lobby                                  | `InstanceSummary`（实例身份、容量与当前房间）                   | `204`                   | rooms 把该调用视为尽力而为并忽略结果                            |
+| `POST /internal/api/{name}`  | edge → rooms                                   | 公网 JSON 请求体不变；`createroom` 被重写为 `{"code":"ABC123"}` | `200` 公网响应          | `400` 无效请求、`404` 未知名称、`429` 并保留 `Retry-After`      |
+| `GET /internal/ws?room=CODE` | edge → rooms                                   | WebSocket 升级；房间码查询参数是 owner 路由键                   | `101` 升级              | 缺少房间/owner 时以错误帧关闭；房间不匹配会被拒绝               |
+| `GET /internal/health`       | edge → lobby/rooms，activate/rollback → 各角色 | 无                                                              | `200` 角色健康 JSON     | 非 200 或超时会把该依赖标记为不可用                             |
 
-Payload bodies:
+负载体：
 
-| Type              | JSON                                                                                                            |
+| 类型              | JSON                                                                                                            |
 | ----------------- | --------------------------------------------------------------------------------------------------------------- |
 | `PlacementResult` | `{"instanceId":"a","instanceUrl":"http://127.0.0.1:8091","code":"A1B2C3"}`                                      |
 | `RoomOwnerResult` | `{"instanceId":"a","instanceUrl":"http://127.0.0.1:8091"}`                                                      |
@@ -91,337 +72,220 @@ Payload bodies:
 | `InstanceSummary` | `{"instanceId":"a","instanceUrl":"http://127.0.0.1:8091","capacity":4,"rooms":[{"code":"A1B2C3","players":2}]}` |
 | `InternalError`   | `{"error":"..."}`                                                                                               |
 
-Role health bodies:
+角色健康响应体：
 
-| Role    | Body                                                                                                                  |
+| 角色    | 响应体                                                                                                                |
 | ------- | --------------------------------------------------------------------------------------------------------------------- |
 | `lobby` | `{"role":"lobby","ok":true,"instances":1,"rooms":1}`                                                                  |
 | `rooms` | `{"role":"rooms","instanceId":"a","rooms":1,"ok":true}`                                                               |
 | `edge`  | `{"app":"mygo-scala","ok":true,"tickHz":120,"snapshotHz":60,"services":{"edge":"ok","lobby":"ok","rooms":"unknown"}}` |
 
-The edge health body reports each dependency as `ok`, `down`, `unknown` or
-`disabled`, depending on configuration and probe results. It probes `LOBBY_URL`
-and, when configured, `ROOMS_DIRECT_URL` with a short timeout; a deployment that
-routes every room through the lobby normally reports `rooms` as `unknown`. That
-does not fail the endpoint. Activation scripts check the internal health bodies
-for `"ok":true` and the public edge body for `"app":"mygo-scala"`.
+edge 的健康响应体会把每个依赖报告为 `ok`、`down`、`unknown` 或 `disabled`，取决于配置与探测结果。它会以较短的超时探测 `LOBBY_URL`，以及在配置时探测 `ROOMS_DIRECT_URL`；把所有房间都经 lobby 路由的部署通常把 `rooms` 报告为 `unknown`。这不会使该端点失败。激活脚本检查内部健康响应体中的 `"ok":true`，以及公网 edge 响应体中的 `"app":"mygo-scala"`。
 
-Placement and directory behavior:
+放置与目录行为：
 
-- The lobby serializes placement through one permit, so concurrent creates see
-  the same budget snapshot. A room is placed only when the directory plus live
-  reservations stays below the global `MAX_ROOMS`, and the chosen instance's
-  reported rooms plus reservations stays below
-  `min(ROOMS_PER_INSTANCE, capacity)`.
-- The least-loaded live instance wins; ties break by `instanceId`. A live
-  instance is one whose last heartbeat is younger than `INSTANCE_TTL_MS`.
-- Codes are three secure random bytes rendered as six uppercase hexadecimal
-  characters (`ABC123`), retried up to five times against the directory and
-  reservations.
-- A placement creates a short reservation (`RESERVATION_TTL_MS`) that bridges
-  the gap until the rooms instance reports the new room. Owner lookup accepts a
-  live reservation, so the host's first follow-up request can succeed before the
-  next heartbeat.
-- Heartbeats rebuild the code-to-instance directory and clear reservations that
-  the reporting instance has confirmed. A one-second lobby loop drops stale
-  instances, their directory entries and expired reservations.
+- lobby 通过单个许可串行化放置，因此并发的创建请求看到的是同一份预算快照。只有当目录加上实时预留仍低于全局 `MAX_ROOMS`，且所选实例上报的房间数加上预留仍低于 `min(ROOMS_PER_INSTANCE, capacity)` 时，才会放置房间。
+- 负载最低的存活实例胜出；平局按 `instanceId` 决胜。存活实例是指其最后一次心跳早于 `INSTANCE_TTL_MS` 的实例。
+- 房间码是三个安全随机字节，渲染为六位大写十六进制字符（`ABC123`），并针对目录与预留最多重试五次。
+- 一次放置会创建一条短期预留（`RESERVATION_TTL_MS`），填补直到 rooms 实例上报新房间之前的空档。owner 查询接受存活的预留，因此房主的第一次后续请求可以在下一次心跳之前就成功。
+- 心跳会重建房间码到实例的目录，并清除上报实例已确认的预留。lobby 中每秒运行一次的循环会丢弃过期实例、它们的目录条目以及已过期的预留。
 
-Rooms side:
+rooms 一侧：
 
-- A rooms instance reports itself and its current rooms to the lobby every
-  `HEARTBEAT_INTERVAL_MS` (default 2000 ms). `LobbyClient` uses short internal
-  timeouts and swallows failures: room creation and combat must keep working
-  when the lobby is unavailable.
-- `CreateRoomMessage` accepts an optional six-hex code from the edge placement,
-  otherwise the instance generates its own code. The instance enforces its own
-  `MAX_ROOMS` and reports the shared room-full message.
-- The internal API router applies the same registrations and body limit as the
-  public protocol; the edge is a transparent transport for room messages.
+- rooms 实例每隔 `HEARTBEAT_INTERVAL_MS`（默认 2000 ms）向 lobby 上报自身及其当前房间。`LobbyClient` 使用较短的内部超时并吞掉失败：当 lobby 不可用时，房间创建与战斗必须照常工作。
+- `CreateRoomMessage` 接受来自 edge 放置的可选六位十六进制房间码，否则由实例自行生成房间码。实例执行自己的 `MAX_ROOMS` 并上报共享的房间已满消息。
+- 内部 API 路由使用与公网协议相同的注册表与请求体上限；edge 对房间消息而言是透明的传输层。
 
-## Public API routing
+## 公网 API 路由
 
-Caddy terminates TLS, then the edge handles every public request:
+Caddy 终止 TLS，然后由 edge 处理每个公网请求：
 
-| Request                | Edge behavior                                                                                                                                                                                                                    | Answered or forwarded by |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| `GET /api/health`      | Local health; probes `LOBBY_URL` and, when configured, `ROOMS_DIRECT_URL` with short timeouts                                                                                                                                    | edge                     |
-| `POST /api/createroom` | Admitted at 20 requests per client per minute. Asks the lobby to place a code, then forwards the request to the owning rooms instance with `{"code":...}`; retries once on a transient placement or forward reply (HTTP 400/503) | lobby, then rooms        |
-| `POST /api/joinroom`   | Admitted at 20/min. Reads `code` from the body, resolves the owning instance from the 3 s owner cache or the lobby, then forwards the body unchanged                                                                             | lobby, then rooms        |
-| `POST /api/{name}`     | For the other registered room messages: reads the six-hex code from the token prefix (`ABC123.<48 hex>`), resolves the owner, forwards the body unchanged                                                                        | lobby, then rooms        |
-| `GET /ws?room=CODE`    | Admitted at 60 handshakes per client per minute. Same-origin check, owner lookup, then a bidirectional WebSocket proxy to the owning rooms instance                                                                              | lobby, then rooms        |
-| `GET /*` (other paths) | Static file from `WEB_ROOT`; `media/` and `assets/` are immutable for one year, everything else is `no-cache`; `api/` and `ws` are never served as files                                                                         | edge                     |
+| 请求                   | edge 行为                                                                                                                                                        | 由谁应答或转发    |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `GET /api/health`      | 本地健康检查；以较短的超时探测 `LOBBY_URL`，以及在配置时探测 `ROOMS_DIRECT_URL`                                                                                  | edge              |
+| `POST /api/createroom` | 每客户端每分钟准入 20 次请求。向 lobby 请求放置一个房间码，然后以 `{"code":...}` 把请求转发到所属 rooms 实例；遇到瞬时的放置或转发回复（HTTP 400/503）时重试一次 | lobby，然后 rooms |
+| `POST /api/joinroom`   | 每分钟准入 20 次。从请求体读取 `code`，通过 3 秒 owner 缓存或 lobby 解析所属实例，然后原样转发请求体                                                             | lobby，然后 rooms |
+| `POST /api/{name}`     | 对其他已注册的房间消息：从令牌前缀（`ABC123.<48 hex>`）读取六位十六进制房间码，解析 owner，原样转发请求体                                                        | lobby，然后 rooms |
+| `GET /ws?room=CODE`    | 每客户端每分钟准入 60 次握手。同源检查、owner 查询，然后到所属 rooms 实例的双向 WebSocket 代理                                                                   | lobby，然后 rooms |
+| `GET /*`（其他路径）   | 从 `WEB_ROOT` 提供静态文件；`media/` 与 `assets/` 一年不可变，其余为 `no-cache`；`api/` 与 `ws` 永远不会作为文件提供                                             | edge              |
 
-Registered room messages and their public endpoints:
+已注册的房间消息及其公网端点：
 
-| Message type         | `POST /api/...` | Identity                                                   |
-| -------------------- | --------------- | ---------------------------------------------------------- |
-| `CreateRoomMessage`  | `createroom`    | None; creates a host session.                              |
-| `JoinRoomMessage`    | `joinroom`      | None; joins by six-hex room code and creates a session.    |
-| `ChooseRoomMessage`  | `chooseroom`    | Trusted session token; host controls shared room settings. |
-| `ReadyRoomMessage`   | `readyroom`     | Trusted session token.                                     |
-| `LoadedRoomMessage`  | `loadedroom`    | Trusted session token, generation and attached peer.       |
-| `PauseRoomMessage`   | `pauseroom`     | Trusted session token.                                     |
-| `RestartRoomMessage` | `restartroom`   | Trusted session token; host only.                          |
-| `FinishRoomMessage`  | `finishroom`    | Trusted session token and presentation tick.               |
-| `LobbyRoomMessage`   | `lobbyroom`     | Trusted session token.                                     |
-| `LeaveRoomMessage`   | `leaveroom`     | Trusted session token; revokes the session.                |
+| 消息类型             | `POST /api/...` | 身份                                     |
+| -------------------- | --------------- | ---------------------------------------- |
+| `CreateRoomMessage`  | `createroom`    | 无；创建房主会话。                       |
+| `JoinRoomMessage`    | `joinroom`      | 无；以六位十六进制房间码加入并创建会话。 |
+| `ChooseRoomMessage`  | `chooseroom`    | 可信会话令牌；房主控制共享房间设置。     |
+| `ReadyRoomMessage`   | `readyroom`     | 可信会话令牌。                           |
+| `LoadedRoomMessage`  | `loadedroom`    | 可信会话令牌、generation 与所附 peer。   |
+| `PauseRoomMessage`   | `pauseroom`     | 可信会话令牌。                           |
+| `RestartRoomMessage` | `restartroom`   | 可信会话令牌；仅房主。                   |
+| `FinishRoomMessage`  | `finishroom`    | 可信会话令牌与表现 tick。                |
+| `LobbyRoomMessage`   | `lobbyroom`     | 可信会话令牌。                           |
+| `LeaveRoomMessage`   | `leaveroom`     | 可信会话令牌；吊销该会话。               |
 
-`AttachRoomMessage`, `SubmitInputMessage`, `DisconnectRoomMessage` and
-`ResolveSessionMessage` remain internal to the rooms process and the socket
-boundary; they have no public HTTP endpoint and no frontend caller file.
+`AttachRoomMessage`、`SubmitInputMessage`、`DisconnectRoomMessage` 与 `ResolveSessionMessage` 仍是 rooms 进程与 socket 边界的内部消息；它们没有公网 HTTP 端点，也没有前端调用文件。
 
-Edge failure mapping and limits:
+edge 的失败映射与限制：
 
-- Unknown room: `joinroom` returns `400` with the missing-room message; other
-  messages return `400` with the expired-room message.
-- The owner cache is bounded (4096 codes) and expires after
-  `ROOM_CACHE_TTL_MS`; a sweep runs every 5 s.
-- Transport failure to lobby or rooms maps to `502`; an internal timeout maps to
-  `504`. Other upstream replies, including the room-full `503` and a `429` with
-  `Retry-After`, pass through with their status and body. A rejected socket
-  handshake with no valid `room` query returns `400` with `缺少房间码`.
-- Public API requests are limited to 8 KiB; a larger body is rejected before it
-  reaches the owning service. Same-origin browser requests are enforced
-  (`Origin` authority must equal `Host`).
-- Admission counters are per client address (or the last `X-Forwarded-For`
-  address from a loopback proxy when `TRUST_LOCAL_PROXY=true`), expire after one
-  minute and are capped at 4096 address/category entries. Rejection is `429` with
-  `Retry-After: 60` and the Chinese retry message.
-- With no `LOBBY_URL`, the edge forwards room creation and every owner lookup to
-  `ROOMS_DIRECT_URL`; the rooms instance then generates its own room code. This
-  fallback is for a single-instance debugging layout, not the deployed
-  topology.
+- 未知房间：`joinroom` 返回 `400` 与房间不存在消息；其他消息返回 `400` 与房间已过期消息。
+- owner 缓存有界（4096 个房间码），并在 `ROOM_CACHE_TTL_MS` 后过期；每 5 秒清扫一次。
+- 到 lobby 或 rooms 的传输失败映射为 `502`；内部超时映射为 `504`。其他上游回复，包括房间已满的 `503` 与带 `Retry-After` 的 `429`，连同其状态与响应体一起透传。没有有效 `room` 查询参数而被拒绝的 socket 握手返回 `400` 与 `缺少房间码`。
+- 公网 API 请求限制为 8 KiB；更大的请求体在到达所属服务之前就会被拒绝。浏览器同源请求受到强制检查（`Origin` 授权必须等于 `Host`）。
+- 准入计数按客户端地址（或在 `TRUST_LOCAL_PROXY=true` 时按回环代理传来的最后一个 `X-Forwarded-For` 地址）统计，一分钟后过期，最多 4096 个地址/类别条目。拒绝时返回 `429`、`Retry-After: 60` 与中文重试消息。
+- 没有 `LOBBY_URL` 时，edge 把房间创建与所有 owner 查询都转发到 `ROOMS_DIRECT_URL`；此时 rooms 实例自行生成房间码。该回退用于单实例调试布局，不是部署拓扑。
 
-## Room codes, tokens and protocol 25
+## 房间码、令牌与协议 25
 
-- The WebSocket handshake protocol is **25**. The server rejects any other
-  version with `客户端与主机版本不一致，请房主重启联机服务，双方刷新页面。`
-- A room token is `<six uppercase hex code>.<48 hex characters>`, for example
-  `A1B2C3.` followed by 48 hex digits. The code identifies the owning instance;
-  the 48-hex suffix is 24 random bytes of session secret.
-- The client receives the token in `SessionResponse` (`token`, `side`, `room`)
-  and keeps it in tab-scoped session storage. Authenticated HTTP messages and
-  the socket `authenticate` message carry the token; the token never appears in
-  a URL.
-- The WebSocket URL carries only the shareable room code:
-  `GET /ws?room=CODE`. The socket must then authenticate with the token and the
-  same protocol version; if the query code does not match the token's room, the
-  server returns the expired-room message.
-- The edge needs the room code before it can forward anything, so the code is
-  exported twice: as the token prefix for HTTP messages and as the `?room=` query
-  for the socket. This is why protocol 24 and earlier clients are incompatible:
-  their tokens lacked the code prefix and their sockets connected to `/ws`
-  without a room query.
-- Room codes are not secrets — players share them to join. Tokens are
-  credentials: they are validated into a trusted session at the router boundary
-  before any room command runs.
-- Existing clients must refresh after deployment. A server restart also ends all
-  temporary rooms, as before.
+- WebSocket 握手协议为 **25**。服务器会以 `客户端与主机版本不一致，请房主重启联机服务，双方刷新页面。` 拒绝任何其他版本。
+- 房间令牌为 `<六位大写十六进制房间码>.<48 个十六进制字符>`，例如 `A1B2C3.` 后跟 48 个十六进制数字。房间码标识所属实例；48 个十六进制字符的后缀是 24 字节随机会话密钥。
+- 客户端在 `SessionResponse`（`token`、`side`、`room`）中收到令牌，并把它保存在标签页作用域的会话存储中。需要鉴权的 HTTP 消息与 socket 的 `authenticate` 消息都携带该令牌；令牌从不出现在 URL 中。
+- WebSocket URL 只携带可分享的房间码：`GET /ws?room=CODE`。随后 socket 必须用令牌与相同协议版本完成鉴权；如果查询中的房间码与令牌的房间不一致，服务器返回房间已过期消息。
+- edge 在转发任何内容之前需要房间码，因此房间码被导出两次：作为 HTTP 消息的令牌前缀，以及作为 socket 的 `?room=` 查询参数。这就是协议 24 及更早版本客户端不兼容的原因：它们的令牌缺少房间码前缀，它们的 socket 连接到 `/ws` 时也没有房间查询参数。
+- 房间码不是秘密——玩家分享它以加入。令牌是凭据：在任何房间命令执行之前，它们会在路由边界被校验为可信会话。
+- 现有客户端必须在部署后刷新页面。与以前一样，服务器重启也会结束所有临时房间。
 
-## Configuration matrix
+## 配置矩阵
 
-Every role reads environment variables. Deployment adds the shared
-`SERVICE_ROLE=...` in the unit and the values below in
-`/etc/mygo-fighter/{base,edge,lobby,rooms}.env` and optional per-instance
-`rooms-<id>.env`. The local launcher builds the same variables directly.
+每个角色都读取环境变量。部署会在单元中加入共享的 `SERVICE_ROLE=...`，并在 `/etc/mygo-fighter/{base,edge,lobby,rooms}.env` 与可选的按实例 `rooms-<id>.env` 中加入下表中的值。本地启动器直接构造同样的变量。
 
-| Variable                  | Role         | Default                          | Rules and meaning                                                                                                            |
-| ------------------------- | ------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `SERVICE_ROLE`            | all          | `all`                            | `edge`, `lobby`, `rooms` or `all`; other values fail startup.                                                                |
-| `INTERNAL_SECRET`         | all          | unset                            | Shared internal-call secret. When set, all edge/lobby/rooms internal HTTP calls must present it. The installer generates it. |
-| `HOST`                    | edge         | `127.0.0.1`                      | Public bind address. LAN launcher uses `0.0.0.0`.                                                                            |
-| `PORT`                    | edge         | `8080`                           | Public port, 1–65535.                                                                                                        |
-| `WEB_ROOT`                | edge         | `../frontend/dist`               | Static file root; packaged deployments use `/srv/mygo-fighter/current/web`.                                                  |
-| `LOBBY_URL`               | edge, rooms  | unset                            | Lobby base URL for placement/owner lookup (edge) and heartbeats (rooms).                                                     |
-| `ROOMS_DIRECT_URL`        | edge         | unset                            | Direct rooms URL used only when no lobby is configured.                                                                      |
-| `TRUST_LOCAL_PROXY`       | edge         | `false`                          | `true` only behind a loopback proxy; accepts the last `X-Forwarded-For` address.                                             |
-| `ROOM_CACHE_TTL_MS`       | edge         | `3000`                           | Room-owner cache entry lifetime; at least 250.                                                                               |
-| `OWNER_LOOKUP_TIMEOUT_MS` | edge         | `300`                            | Lobby owner lookup timeout; at least 50.                                                                                     |
-| `FORWARD_TIMEOUT_MS`      | edge         | `10000`                          | Forwarding timeout to a rooms instance; at least 1000.                                                                       |
-| `WS_QUEUE_FRAMES`         | edge         | `64`                             | Bounded per-connection proxy queue; at least 8.                                                                              |
-| `LOBBY_HOST`              | lobby        | `127.0.0.1`                      | Lobby bind address; internal only.                                                                                           |
-| `LOBBY_PORT`              | lobby        | `8079`                           | Lobby port, 1–65535.                                                                                                         |
-| `MAX_ROOMS`               | lobby, rooms | `4`                              | Lobby: global ceiling. Rooms: this instance's ceiling. Positive.                                                             |
-| `ROOMS_PER_INSTANCE`      | lobby        | equals `MAX_ROOMS`               | Placement ceiling per instance; positive and no larger than `MAX_ROOMS`.                                                     |
-| `INSTANCE_TTL_MS`         | lobby        | `6000`                           | Heartbeat age after which an instance is dropped; at least 2000.                                                             |
-| `RESERVATION_TTL_MS`      | lobby        | `10000`                          | Placement reservation lifetime; at least 2000.                                                                               |
-| `ROOMS_HOST`              | rooms        | `127.0.0.1`                      | Rooms bind address; internal only.                                                                                           |
-| `ROOMS_PORT`              | rooms        | `8091`                           | Rooms port, 1–65535; instance a uses 8091, instance b 8092.                                                                  |
-| `INSTANCE_ID`             | rooms        | `a`                              | Lowercase letters, digits and dashes; provided by the template instance.                                                     |
-| `INSTANCE_URL`            | rooms        | `http://$ROOMS_HOST:$ROOMS_PORT` | URL reported to the lobby and used by the edge to forward.                                                                   |
-| `HEARTBEAT_INTERVAL_MS`   | rooms        | `2000`                           | Registration/heartbeat period; at least 250.                                                                                 |
+| 变量                      | 角色         | 默认值                           | 规则与含义                                                                                       |
+| ------------------------- | ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `SERVICE_ROLE`            | 全部         | `all`                            | `edge`、`lobby`、`rooms` 或 `all`；其他值会导致启动失败。                                        |
+| `INTERNAL_SECRET`         | 全部         | 未设置                           | 共享的内部调用密钥。设置后，所有 edge/lobby/rooms 内部 HTTP 调用都必须携带它。安装脚本会生成它。 |
+| `HOST`                    | edge         | `127.0.0.1`                      | 公网绑定地址。局域网启动器使用 `0.0.0.0`。                                                       |
+| `PORT`                    | edge         | `8080`                           | 公网端口，1–65535。                                                                              |
+| `WEB_ROOT`                | edge         | `../frontend/dist`               | 静态文件根目录；打包部署使用 `/srv/mygo-fighter/current/web`。                                   |
+| `LOBBY_URL`               | edge, rooms  | 未设置                           | lobby 基础 URL，用于放置/owner 查询（edge）与心跳（rooms）。                                     |
+| `ROOMS_DIRECT_URL`        | edge         | 未设置                           | 仅在未配置 lobby 时使用的直连 rooms URL。                                                        |
+| `TRUST_LOCAL_PROXY`       | edge         | `false`                          | 仅在回环代理之后设为 `true`；接受最后一个 `X-Forwarded-For` 地址。                               |
+| `ROOM_CACHE_TTL_MS`       | edge         | `3000`                           | 房间 owner 缓存条目存活时间；至少 250。                                                          |
+| `OWNER_LOOKUP_TIMEOUT_MS` | edge         | `300`                            | lobby owner 查询超时；至少 50。                                                                  |
+| `FORWARD_TIMEOUT_MS`      | edge         | `10000`                          | 转发到 rooms 实例的超时；至少 1000。                                                             |
+| `WS_QUEUE_FRAMES`         | edge         | `64`                             | 每个连接的有界代理队列；至少 8。                                                                 |
+| `LOBBY_HOST`              | lobby        | `127.0.0.1`                      | lobby 绑定地址；仅内部。                                                                         |
+| `LOBBY_PORT`              | lobby        | `8079`                           | lobby 端口，1–65535。                                                                            |
+| `MAX_ROOMS`               | lobby, rooms | `4`                              | lobby：全局上限。rooms：本实例上限。必须为正。                                                   |
+| `ROOMS_PER_INSTANCE`      | lobby        | 等于 `MAX_ROOMS`                 | 每实例放置上限；为正且不大于 `MAX_ROOMS`。                                                       |
+| `INSTANCE_TTL_MS`         | lobby        | `6000`                           | 心跳年龄超过该值后实例被丢弃；至少 2000。                                                        |
+| `RESERVATION_TTL_MS`      | lobby        | `10000`                          | 放置预留存活时间；至少 2000。                                                                    |
+| `ROOMS_HOST`              | rooms        | `127.0.0.1`                      | rooms 绑定地址；仅内部。                                                                         |
+| `ROOMS_PORT`              | rooms        | `8091`                           | rooms 端口，1–65535；实例 a 使用 8091，实例 b 使用 8092。                                        |
+| `INSTANCE_ID`             | rooms        | `a`                              | 小写字母、数字与短横线；由模板实例提供。                                                         |
+| `INSTANCE_URL`            | rooms        | `http://$ROOMS_HOST:$ROOMS_PORT` | 上报给 lobby 并由 edge 用于转发的 URL。                                                          |
+| `HEARTBEAT_INTERVAL_MS`   | rooms        | `2000`                           | 注册/心跳周期；至少 250。                                                                        |
 
-Deployed unit limits:
+部署单元限制：
 
-| Role    | Unit                  | `JAVA_OPTS`                                                                                                          | MemoryMax | Cache                              |
+| 角色    | 单元                  | `JAVA_OPTS`                                                                                                          | MemoryMax | 缓存                               |
 | ------- | --------------------- | -------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------- |
-| `edge`  | `mygo-edge.service`   | `-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -XX:MetaspaceSize=96m -Xss512k`                                       | 256M      | none                               |
-| `lobby` | `mygo-lobby.service`  | `-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -XX:MetaspaceSize=96m -Xss512k`                                       | 192M      | none                               |
+| `edge`  | `mygo-edge.service`   | `-Xms16m -Xmx80m -XX:ReservedCodeCacheSize=32m -XX:MetaspaceSize=96m -Xss512k`                                       | 256M      | 无                                 |
+| `lobby` | `mygo-lobby.service`  | `-Xms16m -Xmx48m -XX:ReservedCodeCacheSize=24m -XX:MetaspaceSize=96m -Xss512k`                                       | 192M      | 无                                 |
 | `rooms` | `mygo-rooms@.service` | `-Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128m -XX:MetaspaceSize=96m -Dpolyglot.engine.WarnInterpreterOnly=false` | 512M      | `/var/cache/mygo-fighter/rooms-%i` |
 
-These ceilings were selected on the two-vCPU, approximately 1.6 GiB host during
-the [2026-10-30 gameplay audit](DEPLOYMENT_2026-10-30.md), which also selected
-a two-room public ceiling. They are resource limits rather than a guarantee for
-every workload. Confirm them with
-`systemctl show` and the deployment checks before raising `MAX_ROOMS`.
+这些上限是在双 vCPU、约 1.6 GiB 的主机上、于 [2026-10-30 玩法审计](DEPLOYMENT_2026-10-30.md)期间选定的，该审计同时也选定了两房间的公共上限。它们是资源限制，而不是对每种工作负载的保证。在提高 `MAX_ROOMS` 之前，请用 `systemctl show` 与部署检查确认。
 
-## Failure modes and graceful degradation
+## 故障模式与优雅降级
 
-| Failure                                  | Effect                                                                                                                                                                                                                      | Recovery                                                                                           |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Lobby unavailable                        | New room creation cannot be placed, so the edge reports `502`; existing rooms keep running and commands already routed by cached ownership can still work for up to the cache TTL. Rooms heartbeats are dropped harmlessly. | Restart the lobby; instances re-register within one heartbeat interval and the directory rebuilds. |
-| Rooms instance unavailable               | Its rooms are lost (temporary state). The lobby drops the instance after `INSTANCE_TTL_MS`; the edge may serve an error from a stale cached owner until the cache entry expires.                                            | Restart the instance; it re-registers itself. Capacity returns for new rooms.                      |
-| Edge unavailable                         | The public site and API are unreachable, but lobby and rooms keep their state and idle rooms keep ticking.                                                                                                                  | Restart the edge; clients reconnect with their stored sessions.                                    |
-| Everything restarted                     | All temporary rooms and sessions are discarded, as before.                                                                                                                                                                  | Clients create or join rooms again.                                                                |
-| `INTERNAL_SECRET` missing                | Internal endpoints remain loopback-only, but no shared header is required.                                                                                                                                                  | Installer-generated secret; set it and restart the roles.                                          |
-| Internal secret mismatch                 | All cross-process calls are rejected with `403`; start fails health checks.                                                                                                                                                 | Use one `/etc/mygo-fighter/base.env` for every unit.                                               |
-| Global room budget reached               | Lobby returns the room-full message; public creation is reported as server full.                                                                                                                                            | Free or expire rooms, or raise `MAX_ROOMS` deliberately.                                           |
-| Per-instance room budget reached         | The rooms instance rejects creation with the room-full message.                                                                                                                                                             | Join an existing room or place on another live instance.                                           |
-| Admission limit reached                  | `429` with `Retry-After: 60` for create/join or socket handshakes from that client address.                                                                                                                                 | Wait for the one-minute window.                                                                    |
-| Combat kernel crash inside one rooms JVM | The unit restarts; that instance's rooms are lost and it re-registers with the lobby.                                                                                                                                       | Clients reconnect and create or join again.                                                        |
+| 故障                            | 影响                                                                                                                                  | 恢复                                                       |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| lobby 不可用                    | 新的房间创建无法放置，因此 edge 返回 `502`；已有房间继续运行，已由缓存归属路由的命令在缓存 TTL 内仍可工作。rooms 的心跳被无害地丢弃。 | 重启 lobby；实例会在一个心跳周期内重新注册，目录随之重建。 |
+| rooms 实例不可用                | 该实例的房间丢失（临时状态）。lobby 在 `INSTANCE_TTL_MS` 后丢弃该实例；在缓存条目过期之前，edge 可能从过期的缓存 owner 返回错误。     | 重启该实例；它会重新注册自身。新房间的容量随之恢复。       |
+| edge 不可用                     | 公网站点与 API 无法访问，但 lobby 与 rooms 保留其状态，空闲房间继续 tick。                                                            | 重启 edge；客户端用其保存的会话重新连接。                  |
+| 全部重启                        | 与以前一样，所有临时房间与会话都被丢弃。                                                                                              | 客户端重新创建或加入房间。                                 |
+| 缺少 `INTERNAL_SECRET`          | 内部端点仍然仅限回环，但不要求共享头。                                                                                                | 使用安装脚本生成的密钥；设置并重启各角色。                 |
+| 内部密钥不匹配                  | 所有跨进程调用都以 `403` 被拒绝；启动无法通过健康检查。                                                                               | 让每个单元共用同一个 `/etc/mygo-fighter/base.env`。        |
+| 达到全局房间预算                | lobby 返回房间已满消息；公网创建被报告为服务器已满。                                                                                  | 释放或等待房间过期，或有意识地提高 `MAX_ROOMS`。           |
+| 达到每实例房间预算              | rooms 实例以房间已满消息拒绝创建。                                                                                                    | 加入已有房间，或放置到另一个存活实例。                     |
+| 达到准入限制                    | 来自该客户端地址的创建/加入或 socket 握手返回 `429` 与 `Retry-After: 60`。                                                            | 等待一分钟窗口。                                           |
+| 单个 rooms JVM 内的战斗内核崩溃 | 该单元重启；该实例的房间丢失，它会向 lobby 重新注册。                                                                                 | 客户端重连并重新创建或加入。                               |
 
-The lobby holds no durable state: `mygo-lobby` can be restarted at any time and
-rebuilds its directory from room heartbeats. The edge holds only bounded caches
-and admission counters. The rooms process is the only owner of live room state.
+lobby 不持有任何持久状态：`mygo-lobby` 可以随时重启，并从房间心跳重建其目录。edge 只持有有界缓存与准入计数。rooms 进程是实时房间状态的唯一持有者。
 
-## Latency budget and the tick loop
+## 延迟预算与 tick 循环
 
-Responses that cross process boundaries are limited to the request path:
+跨进程边界的响应只限于请求路径：
 
-- Room creation adds one lobby placement call (500 ms internal timeout) plus one
-  forward to the rooms instance (`FORWARD_TIMEOUT_MS`, default 10 s).
-- Join and other room messages add at most one owner lookup: memory cache first,
-  otherwise a lobby call with `OWNER_LOOKUP_TIMEOUT_MS` (default 300 ms). A
-  successful lookup is cached for `ROOM_CACHE_TTL_MS` (default 3 s).
-- The final `loadedroom` acknowledgement also initializes a GraalJS context. It
-  has a minimum 60 s forwarding budget and a 65 s browser budget so cold
-  initialization is not mistaken for a failed service. Other API budgets are unchanged.
-- Socket traffic is proxied as WebSocket frames without re-serialization through
-  a bounded queue (`WS_QUEUE_FRAMES`, default 64). A full queue closes the
-  proxied connection instead of buffering without limit.
-- These are bounded failure budgets, not expected network latency. Internal
-  calls are loopback HTTP; no internal call appears on the combat clock path.
+- 房间创建增加一次 lobby 放置调用（500 ms 内部超时），再加一次到该 rooms 实例的转发（`FORWARD_TIMEOUT_MS`，默认 10 秒）。
+- 加入与其他房间消息最多增加一次 owner 查询：先查内存缓存，否则发起一次使用 `OWNER_LOOKUP_TIMEOUT_MS`（默认 300 ms）的 lobby 调用。成功的查询会按 `ROOM_CACHE_TTL_MS`（默认 3 秒）缓存。
+- 最后的 `loadedroom` 确认还会初始化一个 GraalJS 上下文。它至少有 60 秒的转发预算与 65 秒的浏览器预算，这样冷启动不会被误认为服务故障。其他 API 的预算不变。
+- socket 流量以 WebSocket 帧的形式经有界队列（`WS_QUEUE_FRAMES`，默认 64）代理，不做重新序列化。队列满时会关闭被代理的连接，而不是无限制地缓冲。
+- 这些是有界的失败预算，而不是预期的网络延迟。内部调用是回环 HTTP；没有任何内部调用出现在战斗时钟路径上。
 
-The authoritative tick loop stays inside one rooms process:
+权威 tick 循环留在单个 rooms 进程内：
 
-- The kernel advances in fixed 10 ms steps on a 120 Hz room loop (8.33 ms per
-  iteration) and targets 60 active snapshots per second. Each room is guarded by
-  one semaphore so commands and simulation never enter the same room's GraalJS
-  context concurrently. The per-room context is process-local and cannot be
-  shared across JVMs.
-- Splitting the tick loop across processes would add a synchronous internal round
-  trip and state serialization to every iteration, or require state replication
-  and cross-process locking. That work would consume a meaningful share of the
-  8.33 ms deadline and would make room authority ambiguous; the existing design
-  already keeps separate rooms advancing independently without a global batch.
-- Therefore the rooms tick path must never make cross-process calls. Room
-  registration and heartbeats are background fibers with short timeouts; they are
-  best-effort and never block a tick. Cross-process payload types live under
-  `services/system/objects/internal/`, and `AGENTS.md` records the rule.
-- The [2026-10-27 scaling record](BACKEND_SCALING_2026-10-27.md) measured a
-  same-machine, eight-room loopback workload: battle server-update p95 1.74 ms,
-  snapshot arrival gap p95 29.37 ms and input send-to-receipt p95 29.16 ms after
-  the scheduling changes. Those numbers describe that workstation run and are not
-  host capacity or Internet-latency guarantees. The room loop cadence, idle
-  intervals, snapshot policy and catch-up cap are described in
-  [LAN protocol and performance](LAN.md).
+- 内核在 120 Hz 房间循环（每次迭代 8.33 ms）上以固定的 10 ms 步长推进，目标为每秒 60 个活跃快照。每个房间由一个信号量守卫，因此命令与模拟绝不会并发进入同一房间的 GraalJS 上下文。逐房间上下文是进程本地的，无法跨 JVM 共享。
+- 把 tick 循环拆分到多个进程会在每次迭代中增加一次同步的内部往返与状态序列化，或者需要状态复制与跨进程锁。这些工作会占掉 8.33 ms 期限中相当大的一部分，并让房间权威变得含糊；现有设计已经让不同房间在没有全局批次的情况下各自独立推进。
+- 因此 rooms 的 tick 路径绝不能发起跨进程调用。房间注册与心跳是带短超时的后台 fiber；它们是尽力而为的，从不阻塞 tick。跨进程负载类型位于 `services/system/objects/internal/` 下，`AGENTS.md` 记录了这一规则。
+- [2026-10-27 扩容记录](BACKEND_SCALING_2026-10-27.md)测量了同机八房间的回环工作负载：在调度改动之后，战斗服务器更新 p95 为 1.74 ms，快照到达间隔 p95 为 29.37 ms，输入发送到接收 p95 为 29.16 ms。这些数字描述的是那次工作站运行，不是主机容量或互联网延迟的保证。房间循环节奏、空闲间隔、快照策略与追赶上限见[局域网协议与性能](LAN.md)。
 
-## Deployment and rollback
+## 部署与回滚
 
-The release artifact is `backend/target/universal/mygo-server-2.0.0.tgz` from
-`npm run package:server`. Deploy files live in `deploy/`:
+发布产物是由 `npm run package:server` 生成的 `backend/target/universal/mygo-server-2.0.0.tgz`。部署文件位于 `deploy/`：
 
-| File                           | Purpose                                                                   |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| `deploy/mygo-edge.service`     | Public edge unit.                                                         |
-| `deploy/mygo-lobby.service`    | Internal lobby unit.                                                      |
-| `deploy/mygo-rooms@.service`   | Rooms template unit; the instance ID is `%i`.                             |
-| `deploy/env/base.env.example`  | Shared `INTERNAL_SECRET` and `ROOMS_INSTANCES`.                           |
-| `deploy/env/edge.env.example`  | Public edge settings.                                                     |
-| `deploy/env/lobby.env.example` | Global room budget and directory settings.                                |
-| `deploy/env/rooms.env.example` | Per-instance rooms settings; per-instance overrides use `rooms-<id>.env`. |
-| `deploy/server.env.example`    | Legacy single-unit settings, kept with a migration note.                  |
-| `deploy/install.sh`            | First-time host install: units, env files, secret, Caddy.                 |
-| `deploy/activate.sh`           | Whole-set release activation with health checks and rollback.             |
-| `deploy/rollback.sh`           | Whole-set rollback to the retained previous release.                      |
-| `deploy/Caddyfile`             | Unchanged reverse proxy to `127.0.0.1:8080`.                              |
+| 文件                           | 用途                                                   |
+| ------------------------------ | ------------------------------------------------------ |
+| `deploy/mygo-edge.service`     | 公网 edge 单元。                                       |
+| `deploy/mygo-lobby.service`    | 内部 lobby 单元。                                      |
+| `deploy/mygo-rooms@.service`   | rooms 模板单元；实例 ID 为 `%i`。                      |
+| `deploy/env/base.env.example`  | 共享的 `INTERNAL_SECRET` 与 `ROOMS_INSTANCES`。        |
+| `deploy/env/edge.env.example`  | 公网 edge 设置。                                       |
+| `deploy/env/lobby.env.example` | 全局房间预算与目录设置。                               |
+| `deploy/env/rooms.env.example` | 按实例的 rooms 设置；按实例覆盖使用 `rooms-<id>.env`。 |
+| `deploy/server.env.example`    | 旧版单单元设置，保留并附有迁移说明。                   |
+| `deploy/install.sh`            | 首次主机安装：单元、环境文件、密钥、Caddy。            |
+| `deploy/activate.sh`           | 整套发布激活，含健康检查与回滚。                       |
+| `deploy/rollback.sh`           | 整套回滚到保留的上一版发布。                           |
+| `deploy/Caddyfile`             | 指向 `127.0.0.1:8080` 的反向代理，未改动。             |
 
-First install, run as root with the public hostname:
+首次安装时，以 root 身份并使用公网主机名运行：
 
 ```sh
 sudo bash deploy/install.sh PUBLIC_HOSTNAME
 ```
 
-The installer creates the `mygo` account and `/srv/mygo-fighter/releases`,
-installs the three units and the hosting scripts under `/opt/mygo-fighter`,
-creates `/etc/mygo-fighter/{base,edge,lobby,rooms}.env` only when they are
-missing, appends a generated 64-hex `INTERNAL_SECRET` when none exists, and
-enables `caddy`, `mygo-edge`, `mygo-lobby` and `mygo-rooms@<id>` for every
-instance in `ROOMS_INSTANCES`. It keeps the existing Caddy safety behaviour and
-is idempotent. On a host that still has the old `mygo-fighter.service`, it
-disables and stops that unit so both layouts cannot fight over port 8080, and
-prints migration steps; `/etc/mygo-fighter.env` is preserved but no longer read.
+安装脚本创建 `mygo` 账号与 `/srv/mygo-fighter/releases`，把三个单元与托管脚本安装到 `/opt/mygo-fighter` 下，仅在缺失时创建 `/etc/mygo-fighter/{base,edge,lobby,rooms}.env`，在没有密钥时追加一个生成的、由 64 个十六进制字符组成的 `INTERNAL_SECRET`，并为 `ROOMS_INSTANCES` 中的每个实例启用 `caddy`、`mygo-edge`、`mygo-lobby` 与 `mygo-rooms@<id>`。它保留 Caddy 现有的安全行为，并且是幂等的。在仍保留旧 `mygo-fighter.service` 的主机上，它会禁用并停止该单元，以免两种布局争抢 8080 端口，并打印迁移步骤；`/etc/mygo-fighter.env` 会被保留但不再读取。
 
-Activation extracts the release, verifies `bin/mygo-server` and
-`web/index.html`, then replaces the whole role set:
+激活会解包发布、校验 `bin/mygo-server` 与 `web/index.html`，然后替换整套角色：
 
 ```sh
 sudo bash /opt/mygo-fighter/activate.sh ARCHIVE RELEASE_ID [COMMIT]
 ```
 
-1. Serializes with the host-local deployment lock.
-2. Stops `mygo-edge`, then `mygo-lobby`, then every `mygo-rooms@<id>` instance.
-3. Atomically switches `/srv/mygo-fighter/current` to the new release.
-4. Starts every rooms instance, then the lobby, then the edge.
-5. Waits for each rooms and lobby `/internal/health` to report `"ok":true` and
-   for `edge /api/health` to report `"app":"mygo-scala"`.
-6. Writes `deployment.json` in the active release: release ID, optional commit,
-   archive SHA-256, activation time, role hosts and ports, and the rooms
-   instance list.
-7. Keeps the replaced release in `/srv/mygo-fighter/previous`.
+1. 用主机本地的部署锁串行化。
+2. 先停止 `mygo-edge`，再停止 `mygo-lobby`，最后停止每个 `mygo-rooms@<id>` 实例。
+3. 原子地把 `/srv/mygo-fighter/current` 切换到新发布。
+4. 先启动每个 rooms 实例，再启动 lobby，最后启动 edge。
+5. 等待每个 rooms 与 lobby 的 `/internal/health` 报告 `"ok":true`，以及 `edge /api/health` 报告 `"app":"mygo-scala"`。
+6. 在活动发布中写入 `deployment.json`：发布 ID、可选提交、归档 SHA-256、激活时间、各角色主机与端口，以及 rooms 实例列表。
+7. 把被替换的发布保留在 `/srv/mygo-fighter/previous`。
 
-A failed switch, start or health check restores the previous release and
-restarts the full set. `sudo bash /opt/mygo-fighter/rollback.sh` reverses the
-active and previous links with the same stop, start and health-check sequence and
-restores the active release if the rollback itself fails. Deployment and rollback
-both stop the roles, so a release switch ends temporary rooms and both players
-must refresh.
+切换、启动或健康检查失败会恢复上一版发布并重启整套。`sudo bash /opt/mygo-fighter/rollback.sh` 以相同的停止、启动与健康检查顺序反转 active 与 previous 链接，如果回滚本身失败则恢复活动发布。部署与回滚都会停止各角色，因此一次发布切换会结束临时房间，双方玩家都必须刷新页面。
 
-The Caddy reverse proxy remains `https://PUBLIC_HOSTNAME` → `127.0.0.1:8080`;
-only the edge listens on that port. See [public online hosting](WAN.md) for host
-provisioning, port rules and operations commands.
+Caddy 反向代理仍为 `https://PUBLIC_HOSTNAME` → `127.0.0.1:8080`；只有 edge 监听该端口。主机准备、端口规则与运维命令见[公网联机托管](WAN.md)。
 
-## Local three-process topology
+## 本地三进程拓扑
 
-`npm run lan` is unchanged as a command. The launcher builds the frontend and
-stages the same JVM artifact, then starts three role processes on loopback:
+`npm run lan` 作为命令保持不变。启动器构建前端并暂存同一个 JVM 产物，然后在回环上启动三个角色进程：
 
-| Process | Role    | Port | Key environment                                                  |
-| ------- | ------- | ---- | ---------------------------------------------------------------- |
-| 1       | `rooms` | 8091 | `ROOMS_PORT=8091`, `INSTANCE_ID=a`, `MAX_ROOMS=PUBLIC MAX_ROOMS` |
-| 2       | `lobby` | 8079 | `LOBBY_PORT=8079`, global `MAX_ROOMS`, `ROOMS_PER_INSTANCE`      |
-| 3       | `edge`  | 8080 | `HOST` (default `0.0.0.0`), `PORT`, `WEB_ROOT`, `LOBBY_URL`      |
+| 进程 | 角色    | 端口 | 关键环境                                                         |
+| ---- | ------- | ---- | ---------------------------------------------------------------- |
+| 1    | `rooms` | 8091 | `ROOMS_PORT=8091`、`INSTANCE_ID=a`、`MAX_ROOMS=PUBLIC MAX_ROOMS` |
+| 2    | `lobby` | 8079 | `LOBBY_PORT=8079`、全局 `MAX_ROOMS`、`ROOMS_PER_INSTANCE`        |
+| 3    | `edge`  | 8080 | `HOST`（默认 `0.0.0.0`）、`PORT`、`WEB_ROOT`、`LOBBY_URL`        |
 
-`MAX_ROOMS` defaults to 20 for LAN play. `INTERNAL_SECRET`, `TRUST_LOCAL_PROXY`,
-`HEARTBEAT_INTERVAL_MS` and `INSTANCE_TTL_MS` are forwarded when set. The
-launcher still probes `/api/health` for `"app":"mygo-scala"`, prints the same
-playable addresses and stops all three processes together; `stop-lan.cmd` (or
-closing the launcher window) ends the whole set. A single-JVM debugging layout
-remains available by starting the packaged entry point without `SERVICE_ROLE`
-(the `all` mode), but the LAN launcher does not use it.
+局域网对战下 `MAX_ROOMS` 默认为 20。`INTERNAL_SECRET`、`TRUST_LOCAL_PROXY`、`HEARTBEAT_INTERVAL_MS` 与 `INSTANCE_TTL_MS` 在设置时会被转发。启动器仍会探测 `/api/health` 中的 `"app":"mygo-scala"`，打印同样的可玩地址，并一起停止三个进程；`stop-lan.cmd`（或关闭启动器窗口）会结束整套进程。不带 `SERVICE_ROLE` 启动打包入口（`all` 模式）仍可获得单 JVM 调试布局，但局域网启动器不使用它。
 
-Source map for the split:
+拆分的源码映射：
 
-| Path                                                                | Contents                                                                             |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `backend/src/main/scala/services/system/api/Main.scala`             | `SERVICE_ROLE` dispatch and the `all` composition                                    |
-| `backend/src/main/scala/services/edge/`                             | Admission, owner cache, instance client, edge routes                                 |
-| `backend/src/main/scala/services/lobby/`                            | Registry, placement, internal routes, lobby process                                  |
-| `backend/src/main/scala/services/rooms/`                            | Room messages, message router/registration, runtime, socket, internal routes, kernel |
-| `backend/src/main/scala/services/system/objects/internal/`          | Cross-process payload types                                                          |
-| `backend/src/main/scala/services/system/routes/InternalGuard.scala` | Loopback/secret guard for internal endpoints                                         |
-| `backend/src/main/scala/services/system/routes/OriginCheck.scala`   | Same-origin check shared by edge and rooms routes                                    |
+| 路径                                                                | 内容                                                      |
+| ------------------------------------------------------------------- | --------------------------------------------------------- |
+| `backend/src/main/scala/services/system/api/Main.scala`             | `SERVICE_ROLE` 分发与 `all` 组合                          |
+| `backend/src/main/scala/services/edge/`                             | 准入、owner 缓存、实例客户端、edge 路由                   |
+| `backend/src/main/scala/services/lobby/`                            | 注册表、放置、内部路由、lobby 进程                        |
+| `backend/src/main/scala/services/rooms/`                            | 房间消息、消息路由器/注册、运行时、socket、内部路由、内核 |
+| `backend/src/main/scala/services/system/objects/internal/`          | 跨进程负载类型                                            |
+| `backend/src/main/scala/services/system/routes/InternalGuard.scala` | 内部端点的回环/密钥守卫                                   |
+| `backend/src/main/scala/services/system/routes/OriginCheck.scala`   | edge 与 rooms 路由共用的同源检查                          |
 
-The public game protocol, combat rules and player-visible behavior are otherwise
-unchanged by the split. See [architecture and review guide](ARCHITECTURE.md) and
-[LAN protocol and timing](LAN.md) for the frontend and combat details.
+除此之外，公开的游戏协议、战斗规则与玩家可见行为都不受这次拆分影响。前端与战斗细节见[架构与评审指南](ARCHITECTURE.md)与[局域网协议与计时](LAN.md)。

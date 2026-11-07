@@ -1,49 +1,51 @@
-# Frontend presentation and mobile play
+**简体中文** | [English](FRONTEND_UX.en.md) | [日本語](FRONTEND_UX.ja.md)
 
-The interface uses an Ave Mujica-inspired moonlit theater, charcoal surfaces, ivory text and crimson actions. Controls and widgets are borderless with square corners; color and spacing show hierarchy, and keyboard focus remains visible. A locally bundled Noto Serif SC family unifies the banner, headings, character names and interface text. The main menu displays all five members of the selected band, defaults to Ave Mujica and switches between MyGO!!!!!, Ave Mujica and 夢限大 MewType. The refactored page regions, shared controls, runtime and combat kernel keep their existing ownership boundaries.
+# 前端表现与手机端游玩
 
-## October 30 flow update
+界面采用受 Ave Mujica 启发的月下剧场风格：炭灰色表面、象牙白文字与绯红色操作色。控件与组件为无边框直角；靠颜色与间距表达层级，键盘焦点始终可见。本地打包的 Noto Serif SC 字族统一横幅、标题、角色名与界面文字。主菜单展示所选乐队的全部五名成员，默认选中 Ave Mujica，并可在 MyGO!!!!!、Ave Mujica 与梦限大 MewType 之间切换。重构后的页面分区、共用控件、运行时与战斗内核仍保持既有的归属边界。
 
-- The banner reads `武道馆当然要比武` without punctuation. Mode buttons use concise centered labels without navigation arrows. Help and main-menu navigation use the same filled Button as other controls. Continue appears only for an unfinished match.
-- Selection shows the current ban/pick instruction and remaining slots. The portrait panel stretches to match the adjacent selection area. The central region still scrolls with its vertical scrollbar hidden; header and action footer remain visible. Lineup cards preserve square, centered faces; long teams scroll horizontally on phones and follow the active slot. Arena selection precedes optional collapsed custom rules.
-- The LAN entry shows create/join pending feedback, copyable room codes and connection counts. Host controls, draft confirmation, missing players and readiness have explicit instructions.
-- Pausing and final results use the existing overlay with clear resume/replay/selection/menu actions. Online guests wait for the host to restart; returning to the room and leaving the room are distinct actions. Battle HUD numbers and player identity remain readable with two or three players.
-- Loading can be cancelled. Runtime request invalidation and renderer preparation generations prevent delayed loads from opening an abandoned match or trimming a newer match's artwork.
-- Help prioritizes basic controls and uses expandable sections for detail. Dialog headers and close controls stay in the normal layout, preventing overlap with room settings.
+## 10 月 30 日流程更新
 
-The visual revision passed 69 browser checks across six viewport sizes, including all three band switches, complete roster retention, matching portrait/selection heights, hidden-scrollbar scrolling, borderless square controls, the local practice/pause flow, and mobile tap/hold and joystick release. The Pages build was also served under `/mygo-fighter/` with no failed resources or browser exceptions; evidence is in ignored `output/playwright/verify-ui.log` and `verify-published-touch.log`.
+- 横幅为 `武道馆当然要比武`，不加标点。模式按钮使用简洁的居中标签，不带导航箭头。帮助与主菜单导航使用与其他控件相同的实心 Button。仅在存在未完成对局时显示继续。
+- 选人界面显示当前的禁选提示与剩余槽位。立绘面板拉伸以匹配相邻的选人区域。中央区域仍然滚动，但隐藏垂直滚动条；页头与操作页脚保持可见。阵容卡片保持方形、居中的人脸；长阵容在手机上横向滚动，并跟随当前槽位。关卡选择排在可折叠的自定义对战规则之前。
+- LAN 入口显示创建/加入的等待反馈、可复制的房间码与连接数。房主控件、草稿确认、缺员与准备状态都有明确说明。
+- 暂停与最终结算沿用现有浮层，包含清晰的继续/重玩/选人/菜单操作。在线客机等待房主重开；返回房间与离开房间是两个不同操作。两名或三名玩家的战斗 HUD 数字与玩家身份保持可读。
+- 加载可以取消。运行时请求失效与渲染器准备世代可防止延迟加载打开已放弃的对局，或裁掉较新对局的美术。
+- 帮助优先呈现基础操作，并用可展开的分节承载细节。对话框标题与关闭控件保持在常规布局中，避免与房间设置重叠。
 
-## Selection and battle flow
+本次视觉改版在六种视口尺寸上通过了 69 项浏览器检查，包括三种乐队切换、完整角色阵容保留、立绘与选人区域高度一致、隐藏滚动条滚动、无边框直角控件、本地练习/暂停流程，以及手机端点按/长按与摇杆释放。Pages 构建也在 `/mygo-fighter/` 下提供服务，没有失败资源或浏览器异常；证据在忽略的 `output/playwright/verify-ui.log` 与 `verify-published-touch.log` 中。
 
-The October 30 update was checked in real Edge browsers at desktop, 390×844 portrait and 844×390 landscape sizes. Evidence under ignored `output/` includes:
+## 选人与对战流程
 
-- `ui-flow/main-report.json`: main-menu band switching, loading cancellation with delayed completion, asset-fetch failure and successful retry.
-- `selection-ux-report.json`: incomplete/complete lineups, mobile 8v8, three-player teams, practice settings, alternating bans/picks and restarting the draft.
-- `ui-flow-battle/report.json` and `report-final.json`: 12 battle checks including both orientations, actual combat results, replay/reselect/menu actions and native touch scrolling in short pause menus.
-- `ui-flow-lan/report.json`: 17 checks through isolated edge/lobby/rooms services, including join failures, clipboard feedback, host permissions, 8v8, bans, two-/three-player real combat and five acknowledged leave requests with cleared browser sessions.
+10 月 30 日的更新已在真实的 Edge 浏览器中于桌面、390×844 竖屏与 844×390 横屏尺寸下检查。忽略的 `output/` 下的证据包括：
 
-The UI update keeps the 160 illustrated touch action assets, all character art, combat rules and ultimate voice/video timing. The render-image checks now cover cancelled/superseded preload generations as well as disposal and resource release.
+- `ui-flow/main-report.json`：主菜单乐队切换、延迟完成时的加载取消、素材拉取失败与成功后重试。
+- `selection-ux-report.json`：不完整/完整阵容、手机 8v8、三人队伍、练习设置、交替禁选与重新开始草稿。
+- `ui-flow-battle/report.json` 与 `report-final.json`：12 项战斗检查，含两种方向、实际战斗结果、重放/重选/菜单操作，以及短暂停菜单中的原生触摸滚动。
+- `ui-flow-lan/report.json`：经由独立的边缘/大厅/房间服务的 17 项检查，包括加入失败、剪贴板反馈、房主权限、8v8、禁选、两人/三人真实战斗，以及五次确认离开请求并清理浏览器会话。
 
-- Local selection and online rooms have a viewport-sized shell, a scrollable central region and a persistent action footer. All roster cards remain together; stage thumbnails scroll horizontally. Short landscape layouts reduce descriptions before reducing usable controls.
-- Lineup slots show compact face portraits and readable names. Online bans and picks use the same persistent footer as readiness, so confirming a draft never requires finding a button below a long character description.
-- Starting a local match, resuming from the menu or marking an online player ready requests fullscreen in the click handler, before asynchronous loading. Browsers require a player gesture. Fullscreen and landscape locking are best effort; denied or unsupported requests still leave a playable viewport-filling battle.
-- Escape and the floating exit button leave fullscreen. Native fullscreen changes are observed, so exiting through browser controls also restores the game toolbar. Menus release orientation locking and fullscreen.
-- Touch controls use a square, unlabeled thumb stick and square illustrated action buttons. The large lower-right attack button sends J on a short tap or K after a 300 ms hold; a straight progress bar and heavy-attack artwork show the hold state. U/I/O occupy the surrounding slots, P is on the right, and L sits beside the joystick at the bottom. Transformation keeps a fixed optional slot. Normal attack is 88–110 CSS pixels, skills are 48–60 pixels, and auxiliary targets are at least 44 pixels. Safe-area padding and a compact short-landscape layout keep targets clear of each other.
-- Existing action frames and finish artwork follow the active character and form. Static crops share cached source images, with portrait fallback; they do not add an animation loop. Diagonal input, movement plus attacks, pointer cancellation, lost capture, blur and unmount have explicit release paths. Pending J/K gestures also cancel on pause, round, character or form changes. The stick's shaded lower zone supports holding to crouch without a swipe. Non-passive touch listeners cancel page gestures only for touches starting on the stick. Chinese accessible names remain available without visible action labels or joystick text.
-- Navigation uses labeled, filled buttons without decorative arrows. The game logo appears once in the main-menu header. Mobile battles have no fullscreen or landscape guidance overlays; fullscreen and orientation requests still run through the existing battle flow.
-- Both health bars use equal-width grid columns and matching safe-area padding. Fullscreen shortcuts have a separate row above the HUD; resonance labels reserve equal space so both resonance rails also remain the same length.
-- The battle latency badge remains outside the hidden toolbar. Online values are the existing measured round-trip time (RTT), not estimated one-way delay. Local play, initial measurement, reconnecting and stalled updates have separate labels.
+本次 UI 更新保留了 160 个手绘触控动作素材、全部角色美术、战斗规则与大招语音/视频时序。渲染图检查现在覆盖被取消/被取代的预载世代，以及销毁与资源释放。
 
-On an ultimate KO, the winning super's background continues while its sentence finishes. The queued finish voice starts the finish video and its one-second art entrance together, so the result does not clear the super into a blank screen or let the art exit before the finish video begins. The finish video stays through its complete sentence, then exits before the next entrance. The last 300 ms of the shared round-end clock waits for presentation completion; online rooms require both authenticated players to acknowledge that KO tick, so slower audio cannot leave one player fighting early. Normal KO timing and reserve-entry energy are unchanged. Silent finish-background videos use the same reviewed source segments as the finish voices, retain original speed and follow the actual voice position. Pause freezes both; sound-off uses the clip duration, and unavailable video leaves the illustration visible.
+- 本地选人与在线房间都有视口大小的外壳、可滚动的中央区域与常驻操作页脚。全部角色卡片保持在一起；关卡缩略图横向滚动。横屏矮布局先压缩说明文字，再压缩可用控件。
+- 阵容槽位显示紧凑的脸部立绘与可读的名字。在线禁选与准备共用同一个常驻页脚，因此确认草稿从不需要在冗长的角色说明下方寻找按钮。
+- 开始本地对局、从菜单继续或把在线玩家标记为准备时，都在点击处理器内、异步加载之前请求全屏。浏览器要求玩家手势。全屏与横屏锁定是尽力而为；被拒绝或不受支持的请求仍会留下可玩的、填满视口的战斗画面。
+- Escape 与浮动退出按钮可退出全屏。原生全屏变化会被监听，因此通过浏览器控件退出也会恢复游戏工具栏。菜单会释放方向锁定与全屏。
+- 触控操作使用方形、无文字的拇指摇杆与方形手绘动作按钮。右下方的大攻击按钮短按发 J、长按 300 ms 后发 K；直线进度条与重攻击美术显示长按状态。U/I/O 占据周围槽位，P 在右侧，L 位于底部摇杆旁。变身保留一个固定的可选槽位。普通攻击为 88–110 CSS 像素，技能为 48–60 像素，辅助目标至少 44 像素。安全区内边距与紧凑的横屏矮布局让各目标彼此不遮挡。
+- 现有动作帧与终结画面美术跟随当前角色与形态。静态裁切共用缓存的源图，并提供立绘兜底；它们不新增动画循环。斜向输入、移动加攻击、指针取消、捕获丢失、失焦与卸载都有明确的释放路径。待处理的 J/K 手势也会在暂停、回合、角色或形态变化时取消。摇杆下方的阴影区支持按住下蹲而无需滑动。非被动触摸监听只对从摇杆开始的触摸取消页面手势。即使没有可见的动作标签或摇杆文字，中文无障碍名称仍然可用。
+- 导航使用带标签的实心按钮，不带装饰性箭头。游戏 Logo 在主菜单页头出现一次。手机端战斗没有全屏或横屏引导浮层；全屏与方向请求仍走现有战斗流程。
+- 两条血条使用等宽的网格列与一致的安全区内边距。全屏快捷键在 HUD 上方单独占一行；共鸣标签预留等宽空间，因此两条共鸣轨也保持等长。
+- 战斗延迟徽标保持在隐藏工具栏之外。在线数值是既有的实测往返时间（RTT），不是估算的单向延迟。本地游玩、首次测量、重连与更新停滞各有单独的标签。
 
-## Browser toolbar limits
+在大招 KO 时，获胜大招的背景会持续到它的台词结束。排队的终结语音同时启动终结视频与其一秒的美术入场，因此结算不会把大招清成空白画面，也不会让美术在终结视频开始前就退出。终结视频贯穿完整台词后，在下一次入场前退出。共享回合结束时钟的最后 300 ms 会等待演出完成；在线房间要求两名已认证玩家都确认该 KO tick，因此较慢的音频不会让某一方提前开打。普通 KO 时序与替补入场能量不变。静音的终结背景视频使用与终结语音相同的已审核源片段，保持原速并跟随实际语音位置。暂停会同时冻结两者；关闭声音时使用片段时长，视频不可用时保留插图可见。
 
-The game requests fullscreen with `navigationUI: "hide"` when supported. A page cannot guarantee removal of browser chrome. The web manifest uses relative `start_url`, `scope` and icon paths with `display: "standalone"`, and Apple web-app metadata is included. On supported mobile browsers, **Add to Home Screen** and launching that shortcut provide a toolbar-free app window. Installation does not enable offline play, and online matches continue to require the server.
+## 浏览器工具栏限制
 
-On iPad Safari, native pan gestures can dismiss fullscreen independently of page scrolling. Holding the joystick’s shaded lower zone lets players crouch without starting that downward swipe; the browser’s explicit fullscreen exit stays available. See the [WebKit fullscreen gesture report](https://bugs.webkit.org/show_bug.cgi?id=227387).
+游戏在支持时以 `navigationUI: "hide"` 请求全屏。页面无法保证移除浏览器界面。Web 清单使用相对的 `start_url`、`scope` 与图标路径，并用 `display: "standalone"`，同时包含 Apple Web App 元数据。在受支持的手机浏览器上，**添加到主屏幕** 并启动该快捷方式可获得无工具栏的应用窗口。安装不会启用离线游玩，在线对局仍然需要服务器。
 
-References: [Fullscreen API requirements](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen), [web manifest display modes](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display).
+在 iPad Safari 上，原生平移手势可以独立于页面滚动来取消全屏。按住摇杆下方的阴影区可让玩家下蹲而不触发该下滑手势；浏览器自带的显式全屏退出仍然可用。参见 [WebKit 全屏手势报告](https://bugs.webkit.org/show_bug.cgi?id=227387)。
 
-## Verification
+参考：[全屏 API 要求](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen)、[Web 清单显示模式](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display)。
 
-Temporary verification scripts and screenshots live under ignored `output/playwright/`; no test directory or new testing dependency is added. Browser checks cover desktop selection and default fullscreen/Escape, 320×568 and 390×844 phones, 844×390 landscape and 1024×768 tablet layouts, simultaneous touch movement and attacks, cancellation, and two independent clients completing online 1v1 play and a 3v3 ban/pick draft. Browser emulation does not establish physical iPhone/iPad toolbar or orientation behavior; those remain subject to the installed browser and OS.
+## 验证
+
+临时验证脚本与截图放在忽略的 `output/playwright/` 下；不新增测试目录或测试依赖。浏览器检查覆盖桌面选人与默认全屏/Escape、320×568 与 390×844 手机、844×390 横屏与 1024×768 平板布局、同时触摸移动与攻击、取消操作，以及两个独立客户端完成在线 1v1 与 3v3 禁选草稿。浏览器模拟无法确定真实 iPhone/iPad 的工具栏或方向行为；这些仍取决于所安装的浏览器与操作系统。

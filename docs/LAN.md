@@ -1,126 +1,123 @@
-# LAN protocol and performance
+**简体中文** | [English](LAN.en.md) | [日本語](LAN.ja.md)
 
-## Timing
+# 局域网协议与性能
 
-- The combat rules advance in fixed **10 ms** steps.
-- Each actively playing room owns a supervised **120 Hz** loop, passing monotonic elapsed time into the kernel. Lobby, paused and fully settled result rooms check at **4 Hz**; load/resume/restart wakes them immediately. Final KO presentation completes before sleeping. A slow room does not hold up a global batch. Room removal signals its loop to stop; application shutdown cancels remaining loops. Expiry cleanup runs separately once per second. A stalled iteration catches up at most 50 ms, preventing an unbounded catch-up spiral.
-- A room lock held by setup or a command skips that room's clock iteration instead of stalling other rooms.
-- Active authoritative snapshots target **60 Hz**. Scheduling retains the fractional interval rather than accumulating timer drift. Paused and settled matches publish at **4 Hz**, with immediate control/final-state publication. Rooms with no connected peers do not serialize snapshots.
-- Native key and touch events send input immediately on one persistent WebSocket. Unchanged input is refreshed every 250 ms. Input changes do not wait for an HTTP response.
-- Local prediction restores authoritative snapshots and replays unconfirmed inputs through the same two-fighter kernel. Input receipt and application have separate acknowledgements. Pending quick taps survive hit freeze. Input history is bounded to two seconds / 600 entries; exhaustion resynchronizes from authority.
-- Rendering uses `requestAnimationFrame`; routine HUD updates are limited to 30 Hz, with immediate lifecycle updates. Health and outcomes come from authority. Small corrections settle visually over 80 ms without moving collision boxes; corrections above 80 world units, teleports, knockouts and lifecycle boundaries snap.
-- The active prediction horizon is `clamp(smoothed RTT + 50 ms, 100 ms, 250 ms)`. Missing active snapshots beyond it freeze prediction and show a warning. Paused/settled matches do not extrapolate and allow 1 second between snapshots before showing a stale-state warning. Socket heartbeats and reconnect checks remain active. Pause, restart, new rounds and reconnection clear replay history.
-- Only the latest unsent state is retained per peer. Each state/event frame is encoded once and shared immutably between both peers; returning to the lobby clears retained state frames. Control messages use a separate bounded queue. Large client-side socket buffers trigger reconnection rather than accumulating input lag.
-- False buttons and zero counters are omitted from input packets. Images, audio and videos are served separately with immutable caching. Only selected battle atlases are loaded before a match.
+## 时序
 
-TCP WebSockets can still delay later messages when a network packet is lost. Actual LAN latency depends on Wi-Fi contention, the host, device rendering and browser scheduling.
+- 战斗规则以固定的 **10 ms** 步长推进。
+- 每个正在对战的房间拥有一个受监督的 **120 Hz** 循环，并把单调递增的已流逝时间传入内核。大厅、暂停中以及已完全结算的结果房间以 **4 Hz** 检查；加载、恢复、重开会立即唤醒它们。最后的 KO 演出在进入休眠前完成。某个房间变慢不会拖住全局批次。删除房间会通知其循环停止；应用关闭时会取消剩余循环。过期清理单独每秒运行一次。某次迭代卡住时最多补 50 ms，避免无上限的追赶螺旋。
+- 由建局或命令持有的房间锁会跳过该房间本轮的时钟迭代，而不是让其他房间因此卡住。
+- 活跃的权威快照目标为 **60 Hz**。调度会保留小数间隔，而不是累积计时器漂移。暂停与已结算的对局以 **4 Hz** 发布，并立即发布控制/终局状态。没有已连接对端的房间不序列化快照。
+- 原生键盘与触摸事件通过一条持久 WebSocket 立即发送输入。未变化的输入每 250 ms 刷新一次。输入变化不等待 HTTP 响应。
+- 本地预测会还原权威快照，并用同一个双人格斗内核重放未确认的输入。输入的接收与应用分别确认。待处理的快速连点可以在命中冻结中保留。输入历史限制为两秒 / 600 条；耗尽后从权威状态重新同步。
+- 渲染使用 `requestAnimationFrame`；常规 HUD 更新限制为 30 Hz，生命周期更新则立即生效。血量与胜负结果来自权威端。小幅修正会在 80 ms 内平滑收敛且不移动碰撞盒；超过 80 世界单位的修正、瞬移、击倒与生命周期边界会直接吸附。
+- 活跃预测视界为 `clamp(smoothed RTT + 50 ms, 100 ms, 250 ms)`。超出该视界仍缺少活跃快照时，冻结预测并显示警告。暂停/已结算的对局不做外推，并允许快照之间相隔 1 秒后才显示过期状态警告。套接字心跳与重连检查保持运行。暂停、重开、新一轮与重连都会清空重放历史。
+- 每个对端只保留最新的未发送状态。每个状态/事件帧只编码一次，并以不可变方式在两个对端之间共享；返回大厅会清空保留的状态帧。控制消息使用单独的有界队列。客户端套接字缓冲区过大时触发重连，而不是累积输入延迟。
+- 输入包会省略为假的按键与为零的计数器。图片、音频与视频单独提供并使用不可变缓存。对局开始前只加载被选中的战斗图集。
 
-## Local runtime cache
+TCP WebSocket 在网络丢包时仍可能延迟后续消息。实际局域网延迟取决于 Wi-Fi 竞争、主机性能、设备渲染与浏览器调度。
 
-The project Scala launcher (`node scripts/scala.mjs`, also used by `npm start` and `npm run lan`) stores sbt's Ivy cache in `output/toolchain/ivy/`. Packaging still uses Ivy's lock even when dependencies download through Coursier. This avoids `failed to create lock file .../.ivy2/.sbt.ivy.lock` on Windows profiles that deny access to the default cache. The launcher creates the ignored project directory automatically; no administrator access or changes to the user profile are required.
+## 本地运行时缓存
 
-`npm start`, `npm run lan` and `sbt run` use the writable project directory `output/polyglot-cache/` for Graal's extracted native resources. This fixes Windows profiles where creating `%LOCALAPPDATA%/org.graalvm.polyglot` is denied and the runtime misleadingly reports a missing `truffleattach` resource. The cache is generated, ignored by Git and recreated when needed. Restart the local backend after updating. Do not suppress the warning with `polyglotimpl.AttachLibraryFailureAction=ignore`; it hides the failed resource extraction. The existing public-service cache settings in [WAN.md](WAN.md) remain separate. A successful extraction alone does not establish that the JVM provides an optimizing JavaScript compiler.
+项目的 Scala 启动器（`node scripts/scala.mjs`，`npm start` 与 `npm run lan` 也使用它）把 sbt 的 Ivy 缓存放在 `output/toolchain/ivy/`。即使依赖通过 Coursier 下载，打包仍然使用 Ivy 的锁。这样可避免在拒绝访问默认缓存的 Windows 用户配置上出现 `failed to create lock file .../.ivy2/.sbt.ivy.lock`。启动器会自动创建这个被 Git 忽略的项目目录；无需管理员权限，也无需修改用户配置。
 
-## HTTP operations
+`npm start`、`npm run lan` 与 `sbt run` 使用可写的项目目录 `output/polyglot-cache/` 存放 Graal 解压出的原生资源。这修复了 Windows 用户配置拒绝创建 `%LOCALAPPDATA%/org.graalvm.polyglot`、导致运行时报出缺少 `truffleattach` 资源的误导性错误。该缓存是生成产物，被 Git 忽略，需要时会重新创建。更新后请重启本地后端。不要用 `polyglotimpl.AttachLibraryFailureAction=ignore` 压制警告；它只会掩盖资源解压失败。现有公网服务的缓存设置（见 [WAN.md](WAN.md)）仍然独立。仅凭解压成功，并不能说明 JVM 提供了可优化的 JavaScript 编译器。
 
-Public callers and Scala messages share these derived names:
+## HTTP 操作
 
-| Message            | POST endpoint      | Identity                                      |
-| ------------------ | ------------------ | --------------------------------------------- |
-| CreateRoomMessage  | `/api/createroom`  | Creates session                               |
-| JoinRoomMessage    | `/api/joinroom`    | Creates session                               |
-| ChooseRoomMessage  | `/api/chooseroom`  | Trusted session; host controls stage          |
-| ReadyRoomMessage   | `/api/readyroom`   | Trusted session                               |
-| LoadedRoomMessage  | `/api/loadedroom`  | Trusted session, generation and attached peer |
-| PauseRoomMessage   | `/api/pauseroom`   | Trusted session; resume requires both peers   |
-| RestartRoomMessage | `/api/restartroom` | Host                                          |
-| FinishRoomMessage  | `/api/finishroom`  | Trusted session and presentation tick         |
-| LobbyRoomMessage   | `/api/lobbyroom`   | Trusted session                               |
-| LeaveRoomMessage   | `/api/leaveroom`   | Revokes session                               |
+公开调用方与 Scala 消息共用这些派生名称：
 
-The public edge forwards these calls to the rooms instance that owns the room
-code; the room messages still run in the rooms process. `GET /api/health`
-identifies the server and timing targets and reports the edge/lobby/rooms
-status. HTTP bodies are limited to 8 KiB. Cross-origin browser requests are
-rejected. Tokens never appear in WebSocket URLs; the shareable room code appears
-as the `/ws?room=CODE` query. See [backend services](SERVICES.md).
+| 消息               | POST 端点          | 身份                           |
+| ------------------ | ------------------ | ------------------------------ |
+| CreateRoomMessage  | `/api/createroom`  | 创建会话                       |
+| JoinRoomMessage    | `/api/joinroom`    | 创建会话                       |
+| ChooseRoomMessage  | `/api/chooseroom`  | 受信会话；房主控制舞台         |
+| ReadyRoomMessage   | `/api/readyroom`   | 受信会话                       |
+| LoadedRoomMessage  | `/api/loadedroom`  | 受信会话、世代号与已挂接对端   |
+| PauseRoomMessage   | `/api/pauseroom`   | 受信会话；恢复需要双方对端在场 |
+| RestartRoomMessage | `/api/restartroom` | 房主                           |
+| FinishRoomMessage  | `/api/finishroom`  | 受信会话与演出 tick            |
+| LobbyRoomMessage   | `/api/lobbyroom`   | 受信会话                       |
+| LeaveRoomMessage   | `/api/leaveroom`   | 吊销会话                       |
 
-## Socket messages
+公网边缘服务会把这些调用转发给拥有该房间码的 rooms 实例；房间消息仍在 rooms 进程中执行。`GET /api/health` 会标明服务器与各项时序目标，并报告 edge/lobby/rooms 的状态。HTTP 请求体上限为 8 KiB。跨源浏览器请求会被拒绝。令牌从不出现在 WebSocket URL 中；可分享的房间码出现在 `/ws?room=CODE` 查询参数里。参见[后端服务](SERVICES.md)。
 
-Connect to `/ws?room=CODE`, then send `{"type":"authenticate","token":"<six-hex-code>.<48 hex>","protocol":25}`. The token's code and the query code must identify the same room. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+## 套接字消息
 
-Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
+先连接到 `/ws?room=CODE`，然后发送 `{"type":"authenticate","token":"<six-hex-code>.<48 hex>","protocol":25}`。令牌中的房间码与查询里的房间码必须指向同一个房间。两端都会用重新加载的提示拒绝不兼容的版本；请把 UI 与服务器一起部署。认证会先解析出受信会话，再挂接套接字。套接字有五秒时间完成认证。后续输入包会对照当前挂接的对端检查，因此被替换的套接字无法继续控制玩家。
 
-Both ready players receive a `prepare` message containing configuration and a generation. Each prepare message also carries the currently attached `peerId`. Both must acknowledge that generation and their own peer ID after preloading images, including a resume after reconnect. The server then creates the authoritative match. Late loading acknowledgements cannot start an outdated match.
+客户端消息为 `authenticate`、`input` 与 `ping`。服务器消息为 `room`、`prepare`、`state`、`events`、`pong` 与 `error`。输入包含单调递增的安全整数 `seq` 与一个 `input` 对象。已知动作、布尔方向与有上限的按键计数器在 Scala 边界处归一化。多余的身份、血量与动作字段没有任何作用。
 
-A state message includes `protocol`, room `generation`, reconciliation `epoch`, monotonic simulation `tick`, server monotonic `time` in milliseconds, authoritative `state`, and the latched `inputState` needed for deterministic replay. Applied/received sequence numbers and input values live in `inputState`; they are not repeated as top-level fields. Unlike `inputTick`, the simulation tick advances during hit freeze and ready/round transitions, and does not reset on restart. Epoch changes invalidate local prediction history within a generation. `serverUpdateMs` measures room update work through snapshot serialization; it excludes transport delivery.
+两名已就绪的玩家都会收到一条 `prepare` 消息，其中包含配置与世代号。每条 prepare 消息还携带当前挂接的 `peerId`。双方都必须在预加载图片之后确认该世代号与自己的 peer ID，重连后的恢复也一样。随后服务器创建权威对局。迟到的加载确认无法启动一个过期的对局。
 
-Presentation events carry `{id, at, event}` in separate reliable `events` batches with generation/epoch metadata. RoomConnection merges batches into client-facing packets; clients deduplicate within each epoch and skip events older than two seconds, including a TCP backlog after a stall. State remains latest-only and contains no repeated event history. Bounded event queues reconnect on overflow instead of silently losing cues. The kernel serializes each state/batch once; Scala adds transport metadata without reparsing it.
+state 消息包含 `protocol`、房间 `generation`、用于对账的 `epoch`、单调仿真 `tick`、以毫秒为单位的服务器单调 `time`、权威 `state`，以及确定性重放所需的锁存 `inputState`。已应用/已接收的序号与输入值都在 `inputState` 中；它们不会作为顶层字段重复出现。与 `inputTick` 不同，仿真 tick 在命中冻结与准备/回合切换期间也会推进，且不会在重开时归零。epoch 变化会让同一世代内的本地预测历史失效。`serverUpdateMs` 衡量房间更新到快照序列化的工作耗时；不包含传输投递。
 
-## Failure behavior
+演出事件以 `{id, at, event}` 的形式放在独立、可靠、带世代/epoch 元数据的 `events` 批次中。RoomConnection 把批次合并成面向客户端的数据包；客户端在每个 epoch 内去重，并跳过超过两秒的事件，包括卡顿后堆积的 TCP 积压。state 始终保持只保留最新，且不重复携带事件历史。有界事件队列在溢出时触发重连，而不是静默丢失演出提示。内核把每个 state/批次只序列化一次；Scala 只添加传输元数据，不重新解析。
 
-Closing a socket releases inputs and pauses the match. The server considers a silent peer disconnected after three seconds without traffic. The browser independently reconnects after four seconds without any server message, or six seconds without server traffic while opening/authenticating. It detaches the old socket immediately rather than waiting for a failed close handshake. Retries back off from 250 ms to 3 seconds. Healthy heartbeat responses keep idle rooms connected.
+## 故障行为
 
-Reconnection replaces the peer, clears that side's loaded flag, pauses the existing simulation even when the old socket has not yet closed, and sends its current configuration. An acknowledgement from a replaced peer cannot complete the new peer's loading. The resume acknowledgement is idempotent and never creates a new match. Continue and restart require both current peers to be connected and loaded; the UI shows the waiting state and disables Continue until then. Players explicitly resume the retained match once both are ready. The browser stores the session in tab-scoped session storage so a refresh can reconnect. Explicit leave removes it and cancels pending preparation/retry work; a late HTTP error cannot reopen the abandoned lobby.
+关闭套接字会释放输入并暂停对局。服务器在无流量三秒后把静默的对端视为断开。浏览器在四秒内完全没有服务器消息，或在打开/认证阶段六秒没有服务器流量时，独立发起重连。它会立即断开旧套接字，而不是等待失败的关闭握手。重试间隔从 250 ms 退避到 3 秒。健康的心跳响应会让空闲房间保持连接。
 
-Protocol 4 adds the current-peer loading barrier. After updating, the host must restart the backend and both browsers must refresh. Incompatible clients/servers, including an older backend's version error, display that instruction rather than silently disagreeing about resume readiness.
+重连会替换对端、清除该侧的已加载标记，即使旧套接字尚未关闭也会暂停现有仿真，并发送当前配置。被替换对端的确认无法完成新对端的加载。恢复确认是幂等的，且绝不会创建新对局。继续与重开要求当前双方都已连接并加载完成；在此之前 UI 显示等待状态并禁用继续按钮。双方都就绪后，玩家需要显式恢复保留的对局。浏览器把会话存放在标签页级 session storage 中，因此刷新后可以重连。显式离开会清除该会话并取消待处理的准备/重试工作；迟到的 HTTP 错误无法重新打开已放弃的大厅。
 
-Protocol 5 adds Viola as character 15, expanding the roster to 16 characters. Room selection, team validation and the shared simulation all accept her. Older clients lack her move definitions and artwork, so the version check rejects mixed installations before play; restart the host and refresh both clients after updating.
+协议 4 引入了当前对端的加载屏障。更新后房主必须重启后端，并且两个浏览器都要刷新。不兼容的客户端/服务器（包括旧后端给出的版本错误）会显示这条指示，而不是在恢复就绪状态上静默地各说各话。
 
-Protocol 6 carries Taki's revised drum kit, including `rikiEightBoost` and the four-pulse super timing. An older client cannot animate that enhanced attack or predict its damage correctly; update the host and both browsers together.
+协议 5 加入薇欧拉作为第 15 名角色，把角色阵容扩展到 16 名。房间选人、队伍校验与共享仿真都接受她。旧客户端没有她的招式定义与美术资源，因此版本检查会在开战前拒绝混合安装；更新后请重启主机并刷新两个客户端。
 
-Protocol 7 carries Rana's two-hit cat step, revised parfait trajectory, cheaper four-note solo and faster three-hit super. Older clients predict different timings and projectile paths; restart the host and refresh both browsers after updating.
+协议 6 携带立希修订后的鼓组，包括 `rikiEightBoost` 与四段脉冲的大招时序。旧客户端无法播放这一强化攻击的动画，也无法正确预测其伤害；请一起更新主机与两个浏览器。
 
-Protocol 8 adds the server-owned ban/pick lobby. `RoomView.draft` is null in ordinary 1v1/3v3, or contains `bans`, `phase` (`ban`, `pick`, `complete`) and `turn` (0, 1 or null). The host enables it with `ChooseRoomMessage` fields `format: "3v3", draft: true`. Both teams are cleared; player 1 bans once, player 2 bans once, then they alternate six picks. Bans apply to both players and each picked character is exclusive across both teams. Each `ban` or `pick` command contains one character ID and cannot also change a team or room settings. The server validates the current turn, stage, both connections, character IDs and availability under the room lock. Ordinary modes retain mirrored opposing lineups.
+协议 7 携带乐奈的两段猫步、修订后的巴菲弹道、消耗更低的四音独奏以及更快的三段大招。旧客户端会预测出不同的时序与飞行道具路径；更新后请重启主机并刷新两个浏览器。
 
-Ban/pick completion gates readiness and the existing loading barrier; the ordered teams enter the unchanged 3v3 relay kernel. Socket replacement or browser refresh preserves the draft. Explicit reselect, an explicit player leave or the host's **重新禁选** action starts fresh. Map/terrain changes preserve bans and picks but clear readiness. Only the host changes modes, shared rules or resets the draft. Local audio preferences remain separate and are preserved when entering a network match. The lobby and local selection share square roster cards, character/form previews and ordered team slots; confirmations prevent an accidental click from committing a ban.
+协议 8 加入由服务器负责的禁用/选人（ban/pick）大厅。普通 1v1/3v3 下 `RoomView.draft` 为 null，否则包含 `bans`、`phase`（`ban`、`pick`、`complete`）与 `turn`（0、1 或 null）。房主通过 `ChooseRoomMessage` 的 `format: "3v3", draft: true` 字段启用它。双方阵容都会被清空；1P 禁用一次，2P 禁用一次，随后双方轮流选人六次。禁用的角色对双方都生效，每个被选中的角色在两支队伍之间互斥。每条 `ban` 或 `pick` 命令只包含一个角色 ID，且不能同时修改队伍或房间设置。服务器在房间锁内校验当前轮到谁、舞台、双方连接、角色 ID 与可用性。普通模式仍保留双方镜像的阵容。
 
-Protocol 9 adds synchronized character entrances. The existing ready phase lasts 2750 ms: 2100 ms of character-specific presentation followed by 650 ms of READY. `entrySides` is serialized with `phaseMs`; renderers derive pose, movement and effects from this shared clock rather than replaying a local event. Pause freezes it and a replacement socket resumes its current progress. A 3v3 survivor keeps HP/resonance and skips the entrance; only new reserves perform. Actual fighter coordinates, resource values and attack/hitbox state remain untouched until combat begins. Reduced-motion renderers show a static pose and label. Restart the host and refresh both browsers together after updating.
+完成禁用/选人后才会进入就绪与现有的加载屏障；有序队伍随后进入未改动的 3v3 接力内核。替换套接字或刷新浏览器都会保留禁用/选人进度。显式的重新选人、玩家显式离开，或房主执行 **重新禁选** 操作，都会从头开始。切换地图或地形会保留禁用与选人结果，但会清除就绪状态。只有房主可以切换模式、共享规则或重置禁用/选人。本地音频偏好独立存在，并在进入联机对局时保留。大厅与本地选人共用方形角色卡、角色/形态预览与有序阵容格；确认操作可避免误点直接提交一次禁用。
 
-Protocol 10 restores Mujica and MewType standing J chains through the shared command resolver. Repeated J selects the existing opener, Jab2 and Jab3 for the current character/form; touch repeat uses the same path. MyGO and Penguin retain their existing three-hit mapping. Recovery, damage, resonance, crouching/air normals and K heavy attacks keep their authored rules. Clients and the host must update together so prediction follows the same attack names.
+协议 9 加入同步的角色入场。原有就绪阶段持续 2750 ms：先是 2100 ms 的角色专属演出，随后是 650 ms 的 READY。`entrySides` 与 `phaseMs` 一起序列化；渲染端从这个共享时钟推导姿势、位移与特效，而不是重放本地事件。暂停会冻结它，替换的套接字会从当前进度继续。3v3 的留场角色保留血量/共鸣并跳过入场；只有新上场的替补表演。真正的角色坐标、资源值与攻击/受击框状态在战斗开始前保持不变。减少动态效果的渲染端会显示静态姿势与标签。更新后请一起重启主机并刷新两个浏览器。
 
-Protocol 11 separates reliable presentation-event batches from latest-only state snapshots. `events` frames contain generation/epoch metadata and are merged into client-facing packets by RoomConnection; acknowledgements and latched controls live in `inputState`. See [performance notes](PERFORMANCE.md).
+协议 10 通过共享的指令解析器恢复 Mujica 与 MewType 的站立 J 连段。连续按 J 会按当前角色/形态选择现有的起手、Jab2 与 Jab3；触摸端的连按走同一条路径。MyGO 与 Penguin 保留原有的三段映射。硬直、伤害、共鸣、蹲/空中普通攻击与 K 重攻击维持既定规则。客户端必须与主机一起更新，预测才会跟随相同的攻击名称。
 
-Protocol 12 introduces the revised two-tier terrain and uniform normal hitboxes while retaining protocol 11's transport. All three J stages and crouching/air normals share 200 forward reach and 240 height tolerance. K uses 1.2 times those dimensions. Mujica stage normals multiply the current J/K dimensions by 1.1. Every map now has long platforms at heights 144/288 and ground terraces accessible on foot from both sides. Stage source, browser manifest and server terrain agree; restart the rebuilt host and refresh both clients together after updating.
+协议 11 把可靠的演出事件批次与只保留最新状态的快照分开。`events` 帧包含世代/epoch 元数据，由 RoomConnection 合并成面向客户端的数据包；确认与锁存的控制输入放在 `inputState` 中。参见[性能说明](PERFORMANCE.md)。
 
-Returning to the lobby closes the old simulation context and increments the generation. Room errors return that room to the lobby. Empty rooms are removed on leave; inactive rooms and their sessions expire after 30 minutes. Shutdown closes every simulation context.
+协议 12 引入修订后的双层地形与统一的普通攻击判定框，同时保留协议 11 的传输方式。三段 J 与蹲/空中普通攻击共用 200 的前向攻击距离与 240 的高度容差。K 使用这些尺寸的 1.2 倍。Mujica 形态的普通攻击把当前 J/K 尺寸乘以 1.1。现在每个地图都在高度 144/288 处有长平台，并有可从两侧步行到达的地面台地。关卡源数据、浏览器清单与服务器地形保持一致；更新后请重启重新构建的主机并刷新两个客户端。
 
-The default LAN deployment uses plain HTTP. Public deployments use a same-origin HTTPS proxy and the limits described in [WAN hosting](WAN.md). Both deployments use temporary room sessions rather than accounts. Rooms with no connected peers expire after two minutes; a reconnect within that window restores the existing session. The existing 30-minute inactivity expiry also applies.
+返回大厅会关闭旧的仿真上下文并递增世代号。房间错误会把该房间送回大厅。空房间在离开时被删除；不活跃的房间及其会话在 30 分钟后过期。关闭服务会关闭所有仿真上下文。
 
-## Diagnostics and verification
+默认的局域网部署使用明文 HTTP。公网部署使用同源 HTTPS 代理，并采用[公网部署](WAN.md)中描述的限额。两种部署都使用临时房间会话，而不是账号。没有已连接对端的房间在两分钟后过期；在此期间重连会恢复现有会话。原有的 30 分钟不活跃过期同样适用。
 
-Add `?diagnostics=1` to the game URL to display rolling p95 frame times, correction distance, snapshot gaps/bytes, server update time, input-to-simulation-step delay and input-to-visible-motion delay. The same samples are exposed as `window.mygoDiagnostics` for browser inspection. Diagnostics are off by default. Motion samples can include legitimate attack recovery, obstruction or hit freeze; the former browser acceptance check separately measured unobstructed movement before combat.
+## 诊断与验证
 
-Before changing the LAN protocol, run `npm run check`, `npm run build` and `npm run check:backend`. With the Scala server running, verify two clients creating/joining a room, selecting teams, completing the loading barrier, moving, pausing, restarting and reconnecting. Use `?diagnostics=1` to inspect frame timing and corrections during play. The former automated test suites have been removed; save local verification artifacts under the ignored `output/` directory.
+在游戏 URL 后加上 `?diagnostics=1`，即可显示滚动的 p95 帧时间、修正距离、快照间隔/字节数、服务器更新时间、输入到仿真步的延迟以及输入到可见位移的延迟。同样的采样会通过 `window.mygoDiagnostics` 暴露给浏览器检查。诊断默认关闭。位移采样可能包含正常的攻击硬直、被阻挡或命中冻结；以前的浏览器验收检查会在开战前单独测量无阻挡移动。
 
-Historical measurements from the earlier regression harness follow. The deterministic prediction trace compares the old overwrite algorithm against reconciliation using identical inputs and network timing; it is not a second full build benchmark. The real-server `baseline` report was captured before these changes. On an Apple M4 Pro (14 cores), four-room p95 snapshot delivery gaps remained about 24 ms under injected jitter, similar to one room; p95 server update work was approximately 1.0–1.1 ms. Reconciliation reduced maximum correction distance in all three synthetic traces; p95 correction distance improved at 80 ms and was effectively unchanged at 20/150 ms. Retaining events and replay metadata increased typical combat snapshots from about 2.8 KB to 5.1 KB. This intentionally trades bandwidth for recovery of cues; it is not a bandwidth reduction claim or a guarantee for slower hosts.
+修改局域网协议前，请运行 `npm run check`、`npm run build` 与 `npm run check:backend`。在 Scala 服务器运行时，验证两个客户端创建/加入房间、选择队伍、完成加载屏障、移动、暂停、重开与重连。游玩过程中用 `?diagnostics=1` 检查帧时序与修正。以前的自动化测试套件已删除；本地验证产物请保存在被 Git 忽略的 `output/` 目录下。
 
-## 3v3 relay
+以下是早期回归工具的历史测量数据。确定性预测轨迹在相同输入与网络时序下比较旧的覆盖式算法与对账机制；它不是第二次完整构建基准。真实服务器的 `baseline` 报告是在这些改动之前采集的。在 Apple M4 Pro（14 核）上，注入抖动后四房间的 p95 快照投递间隔仍约为 24 ms，与单房间相近；p95 服务器更新工作约为 1.0–1.1 ms。对账机制在三条合成轨迹中都降低了最大修正距离；p95 修正距离在 80 ms 下有所改善，在 20/150 ms 下基本不变。保留事件与重放元数据使典型战斗快照从约 2.8 KB 增加到 5.1 KB。这是有意用带宽换取演出提示的可恢复性；它既不是带宽下降的说法，也不为更慢的主机提供保证。
 
-The host selects `format` (`1v1` or `3v3`) in the lobby. Each player submits an ordered `team` array through ChooseRoomMessage. Teams contain distinct character IDs (0–15), with one or three required before ready. Partial teams can be edited, but cannot ready. Any selection or rule change clears both ready flags and increments the generation. Only the host can change format, arena or terrain.
+## 3v3 接力
 
-The prepare configuration includes both teams and the format; clients preload all six fighters and forms. The shared server simulation advances the defeated side after the finish animation, retains the surviving fighter’s HP and energy, and ends only when one team is exhausted. Snapshots carry team indices, reserves and the current fighters. Restart resets both teams; returning to the lobby preserves selections for editing and clears readiness. Reconnect restores the existing authoritative match and its team progression.
+房主在大厅选择 `format`（`1v1` 或 `3v3`）。每名玩家通过 ChooseRoomMessage 提交一个有序的 `team` 数组。队伍包含互不相同的角色 ID（0–15），就绪前需要一名或三名角色。不完整的队伍可以继续编辑，但不能就绪。任何选人或规则改动都会清除双方的已就绪标记并递增世代号。只有房主可以修改格式、竞技场或地形。
 
-When reviewing relay changes, verify host-only rules, ordered teams, readiness, survivor HP/energy carry-over, match completion and reconnect restoration with two browsers against the same server.
+prepare 配置包含双方队伍与格式；客户端会预加载全部六名角色及其形态。共享的服务器仿真在终结演出之后推进被击败的一方，保留留场角色的血量与能量，并且只有在一方队伍耗尽时才结束。快照携带队伍索引、替补与当前角色。重开会把双方队伍重置；返回大厅会保留选人结果以便继续编辑，并清除就绪状态。重连会恢复现有的权威对局及其队伍推进进度。
 
-## Recovery verification — 2026-10-25
+审阅接力相关改动时，请用两个浏览器连接同一台服务器，验证房主专属规则、有序队伍、就绪、留场角色血量/能量继承、对局完成与重连恢复。
 
-This update reproduced two failures before editing: a socket with no incoming traffic never entered reconnect, and the server accepted Continue while a replacement browser had not acknowledged its assets. Verification covered eight deterministic client lifecycle cases, a real-server 3v3 match with an actual KO and reserve fighter, rejection of early Continue and stale-peer acknowledgements, idempotent resume acknowledgement, and retained teams/HP/resonance. Two isolated real browsers also exercised movement, pause/restart, incoming-message blackout, automatic reconnect, refresh and returning to the lobby. A delayed loading request verified the visible wait message and disabled Continue button. The temporary harnesses and screenshots were subsequently cleaned up. Frontend/asset/build and Scala compilation/format checks remain required; keep future temporary verification output in the ignored `output/` directory.
+## 重连修复验证 — 2026-10-25
 
-## Skill completion, protocol 13
+本次更新在改动前复现了两个故障：没有任何入站流量的套接字从未进入重连，以及替换后的浏览器尚未确认资源时服务器却接受了继续。验证覆盖八种确定性客户端生命周期用例、一场含真实 KO 与替补角色的真实服务器 3v3 对局、提前继续与过期对端确认的拒绝、幂等的恢复确认，以及保留的队伍/血量/共鸣。两个相互隔离的真实浏览器还演练了移动、暂停/重开、入站消息中断、自动重连、刷新与返回大厅。延迟的加载请求验证了可见的等待提示与被禁用的继续按钮。临时工具与截图随后已清理。前端/资源/构建与 Scala 编译/格式检查仍然是必需的；今后的临时验证输出请保存在被 Git 忽略的 `output/` 目录。
 
-Protocol 13 adds recovery waves to uncontested counter stances and a damaging impact to normal Uika I. After a counter window ends, its stance releases one existing counter projectile at half base damage, 180 ms stun and half push. A successful parry still emits the full original response and ends the stance; an interrupted stance emits no recovery wave. The existing hit flag and projectile impact fields are serialized for deterministic prediction. The new `counterRelease` presentation event uses the reliable event lane. Deploy UI and server together, restart LAN hosts and refresh both clients after updating. Protocol 12 clients are rejected rather than predicting the old combat rules.
+## 技能补完，协议 13
 
-## Backward skill commands, protocol 14
+协议 13 为无人应对的架招姿态加入反击余波，并给初华的普通 I 加入一次有伤害的冲击。架招窗口结束后，其姿态会释放一枚现有的架招飞行道具，伤害为基础值的一半、180 ms 眩晕与一半推力。成功弹反仍会发出完整的原有回应并结束姿态；被打断的姿态不会发出余波。现有的命中标记与飞行道具冲击字段会被序列化，用于确定性预测。新的 `counterRelease` 演出事件使用可靠事件通道。请一起部署 UI 与服务器，更新后重启局域网主机并刷新两个客户端。协议 12 的客户端会被拒绝，而不是按旧的战斗规则进行预测。
 
-Every character/form now explicitly maps backward U/I/O to a quick wave, a heavy wave and a lobbed projectile. These 66 moves use the existing serializable projectile velocity/gravity/impact fields, and captured press directions remain authoritative for resolving the command. Forward O retains the universal close throw. Protocol 14 prevents clients using the earlier backward-throw or base-skill mappings from joining the updated kernel. Update the host and both clients together, then restart the host and refresh both browsers.
+## 后向技能指令，协议 14
 
-## Wider stages, protocol 15
+现在每个角色/形态都显式地把后向 U/I/O 映射为快速波、重波与抛射飞行道具。这 66 个招式使用现有的可序列化飞行道具速度/重力/冲击字段，捕获的按键方向在解析指令时仍然是权威依据。前向 O 保留通用的近身投技。协议 14 阻止仍使用早期后向投技或基础技能映射的客户端加入更新后的内核。请一起更新主机与两个客户端，然后重启主机并刷新两个浏览器。
 
-The world now spans -900 to 1860 (2760 units, 15% wider) with 180 extra units at each side. All 15 source/browser/server ground endpoints match the new bounds. Existing interior steps, platform heights and platform lengths are retained. Camera fitting, movement, blinking, summons and world-spanning tracking waves derive their bounds from the shared world data. Protocol 15 keeps earlier clients from predicting the old edge positions; restart the updated LAN host and refresh both clients.
+## 更宽的舞台，协议 15
 
-## Ultimate finishes and reserve energy, protocol 16
+世界范围现在是 -900 到 1860（2760 单位，宽了 15%），两侧各多出 180 单位。全部 15 个关卡源数据/浏览器/服务器的地面端点都与新边界一致。现有的内部台阶、平台高度与平台长度保持不变。镜头适配、移动、瞬步、召唤物与横跨世界的追踪波都从共享世界数据推导边界。协议 15 阻止旧客户端按旧的边缘位置预测；请重启更新后的局域网主机并刷新两个客户端。
 
-A lethal super records its attack, owner and form in the shared simulation. RoundEnd freezes that identity for the existing 3200 ms result sequence; normal KOs, draws and time-over results do not trigger an ultimate finish. At 700 ms, one reliable ultimateFinish event accompanies the portrait cut-in, character-color burst and original super voice. A sentence already playing continues instead of restarting. Pause freezes the shared presentation clock; reconnect restores the art state without replaying an already-consumed cue. Prediction clears optional lethal metadata when restoring a live fighter snapshot.
+## 奥义终结与替补能量，协议 16
 
-In 3v3, each side's second and third entrants start with 30 resonance. Surviving fighters retain their actual HP and resonance. First entrants and full-match restarts retain their previous starting rules. Update and restart the host and refresh both clients together; protocol 16 rejects older combat rules.
+致命的大招会在共享仿真中记录其攻击、所属角色与形态。RoundEnd 为现有的 3200 ms 结算序列冻结这份身份信息；普通 KO、平局与时间到的结果不会触发奥义终结。在 700 ms 时，一条可靠的 ultimateFinish 事件伴随立绘切入、角色配色爆发与原版大招语音。正在播放的一句语音会继续，而不是重新开始。暂停会冻结共享的演出时钟；重连会恢复美术状态，但不重放已经消费过的演出提示。预测在还原存活角色快照时会清除可选的致命元数据。
+
+在 3v3 中，双方的第二、第三名上场角色以 30 点共鸣开局。留场角色保留其实际血量与共鸣。首名上场角色与整场重开沿用之前的开局规则。请一起更新并重启主机、刷新两个客户端；协议 16 会拒绝更旧的战斗规则。

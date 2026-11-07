@@ -4,7 +4,7 @@
 
 This is character design material for the assistant to read. Once it has been filled in, the assistant wires the character, actions, skills and media into the game following the existing architecture.
 
-A prepared set of character material: [the five Poppin'Party members](poppinparty.md) (not wired into the game yet).
+A prepared set of character material: [the five Poppin'Party members](poppinparty.en.md) (not wired into the game yet).
 
 ## The simplest way to use it
 
@@ -108,7 +108,7 @@ Portraits use the source work's 2D face and normal build, with clearly different
 
 ## Integration points for the assistant
 
-The material is design input, not a runtime configuration to import directly. For integration points and the verification workflow, see [BANDS.md](../BANDS.md) and the in-project skill.
+The material is design input, not a runtime configuration to import directly. For integration points and the verification workflow, see [BANDS.md](../BANDS.en.md) and the in-project skill.
 
 - Read the current registry first and preserve existing character IDs and published move keys; bump the frontend/backend protocol in step when the roster changes.
 - The ID ranges of an existing band must stay contiguous. A non-final group cannot take a new ID appended directly; choose a compatible registration plan instead of silently reordering old characters.

@@ -12,6 +12,6 @@
 
 各グループの完全なプロンプトと参照画像のパスは `mygo-prompts.json`、`mujica-prompts.json`、`nyamu-prompts.json`、`mewtype-prompts.json` にあります。生成モードはすべて内蔵 image_gen の edit で、1 枚ずつ確認して検収しています。
 
-新しいフィニッシュボイスは各キャラクター 1 本で、ネット上の原作アニメで本人が話したセリフから取っています。出典、切り出し時間、話者、確認の根拠は [sources-voices.json](sources-voices.json)、説明は [voices/README.md](voices/README.md) にあります。Mujica の 2 形態と燈のペンギン形態は、それぞれ本人のフィニッシュセリフを共有します。ボイスは原速のままで、既存のスキル用の断片とは異なります。必殺技のセリフがまだ再生中の場合は、フィニッシュセリフが順番に続くため、重なりや途切れは起きません。
+新しいフィニッシュボイスは各キャラクター 1 本で、ネット上の原作アニメで本人が話したセリフから取っています。出典、切り出し時間、話者、確認の根拠は [sources-voices.json](sources-voices.json)、説明は [voices/README.md](voices/README.ja.md) にあります。Mujica の 2 形態と燈のペンギン形態は、それぞれ本人のフィニッシュセリフを共有します。ボイスは原速のままで、既存のスキル用の断片とは異なります。必殺技のセリフがまだ再生中の場合は、フィニッシュセリフが順番に続くため、重なりや途切れは起きません。
 
-`python tools/build_finish_assets.py` を実行すると実行時アセットを更新できます。`ultimateFinishes[character][form]` はシーン画像、フィニッシュボイスのキー、中国語のセリフ、無音の背景動画、再生時間を設定し、`finishVoices` はフィニッシュ音声トラックを保持します。[背景動画の説明](videos/README.md) と [原映像の記録](sources-videos.json) は同じセリフに対応しています。奥義画像は元の必殺技ボイスとフィニッシュボイスが最後まで再生されてから退場します。オンライン対戦では双方の再生が終わってから次のバトルに進み、ダメージ判定は変わりません。
+`python tools/build_finish_assets.py` を実行すると実行時アセットを更新できます。`ultimateFinishes[character][form]` はシーン画像、フィニッシュボイスのキー、中国語のセリフ、無音の背景動画、再生時間を設定し、`finishVoices` はフィニッシュ音声トラックを保持します。[背景動画の説明](videos/README.ja.md) と [原映像の記録](sources-videos.json) は同じセリフに対応しています。奥義画像は元の必殺技ボイスとフィニッシュボイスが最後まで再生されてから退場します。オンライン対戦では双方の再生が終わってから次のバトルに進み、ダメージ判定は変わりません。

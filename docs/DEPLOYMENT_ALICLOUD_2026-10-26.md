@@ -1,40 +1,42 @@
-# AliCloud deployment — 2026-10-26
+**简体中文** | [English](DEPLOYMENT_ALICLOUD_2026-10-26.en.md) | [日本語](DEPLOYMENT_ALICLOUD_2026-10-26.ja.md)
 
-Historical deployment record. The [current deployment and capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) supersedes the active-release and rollback information below; all older server releases have been deleted.
+# 阿里云部署 — 2026-10-26
 
-This is the historical protocol-10 deployment record. See the [protocol-12 deployment and performance audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) for the subsequent protocol-12 release and verification.
+历史部署记录。[当前部署与容量记录](DEPLOYMENT_CAPACITY_2026-10-27.md) 已替代下文的活动版本与回滚信息；更早的服务器版本均已删除。
 
-The latest application backend and matching frontend are live on the AliCloud Beijing host. The game service and HTTPS proxy are enabled at boot. The load check ended at the user's request after approximately nine minutes; the deployment remains active.
+这是历史协议 10 部署记录。后续协议 12 的发布与验证见[协议 12 部署与性能审计](DEPLOYMENT_PERFORMANCE_2026-10-26.md)。
 
-## Release and access
+最新应用后端与配套前端已在阿里云北京主机上线。游戏服务与 HTTPS 代理开机自启。负载检查在用户要求下于约九分钟后结束，部署保持运行。
 
-| Item               | Value                                                    |
-| ------------------ | -------------------------------------------------------- |
-| Game URL           | <https://mygo-123-57-149-254.sslip.io/>                  |
-| Health URL         | <https://mygo-123-57-149-254.sslip.io/api/health>        |
-| SSH alias          | `alicloud` (`123.57.149.254`)                            |
-| Host               | Ubuntu 24.04, x86-64, approximately 1.6 GiB RAM          |
-| Application commit | `6d3d1363e3602ce694928261426da1bc4aa573b0`               |
-| Release ID         | `20261026-6d3d136-protocol10`                            |
-| WebSocket protocol | `10`                                                     |
-| Capacity setting   | Two rooms / four players                                 |
-| Java               | OpenJDK 21                                               |
-| Service            | `mygo-fighter.service`                                   |
-| HTTPS proxy        | `caddy.service`, with a public Let's Encrypt certificate |
+## 发布与访问
 
-The uploaded `mygo-server-2.0.0.tgz` was verified against its local SHA-256 before activation:
+| 项目           | 值                                                |
+| -------------- | ------------------------------------------------- |
+| 游戏地址       | <https://mygo-123-57-149-254.sslip.io/>           |
+| 健康检查地址   | <https://mygo-123-57-149-254.sslip.io/api/health> |
+| SSH 别名       | `alicloud`（`123.57.149.254`）                    |
+| 主机           | Ubuntu 24.04，x86-64，约 1.6 GiB 内存             |
+| 应用提交       | `6d3d1363e3602ce694928261426da1bc4aa573b0`        |
+| 发布 ID        | `20261026-6d3d136-protocol10`                     |
+| WebSocket 协议 | `10`                                              |
+| 容量设置       | 两个房间 / 四名玩家                               |
+| Java           | OpenJDK 21                                        |
+| 服务           | `mygo-fighter.service`                            |
+| HTTPS 代理     | `caddy.service`，使用公开的 Let's Encrypt 证书    |
+
+上传的 `mygo-server-2.0.0.tgz` 在启用前已与本地 SHA-256 校验一致：
 
 ```text
 d3c663e373a39f9be0c79a0cf884483d9f45f05c680e5f37a54b156f1431844e
 ```
 
-## Deployment configuration
+## 部署配置
 
-The release lives in `/srv/mygo-fighter/releases/20261026-6d3d136-protocol10`. The `/srv/mygo-fighter/current` link selects the active release. A `deployment.json` file in that release records the application commit, archive checksum, protocol and hosting service checksum.
+发布位于 `/srv/mygo-fighter/releases/20261026-6d3d136-protocol10`。`/srv/mygo-fighter/current` 链接指向活动发布。该发布中的 `deployment.json` 记录应用提交、归档校验和、协议与托管服务校验和。
 
-Runtime settings are in `/etc/mygo-fighter.env`:
+运行时设置位于 `/etc/mygo-fighter.env`：
 
-| Setting             | Value                           |
+| 设置                | 值                              |
 | ------------------- | ------------------------------- |
 | `HOST`              | `127.0.0.1`                     |
 | `PORT`              | `8080`                          |
@@ -42,36 +44,36 @@ Runtime settings are in `/etc/mygo-fighter.env`:
 | `MAX_ROOMS`         | `2`                             |
 | `TRUST_LOCAL_PROXY` | `true`                          |
 
-Caddy serves public TCP 80/443, redirects HTTP to HTTPS and forwards HTTP/WebSockets to the loopback backend. The AliCloud instance firewall already allowed these public web ports. The JVM uses a 64 MiB initial heap, a 256 MiB maximum heap and a 512 MiB service memory limit.
+Caddy 提供公网 TCP 80/443 服务，将 HTTP 重定向到 HTTPS，并把 HTTP/WebSocket 转发到回环后端。阿里云实例防火墙已放行这些公网 Web 端口。JVM 使用 64 MiB 初始堆、256 MiB 最大堆与 512 MiB 服务内存上限。
 
-First-use verification found that GraalJS could not create `/srv/mygo-fighter/.cache` under the restricted service account. The service now uses `CacheDirectory=mygo-fighter` and `XDG_CACHE_HOME=/var/cache/mygo-fighter`. The native resource cache is writable, while the application release and service home remain read-only. The misleading missing-`truffleattach` warning disappeared after applying this configuration.
+首次使用验证发现 GraalJS 在受限服务账号下无法创建 `/srv/mygo-fighter/.cache`。服务现使用 `CacheDirectory=mygo-fighter` 与 `XDG_CACHE_HOME=/var/cache/mygo-fighter`。原生资源缓存可写，而应用发布与服务主目录保持只读。应用该配置后，误导性的缺少 `truffleattach` 警告消失。
 
-## Verification completed
+## 已完成的验证
 
-- TypeScript, media, combat kernel and protocol checks passed with `npm run check`; normal and Pages builds passed. The Pages build loaded under `/mygo-fighter/` in a browser.
-- The previously validated Scala/JVM distribution started successfully on AliCloud. Public HTTPS health checks identify `mygo-scala`, with 120 Hz simulation and 60 Hz snapshots.
-- Two isolated browsers created/joined a room, loaded the match, moved, applied damage, reconnected after a page refresh and resumed with health preserved. Browser consoles had no errors or warnings.
-- All 279 runtime media paths were checked over public HTTPS against the matching local content. The asset manifest also matched.
-- Four WebSocket clients exercised two simultaneous rooms: Taki/Rana 1v1 and a separate 3v3 relay. Room isolation, host-only actions, invalid/full rooms, invalid sessions, old-protocol rejection, pause/resume, reconnect, damage and reserve progression were observed.
-- Origin rejection, the HTTP body limit, room/handshake rate limits, forwarded-address handling and recovery after the rate-limit window passed.
+- TypeScript、媒体、战斗内核与协议检查均通过 `npm run check`；普通构建与 Pages 构建均通过。Pages 构建在浏览器中以 `/mygo-fighter/` 路径加载。
+- 此前已验证的 Scala/JVM 发行包在阿里云上成功启动。公网 HTTPS 健康检查标识为 `mygo-scala`，模拟 120 Hz、快照 60 Hz。
+- 两个隔离浏览器创建/加入房间，加载对局、移动、造成伤害，页面刷新后重连并保留生命值继续。浏览器控制台无错误或警告。
+- 全部 279 个运行时媒体路径经公网 HTTPS 与本地对应内容核对一致，素材清单也一致。
+- 四个 WebSocket 客户端压测两个同时进行的房间：立希/乐奈 1v1 与独立的 3v3 接力。观察到房间隔离、仅房主可执行的操作、无效/满员房间、无效会话、旧协议拒绝、暂停/恢复、重连、伤害与候补推进。
+- 来源拒绝、HTTP 请求体上限、房间/握手限流、转发地址处理以及限流窗口后的恢复均通过。
 
-The final verification window was **18:37:10–18:46:26 Asia/Shanghai** (approximately **9 minutes 16 seconds**, including setup and reconnect checks). The user requested that the test end at that point.
+最终验证窗口为 **18:37:10–18:46:26（Asia/Shanghai）**（约 **9 分 16 秒**，含初始化与重连检查）。用户要求在此结束测试。
 
-| Observed result                           | Value                            |
-| ----------------------------------------- | -------------------------------- |
-| Snapshots received per client             | 32,981–33,109                    |
-| Unexpected client disconnects             | 0                                |
-| Client protocol/transport errors          | 0                                |
-| Automatic service restarts                | 0                                |
-| Service peak memory at final health check | Approximately 321 MiB of 512 MiB |
-| Client RTT p95                            | 51.4–54.1 ms                     |
-| Server update work p95                    | 2.87–3.38 ms                     |
+| 观察结果                     | 值                   |
+| ---------------------------- | -------------------- |
+| 每个客户端收到的快照         | 32,981–33,109        |
+| 意外的客户端断开             | 0                    |
+| 客户端协议/传输错误          | 0                    |
+| 服务自动重启                 | 0                    |
+| 最终健康检查时的服务峰值内存 | 约 321 MiB / 512 MiB |
+| 客户端 RTT p95               | 51.4–54.1 ms         |
+| 服务端更新耗时 p95           | 2.87–3.38 ms         |
 
-These timing values describe this run from the development machine, rather than a capacity guarantee. The full 15-minute target and the subsequent two-minute abandoned-room expiry check were not completed. The checker recorded an intentional interruption; it was not an application failure. All four verification sessions explicitly left their rooms, and both room codes were confirmed removed. The service remained healthy afterward.
+这些时序数值描述的是本次从开发机发起的运行，而非容量保证。完整的 15 分钟目标与随后的两分钟废弃房间过期检查尚未完成。检查器记录了人为中断，并非应用故障。四个验证会话均显式离开房间，两个房间码均确认被移除。此后服务保持健康。
 
-Temporary logs, reports and screenshots are in the ignored `output/alicloud/` directory.
+临时日志、报告与截图位于忽略目录 `output/alicloud/`。
 
-## Operations and future deployments
+## 运维与后续部署
 
 ```sh
 ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'
@@ -79,7 +81,7 @@ ssh alicloud 'sudo journalctl -u mygo-fighter -u caddy --no-pager -n 100'
 curl --fail https://mygo-123-57-149-254.sslip.io/api/health
 ```
 
-To update, build a matching distribution, compare the uploaded archive checksum, and activate it with a new release ID:
+更新时，构建配套发行包，比对上传归档校验和，并用新的发布 ID 启用：
 
 ```sh
 npm run check
@@ -90,4 +92,4 @@ ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
 ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
 ```
 
-Activation and rollback scripts are installed persistently in `/opt/mygo-fighter/`. Successful future activation retains the preceding release for `sudo bash /opt/mygo-fighter/rollback.sh`. This was the first game installation on the host, so no preceding application release is available yet. Switching or restarting the service ends temporary matches.
+启用与回滚脚本持久安装在 `/opt/mygo-fighter/`。后续成功启用会保留前一版本，供 `sudo bash /opt/mygo-fighter/rollback.sh` 使用。这是该主机上的首次游戏安装，因此目前没有可回退的前一应用版本。切换或重启服务会结束临时对局。

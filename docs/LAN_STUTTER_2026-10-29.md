@@ -1,40 +1,42 @@
-# LAN combat stutter — 2026-10-29
+**简体中文** | [English](LAN_STUTTER_2026-10-29.en.md) | [日本語](LAN_STUTTER_2026-10-29.ja.md)
 
-Two-player LAN combat reproduced long browser pauses on both peers. The fix keeps decoded artwork available before combat, coalesces obsolete authority snapshots at the display boundary, and removes repeated target-array allocation from the shared kernel. Character art, animation, effects, input bindings, transport frequency and protocol 23 are preserved.
+# 局域网战斗卡顿 — 2026-10-29
 
-## Evidence and changes
+双人局域网对战在双方浏览器上都复现了长时间卡顿。修复方案在战斗前保持已解码的美术资源可用、在显示边界合并过期的权威快照，并去掉共享内核中重复的目标数组分配。角色美术、动画、特效、输入绑定、传输频率与协议 23 均保持不变。
 
-The baseline was `cfb6700`. A production build served by an isolated Scala server on port 8082 drove two Edge browser contexts at 1280 × 800, DPR 1.5. Anon and Sakiko repeatedly moved and used J/K/U/O with terrain enabled, 2000 HP, unlimited time/energy and sound off. Each condition had six seconds of warmup and twelve seconds of measurement, first native speed and then 4× CPU throttling. No other combat benchmark ran concurrently.
+## 证据与改动
 
-The server's independent 30-second two-peer WebSocket check delivered approximately 57.8 snapshots/second/client; its final ten seconds had update p95 2.30 ms and p99 2.94 ms. Browser instrumentation located the long pauses inside native `drawImage`, rather than sprite-cache construction or normal snapshot replay. Bypassing the sprite cache and disabling image shadows did not remove the pauses. Retaining decoded `ImageBitmap` surfaces did, so removing effects or lowering source resolution was unnecessary.
+基线为 `cfb6700`。由隔离的 Scala 服务器在 8082 端口提供生产构建，驱动两个 1280 × 800、DPR 1.5 的 Edge 浏览器上下文。爱音与祥子在开启地形、2000 血量、时间/能量无限且关闭音效的条件下反复移动并使用 J/K/U/O。每个条件都有六秒预热与十二秒测量，先以原生速度进行，再做 4× CPU 降频。期间没有其他战斗基准同时运行。
 
-- `CanvasRenderer` decodes images and creates retained bitmaps during battle preparation. Unsupported or rejecting bitmap creation falls back to the existing HTML image. The two-load concurrency limit remains; old unused images are trimmed against the existing 384 MiB target, with required current/reserve art protected. Eviction and disposal close bitmap resources, including loads completing after disposal.
-- `PendingSimulationState` keeps the latest authority for the next display frame rather than cloning/replaying each old snapshot after a stall. Reliable events are merged, deduplicated and ordered; their existing two-second presentation window bounds background-tab storage. Epoch/generation and disconnect/lobby/start/dispose boundaries clear pending state. Arrival timestamps and acknowledgement/wire diagnostics stay at packet receipt, preserving stale detection. Authoritative HUD values remain separate from prediction. Healthy clients can defer applying a packet until the next display frame; local input prediction continues each frame.
-- `Match.targetSide` directly selects the sole opponent in two-player modes and scans active opponents without allocating/sorting in three-player combat. In the Node microbenchmark, median 48,000-step time fell from 355.74 to 312.79 ms; 6,000 full simulation frames fell from 537.68 to 473.11 ms. These are kernel measurements, not browser FPS or JVM throughput claims. Exact state/event comparison covered 144,000 steps, 5,776 full-state checkpoints and all 16 characters in 24 seeded two-/three-player scenarios.
+服务器独立的 30 秒双对端 WebSocket 检查约为每个客户端每秒 57.8 个快照；其最后十秒的更新 p95 为 2.30 ms、p99 为 2.94 ms。浏览器插桩把长时间停顿定位在原生 `drawImage` 内部，而不是精灵缓存构建或常规快照重放。绕过精灵缓存、关闭图片阴影都没有消除停顿。保留已解码的 `ImageBitmap` 表面则解决了问题，因此无需移除特效或降低源分辨率。
 
-## Production-build comparison
+- `CanvasRenderer` 在战斗准备期间解码图片并创建保留位图。不支持或拒绝创建位图时会回退到现有的 HTML 图片。两次加载的并发上限保持不变；陈旧未使用的图片按现有的 384 MiB 目标裁剪，当前/替补所需的必需美术会受到保护。驱逐与释放会关闭位图资源，包括在释放之后才完成的加载。
+- `PendingSimulationState` 为下一显示帧保留最新的权威状态，而不是在卡顿后克隆/重放每个旧快照。可靠事件会被合并、去重并排序；其现有的两秒演出窗口为后台标签页的存储设定了上限。epoch/世代以及断线/返回大厅/开局/释放等边界都会清空待处理状态。到达时间戳与确认/线路诊断仍保留在数据包接收处，从而保留过期检测。权威 HUD 数值与预测保持分离。健康的客户端可以把数据包的应用推迟到下一个显示帧；本地输入预测仍每帧继续。
+- `Match.targetSide` 在双人模式下直接选取唯一对手，在三人混战中扫描活跃对手而不做分配/排序。在 Node 微基准中，48,000 步的中位耗时从 355.74 ms 降到 312.79 ms；6,000 个完整仿真帧从 537.68 ms 降到 473.11 ms。这些是内核测量值，不是浏览器 FPS 或 JVM 吞吐量的说法。精确的状态/事件比对覆盖 144,000 步、5,776 个完整状态检查点，以及 24 个带种子的双人/三人场景中的全部 16 名角色。
 
-Values show peer 0 / peer 1. Long tasks are browser tasks of at least 50 ms, counted only during the measurement window.
+## 生产构建对比
 
-| Metric                   | Before             | After          |
-| ------------------------ | ------------------ | -------------- |
-| Native maximum draw      | 523.8 / 557.3 ms   | 7.0 / 11.3 ms  |
-| Native long tasks / 12 s | 21 / 16            | 0 / 0          |
-| Native maximum frame gap | 524.5 / 613.1 ms   | 72.8 / 72.8 ms |
-| Native replay p95        | 0.4 / 0.5 ms       | 0.3 / 0.3 ms   |
-| 4× CPU maximum draw      | 2078.7 / 2777.6 ms | 44.3 / 29.8 ms |
-| 4× CPU frame-gap p95     | 137.6 / 2669.1 ms  | 24.1 / 18.3 ms |
-| 4× CPU replay p95        | 7.3 / 11.8 ms      | 2.4 / 1.8 ms   |
-| 4× CPU long tasks / 12 s | 6 / 6              | 1 / 0          |
+数值显示为对端 0 / 对端 1。长任务是至少 50 ms 的浏览器任务，仅在测量窗口内计数。
 
-After both conditions, both clients retained render scale 2 (1920 × 1080 backing surface); the baseline had degraded to scales 1 / 1.5 at native speed and 1 / 1 under throttling. No page errors occurred. The improvement therefore does not rely on reducing visual quality. Native local input-to-visible-motion p95 was 7.5 / 8.3 ms after versus 26.4 / 8.4 ms before; combat freezes and synthetic alternating actions make this a smoke measurement rather than an isolated network latency benchmark.
+| 指标                  | 修改前             | 修改后         |
+| --------------------- | ------------------ | -------------- |
+| 原生最大绘制          | 523.8 / 557.3 ms   | 7.0 / 11.3 ms  |
+| 原生长任务 / 12 秒    | 21 / 16            | 0 / 0          |
+| 原生最大帧间隔        | 524.5 / 613.1 ms   | 72.8 / 72.8 ms |
+| 原生重放 p95          | 0.4 / 0.5 ms       | 0.3 / 0.3 ms   |
+| 4× CPU 最大绘制       | 2078.7 / 2777.6 ms | 44.3 / 29.8 ms |
+| 4× CPU 帧间隔 p95     | 137.6 / 2669.1 ms  | 24.1 / 18.3 ms |
+| 4× CPU 重放 p95       | 7.3 / 11.8 ms      | 2.4 / 1.8 ms   |
+| 4× CPU 长任务 / 12 秒 | 6 / 6              | 1 / 0          |
 
-This is one controlled local browser trial, not a guarantee for every device or campus network. Bitmap retention trades a stable decoded working set for avoiding repeated decode stalls; it is not claimed as a memory reduction. The existing image budget and explicit release bound retained old art, while a selected team's required art can exceed that target. The test did not measure WAN RTT improvement or maximum room capacity. Sound/video decoding and long-session mobile behavior need separate measurements if those remain slow.
+在两种条件下，两个客户端都保持了渲染缩放 2（1920 × 1080 后备表面）；基线在原生速度下已退化到 1 / 1.5，在降频下降到 1 / 1。没有出现页面错误。因此这一改善并不依赖降低画质。原生本地输入到可见位移的 p95 在修改后为 7.5 / 8.3 ms，修改前为 26.4 / 8.4 ms；战斗冻结与合成的交替操作使它更像一次冒烟测量，而不是隔离的网络延迟基准。
 
-## Verification
+这是一次受控的本地浏览器试验，不能保证适用于每台设备或校园网络。保留位图用一份稳定的已解码工作集，换取避免反复的解码停顿；它并不被宣称为内存下降。现有的图片预算与显式释放为保留旧美术设定了上限，而被选中队伍所需的必需美术可能超出该目标。测试没有测量 WAN RTT 的改善，也没有测量最大房间容量。如果音视频解码与长时间会话下的移动端表现仍然很慢，需要单独测量。
 
-`npm run check`, `npm run build` and `npm run build:pages` passed. A browser served under `/mygo-fighter/` loaded all requested resources, entered local combat, moved, attacked, paused and returned to the menu without page errors; its 21 canvas images were retained bitmaps.
+## 验证
 
-Three real browser peers also passed preparation, third-player predicted movement with authoritative input acknowledgement, pause/resume, disconnect-induced pause, session restore and resume. A real J attack under the one-hit-KO test rule triggered a reserve after approximately five seconds. All three peers presented the same five attack/hit/fight/KO/respawn events without duplicates, with no page errors. This scenario used three mirrored `[0, 1, 2]` teams; its 26 retained images represented 204.43 MiB of decoded pixels per client, not a measurement for nine distinct characters.
+`npm run check`、`npm run build` 与 `npm run build:pages` 均通过。在 `/mygo-fighter/` 下提供服务的浏览器加载了全部请求的资源，进入本地战斗、移动、攻击、暂停并返回菜单，没有页面错误；其 21 张 canvas 图片都是保留位图。
 
-Raw scripts and reports live under ignored `output/lan-stutter/`, `output/brawl/` and `output/performance-kernel/`. Permanent checks cover latest-state/event/lifecycle semantics and bitmap fallback/release, alongside the existing combat, three-player and protocol checks. Restart the host after updating so its shared simulation and the clients use the same build; refresh both browsers.
+三个真实浏览器对端也通过了准备、第三名玩家的预测移动与权威输入确认、暂停/恢复、断线导致的暂停、会话还原与恢复。在一击 KO 测试规则下的一次真实 J 攻击大约五秒后触发了替补。三个对端呈现了相同的五个攻击/命中/战斗/KO/重生事件，没有重复，也没有页面错误。该场景使用三支镜像的 `[0, 1, 2]` 队伍；其 26 张保留位图代表每个客户端 204.43 MiB 的解码像素，并不是针对九名不同角色的测量。
+
+原始脚本与报告位于被 Git 忽略的 `output/lan-stutter/`、`output/brawl/` 与 `output/performance-kernel/`。永久检查覆盖最新状态/事件/生命周期语义与位图回退/释放，并与现有的战斗、三人混战与协议检查并列。更新后请重启主机，使共享仿真与客户端使用同一份构建；并刷新两个浏览器。

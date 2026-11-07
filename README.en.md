@@ -13,7 +13,7 @@ npm ci
 npm run lan
 ```
 
-The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher builds and stages the JVM artifact, then starts the same three backend roles used in production — `rooms`, `lobby` and `edge` — as three local processes. Commands and printed output are unchanged: it prints the local address and the computer's LAN addresses, and the default public port is **8080** (rooms and lobby stay on loopback ports 8091 and 8079). See [backend services](docs/SERVICES.md) for the topology.
+The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher builds and stages the JVM artifact, then starts the same three backend roles used in production — `rooms`, `lobby` and `edge` — as three local processes. Commands and printed output are unchanged: it prints the local address and the computer's LAN addresses, and the default public port is **8080** (rooms and lobby stay on loopback ports 8091 and 8079). See [backend services](docs/SERVICES.en.md) for the topology.
 
 On Windows, double-click `start-lan.cmd`. It keeps the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala backend roles. Java handles HTTP, static files, the room directory, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
 
@@ -37,7 +37,7 @@ After building once, `npm start` starts the backend without rebuilding the front
 4. With bans enabled, 1P and 2P alternate banning the configured number of characters, then alternate exclusive picks until both lineups are full. The available ban count reserves enough characters for both teams. Refresh/reconnect preserves progress; the host can use **重新禁选** to start again. After both lineups are complete, both press **准备开战**. The server waits for both clients to finish loading their artwork.
 5. Both players use the **1P keys** to control their own character.
 
-The same [custom battle rules](docs/CUSTOM_BATTLE_RULES.md) are available in local and CPU selection. Defaults retain 200 health and the standard attacks. Restart the host after updating to load the new room and combat rules.
+The same [custom battle rules](docs/CUSTOM_BATTLE_RULES.en.md) are available in local and CPU selection. Defaults retain 200 health and the standard attacks. Restart the host after updating to load the new room and combat rules.
 
 Rules also support unlimited time, 30–300 second rounds, starting energy, damage and movement multipliers, one-hit KO, vampire healing, low gravity, unlimited air jumps and disabled guarding. Try **一击决胜**, **月面乱斗** or **吸血拉锯** for a ready-made combination, then adjust individual options.
 
@@ -55,7 +55,7 @@ Both players open the same public game server URL, choose **联机对战**, and 
 
 All 16 characters perform a short individual entrance before READY, using their original full-body artwork. Opening entrances play together; in 3v3, only the new reserve performs while the survivor keeps their resources. Local and network play share the same 2.75-second ready clock, including pause/reconnect recovery. Reduced-motion preferences use a static introduction.
 
-The [AliCloud Beijing server](https://mygo-123-57-149-254.sslip.io/) allows **two rooms / four players**, with its own HTTPS address and no link from GitHub Pages. Both players must use the same server. See [public server setup and operations](docs/WAN.md) for deployment, limits and measurements. Public access requires HTTPS, WebSocket forwarding and the host's inbound TCP 80/443 rules; running the LAN launcher alone does not configure those.
+The [AliCloud Beijing server](https://mygo-123-57-149-254.sslip.io/) allows **two rooms / four players**, with its own HTTPS address and no link from GitHub Pages. Both players must use the same server. See [public server setup and operations](docs/WAN.en.md) for deployment, limits and measurements. Public access requires HTTPS, WebSocket forwarding and the host's inbound TCP 80/443 rules; running the LAN launcher alone does not configure those.
 
 ## Controls
 
@@ -121,12 +121,12 @@ The production frontend puts React in a separate shared chunk so the game bundle
 - `backend/src/main/scala/services/edge/`: public admission limits, static files, API forwarding, the owner cache and WebSocket proxying.
 - `backend/src/main/scala/services/system/`: role dispatch and Cats Effect startup, application resources, shared routing and static serving. Cross-process payload types live under `objects/internal/`.
 - `frontend/public/`: media manifest and cacheable runtime assets.
-- `assets/`: source artwork under `assets/characters/<band>/`, plus shared feature folders, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
-- `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
+- `assets/`: source artwork under `assets/characters/<band>/`, plus shared feature folders, with design notes under `assets/notes/`. See the [asset catalog](assets/README.en.md).
+- `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.en.md).
 
-The Scala backend runs as the `edge`, `lobby` and `rooms` roles from one release artifact and embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside each rooms process. Room execution, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.
+The Scala backend runs as the `edge`, `lobby` and `rooms` roles from one release artifact and embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside each rooms process. Room execution, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.en.md) for measurements and the production Java choice.
 
-See [backend services](docs/SERVICES.md), [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
+See [backend services](docs/SERVICES.en.md), [architecture and review guide](docs/ARCHITECTURE.en.md), [course guidance](docs/COURSE_GUIDANCE.en.md), and [LAN protocol and timing](docs/LAN.en.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
 
 GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3. Network rooms require a Scala server. An optional `PUBLIC_GAME_URL` repository Actions variable enables a link to a public server; it is unset for this trial. Local static builds can use `VITE_PUBLIC_GAME_URL` (see `frontend/.env.example`). All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
 

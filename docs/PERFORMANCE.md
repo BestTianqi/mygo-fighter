@@ -1,57 +1,59 @@
-# Gameplay performance
+**简体中文** | [English](PERFORMANCE.en.md) | [日本語](PERFORMANCE.ja.md)
 
-The current protocol is 24, including three-player wheel battles and the [additional custom rules](CUSTOM_PLAY_EXPANSION_2026-10-29.md). The [2026-10-29 LAN stutter investigation](LAN_STUTTER_2026-10-29.md) records the latest decoded-image, client replay and targeting fixes with measured before/after browser results. Update and restart the host with matching clients. The [backend room scaling audit](BACKEND_SCALING_2026-10-27.md) covers idle-room scheduling, shared frames and allocation reduction under protocol 15. Earlier measurements below retain their original protocol context.
+# 游戏性能
 
-## Implemented optimizations
+当前协议为 24，包含三人混战与[额外的自定义规则](CUSTOM_PLAY_EXPANSION_2026-10-29.md)。[2026-10-29 局域网卡顿排查](LAN_STUTTER_2026-10-29.md)记录了最新的解码图像、客户端回放与目标选择修复，以及浏览器实测的前后对比结果。请用匹配的客户端更新并重启主机。[后端房间扩容审计](BACKEND_SCALING_2026-10-27.md)涵盖协议 15 下的空闲房间调度、共享帧与分配削减。下文较早的测量保留其原始协议背景。
 
-### Canvas rendering
+## 已实现的优化
 
-- The logical scene remains 960 × 540. Backing resolution is capped by device pixel ratio and adapts through 1, 1.25, 1.5 and 2. Sustained draw cost above 12 ms or frame cadence above 24 ms lowers quality; recovery requires 240 healthy frames below both 4 ms draw cost and 20 ms frame cadence. Frame-pressure feedback is necessary because cached canvases can defer native raster work beyond the JavaScript draw call.
-- Fighter atlas frames are lazily pre-rasterized near their final device-pixel size. The LRU is limited to 64 entries and 8 Mi pixels (about 32 MiB of RGBA-equivalent pixels). Current frame anchors, animation and logical scale are preserved on every hit. Fighter, heavy-motion, dash and blink paths accept both native images and cached canvases.
-- Image decoding remains limited to two concurrent loads during battle preparation. After preparation, inactive decoded images are trimmed to a 384 MiB budget when possible; art required by current fighters and reserves is never evicted.
+### Canvas 渲染
 
-### Online transport and reconciliation
+- 逻辑场景仍为 960 × 540。后备分辨率受设备像素比上限约束，并在 1、1.25、1.5、2 之间自适应。绘制耗时持续高于 12 ms 或帧周期高于 24 ms 时降低画质；恢复需要 240 个健康帧，且绘制耗时与帧周期分别低于 4 ms 与 20 ms。帧压力反馈是必要的，因为缓存 canvas 会把原生光栅工作推迟到 JavaScript 绘制调用之后。
+- 战士图集帧会在接近其最终设备像素尺寸时惰性预光栅化。LRU 限制为 64 项与 8 Mi 像素（约 32 MiB 的 RGBA 等价像素）。每次命中都会保持当前帧锚点、动画与逻辑缩放。战士、大幅动作、冲刺与瞬步路径同时接受原生图像与缓存 canvas。
+- 图像解码在对战准备阶段仍限制为两个并发加载。准备完成后，未使用的已解码图像会被尽量裁剪到 384 MiB 预算内；当前战士与替补所需的图像永远不会被淘汰。
 
-- Protocol 11 removes the repeated two-second event history and duplicate top-level input counters from 60 Hz state packets. `inputState` is the canonical replay metadata.
-- Nonempty event batches use the existing ordered, bounded control lane. State remains latest-only. Control overflow closes the socket to force the established pause/reconnect recovery instead of silently dropping presentation cues.
-- The client holds event batches until generation, epoch and server time match a state, then consumes each event ID once. Prepare, lobby and reconnect transitions clear pending batches.
-- Prediction retains its required pre-replay clone. The second authoritative clone in `GameRuntime` was removed.
-- With `?diagnostics=1`, packet sizes are exact UTF-8 wire sizes, including attached event frames. Normal play performs no UTF-8 scanning or JSON re-serialization. `inputReceivedMs` and `inputAppliedMs` measure client send to authoritative receipt/application as observed in returned states; hit freeze can legitimately delay application. `serverUpdateMs` covers room/kernel processing and still excludes final socket write/arrival; an immutable frame cannot contain its own later write-completion time.
+### 联机传输与状态协调
 
-### Audio
+- 协议 11 从 60 Hz 状态包中移除了重复的两秒事件历史与重复的顶层输入计数器。`inputState` 是权威的回放元数据。
+- 非空事件批次使用已有的有序、有界控制通道。状态仍然只保留最新值。控制通道溢出会关闭 socket，以强制走既有的暂停/重连恢复流程，而不是静默丢弃表现线索。
+- 客户端持有事件批次，直到 generation、epoch 与服务器时间都与某个状态匹配，然后每个事件 ID 只消费一次。准备、大厅与重连切换会清空待处理的批次。
+- 预测保留其必需的回放前克隆。`GameRuntime` 中的第二个权威克隆已被移除。
+- 使用 `?diagnostics=1` 时，包大小为精确的 UTF-8 线缆大小，包括附带的事件帧。正常游戏不做 UTF-8 扫描，也不做 JSON 重新序列化。`inputReceivedMs` 与 `inputAppliedMs` 衡量客户端发送到权威接收/应用（以返回状态中观察到的时刻为准）；命中冻结会合理地推迟应用。`serverUpdateMs` 覆盖房间/内核处理，仍不包含最终的 socket 写入/到达；一个不可变的帧无法包含它自己之后才发生的写入完成时间。
 
-- Unlocking audio no longer fetches and decodes all 112 clips. After critical images load, only cues reachable by selected fighters and reserves are warmed. Other cues load on first use.
-- At most four clips load concurrently. Decoded PCM uses a 64 MiB LRU; active source nodes safely retain an evicted buffer. Pending loads obey existing stop, mute, pause, round and dispose cancellation behavior.
+### 音频
 
-## Local measurements — 2026-10-26
+- 解锁音频不再获取并解码全部 112 个片段。关键图像加载后，只预热所选战士与替补可达的音频线索。其他线索在首次使用时加载。
+- 最多同时加载四个片段。解码后的 PCM 使用 64 MiB LRU；活跃的 source node 会安全保留已被淘汰的 buffer。待处理的加载遵守既有的停止、静音、暂停、回合与销毁取消行为。
 
-Measurements use the production build and the same Playwright scenarios as the earlier audit. Raw reports are under the ignored `output/performance-audit/` and `output/optimization-validation/` directories.
+## 本地测量 —— 2026-10-26
 
-| Scenario                              | Before                                                               | After                                                                            |
-| ------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| SwiftShader DPR2, 10 s combat         | 1920 × 1080; callback mean 12.61 ms, p95 14.9 ms; frame p95 16.7 ms  | 1920 × 1080; callback mean 0.32 ms, p95 0.5 ms; frame p95 16.7 ms; no long tasks |
-| SwiftShader DPR2 with 4× CPU throttle | 1920 × 1080; frame mean 59.7 ms, p95 66.7 ms; 175 long tasks in 10 s | adaptive 960 × 540; frame mean 19.8 ms, p95 33.4 ms; no long tasks in 12 s       |
-| Two-client local online               | packet p50/p95 4,441/5,175 B; server update p95 0.842 ms             | packet p50/p95 3,612/3,650 B (−18.7%/−29.5%); server update p95 0.691 ms         |
-| New authoritative input timing        | not measured                                                         | local send→received p95 17.3 ms; send→applied p95 23.8 ms                        |
-| Selected two-character audio          | all 112 clips fetched/decoded on unlock                              | 12 clips fetched/decoded; peak concurrency 4; combat voices played               |
-| Healthy hardware DPR2                 | full quality                                                         | full 1920 × 1080 retained; no long tasks                                         |
+测量使用生产构建，以及与早先审计相同的 Playwright 场景。原始报告位于被忽略的 `output/performance-audit/` 与 `output/optimization-validation/` 目录下。
 
-The software callback reduction is **not** presented as an equivalent total-CPU reduction. CPU profiles show native work moving from instrumented `restore`/`drawImage` spans into `(program)`; native raster remains substantial. The throttled frame-cadence result is the stronger end-to-end evidence that adaptive resolution improves playability under sustained pressure. The two online profiles also observed different display cadences, so local motion/correction timings are not claimed as protocol wins. These local results do not establish an Internet RTT improvement. The later protocol-12 AliCloud measurements are linked below.
+| 场景                          | 优化前                                                         | 优化后                                                              |
+| ----------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------- |
+| SwiftShader DPR2，10 秒对战   | 1920 × 1080；回调均值 12.61 ms，p95 14.9 ms；帧 p95 16.7 ms    | 1920 × 1080；回调均值 0.32 ms，p95 0.5 ms；帧 p95 16.7 ms；无长任务 |
+| SwiftShader DPR2，4× CPU 降速 | 1920 × 1080；帧均值 59.7 ms，p95 66.7 ms；10 秒内 175 个长任务 | 自适应 960 × 540；帧均值 19.8 ms，p95 33.4 ms；12 秒内无长任务      |
+| 双客户端本地联机              | 包 p50/p95 4,441/5,175 B；服务器更新 p95 0.842 ms              | 包 p50/p95 3,612/3,650 B（−18.7%/−29.5%）；服务器更新 p95 0.691 ms  |
+| 新的权威输入计时              | 未测量                                                         | 本地发送→接收 p95 17.3 ms；发送→应用 p95 23.8 ms                    |
+| 选定双角色音频                | 解锁时获取/解码全部 112 个片段                                 | 获取/解码 12 个片段；峰值并发 4；对战语音已播放                     |
+| 健康硬件 DPR2                 | 完整画质                                                       | 保留完整 1920 × 1080；无长任务                                      |
 
-## Verification
+软件回调的减少**并不**等同于总 CPU 的减少。CPU profile 显示原生工作从被插桩的 `restore`/`drawImage` 区间转移到 `(program)`；原生光栅仍占相当大的比重。降速下的帧周期结果是更强的端到端证据，说明自适应分辨率在持续压力下改善了可玩性。两个联机 profile 也观察到不同的显示节奏，因此不把本地运动/校正计时当作协议层面的收益。这些本地结果并不能证明互联网 RTT 有所改善。更晚的协议 12 阿里云测量见下方链接。
+
+## 验证
 
 - `npm run check`
 - `npm run build`
 - `npm run check:backend`
-- `npm run build:pages` and a project-subpath browser check
-- Local 3v3 combat, pause/resume/restart
-- Two-client combat, matching unique event IDs on both peers, no per-state event history, forced socket reconnect and continued events after resume
-- Lazy-audio request/decode/concurrency checks with no browser page errors
+- `npm run build:pages` 与项目子路径的浏览器检查
+- 本地 3v3 对战、暂停/继续/重开
+- 双客户端对战，双方 peer 上的唯一事件 ID 一致，没有逐状态事件历史，强制 socket 重连并在恢复后事件延续
+- 惰性音频的请求/解码/并发检查，浏览器无页面错误
 
-## Deployed AliCloud audit
+## 已部署阿里云审计
 
-The [2026-10-26 deployment audit](DEPLOYMENT_PERFORMANCE_2026-10-26.md) covers the newer protocol-12 application, public timing, browser checks, an isolated TCP_NODELAY experiment and the interpreter-runtime bottleneck. Its measured socket-frame delays and client-observed round-trip timings are separate metrics.
+[2026-10-26 部署审计](DEPLOYMENT_PERFORMANCE_2026-10-26.md)涵盖较新的协议 12 应用、公网计时、浏览器检查、一次隔离的 TCP_NODELAY 实验与解释器运行时瓶颈。其测得的 socket 帧延迟与客户端观察到的往返计时是彼此独立的指标。
 
-## Permanent TCP_NODELAY and runtime evaluation
+## 永久启用 TCP_NODELAY 与运行时评估
 
-Application `9207f12` makes TCP_NODELAY permanent, shares the engine/source cache while retaining per-room contexts, and updates Polyglot libraries. The [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) records the GraalVM comparison and why OpenJDK 21 remains selected on the 512 MiB service budget.
+应用 `9207f12` 永久启用 TCP_NODELAY，在保留逐房间上下文的同时共享引擎/源码缓存，并更新 Polyglot 库。[2026-10-27 运行时评估](RUNTIME_OPTIMIZATION_2026-10-27.md)记录了 GraalVM 对比，以及在 512 MiB 服务预算下为何仍选择 OpenJDK 21。

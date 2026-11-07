@@ -1,354 +1,356 @@
-# Combat timing retained by the rewrite
+**简体中文** | [English](COMBAT_TUNING.en.md) | [日本語](COMBAT_TUNING.ja.md)
 
-## 2026-11-02: 野乃花「心意直达·兔兔头槌」
+# 重写后保留的战斗时序
 
-野乃花 P 改为向前推进的单次头槌：消耗100共鸣，蓄力160ms、推进600ms、收势340ms，空挥最多前进600世界单位。正前方短碰撞框为180，高度容差沿用共用大招360规则。正常完整命中固定50伤害，同一目标整次攻击只命中一次；混战中可依次命中前方两个不同目标。可防御，防御伤害2；释放者不因大招命中回能，受击方分别获得正常8／防御3的共鸣预算，自定义伤害倍率和既有减伤仍生效。
+## 2026-11-02：野乃花「心意直达·兔兔头槌」
+
+野乃花 P 改为向前推进的单次头槌：消耗 100 共鸣，蓄力 160 ms、推进 600 ms、收势 340 ms，空挥最多前进 600 世界单位。正前方短碰撞框为 180，高度容差沿用共用大招 360 规则。正常完整命中固定 50 伤害，同一目标整次攻击只命中一次；混战中可依次命中前方两个不同目标。可防御，防御伤害 2；释放者不因大招命中回能，受击方分别获得正常 8／防御 3 的共鸣预算，自定义伤害倍率和既有减伤仍生效。
 
 保留大招霸体，使用低姿态蓄力、前倾冲刺、额前短弧和身后速度线表现头槌，结束后收势。没有旧的六段咬咬或投射物。命中记录复用既有 `hitMarks`，没有添加联机状态字段；本地及联机预测共用同一战斗内核。
 
-## 2026-11-02: 普攻小幅下调
+## 2026-11-02：普攻小幅下调
 
 全员普通攻击类招式（含三段 J、蹲下／空中普攻及 K 重击）在此前伤害基础上降低约 10%，保留一位小数，最低伤害为 1。每次普攻命中回能由 12 降为 10；防御命中仍为 1，技能命中仍为 2。动作、三段连击节奏、攻击范围及技能伤害保持原配置，本地与联机共用同一套数值。
 
-## 2026-10-28: 阿拉蕾、律、由乃、立希大招强化
+## 2026-10-28：阿拉蕾、律、由乃、立希大招强化
 
 下表为默认规则、未防御且未减伤时完整命中的实际总伤害。四个大招仍消耗 100 能量，保持霸体、语音和视频原速；三人混战使用同一规则。
 
-| 角色   | 原实际近身伤害 → 新伤害      | 主要强化                                                                                          |
-| ------ | ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| 阿拉蕾 | 41 → 40（3 段：10/12/18）    | 星弹追踪，射速 920，最大射程 1200，弹体增大，100ms 起手，三发在 580ms 内放出                      |
-| 律     | 40 → 50（5 段各 10）         | 起手 80ms，五段间隔 150ms，攻击范围 320→500，前四段不推远，末段击飞倒地；动作与爪痕按实际节拍同步 |
-| 由乃   | 41 → 50（3 段：10/15/25）    | 环身音波半径 360/480/600，覆盖身后，160ms 起手，前两段留在原地接第三段，末段倒地                  |
-| 立希   | 48 → 50（4 段：10/12/12/16） | 四拍间隔 170ms，覆盖 380/440/500/560，第四拍于 590ms 落下，保留终击倒地                           |
+| 角色   | 原实际近身伤害 → 新伤害      | 主要强化                                                                                            |
+| ------ | ---------------------------- | --------------------------------------------------------------------------------------------------- |
+| 阿拉蕾 | 41 → 40（3 段：10/12/18）    | 星弹追踪，射速 920，最大射程 1200，弹体增大，100 ms 起手，三发在 580 ms 内放出                      |
+| 律     | 40 → 50（5 段各 10）         | 起手 80 ms，五段间隔 150 ms，攻击范围 320→500，前四段不推远，末段击飞倒地；动作与爪痕按实际节拍同步 |
+| 由乃   | 41 → 50（3 段：10/15/25）    | 环身音波半径 360/480/600，覆盖身后，160 ms 起手，前两段留在原地接第三段，末段倒地                   |
+| 立希   | 48 → 50（4 段：10/12/12/16） | 四拍间隔 170 ms，覆盖 380/440/500/560，第四拍于 590 ms 落下，保留终击倒地                           |
 
 四招现在均按分段固定伤害结算，消除这套大招自身的连击衰减；防御、钢板、敌方减伤、自定义伤害倍率仍参与结算。完整受击共鸣预算仍是 8，释放者不能用大招回能。律、由乃、立希高度判定增至 420。
 
 `scripts/check-super-buffs.mjs` 使用实际 P 输入验证总伤害、段数、中远距离、追踪高度、防御、能量、自定义规则及混战多目标；音视频素材绑定另由语音检查覆盖。
 
-The typed kernel preserves the prior game’s movement and battle rules. The current sources are `frontend/src/game/combatData.ts` and `frontend/src/game/engine.ts`.
+类型化内核保留了此前游戏的移动与战斗规则。当前源文件为 `frontend/src/game/combatData.ts` 与 `frontend/src/game/engine.ts`。
 
-| Mechanic                 | Current baseline                                                                   |
-| ------------------------ | ---------------------------------------------------------------------------------- |
-| Simulation step          | 10 ms                                                                              |
-| Anon walk / air speed    | About 475 / 360 world units per second                                             |
-| Jump / double jump       | Initial vertical speeds about 1197 / 1001                                          |
-| Gravity                  | About 3307 world units per second squared                                          |
-| Blink                    | About 242 world units; 600 ms cooldown; 120 ms starting invulnerability; 10 energy |
-| Input buffers            | 150 ms normal attacks; 300 ms other actions                                        |
-| Light chain              | Three stages, with the third launching the target                                  |
-| Standard health / energy | 200 / 100                                                                          |
-| Formal round             | 60 seconds; first to two round wins                                                |
-| Transformations          | 50 energy; 20 seconds; no refresh during the form                                  |
+| 机制               | 当前基线                                                |
+| ------------------ | ------------------------------------------------------- |
+| 模拟步长           | 10 ms                                                   |
+| 爱音行走／空中速度 | 约 475／360 世界单位每秒                                |
+| 跳跃／二段跳       | 初始垂直速度约 1197／1001                               |
+| 重力               | 约 3307 世界单位每二次方秒                              |
+| 瞬步               | 约 242 世界单位；600 ms 冷却；起手 120 ms 无敌；10 能量 |
+| 输入缓冲           | 普通攻击 150 ms；其他动作 300 ms                        |
+| 轻攻击连段         | 三段，第三段将目标挑空                                  |
+| 标准生命／能量     | 200／100                                                |
+| 正式回合           | 60 秒；先赢两回合者胜                                   |
+| 变身               | 50 能量；20 秒；形态期间不能刷新                        |
 
-Different characters retain their own speed ratios, move timings, costs, directional variants, cancellation windows and forms. Local 3v3 retains the surviving fighter’s resources and advances the defeated team’s order.
+不同角色保留各自的移速比例、动作时序、消耗、方向变体、取消窗口与形态。本地 3v3 保留存活角色的资源，并推进被击败队伍的顺序。
 
-Rebuild with `npm run build` after changing combat data or timing so local play and the JVM server use the same updated rules. The server timing and transport behavior are documented in [LAN.md](LAN.md).
+修改战斗数据或时序后，用 `npm run build` 重新构建，使本地对战与 JVM 服务器使用同一套更新后的规则。服务器时序与传输行为见 [LAN.md](LAN.md)。
 
-## Selected melee damage — 2026-10-25
+## 精选近战伤害 — 2026-10-25
 
-Short-range approaches and slower committed strikes gain 2–3 base damage (about 12–17%). These are single-hit skill adjustments; normal attacks, projectiles, supers, control effects, timing, range and costs retain their existing values. Skill hits still restore 2 resonance.
+近距离突进与出手较慢的全力招式获得 2–3 点基础伤害加成（约 12–17%）。这些是单段技能调整；普通攻击、飞行道具、大招、控制效果、时序、范围与消耗均保持既有数值。技能命中仍回复 2 点共鸣。
 
-| Character / skill                    | Base damage before → after |
-| ------------------------------------ | -------------------------- |
-| 爱音 · 闪光突刺                      | 14 → 16                    |
-| 乐奈 · 野猫突进                      | 12 → 14                    |
-| 立希 · 反拍砸击（含四拍强化）        | 18 → 21                    |
-| 海铃（常服）· 零卡路里·收工重拍      | 22 → 25                    |
-| 初华（变身）· 逐星突进（原双月滑奏） | 16 → 18                    |
-| 律 · 弱弱胃袋·破蓝重奏               | 22 → 25                    |
-| 野乃花 · 海边搜寻·找到由乃亲         | 16 → 18                    |
+| 角色 / 技能                          | 调整前 → 调整后基础伤害 |
+| ------------------------------------ | ----------------------- |
+| 爱音 · 闪光突刺                      | 14 → 16                 |
+| 乐奈 · 野猫突进                      | 12 → 14                 |
+| 立希 · 反拍砸击（含四拍强化）        | 18 → 21                 |
+| 海铃（常服）· 零卡路里·收工重拍      | 22 → 25                 |
+| 初华（变身）· 逐星突进（原双月滑奏） | 16 → 18                 |
+| 律 · 弱弱胃袋·破蓝重奏               | 22 → 25                 |
+| 野乃花 · 海边搜寻·找到由乃亲         | 16 → 18                 |
 
-Mujica's stage damage multiplier applies once: Uika's transformed strike deals 21.6 damage before combo scaling or guard. Nyamu's former stage melee I was subsequently replaced by the two-projectile skill below. Restart an already-running LAN host after rebuilding so it loads the updated simulation.
+Mujica 的舞台伤害倍率只作用一次：初华变身突进在计入连段衰减或防御前造成 21.6 伤害。若麦原先的舞台近战 I 随后被下文的双弹技能取代。重新构建后请重启已在运行的局域网主机，以便加载更新后的模拟。
 
-## Received resonance — 2026-10-25
+## 受击共鸣 — 2026-10-25
 
-A complete damaging skill grants its target 8 resonance, or 3 when fully guarded. Multi-hit strikes and volleys split this amount across their authored hit count; a skill declaring both pulses and shots uses the larger count once. Partial hits grant only their corresponding share. For example, all five penguin/Mortis rings grant 8 total (1.6 each), and all nine Miyako seal hits also grant 8 total. Riki's internal bonus projectile shares the two-shot parent's budget.
+一项完整的伤害技能为其目标提供 8 点共鸣，完全防御时为 3 点。多段攻击与齐射按设定的命中数分摊该数值；同时声明脉冲与射击的技能只按较大的那一个数量计算一次。部分命中只提供其对应份额。例如企鹅／Mortis 的五环合计提供 8 点（每环 1.6），藤都子的九段封印命中同样合计 8 点。立希技能内部的附加飞行道具与两发母技能的预算共享。
 
-The three Tensora summons share one cast budget: each contact grants up to 2, capped at 8 total for that summon (3 when fully guarded). Recasting creates a fresh budget. Absorbed or invulnerable hits grant nothing. Attacker gains are 10 per normal hit (updated 2026-11-02), 2 per skill hit, 1 on guard, and zero for supers or summons.
+三个 Tensora 召唤物共用一次施法预算：每次接触最多提供 2 点，该召唤物总计上限 8 点（完全防御时为 3 点）。重新施放会建立新的预算。被吸收或无敌命中的攻击不提供任何共鸣。攻击方获取为：普通命中 10 点（2026-11-02 更新）、技能命中 2 点、防御命中 1 点，大招与召唤物命中共为 0。
 
-Combat keeps fractional resonance precisely; the HUD truncates it to one decimal so a displayed spend threshold is actually available. Summon budget usage is included in LAN snapshots and prediction replay.
+战斗会精确保留小数共鸣；HUD 将其截断到一位小数，因此显示的消耗阈值确实可用。召唤物预算用量会包含在联机快照与预测回放中。
 
-## Nyamu / Amoris stage skills — 2026-10-25
+## 若麦 / Amoris 舞台技能 — 2026-10-25
 
-The normal form and P super retain their existing moves. H still costs 50 resonance for 20 seconds, with stage damage ×1.2 and movement ×1.1.
+普通形态与 P 大招保留既有招式。H 仍消耗 50 共鸣、持续 20 秒，舞台形态伤害 ×1.2、移动 ×1.1。
 
-| Command | Stage skill                 | Cost | Behavior                                                                                                             |
-| ------- | --------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------- |
-| U       | 素颜公开·摘下面具           | 20   | A surrounding flash, 240 reach, 14 base damage and 540 ms stun; 1.8 s recast                                         |
-| I       | 双利手·交叉飞棒             | 25   | Two rotating drumsticks at 130/280 ms, 8 base damage each, 680 maximum reach; 1.2 s recast                           |
-| O       | 我只有Ave Mujica了·绝境鼓点 | 30   | An advancing four-hit string at 160/300/440/580 ms; 4/4/6/10 base damage, final knockdown; 1.7 s recast              |
-| ↓＋U    | 完美笑容·营业反击           | 20   | Counters frontal eligible strikes from 100–400 ms; success launches an 18-base-damage flash projectile; 4.2 s recast |
+| 指令 | 舞台技能                    | 消耗 | 表现                                                                                     |
+| ---- | --------------------------- | ---- | ---------------------------------------------------------------------------------------- |
+| U    | 素颜公开·摘下面具           | 20   | 环身闪光，范围 240，14 点基础伤害并硬直 540 ms；1.8 秒冷却                               |
+| I    | 双利手·交叉飞棒             | 25   | 两根旋转鼓槌分别在 130/280 ms 出手，各 8 点基础伤害，最大范围 680；1.2 秒冷却            |
+| O    | 我只有Ave Mujica了·绝境鼓点 | 30   | 前冲四连击，出手时间 160/300/440/580 ms；基础伤害 4/4/6/10，末段击倒；1.7 秒冷却         |
+| ↓＋U | 完美笑容·营业反击           | 20   | 在 100–400 ms 内反击正面可反击的攻击；成功后放出 18 点基础伤害的闪光飞行道具；4.2 秒冷却 |
 
-Stage damage and ordinary combo scaling apply once. Each full damaging skill still grants its target 8 resonance total (3 when fully guarded); sticks split it across two hits and the drum string across four. The attacker gains the existing 2 per skill hit.
+舞台伤害与普通连段衰减各作用一次。每项完整的伤害技能仍为其目标提供合计 8 点共鸣（完全防御时为 3 点）；鼓槌把份额分摊到两段，鼓点连击分摊到四段。攻击方每段技能命中获得既有的 2 点。
 
-Camera framing, mask fragments, wooden drumsticks and drum-hit arcs accompany the retained full-body artwork. No character costume is removed by U. The extra counter is listed only in stage form. Media aliases reuse Nyamu's existing verified original recordings, without changing super-video playback speed; skill names are not claims of new spoken dialogue.
+镜头构图、面具碎片、木制鼓槌与击鼓弧线配合保留的全身立绘。U 不会移除任何角色服装。额外反击只列在舞台形态中。媒体别名复用若麦既有的已验证原始录音，不改变大招视频播放速度；招式名称并不表示有新录制的台词。
 
-The unmasking motif follows [official episode 2](https://anime.bang-dream.com/avemujica/story/), and the ambidextrous drummer / video creator motifs follow the [official character profile](https://anime.bang-dream.com/avemujica/character/nyamu/). The episode 10 line used for O's name is transcribed in [this episode review](https://note.com/isihida_nori/n/n87a3a663db6a). Existing original recordings retain their [source clip](https://www.bilibili.com/video/BV1XM62YsEgE/) and timestamps in the asset manifest.
+摘面具的意象参照[官方第 2 集](https://anime.bang-dream.com/avemujica/story/)，双手鼓手／视频创作者的意象参照[官方角色页](https://anime.bang-dream.com/avemujica/character/nyamu/)。用于 O 名称的第 10 集台词转写见[这篇单集评论](https://note.com/isihida_nori/n/n87a3a663db6a)。既有原始录音在素材清单中保留其[来源片段](https://www.bilibili.com/video/BV1XM62YsEgE/)与时间戳。
 
-## Umiri / Timoris stage skills — 2026-10-25
+## 海铃 / Timoris 舞台技能 — 2026-10-25
 
-Umiri's stage form emphasizes low zoning, pulling opponents into range and a committed advancing throw. Normal-form skills and the P super remain intact; the existing 50-resonance / 20-second H transformation and stage multipliers are unchanged.
+海铃的舞台形态侧重低位控场、把对手拉进攻击范围，以及需要全身投入的前冲投技。普通形态技能与 P 大招保持完整；既有的 50 共鸣 / 20 秒 H 变身与舞台倍率不变。
 
-| Command | Stage skill       | Cost | Behavior                                                                                                                                      |
-| ------- | ----------------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 意欲何为·三连低鸣 | 20   | Three low ground waves at 120/260/400 ms; 6 base damage each, 700 maximum reach, 1.8 s recast. Crouch guard or a timed jump can avoid damage. |
-| I       | 很遗憾·强制返场   | 25   | First strike at 180 ms reaches 350 and pulls up to 170; second at 420 ms reaches 240, lifts and knocks down. 7/13 base damage, 2.2 s recast.  |
-| O       | 我吃不胖·零卡重摔 | 30   | Steps forward up to 120 before a short-range command throw at 180 ms. 26 base damage, 600 ms knockdown, 2.4 s recast; whiffs at long range.   |
-| ↓＋U    | 排期已满·准点反拨 | 20   | Frontal counter window at 100–420 ms; success launches a 20-base-damage clock-shaped bass wave; 4.2 s recast.                                 |
+| 指令 | 舞台技能          | 消耗 | 表现                                                                                                                   |
+| ---- | ----------------- | ---- | ---------------------------------------------------------------------------------------------------------------------- |
+| U    | 意欲何为·三连低鸣 | 20   | 三道低空地面波，出手时间 120/260/400 ms；各 6 点基础伤害，最大范围 700，1.8 秒冷却。蹲防或抓准时机的跳跃可以躲开伤害。 |
+| I    | 很遗憾·强制返场   | 25   | 第一段在 180 ms 出手，范围 350，最多拉近 170；第二段在 420 ms 出手，范围 240，挑空并击倒。基础伤害 7/13，2.2 秒冷却。  |
+| O    | 我吃不胖·零卡重摔 | 30   | 先向前踏步最多 120，再在 180 ms 使用近距离指令投。26 点基础伤害，击倒 600 ms，2.4 秒冷却；距离过远会落空。             |
+| ↓＋U | 排期已满·准点反拨 | 20   | 正面反击窗口为 100–420 ms；成功后放出 20 点基础伤害的时钟形贝斯波；4.2 秒冷却。                                        |
 
-All damage receives the existing stage ×1.2 multiplier and combo scaling. A full three-wave U or two-hit I grants the defender 8 resonance total (3 when fully guarded). Attacker gains stay at 2 per skill hit. Counter windows still lose to throws and attacks from behind.
+所有伤害都受既有舞台 ×1.2 倍率与连段衰减影响。三段全中的 U 或两段全中的 I 共为受击方提供 8 点共鸣（完全防御时为 3 点）。攻击方每段技能命中仍获得 2 点。反击窗口仍然会被投技和来自背后的攻击破解。
 
-Five vibrating strings, a retracting hook, lifting arcs, throw trails and a timetable/clock cue accompany retained whole-body drawings. I switches to a different authored pose for its second hit; O uses the existing throw windup/release. Stage-only voice aliases reuse the verified Umiri recordings and preserve original normal-form media and super-video playback speed.
+保留的全身立绘配合五根振动弦、回收钩爪、上挑弧线、投技拖尾以及时刻表／时钟提示。I 的第二段改用另一张既有姿势；O 沿用既有的投技蓄力／出手动作。仅舞台形态使用的语音别名复用已验证的海铃录音，并保留普通形态素材与大招视频的原始播放速度。
 
-The professional support bassist and scheduling motifs follow the [official character profile](https://bang-dream.com/artist/avemujica/yahata-umiri/). “意欲何为”, “很遗憾” and “我吃不胖” reuse the existing [original anime voice compilation](https://www.bilibili.com/video/BV1s65fzcEi2/) with reviewed timestamps in the asset manifest; “排期已满” is the move name, not a newly recorded line.
+职业支援贝斯手与行程安排的意象来自[官方角色页](https://bang-dream.com/artist/avemujica/yahata-umiri/)。「意欲何为」「很遗憾」「我吃不胖」复用既有的[动画原声合集](https://www.bilibili.com/video/BV1s65fzcEi2/)，时间戳已在素材清单中复核；「排期已满」是招式名，并非新录制的台词。
 
-## Uika / Doloris stage skills — 2026-10-25
+## 初华 / Doloris 舞台技能 — 2026-10-25
 
-Uika's stage form combines pursuit, a retreating close-range burst, delayed zoning and a slow projectile. Normal-form skills, both original crawling P supers, the H transformation and its music retain their existing behavior. Stage damage remains ×1.2 and movement ×1.1.
+初华的舞台形态结合追击、后撤式近身爆发、延迟控场和慢速飞行道具。普通形态技能、两套原有的爬行 P 大招、H 变身及其音乐均保持既有表现。舞台伤害仍为 ×1.2，移动仍为 ×1.1。
 
-| Command | Stage skill           | Cost | Behavior                                                                                                                                                                                           |
-| ------- | --------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 不是不是不是·三重否认 | 20   | Retreats up to 90 while emitting three surrounding bursts at 120/250/380 ms. 4/4/8 base damage, expanding reach 190/225/260, final push 320; 1.8 s recast.                                         |
-| I       | 想见Saki酱·逐星突进   | 25   | Advances up to 280, first active at 140 ms. Retains the buffed 18-base-damage single strike; 1.4 s recast.                                                                                         |
-| O       | Imprisoned·囚爱星笼   | 30   | Telegraphs the enemy's cast-time position, clamped within 420 ahead. Radius 145, 550 ms warning after creation, 20 base damage and 700 ms stun; 3.2 s recast. Uika recovers before the area fires. |
-| ↓＋U    | 同一片星空·弦月回响   | 20   | A slow, tall crescent travels at 300, up to 520 from its origin; 14 base damage, one hit, 2.2 s recast.                                                                                            |
+| 指令 | 舞台技能              | 消耗 | 表现                                                                                                                                           |
+| ---- | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| U    | 不是不是不是·三重否认 | 20   | 最多后撤 90，同时在 120/250/380 ms 放出三次环身爆发。基础伤害 4/4/8，范围递增 190/225/260，末段推力 320；1.8 秒冷却。                          |
+| I    | 想见Saki酱·逐星突进   | 25   | 最多前冲 280，首次判定在 140 ms。保留强化后的 18 点基础伤害单段突进；1.4 秒冷却。                                                              |
+| O    | Imprisoned·囚爱星笼   | 30   | 标记敌方施放瞬间的位置，最远限制在前方 420 内。半径 145，生成后预警 550 ms，20 点基础伤害并硬直 700 ms；3.2 秒冷却。初华在区域引爆前即可收招。 |
+| ↓＋U | 同一片星空·弦月回响   | 20   | 一道缓慢而高耸的弦月以 300 速度前进，最远离开原点 520；14 点基础伤害，单段命中，2.2 秒冷却。                                                   |
 
-The cage stays at its original warning position and can be escaped. Multi-hit U grants the target 8 resonance total (3 when fully guarded), split over three bursts; attacker gains stay at 2 per skill hit. Existing combo scaling applies normally.
+星笼停留在原本的预警位置并可被躲开。多段命中的 U 共为受击方提供 8 点共鸣（完全防御时为 3 点），由三次爆发分摊；攻击方每段技能命中仍获得 2 点。既有连段衰减照常生效。
 
-The denial bursts alternate existing whole-body impact poses. Star trails, an expanding star cage and a musical crescent use code-drawn overlays without replacing the original art. Stage voice aliases map U to the original “不是不是不是” clip, I to “想见Saki酱”, O to “不是的”, and the extra crescent to “想见Saki酱”; normal-form and super media remain unchanged, including original playback speed.
+否认爆发交替使用既有的全身受击姿势。星轨、扩张的星笼与音乐弦月均为代码绘制的叠加效果，不替换原始美术。舞台语音别名把 U 映射到原有的「不是不是不是」片段，I 映射到「想见Saki酱」，O 映射到「不是的」，额外弦月映射到「想见Saki酱」；普通形态与大招素材不变，包括原始播放速度。
 
-The guitar/vocalist, stargazing and childhood connection motifs follow the [official character profile](https://anime.bang-dream.com/avemujica/character/uika/). Pursuit/denial motifs reuse the existing [verified source clip](https://www.bilibili.com/video/BV1oLVXzFEUW/) with reviewed timestamps in the asset manifest. Star-cage and crescent names describe game-designed effects rather than new recorded dialogue.
+吉他手兼主唱、观星与童年羁绊的意象来自[官方角色页](https://anime.bang-dream.com/avemujica/character/uika/)。追击／否认意象复用既有的[已验证素材片段](https://www.bilibili.com/video/BV1oLVXzFEUW/)，时间戳已在素材清单中复核。星笼与弦月的名称描述的是游戏设计的演出效果，而非新录制的台词。
 
-## Nonoka — anime-only skill motifs, 2026-10-25
+## 野乃花 — 取自动画的技能设计，2026-10-25
 
-All active Nonoka skills, the regular throw and the super now select anime recordings rather than livestream memes. The existing full-body virtual outfit remains. The former “头像通缉” / “病娇国王” names and active presentations are replaced; original source media remains preserved.
+野乃花所有主动技能、普通投技与大招现在都选用动画录音，而不再使用直播梗。既有的全身虚拟服装保留。原先「头像通缉」/「病娇国王」的名称与主动演出已被替换；原始素材仍然保留。
 
-| Command | Skill                 | Cost | Behavior                                                                                                                                   |
-| ------- | --------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| U       | 抱抱还是亲亲·强制手当 | 20   | Short approaching hug/command throw: advances 70, reaches 110, 14 damage and 600 ms stun. Beats grounded guard, can whiff; 2 s recast.     |
-| I       | 海边搜寻·找到由乃亲   | 25   | Binocular search gesture into a continuous forward approach up to 300; retains 18 damage, 1.6 s recast.                                    |
-| O       | 金枪鱼小黑·认真一拳   | 30   | A visible tuna prop accompanies the heavy punch: 24 damage, reach 240, launches and knocks down; 1.8 s recast.                             |
-| ↓＋U    | 兔食者·咬咬波         | 20   | Forward cartoon jaws; retains the prior wave's 13 damage, speed 760 and maximum reach 900.                                                 |
-| ↓＋I    | 我没事哦·元气护身     | 25   | Summons a frontal 24-HP heart shield for 1.8 s; 6 s recast. No healing or free resonance is granted.                                       |
-| P       | 兔食者·不会放开由乃亲 | 100  | Retains the six-hit super, existing damage scaling, armor and shared 8-point defender resonance budget; adds bite effects and anime media. |
+| 指令 | 技能                  | 消耗 | 表现                                                                                                  |
+| ---- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------- |
+| U    | 抱抱还是亲亲·强制手当 | 20   | 短距离贴身拥抱指令投：前冲 70，范围 110，14 点伤害并硬直 600 ms。可破地面防御，但可能落空；2 秒冷却。 |
+| I    | 海边搜寻·找到由乃亲   | 25   | 先做望远镜搜寻动作，随后持续向前接近最多 300；保留 18 点伤害，1.6 秒冷却。                            |
+| O    | 金枪鱼小黑·认真一拳   | 30   | 重拳伴随可见的金枪鱼道具：24 点伤害，范围 240，挑空并击倒；1.8 秒冷却。                               |
+| ↓＋U | 兔食者·咬咬波         | 20   | 向前放出卡通咬颚；保留原波次的 13 点伤害、速度 760 与最大范围 900。                                   |
+| ↓＋I | 我没事哦·元气护身     | 25   | 在正面召唤 24 点生命的爱心护盾，持续 1.8 秒；6 秒冷却。不提供治疗，也不赠送共鸣。                     |
+| P    | 兔食者·不会放开由乃亲 | 100  | 保留六段大招、既有伤害衰减、霸体与共享的 8 点受击共鸣预算；新增咬击效果与动画素材。                   |
 
-The “うさイーター” childhood identity is documented in the [official anime profile](https://anime.bang-dream.com/yumemita/character/nonoka/). The hug motif is visible in the [official episode 5 clip](https://www.bilibili.com/video/BV16bK46fENN/); the pursuit/holding motif and new super scene come from the [official episode 11 clip](https://www.bilibili.com/video/BV166tA6SExy/). The shield uses her line in the [official episode 9 clip](https://www.bilibili.com/video/BV1Mi8g6WEGV/). The tuna punch in episode 12 is independently described in [this episode review](https://note.com/crow_o/n/n33d5badb117e) and [this recap](https://blog.livedoor.jp/gosaber/archives/52292162.html). Combat effects are game adaptations of these scenes.
+「うさイーター」这一童年身份记载于[动画官方角色页](https://anime.bang-dream.com/yumemita/character/nonoka/)。拥抱意象可见于[官方第 5 集片段](https://www.bilibili.com/video/BV16bK46fENN/)；追逐／抱住意象与新的大招场景来自[官方第 11 集片段](https://www.bilibili.com/video/BV166tA6SExy/)。护盾使用她在[官方第 9 集片段](https://www.bilibili.com/video/BV1Mi8g6WEGV/)中的台词。第 12 集的金枪鱼重拳在[这篇单集评论](https://note.com/crow_o/n/n33d5badb117e)与[这篇回顾](https://blog.livedoor.jp/gosaber/archives/52292162.html)中另有描述。战斗效果是这些场景的游戏化改编。
 
-Three original anime recordings are cut at 1.50–4.90 s (hug), 7.00–11.00 s (holding Yuno) and 4.95–7.60 s (I'm fine), respectively. The 4-second super video and finish illustration are from the same holding-Yuno scene, with video playback rate 1. All active move aliases and timestamps are recorded in `assets/meme-media/nonoka-story/sources.json`; no new synthetic dialogue is used.
+三段动画原声分别截取自 1.50–4.90 秒（拥抱）、7.00–11.00 秒（抱住由乃）与 4.95–7.60 秒（我没事哦）。4 秒的大招视频与终结插画来自同一段抱由乃场景，视频播放速率为 1。所有主动招式别名与时间戳记录在 `assets/meme-media/nonoka-story/sources.json` 中；未使用新合成的台词。
 
-## Yuno — anime-only skill motifs, 2026-10-25
+## 由乃 — 取自动画的技能设计，2026-10-25
 
-All active Yuno skills and her regular throw select official anime recordings. The original whole-body virtual costume, normal attacks and source/legacy media are preserved. The old livestream phrases are no longer selected by this kit.
+由乃所有主动技能与普通投技都选用动画官方录音。原有的全身虚拟服装、普通攻击与原始／旧版素材均保留。旧直播台词不再被这套招式选用。
 
-| Command | Skill               | Cost | Behavior                                                                                                                                                                                                |
-| ------- | ------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 迈向世界·双重低音   | 20   | Two low bass discs at 120/300 ms, 8 base damage each; speed 620. Crouch guard or jump can avoid them.                                                                                                   |
-| I       | 放开我·拒绝贴贴     | 25   | Retreats continuously up to 130 while striking around herself at 120 ms; 14 damage, reach 225, push 420, 450 ms stun, 1.8 s recast.                                                                     |
-| O       | supremacy·海边重奏  | 30   | Marks the enemy's cast-time position within 420 ahead; radius 135, 500 ms warning after creation, 22 damage and 650 ms stun. Recovery ends before the strike; 3.2 s recast. The warning can be escaped. |
-| ↓＋U    | 迈向世界·混音声波   | 20   | Retains the ranged wave's 14 damage, speed 560 and maximum reach 780; uses the new anime voice.                                                                                                         |
-| ↓＋I    | 最棒的乐队·合奏屏障 | 25   | Retains the former frontal shield: 24 HP for 2 seconds, 6 s recast. Moved from I to the directional variant.                                                                                            |
-| P       | 最高のバンド·世界へ | 100  | Retains the three surrounding hits, 8/12/28 base damage, existing combo scaling, super armor and the 8-point total defender resonance budget. Anime cutin runs at rate 1.                               |
+| 指令 | 技能                | 消耗 | 表现                                                                                                                                                 |
+| ---- | ------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| U    | 迈向世界·双重低音   | 20   | 两片低位贝斯音盘，出手时间 120/300 ms，各 8 点基础伤害；速度 620。蹲防或跳跃可以躲开。                                                               |
+| I    | 放开我·拒绝贴贴     | 25   | 持续后撤最多 130，并在 120 ms 攻击自身周围；14 点伤害，范围 225，推力 420，硬直 450 ms，1.8 秒冷却。                                                 |
+| O    | supremacy·海边重奏  | 30   | 标记敌方施放瞬间的位置，最远限制在前方 420 内；半径 135，生成后预警 500 ms，22 点伤害并硬直 650 ms。收招在打击发生前结束；3.2 秒冷却。预警可被躲开。 |
+| ↓＋U | 迈向世界·混音声波   | 20   | 保留远程声波的 14 点伤害、速度 560 与最大范围 780；改用新的动画语音。                                                                                |
+| ↓＋I | 最棒的乐队·合奏屏障 | 25   | 保留原先的正面护盾：24 点生命、持续 2 秒，6 秒冷却。从 I 键移到了方向组合键。                                                                        |
+| P    | 最高のバンド·世界へ | 100  | 保留三段环身攻击、8/12/28 基础伤害、既有连段衰减、大招霸体与 8 点受击共鸣总预算。动画切入画面以 1 倍速播放。                                         |
 
-DJ manipulation, former bass/composition work and world-stage ambition follow the [official anime character profile](https://anime.bang-dream.com/yumemita/character/yuno/) and the [official episode 10 flashback clip](https://www.bilibili.com/video/BV13HhG6vEJu/). The refusal of Nonoka's hug comes directly from the [official episode 11 clip](https://www.bilibili.com/video/BV166tA6SExy/). These combat effects adapt anime events rather than adding purported canonical powers or new spoken dialogue. The Akihabara penance marathon is Miyako's scene and is not assigned to Yuno.
+DJ 操作、此前的贝斯／作曲经历与登上世界舞台的抱负来自[动画官方角色页](https://anime.bang-dream.com/yumemita/character/yuno/)与[官方第 10 集回忆片段](https://www.bilibili.com/video/BV13HhG6vEJu/)。拒绝野乃花拥抱直接取自[官方第 11 集片段](https://www.bilibili.com/video/BV166tA6SExy/)。这些战斗效果改编自动画情节，并非追加所谓的官方设定或新录制台词。秋叶原赎罪马拉松是藤都子的场景，不归于由乃。
 
-Recordings are cut at 8.00–12.20 s (world ambition) and 0.00–5.75 s (best band) from episode 10, and 4.90–6.90 s (let go) from episode 11. The P video uses the same 0.00–5.75 s flashback at its original speed, padded to preserve the portrait framing; finish art uses Yuno's close-up at 26 s. Provenance is in `assets/meme-media/yuno-story/sources.json`. Five band colors, DJ discs, scratch arcs and a visible equalizer warning accompany retained whole-body sprites; no idle ghost layers are added.
+录音分别截取自第 10 集的 8.00–12.20 秒（走向世界）与 0.00–5.75 秒（最棒的乐队），以及第 11 集的 4.90–6.90 秒（放开我）。P 的视频使用同一段 0.00–5.75 秒回忆，保持原速，并做补边以保留立绘构图；终结美术使用由乃在 26 秒处的特写。出处记录在 `assets/meme-media/yuno-story/sources.json`。五色乐队光效、DJ 唱片、搓碟弧线与可见的均衡器预警配合保留的全身立绘；未添加待机幻影层。
 
-Multi-hit U splits the defender's 8-point hit / 3-point guard resonance budget over both discs; attacker gain stays 2 per skill hit. Existing combo scaling produces 15 total damage for U and 41 for P against an idle target.
+多段命中的 U 把受击方的 8 点命中 / 3 点防御共鸣预算分摊到两片音盘上；攻击方每段技能命中仍获得 2 点。面对静止目标时，既有连段衰减下 U 总伤害为 15，P 为 41。
 
-## Ritsu — anime-only skill motifs, 2026-10-25
+## 律 — 取自动画的技能设计，2026-10-25
 
-All active Ritsu skills, the counter derivative and her regular throw use official anime recordings. The intact full-body virtual costume and normals remain. Old livestream phrases remain archived but no longer appear in the active kit.
+律所有主动技能、反击衍生招与普通投技都使用动画官方录音。完整的全身虚拟服装与普通攻击保留。旧直播台词仍存档，但不再出现在当前招式组中。
 
-| Command | Skill               | Cost | Behavior                                                                                                                                                                                                      |
-| ------- | ------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 两磅肉排·双重横扫   | 20   | Steps forward up to 90; two sweeps at 140/330 ms, 7/11 base damage, reaches 220/260, second hit pushes away; 1.5 s recast. Existing combo scaling gives 17 total damage against an idle target.               |
-| I       | 请多关照·优等生防反 | 25   | Frontal counter window at 100–420 ms, 4 s recast. Success emits an 18-damage guitar/steak wave. Throws, rear hits and attacks outside the window beat it.                                                     |
-| O       | 七分熟·厚切重奏     | 30   | Retains the strengthened advancing heavy strike: 25 damage, advance 220, reach 175, first active at 210 ms. Uses a distinct heavy windup/impact and seared-steak motif.                                       |
-| ↓＋U    | 七分熟·炙烤弦波     | 20   | Retains 16 damage, speed 700 and maximum reach 780; replaces voice and adds a steak silhouette to the blue guitar wave.                                                                                       |
-| P       | 饥饿狂战士·开饭啦   | 100  | Five forward claw/guitar strikes at 100/280/460/640/820 ms, 10 base damage each, advance 180 and launch on the final hit. Existing scaling gives 40 total damage against an idle target; retains super armor. |
+| 指令 | 技能                | 消耗 | 表现                                                                                                                                             |
+| ---- | ------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| U    | 两磅肉排·双重横扫   | 20   | 向前踏步最多 90；两段横扫在 140/330 ms 出手，基础伤害 7/11，范围 220/260，第二段击退；1.5 秒冷却。面对静止目标，既有连段衰减下总伤害为 17。      |
+| I    | 请多关照·优等生防反 | 25   | 正面反击窗口为 100–420 ms，4 秒冷却。成功后放出 18 点伤害的吉他／牛排波。投技、背后攻击与窗口外的攻击都能破解它。                                |
+| O    | 七分熟·厚切重奏     | 30   | 保留强化后的前冲重击：25 点伤害，前冲 220，范围 175，首次判定在 210 ms。使用专属的重击蓄力／命中动作与炙烤牛排意象。                             |
+| ↓＋U | 七分熟·炙烤弦波     | 20   | 保留 16 点伤害、速度 700 与最大范围 780；更换语音，并在蓝色吉他波上加入牛排剪影。                                                                |
+| P    | 饥饿狂战士·开饭啦   | 100  | 五段向前爪击／吉他击，出手时间 100/280/460/640/820 ms，各 10 点基础伤害，前冲 180，末段挑空。面对静止目标，既有衰减下总伤害为 40；保留大招霸体。 |
 
-The good-student/food-obsessed rhythm guitarist is described in the [official anime character introduction](https://anime.bang-dream.com/bandorichan/character/yumemita/?member=ritsu) and [official character profile](https://bang-dream-on.bushimo.jp/character/yumemita/minetsuki-ritsu/). Food-ordering and polite greeting recordings are from the [official episode 7 clip](https://www.bilibili.com/video/BV1jpM96iEwC/): 19.75–21.05 s (two pounds), 3.85–6.55 s (please take care of me), 21.05–22.60 s (medium-well). The [official episode 11 hungry-berserker clip](https://www.bilibili.com/video/BV1UY4y6kEgz/) supplies her 9.65–12.95 s line about snacks and feeling weak. The super uses Ritsu's own voice, rather than Nonoka's later reaction. These combat effects and move subtitles are game adaptations, not new recorded dialogue or canonical powers.
+优等生兼吃货节奏吉他手的设定记载于[动画官方角色介绍](https://anime.bang-dream.com/bandorichan/character/yumemita/?member=ritsu)与[官方角色页](https://bang-dream-on.bushimo.jp/character/yumemita/minetsuki-ritsu/)。点餐与礼貌问候的录音来自[官方第 7 集片段](https://www.bilibili.com/video/BV1jpM96iEwC/)：19.75–21.05 秒（两磅肉排）、3.85–6.55 秒（请多关照）、21.05–22.60 秒（七分熟）。[官方第 11 集饥饿狂战士片段](https://www.bilibili.com/video/BV1UY4y6kEgz/)提供了她 9.65–12.95 秒关于零食与体虚的台词。大招使用律本人的声音，而不是野乃花后来的反应。这些战斗效果与招式字幕是游戏化改编，并非新录制台词或官方设定。
 
-The super video is the same 3.3-second hunger scene at playback rate 1, padded to retain the portrait framing. The finish illustration uses its 12-second frame. Original media and reviewed source references remain intact, with new provenance in `assets/meme-media/ritsu-story/sources.json`. Held steak props, paired sweep arcs, a frontal counter outline, cooking steam and alternating blue/gold claw strikes accompany retained full-body animation frames. All multi-hit skills share the existing 8-hit / 3-guard total defender resonance budget; the attacker still gains 2 per skill hit and zero for super hits.
+大招视频仍是同一段 3.3 秒饥饿场景，播放速率为 1，并做补边以保留立绘构图。终结插画使用其 12 秒处的画面。原始素材与已复核的来源引用保持完整，新的出处记录在 `assets/meme-media/ritsu-story/sources.json`。手持牛排道具、成对横扫弧线、正面反击轮廓、料理蒸汽与蓝／金交替爪击配合保留的全身动画帧。所有多段技能共用既有的 8 点命中 / 3 点防御受击共鸣总预算；攻击方每段技能命中仍获得 2 点，大招命中为 0。
 
-## Miyako — anime small skills, 2026-10-25
+## 藤都子 — 动画小技能，2026-10-25
 
-Only Miyako's small skills and regular throw are reassigned. The existing P super retains its nine locked hits totaling 50 damage, 80% casting damage reduction, all original timing, audio/video and finish illustration. The full-body virtual artwork and normal attacks remain intact.
+本次只替换藤都子的小技能与普通投技。既有 P 大招保留九段锁定命中、总计 50 伤害、施放期间 80% 伤害减免，以及全部原始时序、音视频与终结插画。全身虚拟美术与普通攻击保持完整。
 
-| Command | Skill                 | Cost | Behavior                                                                                                                                                                                                                           |
-| ------- | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 富士见夜子·双页分镜   | 20   | Two arcing manuscript pages at 150/330 ms; 8 base damage each, speed 560, initial height 135, upward velocity 200 and gravity 560, maximum reach 760. Existing combo scaling gives 15 damage on a complete hit.                    |
-| I       | 百次参拜·赎罪印       | 25   | Marks the opponent's cast-time position, clamped within 420 ahead. Radius 135, 650 ms warning after creation, 24 damage and 650 ms stun; 4 s recast. Miyako can move after her 450 ms recovery; the target can escape the warning. |
-| O       | 秋叶原马拉松·赶稿突进 | 30   | Runs forward continuously up to 320 over 300 ms; active at 190 ms, reach 165, 22 damage and 400 ms stun; 1.8 s recast. No teleportation or invulnerability.                                                                        |
-| ↓＋U    | 不会停笔·墨线声波     | 20   | Retains the ranged wave's 15 damage, speed 640 and maximum reach 820; pen-nib/ink silhouette and new original anime recording.                                                                                                     |
+| 指令 | 技能                  | 消耗 | 表现                                                                                                                                                             |
+| ---- | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| U    | 富士见夜子·双页分镜   | 20   | 两页弧形分镜稿，出手时间 150/330 ms；各 8 点基础伤害，速度 560，初始高度 135，向上初速 200、重力 560，最大范围 760。完整命中时，既有连段衰减下为 15 点伤害。     |
+| I    | 百次参拜·赎罪印       | 25   | 标记对手施放瞬间的位置，最远限制在前方 420 内。半径 135，生成后预警 650 ms，24 点伤害并硬直 650 ms；4 秒冷却。藤都子在 450 ms 收招后即可行动；目标可以躲开预警。 |
+| O    | 秋叶原马拉松·赶稿突进 | 30   | 在 300 ms 内持续向前奔跑最多 320；190 ms 起判定，范围 165，22 点伤害并硬直 400 ms；1.8 秒冷却。没有瞬移，也没有无敌。                                            |
+| ↓＋U | 不会停笔·墨线声波     | 20   | 保留远程声波的 15 点伤害、速度 640 与最大范围 820；加入笔尖／墨线剪影与新的动画原声。                                                                            |
 
-The weekly manga artist identity “富士見夜子” is documented in the [official anime character profile](https://anime.bang-dream.com/yumemita/character/miyako/). The [official episode 11 clip](https://www.bilibili.com/video/BV1SEtG6dECK/) supplies all four original-speed recordings: 5.00–8.45 s (doing what must be done), 16.80–18.90 s (one hundred shrine visits), 14.10–16.75 s (Akihabara marathon), and 0.00–3.45 s (living her own way). Source metadata and timestamps are in `assets/meme-media/miyako-story/sources.json`. Manuscript attacks, a penance stamp and the deadline-sprint subtitle are game adaptations of her manga career and that scene, not new recorded dialogue or claims of canonical powers.
+周刊漫画家的身份「富士見夜子」记载于[动画官方角色页](https://anime.bang-dream.com/yumemita/character/miyako/)。[官方第 11 集片段](https://www.bilibili.com/video/BV1SEtG6dECK/)提供了全部四段原速录音：5.00–8.45 秒（该做的事就要做）、16.80–18.90 秒（百次参拜）、14.10–16.75 秒（秋叶原马拉松）与 0.00–3.45 秒（按自己的方式活）。来源元数据与时间戳在 `assets/meme-media/miyako-story/sources.json`。分镜稿攻击、赎罪印章与赶稿冲刺字幕是她漫画家生涯与该场景的游戏化改编，并非新录制台词，也不代表官方设定。
 
-Paper throws switch full-body impact poses on the second release. The stamp uses a crouching pose and an explicit ground warning spanning the actual damage radius; the run uses an existing dash pose, speed lines and footprints. No duplicate body layers are added. Small skills use no video cutins. Multi-hit U shares one 8-point hit / 3-point guard total defender resonance budget, while attacker gain remains 2 per skill hit.
+投掷分镜稿在第二次出手时切换全身受击姿势。印章使用蹲姿与覆盖实际伤害半径的明确地面预警；突进使用既有的冲刺姿势、速度线与脚印。未添加重复的身体图层。小技能不使用视频切入画面。多段命中的 U 共用一份 8 点命中 / 3 点防御的受击共鸣总预算，攻击方每段技能命中仍获得 2 点。
 
-## Sakiko — circular binding and descending chords, 2026-10-25
+## 祥子 — 环形束缚与下行和弦，2026-10-25
 
-Both normal and stage P (我来成为神明) spend 100 resonance and acquire once on the release tick, within a true 330-unit circle centered at the caster's original body center. Facing does not restrict acquisition. Invulnerable opponents and late entrants are not captured. A captured opponent stays at their original position, including in the air or on a platform, until the 1.75-second cast ends or either fighter is defeated. The existing target binding is serialized for LAN prediction.
+普通形态与舞台形态的 P（我来成为神明）都消耗 100 共鸣，并在出手判定帧以施放者原始身体中心为圆心、半径 330 的圆形范围内进行一次锁定。朝向不影响锁定。处于无敌的对手与中途加入者不会被抓住。被抓住的对手停留在原位置（包括空中或平台上），直到 1.75 秒的施放结束或任一方被击败。既有的目标束缚状态会序列化用于联机预测。
 
-Sakiko rises smoothly by up to 160 units over 320 ms, hovers, and returns during the final 340 ms. World height limits still apply. Three descending chords strike the locked position at 250/750/1250 ms for 8/12/28 fixed base damage: 48 total, or 57.6 under the existing stage multiplier. Super armor and the shared 8-point defender resonance budget remain; super hits restore no attacker resonance. A missed field deals no later tracking damage.
+祥子在 320 ms 内平滑上升最多 160 单位，悬停，再于最后 340 ms 回落。世界高度上限仍然生效。三道下行和弦在 250/750/1250 ms 打击锁定位置，固定基础伤害 8/12/28：合计 48，在既有舞台倍率下为 57.6。大招霸体与共享的 8 点受击共鸣预算保留；大招命中不回复攻击方共鸣。未命中的领域不会在之后追加追踪伤害。
 
-Five replacement recordings use Sakiko's actual anime voice, checked against visible speakers and word-level Japanese transcription in [the source compilation](https://www.bilibili.com/video/BV13KXeYpEcL/). P now includes the full “神様などいない。ですから、私が神になります。” at 34.45–40.45 s, stopping before the other speaker's reaction. The former U cut included that reaction and is replaced, along with I/O/H; throw uses the new O clip. The verified customer-service recording remains. Exact timestamps and speaker evidence are in `assets/meme-media/sakiko-requiem/sources.json`.
+五段替换录音使用祥子本人的动画语音，并对照[来源合集](https://www.bilibili.com/video/BV13KXeYpEcL/)中可见的说话人与逐词日文转写核对。P 现在包含完整的「神様などいない。ですから、私が神になります。」（34.45–40.45 秒），在另一位说话人反应前收住。此前的 U 片段包含那段反应，已连同 I/O/H 一起替换；投技使用新的 O 片段。已验证的客服录音保留。精确时间戳与说话人证据在 `assets/meme-media/sakiko-requiem/sources.json`。
 
-The six-second speech and video keep original speed, independently of the shorter combat animation. An independent recorded-speech channel lets the sentence finish through ordinary follow-up attacks, form expiry and automatic round transitions; same-speaker clips do not overlap it. Pause resumes from its saved offset. Explicit mute, restart or leaving still stops all audio. Original source media remains archived; only the superseded, unreferenced runtime video is removed.
+六秒的语音与视频保持原速，与更短的战斗动画相互独立。独立的录音语音通道让整句话可以穿过普通追击、形态到期和自动回合切换继续播完；同一说话人的片段不会与之重叠。暂停后从保存的偏移继续播放。显式静音、重开或离开仍会停止所有音频。原始素材保持归档；只移除被取代且不再引用的运行时视频。
 
-## Arale — anime voice and magical microphone, 2026-10-25
+## 阿拉蕾 — 动画语音与魔法麦克风，2026-10-25
 
-U/I/O have distinct pressure, protection and approach roles. Her original whole-body virtual artwork and normals remain. The magical-girl fandom and powerful vocalist motifs follow [her official anime profile](https://anime.bang-dream.com/yumemita/character/arale/); the effects below are gameplay adaptations of those motifs and her dialogue.
+U/I/O 分别承担压迫、保护与接近的角色分工。她原有的全身虚拟美术与普通攻击保留。魔法少女粉丝与强力歌手的意象来自[她的动画官方角色页](https://anime.bang-dream.com/yumemita/character/arale/)；下面的效果是这些意象与台词的玩法化改编。
 
-| Command | Skill                 | Cost | Behavior                                                                                                                                                                                                          |
-| ------- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 梦想就是力量·星光声弹 | 20   | One arcing star: 16 damage, first release at 140 ms, speed 520, initial height 135, upward velocity 240/gravity 640, maximum reach 650; 1.2 s recast. The curved trajectory differs from the flat ranged variant. |
-| I       | 往事翻篇·现在加油     | 25   | Front-facing, breakable 24-HP star barrier for 2 s; appears at 120 ms, 6 s recast. It absorbs frontal damage, without healing or protection from rear attacks.                                                    |
-| O       | 行动起来·破局突进     | 30   | Advances continuously up to 240 over 280 ms; active at 180–300 ms, reach 180, 24 damage and push 260; 1.8 s recast. Can miss or be guarded; no teleport or invulnerability.                                       |
-| ↓＋U    | 用歌声对话·直线音波   | 20   | Retains the flat wave's 14 damage, speed 600 and maximum reach 850, with a new recorded line and star/note effect.                                                                                                |
-| P       | 梦限大·无数次做梦     | 100  | Three tall forward vocal waves released at 120/420/720 ms, 8/12/28 base damage, maximum reach 900, recovery at 1.2 s. Existing scaling yields 41 damage against an idle target; super armor stays.                |
+| 指令 | 技能                  | 消耗 | 表现                                                                                                                                                 |
+| ---- | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| U    | 梦想就是力量·星光声弹 | 20   | 一颗弧形星星：16 点伤害，首次出手在 140 ms，速度 520，初始高度 135，向上初速 240／重力 640，最大范围 650；1.2 秒冷却。其曲线弹道与平射远程变体不同。 |
+| I    | 往事翻篇·现在加油     | 25   | 正面可击破的 24 点生命星星屏障，持续 2 秒；在 120 ms 出现，6 秒冷却。它吸收正面伤害，但不提供治疗，也不防背后攻击。                                  |
+| O    | 行动起来·破局突进     | 30   | 在 280 ms 内持续前冲最多 240；180–300 ms 期间判定，范围 180，24 点伤害，推力 260；1.8 秒冷却。可能落空或被防御；没有瞬移与无敌。                     |
+| ↓＋U | 用歌声对话·直线音波   | 20   | 保留平射声波的 14 点伤害、速度 600 与最大范围 850，并加入新录制的台词与星星／音符效果。                                                              |
+| P    | 梦限大·无数次做梦     | 100  | 三道高耸的向前声乐波，出手时间 120/420/720 ms，基础伤害 8/12/28，最大范围 900，收招在 1.2 秒。面对静止目标，既有衰减下为 41 点伤害；大招霸体保留。   |
 
-The new active U/I/O/down-U/P/throw aliases all use Arale's own anime voice. Episode 1's [“the past is over; do your best now”](https://www.bilibili.com/video/BV1kuTf6dEQ2/) supplies I at 0.30–3.65 s. Episode 11's [wish/action discussion](https://www.bilibili.com/video/BV1Ua4y6VErp/) supplies O at 3.35–7.85 s. Episode 12's [decision to speak through singing](https://www.bilibili.com/video/BV1cWYx6bEM4/) supplies U at 19.50–21.25 s and the flat wave at 7.10–9.35 s. P is her complete [episode 13 band-name declaration](https://www.bilibili.com/video/BV1vueJ6qE1L/) at 38.95–43.95 s. Its five-second video keeps original speed; finish art uses the same scene's 41.90 s close-up. Exact speaker evidence is in `assets/meme-media/arale-story/sources.json`.
+新的主动 U/I/O/下 U/P/投技别名都使用阿拉蕾本人的动画语音。第 1 集的[「往事翻篇，现在加油」](https://www.bilibili.com/video/BV1kuTf6dEQ2/)提供 I 的 0.30–3.65 秒。第 11 集的[愿望／行动讨论](https://www.bilibili.com/video/BV1Ua4y6VErp/)提供 O 的 3.35–7.85 秒。第 12 集的[用歌声表达的决心](https://www.bilibili.com/video/BV1cWYx6bEM4/)提供 U 的 19.50–21.25 秒与平射声波的 7.10–9.35 秒。P 是她在第 13 集完整的[乐队名宣言](https://www.bilibili.com/video/BV1vueJ6qE1L/)，38.95–43.95 秒。其五秒视频保持原速；终结美术使用同一场景 41.90 秒的特写。精确的说话人证据在 `assets/meme-media/arale-story/sources.json`。
 
-P reuses the independent speech channel, so normal recovery, follow-up skills and automatic round transitions do not cut her complete declaration; pause resumes its offset and explicit mute/restart/leave stops it. Arale's small skill voices follow normal interruption rules. Star trails, a golden shield, approach streaks and five band colors accompany existing poses. No idle ghost layers or duplicate bodies are added. All skill hits keep the shared 8-point total defender resonance budget and 2-point attacker gain; super hits grant no attacker resonance.
+P 复用独立语音通道，因此普通收招、追击技能与自动回合切换都不会打断她完整的宣言；暂停会从偏移处继续，显式静音／重开／离开会停止。阿拉蕾的小技能语音遵循普通打断规则。星轨、金色护盾、接近残影与五色乐队光效配合既有姿势。未添加待机幻影层或重复身体。所有技能命中都沿用共享的 8 点受击共鸣总预算与 2 点攻击方获取；大招命中不给予攻击方共鸣。
 
-## Mortis — earlier super video window, 2026-10-25
+## Mortis — 更早的大招视频窗口，2026-10-25
 
-The user requested moving the stage P video start two seconds earlier, clamped to the beginning of [the previously selected source](https://www.bilibili.com/video/BV1uPf5YCE73/). Its previous start was 0.95 s, so the new video window is 0.00–2.10 s. The existing scream audio retains its 0.95–3.05 s window; this deliberate video offset does not change either playback speed. The red stage wide shot replaces the unrelated “protect Mutsumi and her band” dialogue video. The independent speech channel lets the scream finish through follow-up attacks and resumes its saved offset after pause. The old source video remains archived. Finish art, damage and stage P's five-ring combat timing remain unchanged.
+用户要求把舞台 P 的视频起点提前两秒，并以[此前选定的素材](https://www.bilibili.com/video/BV1uPf5YCE73/)开头为限。它原先的起点是 0.95 秒，因此新的视频窗口为 0.00–2.10 秒。既有的尖叫音频仍保留 0.95–3.05 秒的窗口；这一有意的视频偏移不改变任何播放速度。红色舞台远景替换了原先无关的「保护睦和她乐队」对话视频。独立语音通道让尖叫可以穿过追击继续播完，并在暂停后从保存的偏移恢复。旧素材视频保持归档。终结美术、伤害与舞台 P 的五环战斗时序均不变。
 
-## Faster Mutsumi, tracking Umiri and height tolerance, 2026-10-25
+## 更快的睦、追踪型海铃与高度容差，2026-10-25
 
-Normal Mutsumi P releases three strikes at 60/340/620 ms and recovers after 1000 ms of combat time, plus hitstop. Fixed damage preserves the previous 48-point total despite the shorter gaps. Her original 8.1-second recording and video continue at playback rate 1, independently of recovery. Both forms of Mutsumi and Umiri use the independent speech channel, so a quick follow-up skill cannot cut the original super recording short; mute, explicit restart and leaving still stop playback.
+普通形态睦的 P 在 60/340/620 ms 放出三段打击，并在 1000 ms 战斗时间后收招，另加命中停顿。固定伤害让总伤害在间隔缩短后仍保持此前的 48 点。她原有的 8.1 秒录音与视频以 1 倍速继续播放，与收招相互独立。睦与海铃的两种形态都使用独立语音通道，因此快速追击技能不会截断原大招录音；静音、显式重开与离开仍会停止播放。
 
-Both forms of Umiri P release one homing bass wave at 100 ms, recover after 650 ms, and deal one fixed 30-point base hit (36 with the existing stage multiplier). The wave travels at 760 units/s and turns toward the opponent's current body center on both axes, at up to 8 radians/s. Its lifetime is 4500 ms and total travel limit follows the world width (2760 units after the 2026-10-27 expansion). It can be guarded, blocked by a shield or destroyed by projectile collision, and expires normally or at round end. Homing and vertical velocity are serialized in the existing shared match state for prediction. Super hits restore no attacker resonance and retain the total 8-point defender hit / 3-point guard budget.
+海铃两种形态的 P 都在 100 ms 放出一次追踪贝斯波，650 ms 后收招，造成一次固定的 30 点基础伤害（在既有舞台倍率下为 36）。贝斯波以 760 单位／秒前进，并在两个轴上以最高 8 弧度／秒转向对手当前身体中心。存在时间 4500 ms，总飞行距离上限跟随世界宽度（2026-10-27 扩容后为 2760 单位）。它可以被防御、被护盾挡下或被飞行道具碰撞抵消，并会在正常到期或回合结束时消失。追踪与垂直速度在既有共享对战状态中序列化，用于预测。大招命中不回复攻击方共鸣，并保留 8 点命中 / 3 点防御的总受击预算。
 
-Heavy attacks now multiply authored horizontal reach by 1.5 instead of 1.2, increasing their previous effective range by 25%; heavy swing trails follow the wider reach. Minimum vertical tolerances are 240 for normal attacks, 320 for true heavy attacks, 280 for close-range skills and 360 for close-range supers. Compact-form Tomori uses the same expanded heavy reach. Throws, targeted ground areas and target-lock acquisition retain their authored geometry.
+重攻击现在把设定水平范围乘以 1.5（原为 1.2），使其此前的有效范围增加 25%；重击挥击拖尾跟随加宽后的范围。最小垂直容差为：普通攻击 240，真正的重攻击 320，近距离技能 280，近距离大招 360。缩小形态的灯使用同样加宽的重击范围。投技、指向性地面区域与目标锁定获取保持设定的几何参数。
 
-Non-ground forward projectiles allow at least 260 units between the wave center and the target body center; non-homing super waves also allow up to 360 units of caster/target foot-height difference. Ground shockwaves and radial rings retain their existing geometry. These changes make nearby platform fights more forgiving while a 600-unit melee height gap still misses. Damage, ordinary skill costs and existing combo recovery are unchanged outside the requested Umiri super redesign. LAN hosts must restart the backend and both players refresh after updating the shared combat code.
+非地面的向前飞行道具允许波中心与目标身体中心至少相距 260 单位；非追踪大招波还允许施放者与目标脚部高度差最多 360 单位。地面冲击波与环形波保持既有几何参数。这些改动让邻近平台上的战斗更宽容，而 600 单位的高度差仍会落空。除按需求重做海铃大招外，伤害、普通技能消耗与既有连段收招均不变。更新共享战斗代码后，局域网主机必须重启后端，双方玩家刷新网页。
 
-## Remove ineffective skill entries, 2026-10-25
+## 移除失效技能条目，2026-10-25
 
-An audit of all character/form bindings found five ineffective entries: Mujica's H transformation remained listed after transforming, although a second transformation is unavailable during the 20-second form. Stage schemes and move lists now omit that entry and restore it after expiry. Touch controls and the battle hint follow the locally controlled fighter, including the guest's side and reserve changes in LAN play; characters without a transformation show no H button. Removing a held touch button releases its input. Help labels clarify which characters can transform.
+对全部角色／形态绑定的审计发现五条失效条目：Mujica 的 H 变身在变身之后仍留在列表中，而 20 秒形态期间无法再次变身。舞台方案与招式表现在会省略该条目，并在到期后恢复。触摸操作与战斗提示跟随本地受控角色，包括联机对战中客机一侧与替补变更；没有变身的角色不显示 H 按钮。松开持续按住的触摸按钮会释放对应输入。帮助标签说明了哪些角色可以变身。
 
-The remaining 149 skill entries were exercised through their actual direction/button inputs. Each produced damage, movement, control, healing, energy, beats, shielding, summons or transformation; counters were tested against an incoming frontal hit. Functional zero-damage support skills, source media and attack modules remain intact.
+其余 149 条技能条目都通过真实的方向／按键输入进行实测。每一条都产生了伤害、位移、控制、治疗、能量、拍数、护盾、召唤或变身效果；反击类技能以迎面攻击进行测试。功能正常的零伤害辅助技能、素材与攻击模块保持完整。
 
-## Viola — camera and editing pressure, 2026-10-25
+## 薇欧拉 — 镜头与剪辑压迫，2026-10-25
 
-Viola (ビオラ) joins as character 15, with 200 HP and the standard J/K/L/U/I/O/P controls. She belongs to Fairy Bouquet; the shared MewType code and atlas family retain the existing architecture without labeling her a member of the main five. Her normal, crouching and airborne attacks include three distinct J poses and a separate heavy strike. She has one costume and no H transformation entry.
+薇欧拉（ビオラ）作为第 15 名角色加入，生命值 200，使用标准的 J/K/L/U/I/O/P 操作。她属于 Fairy Bouquet；共享的 MewType 代码与图集系列保持既有架构，但不把她算作主五人成员。她的站立、蹲下与空中攻击包含三种不同的 J 姿势与一次独立的重击。她只有一套服装，没有 H 变身条目。
 
-| Command | Skill             | Cost | Behavior                                                                                                                                                                                                                              |
-| ------- | ----------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 镜头闪拍          | 20   | Close flash in either facing direction, horizontal reach 220, 16 damage, first active at 160 ms; 1.4 s recast.                                                                                                                        |
-| I       | 断章取义·剪辑陷阱 | 25   | Marks the opponent's cast-time position, clamped within 420 ahead; 135-radius ground warning lasts 700 ms after creation, then deals 24 damage. Viola recovers before detonation; moving out of the warning avoids it. 4 s recast.    |
-| O       | 原样就好·退场推击 | 30   | Advances continuously up to 160, then strikes at 200–300 ms for 24 damage with strong push and knockdown; 2 s recast.                                                                                                                 |
-| ↓＋U    | 做得真好·剪辑声波 | 20   | One film-strip wave, 14 damage, speed 680, maximum travel 820; first release at 170 ms.                                                                                                                                               |
-| P       | 引爆点·剪辑放送   | 100  | Three strikes at 100/420/740 ms deal fixed 8/12/28 damage (48 total), within a 240-radius horizontal field at the cast-time target position. Recovery at 1.1 s plus hitstop; the opponent is not bound. Retains standard super armor. |
+| 指令 | 技能              | 消耗 | 表现                                                                                                                                                                                   |
+| ---- | ----------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| U    | 镜头闪拍          | 20   | 朝任意朝向的近距离闪光，水平范围 220，16 点伤害，首次判定在 160 ms；1.4 秒冷却。                                                                                                       |
+| I    | 断章取义·剪辑陷阱 | 25   | 标记对手施放瞬间的位置，最远限制在前方 420 内；半径 135 的地面预警在生成后持续 700 ms，随后造成 24 点伤害。薇欧拉在引爆前收招；走出预警范围即可躲开。4 秒冷却。                        |
+| O    | 原样就好·退场推击 | 30   | 持续前冲最多 160，然后在 200–300 ms 出手，造成 24 点伤害并附带强击退与击倒；2 秒冷却。                                                                                                 |
+| ↓＋U | 做得真好·剪辑声波 | 20   | 一道胶片带波，14 点伤害，速度 680，最大飞行距离 820；首次出手在 170 ms。                                                                                                               |
+| P    | 引爆点·剪辑放送   | 100  | 三段打击在 100/420/740 ms 出手，造成固定 8/12/28 伤害（合计 48），范围是以施放瞬间目标位置为中心、半径 240 的水平领域。收招在 1.1 秒，另加命中停顿；对手不会被束缚。保留标准大招霸体。 |
 
-U, I, O, slide+U and the archived super line are Viola's own voice from [the official character CM](https://www.bilibili.com/video/BV11uK36xEs2/). P now plays the episode 3 anime audio directly: 22:39.000–22:44.046 (5.05 s, original speed, level-matched to her other lines), with the background video cut from the same frame range, so picture and voice start together. The earlier CM super voice (“这个数字，感觉会成为不错的引爆点呢”, 16.85–20.90 s) and CM cut-in stay archived; the finish still is unchanged. Its independent speech channel finishes through fast recovery and follow-up attacks. Other recordings cover her greeting, message not reaching its recipient, telling Arale to remain as she is, and praise. Source timestamps, uploader, speaker evidence and hashes are in `assets/meme-media/viola-story/sources.json`; no commentary voices are used. Camera flashes, film strips and warning frames are gameplay adaptations of her portrayal, not claims of canonical powers.
+U、I、O、滑步+U 以及归档的大招台词都是薇欧拉本人的声音，来自[官方角色 CM](https://www.bilibili.com/video/BV11uK36xEs2/)。P 现在直接播放第 3 集的动画音频：22:39.000–22:44.046（5.05 秒，原速，已与她其他台词对齐音量），背景视频从同一帧范围截取，因此画面与配音同时开始。此前的 CM 大招语音（「这个数字，感觉会成为不错的引爆点呢」，16.85–20.90 秒）与 CM 切入画面保持归档；终结定格不变。其独立语音通道让台词穿过快速收招和追击播完。其他录音覆盖她的问候、消息没送到对方、劝阿拉蕾保持原样以及称赞。来源时间戳、上传者、说话人证据与哈希在 `assets/meme-media/viola-story/sources.json`；未使用解说语音。镜头闪光、胶片带与预警框是她这一形象的游戏化改编，并非官方设定。
 
-Skills retain the common 2-point attacker gain and 8-point total defender hit / 3-point guard resonance budget. P grants no attacker resonance. Solo, CPU, practice and ordered 3v3 use the same shared rules; LAN protocol 5 prevents older clients without the new character from joining incompatible games.
+技能保留通用的 2 点攻击方获取与 8 点命中 / 3 点防御的受击共鸣总预算。P 不给予攻击方共鸣。单人、电脑、练习与顺序 3v3 使用同一套共享规则；局域网协议 5 阻止没有新角色的旧客户端加入不兼容的对局。
 
-## Taki — rhythm pressure and original anime dialogue, 2026-10-26
+## 立希 — 节奏压迫与动画原声，2026-10-26
 
-The existing whole-body artwork, J/K attacks and four-beat meter remain. U/I/O now cover quick pressure, mid-range ground control and sustained close pressure. Names, recorded dialogue and alternating whole-body poses follow the same action; original “ha?” source files remain archived.
+既有的全身立绘、J/K 攻击与四拍计量保留。U/I/O 现在分别覆盖快速压迫、中距离地面控制与持续的近身压迫。名称、录制的台词与交替的全身姿势都对应同一动作；原始的「ha?」素材文件保持归档。
 
-| Command | Skill                 | Cost | Behavior                                                                                                                                                                                                                                                                                    |
-| ------- | --------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| U       | 什么都不懂·反拍连打   | 20   | Three strikes at 80/220/360 ms, 6 base damage each (16 after existing combo scaling), 600 ms recovery; switches between three actual impact drawings.                                                                                                                                       |
-| I       | 拉黑你·低音驱离       | 25   | One low ground wave, 18 damage, first release at 180 ms, speed 640, travel capped at 800. Grounded opponents can block it low; jumping avoids it. Four-beat enhancement adds a second 8-base-damage wave at 360 ms (25 total on full hit).                                                  |
-| O       | 灯才不会·八拍护航     | 30   | Eight strikes at 160–790 ms in 90 ms steps, 36 total base damage (24 after scaling), 1.05 s recovery; small forward step retained. Four-beat enhancement consumes four beats and increases the finisher from 8 to 18 base damage, reach 260 and knockdown 700 ms (29 damage on a full hit). |
-| 前＋U   | 谁？何用？·抢拍突进   | 15   | Retains advancing approach, now 16 damage; enhanced version retains faster pursuit.                                                                                                                                                                                                         |
-| ↓＋U    | 反拍砸击              | 20   | High strike now deals 24 base damage; distinct overhead pose.                                                                                                                                                                                                                               |
-| 前＋I   | 重拍上挑              | 25   | Anti-air strike now deals 20 base damage; four-beat enhancement retains its higher reach and pursuit.                                                                                                                                                                                       |
-| ↓＋I    | 一己私欲·节拍校准     | 15   | Adds two beats at 150 ms, recovers after 450 ms, six-second cooldown; cannot be used at four beats.                                                                                                                                                                                         |
-| P       | 曲子由我来写·四拍终奏 | 100  | Four strikes at 80/300/520/740 ms, fixed 8/10/12/18 damage (48 total). Forward reach expands 300/340/380/420, recovery at 1.2 s plus hitstop, standard super armor retained. Each beat selects a different existing drawing.                                                                |
+| 指令  | 技能                  | 消耗 | 表现                                                                                                                                                                                            |
+| ----- | --------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| U     | 什么都不懂·反拍连打   | 20   | 三段打击在 80/220/360 ms 出手，各 6 点基础伤害（既有连段衰减后为 16），收招 600 ms；在三张实际受击画面之间切换。                                                                                |
+| I     | 拉黑你·低音驱离       | 25   | 一道低空地面波，18 点伤害，首次出手在 180 ms，速度 640，飞行距离上限 800。地面上的对手可以下段防御；跳跃可以躲开。四拍强化在 360 ms 追加第二道 8 点基础伤害的波（全中合计 25）。                |
+| O     | 灯才不会·八拍护航     | 30   | 八段打击，160–790 ms，每 90 ms 一段，基础伤害合计 36（衰减后为 24），收招 1.05 秒；保留小幅前踏。四拍强化消耗四拍，并使末段从 8 提升到 18 点基础伤害、范围 260、击倒 700 ms（全中 29 点伤害）。 |
+| 前＋U | 谁？何用？·抢拍突进   | 15   | 保留前冲接近，伤害变为 16；强化版保留更快的追击。                                                                                                                                               |
+| ↓＋U  | 反拍砸击              | 20   | 上段打击现在造成 24 点基础伤害；使用专属的过顶姿势。                                                                                                                                            |
+| 前＋I | 重拍上挑              | 25   | 对空打击现在造成 20 点基础伤害；四拍强化保留更高的范围与追击。                                                                                                                                  |
+| ↓＋I  | 一己私欲·节拍校准     | 15   | 在 150 ms 增加两拍，450 ms 后收招，冷却 6 秒；在四拍时无法使用。                                                                                                                                |
+| P     | 曲子由我来写·四拍终奏 | 100  | 四段打击在 80/300/520/740 ms 出手，固定伤害 8/10/12/18（合计 48）。前向范围递增 300/340/380/420，收招在 1.2 秒，另加命中停顿，保留标准大招霸体。每一拍选用不同的既有画面。                      |
 
-Normal hits still supply beats; four beats enhance the next supported special, including the new `rikiEightBoost`. The enhancement inherits the ordinary eight-beat advance, so a target 250 units away receives all eight hits rather than only the final strike. Enhanced attack names, voices and snapshots are supported by LAN protocol 6. CPU choices follow the revised costs and ground-wave range. Defender resonance remains a single 8-hit / 3-guard total budget per skill, including both enhanced waves; attacker gain stays 2 per skill hit and zero for P.
+普通命中仍会累积拍数；四拍会强化下一个受支持的必杀技，包括新的 `rikiEightBoost`。强化继承普通八拍的前冲，因此 250 单位外的目标也会吃到全部八段，而不只是末段。强化攻击的名称、语音与快照由局域网协议 6 支持。电脑对手的选择会遵循调整后的消耗与地面波范围。受击共鸣仍为每项技能一份 8 点命中 / 3 点防御的总预算，包括强化后的两道波；攻击方每段技能命中仍获得 2 点，P 为 0。
 
-Six replacement recordings come from the original [Taki character CM](https://www.youtube.com/watch?v=UH6zMjECvQo), with Hayashi Coco's Taki dialogue verified against mouth movement and Japanese transcription. Download provenance points to [the unaltered CM reupload, page 5](https://www.bilibili.com/video/BV1i14y1U7DP/?p=5), CID 1173143579; its uploader is explicitly identified as non-official. The colleague's and Anon's dialogue are excluded. U/I/O use her critique, blocking remark and defense of Tomori; the advance uses her question and calibration her statement about her own ego. The overhead reuses U, the anti-air reuses O, and each enhanced move reuses its own base recording.
+六段替换录音来自原版[立希角色 CM](https://www.youtube.com/watch?v=UH6zMjECvQo)，林鼓子的立希台词已对照口型与日文转写核实。下载出处指向[未改动的 CM 转载，第 5 页](https://www.bilibili.com/video/BV1i14y1U7DP/?p=5)，CID 1173143579；其上传者已明确标注为非官方。同事与爱音的台词已排除。U/I/O 分别使用她的吐槽、拉黑发言与为灯辩护；前冲使用她的疑问，节拍校准使用她关于自身私欲的台词。过顶打击复用 U，对空复用 O，每个强化招式复用其自身的基础录音。
 
-P preserves the entire “わかった。曲は私が書く。” at 19.55–22.38 s: 2.83 seconds of original-speed audio and the same video interval, plus a finish still at 20.60 s. The independent speech channel finishes through fast recovery, follow-up skills and automatic round advance; explicit mute, restart and leaving stop it. Purple beat arcs, a blocking-mark wave, four/eight-beat indicators and gold enhancement strokes accompany intact character drawings. Timestamp, publisher/reuploader distinction, speaker evidence and hashes are in `assets/meme-media/taki-story/sources.json`.
+P 完整保留「わかった。曲は私が書く。」于 19.55–22.38 秒：2.83 秒的原速音频与对应视频区间，外加 20.60 秒的终结定格。独立语音通道让台词穿过快速收招、追击与自动回合推进播完；显式静音、重开与离开会停止。紫色节拍弧线、拉黑符号波、四／八拍指示与金色强化笔画配合完整的角色立绘。时间戳、发布者／转载者区分、说话人证据与哈希在 `assets/meme-media/taki-story/sources.json`。
 
-## Rana — cat steps, parfait and anime dialogue, 2026-10-26
+## 乐奈 — 猫步、芭菲与动画语音，2026-10-26
 
-Rana keeps her original normal-proportion character artwork, normal attacks, 200 HP and unified controls. U now links two advancing guitar strikes (15 resonance, 8/10 base damage; 17 after scaling) at 100/230 ms, with two impact poses and cat footprints. I throws the original matcha parfait at 150 ms for 20 damage, speed 720 and a flatter arc, capped at 900 travel. O costs 35 rather than 60, releasing four 9-base-damage notes at 80/230/380/530 ms; a complete hit against an idle opponent deals 30 after scaling. Its existing guitar poses alternate with each note.
+乐奈保留原有的正常比例角色美术、普通攻击、200 生命与统一操作。U 现在在 100/230 ms 连接两段前冲吉他击（15 共鸣，基础伤害 8/10；衰减后 17），配两张受击姿势与猫爪印。I 在 150 ms 投出原本的抹茶芭菲，20 点伤害、速度 720、弧线更平，飞行距离上限 900。O 的消耗由 60 降为 35，在 80/230/380/530 ms 放出四个 9 点基础伤害的音符；对静止目标完整命中在衰减后为 30。其既有吉他姿势随每个音符交替。
 
-Down-U uppercut deals 20, forward-U slide 16, and aerial down-O dive 18. Forward-I is a larger 22-damage chord; down-O is a cheaper 15-resonance, 14-damage single note. Down-I still grants 20 resonance with an eight-second cooldown, now triggering at 500 ms and recovering at 700 ms; interruption before the trigger grants nothing. CPU choices reflect the revised costs and ranges.
+下 U 上勾拳造成 20 点伤害，前 U 滑步 16 点，空中下 O 俯冲 18 点。前 I 是更大的 22 点伤害和弦；下 O 是更便宜的 15 共鸣、14 点伤害单音符。下 I 仍提供 20 共鸣、冷却 8 秒，现在在 500 ms 触发、700 ms 收招；触发前被打断则不提供任何收益。电脑对手的选择会反映调整后的消耗与范围。
 
-P, `结束了吗？·野猫终奏`, releases three expanding forward sweeps at 80/360/640 ms, dealing fixed 10/14/24 damage (48 total) over reach 320/400/480. Recovery is 1100 ms plus hitstop; super armor remains. Each sweep selects a different existing guitar pose. All skills retain the shared defender resonance budget of 8 on hits or 3 on guards, split among their hits; attacker gain remains 2 per skill hit and zero for P. Protocol 7 keeps both clients and the host on these same timings and projectile paths.
+P，`结束了吗？·野猫终奏`，在 80/360/640 ms 放出三道扩张的向前横扫，造成固定 10/14/24 伤害（合计 48），范围 320/400/480。收招 1100 ms，另加命中停顿；大招霸体保留。每道横扫选用不同的既有吉他姿势。所有技能沿用共享的受击共鸣预算：命中 8 点或防御 3 点，由其各段命中分摊；攻击方每段技能命中仍获得 2 点，P 为 0。协议 7 让双方客户端与主机保持相同的时序与飞行道具轨迹。
 
-Seven actual Rana recordings replace her previous runtime slots and cover all eleven skill/throw aliases. The source is the official [Rana character CM](https://www.youtube.com/watch?v=YE6sJdXyrKo), voiced by Hina Aoki; the downloaded [unaltered reupload, page 3](https://www.bilibili.com/video/BV1i14y1U7DP/?p=3) is recorded separately from the official publisher. P plays the complete “バンド、終わり？バイバイ。” at 23.15–26.60 s, with the same 3.45-second original-speed video and a finish still at 26.00 s. Its protected speech continues after recovery and follow-up attacks; explicit mute/restart/leave stops it. Source timings, speaker evidence and hashes are in `assets/meme-media/rana-story/sources.json`. Other characters' media and all original character artwork are preserved.
+七段真实的乐奈录音替换了她此前的运行时槽位，覆盖全部十一个技能／投技别名。来源是官方[乐奈角色 CM](https://www.youtube.com/watch?v=YE6sJdXyrKo)，由青木阳菜配音；下载的[未改动转载，第 3 页](https://www.bilibili.com/video/BV1i14y1U7DP/?p=3)由与官方发布者不同的一方录制。P 完整播放「バンド、終わり？バイバイ。」于 23.15–26.60 秒，配同一段 3.45 秒原速视频与 26.00 秒的终结定格。其受保护的语音会在收招与追击后继续；显式静音／重开／离开会停止。来源时间、说话人证据与哈希在 `assets/meme-media/rana-story/sources.json`。其他角色的素材与全部原始角色美术均保留。
 
-## Individual entrances — 2026-10-26
+## 个人登场演出 — 2026-10-26
 
-Every character has an entrance sequence using existing full-body poses, a short approach and restrained character-specific accents. Anon greets with pink sparkles; Soyo makes a composed entrance with petals; Tomori takes a breath; Rana hops in and tests her strings; Taki readies her sticks. Umiri tests a bass note, Sakiko prepares her keys, Uika greets softly, Mutsumi quietly tunes, and Nyamu frames her camera. Arale greets with stars, Ritsu bows, Miyako traces an ink stroke, Yuno warms up her bass, Nonoka skips in with hearts, and Viola frames a film shot. Each showcase resolves at least two different source drawings; no replacement portrait, transformed costume, duplicate body or combat attack is introduced.
+每名角色都有一段登场演出，使用既有的全身姿势、短距离接近与克制的角色专属点缀。爱音以粉色星光打招呼；素世带着花瓣从容登场；灯先深呼吸；乐奈跳进场并试了试琴弦；立希摆好鼓棒。海铃试了一个贝斯音，祥子准备键盘，初华轻声问候，睦安静调音，若麦架起镜头。阿拉蕾以星星打招呼，律鞠躬，藤都子划下一笔墨线，由乃热身贝斯，野乃花带着爱心蹦跳入场，薇欧拉取了一个电影镜头。每段展示至少用到两张不同的原始画稿；不引入替换立绘、变身服装、重复身体或战斗攻击。
 
-The 2100 ms entrance ends before the 650 ms READY cue. These animations project from `phaseMs` and `entrySides` and never move actual hitboxes or spend resonance. The fight timer stays at 60 seconds until input is accepted. Pause/reconnect retain progress, mirrored opponents face inward, and only a new 3v3 reserve performs after a knockout. Reduced-motion mode holds a static pose and label instead of the approach, hop, rotation or particles. Protocol 9 carries the timing and entrant flags in authoritative snapshots.
+2100 ms 的登场在 650 ms 的 READY 提示之前结束。这些动画由 `phaseMs` 与 `entrySides` 投影生成，绝不移动实际碰撞框，也不消耗共鸣。对战计时在输入被接受前保持 60 秒。暂停／重连会保留进度，镜像的对手朝向内侧，只有新的 3v3 替补在击倒后才演出。减少动态模式改为保持静态姿势与标签，不做接近、跳跃、旋转或粒子效果。协议 9 在权威快照中携带时序与登场标记。
 
-## Three-hit J chains restored — 2026-10-26
+## 恢复三段 J 连段 — 2026-10-26
 
-Mujica and MewType already had distinct second/third normal moves and artwork, but the shared scheme command resolver always selected the first strike. Standing repeated J now resolves the current form's opener → Jab2 → Jab3. The existing cancel windows link the stages; the third strike must recover before a fresh opener. The same resolver handles mobile touch repeat. MyGO/Penguin's original mapping and all existing damage, resource gain, reach, heavy attacks, crouching/air normals and skill cancels are retained. Protocol 10 keeps authoritative command resolution and local prediction aligned.
+Mujica 与 MewType 早已有各自不同的第二／第三段普通攻击与美术，但共享的方案指令解析器总是选中第一段。站立连按 J 现在会解析当前形态的起手 → Jab2 → Jab3。既有取消窗口连接各段；第三段必须收招后才能重新起手。同一解析器处理移动端触摸连按。MyGO／企鹅的原有映射，以及全部既有伤害、资源获取、范围、重攻击、蹲下／空中普攻与技能取消均保留。协议 10 让权威指令解析与本地预测保持一致。
 
-## Arcade entrance presentation — 2026-10-26
+## 街机风格登场演出 — 2026-10-26
 
-Entrances now use a 500 ms approach, a short planted landing with foot-anchored compression and dust, three character-specific showcase poses, and a settled guard stance. The second fighter answers 100 ms later; a lone 3v3 reserve enters immediately. Walking follows the projected terrain height, while hop entrances add their arc above that surface. Only the render projection moves: positions, hitboxes, HP, resonance and input lock retain their existing rules.
+登场现在使用 500 ms 的接近、落地短停（以脚为锚点的压缩与尘土）、三个角色专属展示姿势，以及稳定下来的防御站姿。第二名角色在 100 ms 后回应；单独的 3v3 替补直接入场。行走会跟随投影的地形高度，跳跃登场则在地表之上叠加弧线。只有渲染投影在动：位置、碰撞框、生命、共鸣与输入锁定仍遵循既有规则。
 
-Original face artwork appears in angled name strips. A wider approach shot settles back to the gameplay camera before READY; ROUND, VS, READY and a brief FIGHT cue provide the arcade rhythm. The existing 2100 + 650 ms ready clock is unchanged. Pausing and network restoration retain progress, a survivor skips the entrance, and reduced-motion presentation holds a static pose with no slide, hop, compression or camera move. Protocol 10 remains compatible because these changes do not alter simulation state or timing.
+原始脸部美术出现在倾斜的名条上。更宽的接近镜头会在 READY 前回到对战镜头；ROUND、VS、READY 与短暂的 FIGHT 提示构成街机节奏。既有的 2100 + 650 ms 准备时钟不变。暂停与网络恢复会保留进度，存活者跳过登场，减少动态模式保持静态姿势，不滑动、不跳跃、不压缩、不移动镜头。协议 10 仍然兼容，因为这些改动不改变模拟状态或时序。
 
-The name strips are now full portrait cut-ins: original transparent standing art slides in from each player's side, cropped to the head and torso inside diagonal panels. A brief hold and outward exit reveal the stage again before the final guard pose. Art keeps its original proportions, colors and orientation. All selected fighters and 3v3 reserves preload their full portraits through the existing loading barrier. Only entrants receive a panel; reduced-motion mode shows a static portrait without sliding, fading or zooming. The existing ready duration and protocol remain unchanged.
+名条现在是完整的立绘切入：原始透明站姿美术从各自玩家一侧滑入，裁切到头部与躯干并置于斜向面板内。短暂停留后向外退出，在最终防御姿势前重新露出舞台。美术保持原始比例、颜色与朝向。所有已选角色与 3v3 替补都通过既有加载屏障预载完整立绘。只有登场者会得到面板；减少动态模式显示静态立绘，不滑动、不淡入、不缩放。既有的准备时长与协议不变。
 
-## Finishing art cut-ins — 2026-10-26
+## 终结画面切入 — 2026-10-26
 
-The original 700 ms knockout lead-in remains. Result art now sweeps in from the winning player's edge over 240 ms, holds with the victory text, then exits toward the opposite edge during the final 300 ms of the existing 3200 ms round-end sequence. Normal art occupies the winner's side with readable text opposite it; Miyako keeps her full-background image. Draws have no winner image. The original artwork selection, super videos and complete recorded voices remain intact.
+原有的 700 ms 击倒前奏保留。结果美术现在用 240 ms 从胜方所在边缘扫入，与胜利文字一起停留，然后在既有 3200 ms 回合结束序列的最后 300 ms 朝对侧边缘退出。普通美术占据胜方一侧，文字放在对侧并保持可读；藤都子保留她的全背景图。平局没有胜方图。原始美术选择、大招视频与完整录制语音保持完整。
 
-Motion projects from `phaseMs`, with short CSS interpolation between view updates. Pause retains the same image and transform beneath the pause menu; a restored network snapshot resumes its current phase instead of replaying a mount-time animation. Reduced-motion mode uses static art. Result image selection is shared with the preload step, including Soyo/Uika's dedicated images and normal/stage portraits, so all selected fighters and 3v3 reserves have decoded art before combat starts. Round progression, HP/resonance carry and protocol 10 are unchanged.
+动画由 `phaseMs` 投影生成，并在视图更新之间做短 CSS 插值。暂停时在暂停菜单下方保持同一图像与变换；恢复网络快照会从当前阶段继续，而不重播挂载时的动画。减少动态模式使用静态美术。结果图像选择与预载步骤共享，包括素世／初华的专属图与普通／舞台立绘，因此所有已选角色与 3v3 替补在战斗开始前都已完成美术解码。回合推进、生命／共鸣继承与协议 10 不变。
 
-## Rendering, media and transport performance — 2026-10-26
+## 渲染、媒体与传输性能 — 2026-10-26
 
-Adaptive backing resolution and bounded sprite/image caches alter only render projection and resource lifetime; logical coordinates, hitboxes and combat timing are unchanged. Selected/lazy audio preserves the recorded channels and cancellation rules. Protocol 11 moves presentation events to bounded reliable batches instead of repeating event history in every latest-only state, with reconnect on overflow. Input sequence handling, fixed 10 ms steps, pause/restart epochs and authoritative prediction remain intact. See [PERFORMANCE.md](PERFORMANCE.md) for implementation details, measurements and verification.
+自适应底层分辨率与有上限的精灵／图像缓存只改变渲染投影与资源生命周期；逻辑坐标、碰撞框与战斗时序不变。按需／延迟音频保留录制通道与取消规则。协议 11 把演出事件改为有上限的可靠批次，而不是在每次仅最新状态中重复事件历史，并在溢出时重连。输入序列处理、固定 10 ms 步长、暂停／重开纪元与权威预测保持完整。实现细节、测量与验证见 [PERFORMANCE.md](PERFORMANCE.md)。
 
-## Two platform tiers and uniform normal range — 2026-10-26
+## 两档悬浮平台与统一普攻范围 — 2026-10-26
 
-All 15 maps now use two floating-platform elevations, 144 and 288, with two long lower decks and one upper connecting deck. Platform widths are 600–900 world units. Ground terraces rise in 16/24-unit steps from either direction, reach 32–96 units, and return to the baseline at both edges. School/garden layouts use paired terraces; Sunshine Steps uses a broad central four-step terrace. Side pits, short platform towers and long crossed support braces are removed. Upper supports stop on the lower decks. CPU fighters continue off a higher deck toward a lower opponent outside its span, avoiding the old stop within attack distance.
+全部 15 张地图现在使用两档悬浮平台高度，144 与 288，配两块长下层台板与一块上层连接台板。平台宽度为 600–900 世界单位。地面台地从两侧任一方向以 16/24 单位台阶抬升，最高 32–96 单位，并在两端回到基线。学校／庭院布局使用成对台地；Sunshine Steps 使用宽阔的中央四级台地。侧向深坑、短平台塔与长交叉支撑梁已移除。上层支撑在下层台板上终止。电脑角色会从更高的台板继续走向其跨度之外、位置更低的对手，避免了过去在攻击距离内停住的问题。
 
-Every character's normal attack uses 200 forward reach and 240 height tolerance, including all three J hits, crouching/air variants and Penguin form. K heavies use exactly 1.2 times both dimensions: 240/288. Mujica stage form multiplies the corresponding normal box by 1.1, giving J 220/264 and K 264/316.8. The old character-specific Tomori reach override is removed. Character profiles, move data, normal pulses and live hit collection agree. Damage, recovery, launch, resonance and all special/super move data retain their existing values. Protocol 12 preserves protocol 11's reliable event batches and requires matching clients and a rebuilt/restarted LAN host for the new terrain and hitboxes.
+每名角色的普通攻击都使用 200 前向范围与 240 高度容差，包括三段 J、蹲下／空中变体与企鹅形态。K 重击在两个维度上正好为 1.2 倍：240/288。Mujica 舞台形态把对应的普攻框乘以 1.1，得到 J 220/264、K 264/316.8。原先针对灯的专属范围覆盖已移除。角色档案、招式数据、普攻脉冲与实时命中收集保持一致。伤害、收招、挑空、共鸣与全部必杀／大招数据仍为既有值。协议 12 保留协议 11 的可靠事件批次，并要求客户端匹配，以及重新构建／重启局域网主机以应用新地形与碰撞框。
 
-## Complete uncontested skill casts, 2026-10-27
+## 完整无对抗技能释放校验，2026-10-27
 
-All 132 scheme bindings across 16 characters / 22 forms were exercised through real direction/button inputs at multiple distances. Damage, hard control, shielding, healing, tuning, beats, summons, movement and transformation were checked as actual state changes. Counter skills previously required an incoming attack and otherwise consumed energy without an offensive release.
+16 名角色 / 22 种形态的全部 132 条方案绑定都在多个距离下通过真实方向／按键输入进行实测。伤害、硬控、护盾、治疗、调音、拍数、召唤、位移与变身都作为实际状态变化进行核对。反击类技能此前需要迎面攻击，否则会消耗能量却没有进攻性释放。
 
-Six counter stances now release one weaker response wave on the first combat tick after their defensive window ends: Penguin U, normal Umiri I, stage Umiri down-U, stage Mutsumi I, stage Nyamu down-U and Ritsu I. Recovery waves use the existing authored projectile and original character visuals, half its base damage, 180 ms hitstun and half its push. Successful counters retain the full original response, cancel the stance and suppress the recovery wave. Interruptions also cancel it. Damage/recovery, energy costs and cooldowns of the existing counter response remain unchanged; ordinary skill-hit resonance rules apply to the recovery wave.
+六个反击架势现在会在防御窗口结束后的第一个战斗帧放出一道较弱的补偿波：企鹅 U、普通海铃 I、舞台海铃下 U、舞台睦 I、舞台若麦下 U 与律 I。补偿波使用既有的设定飞行道具与原始角色视觉，造成其一半基础伤害、180 ms 受击硬直与一半推力。成功反击会保留完整的原始响应，取消架势并抑制补偿波。被打断同样会取消。既有反击响应的伤害／收招、能量消耗与冷却不变；补偿波适用普通技能命中共鸣规则。
 
-Normal Uika I retains its 280-unit step and gains a 12-damage forward impact, active at 200–310 ms with 200 reach and 240 ms hitstun. Its existing pursuit/star effects now accompany the movement. The 25-energy cost and 420 ms duration remain. Other character skills, normal attack boxes, supers, audio and video remain intact. Shared combat changes require LAN protocol 13.
+普通初华 I 保留 280 单位的踏步，并获得 12 点伤害的前向冲击，在 200–310 ms 判定，范围 200，受击硬直 240 ms。其既有的追击／星光效果现在配合位移一同出现。25 能量消耗与 420 ms 时长保留。其他角色技能、普攻框、大招、音频与视频保持完整。共享战斗改动需要局域网协议 13。
 
-Verification covers all 132 bindings plus targeted left/right empty-cast, successful-counter, interruption and Uika impact cases; browser and JVM multiplayer checks are recorded under ignored `output/empty-skills/`.
+验证覆盖全部 132 条绑定，以及针对左右空放、成功反击、打断与初华冲击的用例；浏览器与 JVM 联机检查记录在被忽略的 `output/empty-skills/` 下。
 
-## Backward U/I/O — ranged commands, 2026-10-27
+## 后方向 U/I/O — 远程指令，2026-10-27
 
-All 16 characters / 22 forms have explicit backward skills, for 66 authored command entries. Directions are relative to facing: backward U is a quick straight wave (12 damage, 15 energy), backward I is a larger heavy straight wave (16 damage, 20 energy), and backward O throws an arcing projectile (18 damage, 25 energy). Existing Mujica stage damage scaling applies. They release at 120/180/210 ms, recover at 480/620/660 ms, and have 500/900/1100 ms recast timers. U/I travel at 700/560 units/s with 650/800 maximum reach; O travels at 500 units/s with initial upward velocity 180, downward acceleration 300 and 720 maximum reach. Every shot retains ordinary guard, shield, clash, minion interception and skill resonance rules.
+全部 16 名角色 / 22 种形态都有明确的后方向技能，共 66 条设定指令。方向相对朝向而言：后 U 是快速的直射波（12 伤害，15 能量），后 I 是更大的重型直射波（16 伤害，20 能量），后 O 投出弧形飞行道具（18 伤害，25 能量）。既有的 Mujica 舞台伤害倍率适用。它们分别在 120/180/210 ms 出手，480/620/660 ms 收招，冷却为 500/900/1100 ms。U/I 以 700/560 单位／秒飞行，最大范围 650/800；O 以 500 单位／秒飞行，向上初速 180、向下加速度 300、最大范围 720。所有投射都沿用普通防御、护盾、相杀、小怪拦截与技能共鸣规则。
 
-Bands register their own original visual/audio sources. MyGO's normal Tomori and penguin entries retain separate ownership restrictions; both Mujica costumes and all MewType/Viola characters have their own keys. Character poses, source projectile motifs, and rotating throw trails reuse existing assets. Original 353 move definitions and all neutral/down/forward skill mappings are retained; backward mappings are replaced. Forward O remains the close throw. The move list and help explain the new commands. Shared combat protocol is 14.
+各乐队登记自己的原始视觉／音频来源。MyGO 普通灯与企鹅条目保留各自的所有权限制；两套 Mujica 服装与全部 MewType／薇欧拉角色都有自己的键。角色姿势、来源飞行道具意象与旋转投技拖尾复用既有素材。原有 353 条招式定义与全部中立／下／前方向技能映射保留；后方向映射被替换。前 O 仍是近身投技。招式表与帮助说明了新指令。共享战斗协议为 14。
 
-Verification includes 132 left/right actual ranged-hit cases, all-form captured input-direction and ownership checks, all 195 current skill bindings, and browser rendering of the 66 new attacks. Temporary reports/screenshots are under ignored `output/back-skills/`.
+验证包括 132 个左右方向的实际远程命中用例、全形态捕获输入方向与所有权检查、全部 195 条当前技能绑定，以及 66 个新攻击在浏览器中的渲染。临时报告／截图位于被忽略的 `output/back-skills/` 下。
 
-## Slightly wider maps, 2026-10-27
+## 地图略微加宽，2026-10-27
 
-All 15 maps gain 15% horizontal world space: bounds -720/1680 become -900/1860, adding 180 units on each side around the same center. Fighter centers can now reach -855/1815 with the existing 45-unit edge margin. Ground endpoints are extended in source assets, browser data and the JVM stage catalog; interior stairs and the two platform tiers are unchanged. The existing dynamic camera fits the wider separation automatically. Vertical bounds, initial positions, move speed, blink distance and skill reach remain unchanged except Umiri's world-spanning homing limit, which follows the new world width. Shared combat protocol is 15.
+全部 15 张地图增加 15% 水平世界空间：边界从 -720/1680 变为 -900/1860，在同一中心两侧各增加 180 单位。角色中心现在可以到达 -855/1815，保留既有的 45 单位边缘余量。地面端点在源素材、浏览器数据与 JVM 关卡目录中都做了延伸；内部楼梯与两档平台不变。既有动态镜头会自动适配更宽的分离距离。垂直边界、初始位置、移动速度、瞬步距离与技能范围不变，唯一例外是海铃跨全图的追踪上限，它跟随新的世界宽度。共享战斗协议为 15。
 
-## Ultimate finish presentation and relay entry — 2026-10-27
+## 奥义终结演出与接力登场 — 2026-10-27
 
-Only an actual lethal super triggers the ultimate finish: delayed projectiles and multi-hit attacks retain their attack/form identity; a normal hit after a nonlethal super does not qualify. The existing 700 ms knockout beat leads into the sliding original portrait, gold title, character-color impact rays/rings and ink stroke. The 3200 ms result timing and automatic next bout are unchanged. Reduced-motion mode removes the flash and moving bursts. Original art, media speed and complete super sentences are retained; an ongoing voice is not restarted at the cut-in, while an ended voice can play again for the finish.
+只有真正致命的奥义大招才会触发奥义终结：延迟飞行道具与多段攻击保留其攻击／形态身份；非致命奥义之后的普通命中不符合条件。既有的 700 ms 击倒节拍接上滑入的原始立绘、金色标题、角色配色冲击光线／光环与墨线笔触。3200 ms 的结果时序与自动进入下一场不变。减少动态模式移除闪光与动态爆发。原始美术、媒体速度与完整大招台词保留；正在播放的语音不会在切入画面处重新开始，而已经结束的语音可以再为终结播放一次。
 
-Second and third 3v3 entrants start with 30 resonance. The survivor carries actual HP/energy, including zero after spending a super. Double KOs give both next entrants 30; restarting returns first entrants to zero. Practice keeps its existing energy rules. Shared combat protocol is 16.
+第二、第三名 3v3 登场者以 30 共鸣开始。存活者继承实际生命／能量，包括用掉大招后的零值。双双击倒时双方下一名登场者都获得 30；重新开始时首名登场者回到 0。练习模式保留既有能量规则。共享战斗协议为 16。
 
-Validation: 44 actual P casts cover 22 forms on both sides (Soyo's control-only super remains nonlethal); nine rule scenarios cover kill attribution, pause, draws, timeout, survivor carry and reserves. A prediction regression checks stale lethal metadata restoration. Production Pages-path browser checks cover all 22 art identities, original voice continuity, normal KO, pause, reduced motion and mobile layout. Two real JVM WebSocket clients earned energy through normal inputs, completed a super KO and a normal KO, reconnected during the result, verified second/third reserve energy and restarted. Required frontend, asset, protocol, production, Pages and Scala checks pass. Temporary verification artifacts remain under ignored output/ultimate-finish/.
+验证：44 次实际 P 施放覆盖双方的 22 种形态（素世的纯控制大招仍为非致命）；九个规则场景覆盖击杀归属、暂停、平局、超时、存活者继承与替补。一项预测回归检查陈旧的致命元数据恢复。生产 Pages 路径的浏览器检查覆盖全部 22 种美术身份、原始语音连续性、普通击倒、暂停、减少动态与移动端布局。两个真实 JVM WebSocket 客户端通过普通输入积攒能量，完成一次奥义击倒与一次普通击倒，在结果画面期间重连，核对第二／第三替补能量并重新开始。所需的前端、素材、协议、生产、Pages 与 Scala 检查均通过。临时验证产物保留在被忽略的 output/ultimate-finish/ 下。
 
-## Illustrated ultimate scenes and new finish voices — 2026-10-27
+## 奥义插画场景与新终结语音 — 2026-10-27
 
-Ultimate KOs now use 21 newly drawn full-background scenes across all 22 character/forms. Each uses the existing portrait as an identity/costume reference, with a painted environment and space for the result title. Anon retains the yellow milk dragon; Tomori uses the penguin scene; each Mujica character has distinct normal/stage clothing. The new full-frame art follows the existing shared result clock and mirrors for the right-side winner. Ordinary KOs retain their exact previous artwork.
+奥义击倒现在使用 21 张新绘制的全背景场景，覆盖全部 22 种角色／形态。每张以既有立绘作为身份／服装参考，配有绘制的环境与结果标题所需留白。爱音保留黄色牛奶龙；灯使用企鹅场景；每位 Mujica 角色都有不同的普通／舞台服装。新的整帧美术沿用既有共享结果时钟，并为右侧胜方镜像。普通击倒保留其原先的精确美术。
 
-Each of the 16 characters receives a new, separately configured original-animation finish line. Source URLs, speakers, exact excerpts, timecodes and verification notes are recorded in assets/finish-art/v2/sources-voices.json. Voices keep their original speed and complete phrasing. The finish line starts at the cut-in if the protected speech channel is free, otherwise follows the existing full super sentence without overlap. Pause/resume retains the queued line; mute, restart and disposal clear it. Mujica forms and Tomori's penguin form currently share their character's finish line.
+16 名角色各自获得一句新配置的动画原声终结台词。来源 URL、说话人、精确摘录、时间码与核验笔记记录在 assets/finish-art/v2/sources-voices.json。语音保持原速与完整语句。若受保护的语音通道空闲，终结台词在切入画面时开始；否则接在既有完整大招台词之后，不重叠。暂停／继续会保留排队的台词；静音、重开与销毁会清除它。Mujica 形态与灯的企鹅形态目前共用所属角色的终结台词。
 
-Scenes export as WebP up to 1600 by 900 (8.92 MB for 21); 16 MP3 tracks total 406 KB. Only selected fighters' scenes/voices preload. All existing asset-manifest fields were compared with the prior manifest and preserved; this is a presentation-only update with protocol 16 unchanged.
+场景导出为最大 1600 × 900 的 WebP（21 张共 8.92 MB）；16 条 MP3 音轨合计 406 KB。只有已选角色的场景／语音会预载。所有既有素材清单字段都与先前清单做过比较并保留；这是仅涉及演出的更新，协议 16 不变。
 
-Validation: asset selection across 22 forms/21 images/16 voices; queue tests covering full sentences, pause, mute and stop; production Pages-path browser checks for every form, normal KO, reduced motion, mobile and all 16 decoded tracks. A real browser super KO played the existing 2.4-second Anon super voice followed by the new 2-second finish voice, with no overlap. Required check, production build and Pages build pass. Temporary scripts/reports/screenshots remain in ignored output/finish-art-v2/.
+验证：22 种形态／21 张图像／16 条语音的素材选择；覆盖完整语句、暂停、静音与停止的队列测试；针对每种形态、普通击倒、减少动态、移动端与全部 16 条解码音轨的生产 Pages 路径浏览器检查。真实浏览器中的一次奥义击倒先播放既有的 2.4 秒爱音大招语音，再播放新的 2 秒终结语音，没有重叠。所需的检查、生产构建与 Pages 构建均通过。临时脚本／报告／截图保留在被忽略的 output/finish-art-v2/ 下。

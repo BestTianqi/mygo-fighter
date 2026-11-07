@@ -1,100 +1,102 @@
-# AliCloud update and performance audit — 2026-10-26
+**简体中文** | [English](DEPLOYMENT_PERFORMANCE_2026-10-26.en.md) | [日本語](DEPLOYMENT_PERFORMANCE_2026-10-26.ja.md)
 
-Historical deployment record. The [current deployment and capacity record](DEPLOYMENT_CAPACITY_2026-10-27.md) supersedes the active-release and rollback information below; all older server releases have been deleted.
+# 阿里云更新与性能审计 — 2026-10-26
 
-This is the historical `b82ae8c` audit. See the [2026-10-27 runtime evaluation](RUNTIME_OPTIMIZATION_2026-10-27.md) for the subsequent protocol-12 release and permanent TCP_NODELAY setting.
+历史部署记录。[当前部署与容量记录](DEPLOYMENT_CAPACITY_2026-10-27.md) 已取代下面的活动发布与回滚信息；所有更早的服务器发布均已删除。
 
-## Application deployed
+这是历史性的 `b82ae8c` 审计。后续的协议 12 发布与永久启用 TCP_NODELAY 见 [2026-10-27 运行时评估](RUNTIME_OPTIMIZATION_2026-10-27.md)。
 
-The AliCloud Beijing game server was updated from application commit `6d3d1363e3602ce694928261426da1bc4aa573b0` (protocol 10) to `b82ae8c3ec08ec5d351a18f6b4c861acc0a38c1d` (protocol 12). A second fetch during deployment found this newer merge, which includes both the transport/rendering optimizations and the terrain/combat changes.
+## 已部署的应用
 
-- Public game: <https://mygo-123-57-149-254.sslip.io/>
-- Active release: `/srv/mygo-fighter/releases/20261026-b82ae8c-protocol12`.
-- Previous release retained: `/srv/mygo-fighter/releases/20261026-6d3d136-protocol10`.
-- Archive SHA-256: `3e54678a60359b9dec891f3fe1f0ea24d918a576b583265206785a4315b3c465`, matched locally and after upload.
-- Matching frontend, shared kernel, Scala backend and stage catalog were packaged together. Both players need to refresh for protocol 12.
-- Existing two-room limit, service memory budget and reverse proxy configuration were retained.
+阿里云北京游戏服务器已从应用提交 `6d3d1363e3602ce694928261426da1bc4aa573b0`（协议 10）更新到 `b82ae8c3ec08ec5d351a18f6b4c861acc0a38c1d`（协议 12）。部署期间的第二次拉取发现了这个更新的合并，它同时包含传输/渲染优化与地形/战斗改动。
 
-`deployment.json` in the active release records the application commit, checksum and protocol. A later documentation-only commit does not change the application artifact.
+- 公网游戏：<https://mygo-123-57-149-254.sslip.io/>
+- 活动发布：`/srv/mygo-fighter/releases/20261026-b82ae8c-protocol12`。
+- 保留的前一发布：`/srv/mygo-fighter/releases/20261026-6d3d136-protocol10`。
+- 归档 SHA-256：`3e54678a60359b9dec891f3fe1f0ea24d918a576b583265206785a4315b3c465`，在本地与上传后均一致。
+- 匹配的前端、共享内核、Scala 后端与关卡目录一起打包。双方玩家都需要刷新才能使用协议 12。
+- 现有的两房间上限、服务内存预算与反向代理配置保持不变。
 
-## Verification and measurement method
+活动发布中的 `deployment.json` 记录了应用提交、校验和与协议。后续仅改文档的提交不会改变应用产物。
 
-Passed `npm run check`, `npm run check:backend`, `npm run package:server` (including `npm run build`) and `npm run build:pages`. The Pages build was opened under `/mygo-fighter/`; its menu and images loaded with no failed resource responses. Public health checks report `mygo-scala`, 120 Hz simulation and 60 Hz snapshots. All 279 public runtime media paths passed content and cache-header checks against the current local manifest.
+## 验证与测量方法
 
-Two isolated real browser contexts exercised room creation/joining, character selection, gameplay/damage, pause/resume and refresh/reconnect. The guest's health reached 128, and refreshing preserved its session. No JavaScript page exceptions occurred. One browser transport-console error occurred during intentional session cleanup; it was not an unexplained gameplay disconnect.
+通过了 `npm run check`、`npm run check:backend`、`npm run package:server`（含 `npm run build`）与 `npm run build:pages`。Pages 构建在 `/mygo-fighter/` 下打开；其菜单与图片加载时没有失败的资源响应。公网健康检查报告 `mygo-scala`、120 Hz 模拟与 60 Hz 快照。全部 279 个公网运行时媒体路径都已按当前本地清单通过内容与缓存头检查。
 
-The old release was measured for 120 seconds with four public WebSocket clients in simultaneous 1v1 and 3v3 rooms. The new release uses the same client workload. These clients verify authoritative state and transport without the cost of browser rendering. Rendering was measured separately in hardware-accelerated Chrome on an Apple M4 Pro at DPR 1, 960 × 540 backing resolution, for approximately 18 seconds per version.
+两个隔离的真实浏览器上下文演练了房间创建/加入、选人、对局/伤害、暂停/继续与刷新/重连。客机玩家的生命值曾达到 128，刷新后会话得以保留。页面没有出现 JavaScript 异常。在有意清理会话期间出现过一次浏览器传输控制台错误；它不是无法解释的对局断线。
 
-Raw measurements, scripts, packet summaries, screenshots and a JVM recording are kept under ignored `output/deployment-performance/` and `output/playwright/`. No test suite was restored.
+旧发布在同时运行的 1v1 与 3v3 房间中，用四个公网 WebSocket 客户端测量了 120 秒。新发布使用相同的客户端负载。这些客户端验证权威状态与传输，而不承担浏览器渲染开销。渲染在 Apple M4 Pro 的硬件加速 Chrome 中单独测量，DPR 为 1，后备分辨率为 960 × 540，每个版本约 18 秒。
 
-### Important limits
+原始测量数据、脚本、数据包摘要、截图与一份 JVM 录制保存在被忽略的 `output/deployment-performance/` 与 `output/playwright/` 下。没有恢复任何测试套件。
 
-The old 120-second run overlapped an archive upload after its first part. The new long run includes cold-room warm-up, a 30-second JFR profile and a temporary five-second socket experiment. The profiling interval coincided with substantial CPU contention and multi-second outliers, so its aggregate tail latency is not a clean release comparison. A separate warmed, unprofiled socket comparison measures normal timing and the proposed transport setting.
+### 重要限制
 
-The new commit also changes combat ranges and terrain. Packet-size and processing differences cannot be attributed solely to the transport optimization. Input-to-applied samples across READY, round transitions and hit freeze include intentional game pauses; they are not raw network latency. Client-observed acknowledgement includes the return trip and snapshot scheduling, and is not a one-way timing measurement.
+旧的 120 秒运行在第一部分之后与一次归档上传重叠。新的长时运行包含冷房间预热、30 秒的 JFR 性能剖析以及一次临时的五秒 socket 实验。剖析区间与明显的 CPU 争用及数秒级离群值同时发生，因此其聚合尾部延迟不是干净的发布对比。另一次预热、未剖析的 socket 对比测量了正常时序与提议的传输设置。
 
-## What the measurements establish
+新提交还改变了战斗范围与地形。数据包大小与处理差异不能单纯归因于传输优化。跨越 READY、回合切换与命中定格的输入到生效样本包含有意的游戏暂停；它们不是原始网络延迟。客户端观察到的确认包含返程与快照调度，不是单向时序测量。
 
-Local rendering was already close to 60 fps on this machine and remained there: frame p95 changed from 16.8 ms to 16.7 ms, with zero long tasks in both samples. JavaScript callback p95 was 0.6 ms before and 0.7 ms after. This hardware sample does not establish a large rendering-speed improvement; the constrained-device measurements in [the earlier performance report](PERFORMANCE.md) address a different workload.
+## 测量得出的结论
 
-The old four-client workload produced state-packet p95 of 5,841–6,157 bytes, server-update p95 of 4.10–5.36 ms and client RTT p95 of 62.7–64.5 ms. Its early, less-contended sample had RTT p95 around 52–53 ms. The new combat run produced state-packet p95 of 4,007–4,127 bytes, about 31–33% smaller. Median RTT still stayed near 50 ms. Smaller packets alone do not remove the transport stalls below.
+本机上本地渲染本已接近 60 fps，并保持在该水平：帧 p95 从 16.8 ms 变为 16.7 ms，两个样本中长任务均为零。JavaScript 回调 p95 从 0.6 ms 变为 0.7 ms。这个硬件样本并不能证明渲染速度有大幅提升；[更早的性能报告](PERFORMANCE.md) 中的受限设备测量针对的是不同负载。
 
-## Dominant problems and next optimizations
+旧的四客户端负载产生的状态包 p95 为 5,841–6,157 字节，服务器更新 p95 为 4.10–5.36 ms，客户端 RTT p95 为 62.7–64.5 ms。其早期、争用较少的样本 RTT p95 约为 52–53 ms。新的战斗运行产生的状态包 p95 为 4,007–4,127 字节，约小 31–33%。RTT 中位数仍接近 50 ms。仅靠更小的数据包并不能消除下面的传输停滞。
 
-### 1. Backend TCP buffering adds avoidable latency
+## 主要问题与后续优化
 
-The live JVM's accepted TCP sockets had `TCP_NODELAY=0`. Packet traces on loopback showed a WebSocket header being sent separately from its payload, with some payloads held for approximately 40 ms. This delay exists between the Scala backend and Caddy, before public network delivery; a low `serverUpdateMs` does not include it.
+### 1. 后端 TCP 缓冲带来可避免的延迟
 
-A scoped experiment changed only one active verification connection for five seconds, then restored its original option:
+在线 JVM 已接受的 TCP socket 为 `TCP_NODELAY=0`。环回上的抓包显示 WebSocket 头与其负载分开发送，部分负载被扣留约 40 ms。该延迟存在于 Scala 后端与 Caddy 之间，发生在公网网络传输之前；较低的 `serverUpdateMs` 不包含它。
 
-| Header-to-payload delay | Original socket | Temporary TCP_NODELAY |
-| ----------------------- | --------------: | --------------------: |
-| Samples                 |             169 |                   307 |
-| p50                     |        0.781 ms |              0.136 ms |
-| p95                     |       40.956 ms |              0.560 ms |
-| Maximum                 |       41.907 ms |              4.008 ms |
-| Samples above 30 ms     |              31 |                     0 |
+一次限定范围的实验只改动一条活动的验证连接五秒，然后恢复其原始选项：
 
-The highest-priority code change is to configure `SocketOption.noDelay(true)` through `EmberServerBuilder.withAdditionalSocketOptions` in `backend/src/main/scala/services/system/api/Main.scala`. The deployed application remains the fetched commit; the diagnostic option changes are temporary and are restored before their test connections close. The pinned [http4s 0.23.32 builder](https://github.com/http4s/http4s/blob/v0.23.32/ember-server/shared/src/main/scala/org/http4s/ember/server/EmberServerBuilder.scala) exposes this option and otherwise defaults its additional options to an empty list.
+| 头到负载的延迟    | 原始 socket | 临时 TCP_NODELAY |
+| ----------------- | ----------: | ---------------: |
+| 样本数            |         169 |              307 |
+| p50               |    0.781 ms |         0.136 ms |
+| p95               |   40.956 ms |         0.560 ms |
+| 最大值            |   41.907 ms |         4.008 ms |
+| 超过 30 ms 的样本 |          31 |                0 |
 
-This header/payload result is not itself an end-to-end gameplay latency result. The separate off/on/off experiment below tests client-observed timing.
+最高优先级的代码改动是在 `backend/src/main/scala/services/system/api/Main.scala` 中通过 `EmberServerBuilder.withAdditionalSocketOptions` 配置 `SocketOption.noDelay(true)`。部署的应用仍是拉取到的提交；诊断选项的改动是临时的，会在其测试连接关闭前恢复。锁定的 [http4s 0.23.32 builder](https://github.com/http4s/http4s/blob/v0.23.32/ember-server/shared/src/main/scala/org/http4s/ember/server/EmberServerBuilder.scala) 暴露该选项，否则其附加选项默认是一个空列表。
 
-### 2. GraalJS is running in interpreter fallback
+这个头/负载结果本身不是端到端的玩法延迟结果。下面独立的关/开/关实验测试的是客户端观察到的时序。
 
-A standalone probe using the deployed jars and runtime reported `Polyglot implementation: Interpreted`. Its warning says JVMCI is disabled. A second standalone probe enabling JVMCI still reported `Interpreted`, because Libgraal/the required compiler is unavailable. The production warning-suppression flag hides the warning; it does not enable optimization.
+### 2. GraalJS 正在解释器回退模式下运行
 
-In the 30-second JVM recording, 1,584 of 2,100 sampled execution stacks (75.4%) involved GraalJS/Truffle; 359 (17.1%) involved Cats Effect without a Truffle frame. These are sampled stack categories, not complete wall-time shares or an exact allocation of CPU to individual combat functions. Stacks were truncated, so a precise simulation-versus-serialization split is unavailable.
+使用已部署 jar 与运行时的独立探测报告 `Polyglot implementation: Interpreted`。其警告说明 JVMCI 已禁用。第二次启用 JVMCI 的独立探测仍报告 `Interpreted`，因为 Libgraal/所需编译器不可用。生产的警告抑制标志隐藏了警告，但并不会启用优化。
 
-There were 33 young-GC pauses totaling 127.8 ms, with a maximum of 12.75 ms. The 64 MiB code cache had room remaining and compilation was enabled. This evidence prioritizes runtime execution and scheduling ahead of simply enlarging the heap or code cache.
+在 30 秒的 JVM 录制中，2,100 个采样执行栈中有 1,584 个（75.4%）涉及 GraalJS/Truffle；359 个（17.1%）涉及 Cats Effect 且没有 Truffle 栈帧。这些是采样栈类别，不是完整的墙钟时间占比，也不是 CPU 在各战斗函数上的精确分配。栈被截断，因此无法给出模拟与序列化之间的精确划分。
 
-Benchmark a compatible optimizing GraalVM runtime in a separate environment, including cold-start cost, steady CPU, native memory and the existing 512 MiB service ceiling. Preserve the shared TypeScript kernel and isolated per-room contexts. Also evaluate reusing a system-owned `Engine` and cached `Source` across contexts, and warming a representative kernel before admitting matches. [GraalVM's embedding documentation](https://www.graalvm.org/jdk24/reference-manual/embed-languages/) describes the runtime-compilation requirements. No Java runtime or production JVM flag was changed by this audit.
+共有 33 次年轻代 GC 暂停，合计 127.8 ms，最长 12.75 ms。64 MiB 的代码缓存仍有剩余空间，编译已启用。这些证据说明应优先处理运行时执行与调度，而不是简单增大堆或代码缓存。
 
-### 3. Measure queueing and allocation before larger protocol changes
+在独立环境中对兼容的优化型 GraalVM 运行时做基准测试，包括冷启动成本、稳定 CPU、原生内存与现有的 512 MiB 服务上限。保持共享 TypeScript 内核与隔离的每房间上下文。同时评估跨上下文复用系统所有的 `Engine` 与缓存的 `Source`，以及在接纳对局前预热一个有代表性的内核。[GraalVM 的嵌入文档](https://www.graalvm.org/jdk24/reference-manual/embed-languages/) 说明了运行时编译的要求。本次审计没有改动任何 Java 运行时或生产 JVM 标志。
 
-`serverUpdateMs` starts at the room tick and ends before the final socket write. It does not describe all timer lateness, command-lock wait or client arrival. Add separate measurements for scheduled-tick lateness, room-lock wait, kernel advance, snapshot serialization and socket flush. Keep acknowledgement metrics scoped to epoch and active combat when evaluating input responsiveness.
+### 3. 在更大的协议改动之前先测量排队与分配
 
-After removing the TCP stall and validating the runtime, measure whether 60 Hz full JSON snapshots still dominate CPU, allocation or egress. A compact snapshot/delta format with periodic full recovery snapshots is a possible next step. Preserve generation/epoch checks, latest-only states, reliable events and authoritative input counters. Do not lower snapshot frequency or rewrite the architecture without measuring the latency tradeoff.
+`serverUpdateMs` 从房间 tick 开始，到最终 socket 写入之前结束。它不描述全部计时器延迟、指令锁等待或客户端到达。请为计划 tick 延迟、房间锁等待、内核推进、快照序列化与 socket 刷新增加独立测量。评估输入响应时，把确认指标限定在 epoch 与活动战斗范围内。
 
-## Final stability and socket comparison
+在消除 TCP 停滞并验证运行时之后，测量 60 Hz 完整 JSON 快照是否仍主导 CPU、内存分配或出口带宽。带周期性完整恢复快照的紧凑快照/增量格式可能是下一步。保留 generation/epoch 检查、仅最新状态、可靠事件与权威输入计数器。不要在未测量延迟取舍的情况下降低快照频率或重写架构。
 
-The new release completed 900.03 seconds with four clients in two simultaneous rooms. Each client received 49,847–50,083 snapshots, with no unexpected socket closes or protocol errors. Damage, reserve progression and matching event IDs passed: the peers observed 3,188 matching unique events in the 1v1 room and 3,051 in the 3v3 room. Temporary rooms were explicitly left before starting the independent socket comparison.
+## 最终稳定性与 socket 对比
 
-The maximum sampled service memory was 314.8 MiB. Mean service CPU over this instrumented run was 0.815 cores. These figures include the profiling/warm-up interval. The run's aggregate RTT p95 was 183–251 ms and included multi-second profiling-period outliers; reporting only its approximately 50 ms median would conceal those stalls. Use the clean, warmed comparison below to assess the TCP setting.
+新发布在同时运行的两个房间中、四个客户端下完成了 900.03 秒。每个客户端收到 49,847–50,083 个快照，没有意外的 socket 关闭或协议错误。伤害、替补进度与事件 ID 匹配均通过：对端在 1v1 房间观察到 3,188 个一致的不重复事件，在 3v3 房间观察到 3,051 个。开始独立的 socket 对比之前，临时房间被显式离开。
 
-A separate warmed test used the same four connections in two rooms, with a 35-second preparation/warm-up period followed by three 30-second phases. Players sent only alternating movement inputs, so this is a transport comparison rather than a combat-throughput benchmark. No profiler or archive transfer ran during it.
+采样到的最大服务内存为 314.8 MiB。本次带监测的运行中，平均服务 CPU 为 0.815 核。这些数字包含剖析/预热区间。该运行的聚合 RTT p95 为 183–251 ms，并包含剖析期间数秒级的离群值；只报告其约 50 ms 的中位数会掩盖这些停滞。请使用下面干净、预热过的对比来评估 TCP 设置。
 
-| Client-observed metric                               | Original setting | Temporary TCP_NODELAY | Original restored |
-| ---------------------------------------------------- | ---------------: | --------------------: | ----------------: |
-| RTT p50 across four clients                          |     48.8–50.8 ms |           8.4–10.0 ms |      48.3–50.5 ms |
-| RTT p95                                              |     52.1–54.4 ms |          10.6–13.2 ms |      51.0–54.1 ms |
-| Snapshot arrival gap p95                             |     57.6–58.2 ms |          18.4–18.6 ms |      57.7–58.0 ms |
-| Input send → receipt observed in returned state, p95 |     64.6–65.9 ms |          26.6–28.3 ms |      63.7–64.7 ms |
-| Server update work p95                               |     2.34–2.41 ms |          1.88–2.46 ms |      1.96–2.67 ms |
+另一次预热测试在两个房间中使用同样的四条连接，先进行 35 秒的准备/预热，随后是三个阶段各 30 秒。玩家只发送交替的移动输入，因此这是传输对比，而不是战斗吞吐基准。期间没有运行剖析器或归档传输。
 
-All four clients remained connected without protocol errors. Restoring the option restored the delay, while server processing stayed in a similar range. This reversal provides stronger evidence than comparing independent releases: the backend socket buffering accounts for approximately 40 ms of avoidable client-observed delay in this setup. It is the first optimization to implement and verify in application code.
+| 客户端观察到的指标                     |     原始设置 | 临时 TCP_NODELAY | 恢复原始设置 |
+| -------------------------------------- | -----------: | ---------------: | -----------: |
+| 四个客户端的 RTT p50                   | 48.8–50.8 ms |      8.4–10.0 ms | 48.3–50.5 ms |
+| RTT p95                                | 52.1–54.4 ms |     10.6–13.2 ms | 51.0–54.1 ms |
+| 快照到达间隔 p95                       | 57.6–58.2 ms |     18.4–18.6 ms | 57.7–58.0 ms |
+| 输入发送 → 在返回状态中观察到接收，p95 | 64.6–65.9 ms |     26.6–28.3 ms | 63.7–64.7 ms |
+| 服务器更新处理 p95                     | 2.34–2.41 ms |     1.88–2.46 ms | 1.96–2.67 ms |
 
-These changes affected only the verification connections. The final phase restored their original setting, and all verification sessions explicitly left. The fetched application, listener defaults, service configuration and Java runtime remain unchanged. The server remains available for normal play.
+四个客户端全程保持连接，没有协议错误。恢复选项后延迟也恢复，而服务器处理仍处于相近区间。这种反转提供了比对比独立发布更有力的证据：在此设置中，后端 socket 缓冲造成了约 40 ms 可避免的客户端可观察延迟。这是应首先在应用代码中实现并验证的优化。
 
-## Rollback
+这些改动只影响验证连接。最后阶段已恢复其原始设置，所有验证会话均显式离开。拉取的应用、监听器默认值、服务配置与 Java 运行时保持不变。服务器仍可用于正常游玩。
 
-Use `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'` to restore the retained protocol-10 release. Switching releases ends temporary matches; both players must refresh to use the restored protocol.
+## 回滚
+
+使用 `ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'` 恢复保留的协议 10 发布。切换发布会终止临时对局；双方玩家都必须刷新才能使用恢复后的协议。

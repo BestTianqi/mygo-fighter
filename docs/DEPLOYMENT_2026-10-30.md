@@ -1,78 +1,80 @@
-# AliCloud deployment and gameplay audit — 2026-10-30
+**简体中文** | [English](DEPLOYMENT_2026-10-30.en.md) | [日本語](DEPLOYMENT_2026-10-30.ja.md)
 
-The current frontend, Scala backend and shared TypeScript combat kernel are deployed together as protocol 25. The service split preserves the in-process combat clock: edge proxies public traffic, lobby places rooms, and one rooms JVM owns live matches.
+# 阿里云部署与玩法审计 — 2026-10-30
 
-| Item               | Value                                                              |
-| ------------------ | ------------------------------------------------------------------ |
-| Host               | AliCloud Beijing, 2 vCPUs, 1,613 MiB RAM, Ubuntu 24.04             |
-| Public URL         | https://mygo-123-57-149-254.sslip.io/                              |
-| Application commit | `2ed585d12fb29603c5e59c10d586bfe4f6be5cec`                         |
-| Release            | `20261030-2ed585d-protocol25`                                      |
-| Archive SHA-256    | `19598e8112def3e180a4fa2de9c79320ed9a5834b2be2bff02b7ed1dc470924c` |
-| Initial activation | 2026-10-30 08:00:10 UTC (16:00:10 China time)                      |
-| Runtime            | Ubuntu OpenJDK 21.0.12.1                                           |
-| Services           | edge :8080, lobby :8079, rooms instance a :8091, all loopback      |
-| Room ceiling       | 2 globally and 2 on instance a                                     |
-| Memory ceilings    | edge 256 MiB, lobby 192 MiB, rooms 512 MiB; no swap                |
-| Previous release   | `20261028-8051ba8-protocol22`, retained for rollback               |
+当前的前端、Scala 后端与共享 TypeScript 战斗内核以协议 25 一起部署。服务拆分保留了进程内战斗时钟：edge 代理公网流量，lobby 放置房间，一个 rooms JVM 拥有活动对局。
 
-## Dominant problems and selected changes
+| 项目         | 取值                                                               |
+| ------------ | ------------------------------------------------------------------ |
+| 主机         | 阿里云北京，2 vCPU、1,613 MiB 内存、Ubuntu 24.04                   |
+| 公网 URL     | https://mygo-123-57-149-254.sslip.io/                              |
+| 应用提交     | `2ed585d12fb29603c5e59c10d586bfe4f6be5cec`                         |
+| 发布         | `20261030-2ed585d-protocol25`                                      |
+| 归档 SHA-256 | `19598e8112def3e180a4fa2de9c79320ed9a5834b2be2bff02b7ed1dc470924c` |
+| 首次激活     | 2026-10-30 08:00:10 UTC（中国时间 16:00:10）                       |
+| 运行时       | Ubuntu OpenJDK 21.0.12.1                                           |
+| 服务         | edge :8080，lobby :8079，rooms 实例 a :8091，全部为环回            |
+| 房间上限     | 全局 2，实例 a 上 2                                                |
+| 内存上限     | edge 256 MiB，lobby 192 MiB，rooms 512 MiB；无 swap                |
+| 前一发布     | `20261028-8051ba8-protocol22`，保留用于回滚                        |
 
-1. **The initial lobby budget could not start reliably.** With the proposed 128 MiB cgroup limit, Linux killed the new lobby during startup. The production limit is now 192 MiB; edge also receives 256 MiB instead of 192 MiB, based on its observed working set. These limits include native JVM memory and are distinct from the unchanged 48/80 MiB maximum Java heaps.
-2. **Four active rooms overloaded the two-vCPU host.** A 60-second four-room trial, after 45 seconds of warmup, failed even with clients running on the server over loopback: minimum delivery 12.46 Hz, worst delivery-gap p95 293.45 ms, update-work p95 19.31 ms and delayed ping replies. Measured role CPU totaled 1.76 logical cores; the load clients and operating system used additional CPU. `vmstat` showed zero idle time. There was no cgroup CPU quota, memory-limit event or hypervisor steal in the diagnostic samples. An earlier tunnel-based trial also failed, but the loopback run establishes that an Internet path was not necessary to reproduce the overload.
-3. **Cold initialization exceeded the ordinary proxy timeout.** The final `loadedroom` acknowledgement creates the GraalJS context. The old 10-second proxy limit returned HTTP 504 even when the room subsequently entered combat. Only that operation now receives at least 60 seconds upstream and 65 seconds in the browser. Other APIs retain their existing timeouts. This fixes the false failure; it does not claim to eliminate initialization cost.
-4. **Cold JVM work and garbage collection caused pauses.** The room JVM log recorded full collections for metadata and code-cache thresholds, including pauses above 100 ms. The room starts with a 128 MiB heap rather than 64 MiB and reserves a 128 MiB compiler cache rather than 64 MiB, while retaining the 256 MiB heap maximum and 512 MiB cgroup limit. All roles use a 96 MiB initial metadata GC threshold; this is not a metadata memory ceiling or an eagerly allocated 96 MiB buffer. Startup now waits for each role's health before starting the next role, avoiding three simultaneous cold JVMs.
-5. **Legacy recovery was incompatible with the new service layout.** Activation and rollback now recognize the retained single-unit release, stop conflicting units, restore its `mygo-fighter` unit when needed, and restore the correct boot enablement. `install.sh --prepare-only` keeps the old public service available while preparing the new units. Keep the disabled legacy unit and `/etc/mygo-fighter.env` while the legacy rollback target is retained.
+## 主要问题与选定的改动
 
-The selected configuration uses one rooms instance and a two-room ceiling. Adding another rooms JVM would consume more of this host's limited memory and does not add CPU capacity. Three rooms were not screened, so two is the selected quality budget, not a proven maximum. No paid resource upgrade, cadence reduction, combat-rule change, media removal or GraalVM runtime migration was made.
+1. **初始的 lobby 预算无法可靠启动。** 按提议的 128 MiB cgroup 限制，Linux 在启动期间杀掉了新的 lobby。生产限制现为 192 MiB；根据观察到的常驻工作集，edge 也从 192 MiB 提升到 256 MiB。这些限制包含 JVM 原生内存，与未改动的 48/80 MiB 最大 Java 堆是不同概念。
+2. **四个活动房间使这台两 vCPU 主机过载。** 在 45 秒预热后进行 60 秒的四房间试验，即使客户端在服务器上通过环回运行也失败：最低投递 12.46 Hz、最差投递间隔 p95 293.45 ms、更新处理 p95 19.31 ms，以及 ping 应答延迟。测得各角色 CPU 合计 1.76 个逻辑核；负载客户端与操作系统还占用了额外 CPU。`vmstat` 显示空闲时间为零。诊断样本中没有 cgroup CPU 配额、内存限制事件或 hypervisor steal。更早的一次基于隧道的试验同样失败，但环回运行证明复现该过载并不需要 Internet 路径。
+3. **冷初始化超出了普通代理超时。** 最后的 `loadedroom` 确认会创建 GraalJS 上下文。旧的 10 秒代理限制即使在房间随后进入战斗时也会返回 HTTP 504。现在只有该操作获得至少 60 秒的上游超时与浏览器端 65 秒。其他 API 保持原有超时。这修复了假失败，但并不声称消除了初始化成本。
+4. **冷 JVM 工作与垃圾回收造成暂停。** 房间 JVM 日志记录到因元数据与代码缓存阈值触发的 full GC，包括超过 100 ms 的暂停。房间现在以 128 MiB 堆启动而非 64 MiB，并预留 128 MiB 编译器缓存而非 64 MiB，同时保留 256 MiB 堆上限与 512 MiB cgroup 限制。所有角色使用 96 MiB 的初始元数据 GC 阈值；这不是元数据内存上限，也不是预先分配的 96 MiB 缓冲区。启动现在会等待每个角色健康后再启动下一个角色，避免三个冷 JVM 同时启动。
+5. **遗留恢复与新服务布局不兼容。** 激活与回滚现在能识别保留的单体发布、停止冲突单元、在需要时恢复其 `mygo-fighter` 单元，并恢复正确的开机启用状态。`install.sh --prepare-only` 在准备新单元的同时保持旧公网服务可用。在保留遗留回滚目标期间，请保留已停用的遗留单元与 `/etc/mygo-fighter.env`。
 
-## Controlled gameplay measurement
+选定的配置使用一个 rooms 实例与两房间上限。再加一个 rooms JVM 会消耗这台主机本已有限的内存，却不会增加 CPU 容量。三房间未做筛查，因此两房间是选定的质量预算，而不是已证明的上限。本次没有进行付费资源升级、节奏下调、战斗规则修改、媒体移除或 GraalVM 运行时迁移。
 
-All workloads ran serially. The current kernel was held constant. Clients sent unified movement/action input at 20 Hz, with terrain enabled, 2,000 HP, infinite time/energy and normal cooldowns; two peers shared each three-character team match. The JVM tuning and room-count changes are evaluated together, so their individual CPU benefits are not isolated.
+## 受控玩法测量
 
-| Server-local workload                    |  Four rooms | Selected two rooms |
-| ---------------------------------------- | ----------: | -----------------: |
-| Warmup                                   |        45 s |               45 s |
-| Measured time                            |     60.02 s |            90.01 s |
-| Minimum snapshots/client/second          |       12.46 |              53.88 |
-| Worst snapshot-gap p95                   |   293.45 ms |           32.90 ms |
-| Worst server-update p95                  |    19.31 ms |           15.93 ms |
-| Worst ping RTT p95                       | 9,440.38 ms |          101.67 ms |
-| Total role CPU, logical cores            |        1.76 |               1.27 |
-| Maximum sampled sum of role memory       |  630.32 MiB |         640.00 MiB |
-| Matching reliable event sets             |          No |                Yes |
-| Unexpected disconnects / protocol errors |       0 / 0 |              0 / 0 |
+所有负载串行运行。当前内核保持不变。客户端以 20 Hz 发送统一的移动/动作输入，启用地形，2,000 HP，无限时间/能量，常规冷却；每场三人队伍对局由两名对端共享。JVM 调参和房间数改动是一起评估的，因此各自的 CPU 收益并未被单独隔离。
 
-The event mismatch in the overloaded run describes observations at the measurement boundary after a 500 ms drain; it does not establish permanent event loss. The two-room run passed the delivery, gap, update, event consistency and service-health gates. Its local RTT and temporary client CPU are not WAN latency measurements. The old public service remained idle during these isolated trials and was stopped during migration.
+| 服务器本地负载            |    四个房间 | 选定的两个房间 |
+| ------------------------- | ----------: | -------------: |
+| 预热                      |        45 s |           45 s |
+| 测量时长                  |     60.02 s |        90.01 s |
+| 最低快照/客户端/秒        |       12.46 |          53.88 |
+| 最差快照间隔 p95          |   293.45 ms |       32.90 ms |
+| 最差服务器更新 p95        |    19.31 ms |       15.93 ms |
+| 最差 ping RTT p95         | 9,440.38 ms |      101.67 ms |
+| 各角色 CPU 合计（逻辑核） |        1.76 |           1.27 |
+| 采样到的角色内存最大合计  |  630.32 MiB |     640.00 MiB |
+| 可靠事件集合匹配          |          否 |             是 |
+| 意外断线/协议错误         |       0 / 0 |          0 / 0 |
 
-## Deployment verification
+过载运行中的事件不匹配描述的是 500 ms 排空后在测量边界上的观察；它不能证明事件永久丢失。两房间运行通过了投递、间隔、更新、事件一致性与服务健康门禁。其本地 RTT 与临时客户端 CPU 不是广域网延迟测量。在这些隔离试验期间旧公网服务保持空闲，并在迁移期间停止。
 
-- `npm run check`, `npm run check:backend`, `npm run package:server` (including the production build) and `npm run build:pages` passed. The final three-process `npm run check:e2e` passed both simultaneous room flows.
-- Shell syntax checks passed. A Linux harness exercised legacy-to-services activation, rollback in both directions, failed services activation restoration and failed legacy migration restoration.
-- The uploaded archive checksum matched the local package. Host unit validation passed for the game units; it also reported pre-existing vendor cloud-monitor warnings unrelated to the game.
-- The actual public host rolled back to protocol 22 and then returned to protocol 25. Symlinks, health endpoints and unit boot enablement matched both layouts. The accepted release remains active and its legacy predecessor remains available.
-- Public HTTPS/WSS functional checks passed protocol 25, pause/resume, reconnect, host-only restart, invalid-session rejection, foreign-origin rejection, old-protocol rejection, third-room rejection at the two-room ceiling and fighter reset after restart.
+## 部署验证
 
-## Public gameplay soak
+- `npm run check`、`npm run check:backend`、`npm run package:server`（含生产构建）与 `npm run build:pages` 通过。最终的三进程 `npm run check:e2e` 通过了两个同时运行的房间流程。
+- Shell 语法检查通过。一个 Linux 测试脚手架演练了从遗留布局到服务布局的激活、双向回滚、服务激活失败后的恢复以及遗留迁移失败后的恢复。
+- 上传归档的校验和与本地软件包一致。主机单元校验对游戏相关单元通过；它还报告了与本游戏无关的、既有的厂商云监控警告。
+- 实际公网主机先回滚到协议 22，然后回到协议 25。在两种布局下，符号链接、健康端点与单元开机启用状态都一致。已验收的发布保持活动，其遗留前驱仍然可用。
+- 公网 HTTPS/WSS 功能检查通过了协议 25、暂停/继续、重连、仅主机重启、无效会话拒绝、外部来源拒绝、旧协议拒绝、两房间上限下的第三房间拒绝，以及重启后的角色重置。
 
-Five clients completed 300.01 measured seconds after 45 seconds of warmup, following 18.76 seconds of setup. The workload ran an 8v8 team match and a three-player match concurrently, with terrain, 350 HP, infinite time/energy, standard cooldowns and alternating movement/attacks. All five clients received damage and reserve progression. The two team-match peers received the same 1,266 reliable event IDs, and the three-player peers received the same 2,017 IDs. There were no unexpected closes, protocol/API errors, automatic restarts or memory-limit events. Sampled role memory peaked at 638.38 MiB in total; role CPU averaged 1.37 logical cores. Minimum delivery was 53.89 snapshots/client/second, worst gap p95 40.34 ms, and worst server-update p95 16.38 ms. The delivery and consistency gates passed. Browser acceptance during the early part of the window is included in these service-load numbers.
+## 公网玩法浸泡测试
 
-The network latency remained materially worse: worst ping p95 738.33 ms and combat input-to-application p95 775.07 ms. These results must not be described as low-latency gameplay. A client lookup resolved the hostname to `198.18.0.196`, a local synthetic address on the client's routed network path. A normal HTTPS health request took 1.034 s; a same-hostname HTTPS request pinned to the real server address `123.57.149.254`, with normal TLS verification, took 55.82 ms. This identifies the client route as an additional delay source. The per-process direct-route comparison below does not alter system DNS, VPN configuration or other connections.
+五个客户端在 18.76 秒的准备与 45 秒预热之后，完成了 300.01 个测量秒。负载同时运行一场 8v8 队伍对局与一场三人对局，启用地形，350 HP，无限时间/能量，标准冷却，交替移动/攻击。五个客户端都受到了伤害并有替补进度。队伍对局的两名对端收到相同的 1,266 个可靠事件 ID，三人对局的对端收到相同的 2,017 个 ID。没有意外关闭、协议/API 错误、自动重启或内存限制事件。采样到的角色内存合计峰值为 638.38 MiB；角色 CPU 平均为 1.37 个逻辑核。最低投递为 53.89 快照/客户端/秒，最差间隔 p95 为 40.34 ms，最差服务器更新 p95 为 16.38 ms。投递与一致性门禁通过。该时间窗早期的浏览器验收也包含在这些服务负载数字中。
 
-This is a finite gameplay workload, not coverage of every custom-rule combination. Cold first-use compilation and occasional long-tail update stalls remain; widening the initialization timeout does not remove them.
+网络延迟仍然明显更差：最差 ping p95 为 738.33 ms，战斗输入到生效 p95 为 775.07 ms。这些结果不能被描述为低延迟玩法。一次客户端查询把主机名解析到 `198.18.0.196`，这是客户端路由路径上的本地合成地址。一次正常的 HTTPS 健康请求耗时 1.034 s；而把同名 HTTPS 请求固定到真实服务器地址 `123.57.149.254`、保持正常 TLS 验证时，耗时 55.82 ms。这说明客户端路由是额外的延迟来源。下面按进程进行的直连对比不会改动系统 DNS、VPN 配置或其他连接。
 
-## Direct-route comparison
+这是一个有限的玩法负载，并未覆盖所有自定义规则组合。冷启动首次编译与偶发的长尾更新停滞仍然存在；放宽初始化超时并不会消除它们。
 
-A following warmed five-client run repeated the same mixed formats for 120.03 measured seconds after 15 seconds of warmup. Only this verification process pinned the hostname's DNS lookup to `123.57.149.254`; the HTTPS/WSS hostname, certificate validation, server release and gameplay cadence stayed the same. Server socket inspection confirmed the direct client path.
+## 直连对比
 
-- Minimum delivery: 57.71 snapshots/client/second.
-- Worst snapshot-gap p95: 28.91 ms; worst server-update p95: 10.60 ms.
-- Worst ping RTT p95: 74.29 ms; worst combat input-to-application p95: 122.13 ms.
-- Mean role CPU: 1.30 logical cores; maximum sampled total role memory: 646.62 MiB.
-- Event sets matched in both rooms; no unexpected disconnects or client errors occurred.
+随后一次预热过的五客户端运行在 15 秒预热之后，以同样的混合赛制重复了 120.03 个测量秒。只有该验证进程把主机名的 DNS 查询固定到 `123.57.149.254`；HTTPS/WSS 主机名、证书验证、服务器发布与玩法节奏保持不变。服务器 socket 检查确认了客户端直连路径。
 
-This was a subsequent warmed run, not a randomized before/after experiment. The separate paired HTTPS probes establish the routing difference without conflating it with a backend code change. The public five-minute run above still includes the client's ordinary routed path and its high latency.
+- 最低投递：57.71 快照/客户端/秒。
+- 最差快照间隔 p95：28.91 ms；最差服务器更新 p95：10.60 ms。
+- 最差 ping RTT p95：74.29 ms；最差战斗输入到生效 p95：122.13 ms。
+- 角色 CPU 平均：1.30 个逻辑核；采样到的角色内存最大合计：646.62 MiB。
+- 两个房间的事件集合均匹配；没有意外断线或客户端错误。
 
-Public mobile browser acceptance also loaded the deployed game, entered local combat and verified circular controls in portrait and landscape with no console errors. The Pages build loaded under `/mygo-fighter/` with no console errors.
+这是一次随后进行的预热运行，不是随机化的前后对照实验。独立的成对 HTTPS 探测确立了路由差异，而没有把它与后端代码改动混在一起。上面公网五分钟的运行仍包含客户端平常的路由路径及其高延迟。
 
-Raw logs, temporary verification scripts, reports and screenshots are retained only under ignored `output/deploy-20261030/`. Temporary server-side benchmark processes and runtimes are removed after verification; the installed production service requires only Java.
+公网手机浏览器验收也加载了已部署的游戏、进入本地战斗，并在竖屏与横屏下验证了圆形操作控件，控制台均无报错。Pages 构建在 `/mygo-fighter/` 下加载，控制台无报错。
+
+原始日志、临时验证脚本、报告与截图只保留在被忽略的 `output/deploy-20261030/` 下。临时的服务器端基准进程与运行时在验证后删除；安装的生产服务只需要 Java。

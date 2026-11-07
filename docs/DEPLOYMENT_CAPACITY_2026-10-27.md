@@ -1,76 +1,78 @@
-# Deployment and room capacity — 2026-10-27
+**简体中文** | [English](DEPLOYMENT_CAPACITY_2026-10-27.en.md) | [日本語](DEPLOYMENT_CAPACITY_2026-10-27.ja.md)
 
-Historical protocol-20 deployment and capacity record. The [2026-10-28 deployment record](DEPLOYMENT_2026-10-28.md) supersedes the active release information below. The four-room setting is retained, but the newer custom rules and larger teams have not received a new capacity audit.
+# 部署与房间容量 — 2026-10-27
 
-This deployment installed the matching frontend, Scala backend and shared TypeScript combat kernel at <https://mygo-123-57-149-254.sslip.io/>. Production was configured for **four simultaneous rooms / eight players** in `/etc/mygo-fighter.env` (`MAX_ROOMS=4`). Four was the highest count to pass warmed screening and remain stable through the observed confirmation from a restarted production process. The user ended that confirmation after approximately ten measured minutes; the planned fifteen-minute window was not completed.
+协议 20 的历史部署与容量记录。[2026-10-28 部署记录](DEPLOYMENT_2026-10-28.md) 取代下文中的当前发布信息。四房间设置予以保留，但更新的自定义对战规则与更大的队伍尚未接受新的容量审核。
 
-## Release
+本次部署在 <https://mygo-123-57-149-254.sslip.io/> 安装了配套的前端、Scala 后端与共享 TypeScript 战斗内核。生产环境在 `/etc/mygo-fighter.env` 中配置为 **四个同时房间 / 八名玩家**（`MAX_ROOMS=4`）。四是通过预热筛查、并在重启后的生产进程所观察到的确认中保持稳定的最高数量。用户在约十分钟的实测后结束了那次确认；计划中的十五分钟窗口并未跑完。
 
-| Item               | Value                                                                        |
-| ------------------ | ---------------------------------------------------------------------------- |
-| Application commit | `1fbfdc0da1bed3ee5e784da734ee0f966c2c9858`                                   |
-| Release            | `20261027-1fbfdc0-protocol20`                                                |
-| WebSocket protocol | `20`                                                                         |
-| Archive SHA-256    | `866ccbddec0fbfd8eacade1aee0058b3bc3e10031b4e9f08cee7edc5c76025ef`           |
-| Runtime            | OpenJDK 21                                                                   |
-| Host               | AliCloud Beijing, Ubuntu 24.04, x86-64, two vCPUs, approximately 1.6 GiB RAM |
-| JVM/service limits | 64/256 MiB heap, 64 MiB code cache, 512 MiB service memory, no service swap  |
-| Public proxy       | Caddy HTTPS/WSS; backend listens on `127.0.0.1:8080`                         |
+## 发布
 
-Fetched and reviewed `origin/main`, then fast-forwarded the clean checkout before building. The archive checksum matched after upload. This release includes finish-presentation acknowledgement, Soyo wave damage, Miyako yokan sweep and Mortis blood fist/lifesteal; Poppin'Party files remain unregistered design drafts. The application artifact was unchanged by the later documentation update. `deployment.json` in the active release records its identity, configuration and the interrupted confirmation status.
+| 项目           | 值                                                                 |
+| -------------- | ------------------------------------------------------------------ |
+| 应用提交       | `1fbfdc0da1bed3ee5e784da734ee0f966c2c9858`                         |
+| 发布版本       | `20261027-1fbfdc0-protocol20`                                      |
+| WebSocket 协议 | `20`                                                               |
+| 归档 SHA-256   | `866ccbddec0fbfd8eacade1aee0058b3bc3e10031b4e9f08cee7edc5c76025ef` |
+| 运行时         | OpenJDK 21                                                         |
+| 主机           | 阿里云北京，Ubuntu 24.04，x86-64，两个 vCPU，约 1.6 GiB 内存       |
+| JVM/服务限制   | 64/256 MiB 堆、64 MiB 代码缓存、512 MiB 服务内存、服务不启用 swap  |
+| 公网代理       | Caddy HTTPS/WSS；后端监听 `127.0.0.1:8080`                         |
 
-## Capacity screening
+构建前抓取并审阅了 `origin/main`，然后快进干净的检出。上传后归档校验和匹配。本次发布包含终结画面确认、素世发波伤害、藤都子羊羹横扫与 Mortis 血拳/吸血；Poppin'Party 文件仍是未注册的设计草稿。后续的文档更新没有改变应用产物。当前发布中的 `deployment.json` 记录其身份、配置与被中断的确认状态。
 
-The deciding screening used the production HTTPS/WSS endpoint, temporarily configured to admit up to 40 rooms while the requested batches were tested. Clients ran on the separate Azure Japan East VM so they did not consume AliCloud CPU. AliCloud resource samples were recorded independently every five seconds. JVM flags, memory ceiling, task limit and application artifact were unchanged.
+## 容量筛查
 
-Every room was an active 3v3 relay with two authenticated clients. Teams covered all 16 characters across multiple stages, with flat terrain so clients could continuously approach and attack. Clients sent movement, normal attacks, skills, transformations, jumps and supers, at up to 30 input messages per second per player, acknowledged finish presentations and restarted completed matches.
+决定性的筛查使用生产 HTTPS/WSS 端点，并在测试各请求批次期间临时配置为允许最多 40 个房间。客户端在独立的 Azure 日本东部虚拟机上运行，因此不占用阿里云 CPU。阿里云资源采样每五秒独立记录一次。JVM 参数、内存上限、任务限制与应用产物均未改变。
 
-Each deciding stage used 60 seconds of active warm-up and at least 60 seconds of measurement. Passing required every client to receive at least 50 snapshots/second, snapshot-gap p95 at most 50 ms, server-update p95 at most 16.67 ms, RTT p95 at most 250 ms on the Japan East–Beijing path, no unexpected disconnects or protocol errors, observed damage, matching event IDs between peers and a live backend within the existing memory ceiling. These are workload-specific acceptance criteria relative to nominal 60 Hz snapshots, not a universal hardware maximum.
+每个房间都是一个活跃的 3v3 接力对战，带两名已认证客户端。队伍覆盖全部 16 名角色、多个关卡，并使用平坦地形，以便客户端能持续接近并攻击。客户端发送移动、普攻、技能、变身、跳跃与大招，每名玩家每秒最多 30 条输入消息，确认终结画面演出，并重启已完成的对局。
 
-| Rooms | Warmed screening | Minimum snapshots/s | Worst gap p95, ms | Worst RTT p95, ms | Mean CPU cores | Maximum sampled memory, MiB |
-| ----- | ---------------- | ------------------: | ----------------: | ----------------: | -------------: | --------------------------: |
-| 4     | Pass             |               59.39 |             25.42 |            140.13 |           1.37 |                       316.8 |
-| 6     | Fail             |               31.82 |             96.97 |            316.45 |           1.69 |                       316.9 |
-| 5     | Pass             |               51.84 |             44.75 |            206.74 |           1.63 |                       317.8 |
+每个决定性阶段都使用 60 秒主动预热与至少 60 秒测量。通过要求每个客户端每秒至少收到 50 个快照、快照间隔 p95 不超过 50 ms、服务端更新 p95 不超过 16.67 ms、日本东部–北京链路的 RTT p95 不超过 250 ms、没有意外断连或协议错误、观察到伤害、对端之间事件 ID 匹配，并且后端在既有内存上限内保持运行。这些是相对于标称 60 Hz 快照的、特定工作负载的验收标准，不是通用的硬件上限。
 
-Five rooms passed short warmed screening but failed the subsequent confirmation from a restarted production process during startup: one socket closed unexpectedly, another reported a WebSocket error, and input-rate rejection errors occurred. Five was therefore rejected for production. Six failed sustained delivery even after warm-up. Four remains the selected limit, and a fifth room was explicitly rejected while the four test rooms were occupied.
+| 房间数 | 预热筛查 | 每秒最少快照 | 最差间隔 p95, ms | 最差 RTT p95, ms | 平均 CPU 核数 | 采样最大内存, MiB |
+| ------ | -------- | -----------: | ---------------: | ---------------: | ------------: | ----------------: |
+| 4      | 通过     |        59.39 |            25.42 |           140.13 |          1.37 |             316.8 |
+| 6      | 失败     |        31.82 |            96.97 |           316.45 |          1.69 |             316.9 |
+| 5      | 通过     |        51.84 |            44.75 |           206.74 |          1.63 |             317.8 |
 
-Initial cold attempts exposed substantial first-match startup stalls. A workstation-driven attempt was also invalidated by a simultaneous SSH/browser connection interruption; backend PIDs and restart counters stayed unchanged. A preliminary isolated backend on loopback port 8181 helped diagnose startup, but co-located test clients competed for CPU. Those preliminary capacity results were superseded by the external-client screening above. Cold first-match warm-up remains a limitation; the selected cap does not eliminate it.
+五房间通过了短暂的预热筛查，但在重启后的生产进程进行后续确认时于启动阶段失败：一个套接字意外关闭，另一个报告 WebSocket 错误，并出现输入速率被拒绝的错误。因此五房间被生产环境否决。六房间即使在预热后也无法维持投递。四仍是选定的上限，并且在四个测试房间占用时，第五个房间被明确拒绝。
 
-## Confirmation stopped at the user's request
+最初的冷启动尝试暴露出明显的首局启动停顿。一次由工作站驱动的尝试也因 SSH 与浏览器连接同时中断而作废；后端 PID 与重启计数保持不变。环回端口 8181 上的一个初步隔离后端有助于诊断启动过程，但同机部署的测试客户端会争抢 CPU。那些初步容量结果已被上面的外部客户端筛查取代。冷启动首局预热仍是局限；选定的上限并不能消除它。
 
-Production was restarted with `MAX_ROOMS=4`. Eight external clients exercised four simultaneous 3v3 matches through public HTTPS/WSS with normal certificate and hostname validation. The startup period completed without client errors; measurement began after 180 seconds of active warm-up.
+## 按用户要求停止确认
 
-The user asked to end the test, and the load clients were stopped at **23:43:02 Asia/Shanghai**. The final saved sample covers **600.02 measured seconds**, following the three-minute warm-up. It is a partial confirmation, not a completed fifteen-minute acceptance run. The test-client unit's exit status 143 records this intentional stop, not a game service failure.
+生产环境以 `MAX_ROOMS=4` 重启。八个外部客户端通过公网 HTTPS/WSS 并配合正常的证书与主机名校验，跑满了四场同时的 3v3 对局。启动阶段完成，客户端没有报错；测量在 180 秒主动预热后开始。
 
-| Observed result at the final sample     |              Value |
-| --------------------------------------- | -----------------: |
-| Snapshots per client                    |      35,164–35,243 |
-| Minimum snapshots per client per second |              58.60 |
-| Unexpected socket closes                |                  0 |
-| Protocol/client errors                  |                  0 |
-| Automatic backend restarts              |                  0 |
-| Memory-limit kills                      |                  0 |
-| Mean backend CPU                        | 1.41 logical cores |
-| Maximum sampled backend memory          |          255.1 MiB |
+用户要求结束测试，负载客户端在 **23:43:02 亚洲/上海** 停止。最终保存的样本覆盖 **600.02 实测秒**，此前完成了三分钟预热。这只是一次部分确认，不是完成的十五分钟验收。测试客户端单元的退出状态 143 记录的是这次有意停止，而不是游戏服务失败。
 
-All clients observed 3v3 reserve progression and damage. Samples confirmed one unchanged production PID throughout the measured interval. The interrupted harness did not save final latency percentiles or a final event-pair comparison; those are not claimed for this partial run. The warmed screening above did verify matching peer event IDs. Test clients were stopped immediately; abandoned test rooms use the existing two-minute automatic cleanup.
+| 最终样本的观察结果     |            值 |
+| ---------------------- | ------------: |
+| 每客户端快照数         | 35,164–35,243 |
+| 每客户端每秒最少快照数 |         58.60 |
+| 意外套接字关闭         |             0 |
+| 协议/客户端错误        |             0 |
+| 后端自动重启           |             0 |
+| 内存上限杀死           |             0 |
+| 平均后端 CPU           |   1.41 逻辑核 |
+| 采样最大后端内存       |     255.1 MiB |
 
-The 512 MiB limit is a conservative systemd service setting inherited from the original small-VM deployment, not the VM's physical RAM limit. It includes the JVM heap, JavaScript runtime, threads and other native overhead and leaves memory for Ubuntu, Caddy and other processes. None of these room-count failures reached that ceiling, so memory was not the observed limit. No VM resize, runtime change or network-rule change was made.
+所有客户端都观察到 3v3 替补进度与伤害。采样确认在整个测量区间内生产 PID 始终未变。被中断的测试装置没有保存最终的延迟百分位或最终事件配对比较；这次部分运行不对此作任何声明。上面的预热筛查确实验证了对端事件 ID 匹配。测试客户端被立即停止；被放弃的测试房间沿用现有的两分钟自动清理。
 
-## Other verification
+512 MiB 上限是从最初的小型虚拟机部署继承下来的保守 systemd 服务设置，而不是该虚拟机的物理内存上限。它包含 JVM 堆、JavaScript 运行时、线程与其他原生开销，并为 Ubuntu、Caddy 及其他进程留出内存。这些房间数失败都没有触及该上限，因此内存不是观察到的限制因素。没有调整虚拟机规格、运行时或网络规则。
 
-Passed `npm run check`, `npm run check:backend`, `npm run build:pages` and `npm run package:server` (including `npm run build`). Checks covered 334 runtime media files, 16 characters and 15 stages. The Pages build loaded and entered a practice battle under `/mygo-fighter/`, with no console errors or failed resource responses. All 334 public media paths matched local content/ranges, the public manifest matched and immutable media caching passed. HTTP redirects to HTTPS; the HTML uses `no-cache`.
+## 其他验证
 
-Public functional checks passed protocol-20 authentication, pause/resume, reconnect, host-only restart, invalid sessions, foreign-origin rejection, previous-protocol rejection and fighter reset. The browser displayed the expected room-full message when another room was requested at capacity. No removed test directory was restored.
+通过了 `npm run check`、`npm run check:backend`、`npm run build:pages` 与 `npm run package:server`（含 `npm run build`）。检查覆盖 334 个运行时媒体文件、16 名角色与 15 个关卡。Pages 构建在 `/mygo-fighter/` 下加载并进入了一场练习对战，没有控制台错误或失败资源响应。全部 334 个公网媒体路径与本地内容/范围一致，公网清单匹配，不可变媒体缓存通过。HTTP 会跳转到 HTTPS；HTML 使用 `no-cache`。
 
-## Previous-version removal and operations
+公网功能检查通过了协议 20 认证、暂停/继续、重连、仅房主可重启、无效会话、外部来源拒绝、旧协议拒绝与角色重置。在容量已满时请求另一个房间，浏览器显示了预期的房间已满提示。没有恢复任何已移除的测试目录。
 
-At the user's explicit request, deleted all three preceding AliCloud releases (`20261026-6d3d136-protocol10`, `20261026-b82ae8c-protocol12`, `20261027-9207f12-protocol12`), their uploaded packages and metadata, and the `previous` symlink. Only `20261027-1fbfdc0-protocol20` remains under `/srv/mygo-fighter/releases/`. Generic activation/rollback scripts remain deployment infrastructure, but rollback has no previous release to target.
+## 旧版本删除与运维
 
-Removed the already disabled Azure game trial: all three release directories, uploaded archives, its service unit, environment file, dedicated cache and temporary hosting files. The game-specific Caddy configuration was replaced with its original configuration; Caddy remained disabled. The Azure VPN remained active/enabled, with its networking and credentials preserved.
+应用户明确要求，删除了阿里云上此前全部三个发布（`20261026-6d3d136-protocol10`、`20261026-b82ae8c-protocol12`、`20261027-9207f12-protocol12`）、其上传包与元数据，以及 `previous` 符号链接。仅 `20261027-1fbfdc0-protocol20` 保留在 `/srv/mygo-fighter/releases/` 下。通用激活/回滚脚本仍作为部署基础设施保留，但回滚已没有上一版本可指向。
 
-Temporary capacity services, clients, portable Node runtimes and their files on both hosts were removed after collecting reports. The active game continues running. Local reports and temporary scripts are under ignored `output/deploy-20261027/`; browser artifacts are under ignored `output/playwright/`.
+移除了已禁用的 Azure 游戏试用：全部三个发布目录、上传归档、其服务单元、环境文件、专用缓存与临时托管文件。游戏专用的 Caddy 配置已替换回其原始配置；Caddy 仍保持禁用。Azure VPN 保持活动/启用，其网络与凭据予以保留。
+
+临时容量服务、客户端、便携式 Node 运行时及其在两台主机上的文件，都在收集报告后移除。当前游戏继续运行。本地报告与临时脚本放在忽略的 `output/deploy-20261027/` 下；浏览器产物放在忽略的 `output/playwright/` 下。
 
 ```sh
 ssh alicloud 'systemctl status mygo-fighter caddy --no-pager'

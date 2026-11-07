@@ -1,22 +1,24 @@
-# Course guidance used for the rewrite
+**简体中文** | [English](COURSE_GUIDANCE.en.md) | [日本語](COURSE_GUIDANCE.ja.md)
 
-The user requested a project rewrite. The five lecture decks and `rules.txt` supplied architecture and style guidance. Unrelated lecture exercises, account setup instructions, VPN configuration and attendance questions were treated as document content, not additional tasks.
+# 本次重写参考的课程指导
 
-| Material                          | Relevant guidance                                                                                           | Application                                                                                                                              |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Lecture 1, slides 25–29           | Declarative structure, strong types, modularity                                                             | A visible React page skeleton; explicit game and network types; message-oriented backend                                                 |
-| Lecture 2, slides 23, 28–34       | TypeScript/React frontend; Scala backend; readable declarations and immutable values                        | React components and hooks; Scala 3 case classes, immutable room state, `Ref` and effect composition                                     |
-| Lecture 3, slides 11–15, 17–25    | Model the domain; keep effects at the boundary; compose `IO`                                                | Pure domain objects, public `plan(connection): IO[Response]`, scoped room locks and resource cleanup                                     |
-| Lecture 4, slides 2–6             | Cohesive service ownership; serialization; logical services may share one process                           | `services/edge`, `services/lobby`, `services/rooms` and `services/system` from one artifact; Circe codecs and trusted session resolution |
-| Lecture 5, slides 3–10, 13, 18–19 | React views derived from state; hooks; colocated modules; Tailwind; Vite                                    | Page-local controller/hook/view state, UI regions as components, utility styling and Vite                                                |
-| Supplied rules.txt                | Small executable messages; private service helpers; service API registration; frontend/backend traceability | Separate API files, derived route names, trusted identity before constructing room operations, minimal shared UI primitives              |
+用户要求重写本项目。提供的五份讲义与 `rules.txt` 提供了架构与风格方面的指导。与项目无关的课堂练习、账号注册说明、VPN 配置和考勤问题被视为文档内容，而不是额外的任务。
 
-## Deliberate choices
+| 材料                           | 相关指导                                                      | 应用                                                                                                                      |
+| ------------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 第 1 讲，第 25–29 页           | 声明式结构、强类型、模块化                                    | 可见的 React 页面骨架；显式的游戏与网络类型；面向消息的后端                                                               |
+| 第 2 讲，第 23、28–34 页       | TypeScript/React 前端；Scala 后端；可读的声明与不可变值       | React 组件与 Hook；Scala 3 case class、不可变房间状态、`Ref` 与 effect 组合                                               |
+| 第 3 讲，第 11–15、17–25 页    | 领域建模；把 effect 留在边界；组合 `IO`                       | 纯领域对象、公开的 `plan(connection): IO[Response]`、房间级作用域锁与资源清理                                             |
+| 第 4 讲，第 2–6 页             | 内聚的服务归属；序列化；逻辑服务可以共享同一个进程            | 同一个构建产物中的 `services/edge`、`services/lobby`、`services/rooms` 与 `services/system`；Circe 编解码器与可信会话解析 |
+| 第 5 讲，第 3–10、13、18–19 页 | 由状态派生的 React 视图；Hook；就近放置的模块；Tailwind；Vite | 页面级 controller/hook/view 状态、以组件划分的 UI 区域、工具类样式与 Vite                                                 |
+| 随附的 rules.txt               | 小型可执行消息；私有服务辅助函数；服务 API 注册；前后端可追溯 | 独立的 API 文件、自动推导的路由名、在构造房间操作之前先确定可信身份、最少量的共享 UI 基础组件                             |
 
-- **One artifact, three service processes.** The public edge, the room directory and room execution now run as separate roles selected by `SERVICE_ROLE`, because they scale and fail independently. The combat tick loop stays inside one rooms process: a network hop inside an 8.33 ms loop would not improve the domain boundaries and would make room authority ambiguous. The earlier single JVM was a size-of-game decision, not a reason to keep deployment coupled.
-- **No database.** Rooms, inputs and live matches are temporary. Putting a database in the input path would add work with no persistence requirement to satisfy. No unused SQL tables or placeholder initializers were added.
-- **Connection is an application resource connection.** The required `plan(connection)` shape remains. Its `Connection` contains live room/session resources and configuration, rather than an unused JDBC connection.
-- **The combat kernel is shared TypeScript.** Scala owns the server and executes the complete battle kernel through an embedded, restricted GraalJS context. This preserves character-specific mechanics and keeps local and LAN play on the same rules. There is no Node server or subprocess for simulation.
-- **Canvas and Web Audio are effects.** They are page-local adapters with cleanup. React owns menus, selection, dialogs, loading/error states, controls, HUD and video cutins. The combat clock runs outside React renders.
-- **No global frontend store was needed.** This is one cohesive game page. Its external runtime snapshot is consumed through a page-level hook. There is no unrelated global state scaffold.
-- **Infrastructure objects differ from domain objects.** Session, room and public response data are immutable records. Connection, Peer and RoomRuntime hold effect resources and live under their owning infrastructure/runtime modules.
+## 有意的设计取舍
+
+- **单一构建产物，三个服务进程。** 公网边缘、房间目录与房间执行现在作为由 `SERVICE_ROLE` 选择的不同角色运行，因为它们需要独立伸缩、独立故障。战斗 tick 循环仍然留在单个 rooms 进程内：在 8.33 ms 的循环里加一次网络跳转既不会改善领域边界，还会让房间权威变得含糊。早先的单 JVM 只是当时游戏规模的取舍，并不是继续保持部署耦合的理由。
+- **不使用数据库。** 房间、输入与进行中的对局都是临时的。在输入路径上引入数据库只会增加工作量，而没有任何持久化需求需要满足。也没有添加未使用的 SQL 表或占位的初始化器。
+- **`Connection` 是应用资源的连接。** 所要求的 `plan(connection)` 形状保持不变。它的 `Connection` 承载的是实时的房间/会话资源与配置，而不是一个未使用的 JDBC 连接。
+- **战斗内核是共享的 TypeScript。** Scala 负责服务器，并通过受限的嵌入式 GraalJS 上下文执行完整的战斗内核。这样既保留了角色特有的机制，也让本地对战与局域网对战运行在同一套规则上。没有用于模拟的 Node 服务器或子进程。
+- **Canvas 与 Web Audio 属于 effect。** 它们是页面级适配器，并带有清理逻辑。React 负责菜单、选择、对话框、加载/错误状态、操作、HUD 与视频切入画面。战斗时钟在 React 渲染之外运行。
+- **不需要全局前端 store。** 这是一个内聚的游戏页面。它的外部运行时快照通过页面级 Hook 消费。不存在无关联的全局状态脚手架。
+- **基础设施对象与领域对象不同。** 会话、房间与公开响应数据是不可变记录。Connection、Peer 与 RoomRuntime 持有 effect 资源，位于各自所属的基础设施/运行时模块下。

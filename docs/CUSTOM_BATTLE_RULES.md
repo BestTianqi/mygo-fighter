@@ -1,3 +1,5 @@
+**简体中文** | [English](CUSTOM_BATTLE_RULES.en.md) | [日本語](CUSTOM_BATTLE_RULES.ja.md)
+
 # 自定义对战规则
 
 在本地选人或联机房间展开「自定义对战规则」。联机由房主统一设置，双方确认规则后准备开战。

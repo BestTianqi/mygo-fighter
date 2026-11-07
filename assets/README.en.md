@@ -67,6 +67,6 @@ The command searches source filenames and runtime manifest paths, printing the a
 - Runtime `/media/` URLs are relative to the deployed application base; `loadAssets.ts` handles the project subpath.
 - `review.proof` entries in MewType manifests are assets-relative paths into `../output/artwork/`. Optional review files, contact sheets and screenshots belong in ignored `output/`.
 
-After editing sources, run the appropriate source packer where needed, then `python3 tools/build.py` to export. Targeted portrait/finish scripts can update the existing manifest; see [the artwork workflow](../docs/ARTWORK.md). Ordinary application builds do not repack artwork or require Python dependencies.
+After editing sources, run the appropriate source packer where needed, then `python3 tools/build.py` to export. Targeted portrait/finish scripts can update the existing manifest; see [the artwork workflow](../docs/ARTWORK.en.md). Ordinary application builds do not repack artwork or require Python dependencies.
 
 Run `npm run check` and `npm run build` after changing bindings. Asset checks verify runtime content hashes, source action groups across bands, penguin voice paths and stage sources. Keep provenance and original media when moving sources; update catalog paths, packers, draft references and this call map together.

@@ -8,4 +8,4 @@
 
 The two images for Anon and Tomori were made by image generation with the game's existing transformation action art as reference, and keep a transparent background. Miyako's image is taken straight from her existing super video. Run `python tools/build_finish_assets.py` to update the runtime assets; the selected character's ultimate art is preloaded before a battle starts.
 
-The widescreen scene art for the whole roster, used only for super knockouts, and the new finish voices are in [v2/README.md](v2/README.md). The older images above are still used for ordinary knockout results.
+The widescreen scene art for the whole roster, used only for super knockouts, and the new finish voices are in [v2/README.md](v2/README.en.md). The older images above are still used for ordinary knockout results.

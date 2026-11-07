@@ -1,37 +1,39 @@
-# Deployment — 2026-10-28
+**简体中文** | [English](DEPLOYMENT_2026-10-28.en.md) | [日本語](DEPLOYMENT_2026-10-28.ja.md)
 
-The matching frontend, Scala backend and shared combat kernel are deployed at <https://mygo-123-57-149-254.sslip.io/>. This release adds custom battle rules, teams up to 8v8, infinite time and arcade play, sharper character rendering, and the Baidu browser background-video fix. The roster remains 16 playable characters; Poppin'Party assets remain design material.
+# 部署 — 2026-10-28
 
-| Item               | Value                                                              |
-| ------------------ | ------------------------------------------------------------------ |
-| Application commit | `8051ba8298201addf9ec042fc996b09b068d4ba1`                         |
-| Release            | `20261028-8051ba8-protocol22`                                      |
-| WebSocket protocol | `22`                                                               |
-| Archive SHA-256    | `04fec740d38581bd61ba42b48f7e0f5c7a1c6fa5983a189abef550358bfd08e0` |
-| Runtime            | OpenJDK 21                                                         |
-| Room limit         | Four rooms / eight connected players                               |
-| Memory ceiling     | 512 MiB; existing JVM flags retained                               |
+配套的前端、Scala 后端与共享战斗内核部署在 <https://mygo-123-57-149-254.sslip.io/>。本次发布新增自定义对战规则、最高 8v8 的队伍、无限时间与街机玩法、更锐利的角色渲染，以及百度浏览器背景视频修复。角色阵容仍为 16 个可选角色；Poppin'Party 素材仍是设计素材。
 
-Fetched and reviewed `origin/main` before building and checked it again before activation. The upload checksum matched the local package. The existing activation script stopped the old process before switching the complete release, then passed its backend health check. The running JVM's working directory resolves to the new release.
+| 项目           | 值                                                                 |
+| -------------- | ------------------------------------------------------------------ |
+| 应用提交       | `8051ba8298201addf9ec042fc996b09b068d4ba1`                         |
+| 发布           | `20261028-8051ba8-protocol22`                                      |
+| WebSocket 协议 | `22`                                                               |
+| 归档 SHA-256   | `04fec740d38581bd61ba42b48f7e0f5c7a1c6fa5983a189abef550358bfd08e0` |
+| 运行时         | OpenJDK 21                                                         |
+| 房间上限       | 四个房间 / 八个连接玩家                                            |
+| 内存上限       | 512 MiB；沿用现有 JVM 参数                                         |
 
-## Verification
+构建前拉取并审阅了 `origin/main`，启用前又核对了一次。上传的校验和与本地包一致。现有启用脚本在切换到完整发布之前停掉了旧进程，随后通过了后端健康检查。运行中的 JVM 工作目录解析到新发布。
 
-Passed `npm run check`, `npm run check:backend`, `npm run build:pages` and `npm run package:server`, which includes `npm run build`. The Pages build loaded and entered practice under `/mygo-fighter/`. The deployed HTML matched the production build; all 334 media paths and the asset manifest matched local content or byte ranges. HTTPS certificate validation, HTTP-to-HTTPS redirect, HTML `no-cache` and immutable media caching passed.
+## 验证
 
-Public protocol-22 checks passed pause/resume, reconnect, host-only restart, invalid sessions, foreign-origin rejection, previous-protocol rejection and fighter reset. Two isolated browsers completed a public online match: keyboard attacks reduced the defender to 183 HP, and refreshing preserved that state before resuming. Both browsers reported no console errors.
+已通过 `npm run check`、`npm run check:backend`、`npm run build:pages` 与 `npm run package:server`（其中包含 `npm run build`）。Pages 构建在 `/mygo-fighter/` 下加载并进入练习模式。部署的 HTML 与生产构建一致；全部 334 个媒体路径与素材清单与本地内容或字节区间一致。HTTPS 证书校验、HTTP 到 HTTPS 重定向、HTML `no-cache` 与媒体不可变缓存均通过。
 
-An online 8v8 check formed two teams covering all 16 characters. Both peers received the same custom rules, the server applied 350 HP and 80 starting energy, infinite time held the clock at 90 seconds, and guest rule changes were rejected. Full-room and fifth-room rejection, abandoned-session revocation after two minutes, capacity recovery and admission limits with `Retry-After: 60` also passed.
+公网协议 22 检查通过了暂停/恢复、重连、仅房主重开、无效会话、跨源拒绝、旧协议拒绝与战士重置。两个隔离浏览器完成了一场公网联机对战：键盘攻击把防守方打到 183 HP，刷新后保留该状态并继续。两个浏览器都没有控制台报错。
 
-Four authenticated clients completed 900.00 measured seconds in simultaneous 1v1 and 3v3 matches through public HTTPS/WSS. Each received 52,116–52,154 snapshots, at least 57.91 snapshots/second across the complete window, with damage in both rooms and reserve progression in 3v3. There were no unexpected socket closes, protocol mismatches, automatic backend restarts or memory-limit events. Peak service memory was 270.3 MiB. These measurements include other functional checks during the initial part of the window and are not a capacity benchmark.
+一次联机 8v8 检查组成两支队伍，覆盖全部 16 个角色。双方收到相同的自定义规则，服务端应用 350 HP 与 80 初始能量，无限时间把时钟保持在 90 秒，客方修改规则被拒绝。满员与第五个房间被拒、两分钟后废弃会话吊销、容量恢复，以及带 `Retry-After: 60` 的准入限制也都通过。
 
-**The strict soak harness did not pass its no-error assertion.** One client recorded one asynchronous HTTP acknowledgement timeout at its 20-second deadline. The harness did not label whether that request acknowledged loading or a finish presentation. It remained the only recorded client error; both matches continued. A separate follow-up made 60 finish-acknowledgement requests successfully (maximum 42.1 ms), but did not establish the original timeout's cause. The harness skipped its later event-pair assertions after the error check, so exact event-ID equality is not claimed for this run.
+四个已认证客户端通过公网 HTTPS/WSS，在并发的 1v1 与 3v3 中完成 900.00 秒计量。各自收到 52,116–52,154 个快照，在整个窗口内至少 57.91 个快照/秒，两个房间都有伤害，3v3 有替补推进。没有意外的 socket 关闭、协议不匹配、后端自动重启或内存上限事件。服务峰值内存为 270.3 MiB。这些测量包含窗口前段的其他功能检查，不是容量基准。
 
-The workstation's proxy DNS initially returned an unusable synthetic address. Public verification used a temporary, hostname-specific DNS override to the server's known IP while retaining the hostname, SNI and normal certificate validation; no system DNS configuration or certificate checks were changed.
+**严格浸泡测试脚本没有通过它的无错误断言。** 一个客户端在 20 秒截止时记录到一次异步 HTTP 确认超时。脚本没有标注该请求确认的是加载还是终结画面呈现。它仍是唯一记录到的客户端错误；两场对战继续进行。另一次跟进成功发出 60 次终结确认请求（最长 42.1 ms），但没有确定原先超时的原因。由于错误检查之后脚本跳过了后续的事件对断言，这次运行不声称事件 ID 完全相等。
 
-The four-room limit is inherited from the [protocol-20 capacity audit](DEPLOYMENT_CAPACITY_2026-10-27.md). The current checks do not establish four-room capacity for 8v8 or every combination of custom rules. Cold JVM startup remains a limitation; startup logs included CPU-starvation warnings during initial match loading.
+工作站代理 DNS 起初返回了一个不可用的合成地址。公网验证使用临时的、针对主机名的 DNS 覆盖，指向服务器已知 IP，同时保留主机名、SNI 与正常证书校验；没有修改系统 DNS 配置或证书检查。
 
-## Previous-version removal
+四个房间的上限沿用自[协议 20 容量审计](DEPLOYMENT_CAPACITY_2026-10-27.md)。当前检查不能证明 8v8 或自定义规则的所有组合下都具备四房间容量。冷 JVM 启动仍是限制；启动日志在初始对局加载期间包含 CPU 饥饿警告。
 
-After live verification, deleted `20261027-1fbfdc0-protocol20`, the `previous` symlink and the uploaded archive from the server at the user's request. Verified that `/srv/mygo-fighter/releases/` contains only `20261028-8051ba8-protocol22`, the running process still uses that directory, and health remains successful with no restart. No previous release is retained for rollback. Shared service configuration and caches remain in place.
+## 移除旧版本
 
-Temporary browser sessions and the local preview server were closed. Verification scripts, reports and screenshots remain under ignored `output/deploy-20261028/` and `output/playwright/deploy-20261028/`; no removed test directory was restored. `deployment.json` in the active release records the package identity and verification results.
+联网验证之后，按用户要求在服务器上删除了 `20261027-1fbfdc0-protocol20`、`previous` 符号链接与上传的归档。确认 `/srv/mygo-fighter/releases/` 中只剩 `20261028-8051ba8-protocol22`，运行中的进程仍使用该目录，健康检查保持成功且没有重启。没有保留任何旧版本用于回滚。共享服务配置与缓存保持原样。
+
+临时浏览器会话与本地预览服务器已关闭。验证脚本、报告与截图保留在已忽略的 `output/deploy-20261028/` 与 `output/playwright/deploy-20261028/`；没有恢复任何已删除的测试目录。活动发布中的 `deployment.json` 记录了包身份与验证结果。
