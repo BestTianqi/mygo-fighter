@@ -154,9 +154,9 @@
       "character": "nonoka",
       "characterId": 14,
       "label": "心意直达·兔兔头槌",
-      "start": 856.6,
+      "start": 872.2,
       "end": 876.4,
-      "duration": 8.4,
+      "duration": 4.2,
       "sourceURL": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
       "bvid": "BV1SMTY6hEfY",
       "cid": 39554125532,
@@ -164,24 +164,18 @@
       "uploader": "梦限大MewType",
       "segments": [
         {
-          "sourceStart": 856.6,
-          "sourceEnd": 860.8,
-          "outputStart": 0.0,
-          "outputEnd": 4.2
-        },
-        {
           "sourceStart": 872.2,
           "sourceEnd": 876.4,
-          "outputStart": 4.2,
-          "outputEnd": 8.4
+          "outputStart": 0.0,
+          "outputEnd": 4.2
         }
       ],
       "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
-      "speakerVerification": "Official episode2 original animation: Nonoka leans forward and strikes Arale with her forehead, then speaks in close-up. First4.2s original Arale cries are muted; second excerpt retains only Nonoka sentence at its original relative time. Two original-speed excerpts, not a continuous source cut.",
+      "speakerVerification": "Official episode2 original animation: Nonoka speaks in close-up. Only her complete sentence is retained at original speed. Removed the previous 4.2s muted headbutt opening from both tracks so her voice begins at the ultimate trigger; original edited media is preserved in derivedFrom.",
       "subtitles": [
         {
-          "start": 4.26,
-          "end": 7.88,
+          "start": 0.06,
+          "end": 3.68,
           "text": "感受到小野乃的心意了吗？"
         }
       ],
@@ -200,14 +194,24 @@
           540
         ]
       },
-      "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp3",
-      "video": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp4",
+      "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp3",
+      "video": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp4",
       "slot": "p",
       "voice": "mewtypeSuper14",
       "move": "mewtype_14_virtual_super",
       "sha256": {
-        "audio": "c343df5329423c6c11536baa8ee26af691759ca2519d681b2a9bc02632fdaa09",
-        "video": "471a6804c8fbe0a4f06f1899eab6d8d527ae754b448a19d306a4881d550bafe0"
+        "audio": "bf28e31852cec17f80f563fc12c2cc856063a1a4f9f8b668831d1d4c10b55a10",
+        "video": "e9c7e630ddd99923d5cadd396141825f6630b1d6209a52bc7e0d7629043d885b"
+      },
+      "derivedFrom": {
+        "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp3",
+        "video": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp4",
+        "trimStart": 4.2,
+        "originalDuration": 8.4,
+        "sha256": {
+          "audio": "c343df5329423c6c11536baa8ee26af691759ca2519d681b2a9bc02632fdaa09",
+          "video": "471a6804c8fbe0a4f06f1899eab6d8d527ae754b448a19d306a4881d550bafe0"
+        }
       }
     }
   ]

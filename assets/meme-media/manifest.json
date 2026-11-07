@@ -3544,8 +3544,8 @@
           "voice": "mewtypeSuper14",
           "label": "心意直达·兔兔头槌",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp3",
-          "duration": 8.4,
+          "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp3",
+          "duration": 4.2,
           "source": {
             "url": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
             "uploader": "梦限大MewType",
@@ -3553,26 +3553,20 @@
             "cid": 39554125532,
             "page": 1,
             "title": "「BanG Dream! YUME∞MITA」#2【试看】",
-            "start": 856.6,
+            "start": 872.2,
             "end": 876.4,
-            "proof": "Official episode2 original animation: Nonoka leans forward and strikes Arale with her forehead, then speaks in close-up. First4.2s original Arale cries are muted; second excerpt retains only Nonoka sentence at its original relative time. Two original-speed excerpts, not a continuous source cut.",
+            "proof": "Official episode2 original animation: Nonoka speaks in close-up. Only her complete sentence is retained at original speed. Removed the previous 4.2s muted headbutt opening from both tracks so her voice begins at the ultimate trigger; original edited media is preserved in derivedFrom.",
             "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
             "segments": [
               {
-                "sourceStart": 856.6,
-                "sourceEnd": 860.8,
-                "outputStart": 0.0,
-                "outputEnd": 4.2
-              },
-              {
                 "sourceStart": 872.2,
                 "sourceEnd": 876.4,
-                "outputStart": 4.2,
-                "outputEnd": 8.4
+                "outputStart": 0.0,
+                "outputEnd": 4.2
               }
             ]
           },
-          "video": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp4",
+          "video": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp4",
           "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
           "videoRate": 1
         },
@@ -3771,8 +3765,8 @@
           "voice": "mewtypeSuper14",
           "label": "心意直达·兔兔头槌",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp3",
-          "duration": 8.4,
+          "audio": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp3",
+          "duration": 4.2,
           "source": {
             "url": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
             "uploader": "梦限大MewType",
@@ -3780,26 +3774,20 @@
             "cid": 39554125532,
             "page": 1,
             "title": "「BanG Dream! YUME∞MITA」#2【试看】",
-            "start": 856.6,
+            "start": 872.2,
             "end": 876.4,
-            "proof": "Official episode2 original animation: Nonoka leans forward and strikes Arale with her forehead, then speaks in close-up. First4.2s original Arale cries are muted; second excerpt retains only Nonoka sentence at its original relative time. Two original-speed excerpts, not a continuous source cut.",
+            "proof": "Official episode2 original animation: Nonoka speaks in close-up. Only her complete sentence is retained at original speed. Removed the previous 4.2s muted headbutt opening from both tracks so her voice begins at the ultimate trigger; original edited media is preserved in derivedFrom.",
             "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
             "segments": [
               {
-                "sourceStart": 856.6,
-                "sourceEnd": 860.8,
-                "outputStart": 0.0,
-                "outputEnd": 4.2
-              },
-              {
                 "sourceStart": 872.2,
                 "sourceEnd": 876.4,
-                "outputStart": 4.2,
-                "outputEnd": 8.4
+                "outputStart": 0.0,
+                "outputEnd": 4.2
               }
             ]
           },
-          "video": "assets/meme-media/mewtype-super-scenes/nonoka-super.mp4",
+          "video": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp4",
           "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
           "videoRate": 1
         }
