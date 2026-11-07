@@ -1,6 +1,12 @@
-[简体中文](README.md) | [English](README.en.md) | **日本語**
+<p align="center">
+  <img src="frontend/public/icon-512.webp" width="180" alt="MyGO!!!!! Fighter — 千早愛音" />
+</p>
 
-# MyGO!!!!! Fighter
+<h1 align="center">MyGO!!!!! Fighter</h1>
+
+<p align="center">迷子の音が、戦場に響く — MyGO!!!!!、Ave Mujica、MewType のバンド格闘ステージ。ローカル対戦、オンラインルーム、1v1〜8v8 リレーに対応。</p>
+
+<p align="center"><a href="README.md">简体中文</a> | <a href="README.en.md">English</a> | <strong>日本語</strong></p>
 
 TypeScript + React 製、Scala 3 サーバーで動作する対戦格闘ゲームです。原作のキャラクター、変身、15 ステージをそのまま収録し、ローカル対戦、CPU 戦、練習、設定可能な 1v1〜8v8 のリレー対戦に対応します。3 人乱闘では 3 人のファイターが同時に登場し、それぞれが 3 キャラクターを所持します（ローカルで 1P 対 CPU 2 体、またはオンラインで 3 人のプレイヤー）。撃破されたファイターは 5 秒後に自動で控えと交代し、バトルはそのまま続行します。ネットワークルームはリレーモードで 2 人、乱闘モードで 3 人に対応し、独立したルームを同時に複数稼働できます。
 

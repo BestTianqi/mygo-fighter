@@ -1,6 +1,12 @@
-[简体中文](README.md) | **English** | [日本語](README.ja.md)
+<p align="center">
+  <img src="frontend/public/icon-512.webp" width="180" alt="MyGO!!!!! Fighter — Anon Chihaya" />
+</p>
 
-# MyGO!!!!! Fighter
+<h1 align="center">MyGO!!!!! Fighter</h1>
+
+<p align="center">The stray sound echoes across the battlefield — a band fighting stage for MyGO!!!!!, Ave Mujica and MewType, with local versus, online rooms and 1v1–8v8 relays.</p>
+
+<p align="center"><a href="README.md">简体中文</a> | <strong>English</strong> | <a href="README.ja.md">日本語</a></p>
 
 A TypeScript + React fighting game with a Scala 3 server. It preserves the original characters, transformations and 15 stages, with local versus, CPU, practice and configurable 1v1–8v8 relay battles. Three-way free-for-all adds three simultaneous fighters with three characters each: local 1P versus two CPUs, or three human players online. Defeated fighters automatically hand off to a reserve after five seconds while the battle continues. Network rooms support two players in relay modes or three in free-for-all, with independent rooms running simultaneously.
 

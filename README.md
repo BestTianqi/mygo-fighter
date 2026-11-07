@@ -1,6 +1,12 @@
-**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+<p align="center">
+  <img src="frontend/public/icon-512.webp" width="180" alt="MyGO!!!!! Fighter — 千早爱音" />
+</p>
 
-# MyGO!!!!! Fighter
+<h1 align="center">MyGO!!!!! Fighter</h1>
+
+<p align="center">迷途之音，响彻战场 — MyGO!!!!!、Ave Mujica 与 MewType 的乐队格斗舞台，支持本地对战、联机房间与 1v1–8v8 接力。</p>
+
+<p align="center"><strong>简体中文</strong> | <a href="README.en.md">English</a> | <a href="README.ja.md">日本語</a></p>
 
 一款以 TypeScript + React 编写、由 Scala 3 服务器支撑的格斗游戏。游戏保留原作角色、变身与 15 个关卡，支持本地对战、CPU、练习以及可配置的 1v1–8v8 接力对战。三人混战模式同时上场三名战士，每人各带三名角色：本地 1P 对两名 CPU，或三名玩家联机对战。角色被击败五秒后自动交接给替补，战斗继续进行。联机房间在接力模式下支持两名玩家，在混战模式下支持三名玩家，多个独立房间可同时运行。
 
