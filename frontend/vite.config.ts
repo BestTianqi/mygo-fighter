@@ -1,8 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-export default defineConfig({
+import { fileURLToPath } from "node:url";
+export default defineConfig(({ command }) => ({
   base: "./",
+  publicDir:
+    command === "build"
+      ? fileURLToPath(new URL("../output/web-public/", import.meta.url))
+      : "public",
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
@@ -19,4 +24,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
