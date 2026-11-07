@@ -1,131 +1,133 @@
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 # MyGO!!!!! Fighter
 
-A TypeScript + React fighting game with a Scala 3 server. It preserves the original characters, transformations and 15 stages, with local versus, CPU, practice and configurable 1v1–8v8 relay battles. Three-way free-for-all adds three simultaneous fighters with three characters each: local 1P versus two CPUs, or three human players online. Defeated fighters automatically hand off to a reserve after five seconds while the battle continues. Network rooms support two players in relay modes or three in free-for-all, with independent rooms running simultaneously.
+一款以 TypeScript + React 编写、由 Scala 3 服务器支撑的格斗游戏。游戏保留原作角色、变身与 15 个关卡，支持本地对战、CPU、练习以及可配置的 1v1–8v8 接力对战。三人混战模式同时上场三名战士，每人各带三名角色：本地 1P 对两名 CPU，或三名玩家联机对战。角色被击败五秒后自动交接给替补，战斗继续进行。联机房间在接力模式下支持两名玩家，在混战模式下支持三名玩家，多个独立房间可同时运行。
 
-## Run
+## 运行
 
-Install Node.js 24 LTS (22.12+ also works), a JDK 21 or newer, and sbt. Then, from this folder:
+安装 Node.js 24 LTS（22.12 及以上也可）、JDK 21 或更新版本，以及 sbt。然后在本目录执行：
 
 ```sh
 npm ci
 npm run lan
 ```
 
-The first build downloads JavaScript and JVM dependencies. Keep the server window open. The launcher builds and stages the JVM artifact, then starts the same three backend roles used in production — `rooms`, `lobby` and `edge` — as three local processes. Commands and printed output are unchanged: it prints the local address and the computer's LAN addresses, and the default public port is **8080** (rooms and lobby stay on loopback ports 8091 and 8079). See [backend services](docs/SERVICES.md) for the topology.
+首次构建会下载 JavaScript 与 JVM 依赖。请保持服务器窗口开启。启动器会构建并暂存 JVM 产物，随后以三个本地进程启动与生产环境相同的三个后端角色——`rooms`、`lobby` 和 `edge`。命令与输出保持不变：它会打印本地地址和本机的局域网地址，默认公网端口为 **8080**（rooms 与 lobby 仍走回环端口 8091 与 8079）。拓扑结构见[后端服务](docs/SERVICES.md)。
 
-On Windows, double-click `start-lan.cmd`. It keeps the window open when startup finishes or fails, so errors remain visible. On macOS/Linux, run `./start-lan.sh`. These launchers build the application and start the same Scala backend roles. Java handles HTTP, static files, the room directory, rooms, WebSockets and authoritative matches. Node is a build and launch tool.
+Windows 下双击 `start-lan.cmd`。无论启动成功还是失败，窗口都会保留，便于查看错误。macOS/Linux 下运行 `./start-lan.sh`。这些启动器同样会构建应用并启动相同的 Scala 后端角色。HTTP、静态文件、房间目录、房间、WebSocket 与权威对局均由 Java 处理；Node 只承担构建与启动。
 
-Windows frontend builds use the ignored `output/build-temp/` directory for esbuild temporary files, avoiding access-denied cleanup errors in the system temp directory. This applies to the launchers, `npm run build`, `npm run build:pages` and builds run from `frontend/`; system environment settings are unchanged.
+Windows 前端构建把 esbuild 的临时文件放在被 Git 忽略的 `output/build-temp/` 目录，避免系统临时目录拒绝访问导致清理报错。该行为适用于启动脚本、`npm run build`、`npm run build:pages` 以及在 `frontend/` 下执行的构建；系统环境变量不做改动。
 
-To stop the local game server on Windows, double-click `stop-lan.cmd`. The window closes automatically after success; errors stay visible. The script identifies the game service before stopping the process listening on port 8080. It also honors `PORT`, or accepts `stop-lan.cmd -Port 8181` for another port. Closing the server disconnects its current players. The stop script uses Windows PowerShell and does not require Node.js.
+Windows 下要停止本地游戏服务器，双击 `stop-lan.cmd`。成功后窗口自动关闭，出错时保留。脚本会先确认监听 8080 端口的是游戏服务，再停止该进程。它也识别 `PORT`，或接受 `stop-lan.cmd -Port 8181` 指定其他端口。关闭服务器会断开当前玩家。停止脚本使用 Windows PowerShell，不需要 Node.js。
 
-Keep `scripts/stop-lan.ps1` saved as UTF-8 with BOM so Windows PowerShell 5.1 can read its Chinese messages correctly. `chcp 65001` controls the console codepage and does not select the script file encoding.
+`scripts/stop-lan.ps1` 必须以带 BOM 的 UTF-8 保存，Windows PowerShell 5.1 才能正确读取其中的中文提示。`chcp 65001` 只控制控制台代码页，并不决定脚本文件的编码。
 
-All launch commands, including `npm start`, reuse an existing portable JDK and sbt launcher under `output/toolchain/`, when available. A compatible `JAVA_HOME` takes priority; an older system Java does not prevent use of the portable JDK. That optional local cache is not included in Git downloads; otherwise install the dependencies listed above.
+所有启动命令（包括 `npm start`）都会复用 `output/toolchain/` 下已有的便携 JDK 与 sbt 启动器（如果存在）。兼容的 `JAVA_HOME` 优先；系统里较旧的 Java 不会妨碍使用便携 JDK。这份可选的本地缓存不包含在 Git 下载内容中，没有时请按上面的清单安装依赖。
 
-Windows launchers use `output/java-tmp/` for Java temporary files, including JLine's console DLL. This avoids startup errors when the Windows user temporary folder denies access; no administrator launch or system folder permission changes are needed.
+Windows 启动脚本把 Java 临时文件（包括 JLine 的控制台 DLL）放在 `output/java-tmp/`，避免 Windows 用户临时目录拒绝访问导致的启动错误；无需以管理员身份启动，也无需修改系统目录权限。
 
-After building once, `npm start` starts the backend without rebuilding the frontend. The launcher restages the JVM artifact, starts the three roles, and prints playable addresses after the backend responds. If a MyGO server already exists, it prints its addresses and leaves that backend running in its original window. Close the original server before restarting to load changed combat rules. Set `PORT` to use another port. Set `JAVA_HOME` to select a JDK; the launcher also detects the usual Homebrew JDK 21 installation on macOS.
+构建过一次之后，`npm start` 不再重建前端，只启动后端。启动器会重新暂存 JVM 产物、启动三个角色，并在后端响应后打印可游玩地址。若已存在 MyGO 服务器，则直接打印其地址，并让原窗口中的后端继续运行。要在改动战斗规则后重新加载，请先关闭原服务器。设置 `PORT` 可换端口，设置 `JAVA_HOME` 可指定 JDK；启动器也会自动识别 macOS 上常见的 Homebrew JDK 21 安装。
 
-## LAN play
+## 局域网对战
 
-1. Start the game on the host computer. Open the printed **LAN address** on both devices, for example `http://192.168.1.20:8080`. Other devices cannot use the host's `localhost` address.
-2. Choose **联机对战**. One player creates a room; the other enters its six-character code.
-3. The host chooses **1v1–8v8** or **三人混战**, stage and terrain. Three-way battles require three connected players, each selecting three characters; everyone must finish loading before the battle starts. Expand **自定义对战规则** to set health, bans, infinite energy or disabled attacks. Guests see the same rules. The online lobby uses the same character cards, portrait previews and ordered lineup slots as local play. With zero bans, each player fills their own lineup; click a slot to replace its character. Three-way battles use zero bans and allow the same character across different players' teams.
-4. With bans enabled, 1P and 2P alternate banning the configured number of characters, then alternate exclusive picks until both lineups are full. The available ban count reserves enough characters for both teams. Refresh/reconnect preserves progress; the host can use **重新禁选** to start again. After both lineups are complete, both press **准备开战**. The server waits for both clients to finish loading their artwork.
-5. Both players use the **1P keys** to control their own character.
+1. 在主机上启动游戏。在两台设备上打开打印出的**局域网地址**，例如 `http://192.168.1.20:8080`。其他设备无法使用主机的 `localhost` 地址。
+2. 选择 **联机对战**。一名玩家创建房间，另一名玩家输入房间的六位房间码。
+3. 房主选择 **1v1–8v8** 或 **三人混战**、关卡与地形。三人混战需要三名玩家都已连接，每人选三名角色；所有人都完成加载后战斗才会开始。展开 **自定义对战规则** 可设置血量、禁用、无限能量或禁用特定攻击。客人看到相同的规则。联机大厅使用与本地对战相同的角色卡、立绘预览和有序阵容格。禁用名额为 0 时，每名玩家自行填满阵容；点击格子即可替换其中的角色。三人混战不设禁用名额，并允许不同玩家的队伍使用同一角色。
+4. 启用禁用后，1P 与 2P 轮流禁用设定数量的角色，随后轮流互斥选人，直到双方阵容填满。可选禁用数量会为两队预留足够的角色。刷新或重连都会保留进度；房主可用 **重新禁选** 重新开始。双方阵容完成后，两名玩家都按 **准备开战**。服务器会等待两个客户端加载完美术资源。
+5. 两名玩家都使用 **1P 按键** 操作自己的角色。
 
-The same [custom battle rules](docs/CUSTOM_BATTLE_RULES.md) are available in local and CPU selection. Defaults retain 200 health and the standard attacks. Restart the host after updating to load the new room and combat rules.
+本地对战与 CPU 选择中同样提供[自定义对战规则](docs/CUSTOM_BATTLE_RULES.md)。默认仍为 200 血量与标准攻击。更新后请重启主机，以加载新的房间与战斗规则。
 
-Rules also support unlimited time, 30–300 second rounds, starting energy, damage and movement multipliers, one-hit KO, vampire healing, low gravity, unlimited air jumps and disabled guarding. Try **一击决胜**, **月面乱斗** or **吸血拉锯** for a ready-made combination, then adjust individual options.
+规则还支持不限时间、30–300 秒的回合、初始能量、伤害与移动倍率、一击必杀、吸血回复、低重力、无限空中跳跃以及禁用防御。可直接试用 **一击决胜**、**月面乱斗** 或 **吸血拉锯** 这些预设组合，再逐项微调。
 
-Baidu App and Baidu Browser skip ultimate and finish background videos to avoid opening a native player. Character artwork, effects, recorded voices and finish timing continue normally. Other browsers retain inline background video playback.
+百度 App 与百度浏览器会跳过奥义与终结的背景视频，以免唤起原生播放器；角色美术、特效、录音与终结时序仍照常表现。其他浏览器保留内联背景视频播放。
 
-Both devices must be able to reach the host on the same network. Allow the chosen port through the host's local firewall if needed. Guest Wi-Fi that isolates devices will prevent connections.
+两台设备必须能在同一网络内访问主机。如有需要，请在主机本地防火墙放行所选端口。开启了设备隔离的访客 Wi-Fi 会导致无法连接。
 
-On Windows, the firewall must allow the **Java executable that actually runs the backend**, on the active network profile and game TCP port. Allowing Node alone does not cover the Scala server. Campus and dorm networks may isolate devices even on the same Wi-Fi; if the host can open its LAN address but the other device cannot, try connecting both devices to the same phone hotspot or personal router.
+在 Windows 上，防火墙必须允许**实际运行后端的那个 Java 可执行文件**通过当前网络配置文件和游戏 TCP 端口。只放行 Node 并不覆盖 Scala 服务器。校园网与宿舍网即使在同一个 Wi-Fi 下也可能隔离设备；如果主机能打开自己的局域网地址、另一台设备却不能，可尝试把两台设备接到同一个手机热点或个人路由器。
 
-A disconnect pauses both players. The page reconnects automatically, and refreshing the same tab restores its session. Resume after both players reconnect. Leaving a room revokes that session. Rooms are temporary and disappear after a server restart, 30 minutes without player activity, or two minutes with no connected players.
+断线会同时暂停双方。页面会自动重连，刷新同一个标签页也能恢复会话。两名玩家都重连后可继续。离开房间会作废该会话。房间是临时的：服务器重启、30 分钟无玩家操作或两分钟无玩家连接后即消失。
 
-## Public online play
+## 公网联机
 
-Both players open the same public game server URL, choose **联机对战**, and create or join a room. They can be on different networks and both use the 1P controls. Each room has two human players; 3v3 is an ordered team relay, not six simultaneous human players.
+两名玩家打开同一个公网游戏服务器地址，选择 **联机对战**，然后创建或加入房间。两人可以处于不同网络，并且都使用 1P 操作。每个房间是两名真人玩家；3v3 是轮流上场的接力求，而不是六名真人同时上场。
 
-All 16 characters perform a short individual entrance before READY, using their original full-body artwork. Opening entrances play together; in 3v3, only the new reserve performs while the survivor keeps their resources. Local and network play share the same 2.75-second ready clock, including pause/reconnect recovery. Reduced-motion preferences use a static introduction.
+全部 16 名角色在 READY 之前都会用自己的原作全身立绘做一段短入场。开局时所有入场同时播放；在 3v3 中只有新上场的替补表演，留场角色保留原有资源。本地与联机对战共用同一个 2.75 秒的开战倒计时，包括暂停/重连后的恢复。系统开启“减少动态效果”偏好时改用静态介绍。
 
-The [AliCloud Beijing server](https://mygo-123-57-149-254.sslip.io/) allows **two rooms / four players**, with its own HTTPS address and no link from GitHub Pages. Both players must use the same server. See [public server setup and operations](docs/WAN.md) for deployment, limits and measurements. Public access requires HTTPS, WebSocket forwarding and the host's inbound TCP 80/443 rules; running the LAN launcher alone does not configure those.
+[阿里云北京服务器](https://mygo-123-57-149-254.sslip.io/)支持**两个房间 / 四名玩家**，有独立的 HTTPS 地址，GitHub Pages 不提供入口链接。两名玩家必须使用同一台服务器。部署、限额与实测见[公网服务器搭建与运维](docs/WAN.md)。公网访问需要 HTTPS、WebSocket 转发以及主机入站 TCP 80/443 规则；只运行局域网启动器并不会配置这些。
 
-## Controls
+## 操作
 
-| Action                    | 1P / LAN          | 2P on the same keyboard |
-| ------------------------- | ----------------- | ----------------------- |
-| Move                      | A / D             | ← / →                   |
-| Jump / crouch             | W / S             | ↑ / ↓                   |
-| Three-hit light chain     | J                 | Numpad 1                |
-| Heavy attack              | K                 | Numpad 2                |
-| Blink                     | L                 | Numpad 3                |
-| Base skills               | U / I / O         | Numpad 4 / 5 / 6        |
-| Transform, when available | H                 | Numpad 7                |
-| Super                     | P                 | Numpad 8                |
-| Move list                 | F1 or page button | Shared                  |
+| 操作           | 1P / 联机     | 同键盘 2P        |
+| -------------- | ------------- | ---------------- |
+| 移动           | A / D         | ← / →            |
+| 跳跃 / 下蹲    | W / S         | ↑ / ↓            |
+| 三连轻攻击     | J             | 小键盘 1         |
+| 重攻击         | K             | 小键盘 2         |
+| 瞬步           | L             | 小键盘 3         |
+| 基础技能       | U / I / O     | 小键盘 4 / 5 / 6 |
+| 变身（可用时） | H             | 小键盘 7         |
+| 大招           | P             | 小键盘 8         |
+| 招式表         | F1 或页面按钮 | 双方共用         |
 
-Hold back to guard, back + crouch to guard low, and back + U or forward + O to throw. Direction + skill selects character-specific variants. Jump twice for a double jump; down + jump drops through platforms. Touch controls support simultaneous directions and attacks. The battle toolbar pauses, restarts and returns to selection.
+按住后方向防御，后 + 下蹲防御下段，后 + U 或前 + O 为投技。方向 + 技能可选择角色专属的招式变体。连续跳跃两次为二段跳；下 + 跳跃可穿过平台下落。触屏操作支持同时输入方向与攻击。战斗中工具栏可暂停、重新开始与返回选人。
 
-All five MewType characters have an additional **down + U** projectile costing **20 resonance** (2P: down + Numpad 4). Arale fires a heart sound wave, Ritsu a blue bear chord, Miyako an ink-panel wave, Yuno an electronic pulse and Nonoka a rabbit-ear pick. Their base U/I/O skills remain available. Waves can be guarded, collide with opposing projectiles and stop at raised ground. A normal attack hit restores 10 resonance; a skill hit restores 2. Both HUD bars show the current value out of 100.
+五名 MewType 角色额外拥有一个 **下 + U** 飞行道具，消耗 **20 点共鸣**（2P：下 + 小键盘 4）。阿拉蕾发出心形音波，律挥出蓝色小熊和弦，都子放出墨板波，由乃打出电子脉冲，野乃花掷出兔耳拨片。她们原有的 U/I/O 技能仍然可用。波可以被防御，会与对方的飞行道具相撞，并停在抬高的地面处。普通攻击命中回复 10 点共鸣，技能命中回复 2 点。两条 HUD 槽都显示当前值（满值 100）。
 
-Mujica's **H transformation** costs 50 resonance and lasts 20 seconds. It releases one close-range burst for 10 damage (2 if guarded), then grants **1.2× damage** and **1.1× movement speed** while a colored aura surrounds the stage outfit. The burst does not restore resonance. Both bonuses end with the transformation.
+Mujica 的 **H 变身** 消耗 50 点共鸣，持续 20 秒。变身时释放一次近身爆发，造成 10 点伤害（被防御时为 2 点），随后在彩色光环环绕演出服期间获得 **1.2 倍伤害** 与 **1.1 倍移动速度**。该爆发不回复共鸣。两项加成随变身结束一同消失。
 
-## Mobile browsers
+## 手机浏览器
 
-Desktop, phone and tablet battles default to an arena filling the available viewport. Clicking **登台对战**, **准备开战**, or **继续对战** requests browser fullscreen within that player gesture. **Esc** or the floating **退出** button leaves fullscreen. The pause menu provides restart, character selection, help, moves and audio controls. Leaving battle releases the orientation lock and exits browser fullscreen. Fullscreen requests can be declined by browser policy; gameplay remains available in the viewport layout.
+桌面、手机与平板对局默认让竞技场铺满可用视口。点击 **登台对战**、**准备开战** 或 **继续对战** 时，会在该玩家的手势内请求浏览器全屏。按 **Esc** 或点击悬浮的 **退出** 按钮可退出全屏。暂停菜单提供重新开始、选择角色、帮助、招式表与音频控制。离开战斗会解除方向锁并退出浏览器全屏。浏览器策略可能拒绝全屏请求；此时仍可在视口布局下正常游玩。
 
-Touch devices use a sliding left thumb stick (left/right movement, up to jump, down to crouch, including diagonals) and square right-hand attack, skill, super and transformation buttons. The stick and attacks support simultaneous fingers, and pointer cancellation, lost capture and switching apps release held controls. Notches and home indicators receive safe-area padding. Portrait and landscape remain playable; landscape gives the largest arena. The measured **ms RTT** remains visible during online play even with the toolbar hidden; local matches say they have no network delay, and connection loss or stalled updates have explicit status messages.
+触屏设备使用左侧滑动摇杆（左右移动、向上跳跃、向下下蹲，支持斜向）和右侧方形攻击、技能、大招与变身按钮。摇杆与攻击按钮支持多指同时操作；指针取消、指针捕获丢失以及切换应用都会松开按住的控件。刘海与 Home 指示条区域会加上安全区内边距。竖屏与横屏均可游玩，横屏的竞技场最大。联机对战中即使隐藏工具栏，实测 **ms RTT** 仍保持可见；本地对局会提示没有网络延迟，连接丢失或更新停滞也有明确的状态提示。
 
-Browsers exposing the Fullscreen API are asked to hide navigation UI and, on touch devices, lock landscape. Some mobile browsers do not allow this. The app supplies a relative-path web manifest with `display: standalone` and Apple web-app metadata: choose **Add to Home Screen / 添加到主屏幕** from the browser menu and launch that installed shortcut to play without the browser toolbar, where supported. A compact hint appears when fullscreen is unavailable. This does not provide offline play. There is no reliable web-page command to forcibly remove every browser's toolbar. See [Fullscreen API requirements](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen) and [manifest display modes](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display).
+支持 Fullscreen API 的浏览器会被请求隐藏导航界面，触屏设备还会被请求锁定横屏，但部分手机浏览器不允许。应用提供相对路径的 Web 清单，带 `display: standalone` 与 Apple Web App 元数据：在浏览器菜单中选择 **Add to Home Screen / 添加到主屏幕**，再从桌面图标启动，即可在支持的环境中去掉浏览器工具栏游玩。全屏不可用时会显示一条简短提示。这并不提供离线游玩。也没有可靠的网页命令能强制去掉所有浏览器的工具栏。参见 [Fullscreen API 要求](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen)与[清单 display 模式](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display)。
 
-Local and online selection use a viewport-sized layout with a persistent confirmation footer. Desktop rosters show all 16 fighters together; compact touch cards keep the roster reachable in portrait and landscape. On unusually short screens only the central selection area scrolls, while **登台对战**, **准备开战**, and draft confirmations stay visible. Stage thumbnails scroll horizontally, and all original stages and rules remain available.
+本地与联机选人采用视口大小的布局，并保留固定的确认底栏。桌面端阵容同时展示全部 16 名角色；紧凑的触屏卡片让竖屏与横屏下都能访问完整阵容。屏幕格外矮时只有中间的选人区域滚动，**登台对战**、**准备开战** 与禁选确认始终可见。关卡缩略图横向滚动，全部原作关卡与规则均保留。
 
-## Development
+## 开发
 
 ```sh
-npm run dev            # Vite frontend, port 5173; API/WebSocket proxy to port 8080
-npm run build          # Strict TypeScript check, production UI and shared combat kernel
-npm run build:pages    # Static browser version for GitHub Pages; no JVM server required
-npm run package:server # Build UI/kernel and a deployable Scala/JVM distribution
-npm run stage          # Stage the JVM distribution without starting it
-npm start              # Three local backend roles serving the production build
-npm run check          # TypeScript, media, protocol and service-boundary checks
-npm run check:api      # Registered API names, frontend callers and protocol version
-npm run check:services # Service folders, internal contracts and systemd units
-npm run check:e2e      # Start three local role processes and drive a room end to end
-npm run check:backend  # Scala compilation and formatting checks
-npm run format         # Format frontend, scripts and documentation
-npm run format:backend # Format Scala sources
+npm run dev            # Vite 前端，端口 5173；API/WebSocket 代理到端口 8080
+npm run build          # 严格 TypeScript 检查、生产 UI 与共享战斗内核
+npm run build:pages    # 供 GitHub Pages 使用的静态浏览器版本，无需 JVM 服务器
+npm run package:server # 构建 UI/内核与可部署的 Scala/JVM 发行包
+npm run stage          # 只暂存 JVM 发行包，不启动
+npm start              # 三个本地后端角色，服务生产构建
+npm run check          # TypeScript、媒体、协议与服务边界检查
+npm run check:api      # 已注册 API 名称、前端调用方与协议版本
+npm run check:services # 服务目录、内部契约与 systemd 单元
+npm run check:e2e      # 启动三个本地角色进程，端到端跑通一个房间
+npm run check:backend  # Scala 编译与格式检查
+npm run format         # 格式化前端、脚本与文档
+npm run format:backend # 格式化 Scala 源码
 ```
 
-Use a second terminal running `npm start` for the API while developing with Vite. Rebuild after editing shared combat rules to update the kernel embedded by the JVM, then restart the backend.
+使用 Vite 开发时，另开一个终端运行 `npm start` 提供 API。修改共享战斗规则后需重新构建，以更新 JVM 内嵌的内核，然后重启后端。
 
-The production frontend puts React in a separate shared chunk so the game bundle stays below Vite's default 500 kB warning threshold. Server packaging declares a maintainer and excludes the API documentation artifact; it packages runtime jars and web assets. Generate API documentation separately with `node scripts/scala.mjs doc`. Scala 3.3.6 may report an unresolved link in Cats Effect 3.6.3's inherited `IOApp` documentation; this does not affect compilation or server execution. `-Werror` remains enabled for compilation and is omitted only for Scaladoc, which does not use it.
+生产前端把 React 拆到单独的共享 chunk，使游戏包体保持在 Vite 默认 500 kB 警告阈值以下。服务器打包会声明维护者并排除 API 文档产物，只打包运行时 jar 与 Web 资源。API 文档用 `node scripts/scala.mjs doc` 单独生成。Scala 3.3.6 可能报告 Cats Effect 3.6.3 继承的 `IOApp` 文档中存在未解析链接；这不影响编译或服务器运行。编译仍启用 `-Werror`，只有在不使用它的 Scaladoc 阶段才省略。
 
-## Review map
+## 代码导览
 
-- `frontend/src/pages/GamePage/index.tsx`: page skeleton. Page components, hooks, state objects and effects live nearby.
-- `frontend/src/game/engine.ts`: match state and the public combat API. `game/match/` separates rule implementations by responsibility; `game/data/` assembles cross-band data, and each `game/bands/<band>/` owns its roster, moves and forms. The shared combat kernel has no browser globals, network calls or Node dependencies.
-- `frontend/src/pages/GamePage/runtime/`: page coordination, audio, input, networking and browser display adapters. Its `rendering/` folder owns image decoding, animation, camera, battle effects and scenery.
-- `frontend/src/assets/`: manifest loading, media types and band artwork lookup, shared by startup and page presentation.
-- `frontend/src/apis/rooms/`: one HTTP caller per registered Scala room message, plus the persistent socket connection.
-- `backend/src/main/scala/services/rooms/`: room messages, domain objects, registration, the 120 Hz room runtime and the socket boundary. It is the only owner of live room state.
-- `backend/src/main/scala/services/lobby/`: instance registry, global room budget, placement and the room-code directory.
-- `backend/src/main/scala/services/edge/`: public admission limits, static files, API forwarding, the owner cache and WebSocket proxying.
-- `backend/src/main/scala/services/system/`: role dispatch and Cats Effect startup, application resources, shared routing and static serving. Cross-process payload types live under `objects/internal/`.
-- `frontend/public/`: media manifest and cacheable runtime assets.
-- `assets/`: source artwork under `assets/characters/<band>/`, plus shared feature folders, with design notes under `assets/notes/`. See the [asset catalog](assets/README.md).
-- `scripts/` and `tools/`: application build/start commands and optional Python artwork packers. See [artwork workflow](docs/ARTWORK.md).
+- `frontend/src/pages/GamePage/index.tsx`：页面骨架。页面组件、hooks、状态对象与副作用都在附近。
+- `frontend/src/game/engine.ts`：对局状态与公开的战斗 API。`game/match/` 按职责拆分规则实现；`game/data/` 汇总跨团体数据，`game/bands/<band>/` 各自拥有阵容、招式与形态。共享战斗内核不含浏览器全局对象、网络调用或 Node 依赖。
+- `frontend/src/pages/GamePage/runtime/`：页面协调、音频、输入、网络与浏览器显示适配器。其下的 `rendering/` 负责图像解码、动画、相机、战斗特效与场景。
+- `frontend/src/assets/`：清单加载、媒体类型与团体美术查找，由启动流程与页面展示共用。
+- `frontend/src/apis/rooms/`：每个已注册的 Scala 房间消息对应一个 HTTP 调用器，另有持久化的 socket 连接。
+- `backend/src/main/scala/services/rooms/`：房间消息、领域对象、注册、120 Hz 房间运行时与 socket 边界。它是实时房间状态的唯一拥有者。
+- `backend/src/main/scala/services/lobby/`：实例注册表、全局房间预算、放置策略与房间码目录。
+- `backend/src/main/scala/services/edge/`：公网准入限制、静态文件、API 转发、拥有者缓存与 WebSocket 代理。
+- `backend/src/main/scala/services/system/`：角色分发与 Cats Effect 启动、应用资源、共享路由与静态服务。跨进程负载类型位于 `objects/internal/` 下。
+- `frontend/public/`：媒体清单与可缓存的运行时资源。
+- `assets/`：`assets/characters/<band>/` 下的源美术，以及共享的功能目录，设计说明在 `assets/notes/` 下。见[素材目录](assets/README.md)。
+- `scripts/` 与 `tools/`：应用构建/启动命令与可选的 Python 美术打包器。见[美术工作流](docs/ARTWORK.md)。
 
-The Scala backend runs as the `edge`, `lobby` and `rooms` roles from one release artifact and embeds the **same TypeScript combat kernel** in a restricted GraalJS context inside each rooms process. Room execution, trusted session resolution, authorization, lifecycle, concurrency and transport are Scala. Sharing the battle rules avoids two divergent implementations for the 16 characters. This is an explicit architecture choice, not a native Scala port of every combat calculation. The engine and cached source are application resources; each room keeps a separate restricted context. The public server enables TCP_NODELAY. See the [runtime evaluation](docs/RUNTIME_OPTIMIZATION_2026-10-27.md) for measurements and the production Java choice.
+Scala 后端以 `edge`、`lobby`、`rooms` 三个角色运行同一份发布产物，并在每个 rooms 进程内把 **同一个 TypeScript 战斗内核**嵌入受限的 GraalJS 上下文。房间执行、可信会话解析、授权、生命周期、并发与传输由 Scala 负责。共享战斗规则避免了 16 名角色出现两套逐渐分叉的实现；这是一项明确的架构选择，而不是把所有战斗计算原生移植到 Scala。引擎与缓存源码是应用资源，每个房间持有各自独立的受限上下文。公网服务器启用了 TCP_NODELAY。测量数据与生产环境 Java 选型见[运行时评测](docs/RUNTIME_OPTIMIZATION_2026-10-27.md)。
 
-See [backend services](docs/SERVICES.md), [architecture and review guide](docs/ARCHITECTURE.md), [course guidance](docs/COURSE_GUIDANCE.md), and [LAN protocol and timing](docs/LAN.md). The supplied style rules are preserved in [STYLE_RULES.txt](docs/STYLE_RULES.txt).
+参见[后端服务](docs/SERVICES.md)、[架构与评审指南](docs/ARCHITECTURE.md)、[课程指引](docs/COURSE_GUIDANCE.md)与[局域网协议与时序](docs/LAN.md)。随附的风格规范保留在 [STYLE_RULES.txt](docs/STYLE_RULES.txt)。
 
-GitHub Pages publishes the React build from `frontend/dist` automatically after a push to `main`. The static build supports local play, CPU, practice and 3v3. Network rooms require a Scala server. An optional `PUBLIC_GAME_URL` repository Actions variable enables a link to a public server; it is unset for this trial. Local static builds can use `VITE_PUBLIC_GAME_URL` (see `frontend/.env.example`). All original runtime media are retained, with paths resolved relative to the app so project URLs also work.
+推送到 `main` 后，GitHub Pages 会自动发布 `frontend/dist` 中的 React 构建。静态版本支持本地对战、CPU、练习与 3v3；联机房间需要 Scala 服务器。可选的仓库 Actions 变量 `PUBLIC_GAME_URL` 可开启公网服务器链接，本次试用未设置。本地静态构建可使用 `VITE_PUBLIC_GAME_URL`（见 `frontend/.env.example`）。所有原作运行时媒体均保留，路径相对于应用解析，因此项目子路径 URL 也能正常工作。
 
-The test suites have been removed. Before publishing, run the checks and both builds above, then verify project-path loading, recorded audio, character transformations, supers and menu flow in a browser. For LAN changes, also check two clients joining, loading, playing, pausing and reconnecting against the same Scala server. Keep any local reports and screenshots in the ignored `output/` folder.
+测试套件已被移除。发布前请运行上面的检查与两个构建，再在浏览器中验证项目子路径加载、录音播放、角色变身、大招与菜单流程。改动局域网相关功能时，还要检查两个客户端对同一台 Scala 服务器的加入、加载、对战、暂停与重连。本地报告与截图请放在被忽略的 `output/` 目录中。

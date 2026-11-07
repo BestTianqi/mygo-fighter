@@ -1,3 +1,5 @@
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 # 睦的两岁／汉堡变身限定技能
 
 音源来自[我只有两岁！我要吃汉堡！](https://www.bilibili.com/video/BV17uug6JEza/)，作者埴安神袿姫，cid 40714699317，第1P。已核对原视频若叶睦二创画面、字幕，并用中文转写校验分段。

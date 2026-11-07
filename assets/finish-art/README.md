@@ -1,3 +1,5 @@
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 # 奥义结算图
 
 - `anon-milk-dragon-v1.png`：千早爱音，粉色头发与黄色奶龙皮肤；皮肤颜色与大招动作一致。

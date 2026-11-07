@@ -1,3 +1,5 @@
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 # 战斗节奏与配音调整
 
 - 爱音 TGW：来源[爱音のTGW丰川集团](https://www.bilibili.com/video/BV1srFZecETK/)，上传者「编新述旧」，第1P，cid 28169736175，截取27.15–30.85秒。已核对原片角色、字幕与音频，接入 `sonic`（↓＋I）的独立语音 `meme_0_tgw`。原始来源、时间与哈希见 sources.json。

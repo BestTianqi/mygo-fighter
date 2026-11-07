@@ -1,30 +1,32 @@
-# Asset directory and call map
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
 
-Start here when changing artwork, voices, videos or their game bindings. Sources live in this directory; the runtime manifest is `frontend/public/assets.json`.
+# 素材目录与调用对照表
 
-## Folder ownership
+修改美术、语音、视频或其游戏内绑定时，从这里开始。源文件在本目录中；运行时清单是 `frontend/public/assets.json`。
 
-| Folder                                   | Responsibility                                                                                   |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `characters/mygo/<character>/`           | MyGO source sheets, action selections, frame maps and packed source atlases                      |
-| `characters/mygo/tomori/voices/`         | Penguin voice clips and `penguin-voices.json` timing/source catalog                              |
-| `characters/mygo/soyo/haruhikage/`       | Soyo's super voice, cutin video, finish still and attribution                                    |
-| `characters/mygo/jab-actions.json`       | Shared light-chain selections for Anon, Soyo and Tomori                                          |
-| `characters/mujica/<character>/`         | Normal/stage action sheets and per-character manifests                                           |
-| `characters/mujica/mask-transformation/` | Shared mask transformation artwork                                                               |
-| `characters/mewtype/<character>/`        | Virtual-form sheets, action manifests and Viola artwork                                          |
-| `characters/*/portraits-v*/`             | Reviewed portrait sources, face crops and crop metadata                                          |
-| `characters/poppinparty/`                | Offline character drafts, portraits, key poses and voices; not registered as playable characters |
-| `meme-media/<feature>/`                  | Cross-character skill recordings, cutins, extracted poses and provenance                         |
-| `finish-art/`                            | KO art and `v2/` ultimate art, voice/video sources and catalogs                                  |
-| `stages/`                                | Backgrounds and `stages.json` geometry, including campus attribution                             |
-| `fonts/`                                 | Local UI fonts and licensing; imported directly by `frontend/src/styles.css`                     |
-| `reference/`                             | Shared visual references and face revision guide                                                 |
-| `notes/`                                 | Historical design and implementation notes; not runtime configuration                            |
+## 目录归属
 
-Character filenames retain their prefixes so exports remain identifiable. `riki` is Taki's artwork key (立希); the runtime roster uses `taki`. Earlier source revisions are retained because selected poses and reviewed proportions can still depend on them.
+| 目录                                     | 职责                                                      |
+| ---------------------------------------- | --------------------------------------------------------- |
+| `characters/mygo/<character>/`           | MyGO 的源分解图、动作选配、帧映射表与打包后的源图集       |
+| `characters/mygo/tomori/voices/`         | 企鹅语音片段与 `penguin-voices.json` 的时间/来源目录      |
+| `characters/mygo/soyo/haruhikage/`       | 素世的大招语音、切入视频、终结画面静态图与出处            |
+| `characters/mygo/jab-actions.json`       | 爱音、素世与灯共用的轻攻击连段选配                        |
+| `characters/mujica/<character>/`         | 普通/舞台形态的动作图与分角色清单                         |
+| `characters/mujica/mask-transformation/` | 共用的面具变身美术                                        |
+| `characters/mewtype/<character>/`        | 虚拟形态的图集、动作清单与薇欧拉美术                      |
+| `characters/*/portraits-v*/`             | 已审核的立绘源、脸部裁切与裁切元数据                      |
+| `characters/poppinparty/`                | 离线角色草稿、立绘、关键姿势与语音；不注册为可玩角色      |
+| `meme-media/<feature>/`                  | 跨角色技能录像、切入画面、提取的姿势与出处                |
+| `finish-art/`                            | KO 美术与 `v2/` 奥义美术、语音/视频源与目录               |
+| `stages/`                                | 背景与 `stages.json` 几何数据，含校园出处                 |
+| `fonts/`                                 | 本地 UI 字体与授权；由 `frontend/src/styles.css` 直接引入 |
+| `reference/`                             | 共用视觉参考与脸部修订指南                                |
+| `notes/`                                 | 历史设计与实现笔记；不是运行时配置                        |
 
-## How sources reach the game
+角色文件名保留各自的前缀，以便导出物仍可辨认。`riki` 是立希（Taki）的美术标识；运行时角色阵容使用 `taki`。较早的源文件修订版本予以保留，因为选定的姿势与审核过的比例仍可能依赖它们。
+
+## 素材如何进入游戏
 
 ```text
 assets/ source files + selection/provenance catalogs
@@ -34,20 +36,20 @@ assets/ source files + selection/provenance catalogs
   -> frontend/src/assets/bandArt.ts and GamePage runtime/components
 ```
 
-The manifest is the runtime binding authority. Game code selects semantic entries such as `penguinVoices.penguinKick`, never a hand-written content hash or a path into this source folder. Fonts are the direct CSS import exception. The shared combat kernel and Scala backend do not read source artwork; `tools/build.py` also exports the stage terrain catalog to `scripts/stages.json`.
+清单是运行时绑定的权威来源。游戏代码选取 `penguinVoices.penguinKick` 这类语义条目，绝不使用手写的内容哈希或指向本源目录的路径。字体是直接 CSS 引入的例外。共享战斗内核与 Scala 后端不读取源美术；`tools/build.py` 还会把关卡地形目录导出到 `scripts/stages.json`。
 
-| Source group                   | Packing entry points under `tools/`                                                                  | Runtime manifest keys                                                                                                                                                 | Game consumers under `frontend/src/`                                                                                                                      |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MyGO action sheets             | `build.py`; source atlas updates: `build_riki_assets.py`, `build_rana_assets.py`                     | `characters`, `anonNormals`, `anonActions`, `soyoActions`, `tomoriActions`, `penguin`, `jabActions`, `milkDragon`, `soyoTensora`, `ranaParfaitActions`, `ranaParfait` | `assets/bandArt.ts`, `pages/GamePage/runtime/rendering/`                                                                                                  |
-| Mujica/MewType actions         | `build_mujica_assets.py`, `build_mewtype_assets.py`, `build_viola_assets.py`, `build_mask_assets.py` | `mujicaForms`, `mewtypeForms`, `mujicaMaskForms`                                                                                                                      | `assets/bandArt.ts`, `pages/GamePage/runtime/rendering/battleScene/`                                                                                      |
-| Portraits and face crops       | `build_mygo_portraits.py`, `build_portrait_assets.py`, `build_mewtype_portraits.py`                  | `mygoPortraits`, `mujicaPortraits`, `mewtypePortraits`, `characters.*.portrait`                                                                                       | `assets/bandArt.ts`, `pages/GamePage/components/CharacterPortraitPreview.tsx`, `pages/GamePage/runtime/rendering/drawEntrances.ts`                        |
-| Skill recordings and cutins    | `build_meme_assets.py`; penguin and Haruhikage also wired by `build.py`                              | `memeSkills`, `memeVoices`, `penguinVoices`, `soyoVoices`, `summonVoices`, `transformMusic`, `memeCrawlForms`, `sakikoCustomerActions`, `soyoSuperVideo`              | `pages/GamePage/runtime/audio/AudioDirector.ts`, `pages/GamePage/runtime/rendering/`, `pages/GamePage/components/BattlePanel/UltimateBackgroundVideo.tsx` |
-| Finish presentation            | `build_finish_assets.py`, `build_finish_videos.py`                                                   | `finishArts`, `ultimateFinishes`, `finishVoices`, `soyoFinishArt`, `uikaFinishArt`                                                                                    | `pages/GamePage/components/BattlePanel/FinishOverlay.tsx`, `pages/GamePage/runtime/audio/AudioDirector.ts`                                                |
-| Stage backgrounds and geometry | `build_stage_assets.py` via `build.py`                                                               | `backgrounds`, `stages`                                                                                                                                               | `pages/GamePage/runtime/rendering/createStageRenderer.ts`, character selection                                                                            |
+| 素材组              | `tools/` 下的打包入口                                                                                | 运行时清单键                                                                                                                                                          | `frontend/src/` 下的游戏消费方                                                                                                                            |
+| ------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MyGO 动作图         | `build.py`；源图集更新：`build_riki_assets.py`、`build_rana_assets.py`                               | `characters`, `anonNormals`, `anonActions`, `soyoActions`, `tomoriActions`, `penguin`, `jabActions`, `milkDragon`, `soyoTensora`, `ranaParfaitActions`, `ranaParfait` | `assets/bandArt.ts`, `pages/GamePage/runtime/rendering/`                                                                                                  |
+| Mujica/MewType 动作 | `build_mujica_assets.py`、`build_mewtype_assets.py`、`build_viola_assets.py`、`build_mask_assets.py` | `mujicaForms`, `mewtypeForms`, `mujicaMaskForms`                                                                                                                      | `assets/bandArt.ts`, `pages/GamePage/runtime/rendering/battleScene/`                                                                                      |
+| 立绘与脸部裁切      | `build_mygo_portraits.py`、`build_portrait_assets.py`、`build_mewtype_portraits.py`                  | `mygoPortraits`, `mujicaPortraits`, `mewtypePortraits`, `characters.*.portrait`                                                                                       | `assets/bandArt.ts`, `pages/GamePage/components/CharacterPortraitPreview.tsx`, `pages/GamePage/runtime/rendering/drawEntrances.ts`                        |
+| 技能录像与切入画面  | `build_meme_assets.py`；企鹅与春日影另由 `build.py` 接入                                             | `memeSkills`, `memeVoices`, `penguinVoices`, `soyoVoices`, `summonVoices`, `transformMusic`, `memeCrawlForms`, `sakikoCustomerActions`, `soyoSuperVideo`              | `pages/GamePage/runtime/audio/AudioDirector.ts`, `pages/GamePage/runtime/rendering/`, `pages/GamePage/components/BattlePanel/UltimateBackgroundVideo.tsx` |
+| 终结画面演出        | `build_finish_assets.py`、`build_finish_videos.py`                                                   | `finishArts`, `ultimateFinishes`, `finishVoices`, `soyoFinishArt`, `uikaFinishArt`                                                                                    | `pages/GamePage/components/BattlePanel/FinishOverlay.tsx`, `pages/GamePage/runtime/audio/AudioDirector.ts`                                                |
+| 关卡背景与几何      | 经由 `build.py` 调用 `build_stage_assets.py`                                                         | `backgrounds`, `stages`                                                                                                                                               | `pages/GamePage/runtime/rendering/createStageRenderer.ts`、角色选择                                                                                       |
 
-## Find a file or binding
+## 查找文件或绑定
 
-From the repository root:
+在仓库根目录执行：
 
 ```sh
 npm run assets:find -- penguin
@@ -55,16 +57,16 @@ npm run assets:find -- mujicaForms.6
 npm run assets:find -- ultimateFinishes
 ```
 
-The command searches source filenames and runtime manifest paths, printing the actual deployed media filename for each matching binding. It also accepts a media hash. Results are independent searches, not a claim that a source file is byte-identical to its cropped or packed export. Numeric manifest keys are zero-based roster IDs; use `frontend/src/game/data/roster.ts` for identity and `assets/bandArt.ts` for band/form selection.
+该命令搜索源文件名与运行时清单路径，并为每个匹配的绑定打印实际部署的媒体文件名。它也接受媒体哈希。各条结果是彼此独立的搜索，并不表示源文件与裁切或打包后的导出物逐字节相同。清单中的数字键是从 0 开始的角色阵容 ID；身份信息用 `frontend/src/game/data/roster.ts`，乐队与形态选择用 `assets/bandArt.ts`。
 
-## Path rules and updating assets
+## 路径规则与更新素材
 
-- Action catalog `file`, `overrides` and `sourceFiles` entries are relative to `assets/`: for example `characters/mygo/anon/anon-extra-mobility-v1.png`.
-- Stage `file` entries are repository-relative: `assets/stages/...`.
-- Recording catalogs retain their documented repository-relative or catalog-relative conventions. Check the owning packer's resolver before editing these paths.
-- Runtime `/media/` URLs are relative to the deployed application base; `loadAssets.ts` handles the project subpath.
-- `review.proof` entries in MewType manifests are assets-relative paths into `../output/artwork/`. Optional review files, contact sheets and screenshots belong in ignored `output/`.
+- 动作目录的 `file`、`overrides` 与 `sourceFiles` 条目相对于 `assets/`：例如 `characters/mygo/anon/anon-extra-mobility-v1.png`。
+- 关卡 `file` 条目相对于仓库根：`assets/stages/...`。
+- 录像目录沿用各自文档化的仓库相对或目录相对约定。修改这些路径前，先确认所属打包器的解析逻辑。
+- 运行时 `/media/` URL 相对于部署应用的基础路径；`loadAssets.ts` 处理项目子路径。
+- MewType 清单中的 `review.proof` 条目是相对 `assets/` 指向 `../output/artwork/` 的路径。可选的审核文件、拼版图与截图都放在忽略的 `output/` 下。
 
-After editing sources, run the appropriate source packer where needed, then `python3 tools/build.py` to export. Targeted portrait/finish scripts can update the existing manifest; see [the artwork workflow](../docs/ARTWORK.md). Ordinary application builds do not repack artwork or require Python dependencies.
+修改源文件后，必要时先运行对应的源打包器，再运行 `python3 tools/build.py` 导出。针对性的立绘/终结画面脚本可以直接更新现有清单；见[美术工作流程](../docs/ARTWORK.md)。普通的应用构建不会重新打包美术，也不需要 Python 依赖。
 
-Run `npm run check` and `npm run build` after changing bindings. Asset checks verify runtime content hashes, source action groups across bands, penguin voice paths and stage sources. Keep provenance and original media when moving sources; update catalog paths, packers, draft references and this call map together.
+修改绑定后，运行 `npm run check` 与 `npm run build`。素材检查会校验运行时内容哈希、跨乐队的源动作分组、企鹅语音路径与关卡源。移动源文件时保留出处与原始媒体；目录路径、打包器、草稿引用与本调用对照表要一起更新。

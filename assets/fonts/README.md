@@ -1,17 +1,12 @@
-# Interface typeface
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
 
-The three `noto-serif-sc-ui-*.woff2` files are local variable-weight subsets of
-**Noto Serif SC** (weights 400–900). The sharp, high-contrast serif family is shared
-by the main banner, headings, character names, buttons and other interface text.
-Vite bundles these sources, so the interface has no external font dependency.
+# 界面字体
 
-The subsets cover the CJK characters present in `frontend/src/` at the time of the
-visual revision, plus Latin letters, numbers and interface punctuation. When new
-copy or characters are added, extend the subsets and their CSS unicode ranges;
-Songti/SimSun/serif fallbacks cover any missing glyphs in the meantime.
+三个 `noto-serif-sc-ui-*.woff2` 文件是 **Noto Serif SC** 的本地可变字重子集（字重 400–900）。这套笔画锐利、对比度高的衬线字族统一用于主横幅、标题、角色名、按钮等界面文字。Vite 会打包这些源文件，因此界面不依赖外部字体。
 
-- Typeface: https://fonts.google.com/noto/specimen/Noto+Serif+SC
-- Upstream: https://github.com/google/fonts/tree/main/ofl/notoserifsc
-- Copyright: 2017–2024 Adobe
-- License: SIL Open Font License 1.1, distributed with the game at
-  `frontend/public/licenses/noto-serif-sc-OFL.txt`.
+子集覆盖视觉改版时 `frontend/src/` 中出现的 CJK 字符，以及拉丁字母、数字和界面标点。新增文案或字符时，需要扩充子集及其 CSS unicode range；在此之前，缺失字形由 Songti/SimSun/serif 回退字体覆盖。
+
+- 字体：https://fonts.google.com/noto/specimen/Noto+Serif+SC
+- 上游仓库：https://github.com/google/fonts/tree/main/ofl/notoserifsc
+- 版权：2017–2024 Adobe
+- 许可：SIL Open Font License 1.1，随游戏一起分发于 `frontend/public/licenses/noto-serif-sc-OFL.txt`。

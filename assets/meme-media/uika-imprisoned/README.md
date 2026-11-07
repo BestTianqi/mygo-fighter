@@ -1,3 +1,5 @@
+**简体中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 # 三角初华变身音乐
 
 来源：[Ave Mujica - Imprisoned XII (Official Music Video)](https://www.bilibili.com/video/BV1Ep91YPEQo/)，官方账号 MyGO_AveMujica，cid 28735767349，第1P。
