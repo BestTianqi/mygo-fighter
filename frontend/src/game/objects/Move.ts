@@ -1,4 +1,9 @@
 export interface Move {
+  cinematic?: {
+    leadInMs: number;
+    mediaDelayMs?: number;
+    videoOffsetMs?: number;
+  };
   projectileRadiusY?: number;
   backSkill?: "quick" | "heavy" | "lob";
   visualBase?: string;

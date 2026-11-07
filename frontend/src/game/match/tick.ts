@@ -4,6 +4,11 @@ import type { Input } from "../objects/Input";
 import type { Move, Pulse } from "../objects/Move";
 import { resolveBrawlKOs, updateBrawlRespawns } from "./rounds";
 import { clamp } from "./combatMath";
+import {
+  advanceSuperClocks,
+  alignSuperIntro,
+  hasTimedSuper,
+} from "./cinematics";
 
 /** Advance one 10 ms step in rule order: lifecycle, inputs, contacts, persistent effects. */
 export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
@@ -11,6 +16,12 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
   // advances only when combat accepts input; LAN replay needs both clocks.
   match.simulationTick++;
   match.elapsed += 10;
+  if (advanceSuperClocks(match)) {
+    // The cast tick already advanced fighters. Finish its contacts exactly once
+    // when the intro ends, before another fighter update can skip release cues.
+    if (!match.superIntro) resolveContacts(match, match.previous);
+    return;
+  }
   if (match.phase === "ready") {
     match.phaseMs -= 10;
     match.previous = [p1, p2, p3]
@@ -69,6 +80,9 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
     return;
   }
   updateBrawlRespawns(match);
+  // Hitstop must not accumulate against a recorded sentence or musical score.
+  // Keep the impact flashes/camera accents, but run timed supers at their authored cadence.
+  if (hasTimedSuper(match)) match.freeze = 0;
   if (match.freeze > 0) {
     match.freeze -= 10;
     return;
@@ -107,6 +121,17 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
       match.aiGoal = match.aiStates[side].goal;
     match.updateFighter(side, inputs[side]);
   }
+  if (match.superIntro) {
+    alignSuperIntro(match);
+    if (match.options.mode !== "practice" && !match.options.rules.infiniteTime)
+      match.remaining += 10;
+    match.previous = inputs.map((input) => ({ ...input }));
+    return;
+  }
+  resolveContacts(match, inputs);
+}
+
+function resolveContacts(match: Match, inputs: Input[]): void {
   match.separate();
   match.updateBindings();
   match.updateSoyoSupers();

@@ -210,6 +210,10 @@ export function updateFighter(match: Match, side: number, input: Input): void {
   const plantedGuard = f.guard && !!input.guard;
   if (!f.stun && !f.knockdown && !f.landingRecovery) {
     startBufferedAttack(match, side, input, ground, plantedGuard, direction);
+    if (match.superIntro) {
+      f.pressIds = { ...input.pressIds };
+      return;
+    }
     updateMovement(match, side, input, {
       ground,
       onFloor,

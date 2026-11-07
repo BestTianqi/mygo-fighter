@@ -4,6 +4,16 @@ const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
   "Match",
   "MOVES",
 ]);
+const { schemeFor } = await evaluate("frontend/src/game/controls.ts", [
+  "schemeFor",
+]);
+
+// Existing windows measure combat time after the authored cinematic opening.
+function advanceSuper(match, combatMs, opponentInput = {}) {
+  const move = MOVES[schemeFor(match.fighters[0]).super];
+  const leadInMs = move.cinematic?.leadInMs ?? 0;
+  match.advance(leadInMs + combatMs, { super: true }, opponentInput);
+}
 const cases = [
   { id: 10, key: "mewtype_10_virtual_super", damage: 40, hits: 3 },
   { id: 11, key: "mewtype_11_virtual_super", damage: 50, hits: 5 },
@@ -26,7 +36,7 @@ function start(id, distance = 160, rules = {}) {
 }
 for (const item of cases) {
   const m = start(item.id);
-  m.advance(5000, { super: true });
+  advanceSuper(m, 5000);
   const hits = m.drainEvents().filter((e) => e.type === "hit" && e.side === 0);
   assert.equal(hits.length, item.hits, `${item.key}: all strikes connect`);
   assert.equal(1000 - m.fighters[1].hp, item.damage, item.key);
@@ -40,7 +50,7 @@ for (const item of cases) {
     "multi-hit defender budget stays8",
   );
   const blocked = start(item.id);
-  blocked.advance(5000, { super: true }, { guard: true });
+  advanceSuper(blocked, 5000, { guard: true });
   assert.ok(
     blocked.fighters[1].hp > 1000 - item.damage,
     "fixed damage still respects guard",
@@ -50,14 +60,14 @@ for (const item of cases) {
   assert.equal(disabled.fighters[1].hp, 1000);
   assert.equal(disabled.fighters[0].energy, 100);
   const multiplied = start(item.id, 160, { damageMultiplier: 2 });
-  multiplied.advance(5000, { super: true });
+  advanceSuper(multiplied, 5000);
   assert.equal(1000 - multiplied.fighters[1].hp, item.damage * 2);
 }
 const remote = start(10, 1000);
-remote.advance(5000, { super: true });
+advanceSuper(remote, 5000);
 assert.equal(1000 - remote.fighters[1].hp, 40, "Arale reaches1000 units");
 const homing = start(10, 700);
-homing.advance(140, { super: true });
+advanceSuper(homing, 140);
 homing.fighters[1].y = 480;
 homing.updateWaves();
 assert.ok(
@@ -66,7 +76,7 @@ assert.ok(
 );
 for (const id of [11, 13, 4]) {
   const mid = start(id, 350);
-  mid.advance(5000, { super: true });
+  advanceSuper(mid, 5000);
   assert.equal(
     1000 - mid.fighters[1].hp,
     cases.find((row) => row.id === id).damage,
@@ -89,7 +99,7 @@ for (const id of [11, 13, 4]) {
   m.fighters[1].x = 160;
   m.fighters[2].x = id === 13 ? -200 : 220;
   m.fighters[0].energy = 100;
-  m.advance(5000, { super: true });
+  advanceSuper(m, 5000);
   const targets = new Set(
     m
       .drainEvents()
@@ -120,7 +130,7 @@ for (const facing of [1, -1]) {
   for (const distance of [100, 350, 650]) {
     const m = headbutt(distance, facing);
     const origin = m.fighters[0].x;
-    m.advance(10, { super: true });
+    advanceSuper(m, 10);
     assert.equal(m.fighters[0].attack, nonokaKey, "P starts Nonoka's super");
     m.advance(100);
     assert.equal(m.fighters[0].x, origin, "head lowers before the rush moves");
@@ -142,21 +152,21 @@ for (const facing of [1, -1]) {
   }
   const whiff = headbutt(1000, facing);
   const origin = whiff.fighters[0].x;
-  whiff.advance(1800, { super: true });
+  advanceSuper(whiff, 1800);
   assert.equal(whiff.fighters[1].hp, 1000, "an out-of-range opponent is safe");
   assert.equal(strikes(whiff).length, 0);
   const travel = (whiff.fighters[0].x - origin) * facing;
   assert.ok(travel >= 500 && travel <= 650, `actual forward travel=${travel}`);
   assert.equal(whiff.fighters[0].attack, null, "a whiff still recovers");
   const behind = headbutt(350, facing);
-  behind.advance(10, { super: true });
+  advanceSuper(behind, 10);
   behind.fighters[1].x = behind.fighters[0].x - facing * 180;
   behind.advance(1800);
   assert.equal(behind.fighters[1].hp, 1000, "the rush cannot hit behind");
   assert.equal(strikes(behind).length, 0);
 }
 const nonokaGuard = headbutt();
-nonokaGuard.advance(2200, { super: true }, { guard: true });
+advanceSuper(nonokaGuard, 2200, { guard: true });
 const guardedHits = strikes(nonokaGuard);
 assert.equal(guardedHits.length, 1);
 assert.equal(guardedHits[0].blocked, true);
@@ -172,19 +182,19 @@ assert.equal(nonokaDisabled.fighters[0].energy, 100);
 assert.equal(nonokaDisabled.fighters[1].hp, 1000);
 assert.equal(strikes(nonokaDisabled).length, 0);
 const nonokaMultiplied = headbutt(350, 1, { damageMultiplier: 2 });
-nonokaMultiplied.advance(2200, { super: true });
+advanceSuper(nonokaMultiplied, 2200);
 assert.equal(nonokaMultiplied.fighters[1].hp, 900, "P follows damage rules");
 const combo = headbutt();
 combo.fighters[0].combo = 4;
 combo.fighters[0].comboMs = 1000;
-combo.advance(2200, { super: true });
+advanceSuper(combo, 2200);
 assert.equal(
   combo.fighters[1].hp,
   950,
   "the complete super remains50 in combos",
 );
 const armored = headbutt(100);
-armored.advance(130, { super: true }, { light: true });
+advanceSuper(armored, 130, { light: true });
 const incoming = armored
   .drainEvents()
   .find((e) => e.type === "hit" && e.side === 1);
@@ -212,7 +222,7 @@ for (const [height, hp] of [
   const elevated = headbutt(350);
   elevated.setTerrain({ platforms: [{ left: -850, right: 1700, height }] });
   elevated.fighters[1].y = height;
-  elevated.advance(2200, { super: true });
+  advanceSuper(elevated, 2200);
   assert.equal(
     elevated.fighters[1].hp,
     hp,
@@ -237,7 +247,7 @@ for (const facing of [1, -1]) {
   mixed.fighters[0].energy = 100;
   mixed.fighters[1].x = 160 * facing;
   mixed.fighters[2].x = 520 * facing;
-  mixed.advance(2200, { super: true });
+  advanceSuper(mixed, 2200);
   const hits = strikes(mixed);
   assert.deepEqual(
     hits.map((h) => h.target).sort(),

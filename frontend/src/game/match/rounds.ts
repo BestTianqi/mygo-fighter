@@ -20,6 +20,8 @@ export function resetRound(match: Match): void {
   match.waves = [];
   match.areas = [];
   match.freeze = 0;
+  match.superCasts = Array(match.playerCount).fill(null);
+  match.superIntro = null;
   match.inputTick = 0;
   match.previous = match.fighters.map(() => ({}));
   match.aiStates = Array.from({ length: match.playerCount }, () => ({

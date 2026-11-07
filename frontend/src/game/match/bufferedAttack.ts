@@ -3,6 +3,7 @@ import { moveEnabled } from "../battleRules";
 import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import { clamp } from "./combatMath";
+import { startSuperCast } from "./cinematics";
 
 /** Start one legal buffered move, applying its resource and movement effects. */
 export function startBufferedAttack(
@@ -124,6 +125,7 @@ export function startBufferedAttack(
         f.vx = (f.facing * move.movement) / (move.movementEnd! / 1000);
       if (move.stance === "air" || move.airOnly) f.airUsed = true;
       band.onStart?.(match, f, move, name, ground);
+      startSuperCast(match, side, name);
       match.events.push({ type: "attack", side, attack: name });
     }
   }

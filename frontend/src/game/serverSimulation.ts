@@ -76,6 +76,8 @@ export function create(optionsJson: string) {
         waves: match.waves,
         areas: match.areas,
         freeze: match.freeze,
+        superCasts: match.superCasts,
+        superIntro: match.superIntro,
         inputTick: match.inputTick,
         simulationTick: match.simulationTick,
         previous: match.previous,

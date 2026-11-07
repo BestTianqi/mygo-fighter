@@ -3,6 +3,7 @@ import type { GameView } from "../../objects/GameView";
 import { backgroundVideoEnabled } from "../../runtime/display/backgroundVideoEnabled";
 
 import { UltimateBackgroundVideo } from "./UltimateBackgroundVideo";
+import { MOVES } from "../../../../game/combatData";
 
 export function BattleStage({
   canvas,
@@ -18,7 +19,7 @@ export function BattleStage({
   children: ReactNode;
 }) {
   const videos = view.cutins.flatMap((media, side) =>
-    media?.video ? [{ media, side }] : [],
+    media?.video ? [{ media, side, cast: view.superCasts[side] }] : [],
   );
   return (
     <div
@@ -40,11 +41,17 @@ export function BattleStage({
             aria-hidden="true"
             className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length === 3 ? "grid-cols-3" : videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
           >
-            {videos.map(({ media, side }) => (
+            {videos.map(({ media, side, cast }) => (
               <UltimateBackgroundVideo
-                key={`${side}:${media.video}`}
+                key={`${view.round}:${side}:${cast?.id}:${media.video}`}
                 media={media}
-                paused={view.paused}
+                timeMs={
+                  (cast?.elapsedMs ?? 0) +
+                  (MOVES[cast?.attack ?? ""]?.cinematic?.videoOffsetMs ?? 0)
+                }
+                paused={
+                  view.paused || !!cast?.held || (cast?.elapsedMs ?? 0) < 0
+                }
                 onEnd={() => onClearCutin(side)}
               />
             ))}

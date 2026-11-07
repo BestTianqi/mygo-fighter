@@ -32,6 +32,7 @@ export class AudioDirector {
   private readonly queue: AudioTask[] = [];
   private activeLoads = 0;
   private readonly abort = new AbortController();
+  private readonly superVoices = new Map<number, string>();
   private finish: {
     tick: number;
     side: number;
@@ -58,6 +59,7 @@ export class AudioDirector {
   async unlock(enabled: boolean) {
     this.enabled = enabled;
     if (!enabled) {
+      this.superVoices.clear();
       if (this.finish) this.finish.audible = false;
       this.voices?.setEnabled(false);
       this.summons?.setEnabled(false);
@@ -222,10 +224,49 @@ export class AudioDirector {
   }
   stop() {
     this.finish = null;
+    this.superVoices.clear();
     this.voices?.stop();
     this.summons?.stop();
     this.music?.stop();
     this.speeches?.stop();
+  }
+  /** Cast identity is confirmed by the runtime; only its clock may be predicted. */
+  syncSupers(casts: Match["superCasts"], round: number) {
+    for (let side = 0; side < casts.length; side++) {
+      const cast = casts[side];
+      if (!cast) {
+        this.superVoices.delete(side);
+        continue;
+      }
+      const key = `${round}:${cast.id}:${cast.character}:${cast.form}:${cast.attack}`;
+      if (this.superVoices.get(side) === key) {
+        this.speeches?.sync(side, cast.elapsedMs, cast.held);
+        continue;
+      }
+      const media = presentationFor(
+        this.assets,
+        {
+          character: cast.character,
+          stageForm: cast.form === "stage" ? { ms: 1 } : null,
+          penguin: cast.form === "penguin" ? { ms: 1 } : null,
+        },
+        cast.attack,
+      );
+      const voice =
+        media?.voice ??
+        (this.assets.penguinVoices[cast.attack] ||
+        this.assets.soyoVoices[cast.attack]
+          ? cast.attack
+          : null);
+      if (!voice) {
+        this.superVoices.set(side, key);
+        continue;
+      }
+      if (this.speeches?.playAt(voice, side, cast.elapsedMs, cast.held)) {
+        this.voices?.stop(side);
+        this.superVoices.set(side, key);
+      }
+    }
   }
   private beginFinish(roundEnd: RoundEnd) {
     if (this.paused) return;
@@ -280,6 +321,8 @@ export class AudioDirector {
       const side = event.side ?? 0,
         fighter = match.fighters[side];
       if (event.type === "attack" && event.attack) {
+        // Super voices follow confirmed cast state, including late LAN delivery.
+        if (MOVES[event.attack]?.cinematic) continue;
         const media = presentationFor(this.assets, fighter, event.attack);
         const voice =
           media?.voice ??

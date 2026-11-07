@@ -33,6 +33,7 @@ import type { Move } from "./objects/Move";
 import type { RoundEnd } from "./objects/RoundEnd";
 import type { Terrain } from "./objects/Terrain";
 import type { Wave } from "./objects/Wave";
+import type { SuperCast, SuperIntro } from "./objects/SuperCast";
 /** Serializable match state and the public combat API used by local play and LAN.
  * Rule implementations live in match/ and receive this owning state explicitly.
  * Keep instance fields stable: prediction and the JVM serialize these fields.
@@ -61,6 +62,8 @@ class Match {
   waves: Wave[] = [];
   areas: Area[] = [];
   freeze = 0;
+  superCasts: (SuperCast | null)[] = [];
+  superIntro: SuperIntro | null = null;
   inputTick = 0;
   simulationTick = 0;
   previous: Input[] = [{}, {}];

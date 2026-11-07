@@ -6,6 +6,7 @@ interface VoiceSlot {
   startedAt: number;
   next: { name: string; done?: () => void } | null;
   done?: () => void;
+  timeline?: { elapsedMs: number; held: boolean };
 }
 interface VoiceBuffers {
   get(move: string): AudioBuffer | undefined;
@@ -31,6 +32,11 @@ export function createVoicePlayer(
     }
   }
   function begin(side: number, slot: VoiceSlot) {
+    if (!enabled || paused || slot.source) return;
+    if (slot.timeline) {
+      slot.offset = Math.max(0, slot.timeline.elapsedMs / 1000);
+      if (slot.timeline.held || slot.timeline.elapsedMs < 0) return;
+    }
     if (!slot.buffer || slot.offset >= slot.buffer.duration) {
       complete(side, slot);
       return;
@@ -53,7 +59,12 @@ export function createVoicePlayer(
     slot.done?.();
     if (slot.next) play(slot.next.name, side, slot.next.done);
   }
-  function play(move: string, side: number, done?: () => void) {
+  function play(
+    move: string,
+    side: number,
+    done?: () => void,
+    timeline?: VoiceSlot["timeline"],
+  ) {
     if (!enabled || paused) return false;
     stop(side);
     const slot: VoiceSlot = {
@@ -64,6 +75,7 @@ export function createVoicePlayer(
       startedAt: 0,
       next: null,
       done,
+      timeline,
     };
     // A pending load owns the channel, preventing overlapping voices while
     // retaining the existing stop/pause/round-transition cancellation rules.
@@ -89,6 +101,27 @@ export function createVoicePlayer(
   }
   return {
     play,
+    /** A delayed decode reads the latest simulation time, never the request time. */
+    playAt(move: string, side: number, elapsedMs: number, held: boolean) {
+      return play(move, side, undefined, { elapsedMs, held });
+    },
+    sync(side: number, elapsedMs: number, held: boolean) {
+      const slot = channels.get(side);
+      if (!slot?.timeline) return;
+      slot.timeline = { elapsedMs, held };
+      const position =
+        slot.offset + (slot.source ? context.currentTime - slot.startedAt : 0);
+      if (
+        held ||
+        paused ||
+        elapsedMs < 0 ||
+        Math.abs(position * 1000 - elapsedMs) > 80
+      ) {
+        halt(slot);
+        slot.offset = Math.max(0, elapsedMs / 1000);
+      }
+      if (slot.buffer) begin(side, slot);
+    },
     /** A finish line follows a complete super sentence without overlapping it. */
     playAfterCurrent(move: string, side: number, done?: () => void) {
       if (!enabled || paused) return false;

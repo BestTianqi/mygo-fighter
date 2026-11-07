@@ -60,6 +60,8 @@ export function drawOpeningBackdrop(scene: BattleSceneContext) {
 
 /** Bold arcade lettering, with one short impact beat instead of a floating label. */
 export function drawOpeningCue(scene: BattleSceneContext) {
+  // An immediate super owns the screen; the frozen round timer must not pin FIGHT over it.
+  if (scene.match.superCasts.some(Boolean)) return;
   const cue = openingFor(scene.match);
   if (!cue) return;
   const { ctx, reducedMotion } = scene;

@@ -2,6 +2,7 @@ import type { ConnectionView } from "../../../apis/rooms/objects";
 import type { MatchConfig } from "../../../game/objects/MatchOptions";
 import type { Presentation } from "../../../assets/objects/Assets";
 import type { RoundEnd } from "../../../game/objects/RoundEnd";
+import type { Match } from "../../../game/engine";
 export interface FighterView {
   character: number;
   hp: number;
@@ -39,6 +40,7 @@ export interface GameView {
   lobbyOpen: boolean;
   dialog: "help" | "moves" | null;
   cutins: (Presentation | null)[];
+  superCasts: Match["superCasts"];
 }
 export const initialView: GameView = {
   screen: "menu",
@@ -66,4 +68,5 @@ export const initialView: GameView = {
   lobbyOpen: false,
   dialog: null,
   cutins: [null, null],
+  superCasts: [null, null],
 };

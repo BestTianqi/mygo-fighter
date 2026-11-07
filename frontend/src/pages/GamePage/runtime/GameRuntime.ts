@@ -49,6 +49,7 @@ export class GameRuntime {
   private finishVideoMs: number | null = null;
   private finishAck: number | null = null;
   private finishAckRetry = 0;
+  private readonly superVideos = new Map<number, string>();
 
   constructor(
     private readonly assets: Assets,
@@ -127,7 +128,72 @@ export class GameRuntime {
     const m = this.lan.connected
       ? (this.authoritativeMatch ?? this.match)
       : this.match;
-    this.publish(buildBattleView(m, this.finishVideoMs));
+    this.publish({
+      ...buildBattleView(m, this.finishVideoMs),
+      superCasts: this.playbackCasts().map((cast) =>
+        cast ? { ...cast } : null,
+      ),
+    });
+  }
+  private playbackCasts(): Match["superCasts"] {
+    if (!this.match) return [];
+    if (!this.lan.connected) return this.match.superCasts;
+    const authority = this.authoritativeMatch;
+    if (!authority) return [];
+    const predicted = this.match.superCasts;
+    const sameCast = (
+      a: Match["superCasts"][number],
+      b: Match["superCasts"][number],
+    ) =>
+      a?.id === b?.id &&
+      a?.character === b?.character &&
+      a?.attack === b?.attack &&
+      a?.form === b?.form;
+    const confirmedPrediction =
+      this.match.round === authority.round &&
+      predicted.every((cast, side) =>
+        sameCast(cast, authority.superCasts[side]),
+      );
+    return authority.superCasts.map((cast, side) =>
+      cast && confirmedPrediction && sameCast(cast, predicted[side])
+        ? predicted[side]
+        : cast,
+    );
+  }
+  private syncSupers() {
+    if (!this.match) return;
+    const casts = this.playbackCasts();
+    const round = this.authoritativeMatch?.round ?? this.match.round;
+    this.audio.syncSupers(casts, round);
+    for (let side = 0; side < casts.length; side++) {
+      const cast = casts[side];
+      if (!cast) {
+        this.superVideos.delete(side);
+        continue;
+      }
+      const key = `${round}:${cast.id}:${cast.character}:${cast.form}:${cast.attack}`;
+      if (this.superVideos.get(side) === key) continue;
+      this.superVideos.set(side, key);
+      const media = presentationFor(
+        this.assets,
+        {
+          character: cast.character,
+          stageForm: cast.form === "stage" ? { ms: 1 } : null,
+          penguin: cast.form === "penguin" ? { ms: 1 } : null,
+        },
+        cast.attack,
+      );
+      this.publish({
+        superCasts: casts.map((entry) => (entry ? { ...entry } : null)),
+        cutins: this.view.cutins.map((entry, i) =>
+          i === side
+            ? media?.video && backgroundVideoEnabled()
+              ? media
+              : null
+            : entry,
+        ),
+      });
+    }
   }
   begin(mode: Mode, format: Format = "1v1") {
     this.publish({
@@ -207,6 +273,7 @@ export class GameRuntime {
     this.audio.stop();
     this.input.clear();
     void this.audio.unlock(config.settings.sound);
+    this.superVideos.clear();
     this.finishVideoMs = null;
     this.finishAck = null;
     this.finishAckRetry = 0;
@@ -363,6 +430,7 @@ export class GameRuntime {
     const correction = this.renderer.correct(this.match, before, snap);
     this.diagnostics.add("correctionPx", correction);
     this.audio.pause(this.match.paused);
+    this.syncSupers();
     this.consume(events);
     if (this.view.lobbyOpen) this.publish({ lobbyOpen: false });
     if (
@@ -385,7 +453,12 @@ export class GameRuntime {
             this.match.fighters[side],
             event.attack,
           );
-        if (media?.video && media.slot === "p" && backgroundVideoEnabled())
+        if (
+          !MOVES[event.attack]?.cinematic &&
+          media?.video &&
+          media.slot === "p" &&
+          backgroundVideoEnabled()
+        )
           this.publish({
             cutins: this.view.cutins.map((entry, i) =>
               i === side ? media : entry,
@@ -443,8 +516,10 @@ export class GameRuntime {
           this.publish({ connectionStalled: stalled });
       } else {
         this.match.advance(dt, this.input.input(0), this.input.input(1));
+        this.syncSupers();
         this.consume(this.match.drainEvents());
       }
+      if (this.lan.connected) this.syncSupers();
       const authority = this.lan.connected
         ? this.authoritativeMatch
         : this.match;

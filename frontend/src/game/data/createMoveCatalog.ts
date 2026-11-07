@@ -5,6 +5,7 @@ import { validateCatalog } from "../bands/validation";
 import type { Move } from "../objects/Move";
 import { applyBalance } from "./moves/balance";
 import { scaleSharedMovement } from "./moves/scale";
+import { applyUltimateTiming } from "./ultimateTiming";
 
 function mergeBand(MOVES: Record<string, Move>, band: (typeof BANDS)[number]) {
   for (const key of Object.keys(band.moves))
@@ -24,6 +25,7 @@ export function createMoveCatalog(): Record<string, Move> {
   registerMygoChains(MOVES);
   applyBalance(MOVES);
   for (const band of BANDS) band.tune?.(MOVES);
+  applyUltimateTiming(MOVES);
   validateCatalog(BANDS, MOVES);
   bindMoveCatalog(MOVES);
   return MOVES;

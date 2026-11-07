@@ -49,7 +49,7 @@ as the `/ws?room=CODE` query. See [backend services](SERVICES.en.md).
 
 ## Socket messages
 
-Connect to `/ws?room=CODE`, then send `{"type":"authenticate","token":"<six-hex-code>.<48 hex>","protocol":25}`. The token's code and the query code must identify the same room. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
+Connect to `/ws?room=CODE`, then send `{"type":"authenticate","token":"<six-hex-code>.<48 hex>","protocol":26}`. The token's code and the query code must identify the same room. Both ends reject incompatible versions with a reload message; deploy the UI and server together. Authentication resolves a trusted session before attaching the socket. A socket has five seconds to authenticate. Subsequent input packets are checked against the currently attached peer, so a replaced socket cannot continue controlling a player.
 
 Client messages are `authenticate`, `input` and `ping`. Server messages are `room`, `prepare`, `state`, `events`, `pong` and `error`. Input has an increasing safe-integer `seq` and an `input` object. Known actions, boolean directions and bounded press counters are normalized at the Scala boundary. Extra identity, health and action fields have no effect.
 
