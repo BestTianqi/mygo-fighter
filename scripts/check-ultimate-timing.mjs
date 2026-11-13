@@ -4,9 +4,9 @@ const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
   "Match",
   "MOVES",
 ]);
-const { superStageTransition } = await evaluate(
+const { superStageTransition, longSuperVideoOwner } = await evaluate(
   "frontend/src/pages/GamePage/functions/superStageTransition.ts",
-  ["superStageTransition"],
+  ["superStageTransition", "longSuperVideoOwner"],
 );
 function duel(characters = [6, 0]) {
   const m = new Match({ mode: "duel", characters, rules: { maxHealth: 1000 } });
@@ -90,13 +90,22 @@ assert.equal(soyo.superCasts[0].elapsedMs, 1450);
 
 const chant = duel([12, 0]);
 chant.advance(10, { super: true });
-assert.equal(chant.superIntro?.durationMs, fadeInMs);
-assert.equal(chant.superCasts[0].elapsedMs, -fadeInMs);
-const remainingBeforeChant = chant.remaining;
-chant.advance(fadeInMs - 10);
-assert.equal(chant.fighters[1].hp, 1000);
-assert.equal(chant.remaining, remainingBeforeChant);
-const beats = [];
+assert.equal(chant.superIntro, null, "short supers skip the blackout");
+assert.equal(chant.superCasts[0].elapsedMs, 0);
+assert.equal(chant.fighters[1].hp, 995, "the first syllable hits immediately");
+assert.deepEqual(
+  superStageTransition(
+    chant.superCasts,
+    [{ video: "chant.mp4" }, null],
+    chant.phase,
+  ),
+  { showVideo: true, stageOpacity: 1, blackOpacity: 0 },
+  "a short super video starts behind the visible stage",
+);
+const beats = chant
+  .drainEvents()
+  .filter((e) => e.type === "hit" && e.side === 0)
+  .map(() => 0);
 for (let i = 0; i < 900; i++) {
   chant.advance(10);
   for (const e of chant.drainEvents())
@@ -116,6 +125,22 @@ const first = simultaneous.superCasts[0],
 assert.ok(
   second.elapsedMs < 0 && second.held,
   "shorter intro waits so simultaneous releases stay aligned",
+);
+const rivalVideos = [{ video: "sakiko.mp4" }, { video: "rana.mp4" }];
+assert.equal(
+  longSuperVideoOwner(simultaneous.superCasts, rivalVideos)?.side,
+  0,
+);
+assert.equal(
+  longSuperVideoOwner(
+    [
+      { ...first, id: 20 },
+      { ...second, id: 30 },
+    ],
+    rivalVideos,
+  )?.side,
+  1,
+  "a newly started long cast takes over a previous video",
 );
 simultaneous.advance(fadeInMs + 4160);
 assert.equal(first.elapsedMs, MOVES[first.attack].cinematic.leadInMs);

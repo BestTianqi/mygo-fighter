@@ -26,6 +26,7 @@ export function startSuperCast(
     elapsedMs: 0 - (timing.mediaDelayMs ?? 0),
     held: !!timing.mediaDelayMs,
   };
+  if (timing.leadInMs <= 0) return;
   match.superIntro ??= { elapsedMs: 0, durationMs: 0, sides: [] };
   match.superIntro.sides.push(side);
   match.superIntro.durationMs = Math.max(
@@ -40,6 +41,10 @@ export function alignSuperIntro(match: Match): void {
   if (!intro) return;
   for (const cast of match.superCasts) {
     if (!cast) continue;
+    // A short cast pressed on the same tick still waits for the other
+    // player's freeze. On its own it has no cinematic freeze.
+    if (cast.id === match.simulationTick && !intro.sides.includes(cast.side))
+      intro.sides.push(cast.side);
     if (intro.sides.includes(cast.side)) {
       const timing = MOVES[cast.attack].cinematic!;
       cast.elapsedMs =

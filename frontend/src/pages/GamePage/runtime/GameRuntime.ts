@@ -23,7 +23,10 @@ import { InputController } from "./input/InputController";
 import { NetworkDiagnostics } from "./network/NetworkDiagnostics";
 import { PendingSimulationState } from "./network/PendingSimulationState";
 import { presentationFor } from "../functions/presentationFor";
-import { superStageTransition } from "../functions/superStageTransition";
+import {
+  longSuperVideoOwner,
+  superStageTransition,
+} from "../functions/superStageTransition";
 import { CanvasRenderer } from "./rendering/CanvasRenderer";
 import { backgroundVideoEnabled } from "./display/backgroundVideoEnabled";
 import { prepareSuperVideos } from "./display/prepareSuperVideos";
@@ -170,7 +173,8 @@ export class GameRuntime {
     if (!this.match) return;
     const casts = this.playbackCasts();
     const round = this.authoritativeMatch?.round ?? this.match.round;
-    this.audio.syncSupers(casts, round);
+    let changed = false;
+    let cutins = this.view.cutins;
     for (let side = 0; side < casts.length; side++) {
       const cast = casts[side];
       if (!cast) {
@@ -189,17 +193,28 @@ export class GameRuntime {
         },
         cast.attack,
       );
+      cutins = cutins.map((entry, i) =>
+        i === side
+          ? media?.video && backgroundVideoEnabled()
+            ? media
+            : null
+          : entry,
+      );
+      changed = true;
+    }
+    const owner = longSuperVideoOwner(casts, cutins);
+    if (owner && cutins.some((entry, side) => entry && side !== owner.side)) {
+      cutins = cutins.map((entry, side) =>
+        side === owner.side ? entry : null,
+      );
+      changed = true;
+    }
+    this.audio.syncSupers(casts, round, owner);
+    if (changed)
       this.publish({
         superCasts: casts.map((entry) => (entry ? { ...entry } : null)),
-        cutins: this.view.cutins.map((entry, i) =>
-          i === side
-            ? media?.video && backgroundVideoEnabled()
-              ? media
-              : null
-            : entry,
-        ),
+        cutins,
       });
-    }
   }
   begin(mode: Mode, format: Format = "1v1") {
     this.publish({

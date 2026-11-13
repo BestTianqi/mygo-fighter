@@ -6,6 +6,7 @@ import { presentationFor } from "../../functions/presentationFor";
 import { MOVES } from "../../../../game/combatData";
 import { ultimateFinishFor } from "../../functions/ultimateFinishFor";
 import type { RoundEnd } from "../../../../game/objects/RoundEnd";
+import type { SuperCast } from "../../../../game/objects/SuperCast";
 
 const MAX_AUDIO_BYTES = 64 * 1024 * 1024;
 const MAX_AUDIO_LOADS = 4;
@@ -33,6 +34,8 @@ export class AudioDirector {
   private activeLoads = 0;
   private readonly abort = new AbortController();
   private readonly superVoices = new Map<number, string>();
+  private cinematicOwner: SuperCast | null = null;
+  private effects: GainNode | null = null;
   private finish: {
     tick: number;
     side: number;
@@ -225,13 +228,32 @@ export class AudioDirector {
   stop() {
     this.finish = null;
     this.superVoices.clear();
+    this.cinematicOwner = null;
+    this.stopEffects();
     this.voices?.stop();
     this.summons?.stop();
     this.music?.stop();
     this.speeches?.stop();
   }
   /** Cast identity is confirmed by the runtime; only its clock may be predicted. */
-  syncSupers(casts: Match["superCasts"], round: number) {
+  syncSupers(
+    casts: Match["superCasts"],
+    round: number,
+    owner: SuperCast | null = null,
+  ) {
+    if (
+      owner &&
+      (owner.id !== this.cinematicOwner?.id ||
+        owner.side !== this.cinematicOwner?.side)
+    ) {
+      this.voices?.stop();
+      this.summons?.stop();
+      this.music?.stop();
+      this.stopEffects();
+      for (let side = 0; side < casts.length; side++)
+        if (side !== owner.side) this.speeches?.stop(side);
+    }
+    this.cinematicOwner = owner;
     for (let side = 0; side < casts.length; side++) {
       const cast = casts[side];
       if (!cast) {
@@ -239,6 +261,11 @@ export class AudioDirector {
         continue;
       }
       const key = `${round}:${cast.id}:${cast.character}:${cast.form}:${cast.attack}`;
+      if (owner && side !== owner.side) {
+        // Supers cut off by the cinematic do not resume their old recording.
+        this.superVoices.set(side, key);
+        continue;
+      }
       if (this.superVoices.get(side) === key) {
         this.speeches?.sync(side, cast.elapsedMs, cast.held);
         continue;
@@ -320,9 +347,10 @@ export class AudioDirector {
     for (const event of events) {
       const side = event.side ?? 0,
         fighter = match.fighters[side];
+      const cinematic = this.cinematicOwner;
       if (event.type === "attack" && event.attack) {
         // Super voices follow confirmed cast state, including late LAN delivery.
-        if (MOVES[event.attack]?.cinematic) continue;
+        if (cinematic || MOVES[event.attack]?.cinematic) continue;
         const media = presentationFor(this.assets, fighter, event.attack);
         const voice =
           media?.voice ??
@@ -342,11 +370,16 @@ export class AudioDirector {
         } else if (voice && !this.speeches?.playing(side))
           this.voices?.play(voice, side);
       }
-      if (event.type === "minionCall")
+      if (!cinematic && event.type === "minionCall")
         this.summons?.play("tensoraOhYeah", side * 3 + (event.unit ?? 0));
-      if (event.type === "stageFormStart" && fighter.character === 7)
+      if (
+        !cinematic &&
+        event.type === "stageFormStart" &&
+        fighter.character === 7
+      )
         this.music?.play("uikaImprisoned", side);
       if (
+        !cinematic &&
         event.type === "stageFormStart" &&
         fighter.character === 6 &&
         !this.speeches?.playing(side)
@@ -384,12 +417,20 @@ export class AudioDirector {
         if (match.roundEnd) this.beginFinish(match.roundEnd);
         this.tone("ultimateFinish", 3);
       }
-      if (["hit", "clash", "landing", "fight"].includes(event.type))
+      if (
+        (!cinematic ||
+          (side === cinematic.side && event.attack === cinematic.attack)) &&
+        ["hit", "clash", "landing", "fight"].includes(event.type)
+      )
         this.tone(
           event.type === "hit" && event.blocked ? "block" : event.type,
           event.weight ?? 1,
         );
     }
+  }
+  private stopEffects() {
+    this.effects?.disconnect();
+    this.effects = null;
   }
   private tone(kind: string, weight: number) {
     if (!this.enabled || this.paused || !this.context) return;
@@ -415,7 +456,11 @@ export class AudioDirector {
     gain.gain.setValueAtTime(0.08, now);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.95);
     oscillator.connect(gain);
-    gain.connect(context.destination);
+    if (!this.effects) {
+      this.effects = context.createGain();
+      this.effects.connect(context.destination);
+    }
+    gain.connect(this.effects);
     oscillator.start(now);
     oscillator.stop(now + duration);
     oscillator.onended = () => {

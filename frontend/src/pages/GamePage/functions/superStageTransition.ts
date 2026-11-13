@@ -8,6 +8,27 @@ const STAGE_RETURN_MS = 190;
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 
+/** A newer long cast takes precedence. On the same tick, prefer the longer intro. */
+export function longSuperVideoOwner(
+  casts: GameView["superCasts"],
+  cutins: GameView["cutins"],
+) {
+  let owner = null;
+  let lead = 0;
+  for (const cast of casts) {
+    if (!cast || !cutins[cast.side]?.video) continue;
+    const leadIn = MOVES[cast.attack]?.cinematic?.leadInMs ?? 0;
+    if (
+      leadIn > 0 &&
+      (!owner || cast.id > owner.id || (cast.id === owner.id && leadIn > lead))
+    ) {
+      owner = cast;
+      lead = leadIn;
+    }
+  }
+  return owner;
+}
+
 /** Project the same cast clock in the canvas renderer and the video layer. */
 export function superStageTransition(
   casts: GameView["superCasts"],
@@ -18,23 +39,12 @@ export function superStageTransition(
   const background = { showVideo: hasVideo, stageOpacity: 1, blackOpacity: 0 };
   if (!hasVideo || phase !== "fighting") return background;
 
-  const castId = Math.max(-1, ...casts.map((cast) => cast?.id ?? -1));
-  const current = casts.filter((cast) => cast?.id === castId);
-  if (!current.some((cast) => cast && cutins[cast.side]?.video))
-    return background;
-
-  let beforeCombatMs = Infinity;
-  let leadInMs = 0;
-  for (const cast of current) {
-    if (!cast) continue;
-    const timing = MOVES[cast.attack].cinematic!;
-    beforeCombatMs = Math.min(
-      beforeCombatMs,
-      cast.elapsedMs + (timing.mediaDelayMs ?? 0) - timing.leadInMs,
-    );
-    leadInMs = Math.max(leadInMs, timing.leadInMs);
-  }
-  const age = beforeCombatMs + leadInMs + SUPER_BLACKOUT_MS;
+  const owner = longSuperVideoOwner(casts, cutins);
+  if (!owner) return background;
+  const timing = MOVES[owner.attack].cinematic!;
+  const mediaAge = owner.elapsedMs + (timing.mediaDelayMs ?? 0);
+  const beforeCombatMs = mediaAge - timing.leadInMs;
+  const age = mediaAge + SUPER_BLACKOUT_MS;
   if (age < DARK_AT_MS) {
     return {
       showVideo: false,
