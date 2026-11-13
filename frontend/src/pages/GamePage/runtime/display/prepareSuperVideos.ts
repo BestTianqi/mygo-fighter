@@ -4,6 +4,7 @@ import { schemeFor } from "../../../../game/controls";
 import type { FighterIdentity } from "../../../../game/objects/Fighter";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
 import { presentationFor } from "../../functions/presentationFor";
+import { ultimateFinishFor } from "../../functions/ultimateFinishFor";
 import { backgroundVideoEnabled } from "./backgroundVideoEnabled";
 
 function videoUrls(assets: Assets, config: MatchConfig) {
@@ -23,6 +24,8 @@ function videoUrls(assets: Assets, config: MatchConfig) {
         schemeFor(form).super ?? null,
       )?.video;
       if (src) urls.add(src);
+      const finish = ultimateFinishFor(assets, form)?.video;
+      if (finish) urls.add(finish);
     }
   }
   return urls;

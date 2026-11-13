@@ -319,8 +319,12 @@ export class AudioDirector {
       if (side !== finisher.side) this.speeches?.stop(side);
     if (voice) {
       state.audible =
-        this.speeches?.playAfterCurrent(voice, finisher.side, () => {
+        this.speeches?.playAfterCurrent(voice, finisher.side, (played) => {
           if (this.finish !== state) return;
+          if (!played) {
+            state.audible = false;
+            return;
+          }
           state.videoMs = state.duration;
           state.complete = true;
         }) ?? false;

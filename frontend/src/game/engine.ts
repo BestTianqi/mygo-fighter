@@ -240,8 +240,16 @@ class Match {
     return rounds.nextRound(this);
   }
   completeFinish(side: number, tick: number) {
-    if (this.roundEnd?.tick === tick && side >= 0 && side < this.playerCount)
-      this.finishReady[side] = true;
+    if (this.roundEnd?.tick !== tick || side < 0 || side >= this.playerCount)
+      return;
+    this.finishReady[side] = true;
+    const { total, knockout, ultimateArt, ultimateExit } = ROUND_END_TIMING;
+    if (
+      this.roundEnd.finisher &&
+      this.phaseMs <= total - knockout - ultimateArt &&
+      this.finishReady.every(Boolean)
+    )
+      this.phaseMs = Math.min(this.phaseMs, ultimateExit);
   }
   setPaused(value: boolean) {
     if (this.phase === "idle") return;

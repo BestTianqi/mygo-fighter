@@ -37,7 +37,9 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
     const previousPhaseMs = match.phaseMs;
     // Keep the art on screen until both presentations finish. Only the final
     // exit waits; KO, landing and the cut-in keep their original shared clock.
-    const floor = match.finishReady.every(Boolean) ? 0 : 300;
+    const floor = match.finishReady.every(Boolean)
+      ? 0
+      : ROUND_END_TIMING.ultimateExit;
     match.phaseMs = Math.max(floor, match.phaseMs - 10);
     const artStart = ROUND_END_TIMING.total - ROUND_END_TIMING.knockout;
     if (

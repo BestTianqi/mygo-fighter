@@ -1,6 +1,6 @@
 import type { Assets } from "../../../../assets/objects/Assets";
 import { teamSizeFor } from "../../../../game/battleRules";
-import { MOVES, ROSTER } from "../../../../game/engine";
+import { MOVES, ROSTER, ROUND_END_TIMING } from "../../../../game/engine";
 import { finishArtFor } from "../../functions/finishArtFor";
 import { ultimateFinishFor } from "../../functions/ultimateFinishFor";
 import type { GameView } from "../../objects/GameView";
@@ -28,8 +28,8 @@ export function FinishOverlay({
     ? ultimateFinishFor(assets, ultimate)
     : undefined;
   const showVideo = !!presentation?.video && backgroundVideoEnabled();
-  const waitingForVideo = showVideo && view.finishVideoMs === null;
-  const presentationMs = showVideo ? (view.finishVideoMs ?? 0) : undefined;
+  const waitingForVoice = !!presentation && view.finishVideoMs === null;
+  const presentationMs = presentation ? (view.finishVideoMs ?? 0) : undefined;
   const motion = finishMotion(
     view.phaseMs,
     finish.winner,
@@ -45,7 +45,7 @@ export function FinishOverlay({
         view.phaseMs,
         finish.winner,
         reducedMotion,
-        1000,
+        ROUND_END_TIMING.ultimateArt,
         presentationMs,
       )
     : motion;
@@ -63,7 +63,7 @@ export function FinishOverlay({
       data-finish-scene={!!presentation}
       className={`${className} pointer-events-none flex items-center overflow-hidden bg-void/85 transition-[opacity,clip-path] ease-linear motion-reduce:transition-none`}
       style={{
-        opacity: waitingForVideo ? 0 : motion.opacity,
+        opacity: waitingForVoice ? 0 : motion.opacity,
         clipPath: motion.clipPath,
         transitionDuration,
       }}
@@ -72,6 +72,7 @@ export function FinishOverlay({
         <FinishBackground
           key={`${finish.tick}:${presentation.video}`}
           src={presentation.video}
+          prepared={view.preparedSuperVideos?.get(presentation.video)}
           timeMs={view.finishVideoMs}
           paused={view.paused}
         />

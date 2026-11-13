@@ -2,7 +2,7 @@ import { ROUND_END_TIMING } from "../../../../../game/engine";
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const ENTER_MS = 240;
-const EXIT_MS = 300;
+const EXIT_MS = ROUND_END_TIMING.ultimateExit;
 
 /** Enter with the presentation clock when supplied; the shared clock owns the final exit. */
 export function finishMotion(

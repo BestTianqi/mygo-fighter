@@ -10,6 +10,8 @@ const ROUND_END_TIMING = Object.freeze({
   art: 1900,
   settle: 600,
   total: 3200,
+  ultimateArt: 1000,
+  ultimateExit: 300,
 });
 const WORLD = Object.freeze({
   left: -900,

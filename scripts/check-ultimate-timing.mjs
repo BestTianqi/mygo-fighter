@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { evaluate } from "./kernel.mjs";
-const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
-  "Match",
-  "MOVES",
-]);
+const { Match, MOVES, ROUND_END_TIMING } = await evaluate(
+  "frontend/src/game/engine.ts",
+  ["Match", "MOVES", "ROUND_END_TIMING"],
+);
 const { superStageTransition, longSuperVideoOwner } = await evaluate(
   "frontend/src/pages/GamePage/functions/superStageTransition.ts",
   ["superStageTransition", "longSuperVideoOwner"],
@@ -87,6 +87,23 @@ assert.ok(
   soyo.drainEvents().some((event) => event.type === "soyoSuperRelease"),
 );
 assert.equal(soyo.superCasts[0].elapsedMs, 1580);
+
+const finish = duel([13, 0]);
+finish.fighters[1].hp = 1;
+finish.hit(0, "mewtype_13_virtual_super", 160, 100, { damage: 10 });
+finish.endRound();
+const finishTick = finish.roundEnd.tick;
+finish.advance(ROUND_END_TIMING.knockout + 1500);
+finish.completeFinish(0, finishTick);
+finish.advance(50);
+assert.equal(finish.phase, "roundOver", "the other listener is still playing");
+finish.completeFinish(1, finishTick);
+finish.advance(300);
+assert.equal(
+  finish.phase,
+  "ready",
+  "a short finish exits once both listeners complete",
+);
 
 const chant = duel([12, 0]);
 chant.advance(10, { super: true });

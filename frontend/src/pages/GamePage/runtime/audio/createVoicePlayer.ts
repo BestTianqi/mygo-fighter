@@ -4,8 +4,8 @@ interface VoiceSlot {
   offset: number;
   source: AudioBufferSourceNode | null;
   startedAt: number;
-  next: { name: string; done?: () => void } | null;
-  done?: () => void;
+  next: { name: string; done?: (played: boolean) => void } | null;
+  done?: (played: boolean) => void;
   timeline?: { elapsedMs: number; held: boolean };
 }
 interface VoiceBuffers {
@@ -53,16 +53,16 @@ export function createVoicePlayer(
     };
     source.start(0, slot.offset);
   }
-  function complete(side: number, slot: VoiceSlot) {
+  function complete(side: number, slot: VoiceSlot, played = true) {
     if (channels.get(side) !== slot) return;
     channels.delete(side);
-    slot.done?.();
+    slot.done?.(played);
     if (slot.next) play(slot.next.name, side, slot.next.done);
   }
   function play(
     move: string,
     side: number,
-    done?: () => void,
+    done?: (played: boolean) => void,
     timeline?: VoiceSlot["timeline"],
   ) {
     if (!enabled || paused) return false;
@@ -88,7 +88,7 @@ export function createVoicePlayer(
           slot.buffer = buffer;
           if (enabled && !paused) begin(side, slot);
         },
-        () => complete(side, slot),
+        () => complete(side, slot, false),
       );
     return true;
   }
@@ -123,7 +123,11 @@ export function createVoicePlayer(
       if (slot.buffer) begin(side, slot);
     },
     /** A finish line follows a complete super sentence without overlapping it. */
-    playAfterCurrent(move: string, side: number, done?: () => void) {
+    playAfterCurrent(
+      move: string,
+      side: number,
+      done?: (played: boolean) => void,
+    ) {
       if (!enabled || paused) return false;
       const current = channels.get(side);
       if (!current) return play(move, side, done);

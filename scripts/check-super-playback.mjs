@@ -118,6 +118,35 @@ assert.equal(
 finishSource.onended();
 assert.equal(finishDone, true);
 
+const failedFinish = new AudioDirector(assets);
+const missingAudio = createVoicePlayer(context, {
+  get: () => undefined,
+  load: async () => {
+    throw new Error("finish recording unavailable");
+  },
+});
+missingAudio.setEnabled(true);
+failedFinish.speeches = missingAudio;
+const roundEnd = {
+  tick: 12,
+  finisher: { character: 0, side: 0 },
+  fighters: [{}, {}],
+};
+assert.deepEqual(failedFinish.updateFinish(roundEnd, 0, false), {
+  complete: false,
+  videoMs: null,
+});
+await Promise.resolve();
+assert.deepEqual(
+  failedFinish.updateFinish(roundEnd, 30, false),
+  {
+    complete: false,
+    videoMs: 30,
+  },
+  "a missing recording still allows the timed art and video to play",
+);
+missingAudio.dispose();
+
 // The director keys playback by cast identity, not transient fighter form or events.
 const calls = [];
 const director = new AudioDirector(assets);
