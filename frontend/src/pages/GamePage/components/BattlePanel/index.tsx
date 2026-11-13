@@ -76,13 +76,15 @@ export function BattlePanel({
         view={view}
         immersive={immersive}
         onClearCutin={(side) => runtime?.clearCutin(side)}
+        hud={
+          <BattleHUD
+            view={view}
+            assets={assets}
+            mobile={mobile}
+            fullField={fullField}
+          />
+        }
       >
-        <BattleHUD
-          view={view}
-          assets={assets}
-          mobile={mobile}
-          fullField={fullField}
-        />
         {!immersive && (
           <>
             <FinishOverlay

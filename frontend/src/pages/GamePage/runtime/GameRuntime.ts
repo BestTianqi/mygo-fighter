@@ -23,8 +23,10 @@ import { InputController } from "./input/InputController";
 import { NetworkDiagnostics } from "./network/NetworkDiagnostics";
 import { PendingSimulationState } from "./network/PendingSimulationState";
 import { presentationFor } from "../functions/presentationFor";
+import { superStageTransition } from "../functions/superStageTransition";
 import { CanvasRenderer } from "./rendering/CanvasRenderer";
 import { backgroundVideoEnabled } from "./display/backgroundVideoEnabled";
+import { prepareSuperVideos } from "./display/prepareSuperVideos";
 
 /** Coordinates effects at the page boundary. Combat and React rendering stay independent. */
 export class GameRuntime {
@@ -44,6 +46,7 @@ export class GameRuntime {
   private authoritativeMatch: Match | null = null;
   private readonly presentationEvents = new PresentationEvents();
   private request = 0;
+  private loadingVideos: AbortController | null = null;
   private disposed = false;
   private dialogWasPaused = false;
   private finishVideoMs: number | null = null;
@@ -95,6 +98,8 @@ export class GameRuntime {
       onLobby: () => {
         this.pendingState.clear();
         this.request++;
+        this.loadingVideos?.abort();
+        this.renderer.cancelPrepare();
         this.match = null;
         this.audio.stop();
         this.input.clear();
@@ -105,6 +110,7 @@ export class GameRuntime {
           roundEnd: null,
           lobbyOpen: this.lan.connected,
           cutins: [null, null],
+          preparedSuperVideos: new Map(),
         });
       },
     });
@@ -225,6 +231,7 @@ export class GameRuntime {
   returnToMenu() {
     // Invalidate an unfinished preload before leaving its screen.
     this.request++;
+    this.loadingVideos?.abort();
     this.renderer.cancelPrepare();
     if (!this.lan.connected) {
       this.back();
@@ -257,10 +264,16 @@ export class GameRuntime {
         settings: { ...config.settings, sound: this.view.sound },
       };
     const request = ++this.request;
+    this.loadingVideos?.abort();
+    const loading = new AbortController();
+    this.loadingVideos = loading;
     this.pendingState.clear();
     this.diagnostics.reset();
     this.publish({
       screen: "loadingBattle",
+      loadingProgress: 0,
+      preparedSuperVideos: new Map(),
+      superCasts: [],
       config,
       error: "",
       lastMove: "",
@@ -278,7 +291,24 @@ export class GameRuntime {
     this.finishAck = null;
     this.finishAckRetry = 0;
     try {
-      await this.renderer.prepare(config);
+      let artProgress = 0;
+      let videoProgress = 0;
+      const progress = () => {
+        if (!this.disposed && request === this.request)
+          this.publish({
+            loadingProgress: Math.floor(60 * artProgress + 39 * videoProgress),
+          });
+      };
+      const [, preparedSuperVideos] = await Promise.all([
+        this.renderer.prepare(config, (fraction) => {
+          artProgress = fraction;
+          progress();
+        }),
+        prepareSuperVideos(this.assets, config, loading.signal, (fraction) => {
+          videoProgress = fraction;
+          progress();
+        }),
+      ]);
       // Selection or lobby changes can supersede an in-flight image preload.
       if (this.disposed || request !== this.request) return;
       this.match = new Match({
@@ -301,6 +331,8 @@ export class GameRuntime {
       this.audio.pause(false);
       this.publish({
         screen: "battle",
+        loadingProgress: 100,
+        preparedSuperVideos,
         lobbyOpen: network,
         sound: config.settings.sound,
       });
@@ -313,6 +345,9 @@ export class GameRuntime {
         error: error instanceof Error ? error.message : "无法开始对战",
       });
       if (network) throw error;
+    } finally {
+      loading.abort();
+      if (this.loadingVideos === loading) this.loadingVideos = null;
     }
   }
   async restart() {
@@ -562,16 +597,21 @@ export class GameRuntime {
           now,
           this.renderer.positions(this.match)[this.lan.side],
         );
-      this.renderer.draw(
-        this.match,
-        dt,
-        this.view.cutins.some((media) => !!media?.video),
-        this.lan.connected ? this.authoritativeMatch : null,
-      );
       if (now - this.lastPublish >= 1000 / 30) {
         this.lastPublish = now;
         this.publishMatch();
       }
+      const { showVideo } = superStageTransition(
+        this.view.superCasts,
+        this.view.cutins,
+        this.view.phase,
+      );
+      this.renderer.draw(
+        this.match,
+        dt,
+        showVideo,
+        this.lan.connected ? this.authoritativeMatch : null,
+      );
     }
     if (this.diagnostics.report(now))
       this.publish({ diagnostics: this.diagnostics.text });
@@ -581,6 +621,7 @@ export class GameRuntime {
     this.disposed = true;
     this.pendingState.clear();
     this.request++;
+    this.loadingVideos?.abort();
     cancelAnimationFrame(this.frameId);
     this.lan.dispose();
     this.input.dispose();

@@ -4,6 +4,10 @@ const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
   "Match",
   "MOVES",
 ]);
+const { superStageTransition } = await evaluate(
+  "frontend/src/pages/GamePage/functions/superStageTransition.ts",
+  ["superStageTransition"],
+);
 function duel(characters = [6, 0]) {
   const m = new Match({ mode: "duel", characters, rules: { maxHealth: 1000 } });
   m.start();
@@ -17,11 +21,29 @@ function duel(characters = [6, 0]) {
 }
 const m = duel();
 m.advance(10, { super: true });
+const fadeInMs = 320;
 assert.equal(
   m.superIntro?.durationMs,
-  4160,
-  "Sakiko waits for the actual spoken key phrase",
+  fadeInMs + 4160,
+  "Sakiko gets a blackout before her voice starts",
 );
+const layers = () =>
+  superStageTransition(m.superCasts, [{ video: "sakiko.mp4" }, null], m.phase);
+assert.equal(layers().showVideo, false);
+m.advance(70);
+assert.ok(layers().blackOpacity > 0 && layers().blackOpacity < 1);
+m.advance(70);
+assert.deepEqual(layers(), {
+  showVideo: true,
+  stageOpacity: 0,
+  blackOpacity: 1,
+});
+m.advance(fadeInMs - 140);
+assert.deepEqual(layers(), {
+  showVideo: true,
+  stageOpacity: 0,
+  blackOpacity: 0,
+});
 const frozen = structuredClone({
   fighters: m.fighters,
   remaining: m.remaining,
@@ -45,6 +67,9 @@ assert.equal(m.superIntro, null);
 assert.equal(m.fighters[1].hp, 1000);
 m.advance(10);
 assert.ok(m.fighters[0].binding, "control releases at the key phrase");
+assert.ok(
+  layers().showVideo && layers().stageOpacity > 0 && layers().stageOpacity < 1,
+);
 const impacts = [];
 for (let i = 0; i < 180; i++) {
   m.advance(10);
@@ -55,7 +80,7 @@ assert.deepEqual(impacts, [4760, 5160, 5560], "rain follows the spoken climax");
 
 const soyo = duel([1, 0]);
 soyo.advance(10, { super: true });
-soyo.advance(1440);
+soyo.advance(fadeInMs + 1440);
 assert.equal(soyo.fighters[0].soyoSuper?.released, false);
 soyo.advance(10);
 assert.ok(
@@ -64,9 +89,16 @@ assert.ok(
 assert.equal(soyo.superCasts[0].elapsedMs, 1450);
 
 const chant = duel([12, 0]);
+chant.advance(10, { super: true });
+assert.equal(chant.superIntro?.durationMs, fadeInMs);
+assert.equal(chant.superCasts[0].elapsedMs, -fadeInMs);
+const remainingBeforeChant = chant.remaining;
+chant.advance(fadeInMs - 10);
+assert.equal(chant.fighters[1].hp, 1000);
+assert.equal(chant.remaining, remainingBeforeChant);
 const beats = [];
 for (let i = 0; i < 900; i++) {
-  chant.advance(10, i === 0 ? { super: true } : {});
+  chant.advance(10);
   for (const e of chant.drainEvents())
     if (e.type === "hit" && e.side === 0)
       beats.push(chant.superCasts[0].elapsedMs);
@@ -85,7 +117,7 @@ assert.ok(
   second.elapsedMs < 0 && second.held,
   "shorter intro waits so simultaneous releases stay aligned",
 );
-simultaneous.advance(4160);
+simultaneous.advance(fadeInMs + 4160);
 assert.equal(first.elapsedMs, MOVES[first.attack].cinematic.leadInMs);
 assert.equal(second.elapsedMs, MOVES[second.attack].cinematic.leadInMs);
 const paused = duel();

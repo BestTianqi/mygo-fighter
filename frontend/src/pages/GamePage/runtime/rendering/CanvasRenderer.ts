@@ -274,7 +274,7 @@ export class CanvasRenderer {
     this.prepareId++;
   }
 
-  async prepare(config: MatchConfig) {
+  async prepare(config: MatchConfig, onProgress?: (fraction: number) => void) {
     if (this.disposed) return;
     const prepareId = ++this.prepareId;
     this.scene.reset(config.settings.arena);
@@ -293,11 +293,7 @@ export class CanvasRenderer {
       ]),
       ...ids.flatMap((id) => {
         const portrait = bandPortrait(this.assets, id)?.portrait;
-        const stagePortrait = this.assets.mujicaPortraits[id]?.stage?.portrait;
-        return [
-          portrait ?? this.assets.characters[id].portrait,
-          ...(stagePortrait ? [stagePortrait] : []),
-        ];
+        return [portrait ?? this.assets.characters[id].portrait];
       }),
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),
@@ -308,6 +304,7 @@ export class CanvasRenderer {
     for (let i = 0; i < pending.length; i += 2) {
       await Promise.all(pending.slice(i, i + 2).map((url) => this.load(url)));
       if (this.disposed || prepareId !== this.prepareId) return;
+      onProgress?.(Math.min(i + 2, pending.length) / pending.length);
     }
     // Decode and rasterize before the ready countdown starts.
     for (const art of atlases) {

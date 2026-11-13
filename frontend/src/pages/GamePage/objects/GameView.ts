@@ -41,6 +41,8 @@ export interface GameView {
   dialog: "help" | "moves" | null;
   cutins: (Presentation | null)[];
   superCasts: Match["superCasts"];
+  preparedSuperVideos: ReadonlyMap<string, HTMLVideoElement>;
+  loadingProgress: number;
 }
 export const initialView: GameView = {
   screen: "menu",
@@ -69,4 +71,6 @@ export const initialView: GameView = {
   dialog: null,
   cutins: [null, null],
   superCasts: [null, null],
+  preparedSuperVideos: new Map(),
+  loadingProgress: 0,
 };

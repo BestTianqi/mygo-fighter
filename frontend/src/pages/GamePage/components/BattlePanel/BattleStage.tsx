@@ -4,21 +4,26 @@ import { backgroundVideoEnabled } from "../../runtime/display/backgroundVideoEna
 
 import { UltimateBackgroundVideo } from "./UltimateBackgroundVideo";
 import { MOVES } from "../../../../game/combatData";
+import { superStageTransition } from "../../functions/superStageTransition";
 
 export function BattleStage({
   canvas,
   view,
   immersive,
   onClearCutin,
+  hud,
   children,
 }: {
   canvas: RefObject<HTMLCanvasElement | null>;
   view: GameView;
   immersive: boolean;
   onClearCutin: (side: number) => void;
+  hud: ReactNode;
   children: ReactNode;
 }) {
-  const videos = view.cutins.flatMap((media, side) =>
+  const cutins = backgroundVideoEnabled() ? view.cutins : [];
+  const transition = superStageTransition(view.superCasts, cutins, view.phase);
+  const videos = cutins.flatMap((media, side) =>
     media?.video ? [{ media, side, cast: view.superCasts[side] }] : [],
   );
   return (
@@ -36,15 +41,23 @@ export function BattleStage({
             : "relative overflow-hidden rounded-none bg-void shadow-2xl"
         }
       >
-        {videos.length > 0 && backgroundVideoEnabled() && (
+        {videos.length > 0 && (
           <div
             aria-hidden="true"
+            style={{ visibility: transition.showVideo ? "visible" : "hidden" }}
             className={`pointer-events-none absolute inset-0 grid divide-x divide-white/25 ${videos.length === 3 ? "grid-cols-3" : videos.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
           >
             {videos.map(({ media, side, cast }) => (
               <UltimateBackgroundVideo
                 key={`${view.round}:${side}:${cast?.id}:${media.video}`}
                 media={media}
+                prepared={
+                  // Simultaneous mirror casts need independent media elements.
+                  videos.find((entry) => entry.media.video === media.video)
+                    ?.side === side
+                    ? view.preparedSuperVideos.get(media.video!)
+                    : undefined
+                }
                 timeMs={
                   (cast?.elapsedMs ?? 0) +
                   (MOVES[cast?.attack ?? ""]?.cinematic?.videoOffsetMs ?? 0)
@@ -55,7 +68,10 @@ export function BattleStage({
                 onEnd={() => onClearCutin(side)}
               />
             ))}
-            <div className="absolute inset-0 bg-void/25" />
+            <div
+              className="absolute inset-0 bg-black"
+              style={{ opacity: 0.32 * transition.stageOpacity }}
+            />
           </div>
         )}
         <canvas
@@ -63,9 +79,23 @@ export function BattleStage({
           tabIndex={-1}
           aria-label="MyGO 格斗对战画面"
           className="relative block aspect-video w-full outline-none"
+          style={{ opacity: transition.stageOpacity }}
           width={960}
           height={540}
         />
+        <div
+          style={{ opacity: transition.stageOpacity }}
+          aria-hidden={transition.stageOpacity === 0}
+        >
+          {hud}
+        </div>
+        {transition.blackOpacity > 0 && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-10 bg-black"
+            style={{ opacity: transition.blackOpacity }}
+          />
+        )}
         {children}
       </div>
     </div>

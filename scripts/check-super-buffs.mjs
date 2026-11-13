@@ -4,15 +4,15 @@ const { Match, MOVES } = await evaluate("frontend/src/game/engine.ts", [
   "Match",
   "MOVES",
 ]);
-const { schemeFor } = await evaluate("frontend/src/game/controls.ts", [
-  "schemeFor",
-]);
 
 // Existing windows measure combat time after the authored cinematic opening.
 function advanceSuper(match, combatMs, opponentInput = {}) {
-  const move = MOVES[schemeFor(match.fighters[0]).super];
-  const leadInMs = move.cinematic?.leadInMs ?? 0;
-  match.advance(leadInMs + combatMs, { super: true }, opponentInput);
+  match.advance(10, { super: true }, opponentInput);
+  match.advance(
+    (match.superIntro?.durationMs ?? 0) + combatMs - 10,
+    {},
+    opponentInput,
+  );
 }
 const cases = [
   { id: 10, key: "mewtype_10_virtual_super", damage: 40, hits: 3 },

@@ -1,4 +1,5 @@
 import { MOVES } from "../combatData";
+import { SUPER_BLACKOUT_MS } from "../data/superTransition";
 import type { Match } from "../engine";
 
 /** Register after ownership/resource checks; failed commands never freeze the match. */
@@ -25,24 +26,18 @@ export function startSuperCast(
     elapsedMs: 0 - (timing.mediaDelayMs ?? 0),
     held: !!timing.mediaDelayMs,
   };
-  if (timing.leadInMs > 0) {
-    match.superIntro ??= { elapsedMs: 0, durationMs: 0, sides: [] };
-    match.superIntro.sides.push(side);
-    match.superIntro.durationMs = Math.max(
-      match.superIntro.durationMs,
-      timing.leadInMs,
-    );
-  }
+  match.superIntro ??= { elapsedMs: 0, durationMs: 0, sides: [] };
+  match.superIntro.sides.push(side);
+  match.superIntro.durationMs = Math.max(
+    match.superIntro.durationMs,
+    SUPER_BLACKOUT_MS + timing.leadInMs,
+  );
 }
 
 /** Same-tick casts share one frozen interval; their media starts are staggered. */
 export function alignSuperIntro(match: Match): void {
   const intro = match.superIntro;
   if (!intro) return;
-  // An instant super cast on the same tick waits too, rather than silently firing early.
-  for (const cast of match.superCasts)
-    if (cast?.id === match.simulationTick && !intro.sides.includes(cast.side))
-      intro.sides.push(cast.side);
   for (const cast of match.superCasts) {
     if (!cast) continue;
     if (intro.sides.includes(cast.side)) {

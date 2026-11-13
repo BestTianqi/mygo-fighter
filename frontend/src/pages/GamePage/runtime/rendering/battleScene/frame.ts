@@ -6,7 +6,6 @@ import {
   openingView,
 } from "../drawOpening";
 import { drawSakikoSuper } from "../drawSakikoSuper";
-import { drawSuperIntro, superIntroView } from "../drawSuperIntro";
 import { drawShield, drawSummons } from "./defense";
 import { drawMujicaEffects } from "./mujica";
 import type { BattleSceneContext } from "./objects";
@@ -60,7 +59,7 @@ export function drawBattle(
       scene.state.inkMs = Math.max(0, scene.state.inkMs - dt);
   }
   scene.ctx.save();
-  const view = superIntroView(scene, openingView(scene));
+  const view = openingView(scene);
   scene.ctx.translate(480, 270);
   scene.ctx.scale(view.zoom, view.zoom);
   scene.ctx.translate(-view.x, -view.y);
@@ -91,7 +90,6 @@ export function drawBattle(
   scene.ctx.restore();
   drawEntranceTitles(scene);
   drawOpeningCue(scene);
-  drawSuperIntro(scene);
   if (
     scene.match.roundEnd &&
     scene.match.phaseMs > ROUND_END_TIMING.total - 700

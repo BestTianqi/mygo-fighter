@@ -49,16 +49,21 @@ export function GamePage({ assets }: { assets: Assets }) {
       />
       {view.screen === "loadingBattle" && (
         <div className="flex min-h-dvh items-center justify-center px-5 text-center">
-          <div className="max-w-sm">
-            <span
-              aria-hidden="true"
-              className="mx-auto mb-6 block h-1 w-14 animate-pulse bg-silver motion-reduce:animate-none"
-            />
+          <div className="w-full max-w-sm">
             <h2 role="status" className="text-xl font-bold text-ivory">
               准备登台
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted">
-              正在加载角色与舞台…
+              正在加载角色、舞台和大招视频…
+            </p>
+            <progress
+              aria-label="对战加载进度"
+              className="mt-5 h-2 w-full appearance-none overflow-hidden bg-white/15 [&::-webkit-progress-bar]:bg-white/15 [&::-webkit-progress-value]:bg-silver [&::-moz-progress-bar]:bg-silver"
+              max={100}
+              value={view.loadingProgress}
+            />
+            <p className="mt-2 font-mono text-sm text-ivory">
+              {view.loadingProgress}%
             </p>
             <button
               onClick={() => runtime?.returnToMenu()}
@@ -77,7 +82,7 @@ export function GamePage({ assets }: { assets: Assets }) {
           {view.error}
         </p>
       )}
-      {runtime && view.lobbyOpen && (
+      {runtime && view.lobbyOpen && view.screen !== "loadingBattle" && (
         <LanLobby runtime={runtime} view={view} assets={assets} />
       )}
       {runtime && <GameDialogs runtime={runtime} view={view} />}
