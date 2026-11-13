@@ -48,7 +48,8 @@ export function updateSoyoSupers(match: Match): void {
       f.soyoSuper = null;
       continue;
     }
-    if (state.bornAt !== match.elapsed) state.ms -= 10;
+    // The cast's first contact step can resume after a cinematic intro.
+    if (state.released || f.attackMs > 0) state.ms -= 10;
     if (state.ms <= 0) {
       f.soyoSuper = null;
       continue;

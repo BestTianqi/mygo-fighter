@@ -1,5 +1,6 @@
 export interface Move {
   cinematic?: {
+    releaseCueMs: number;
     leadInMs: number;
     mediaDelayMs?: number;
     videoOffsetMs?: number;

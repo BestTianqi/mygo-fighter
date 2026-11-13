@@ -46,6 +46,7 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
       ? 0
       : (move.shots?.[0] ?? move.pulses?.[0]?.at ?? move.start);
     move.cinematic = {
+      releaseCueMs: cue,
       leadInMs: Math.max(0, cue - release),
       mediaDelayMs: Math.max(0, release - cue),
       ...(key === "mujica_8_stage_super" ? { videoOffsetMs: 950 } : {}),

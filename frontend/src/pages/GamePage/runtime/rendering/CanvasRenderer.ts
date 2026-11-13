@@ -293,7 +293,11 @@ export class CanvasRenderer {
       ]),
       ...ids.flatMap((id) => {
         const portrait = bandPortrait(this.assets, id)?.portrait;
-        return [portrait ?? this.assets.characters[id].portrait];
+        const stagePortrait = this.assets.mujicaPortraits[id]?.stage?.portrait;
+        return [
+          portrait ?? this.assets.characters[id].portrait,
+          ...(stagePortrait ? [stagePortrait] : []),
+        ];
       }),
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),

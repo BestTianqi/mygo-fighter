@@ -52,6 +52,17 @@ for (let i = 0; i < 180; i++) {
     if (e.type === "memePulse") impacts.push(m.superCasts[0].elapsedMs);
 }
 assert.deepEqual(impacts, [4760, 5160, 5560], "rain follows the spoken climax");
+
+const soyo = duel([1, 0]);
+soyo.advance(10, { super: true });
+soyo.advance(1440);
+assert.equal(soyo.fighters[0].soyoSuper?.released, false);
+soyo.advance(10);
+assert.ok(
+  soyo.drainEvents().some((event) => event.type === "soyoSuperRelease"),
+);
+assert.equal(soyo.superCasts[0].elapsedMs, 1450);
+
 const chant = duel([12, 0]);
 const beats = [];
 for (let i = 0; i < 900; i++) {
