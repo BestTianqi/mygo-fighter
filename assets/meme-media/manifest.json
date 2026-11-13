@@ -500,69 +500,54 @@
         },
         "penguinSuper": {
           "voice": "meme_2_penguin_p",
-          "label": "春日影·企鹅演唱",
+          "label": "咕咕嘎嘎·南极合唱",
           "slot": "p",
-          "audio": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp3",
-          "duration": 4.087417,
+          "audio": "assets/characters/mygo/tomori/voices/penguin-call.mp3",
+          "duration": 2.45,
           "source": {
-            "url": "https://www.youtube.com/watch?v=bBDJE8prgAE",
-            "uploader": null,
-            "bvid": null,
-            "cid": null,
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
             "page": 1,
-            "title": "BanG Dream! It's MyGO!!!!! Episode 7",
-            "start": 1029.035,
-            "end": 1033.122417,
-            "proof": "第七集现场演出，羊宫妃那饰演的高松灯本人独唱，保留原伴奏。第一道音波对齐唱句起声。企鹅战斗形象和五道音波保持。",
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 14.4,
+            "end": 16.85,
+            "proof": "使用游戏已有的凑企鹅「咕咕嘎嘎」片段。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 1029.035,
-                "sourceEnd": 1033.122417,
+                "sourceStart": 14.4,
+                "sourceEnd": 16.85,
                 "outputStart": 0,
-                "outputEnd": 4.087417
+                "outputEnd": 2.45
               }
             ],
-            "speaker": "tomori",
-            "localSource": {
-              "series": "BanG Dream! It's MyGO!!!!!",
-              "episode": 7,
-              "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
-              "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
-              "cast": "https://anime.bang-dream.com/mygo/character/tomori/"
-            }
+            "speaker": "penguin"
           },
-          "video": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp4",
+          "video": "assets/meme-media/recordings/penguin-p.mp4",
           "videoSource": {
-            "url": "https://www.youtube.com/watch?v=bBDJE8prgAE",
-            "uploader": null,
-            "bvid": null,
-            "cid": null,
+            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+            "uploader": "byd小绫",
+            "bvid": "BV1mTXKB4EjG",
+            "cid": 37022205395,
             "page": 1,
-            "title": "BanG Dream! It's MyGO!!!!! Episode 7",
-            "start": 1029.035,
-            "end": 1033.122417,
-            "proof": "第七集现场演出，羊宫妃那饰演的高松灯本人独唱，保留原伴奏。第一道音波对齐唱句起声。企鹅战斗形象和五道音波保持。",
+            "title": "🐧盘点凑企鹅各项技能🐧",
+            "start": 4.25,
+            "end": 7.15,
+            "proof": "恢复旧版凑企鹅背景，搭配同一合集里的「咕咕嘎嘎」语音，按原速播放。第一道音波仍在 50 ms。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 1029.035,
-                "sourceEnd": 1033.122417,
+                "sourceStart": 4.25,
+                "sourceEnd": 7.15,
                 "outputStart": 0,
-                "outputEnd": 4.087417
+                "outputEnd": 2.9
               }
             ],
-            "speaker": "tomori",
-            "localSource": {
-              "series": "BanG Dream! It's MyGO!!!!!",
-              "episode": 7,
-              "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
-              "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
-              "cast": "https://anime.bang-dream.com/mygo/character/tomori/"
-            }
+            "speaker": "penguin"
           },
-          "videoRate": 1,
-          "transcript_ja": "心満たしては溢れ"
+          "videoRate": 1
         },
         "penguinKick": {
           "voice": "penguinKick",
@@ -2016,7 +2001,7 @@
           "label": "Saki酱！Saki酱！",
           "slot": "p",
           "audio": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp3",
-          "duration": 3.4,
+          "duration": 7.4,
           "source": {
             "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
             "uploader": "编新述旧",
@@ -2025,8 +2010,8 @@
             "page": 1,
             "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
             "start": 46.5,
-            "end": 49.9,
-            "proof": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
+            "end": 54.9,
+            "proof": "保留「想见小祥」铺垫，接同一场独白中初华趴下爬行、连喊「さきちゃん」的段落。第一击对齐趴下后的首声「さきちゃん」。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
@@ -2034,6 +2019,12 @@
                 "sourceEnd": 49.9,
                 "outputStart": 0,
                 "outputEnd": 3.4
+              },
+              {
+                "sourceStart": 50.9,
+                "sourceEnd": 54.9,
+                "outputStart": 3.4,
+                "outputEnd": 7.4
               }
             ],
             "speaker": "uika"
@@ -2048,8 +2039,8 @@
             "page": 1,
             "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
             "start": 46.5,
-            "end": 49.9,
-            "proof": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
+            "end": 54.9,
+            "proof": "保留「想见小祥」铺垫，接同一场独白中初华趴下爬行、连喊「さきちゃん」的段落。第一击对齐趴下后的首声「さきちゃん」。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
@@ -2057,11 +2048,17 @@
                 "sourceEnd": 49.9,
                 "outputStart": 0,
                 "outputEnd": 3.4
+              },
+              {
+                "sourceStart": 50.9,
+                "sourceEnd": 54.9,
+                "outputStart": 3.4,
+                "outputEnd": 7.4
               }
             ],
             "speaker": "uika"
           },
-          "transcript_ja": "さきちゃんに……会いたい。"
+          "transcript_ja": "さきちゃんに……会いたい。さきちゃん！ さきちゃん！"
         },
         "u": {
           "voice": "meme_7_u",

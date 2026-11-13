@@ -307,12 +307,17 @@ def build_catalog():
         source['speaker'] = row['speaker']
         if row.get('localSource'):
             source['localSource'] = row['localSource']
+        audio_source = source
+        if row.get('audioSource'):
+            audio_source = source_info(row['audioSource'], selected_catalog)
+            audio_source['segments'] = row['audioSource']['segments']
+            audio_source['speaker'] = row['speaker']
         for clip in entries:
             video = asset_path(row['video'], selected_catalog)
             clip.update(video=video, videoSource=source, videoRate=1,
                         voice=row['voice'], label=row.get('label', clip['label']),
                         audio=asset_path(row['audio'], selected_catalog),
-                        duration=row['duration'], source=source)
+                        duration=row['duration'], source=audio_source)
             for field in ('spokenJapanese', 'transcript_ja', 'subtitle_zh'):
                 clip.pop(field, None)
             if row.get('transcript_ja'):

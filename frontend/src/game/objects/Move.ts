@@ -3,6 +3,7 @@ export interface Move {
     releaseCueMs: number;
     leadInMs: number;
     mediaDelayMs?: number;
+    arenaVideo?: boolean;
   };
   projectileRadiusY?: number;
   backSkill?: "quick" | "heavy" | "lob";

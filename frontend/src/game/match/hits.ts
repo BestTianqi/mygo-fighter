@@ -236,6 +236,8 @@ export function hit(
   // Super armor absorbs the reaction, not damage. Lethal hits still interrupt.
   const armored = superArmor && b.hp > 0;
   if (!armored) {
+    if (!blocked && move.hardStun)
+      b.hardStun = Math.max(b.hardStun, move.hardStun);
     if (attack === "throw" && a.backThrow) {
       [a.x, b.x] = [b.x, a.x];
       a.facing *= -1;

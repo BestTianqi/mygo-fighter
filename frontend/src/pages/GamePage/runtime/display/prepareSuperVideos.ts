@@ -1,6 +1,7 @@
 import type { Assets } from "../../../../assets/objects/Assets";
-import { bandFor } from "../../../../game/combatData";
+import { bandFor, MOVES } from "../../../../game/combatData";
 import { schemeFor } from "../../../../game/controls";
+import { usesSuperBackground } from "../../../../game/data/superTransition";
 import type { FighterIdentity } from "../../../../game/objects/Fighter";
 import type { MatchConfig } from "../../../../game/objects/MatchOptions";
 import { presentationFor } from "../../functions/presentationFor";
@@ -18,12 +19,11 @@ function videoUrls(assets: Assets, config: MatchConfig) {
         forms.push({ character, stageForm: true });
     }
     for (const form of forms) {
-      const src = presentationFor(
-        assets,
-        form,
-        schemeFor(form).super ?? null,
-      )?.video;
-      if (src) urls.add(src);
+      const superMove = schemeFor(form).super;
+      if (superMove && usesSuperBackground(MOVES[superMove]?.cinematic)) {
+        const src = presentationFor(assets, form, superMove)?.video;
+        if (src) urls.add(src);
+      }
       const finish = ultimateFinishFor(assets, form)?.video;
       if (finish) urls.add(finish);
     }

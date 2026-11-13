@@ -6,6 +6,7 @@ import { FinishRoomMessage } from "../../../apis/rooms/FinishRoomMessage";
 import { RestartRoomMessage } from "../../../apis/rooms/RestartRoomMessage";
 import { RoomConnection } from "../../../apis/rooms/RoomConnection";
 import { Match, MOVES, ROSTER, ROUND_END_TIMING } from "../../../game/engine";
+import { usesSuperBackground } from "../../../game/data/superTransition";
 import type { Assets } from "../../../assets/objects/Assets";
 import type { CombatEvent } from "../../../game/objects/CombatEvent";
 import type {
@@ -195,7 +196,9 @@ export class GameRuntime {
       );
       cutins = cutins.map((entry, i) =>
         i === side
-          ? media?.video && backgroundVideoEnabled()
+          ? media?.video &&
+            usesSuperBackground(MOVES[cast.attack]?.cinematic) &&
+            backgroundVideoEnabled()
             ? media
             : null
           : entry,

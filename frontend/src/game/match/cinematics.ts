@@ -1,5 +1,5 @@
 import { MOVES } from "../combatData";
-import { SUPER_BLACKOUT_MS } from "../data/superTransition";
+import { hasSuperCutin, SUPER_BLACKOUT_MS } from "../data/superTransition";
 import type { Match } from "../engine";
 
 /** Register after ownership/resource checks; failed commands never freeze the match. */
@@ -31,7 +31,7 @@ export function startSuperCast(
   match.superIntro.sides.push(side);
   match.superIntro.durationMs = Math.max(
     match.superIntro.durationMs,
-    SUPER_BLACKOUT_MS + timing.leadInMs,
+    (hasSuperCutin(timing) ? SUPER_BLACKOUT_MS : 0) + timing.leadInMs,
   );
 }
 

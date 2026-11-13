@@ -14,7 +14,7 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
     for (const [character, cue] of [
       [5, 4630],
       [6, 4160],
-      [7, 2330],
+      [7, 4430],
       [8, 6000],
       [9, 5320],
     ])
@@ -49,6 +49,7 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
       releaseCueMs: cue,
       leadInMs: Math.max(0, cue - release),
       mediaDelayMs: Math.max(0, release - cue),
+      ...(key === "penguinSuper" ? { arenaVideo: true } : {}),
     };
   }
 }

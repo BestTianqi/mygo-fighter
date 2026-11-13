@@ -1,5 +1,9 @@
 import { MOVES } from "../../../game/combatData";
-import { SUPER_BLACKOUT_MS } from "../../../game/data/superTransition";
+import {
+  hasSuperCutin,
+  SUPER_BLACKOUT_MS,
+  usesSuperBackground,
+} from "../../../game/data/superTransition";
 import type { GameView } from "../objects/GameView";
 
 const DARK_AT_MS = 140;
@@ -17,10 +21,13 @@ export function longSuperVideoOwner(
   let lead = 0;
   for (const cast of casts) {
     if (!cast || !cutins[cast.side]?.video) continue;
-    const leadIn = MOVES[cast.attack]?.cinematic?.leadInMs ?? 0;
+    const timing = MOVES[cast.attack]?.cinematic;
+    if (!timing || !hasSuperCutin(timing)) continue;
+    const leadIn = timing.leadInMs;
     if (
-      leadIn > 0 &&
-      (!owner || cast.id > owner.id || (cast.id === owner.id && leadIn > lead))
+      !owner ||
+      cast.id > owner.id ||
+      (cast.id === owner.id && leadIn > lead)
     ) {
       owner = cast;
       lead = leadIn;
@@ -35,7 +42,13 @@ export function superStageTransition(
   cutins: GameView["cutins"],
   phase: GameView["phase"],
 ) {
-  const hasVideo = cutins.some((media) => !!media?.video);
+  const hasVideo = cutins.some((media, side) => {
+    const cast = casts[side];
+    return (
+      !!media?.video &&
+      (!cast || usesSuperBackground(MOVES[cast.attack]?.cinematic))
+    );
+  });
   const background = { showVideo: hasVideo, stageOpacity: 1, blackOpacity: 0 };
   if (!hasVideo || phase !== "fighting") return background;
 

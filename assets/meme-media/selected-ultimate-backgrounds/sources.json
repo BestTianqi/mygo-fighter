@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-13",
-  "processing": "All 22 ultimate forms. Each background and its isolated character recording use a shared 1x source timeline. Video has no embedded audio. Release cues are relative to the common start.",
+  "date": "2026-11-14",
+  "processing": "Reviewed original-speed media for all 22 ultimate forms. Most use a common source interval. Penguin uses its legacy visual and the requested call from another interval of the same source.",
   "clips": [
     {
       "bvid": "BV1K7QTYKESK",
@@ -54,27 +54,33 @@
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
       "start": 46.5,
-      "end": 49.9,
-      "duration": 3.4,
+      "end": 54.9,
+      "duration": 7.4,
       "segments": [
         {
           "sourceStart": 46.5,
           "sourceEnd": 49.9,
           "outputStart": 0,
           "outputEnd": 3.4
+        },
+        {
+          "sourceStart": 50.9,
+          "sourceEnd": 54.9,
+          "outputStart": 3.4,
+          "outputEnd": 7.4
         }
       ],
-      "evidence": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
+      "evidence": "保留「想见小祥」铺垫，接同一场独白中初华趴下爬行、连喊「さきちゃん」的段落。第一击对齐趴下后的首声「さきちゃん」。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp4",
       "sha256": {
-        "video": "fcd48ca60fad632efa8eee6fa67f62635e9646435e79d8f265a440c9b882f75f",
-        "audio": "3d6cc03eb6d4684b79fef76781d87774fcffdd65d6dd0b1d31948264b9eff59a"
+        "video": "6e5bbd6e9c06dd80bfc69215900e20dd50c24737f74c7950fedb10f8dcc66e83",
+        "audio": "ad7be776bead01c970190d62bb224ce0b0568883941ed888291307fd7e5667ac"
       },
-      "releaseCueMs": 2330,
+      "releaseCueMs": 4430,
       "speaker": "uika",
       "audio": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp3",
       "voice": "uikaSelectedSuper",
-      "transcript_ja": "さきちゃんに……会いたい。"
+      "transcript_ja": "さきちゃんに……会いたい。さきちゃん！ さきちゃん！"
     },
     {
       "bvid": "BV1p49gYCEdV",
@@ -618,41 +624,56 @@
     {
       "character": "tomori",
       "characterId": 2,
-      "speaker": "tomori",
+      "speaker": "penguin",
       "variantOnly": true,
       "moves": [
         "penguinSuper"
       ],
       "voice": "meme_2_penguin_p",
       "releaseCueMs": 50,
-      "sourceURL": "https://www.youtube.com/watch?v=bBDJE8prgAE",
-      "start": 1029.035,
-      "end": 1033.122417,
-      "title": "BanG Dream! It's MyGO!!!!! Episode 7",
-      "label": "春日影·企鹅演唱",
-      "transcript_ja": "心満たしては溢れ",
-      "evidence": "第七集现场演出，羊宫妃那饰演的高松灯本人独唱，保留原伴奏。第一道音波对齐唱句起声。企鹅战斗形象和五道音波保持。",
-      "localSource": {
-        "series": "BanG Dream! It's MyGO!!!!!",
-        "episode": 7,
-        "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
-        "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
-        "cast": "https://anime.bang-dream.com/mygo/character/tomori/"
-      },
-      "audio": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp3",
-      "video": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp4",
-      "duration": 4.087417,
+      "bvid": "BV1mTXKB4EjG",
+      "cid": 37022205395,
+      "page": 1,
+      "title": "🐧盘点凑企鹅各项技能🐧",
+      "uploader": "byd小绫",
+      "sourceURL": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+      "start": 4.25,
+      "end": 7.15,
       "segments": [
         {
-          "sourceStart": 1029.035,
-          "sourceEnd": 1033.122417,
+          "sourceStart": 4.25,
+          "sourceEnd": 7.15,
           "outputStart": 0,
-          "outputEnd": 4.087417
+          "outputEnd": 2.9
         }
       ],
+      "duration": 2.45,
+      "label": "咕咕嘎嘎·南极合唱",
+      "evidence": "恢复旧版凑企鹅背景，搭配同一合集里的「咕咕嘎嘎」语音，按原速播放。第一道音波仍在 50 ms。",
+      "audioSource": {
+        "bvid": "BV1mTXKB4EjG",
+        "cid": 37022205395,
+        "page": 1,
+        "title": "🐧盘点凑企鹅各项技能🐧",
+        "uploader": "byd小绫",
+        "sourceURL": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
+        "start": 14.4,
+        "end": 16.85,
+        "segments": [
+          {
+            "sourceStart": 14.4,
+            "sourceEnd": 16.85,
+            "outputStart": 0,
+            "outputEnd": 2.45
+          }
+        ],
+        "evidence": "使用游戏已有的凑企鹅「咕咕嘎嘎」片段。"
+      },
+      "audio": "assets/characters/mygo/tomori/voices/penguin-call.mp3",
+      "video": "assets/meme-media/recordings/penguin-p.mp4",
       "sha256": {
-        "video": "0afbb72c90cc10d3b41b41bfb70057ba1a6ff4492a9b89b159b43bc97f3f9f60",
-        "audio": "b9c825f8fac7d49a2e1b5303e14bdf0883d8a5d08d96f5480a8795ce4a1dc48c"
+        "audio": "cbd0c87617c061d555141802fb237f109a1804a182d5f62327b2aff18a33367a",
+        "video": "a44f541e6c14dbf98444decd0e08f16e97077b5d35b27508c07d0a7eadda22d9"
       }
     }
   ]

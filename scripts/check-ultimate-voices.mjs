@@ -70,15 +70,26 @@ for (const fighter of forms) {
   const synchronized = synchronizedMoves.get(move);
   assert.ok(synchronized, `${move}: missing synchronized source audit`);
   await sameRecording(entry.video, synchronized.video);
-  assert.equal(synchronized.speaker, profile.key, `${move}: selected speaker`);
+  if (move === "penguinSuper") {
+    assert.equal(synchronized.speaker, "penguin");
+    assert.equal(synchronized.audioSource.bvid, "BV1mTXKB4EjG");
+    assert.deepEqual(source.source.segments, synchronized.audioSource.segments);
+    assert.deepEqual(source.videoSource.segments, synchronized.segments);
+  } else {
+    assert.equal(
+      synchronized.speaker,
+      profile.key,
+      `${move}: selected speaker`,
+    );
+    assert.equal(source.source.url, source.videoSource.url);
+    assert.equal(source.source.bvid, source.videoSource.bvid);
+    assert.equal(source.source.start, source.videoSource.start);
+    assert.equal(source.source.end, source.videoSource.end);
+    assert.deepEqual(source.source.segments, source.videoSource.segments);
+  }
   assert.equal(entry.voice, synchronized.voice);
   assert.equal(source.audio, synchronized.audio);
-  assert.equal(source.source.url, source.videoSource.url);
-  assert.equal(source.source.bvid, source.videoSource.bvid);
-  assert.equal(source.source.start, source.videoSource.start);
-  assert.equal(source.source.end, source.videoSource.end);
-  assert.deepEqual(source.source.segments, source.videoSource.segments);
-  assert.equal(source.source.speaker, profile.key);
+  assert.equal(source.source.speaker, synchronized.speaker);
   assert.equal(entry.videoRate ?? 1, 1, `${move}: original playback rate`);
   const timing = MOVES[move].cinematic;
   assert.equal(timing.releaseCueMs, synchronized.releaseCueMs);

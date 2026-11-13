@@ -116,8 +116,63 @@ assert.deepEqual(
     [{ video: "chant.mp4" }, null],
     chant.phase,
   ),
+  { showVideo: false, stageOpacity: 1, blackOpacity: 0 },
+  "an immediate super keeps the normal arena",
+);
+
+const tomori = duel([2, 0]);
+tomori.fighters[1].x = 300;
+tomori.advance(10, { super: true });
+tomori.advance(tomori.superIntro?.durationMs ?? 0);
+const waveLaunches = [];
+let control = 0;
+for (let i = 0; i < 100; i++) {
+  tomori.advance(10);
+  const events = tomori.drainEvents();
+  waveLaunches.push(...events.filter((event) => event.type === "voicePulse"));
+  if (events.some((event) => event.type === "hit" && event.side === 0))
+    control = tomori.fighters[1].hardStun;
+}
+assert.equal(waveLaunches.length, 1, "normal Tomori fires one wave");
+assert.equal(tomori.fighters[1].hp, 980, "the wave deals 20 damage");
+assert.equal(control, 2000, "the wave inflicts two seconds of hard stun");
+
+const guarded = duel([2, 0]);
+guarded.fighters[1].x = 300;
+guarded.advance(10, { super: true }, { guard: true });
+guarded.advance(guarded.superIntro?.durationMs ?? 0, {}, { guard: true });
+guarded.advance(800, {}, { guard: true });
+assert.ok(guarded.fighters[1].hp > 980);
+assert.equal(guarded.fighters[1].hardStun, 0, "guard blocks the hard stun");
+
+const short = duel([4, 0]);
+short.advance(10, { super: true });
+assert.equal(
+  short.superIntro?.durationMs,
+  200,
+  "short cue has no blackout delay",
+);
+assert.deepEqual(
+  superStageTransition(
+    short.superCasts,
+    [{ video: "taki.mp4" }, null],
+    short.phase,
+  ),
+  { showVideo: false, stageOpacity: 1, blackOpacity: 0 },
+);
+
+const penguin = duel([2, 0]);
+penguin.fighters[0].penguin = { ms: 20000 };
+penguin.advance(10, { super: true });
+assert.equal(penguin.superIntro, null);
+assert.deepEqual(
+  superStageTransition(
+    penguin.superCasts,
+    [{ video: "penguin.mp4" }, null],
+    penguin.phase,
+  ),
   { showVideo: true, stageOpacity: 1, blackOpacity: 0 },
-  "a short super video starts behind the visible stage",
+  "Penguin plays its requested background behind the arena",
 );
 const beats = chant
   .drainEvents()
