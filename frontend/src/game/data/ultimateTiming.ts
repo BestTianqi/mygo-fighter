@@ -5,26 +5,26 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
   const cues: Record<string, number> = {
     super: 620,
     soyoSuper: 1450,
-    tomoriSuper: 6800,
+    tomoriSuper: 7080,
     ranaSuper: 2900,
     rikiSuper: 280,
     penguinSuper: 0,
   };
   for (const form of ["normal", "stage"])
     for (const [character, cue] of [
-      [5, 6280],
+      [5, 4630],
       [6, 4160],
-      [7, 960],
+      [7, 2330],
       [8, 6000],
-      [9, 5160],
+      [9, 5320],
     ])
       cues[`mujica_${character}_${form}_super`] =
         character === 8 && form === "stage" ? 0 : cue;
   for (const [character, cue] of [
-    [10, 5960],
-    [11, 3800],
+    [10, 620],
+    [11, 900],
     [12, 0],
-    [13, 4240],
+    [13, 2480],
     [14, 2940],
     [15, 600],
   ])

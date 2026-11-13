@@ -301,14 +301,18 @@ def build_catalog():
         profile = profiles[str(CHARACTERS.index(row['character']))]
         entries = [profile['slots']['p']]
         entries += [profile['variants'][move] for move in row['moves'] if move in profile['variants']]
+        source = source_info(row, selected_catalog)
+        source['segments'] = row['segments']
+        source['speaker'] = row['speaker']
         for clip in entries:
-            clip['video'] = asset_path(row['video'], selected_catalog)
-            clip['videoSource'] = source_info(row, selected_catalog)
-            clip['videoSource']['segments'] = row['segments']
-            if row.get('audio'):
-                clip.update(voice=row['voice'], label=row['label'],
-                            audio=asset_path(row['audio'], selected_catalog),
-                            duration=row['duration'], source=source_info(row, selected_catalog))
+            clip.update(video=asset_path(row['video'], selected_catalog), videoSource=source,
+                        voice=row['voice'], label=row.get('label', clip['label']),
+                        audio=asset_path(row['audio'], selected_catalog),
+                        duration=row['duration'], source=source)
+            for field in ('spokenJapanese', 'transcript_ja', 'subtitle_zh'):
+                clip.pop(field, None)
+            if row.get('transcript_ja'):
+                clip['transcript_ja'] = row['transcript_ja']
     catalog['sourceCatalogs'].append(selected_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')

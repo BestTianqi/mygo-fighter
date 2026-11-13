@@ -1,6 +1,6 @@
 {
   "date": "2026-11-13",
-  "processing": "User-selected scenes, original playback speed, muted 640×360 video. Existing ultimate voices are retained except for Taki’s selected 「は？」 line.",
+  "processing": "User-selected scenes, muted 640×360 video and same-source original character audio at 1x. Video and independent audio share the source timeline. Retained intervals exclude other character dialogue.",
   "clips": [
     {
       "bvid": "BV1K7QTYKESK",
@@ -16,22 +16,28 @@
         "mujica_5_stage_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1K7QTYKESK/",
-      "start": 15.65,
-      "end": 23.95,
-      "duration": 8.3,
+      "start": 17.22,
+      "end": 23.05,
+      "duration": 5.83,
       "segments": [
         {
-          "sourceStart": 15.65,
-          "sourceEnd": 23.95,
+          "sourceStart": 17.22,
+          "sourceEnd": 23.05,
           "outputStart": 0,
-          "outputEnd": 8.3
+          "outputEnd": 5.83
         }
       ],
-      "evidence": "信用场景。原大招语音在 6.28 秒进入释放段，对应海铃再次开口的近景。",
+      "evidence": "保留海铃请若麦信任自己的两句，裁掉开头其他镜头的对白及末尾若麦的回复。在海铃第二次说「信用」时放出追踪音波。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/umiri-super.mp4",
       "sha256": {
-        "video": "a0746ed5fb8c611f43dbf3e8ab4741aed8d9547f69ed3c9698ec9b19fe95d9ed"
-      }
+        "video": "e7ee6ca62f9bfe2104ab04be5ab4078c00d31b5fb311594fa16ebadad22866d2",
+        "audio": "7d8908ca075547761edfb4708b9d1b06d018febfefb08c227510936789526a37"
+      },
+      "releaseCueMs": 4630,
+      "speaker": "umiri",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/umiri-super.mp3",
+      "voice": "umiriSelectedSuper",
+      "transcript_ja": "大丈夫です。私を信用してください。私のこと、信用してきてください。"
     },
     {
       "bvid": "BV1oLVXzFEUW",
@@ -47,28 +53,28 @@
         "mujica_7_stage_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
-      "start": 41.6,
+      "start": 46.5,
       "end": 49.9,
-      "duration": 5.95,
+      "duration": 3.4,
       "segments": [
-        {
-          "sourceStart": 41.6,
-          "sourceEnd": 44.15,
-          "outputStart": 0,
-          "outputEnd": 2.55
-        },
         {
           "sourceStart": 46.5,
           "sourceEnd": 49.9,
-          "outputStart": 2.55,
-          "outputEnd": 5.95
+          "outputStart": 0,
+          "outputEnd": 3.4
         }
       ],
-      "evidence": "取所选 41.60–49.90 秒内的两段，剪掉中间停顿，保留「不是」与「想见小祥」。沿用现有大招语音。",
+      "evidence": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp4",
       "sha256": {
-        "video": "daa9442e6b9978b3275c563092872d61ba16c3ce24fb914e0eeabdbe1c5627f9"
-      }
+        "video": "fcd48ca60fad632efa8eee6fa67f62635e9646435e79d8f265a440c9b882f75f",
+        "audio": "3d6cc03eb6d4684b79fef76781d87774fcffdd65d6dd0b1d31948264b9eff59a"
+      },
+      "releaseCueMs": 2330,
+      "speaker": "uika",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp3",
+      "voice": "uikaSelectedSuper",
+      "transcript_ja": "さきちゃんに……会いたい。"
     },
     {
       "bvid": "BV1p49gYCEdV",
@@ -85,22 +91,28 @@
         "mujica_9_stage_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1p49gYCEdV/",
-      "start": 10.55,
-      "end": 19.4,
-      "duration": 8.85,
+      "start": 10.24,
+      "end": 16.44,
+      "duration": 6.2,
       "segments": [
         {
-          "sourceStart": 10.55,
-          "sourceEnd": 19.4,
+          "sourceStart": 10.24,
+          "sourceEnd": 16.44,
           "outputStart": 0,
-          "outputEnd": 8.85
+          "outputEnd": 6.2
         }
       ],
-      "evidence": "截取舞台对话到摘下面具，摘面具转场约在大招释放附近。保留现有若麦原声。",
+      "evidence": "若麦说完两句后摘下面具，释放节点对齐面具离脸。截断在旁人叫「にゃむち？」之前。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/nyamu-super.mp4",
       "sha256": {
-        "video": "8acd0ad35ccd4b4d6016345708d7aac1d65e487ae3c787ba7e5d998d62a12578"
-      }
+        "video": "44f1d807c456334de53a29e57167a831bbd8c98ec925c0ddee62caf71b055993",
+        "audio": "4aec065db5993d79dca6ce862b5e0cb2881ae4e72bf946cdb47359e174b84d4b"
+      },
+      "releaseCueMs": 5320,
+      "speaker": "nyamu",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/nyamu-super.mp3",
+      "voice": "nyamuSelectedSuper",
+      "transcript_ja": "心から笑わないと。こんな風に。"
     },
     {
       "bvid": "BV1q1386VESe",
@@ -115,22 +127,28 @@
         "mewtype_10_virtual_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1q1386VESe/",
-      "start": 9.55,
-      "end": 17.2,
-      "duration": 7.65,
+      "start": 15.5,
+      "end": 17.58,
+      "duration": 2.08,
       "segments": [
         {
-          "sourceStart": 9.55,
-          "sourceEnd": 17.2,
+          "sourceStart": 15.5,
+          "sourceEnd": 17.58,
           "outputStart": 0,
-          "outputEnd": 7.65
+          "outputEnd": 2.08
         }
       ],
-      "evidence": "从与律的对话到阿拉蕾举手宣告，接原本的队名与控制波。",
+      "evidence": "阿拉蕾举手宣告的第一次完整喊声。去掉开头的律和后续循环，控制波对齐「力」。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp4",
       "sha256": {
-        "video": "4a20c7fef9ee3692307e079b8d203da77d3536634562f18efb0f98e77f037f44"
-      }
+        "video": "fac4bdc8288d3fc6156f6e81240af70c1e376fe752bf295ffe3835570fb85192",
+        "audio": "d54618e92d6c49a7aef44897af1385eca1cfdc53720ca0cddc31b375980e0889"
+      },
+      "releaseCueMs": 620,
+      "speaker": "arale",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp3",
+      "voice": "araleSelectedSuper",
+      "transcript_ja": "夢は力！"
     },
     {
       "bvid": "BV1Jip36oExk",
@@ -145,22 +163,28 @@
         "mewtype_11_virtual_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
-      "start": 27.0,
-      "end": 32.0,
-      "duration": 5.0,
+      "start": 1.85,
+      "end": 4.55,
+      "duration": 2.7,
       "segments": [
         {
-          "sourceStart": 27.0,
-          "sourceEnd": 32.0,
+          "sourceStart": 1.85,
+          "sourceEnd": 4.55,
           "outputStart": 0,
-          "outputEnd": 5.0
+          "outputEnd": 2.7
         }
       ],
-      "evidence": "P2 薇欧拉对律施压，采用律的正面近景。保留律本人语音，避免叠入薇欧拉的声音。",
+      "evidence": "同一候选 P2 开头律正面开口质问的一段。原来 27 秒处的画面由薇欧拉说话。第一段攻击对齐律起声。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp4",
       "sha256": {
-        "video": "1be321502952a39cc3c0312afaa053a7e8a65879759daf039fb9a4580f470424"
-      }
+        "video": "569fbd155caf9350f84a33c0b885a5d0d1f5f33be6e53770cc2514544c19ebd4",
+        "audio": "0058cdb0c825611d389626afd8fee6fd34a50c57913d78e55991d1a8ea900d9f"
+      },
+      "releaseCueMs": 900,
+      "speaker": "ritsu",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp3",
+      "voice": "ritsuSelectedSuper",
+      "transcript_ja": "何が目的ですか？"
     },
     {
       "bvid": "BV1oJGG6cEem",
@@ -175,22 +199,27 @@
         "mewtype_13_virtual_super"
       ],
       "sourceURL": "https://www.bilibili.com/video/BV1oJGG6cEem/",
-      "start": 149.8,
-      "end": 155.45,
-      "duration": 5.65,
+      "start": 29.35,
+      "end": 32.58,
+      "duration": 3.23,
       "segments": [
         {
-          "sourceStart": 149.8,
-          "sourceEnd": 155.45,
+          "sourceStart": 29.35,
+          "sourceEnd": 32.58,
           "outputStart": 0,
-          "outputEnd": 5.65
+          "outputEnd": 3.23
         }
       ],
-      "evidence": "第七集演出。按实际角色身份选黑粉发、红衣 DJ 由乃的近景，接手势和舞台强拍。",
+      "evidence": "同一场第七集 Live 的开场独唱说唱。副歌是多人演唱，改取由乃本人手持麦克风的完整开场句，保留现场伴奏，第一段攻击对齐 Showtime。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp4",
       "sha256": {
-        "video": "ffe74d5a8d0fca7d89a4ebab6ab4d894e9390ab7ab4bdc798e962fda3efbd6ef"
-      }
+        "video": "db82516c63c509f9434108e61cc0333e45d03a3b8f4c8813e3ab48a3df2e7fbe",
+        "audio": "413d5769ba8505a6259ff826cdd9030d0200938e7915f945fdcff65561a3ccc3"
+      },
+      "releaseCueMs": 2480,
+      "speaker": "yuno",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp3",
+      "voice": "yunoSelectedSuper"
     },
     {
       "bvid": "BV1E841127Ns",
@@ -216,11 +245,17 @@
           "outputEnd": 8.46
         }
       ],
-      "evidence": "常态灯唱前的独白到「我的歌是内心的呐喊」。沿用原语音及 6.80 秒释放节点。",
+      "evidence": "常态灯唱前独白原片，包含「心の叫び」的完整尾句。音波对齐「叫び」起声。",
       "video": "assets/meme-media/selected-ultimate-backgrounds/tomori-super.mp4",
       "sha256": {
-        "video": "2b0fa261b47d35446e7de05f7171a64d678aa2c41152f1024b8993cb0c1cd673"
-      }
+        "video": "2b0fa261b47d35446e7de05f7171a64d678aa2c41152f1024b8993cb0c1cd673",
+        "audio": "37e7eef49b8638eafa76f1428144287e59959f58ac663464969f16b1200a0693"
+      },
+      "releaseCueMs": 7080,
+      "speaker": "tomori",
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/tomori-super.mp3",
+      "voice": "tomoriSelectedSuper",
+      "transcript_ja": "私は必死にやるしかできない。だって、私の歌は心の叫びだから。"
     },
     {
       "bvid": "BV1gC4y1d74A",
@@ -255,7 +290,9 @@
       "audio": "assets/meme-media/selected-ultimate-backgrounds/taki-ha.mp3",
       "voice": "takiAnimeHa",
       "label": "哈？·四拍终奏",
-      "releaseCueMs": 280
+      "releaseCueMs": 280,
+      "speaker": "taki",
+      "transcript_ja": "は？"
     }
   ]
 }

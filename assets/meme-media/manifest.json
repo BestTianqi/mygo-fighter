@@ -284,89 +284,31 @@
       "key": "tomori",
       "slots": {
         "p": {
-          "voice": "meme_2_p",
+          "voice": "tomoriSelectedSuper",
           "label": "我的歌是内心的呐喊",
           "slot": "p",
-          "audio": "assets/meme-media/local-anime-supers/tomori-p.mp3",
-          "duration": 8.458,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/tomori-super.mp3",
+          "duration": 8.46,
           "source": {
-            "url": null,
-            "uploader": null,
-            "bvid": null,
-            "cid": null,
+            "url": "https://www.bilibili.com/video/BV1E841127Ns/",
+            "uploader": "小黄啊啊啊啊啊",
+            "bvid": "BV1E841127Ns",
+            "cid": 1214092655,
             "page": 1,
-            "title": null,
-            "start": 931.9583333333334,
-            "end": 940.4166666666666,
-            "proof": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
-            "catalog": "assets/meme-media/local-anime-supers/sources.json",
-            "localSource": {
-              "type": "local-anime",
-              "series": "BanG Dream! It's MyGO!!!!!",
-              "episode": 7,
-              "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
-              "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
-              "speaker": "tomori",
-              "speakerEvidence": {
-                "speaker": "高松灯",
-                "basis": [
-                  "Original embedded English mov_text subtitles directly extracted as ep07.srt.",
-                  "Visual inspection of successive frames: same purple-haired Tomori holding microphone, eyes wet, continuous synchronised open-mouth speech and closed mouth at 15:40.300.",
-                  "Local Japanese ASR corroborates heart-scream phrase; ASR is supplemental only, not speaker evidence.",
-                  "At 15:40.500 the source cuts to silent Sakiko reaction; final clip ends before that reaction.",
-                  "Last ASR syllable ends around source 15:39.980; final clip preserves another 0.437s and closes after mouth has shut.",
-                  "No dialogue from any other character is included.",
-                  "Both outputs fully decoded successfully; video silent."
-                ],
-                "no_speed_change": true,
-                "no_blur": true,
-                "aspect_ratio": "16:9",
-                "video": {
-                  "codec": "h264",
-                  "width": 640,
-                  "height": 360,
-                  "fps": "24/1",
-                  "frames": 203,
-                  "duration_seconds": 8.458333333333334,
-                  "audio_stream_count": 0
-                },
-                "audio": {
-                  "codec": "mp3float",
-                  "sample_rate": 44100,
-                  "channels": 1,
-                  "decoded_samples": 373012,
-                  "decoded_duration_seconds": 8.458321995464853,
-                  "container_duration_seconds": 8.458322
-                },
-                "encoded_audio_loudness": {
-                  "input_i": "-18.01",
-                  "input_tp": "-4.29",
-                  "input_lra": "3.80",
-                  "input_thresh": "-28.93",
-                  "output_i": "-17.20",
-                  "output_tp": "-2.39",
-                  "output_lra": "3.10",
-                  "output_thresh": "-28.37",
-                  "normalization_type": "dynamic",
-                  "target_offset": "-0.80"
-                },
-                "audio_normalization": "Two-pass mono loudnorm I=-18 TP=-2 LRA=11, then -1.08 dB correction before MP3 encoding; final MP3 measured -18.01 LUFS and -4.29 dBTP (ceiling <= -2 dBTP)."
-              },
-              "subtitles": [
-                {
-                  "start": 0.209,
-                  "end": 4.089,
-                  "text": "我只能拼尽全力去做！",
-                  "originalEnglish": "I can only do things by throwing all of myself into it!"
-                },
-                {
-                  "start": 4.089,
-                  "end": 8.458,
-                  "text": "因为我的歌是内心的呐喊！",
-                  "originalEnglish": "Because my songs are screams from my heart!"
-                }
-              ]
-            }
+            "title": "我的歌就是内心的呐喊！",
+            "start": 43.82,
+            "end": 52.28,
+            "proof": "常态灯唱前独白原片，包含「心の叫び」的完整尾句。音波对齐「叫び」起声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 43.82,
+                "sourceEnd": 52.28,
+                "outputStart": 0,
+                "outputEnd": 8.46
+              }
+            ],
+            "speaker": "tomori"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/tomori-super.mp4",
           "videoRate": 1,
@@ -379,7 +321,7 @@
             "title": "我的歌就是内心的呐喊！",
             "start": 43.82,
             "end": 52.28,
-            "proof": "常态灯唱前的独白到「我的歌是内心的呐喊」。沿用原语音及 6.80 秒释放节点。",
+            "proof": "常态灯唱前独白原片，包含「心の叫び」的完整尾句。音波对齐「叫び」起声。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
@@ -388,8 +330,10 @@
                 "outputStart": 0,
                 "outputEnd": 8.46
               }
-            ]
-          }
+            ],
+            "speaker": "tomori"
+          },
+          "transcript_ja": "私は必死にやるしかできない。だって、私の歌は心の叫びだから。"
         },
         "u": {
           "voice": "meme_2_u",
@@ -1056,11 +1000,18 @@
             "start": 0.56,
             "end": 1.46,
             "proof": "合集首段立希正脸。明显起声约在源片 0.84 秒，截取后 0.28 秒接第一段。",
-            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json"
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.56,
+                "sourceEnd": 1.46,
+                "outputStart": 0,
+                "outputEnd": 0.9
+              }
+            ],
+            "speaker": "taki"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/taki-super.mp4",
-          "spokenJapanese": "わかった。曲は私が書く。",
-          "subtitle_zh": "知道了。曲子由我来写。",
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1gC4y1d74A/",
             "uploader": "是小毛哟",
@@ -1079,8 +1030,10 @@
                 "outputStart": 0,
                 "outputEnd": 0.9
               }
-            ]
-          }
+            ],
+            "speaker": "taki"
+          },
+          "transcript_ja": "は？"
         }
       },
       "variants": {
@@ -1310,11 +1263,18 @@
             "start": 0.56,
             "end": 1.46,
             "proof": "合集首段立希正脸。明显起声约在源片 0.84 秒，截取后 0.28 秒接第一段。",
-            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json"
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.56,
+                "sourceEnd": 1.46,
+                "outputStart": 0,
+                "outputEnd": 0.9
+              }
+            ],
+            "speaker": "taki"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/taki-super.mp4",
-          "spokenJapanese": "わかった。曲は私が書く。",
-          "subtitle_zh": "知道了。曲子由我来写。",
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1gC4y1d74A/",
             "uploader": "是小毛哟",
@@ -1333,8 +1293,10 @@
                 "outputStart": 0,
                 "outputEnd": 0.9
               }
-            ]
-          }
+            ],
+            "speaker": "taki"
+          },
+          "transcript_ja": "は？"
         },
         "rikiRush": {
           "voice": "takiAnimeQuestion",
@@ -1508,66 +1470,31 @@
           "spokenJapanese": "私 食べても太らないので"
         },
         "p": {
-          "voice": "meme_5_p",
+          "voice": "umiriSelectedSuper",
           "label": "我想彼此信任！",
           "slot": "p",
-          "audio": "assets/meme-media/local-anime-supers/umiri-p.mp3",
-          "duration": 8.3,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/umiri-super.mp3",
+          "duration": 5.83,
           "source": {
-            "url": null,
-            "uploader": null,
-            "bvid": null,
-            "cid": null,
+            "url": "https://www.bilibili.com/video/BV1K7QTYKESK/",
+            "uploader": "大和イヴ",
+            "bvid": "BV1K7QTYKESK",
+            "cid": 28850716937,
             "page": 1,
-            "title": null,
-            "start": 1263.6,
-            "end": 1271.9,
-            "proof": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
-            "catalog": "assets/meme-media/local-anime-supers/sources.json",
-            "localSource": {
-              "type": "local-anime",
-              "series": "BanG Dream! Ave Mujica",
-              "episode": 9,
-              "fileName": "[SubsPlease] BanG Dream! Ave Mujica - 09 (1080p) [B38E9747].mkv",
-              "sha256": "f23f99a4318305fcd21277056a0e5135769b1d211e14d59c85b6ba0ae626ae86",
-              "speaker": "umiri",
-              "speakerEvidence": {
-                "method": "embedded English ASS + continuous mouth/gesture shot inspection + local Japanese ASR crosscheck",
-                "speaker": "Yahata Umiri throughout the selected dialogue",
-                "visual_evidence": "The dark-haired green-eyed woman in a black jacket over red is the moving/talking character in the wide shot; camera cuts directly to her moving mouth at 21:09.9–21:10.6, then she lowers her head.",
-                "asr_file": "asr-ja-verification.json",
-                "asr_note": "Local small-model ASR has a proper-name error (安倍矛盾 for Ave Mujica); corrected only the band name against the embedded subtitle. ASR last speech ends at clip-relative 7.34 s, leaving 0.96 s after the recognized complete ending.",
-                "previous_spoken_subtitle_end": "00:21:00.28",
-                "next_spoken_subtitle_start": "00:21:17.22",
-                "no_adjacent_speaker_in_clip": true
-              },
-              "subtitles": [
-                {
-                  "start": 0.22,
-                  "end": 2.12,
-                  "text": "这样也还不能信任我吗？",
-                  "originalEnglish": "Am I still not trustworthy?"
-                },
-                {
-                  "start": 2.41,
-                  "end": 4.24,
-                  "text": "我也是认真的！",
-                  "originalEnglish": "I mean it, too."
-                },
-                {
-                  "start": 4.24,
-                  "end": 6.14,
-                  "text": "我想让 Ave Mujica 重聚！",
-                  "originalEnglish": "I want to reunite Ave Mujica!"
-                },
-                {
-                  "start": 6.14,
-                  "end": 7.88,
-                  "text": "我想彼此信任！",
-                  "originalEnglish": "I want to believe in each other!"
-                }
-              ]
-            }
+            "title": "八幡海铃的「信用」合集",
+            "start": 17.22,
+            "end": 23.05,
+            "proof": "保留海铃请若麦信任自己的两句，裁掉开头其他镜头的对白及末尾若麦的回复。在海铃第二次说「信用」时放出追踪音波。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 17.22,
+                "sourceEnd": 23.05,
+                "outputStart": 0,
+                "outputEnd": 5.83
+              }
+            ],
+            "speaker": "umiri"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/umiri-super.mp4",
           "videoRate": 1,
@@ -1578,19 +1505,21 @@
             "cid": 28850716937,
             "page": 1,
             "title": "八幡海铃的「信用」合集",
-            "start": 15.65,
-            "end": 23.95,
-            "proof": "信用场景。原大招语音在 6.28 秒进入释放段，对应海铃再次开口的近景。",
+            "start": 17.22,
+            "end": 23.05,
+            "proof": "保留海铃请若麦信任自己的两句，裁掉开头其他镜头的对白及末尾若麦的回复。在海铃第二次说「信用」时放出追踪音波。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 15.65,
-                "sourceEnd": 23.95,
+                "sourceStart": 17.22,
+                "sourceEnd": 23.05,
                 "outputStart": 0,
-                "outputEnd": 8.3
+                "outputEnd": 5.83
               }
-            ]
-          }
+            ],
+            "speaker": "umiri"
+          },
+          "transcript_ja": "大丈夫です。私を信用してください。私のこと、信用してきてください。"
         },
         "h": {
           "voice": "meme_5_i",
@@ -1898,11 +1827,11 @@
       "key": "uika",
       "slots": {
         "p": {
-          "voice": "meme_7_p",
+          "voice": "uikaSelectedSuper",
           "label": "Saki酱！Saki酱！",
           "slot": "p",
-          "audio": "assets/meme-media/recordings/uika-p.mp3",
-          "duration": 4.7,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp3",
+          "duration": 3.4,
           "source": {
             "url": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
             "uploader": "编新述旧",
@@ -1910,10 +1839,19 @@
             "cid": 29880811985,
             "page": 1,
             "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
-            "start": 50.2,
-            "end": 54.9,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+            "start": 46.5,
+            "end": 49.9,
+            "proof": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 46.5,
+                "sourceEnd": 49.9,
+                "outputStart": 0,
+                "outputEnd": 3.4
+              }
+            ],
+            "speaker": "uika"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp4",
           "videoRate": 1,
@@ -1924,25 +1862,21 @@
             "cid": 29880811985,
             "page": 1,
             "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
-            "start": 41.6,
+            "start": 46.5,
             "end": 49.9,
-            "proof": "取所选 41.60–49.90 秒内的两段，剪掉中间停顿，保留「不是」与「想见小祥」。沿用现有大招语音。",
+            "proof": "只用同一场独白中初华单独说「想见小祥」的段落。原先「違う」和身旁角色的台词重叠。第一击对齐「会いたい」起声。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 41.6,
-                "sourceEnd": 44.15,
-                "outputStart": 0,
-                "outputEnd": 2.55
-              },
-              {
                 "sourceStart": 46.5,
                 "sourceEnd": 49.9,
-                "outputStart": 2.55,
-                "outputEnd": 5.95
+                "outputStart": 0,
+                "outputEnd": 3.4
               }
-            ]
-          }
+            ],
+            "speaker": "uika"
+          },
+          "transcript_ja": "さきちゃんに……会いたい。"
         },
         "u": {
           "voice": "meme_7_u",
@@ -2434,55 +2368,31 @@
       "key": "nyamu",
       "slots": {
         "p": {
-          "voice": "meme_9_p",
+          "voice": "nyamuSelectedSuper",
           "label": "没空陪大小姐过家家！",
           "slot": "p",
-          "audio": "assets/meme-media/local-anime-supers/nyamu-p.mp3",
-          "duration": 8.85,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/nyamu-super.mp3",
+          "duration": 6.2,
           "source": {
-            "url": null,
-            "uploader": null,
-            "bvid": null,
-            "cid": null,
+            "url": "https://www.bilibili.com/video/BV1p49gYCEdV/",
+            "uploader": "番剧资讯机",
+            "bvid": "BV1p49gYCEdV",
+            "cid": 28615052728,
             "page": 1,
-            "title": null,
-            "start": 1129.75,
-            "end": 1138.6,
-            "proof": "Original Japanese audio, consecutive embedded English subtitle turns and the speaking character mouth/gesture shots cross-checked. Chinese subtitles translated from those lines. All selected dialogue belongs to the named character; reaction shots do not identify a new speaker.",
-            "catalog": "assets/meme-media/local-anime-supers/sources.json",
-            "localSource": {
-              "type": "local-anime",
-              "series": "BanG Dream! Ave Mujica",
-              "episode": 4,
-              "fileName": "[SubsPlease] BanG Dream! Ave Mujica - 04 (1080p) [FCD1B2F8].mkv",
-              "sha256": "e9c88d1c171053f7f1aee1f3addf5b2f7b0ef234b5aceceeca34dd2ddaace5fa",
-              "speaker": "nyamu",
-              "speakerEvidence": {
-                "visual_context": "18:43.45–18:52.9 is the continuous Nyamu turn. Nyamu appears with moving mouth in profile through 18:52.7; 18:53.1 onward cuts to Sakiko listening with a closed mouth and tense eyes. No subtitle turn interrupts the three selected lines.",
-                "dialogue_continuity": "Three consecutive accusations are part of Nyamu’s departure announcement beginning 18:40.85 (I will quit), directed to Sakiko; first two long close-ups establish Nyamu mouth movements before a reaction shot of Sakiko.",
-                "verification_limit": "Evidence combines consecutive original subtitle lines, the continuous scene turn, and Nyamu mouth movements. No speaker-tagged subtitle exists. Original audio is preserved in the review preview for final aural confirmation."
-              },
-              "subtitles": [
-                {
-                  "start": 0.18,
-                  "end": 3.36,
-                  "text": "我真以为我们能一起登顶。",
-                  "originalEnglish": "I really thought we'd climb to the top together."
-                },
-                {
-                  "start": 3.37,
-                  "end": 4.95,
-                  "text": "还说什么「把人生交给我」！",
-                  "originalEnglish": "What \"Give me your life\"!"
-                },
-                {
-                  "start": 4.95,
-                  "end": 8.49,
-                  "text": "我可没空陪大小姐过家家！",
-                  "originalEnglish": "I don't have the time to play house with a rich girl!"
-                }
-              ]
-            }
+            "title": "颂乐人偶 第1话 高能片段1",
+            "start": 10.24,
+            "end": 16.44,
+            "proof": "若麦说完两句后摘下面具，释放节点对齐面具离脸。截断在旁人叫「にゃむち？」之前。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 10.24,
+                "sourceEnd": 16.44,
+                "outputStart": 0,
+                "outputEnd": 6.2
+              }
+            ],
+            "speaker": "nyamu"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/nyamu-super.mp4",
           "videoRate": 1,
@@ -2493,19 +2403,21 @@
             "cid": 28615052728,
             "page": 1,
             "title": "颂乐人偶 第1话 高能片段1",
-            "start": 10.55,
-            "end": 19.4,
-            "proof": "截取舞台对话到摘下面具，摘面具转场约在大招释放附近。保留现有若麦原声。",
+            "start": 10.24,
+            "end": 16.44,
+            "proof": "若麦说完两句后摘下面具，释放节点对齐面具离脸。截断在旁人叫「にゃむち？」之前。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 10.55,
-                "sourceEnd": 19.4,
+                "sourceStart": 10.24,
+                "sourceEnd": 16.44,
                 "outputStart": 0,
-                "outputEnd": 8.85
+                "outputEnd": 6.2
               }
-            ]
-          }
+            ],
+            "speaker": "nyamu"
+          },
+          "transcript_ja": "心から笑わないと。こんな風に。"
         },
         "u": {
           "voice": "meme_9_u",
@@ -2708,33 +2620,33 @@
       "key": "arale",
       "slots": {
         "p": {
-          "voice": "mewtypeSuper10",
+          "voice": "araleSelectedSuper",
           "label": "夢限大·无数次做梦",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/arale-super.mp3",
-          "duration": 7.65,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp3",
+          "duration": 2.08,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1313v6UExo/",
-            "uploader": "隐匿小之",
-            "bvid": "BV1313v6UExo",
-            "cid": 41831043001,
+            "url": "https://www.bilibili.com/video/BV1q1386VESe/",
+            "uploader": "不是惨白的鸟妈妈",
+            "bvid": "BV1q1386VESe",
+            "cid": 40453213964,
             "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」仲町阿拉蕾说话全收集（梦限大动画1～13集）",
-            "start": 3520.1,
-            "end": 3527.75,
-            "proof": "First shot shows the band name being changed from 無限大 to 夢限大 on the phone. The scene then cuts to Arale in twin-tails at center-left, with Ritsu listening silently, followed by Arale frontal close-up speaking the full declaration. Lip movement and burned Chinese subtitles agree with the prior verified official BV1vueJ6qE1L at 38.95–43.95s. This expanded native landscape cut includes the preceding naming line, and excludes Ritsu's earlier question 夢? and the following scene. No synthesized or speed-changed speech.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "title": "[MewType]阿拉蕾“梦想是力量”一分钟纯享版",
+            "start": 15.5,
+            "end": 17.58,
+            "proof": "阿拉蕾举手宣告的第一次完整喊声。去掉开头的律和后续循环，控制波对齐「力」。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 3520.1,
-                "sourceEnd": 3527.75,
+                "sourceStart": 15.5,
+                "sourceEnd": 17.58,
                 "outputStart": 0,
-                "outputEnd": 7.65
+                "outputEnd": 2.08
               }
-            ]
+            ],
+            "speaker": "arale"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp4",
-          "spokenJapanese": "無限の「無」を「夢」にして。ぼくたちは何度だって夢を見る！「夢限大みゅーたいぷ」なんだ！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1q1386VESe/",
@@ -2743,19 +2655,21 @@
             "cid": 40453213964,
             "page": 1,
             "title": "[MewType]阿拉蕾“梦想是力量”一分钟纯享版",
-            "start": 9.55,
-            "end": 17.2,
-            "proof": "从与律的对话到阿拉蕾举手宣告，接原本的队名与控制波。",
+            "start": 15.5,
+            "end": 17.58,
+            "proof": "阿拉蕾举手宣告的第一次完整喊声。去掉开头的律和后续循环，控制波对齐「力」。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 9.55,
-                "sourceEnd": 17.2,
+                "sourceStart": 15.5,
+                "sourceEnd": 17.58,
                 "outputStart": 0,
-                "outputEnd": 7.65
+                "outputEnd": 2.08
               }
-            ]
-          }
+            ],
+            "speaker": "arale"
+          },
+          "transcript_ja": "夢は力！"
         },
         "u": {
           "voice": "meme_10_u",
@@ -2922,33 +2836,33 @@
           "subtitle_zh": "我要用歌声与大家对话。"
         },
         "mewtype_10_virtual_super": {
-          "voice": "mewtypeSuper10",
+          "voice": "araleSelectedSuper",
           "label": "夢限大·无数次做梦",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/arale-super.mp3",
-          "duration": 7.65,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp3",
+          "duration": 2.08,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1313v6UExo/",
-            "uploader": "隐匿小之",
-            "bvid": "BV1313v6UExo",
-            "cid": 41831043001,
+            "url": "https://www.bilibili.com/video/BV1q1386VESe/",
+            "uploader": "不是惨白的鸟妈妈",
+            "bvid": "BV1q1386VESe",
+            "cid": 40453213964,
             "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」仲町阿拉蕾说话全收集（梦限大动画1～13集）",
-            "start": 3520.1,
-            "end": 3527.75,
-            "proof": "First shot shows the band name being changed from 無限大 to 夢限大 on the phone. The scene then cuts to Arale in twin-tails at center-left, with Ritsu listening silently, followed by Arale frontal close-up speaking the full declaration. Lip movement and burned Chinese subtitles agree with the prior verified official BV1vueJ6qE1L at 38.95–43.95s. This expanded native landscape cut includes the preceding naming line, and excludes Ritsu's earlier question 夢? and the following scene. No synthesized or speed-changed speech.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "title": "[MewType]阿拉蕾“梦想是力量”一分钟纯享版",
+            "start": 15.5,
+            "end": 17.58,
+            "proof": "阿拉蕾举手宣告的第一次完整喊声。去掉开头的律和后续循环，控制波对齐「力」。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 3520.1,
-                "sourceEnd": 3527.75,
+                "sourceStart": 15.5,
+                "sourceEnd": 17.58,
                 "outputStart": 0,
-                "outputEnd": 7.65
+                "outputEnd": 2.08
               }
-            ]
+            ],
+            "speaker": "arale"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp4",
-          "spokenJapanese": "無限の「無」を「夢」にして。ぼくたちは何度だって夢を見る！「夢限大みゅーたいぷ」なんだ！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1q1386VESe/",
@@ -2957,19 +2871,21 @@
             "cid": 40453213964,
             "page": 1,
             "title": "[MewType]阿拉蕾“梦想是力量”一分钟纯享版",
-            "start": 9.55,
-            "end": 17.2,
-            "proof": "从与律的对话到阿拉蕾举手宣告，接原本的队名与控制波。",
+            "start": 15.5,
+            "end": 17.58,
+            "proof": "阿拉蕾举手宣告的第一次完整喊声。去掉开头的律和后续循环，控制波对齐「力」。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 9.55,
-                "sourceEnd": 17.2,
+                "sourceStart": 15.5,
+                "sourceEnd": 17.58,
                 "outputStart": 0,
-                "outputEnd": 7.65
+                "outputEnd": 2.08
               }
-            ]
-          }
+            ],
+            "speaker": "arale"
+          },
+          "transcript_ja": "夢は力！"
         }
       }
     },
@@ -2978,33 +2894,33 @@
       "key": "ritsu",
       "slots": {
         "p": {
-          "voice": "mewtypeSuper11",
+          "voice": "ritsuSelectedSuper",
           "label": "绝不退让·愤怒宣言",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/ritsu-super.mp3",
-          "duration": 5.0,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp3",
+          "duration": 2.7,
           "source": {
-            "url": "https://www.bilibili.com/video/BV173tU6ME92/",
-            "uploader": "隐匿小之",
-            "bvid": "BV173tU6ME92",
-            "cid": 41831763213,
-            "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」峰月律说话全收集（梦限大动画1～13集）",
-            "start": 132.25,
-            "end": 137.25,
-            "proof": "School-uniform Ritsu is visible in frontal close-up under purple sunset reflections, raising her face with angry eyes and mouth movement throughout the entire line. Chinese burned subtitles independently read 我不会和小阿拉蕾再有任何关系. The ambiguous preceding interruption was excluded.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "url": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
+            "uploader": "青逸尤",
+            "bvid": "BV1Jip36oExk",
+            "cid": 42633138010,
+            "page": 2,
+            "title": "律的表情变化（bushi）",
+            "start": 1.85,
+            "end": 4.55,
+            "proof": "同一候选 P2 开头律正面开口质问的一段。原来 27 秒处的画面由薇欧拉说话。第一段攻击对齐律起声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 132.25,
-                "sourceEnd": 137.25,
+                "sourceStart": 1.85,
+                "sourceEnd": 4.55,
                 "outputStart": 0,
-                "outputEnd": 5.0
+                "outputEnd": 2.7
               }
-            ]
+            ],
+            "speaker": "ritsu"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp4",
-          "spokenJapanese": "あられちゃんとは二度と関わらないから！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
@@ -3013,19 +2929,21 @@
             "cid": 42633138010,
             "page": 2,
             "title": "律的表情变化（bushi）",
-            "start": 27.0,
-            "end": 32.0,
-            "proof": "P2 薇欧拉对律施压，采用律的正面近景。保留律本人语音，避免叠入薇欧拉的声音。",
+            "start": 1.85,
+            "end": 4.55,
+            "proof": "同一候选 P2 开头律正面开口质问的一段。原来 27 秒处的画面由薇欧拉说话。第一段攻击对齐律起声。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 27.0,
-                "sourceEnd": 32.0,
+                "sourceStart": 1.85,
+                "sourceEnd": 4.55,
                 "outputStart": 0,
-                "outputEnd": 5.0
+                "outputEnd": 2.7
               }
-            ]
-          }
+            ],
+            "speaker": "ritsu"
+          },
+          "transcript_ja": "何が目的ですか？"
         },
         "u": {
           "voice": "meme_11_u",
@@ -3177,33 +3095,33 @@
           "subtitle_zh": "七分熟！"
         },
         "mewtype_11_virtual_super": {
-          "voice": "mewtypeSuper11",
+          "voice": "ritsuSelectedSuper",
           "label": "绝不退让·愤怒宣言",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/ritsu-super.mp3",
-          "duration": 5.0,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp3",
+          "duration": 2.7,
           "source": {
-            "url": "https://www.bilibili.com/video/BV173tU6ME92/",
-            "uploader": "隐匿小之",
-            "bvid": "BV173tU6ME92",
-            "cid": 41831763213,
-            "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」峰月律说话全收集（梦限大动画1～13集）",
-            "start": 132.25,
-            "end": 137.25,
-            "proof": "School-uniform Ritsu is visible in frontal close-up under purple sunset reflections, raising her face with angry eyes and mouth movement throughout the entire line. Chinese burned subtitles independently read 我不会和小阿拉蕾再有任何关系. The ambiguous preceding interruption was excluded.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "url": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
+            "uploader": "青逸尤",
+            "bvid": "BV1Jip36oExk",
+            "cid": 42633138010,
+            "page": 2,
+            "title": "律的表情变化（bushi）",
+            "start": 1.85,
+            "end": 4.55,
+            "proof": "同一候选 P2 开头律正面开口质问的一段。原来 27 秒处的画面由薇欧拉说话。第一段攻击对齐律起声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 132.25,
-                "sourceEnd": 137.25,
+                "sourceStart": 1.85,
+                "sourceEnd": 4.55,
                 "outputStart": 0,
-                "outputEnd": 5.0
+                "outputEnd": 2.7
               }
-            ]
+            ],
+            "speaker": "ritsu"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp4",
-          "spokenJapanese": "あられちゃんとは二度と関わらないから！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
@@ -3212,19 +3130,21 @@
             "cid": 42633138010,
             "page": 2,
             "title": "律的表情变化（bushi）",
-            "start": 27.0,
-            "end": 32.0,
-            "proof": "P2 薇欧拉对律施压，采用律的正面近景。保留律本人语音，避免叠入薇欧拉的声音。",
+            "start": 1.85,
+            "end": 4.55,
+            "proof": "同一候选 P2 开头律正面开口质问的一段。原来 27 秒处的画面由薇欧拉说话。第一段攻击对齐律起声。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 27.0,
-                "sourceEnd": 32.0,
+                "sourceStart": 1.85,
+                "sourceEnd": 4.55,
                 "outputStart": 0,
-                "outputEnd": 5.0
+                "outputEnd": 2.7
               }
-            ]
-          }
+            ],
+            "speaker": "ritsu"
+          },
+          "transcript_ja": "何が目的ですか？"
         },
         "mewtype_11_virtual_wave": {
           "voice": "ritsuAnimeMedium",
@@ -3490,33 +3410,33 @@
       "key": "yuno",
       "slots": {
         "p": {
-          "voice": "mewtypeSuper13",
+          "voice": "yunoSelectedSuper",
           "label": "靠音乐活下去！",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/yuno-super.mp3",
-          "duration": 5.65,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp3",
+          "duration": 3.23,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1tNMW6iES1/",
-            "uploader": "隐匿小之",
-            "bvid": "BV1tNMW6iES1",
-            "cid": 41792439551,
+            "url": "https://www.bilibili.com/video/BV1oJGG6cEem/",
+            "uploader": "丰川要乐奈",
+            "bvid": "BV1oJGG6cEem",
+            "cid": 40507673253,
             "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」千石由乃说话全收集（梦限大动画1～13集）",
-            "start": 536.05,
-            "end": 541.7,
-            "proof": "Red-haired Yuno leans forward in close-up then the scene cuts to her holding bass on stage, smiling and opening her mouth on the resolved phrase 音楽で. Burned Chinese subtitle says 我要和这些家伙一起靠音乐生存下去. Stops before next sentence 来年も. No other speaker included.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "title": "梦限大第七集live纯享版",
+            "start": 29.35,
+            "end": 32.58,
+            "proof": "同一场第七集 Live 的开场独唱说唱。副歌是多人演唱，改取由乃本人手持麦克风的完整开场句，保留现场伴奏，第一段攻击对齐 Showtime。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 536.05,
-                "sourceEnd": 541.7,
+                "sourceStart": 29.35,
+                "sourceEnd": 32.58,
                 "outputStart": 0,
-                "outputEnd": 5.65
+                "outputEnd": 3.23
               }
-            ]
+            ],
+            "speaker": "yuno"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp4",
-          "spokenJapanese": "まあね。こいつらと生きていくんだ。音楽で！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1oJGG6cEem/",
@@ -3525,18 +3445,19 @@
             "cid": 40507673253,
             "page": 1,
             "title": "梦限大第七集live纯享版",
-            "start": 149.8,
-            "end": 155.45,
-            "proof": "第七集演出。按实际角色身份选黑粉发、红衣 DJ 由乃的近景，接手势和舞台强拍。",
+            "start": 29.35,
+            "end": 32.58,
+            "proof": "同一场第七集 Live 的开场独唱说唱。副歌是多人演唱，改取由乃本人手持麦克风的完整开场句，保留现场伴奏，第一段攻击对齐 Showtime。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 149.8,
-                "sourceEnd": 155.45,
+                "sourceStart": 29.35,
+                "sourceEnd": 32.58,
                 "outputStart": 0,
-                "outputEnd": 5.65
+                "outputEnd": 3.23
               }
-            ]
+            ],
+            "speaker": "yuno"
           }
         },
         "u": {
@@ -3731,33 +3652,33 @@
           "subtitle_zh": "我们是最棒的乐队吧。"
         },
         "mewtype_13_virtual_super": {
-          "voice": "mewtypeSuper13",
+          "voice": "yunoSelectedSuper",
           "label": "靠音乐活下去！",
           "slot": "p",
-          "audio": "assets/meme-media/mewtype-super-scenes/yuno-super.mp3",
-          "duration": 5.65,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp3",
+          "duration": 3.23,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1tNMW6iES1/",
-            "uploader": "隐匿小之",
-            "bvid": "BV1tNMW6iES1",
-            "cid": 41792439551,
+            "url": "https://www.bilibili.com/video/BV1oJGG6cEem/",
+            "uploader": "丰川要乐奈",
+            "bvid": "BV1oJGG6cEem",
+            "cid": 40507673253,
             "page": 1,
-            "title": "「BanG Dream! YUME∞MITA」千石由乃说话全收集（梦限大动画1～13集）",
-            "start": 536.05,
-            "end": 541.7,
-            "proof": "Red-haired Yuno leans forward in close-up then the scene cuts to her holding bass on stage, smiling and opening her mouth on the resolved phrase 音楽で. Burned Chinese subtitle says 我要和这些家伙一起靠音乐生存下去. Stops before next sentence 来年も. No other speaker included.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "title": "梦限大第七集live纯享版",
+            "start": 29.35,
+            "end": 32.58,
+            "proof": "同一场第七集 Live 的开场独唱说唱。副歌是多人演唱，改取由乃本人手持麦克风的完整开场句，保留现场伴奏，第一段攻击对齐 Showtime。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 536.05,
-                "sourceEnd": 541.7,
+                "sourceStart": 29.35,
+                "sourceEnd": 32.58,
                 "outputStart": 0,
-                "outputEnd": 5.65
+                "outputEnd": 3.23
               }
-            ]
+            ],
+            "speaker": "yuno"
           },
           "video": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp4",
-          "spokenJapanese": "まあね。こいつらと生きていくんだ。音楽で！",
           "videoRate": 1,
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1oJGG6cEem/",
@@ -3766,18 +3687,19 @@
             "cid": 40507673253,
             "page": 1,
             "title": "梦限大第七集live纯享版",
-            "start": 149.8,
-            "end": 155.45,
-            "proof": "第七集演出。按实际角色身份选黑粉发、红衣 DJ 由乃的近景，接手势和舞台强拍。",
+            "start": 29.35,
+            "end": 32.58,
+            "proof": "同一场第七集 Live 的开场独唱说唱。副歌是多人演唱，改取由乃本人手持麦克风的完整开场句，保留现场伴奏，第一段攻击对齐 Showtime。",
             "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
-                "sourceStart": 149.8,
-                "sourceEnd": 155.45,
+                "sourceStart": 29.35,
+                "sourceEnd": 32.58,
                 "outputStart": 0,
-                "outputEnd": 5.65
+                "outputEnd": 3.23
               }
-            ]
+            ],
+            "speaker": "yuno"
           }
         }
       }

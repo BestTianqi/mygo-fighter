@@ -1,6 +1,6 @@
 # Ultimate media cue audit
 
-Audited 2026-11-08 against original local assets. Production assets were not modified. All times below are milliseconds relative to decoded MP3 playback time zero. `releaseCueMs` means an absolute media-time release at the dramatic keyword/phrase, not the end of the entire clip. These are editorial sync cues; do not replace dialogue with synthesized audio or change playback speed.
+Initial cue audit on 2026-11-08. Updated on 2026-11-13 for the selected scenes and their original dialogue. Times are milliseconds from decoded MP3 playback time zero. `releaseCueMs` is the absolute media time of the phrase or action that cues the first release. Recordings play at their original speed.
 
 ## Method and precision
 
@@ -12,18 +12,18 @@ Decoded every ultimate MP3 with FFmpeg; ran cached faster-whisper small Japanese
 | ---------------- | ------------------------------------------- | -----------: | ------------------------------------------------------------------------------ |
 | anon             | super                                       |          620 | First strong voiced laugh                                                      |
 | soyo             | soyoSuper                                   |         1450 | Final shouted phrase                                                           |
-| tomori           | tomoriSuper                                 |         6800 | Heart / scream climax                                                          |
+| tomori           | tomoriSuper                                 |         7080 | 「叫び」 in the selected speech                                                |
 | rana             | ranaSuper                                   |         2900 | Bye-bye                                                                        |
 | taki             | rikiSuper                                   |          280 | First 「は？」                                                                 |
-| umiri            | mujica_5_normal_super, mujica_5_stage_super |         6280 | Want to trust each other                                                       |
+| umiri            | mujica_5_normal_super, mujica_5_stage_super |         4630 | Second 「信用」                                                                |
 | sakiko           | mujica_6_normal_super, mujica_6_stage_super |         4160 | Watashi ga: I will become a god                                                |
-| uika             | mujica_7_normal_super, mujica_7_stage_super |          960 | First Sakki-chan call                                                          |
+| uika             | mujica_7_normal_super, mujica_7_stage_super |         2330 | 「会いたい」                                                                  |
 | mutsumi          | mujica_8_normal_super                       |         6000 | Never, not even once                                                           |
-| nyamu            | mujica_9_normal_super, mujica_9_stage_super |         5160 | Final forceful sentence                                                        |
-| arale            | mewtype_10_virtual_super                    |         5960 | Band-name declaration                                                          |
-| ritsu            | mewtype_11_virtual_super                    |         3800 | Kakawaranai kara: forceful refusal                                             |
+| nyamu            | mujica_9_normal_super, mujica_9_stage_super |         5320 | Mask clears after her second line                                              |
+| arale            | mewtype_10_virtual_super                    |          620 | 「力」 and raised arms                                                         |
+| ritsu            | mewtype_11_virtual_super                    |          900 | Voiced onset of Ritsu's question in the P2 clip                                |
 | miyako           | mewtype_12_virtual_super                    |            0 | Nine mantra beats, already starts at media zero                                |
-| yuno             | mewtype_13_virtual_super                    |         4240 | Ongaku de: through music                                                       |
+| yuno             | mewtype_13_virtual_super                    |         2480 | Showtime in the opening solo rap                                              |
 | nonoka           | mewtype_14_virtual_super                    |         2940 | Tsutawatta kana: did my feelings reach you                                     |
 | viola            | mewtype_15_virtual_super                    |          600 | MewType question                                                               |
 | mortis           | mujica_8_stage_super                        |            0 | Scream already active at audio zero                                            |
@@ -72,6 +72,6 @@ Sakiko's control releases at media 4160 ms; three rain impacts follow at 4760, 5
 
 The stage and HUD fade to black, then the video fills the battle frame. At the end of the frozen opening, the stage and HUD fade back in over the same video while combat resumes. During match preparation the loading bar tracks character art, the stage and the first decoded frames of the selected roster’s ultimate videos, including reserves and enabled forms. The browser reuses those video elements in combat.
 
-Local and LAN playback use the same serialized cast identity and clock (protocol 29). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
+Local and LAN playback use the same serialized cast identity and clock (protocol 30). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
 
-The selected background replacements are recorded in [the source catalog](../assets/meme-media/selected-ultimate-backgrounds/sources.json). Seven use the established voice timing with new muted video edits. Taki uses the original 「は？」 from the new clip and releases its first strike at media time 280 ms.
+The eight selected scenes use independent recordings cut from the same source interval as their muted video. [The source catalog](../assets/meme-media/selected-ultimate-backgrounds/sources.json) records the speaker, source interval and release cue. Ritsu uses her earlier question in the same P2 because Viola speaks over the previous close-up. Yuno uses her opening solo from the same concert with the original instrumental backing. Taki retains the original 「は？」 and its 280 ms first-strike cue.

@@ -49,6 +49,7 @@ const { presentationFor } = await evaluate(
   "frontend/src/pages/GamePage/functions/presentationFor.ts",
   ["presentationFor"],
 );
+const { MOVES } = await evaluate("frontend/src/game/combatData.ts", ["MOVES"]);
 const forms = [
   ...Array.from({ length: finishes.length }, (_, character) => ({ character })),
   ...[5, 6, 7, 8, 9].map((character) => ({
@@ -96,7 +97,13 @@ for (const fighter of forms) {
   const selected = selectedMoves.get(move);
   if (selected) {
     await sameRecording(entry.video, selected.video);
-    if (selected.audio) assert.equal(source.audio, selected.audio);
+    assert.equal(selected.speaker, profile.key, `${move}: selected speaker`);
+    assert.equal(entry.voice, selected.voice);
+    assert.equal(source.audio, selected.audio);
+    assert.equal(source.source.bvid, source.videoSource.bvid);
+    assert.deepEqual(source.source.segments, source.videoSource.segments);
+    assert.equal(MOVES[move].cinematic.releaseCueMs, selected.releaseCueMs);
+    assert.ok(selected.releaseCueMs < selected.duration * 1000);
   }
   await sameRecording(
     assets.memeVoices[entry.voice] ??
