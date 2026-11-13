@@ -102,7 +102,7 @@ def build_catalog():
                     video='assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4', source=selected['url'],
                     author=selected['uploader'], start=selected['startSeconds'], end=selected['endSeconds'])
     soyo = normalize_clip(soyo_row, soyo_catalog, 1, 'p', 'soyoSuper')
-    soyo.update(duration=2.8, voiceRef='soyoSuper', videoRef='soyoSuperVideo')
+    soyo.update(voiceRef='soyoSuper', videoRef='soyoSuperVideo')
     soyo['source']['proof'] = 'Existing verified Haruhikage cut; legacy sidecar does not record cid.'
     profiles['1']['slots']['p'] = soyo
 
@@ -299,13 +299,17 @@ def build_catalog():
     selected_catalog = MEDIA / 'selected-ultimate-backgrounds/sources.json'
     for row in read_json(selected_catalog)['clips']:
         profile = profiles[str(CHARACTERS.index(row['character']))]
-        entries = [profile['slots']['p']]
-        entries += [profile['variants'][move] for move in row['moves'] if move in profile['variants']]
+        entries = [profile['variants'][move] for move in row['moves'] if move in profile['variants']]
+        if not row.get('variantOnly'):
+            entries.append(profile['slots']['p'])
         source = source_info(row, selected_catalog)
         source['segments'] = row['segments']
         source['speaker'] = row['speaker']
+        if row.get('localSource'):
+            source['localSource'] = row['localSource']
         for clip in entries:
-            clip.update(video=asset_path(row['video'], selected_catalog), videoSource=source,
+            video = asset_path(row['video'], selected_catalog)
+            clip.update(video=video, videoSource=source, videoRate=1,
                         voice=row['voice'], label=row.get('label', clip['label']),
                         audio=asset_path(row['audio'], selected_catalog),
                         duration=row['duration'], source=source)
@@ -425,8 +429,10 @@ def pack_meme_assets():
     transform_music = {'uikaImprisoned': data_url(music['audio'], 'audio/mpeg')}
     from build_mask_assets import pack_mask_assets
     mask_forms = pack_mask_assets()
+    soyo_super = catalog['characters']['1']['slots']['p']
     return dict(memeSkills=profiles, memeVoices=voices, memeCrawlForms=crawl_forms, summonVoices=summon_voices,
-                soyoVoices=soyo_voices, transformMusic=transform_music, mujicaMaskForms=mask_forms,
+                soyoVoices=soyo_voices, soyoSuperVideo=data_url(soyo_super['video'], 'video/mp4'),
+                transformMusic=transform_music, mujicaMaskForms=mask_forms,
                 uikaFinishArt=data_url('assets/meme-media/combat-tempo/uika-crawl-finish.webp', 'image/webp'))
 
 

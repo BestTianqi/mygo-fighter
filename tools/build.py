@@ -256,7 +256,6 @@ def build():
                              for clip in voice_manifest['clips']}
     soyo_folder = ROOT / 'assets/characters/mygo/soyo/haruhikage'
     assets.setdefault('soyoVoices', {'soyoSuper': 'data:audio/mpeg;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-voice.mp3').read_bytes()).decode()})
-    assets['soyoSuperVideo'] = 'data:video/mp4;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-cutin.mp4').read_bytes()).decode()
     assets['soyoFinishArt'] = 'data:image/webp;base64,' + base64.b64encode((soyo_folder / 'soyo-haruhikage-finish.webp').read_bytes()).decode()
     assets['jabActions'] = []
     for group in json.loads((ROOT / 'assets/characters/mygo/jab-actions.json').read_text(encoding='utf-8')):

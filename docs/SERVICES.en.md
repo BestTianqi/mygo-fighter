@@ -194,9 +194,9 @@ Edge failure mapping and limits:
   fallback is for a single-instance debugging layout, not the deployed
   topology.
 
-## Room codes, tokens and protocol 30
+## Room codes, tokens and protocol 31
 
-- The WebSocket handshake protocol is **30**. The server rejects any other
+- The WebSocket handshake protocol is **31**. The server rejects any other
   version with `客户端与主机版本不一致，请房主重启联机服务，双方刷新页面。`
 - A room token is `<six uppercase hex code>.<48 hex characters>`, for example
   `A1B2C3.` followed by 48 hex digits. The code identifies the owning instance;

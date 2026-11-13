@@ -20,11 +20,41 @@
             "title": "Mygo 圣爱音傻笑两分钟 自用",
             "start": 12,
             "end": 14.4,
-            "proof": "2023 anime-scene upload contains continuous Japanese Anon dialogue into her bath-scene laugh, before 2025 Taffy/doll meme uploads. This is actual character voice context, not a claimed original of the later Taffy soundtrack meme.",
-            "catalog": "assets/meme-media/revision-anon-tensora/sources-revision.json"
+            "proof": "动画洗澡场景中爱音本人连续对白接笑声；画面同步，第一击对齐明显笑声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 12,
+                "sourceEnd": 14.4,
+                "outputStart": 0,
+                "outputEnd": 2.4
+              }
+            ],
+            "speaker": "anon"
           },
           "video": "assets/meme-media/revision-anon-tensora/anon-original-laugh.mp4",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1eF411y7eK/",
+            "uploader": "ruiy1",
+            "bvid": "BV1eF411y7eK",
+            "cid": 1235487292,
+            "page": 1,
+            "title": "Mygo 圣爱音傻笑两分钟 自用",
+            "start": 12,
+            "end": 14.4,
+            "proof": "动画洗澡场景中爱音本人连续对白接笑声；画面同步，第一击对齐明显笑声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 12,
+                "sourceEnd": 14.4,
+                "outputStart": 0,
+                "outputEnd": 2.4
+              }
+            ],
+            "speaker": "anon"
+          }
         },
         "u": {
           "voice": "meme_0_u",
@@ -217,23 +247,54 @@
           "label": "为什么要演奏春日影",
           "slot": "p",
           "audio": "assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-voice.mp3",
-          "duration": 2.8,
+          "duration": 2.6,
           "source": {
             "url": "https://www.bilibili.com/video/BV1Va67YjEPr/",
             "uploader": "编新述旧",
             "bvid": "BV1Va67YjEPr",
-            "cid": null,
+            "cid": 27622966623,
             "page": 1,
             "title": null,
             "start": 58.8,
             "end": 61.4,
-            "proof": "Existing verified Haruhikage cut; legacy sidecar does not record cid.",
-            "catalog": "assets/characters/mygo/soyo/haruhikage/sources.json"
+            "proof": "素世本人喊出质问；同步原始嵌入声轨和独立录音，去掉视频的嵌入音轨。音波卡在重读与落手。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 58.8,
+                "sourceEnd": 61.4,
+                "outputStart": 0,
+                "outputEnd": 2.6
+              }
+            ],
+            "speaker": "soyo"
           },
-          "video": "assets/characters/mygo/soyo/haruhikage/soyo-haruhikage-cutin.mp4",
+          "video": "assets/meme-media/selected-ultimate-backgrounds/soyo-super.mp4",
           "voiceRef": "soyoSuper",
           "videoRef": "soyoSuperVideo",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1Va67YjEPr/",
+            "uploader": "编新述旧",
+            "bvid": "BV1Va67YjEPr",
+            "cid": 27622966623,
+            "page": 1,
+            "title": null,
+            "start": 58.8,
+            "end": 61.4,
+            "proof": "素世本人喊出质问；同步原始嵌入声轨和独立录音，去掉视频的嵌入音轨。音波卡在重读与落手。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 58.8,
+                "sourceEnd": 61.4,
+                "outputStart": 0,
+                "outputEnd": 2.6
+              }
+            ],
+            "speaker": "soyo"
+          },
+          "transcript_ja": "なんで春日影やったの！"
         }
       },
       "variants": {
@@ -439,36 +500,69 @@
         },
         "penguinSuper": {
           "voice": "meme_2_penguin_p",
-          "label": "凑企鹅·通透演唱",
+          "label": "春日影·企鹅演唱",
           "slot": "p",
-          "audio": "assets/meme-media/penguin-mortis/penguin-super-tongtou.mp3",
-          "duration": 5,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp3",
+          "duration": 4.087417,
           "source": {
-            "url": "https://www.bilibili.com/video/BV1SbHC6ZEAn/",
-            "uploader": "惊的一声蕾",
-            "bvid": "BV1SbHC6ZEAn",
-            "cid": 42539354176,
+            "url": "https://www.youtube.com/watch?v=bBDJE8prgAE",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
             "page": 1,
-            "title": "每天听一下 人都会变的很通透🐧",
-            "start": 0,
-            "end": 5,
-            "proof": "User explicitly selected this penguin singing meme, then selected the first five seconds. Decoded source frames show the penguin singing throughout 0–5s; original speed, volume normalization and short boundary fades only. Not claimed as official Tomori dialogue. The original penguin casting video and all finish scenes are preserved independently.",
-            "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
+            "title": "BanG Dream! It's MyGO!!!!! Episode 7",
+            "start": 1029.035,
+            "end": 1033.122417,
+            "proof": "第七集现场演出，羊宫妃那饰演的高松灯本人独唱，保留原伴奏。第一道音波对齐唱句起声。企鹅战斗形象和五道音波保持。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1029.035,
+                "sourceEnd": 1033.122417,
+                "outputStart": 0,
+                "outputEnd": 4.087417
+              }
+            ],
+            "speaker": "tomori",
+            "localSource": {
+              "series": "BanG Dream! It's MyGO!!!!!",
+              "episode": 7,
+              "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
+              "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
+              "cast": "https://anime.bang-dream.com/mygo/character/tomori/"
+            }
           },
-          "video": "assets/meme-media/recordings/penguin-p.mp4",
+          "video": "assets/meme-media/selected-ultimate-backgrounds/penguin-super.mp4",
           "videoSource": {
-            "url": "https://www.bilibili.com/video/BV1mTXKB4EjG/",
-            "uploader": "byd小绫",
-            "bvid": "BV1mTXKB4EjG",
-            "cid": 37022205395,
+            "url": "https://www.youtube.com/watch?v=bBDJE8prgAE",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
             "page": 1,
-            "title": "🐧盘点凑企鹅各项技能🐧",
-            "start": 4.25,
-            "end": 7.15,
-            "proof": null,
-            "catalog": "assets/meme-media/recordings/sources-penguin-p.json"
+            "title": "BanG Dream! It's MyGO!!!!! Episode 7",
+            "start": 1029.035,
+            "end": 1033.122417,
+            "proof": "第七集现场演出，羊宫妃那饰演的高松灯本人独唱，保留原伴奏。第一道音波对齐唱句起声。企鹅战斗形象和五道音波保持。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1029.035,
+                "sourceEnd": 1033.122417,
+                "outputStart": 0,
+                "outputEnd": 4.087417
+              }
+            ],
+            "speaker": "tomori",
+            "localSource": {
+              "series": "BanG Dream! It's MyGO!!!!!",
+              "episode": 7,
+              "fileName": "[Okay-Subs] BanG Dream! It's MyGO!!!!! - 07 (BD 1080p) [60E34844].mp4",
+              "sha256": "071019368d421a4ad198e603a53a9c7967562564bb18e82bb42c5b165e7285a1",
+              "cast": "https://anime.bang-dream.com/mygo/character/tomori/"
+            }
           },
-          "videoRate": 1
+          "videoRate": 1,
+          "transcript_ja": "心満たしては溢れ"
         },
         "penguinKick": {
           "voice": "penguinKick",
@@ -611,12 +705,42 @@
             "title": "【BanG Dream!】动画「BanG Dream! It's MyGO!!!!!」角色介绍CM合集",
             "start": 23.15,
             "end": 26.6,
-            "proof": "The original is the official 2023 Rana character CM, mirrored unchanged on Bilibili. The official anime character page identifies Hina Aoki (青木陽菜) as Rana. Checked the actual white-bob, heterochromatic-eyed anime character, the scene/lip movement where visible, and Japanese word timestamps. No synthetic voice or livestream commentary. The original CM cuts from Rana mouth close-up to Rana holding and eating a parfait. Both complete utterances and their natural pause are retained from the uninterrupted CM sequence.",
-            "catalog": "assets/meme-media/rana-story/sources.json"
+            "proof": "官方角色宣传片第三分 P，保留乐奈本人的提问和道别。第一击对齐第二声 bye。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 23.15,
+                "sourceEnd": 26.6,
+                "outputStart": 0,
+                "outputEnd": 3.45
+              }
+            ],
+            "speaker": "rana"
           },
           "video": "assets/meme-media/rana-story/rana-ending-cutin.mp4",
-          "spokenJapanese": "バンド、終わり？バイバイ。",
-          "subtitle_zh": "乐队结束了吗？拜拜。"
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1i14y1U7DP/?p=3",
+            "uploader": "花园多惠Official",
+            "bvid": "BV1i14y1U7DP",
+            "cid": 1173143631,
+            "page": 3,
+            "title": "【BanG Dream!】动画「BanG Dream! It's MyGO!!!!!」角色介绍CM合集",
+            "start": 23.15,
+            "end": 26.6,
+            "proof": "官方角色宣传片第三分 P，保留乐奈本人的提问和道别。第一击对齐第二声 bye。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 23.15,
+                "sourceEnd": 26.6,
+                "outputStart": 0,
+                "outputEnd": 3.45
+              }
+            ],
+            "speaker": "rana"
+          },
+          "videoRate": 1,
+          "transcript_ja": "バンド、終わり？バイバイ。"
         },
         "i": {
           "voice": "ranaAnimeParfait",
@@ -782,12 +906,42 @@
             "title": "【BanG Dream!】动画「BanG Dream! It's MyGO!!!!!」角色介绍CM合集",
             "start": 23.15,
             "end": 26.6,
-            "proof": "The original is the official 2023 Rana character CM, mirrored unchanged on Bilibili. The official anime character page identifies Hina Aoki (青木陽菜) as Rana. Checked the actual white-bob, heterochromatic-eyed anime character, the scene/lip movement where visible, and Japanese word timestamps. No synthetic voice or livestream commentary. The original CM cuts from Rana mouth close-up to Rana holding and eating a parfait. Both complete utterances and their natural pause are retained from the uninterrupted CM sequence.",
-            "catalog": "assets/meme-media/rana-story/sources.json"
+            "proof": "官方角色宣传片第三分 P，保留乐奈本人的提问和道别。第一击对齐第二声 bye。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 23.15,
+                "sourceEnd": 26.6,
+                "outputStart": 0,
+                "outputEnd": 3.45
+              }
+            ],
+            "speaker": "rana"
           },
           "video": "assets/meme-media/rana-story/rana-ending-cutin.mp4",
-          "spokenJapanese": "バンド、終わり？バイバイ。",
-          "subtitle_zh": "乐队结束了吗？拜拜。"
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1i14y1U7DP/?p=3",
+            "uploader": "花园多惠Official",
+            "bvid": "BV1i14y1U7DP",
+            "cid": 1173143631,
+            "page": 3,
+            "title": "【BanG Dream!】动画「BanG Dream! It's MyGO!!!!!」角色介绍CM合集",
+            "start": 23.15,
+            "end": 26.6,
+            "proof": "官方角色宣传片第三分 P，保留乐奈本人的提问和道别。第一击对齐第二声 bye。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 23.15,
+                "sourceEnd": 26.6,
+                "outputStart": 0,
+                "outputEnd": 3.45
+              }
+            ],
+            "speaker": "rana"
+          },
+          "videoRate": 1,
+          "transcript_ja": "バンド、終わり？バイバイ。"
         },
         "ranaSlide": {
           "voice": "ranaAnimeBye",
@@ -1033,6 +1187,7 @@
             ],
             "speaker": "taki"
           },
+          "videoRate": 1,
           "transcript_ja": "は？"
         }
       },
@@ -1296,6 +1451,7 @@
             ],
             "speaker": "taki"
           },
+          "videoRate": 1,
           "transcript_ja": "は？"
         },
         "rikiRush": {
@@ -1684,13 +1840,42 @@
             "title": "“神明根本不存在，所以我来成为神明！”",
             "start": 34.45,
             "end": 40.45,
-            "proof": "Rechecked the downloaded source against frame contact sheets and Japanese word-level transcription. Sakiko, blue-purple long hair, speaks in the tea-room close-up at 34.45–40.45 and 42.15–44.05; the later close-ups at 78.45–80.85 and 81.35–83.80 show her speaking. Her refusal at 75.05–77.15 is the reverse shot from Soyo toward Sakiko. The full super sentence finishes at about 40.26; the next speaker reaction starts after the 40.45 cut. The previous U excerpt accidentally included that other speaker reaction. All replacement audio and video retain original playback speed.",
-            "catalog": "assets/meme-media/sakiko-requiem/sources.json"
+            "proof": "保留祥子本人在茶室完整说完台词，控制波卡在「私が」，随后的天降音波照原节拍。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 34.45,
+                "sourceEnd": 40.45,
+                "outputStart": 0,
+                "outputEnd": 6.0
+              }
+            ],
+            "speaker": "sakiko"
           },
           "video": "assets/meme-media/sakiko-requiem/sakikoGodFull.mp4",
-          "spokenJapanese": "神様などいない。ですから、私が神になります。",
-          "subtitle_zh": "神明根本不存在，所以我来成为神明。",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV13KXeYpEcL/",
+            "uploader": "御坂ことみ",
+            "bvid": "BV13KXeYpEcL",
+            "cid": 28975630389,
+            "page": 1,
+            "title": "“神明根本不存在，所以我来成为神明！”",
+            "start": 34.45,
+            "end": 40.45,
+            "proof": "保留祥子本人在茶室完整说完台词，控制波卡在「私が」，随后的天降音波照原节拍。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 34.45,
+                "sourceEnd": 40.45,
+                "outputStart": 0,
+                "outputEnd": 6.0
+              }
+            ],
+            "speaker": "sakiko"
+          },
+          "transcript_ja": "神様などいない。ですから、私が神になります。"
         },
         "u": {
           "voice": "sakikoForMujica",
@@ -2072,11 +2257,41 @@
             "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
             "start": 7.1,
             "end": 15.2,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+            "proof": "常态睦本人独白。重导出 7.10–15.20 秒同一场景，消除旧视频约一帧的提前；第一击对齐「一度も」。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 7.1,
+                "sourceEnd": 15.2,
+                "outputStart": 0,
+                "outputEnd": 8.1
+              }
+            ],
+            "speaker": "mutsumi"
           },
-          "video": "assets/meme-media/recordings/mutsumi-p.mp4",
-          "videoRate": 1
+          "video": "assets/meme-media/selected-ultimate-backgrounds/mutsumi-super.mp4",
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV15W4y1A71C/",
+            "uploader": "屑魔女XXX",
+            "bvid": "BV15W4y1A71C",
+            "cid": 1399394387,
+            "page": 1,
+            "title": "“我…从来没觉得玩乐队开心过。”“诶？”（若叶睦的说话之道）",
+            "start": 7.1,
+            "end": 15.2,
+            "proof": "常态睦本人独白。重导出 7.10–15.20 秒同一场景，消除旧视频约一帧的提前；第一击对齐「一度も」。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 7.1,
+                "sourceEnd": 15.2,
+                "outputStart": 0,
+                "outputEnd": 8.1
+              }
+            ],
+            "speaker": "mutsumi"
+          }
         },
         "u": {
           "voice": "meme_8_u",
@@ -2179,32 +2394,50 @@
           "voice": "meme_8_stage_p",
           "label": "Mortis·失控尖叫",
           "slot": "p",
-          "audio": "assets/meme-media/mortis-stage-voices/meme_8_stage_o.mp3",
-          "duration": 2.1,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/mortis-super.mp3",
+          "duration": 2.78,
           "source": {
             "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
-            "uploader": "mayWishuponASTar",
+            "uploader": null,
             "bvid": "BV1uPf5YCE73",
             "cid": 28039907968,
             "page": 1,
-            "title": "睦头人尖叫一小时纯享",
-            "start": 0.95,
+            "title": null,
+            "start": 0.27,
             "end": 3.05,
-            "proof": "核对动画中Mortis的演出服、台词字幕、口型；日语转写辅助定位。尖叫片段为第4集解散宣告后的失控尖叫，取原视频首次循环的不同部分。",
-            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+            "proof": "原片首轮墨提斯尖叫，同步裁切。50 ms 对齐第一处强起声；保持五道音波的短前摇。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.27,
+                "sourceEnd": 3.05,
+                "outputStart": 0,
+                "outputEnd": 2.78
+              }
+            ],
+            "speaker": "mutsumi"
           },
-          "video": "assets/meme-media/mortis-stage-voices/mortis-scream-super.mp4",
+          "video": "assets/meme-media/selected-ultimate-backgrounds/mortis-super.mp4",
           "videoSource": {
             "url": "https://www.bilibili.com/video/BV1uPf5YCE73/",
-            "uploader": "mayWishuponASTar",
+            "uploader": null,
             "bvid": "BV1uPf5YCE73",
             "cid": 28039907968,
             "page": 1,
-            "title": "睦头人尖叫一小时纯享",
-            "start": 0,
-            "end": 2.1,
-            "proof": "User requested the video cut start two seconds earlier, clamped to the start of the source. The previous 0.95 s start therefore becomes 0.00 s, retaining the 2.1 s duration and original playback speed. The previously selected 0.95–3.05 s scream audio remains unchanged; video timing is intentionally advanced by 0.95 s because the requested shift reaches the source boundary.",
-            "catalog": "assets/meme-media/mortis-stage-voices/sources.json"
+            "title": null,
+            "start": 0.27,
+            "end": 3.05,
+            "proof": "原片首轮墨提斯尖叫，同步裁切。50 ms 对齐第一处强起声；保持五道音波的短前摇。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.27,
+                "sourceEnd": 3.05,
+                "outputStart": 0,
+                "outputEnd": 2.78
+              }
+            ],
+            "speaker": "mutsumi"
           },
           "videoRate": 1
         },
@@ -3209,11 +3442,41 @@
             "title": "临兵斗者皆阵列在前——！",
             "start": 0.1,
             "end": 11.4,
-            "proof": "原片画面、口型/字幕与上下文核对；ASR只辅助定位",
-            "catalog": "assets/meme-media/recordings/sources-recordings.json"
+            "proof": "都子独自念咒，九段攻击分别对齐九个字，保留原视频和原声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.1,
+                "sourceEnd": 11.4,
+                "outputStart": 0,
+                "outputEnd": 11.3
+              }
+            ],
+            "speaker": "miyako"
           },
           "video": "assets/meme-media/recordings/miyako-p.mp4",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV14Utf6QEfW/",
+            "uploader": "宇田川亚子Ako",
+            "bvid": "BV14Utf6QEfW",
+            "cid": 41556836755,
+            "page": 1,
+            "title": "临兵斗者皆阵列在前——！",
+            "start": 0.1,
+            "end": 11.4,
+            "proof": "都子独自念咒，九段攻击分别对齐九个字，保留原视频和原声。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 0.1,
+                "sourceEnd": 11.4,
+                "outputStart": 0,
+                "outputEnd": 11.3
+              }
+            ],
+            "speaker": "miyako"
+          }
         },
         "u": {
           "voice": "meme_12_u",
@@ -3723,20 +3986,42 @@
             "title": "「BanG Dream! YUME∞MITA」#2【试看】",
             "start": 872.2,
             "end": 876.4,
-            "proof": "Official episode2 original animation: Nonoka speaks in close-up. Only her complete sentence is retained at original speed. Removed the previous 4.2s muted headbutt opening from both tracks so her voice begins at the ultimate trigger; original edited media is preserved in derivedFrom.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "proof": "动画第二集野乃花本人近景完整问句，第一击在「伝わったかな？」发出，保留游戏内向前头槌。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
                 "sourceStart": 872.2,
                 "sourceEnd": 876.4,
-                "outputStart": 0.0,
+                "outputStart": 0,
                 "outputEnd": 4.2
               }
-            ]
+            ],
+            "speaker": "nonoka"
           },
           "video": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp4",
-          "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SMTY6hEfY",
+            "cid": 39554125532,
+            "page": 1,
+            "title": "「BanG Dream! YUME∞MITA」#2【试看】",
+            "start": 872.2,
+            "end": 876.4,
+            "proof": "动画第二集野乃花本人近景完整问句，第一击在「伝わったかな？」发出，保留游戏内向前头槌。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 872.2,
+                "sourceEnd": 876.4,
+                "outputStart": 0,
+                "outputEnd": 4.2
+              }
+            ],
+            "speaker": "nonoka"
+          },
+          "transcript_ja": "ののちゃんの気持ち、伝わったかな？"
         },
         "u": {
           "voice": "meme_14_u",
@@ -3944,20 +4229,42 @@
             "title": "「BanG Dream! YUME∞MITA」#2【试看】",
             "start": 872.2,
             "end": 876.4,
-            "proof": "Official episode2 original animation: Nonoka speaks in close-up. Only her complete sentence is retained at original speed. Removed the previous 4.2s muted headbutt opening from both tracks so her voice begins at the ultimate trigger; original edited media is preserved in derivedFrom.",
-            "catalog": "assets/meme-media/mewtype-super-scenes/sources.json",
+            "proof": "动画第二集野乃花本人近景完整问句，第一击在「伝わったかな？」发出，保留游戏内向前头槌。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
             "segments": [
               {
                 "sourceStart": 872.2,
                 "sourceEnd": 876.4,
-                "outputStart": 0.0,
+                "outputStart": 0,
                 "outputEnd": 4.2
               }
-            ]
+            ],
+            "speaker": "nonoka"
           },
           "video": "assets/meme-media/mewtype-super-scenes/nonoka-super-immediate.mp4",
-          "spokenJapanese": "ののちゃんの気持ち、伝わったかな？",
-          "videoRate": 1
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://www.bilibili.com/video/BV1SMTY6hEfY/",
+            "uploader": "梦限大MewType",
+            "bvid": "BV1SMTY6hEfY",
+            "cid": 39554125532,
+            "page": 1,
+            "title": "「BanG Dream! YUME∞MITA」#2【试看】",
+            "start": 872.2,
+            "end": 876.4,
+            "proof": "动画第二集野乃花本人近景完整问句，第一击在「伝わったかな？」发出，保留游戏内向前头槌。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 872.2,
+                "sourceEnd": 876.4,
+                "outputStart": 0,
+                "outputEnd": 4.2
+              }
+            ],
+            "speaker": "nonoka"
+          },
+          "transcript_ja": "ののちゃんの気持ち、伝わったかな？"
         }
       }
     },
@@ -4053,8 +4360,8 @@
           "voice": "violaAnimeMewtype",
           "label": "引爆点·剪辑放送",
           "slot": "p",
-          "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
-          "duration": 5.046,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/viola-super.mp3",
+          "duration": 3.0,
           "source": {
             "url": "https://anime.bang-dream.com/yumemita/",
             "uploader": null,
@@ -4062,13 +4369,76 @@
             "cid": null,
             "page": 1,
             "title": null,
-            "start": 1359.0,
-            "end": 1364.046,
-            "proof": "Not lip-sync verified. The tooling in this change had no image input, so only the official English subtitle at 22:39.48–22:42.36 (\"Was it MewType?\") and the continuous-shot timing were reviewed; the speaking character is not established here by mouth movement or by surrounding dialogue. The segment was chosen by the repository owner for this super. No livestream commentary or synthetic speech.",
-            "catalog": "assets/meme-media/viola-story/sources.json"
+            "start": 1359.37465,
+            "end": 1362.37465,
+            "proof": "仅留第三集薇欧拉独自开口的近景，去掉律的反应镜头。官方角色 CM 同一镜头佐证身份，第一段攻击对齐睁眼开口。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1359.37465,
+                "sourceEnd": 1362.37465,
+                "outputStart": 0,
+                "outputEnd": 3.0
+              }
+            ],
+            "speaker": "viola",
+            "localSource": {
+              "series": "BanG Dream! YUME∞MITA",
+              "episode": 3,
+              "fileName": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+              "extract": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
+              "extractSha256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
+              "officialCorroboration": {
+                "sourceURL": "https://www.bilibili.com/video/BV11uK36xEs2/",
+                "bvid": "BV11uK36xEs2",
+                "cid": 39994722827,
+                "atSeconds": [
+                  20.8,
+                  24
+                ]
+              }
+            }
           },
-          "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
-          "videoRate": 1
+          "video": "assets/meme-media/selected-ultimate-backgrounds/viola-super.mp4",
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://anime.bang-dream.com/yumemita/",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
+            "page": 1,
+            "title": null,
+            "start": 1359.37465,
+            "end": 1362.37465,
+            "proof": "仅留第三集薇欧拉独自开口的近景，去掉律的反应镜头。官方角色 CM 同一镜头佐证身份，第一段攻击对齐睁眼开口。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1359.37465,
+                "sourceEnd": 1362.37465,
+                "outputStart": 0,
+                "outputEnd": 3.0
+              }
+            ],
+            "speaker": "viola",
+            "localSource": {
+              "series": "BanG Dream! YUME∞MITA",
+              "episode": 3,
+              "fileName": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+              "extract": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
+              "extractSha256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
+              "officialCorroboration": {
+                "sourceURL": "https://www.bilibili.com/video/BV11uK36xEs2/",
+                "bvid": "BV11uK36xEs2",
+                "cid": 39994722827,
+                "atSeconds": [
+                  20.8,
+                  24
+                ]
+              }
+            }
+          },
+          "transcript_ja": "ミュータイプ、とか？"
         }
       },
       "variants": {
@@ -4181,8 +4551,8 @@
           "voice": "violaAnimeMewtype",
           "label": "引爆点·剪辑放送",
           "slot": "p",
-          "audio": "assets/meme-media/viola-story/violaAnimeMewtype.mp3",
-          "duration": 5.046,
+          "audio": "assets/meme-media/selected-ultimate-backgrounds/viola-super.mp3",
+          "duration": 3.0,
           "source": {
             "url": "https://anime.bang-dream.com/yumemita/",
             "uploader": null,
@@ -4190,13 +4560,76 @@
             "cid": null,
             "page": 1,
             "title": null,
-            "start": 1359.0,
-            "end": 1364.046,
-            "proof": "Not lip-sync verified. The tooling in this change had no image input, so only the official English subtitle at 22:39.48–22:42.36 (\"Was it MewType?\") and the continuous-shot timing were reviewed; the speaking character is not established here by mouth movement or by surrounding dialogue. The segment was chosen by the repository owner for this super. No livestream commentary or synthetic speech.",
-            "catalog": "assets/meme-media/viola-story/sources.json"
+            "start": 1359.37465,
+            "end": 1362.37465,
+            "proof": "仅留第三集薇欧拉独自开口的近景，去掉律的反应镜头。官方角色 CM 同一镜头佐证身份，第一段攻击对齐睁眼开口。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1359.37465,
+                "sourceEnd": 1362.37465,
+                "outputStart": 0,
+                "outputEnd": 3.0
+              }
+            ],
+            "speaker": "viola",
+            "localSource": {
+              "series": "BanG Dream! YUME∞MITA",
+              "episode": 3,
+              "fileName": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+              "extract": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
+              "extractSha256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
+              "officialCorroboration": {
+                "sourceURL": "https://www.bilibili.com/video/BV11uK36xEs2/",
+                "bvid": "BV11uK36xEs2",
+                "cid": 39994722827,
+                "atSeconds": [
+                  20.8,
+                  24
+                ]
+              }
+            }
           },
-          "video": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
-          "videoRate": 1
+          "video": "assets/meme-media/selected-ultimate-backgrounds/viola-super.mp4",
+          "videoRate": 1,
+          "videoSource": {
+            "url": "https://anime.bang-dream.com/yumemita/",
+            "uploader": null,
+            "bvid": null,
+            "cid": null,
+            "page": 1,
+            "title": null,
+            "start": 1359.37465,
+            "end": 1362.37465,
+            "proof": "仅留第三集薇欧拉独自开口的近景，去掉律的反应镜头。官方角色 CM 同一镜头佐证身份，第一段攻击对齐睁眼开口。",
+            "catalog": "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+            "segments": [
+              {
+                "sourceStart": 1359.37465,
+                "sourceEnd": 1362.37465,
+                "outputStart": 0,
+                "outputEnd": 3.0
+              }
+            ],
+            "speaker": "viola",
+            "localSource": {
+              "series": "BanG Dream! YUME∞MITA",
+              "episode": 3,
+              "fileName": "[SubsPlease] BanG Dream! Yumemita - 03 (1080p) [3931E49D].mkv",
+              "extract": "assets/meme-media/viola-story/viola-ep3-2239-cutin.mp4",
+              "extractSha256": "486095bb8a6e7124cb15724d54c29fea668230240f2cc269425a4a7da9b12d52",
+              "officialCorroboration": {
+                "sourceURL": "https://www.bilibili.com/video/BV11uK36xEs2/",
+                "bvid": "BV11uK36xEs2",
+                "cid": 39994722827,
+                "atSeconds": [
+                  20.8,
+                  24
+                ]
+              }
+            }
+          },
+          "transcript_ja": "ミュータイプ、とか？"
         }
       }
     }

@@ -3,7 +3,6 @@ import type { GameView } from "../../objects/GameView";
 import { backgroundVideoEnabled } from "../../runtime/display/backgroundVideoEnabled";
 
 import { UltimateBackgroundVideo } from "./UltimateBackgroundVideo";
-import { MOVES } from "../../../../game/combatData";
 import { superStageTransition } from "../../functions/superStageTransition";
 
 export function BattleStage({
@@ -58,10 +57,7 @@ export function BattleStage({
                     ? view.preparedSuperVideos.get(media.video!)
                     : undefined
                 }
-                timeMs={
-                  (cast?.elapsedMs ?? 0) +
-                  (MOVES[cast?.attack ?? ""]?.cinematic?.videoOffsetMs ?? 0)
-                }
+                timeMs={cast?.elapsedMs ?? 0}
                 paused={
                   view.paused || !!cast?.held || (cast?.elapsedMs ?? 0) < 0
                 }

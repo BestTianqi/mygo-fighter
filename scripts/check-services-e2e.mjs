@@ -22,7 +22,7 @@ import {
 // edge, room placement goes through the lobby, and the authoritative room
 // simulation stays inside one rooms process. Two rooms run concurrently so a
 // placement or directory regression cannot hide behind a single room.
-const PROTOCOL = 30;
+const PROTOCOL = 31;
 const EDGE_PORT = 18080;
 const LOBBY_PORT = 18079;
 const ROOMS_PORT = 18091;

@@ -1,6 +1,6 @@
 # Ultimate media cue audit
 
-Initial cue audit on 2026-11-08. Updated on 2026-11-13 for the selected scenes and their original dialogue. Times are milliseconds from decoded MP3 playback time zero. `releaseCueMs` is the absolute media time of the phrase or action that cues the first release. Recordings play at their original speed.
+Initial cue audit on 2026-11-08. Updated on 2026-11-13 for original character dialogue and a shared source timeline across all 22 forms. Times are milliseconds from decoded MP3 playback time zero. `releaseCueMs` is the absolute media time of the phrase or action that cues the first release. Recordings play at their original speed.
 
 ## Method and precision
 
@@ -11,7 +11,7 @@ Decoded every ultimate MP3 with FFmpeg; ran cached faster-whisper small Japanese
 | Character / form | Move IDs                                    | releaseCueMs | Observed release cue                                                           |
 | ---------------- | ------------------------------------------- | -----------: | ------------------------------------------------------------------------------ |
 | anon             | super                                       |          620 | First strong voiced laugh                                                      |
-| soyo             | soyoSuper                                   |         1450 | Final shouted phrase                                                           |
+| soyo             | soyoSuper                                   |         1580 | Final shouted phrase as she drops her hands                                    |
 | tomori           | tomoriSuper                                 |         7080 | 「叫び」 in the selected speech                                                |
 | rana             | ranaSuper                                   |         2900 | Bye-bye                                                                        |
 | taki             | rikiSuper                                   |          280 | First 「は？」                                                                 |
@@ -25,9 +25,9 @@ Decoded every ultimate MP3 with FFmpeg; ran cached faster-whisper small Japanese
 | miyako           | mewtype_12_virtual_super                    |            0 | Nine mantra beats, already starts at media zero                                |
 | yuno             | mewtype_13_virtual_super                    |         2480 | Showtime in the opening solo rap                                              |
 | nonoka           | mewtype_14_virtual_super                    |         2940 | Tsutawatta kana: did my feelings reach you                                     |
-| viola            | mewtype_15_virtual_super                    |          600 | MewType question                                                               |
-| mortis           | mujica_8_stage_super                        |            0 | Scream already active at audio zero                                            |
-| penguin          | penguinSuper                                |            0 | Singing already active at audio zero; video is an unrelated visual performance |
+| viola            | mewtype_15_virtual_super                    |          540 | She opens her eyes and smiles while saying MewType                             |
+| mortis           | mujica_8_stage_super                        |           50 | First strong scream onset                                                      |
+| penguin          | penguinSuper                                |           50 | Tomori's sung phrase in the episode 7 performance                              |
 
 ## Sakiko detail
 
@@ -51,14 +51,14 @@ Decoded every ultimate MP3 with FFmpeg; ran cached faster-whisper small Japanese
 
 If a startup freeze needs a minimum duration, treat it separately from this audio-relative schedule. Do not add per-hit delay/hit-stop to the absolute audio clock, or later syllables will drift. All nine cues must stay in this one media timeline.
 
-## Video offsets and source caveats
+## Source alignment
 
-Define `videoOffsetMs` as `video.currentTime = audioTime + videoOffsetMs`. All ordinary same-source cuts recommend0. These videos contain no embedded audio track, so direct cross-correlation against video audio is unavailable; matching source cut boundaries and Sakiko/Miyako visual review support zero.
+All 22 forms use the same source interval for the muted video and independent audio, with a zero runtime video offset. [The source catalog](../assets/meme-media/selected-ultimate-backgrounds/sources.json) records each speaker, interval and cue.
 
-- Mortis stage: audio `assets/meme-media/mortis-stage-voices/meme_8_stage_o.mp3` takes source0.95–3.05; video `assets/meme-media/mortis-stage-voices/mortis-scream-super.mp4` takes source0–2.1, per explicit `videoSource` metadata. To align retained overlapping content, start video at0.95 s: offset+950 ms. The encoded video is onlyabout2.07 s and starts at33 ms, leaving roughly1.12 s of aligned footage. It cannot visually cover the full2.1 s audio at1x speed; hold its last frame or leave the cut-in after aligned footage ends. Do not loop/stretch it while claiming sync.
-- Penguin: audio `assets/meme-media/penguin-mortis/penguin-super-tongtou.mp3` is a5 s song excerpt from BV1SbHC6ZEAn source0–5. Video `assets/meme-media/recordings/penguin-p.mp4` is2.92 s from a different source BV1mTXKB4EjG source4.25–7.15. There is no meaningful lip-sync offset. Offset0 is only choreography, and a held last frame can preserve coverage without speed changes.
-- Soyo: manifest duration says2.8 s, actual MP3 decodes to2.6 s; do not derive its clock from that metadata alone.
-- Viola: source metadata explicitly says identity was not lip-sync verified. This audit measures its selected audio cue; it does not establish speaker identity.
+- Mortis retains the first scream from BV1uPf5YCE73. Both tracks use source 0.27–3.05 s. The first wave lands on the strong vocal onset at 50 ms and the five-wave schedule stays within one second.
+- Penguin uses the original episode 7 performance with Tomori singing and the band accompanying her. Its first wave is synchronized at 50 ms.
+- Soyo uses the existing 58.80–61.40 s cut. The independent MP3 matches the original embedded audio at zero offset. The muted version removes the duplicate audio stream.
+- Viola uses the episode 3 close-up trimmed to her question. The official character CM repeats that shot and confirms her identity. The export cuts before Ritsu's reaction.
 
 ## Reproducible local evidence
 
@@ -66,12 +66,12 @@ The ignored `output/ultimate-sync/` folder contains `cue-recommendations.json` (
 
 ## Implemented playback contract
 
-All 22 playable ultimate forms now carry a shared simulation-owned media clock. The release cue above includes the move's existing startup: a positive media lead-in gets a 320 ms blackout before the clip starts. Immediate supers play against the visible stage at their original speed. When audio starts after the move starts (Anon, Penguin, Mortis), negative media time delays playback instead of changing the attack timing. A long intro freezes every fighter, projectiles, summons, cooldowns, respawns and the round countdown. The interrupted combat tick completes once after the intro, preserving simultaneous transformation bursts and release-point buffs. Concurrent casts share the frozen interval. A new long super takes over the video layer and cuts off other skill audio. On simultaneous long supers, the longer lead-in gets the screen, with side order breaking ties.
+All 22 playable ultimate forms carry a shared simulation-owned media clock. The release cue above includes the move's existing startup: a positive media lead-in gets a 320 ms blackout before the clip starts. Immediate supers play against the visible stage at their original speed. When media starts after the move starts, negative media time delays both tracks while preserving attack timing. A long intro freezes every fighter, projectiles, summons, cooldowns, respawns and the round countdown. The interrupted combat tick completes once after the intro, preserving simultaneous transformation bursts and release-point buffs. Concurrent casts share the frozen interval. A new long super takes over the video layer and cuts off other skill audio. On simultaneous long supers, the longer lead-in gets the screen, with side order breaking ties.
 
 Sakiko's control releases at media 4160 ms; three rain impacts follow at 4760, 5160 and 5560 ms. Miyako's nine attacks use the onset table above and still total 50 damage. Timed supers suppress combat hit-stop so impacts do not accumulate delay against the recorded score. Visual hit feedback remains.
 
 The stage and HUD fade to black, then the video fills the battle frame. At the end of the frozen opening, the stage and HUD fade back in over the same video while combat resumes. During match preparation the loading bar tracks character art, the stage and the first decoded frames of the selected roster’s ultimate videos, including reserves and enabled forms. The browser reuses those video elements in combat.
 
-Local and LAN playback use the same serialized cast identity and clock (protocol 30). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
+Local and LAN playback use the same serialized cast identity and clock (protocol 31). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
 
 The eight selected scenes use independent recordings cut from the same source interval as their muted video. [The source catalog](../assets/meme-media/selected-ultimate-backgrounds/sources.json) records the speaker, source interval and release cue. Ritsu uses her earlier question in the same P2 because Viola speaks over the previous close-up. Yuno uses her opening solo from the same concert with the original instrumental backing. Taki retains the original 「は？」 and its 280 ms first-strike cue.

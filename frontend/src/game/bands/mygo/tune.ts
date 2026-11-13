@@ -7,7 +7,6 @@ import {
 /** Authored combat timings deliberately differ from recorded video durations. */
 export function tuneMygo(MOVES: Record<string, Move>): void {
   Object.assign(MOVES.penguinSuper, {
-    name: "春日影·企鹅演唱",
     duration: PENGUIN_SUPER_TUNING.duration,
     start: PENGUIN_SUPER_TUNING.start,
     end: PENGUIN_SUPER_TUNING.end,

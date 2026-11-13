@@ -80,13 +80,13 @@ assert.deepEqual(impacts, [4760, 5160, 5560], "rain follows the spoken climax");
 
 const soyo = duel([1, 0]);
 soyo.advance(10, { super: true });
-soyo.advance(fadeInMs + 1440);
+soyo.advance(fadeInMs + 1570);
 assert.equal(soyo.fighters[0].soyoSuper?.released, false);
 soyo.advance(10);
 assert.ok(
   soyo.drainEvents().some((event) => event.type === "soyoSuperRelease"),
 );
-assert.equal(soyo.superCasts[0].elapsedMs, 1450);
+assert.equal(soyo.superCasts[0].elapsedMs, 1580);
 
 const chant = duel([12, 0]);
 chant.advance(10, { super: true });

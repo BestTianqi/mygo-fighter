@@ -4,11 +4,11 @@ import type { Move } from "../objects/Move";
 export function applyUltimateTiming(moves: Record<string, Move>): void {
   const cues: Record<string, number> = {
     super: 620,
-    soyoSuper: 1450,
+    soyoSuper: 1580,
     tomoriSuper: 7080,
     ranaSuper: 2900,
     rikiSuper: 280,
-    penguinSuper: 0,
+    penguinSuper: 50,
   };
   for (const form of ["normal", "stage"])
     for (const [character, cue] of [
@@ -19,14 +19,14 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
       [9, 5320],
     ])
       cues[`mujica_${character}_${form}_super`] =
-        character === 8 && form === "stage" ? 0 : cue;
+        character === 8 && form === "stage" ? 50 : cue;
   for (const [character, cue] of [
     [10, 620],
     [11, 900],
     [12, 0],
     [13, 2480],
     [14, 2940],
-    [15, 600],
+    [15, 540],
   ])
     cues[`mewtype_${character}_virtual_super`] = cue;
   for (const form of ["normal", "stage"]) {
@@ -49,7 +49,6 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
       releaseCueMs: cue,
       leadInMs: Math.max(0, cue - release),
       mediaDelayMs: Math.max(0, release - cue),
-      ...(key === "mujica_8_stage_super" ? { videoOffsetMs: 950 } : {}),
     };
   }
 }

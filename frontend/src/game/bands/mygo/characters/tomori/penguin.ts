@@ -157,7 +157,7 @@ export function registerNormals(MOVES: Record<string, Move>): void {
     });
 }
 export const SUPER: Move = {
-  name: "司凤版春日影演唱",
+  name: "春日影·企鹅演唱",
   command: "P / 2P 小键盘8",
   category: "super",
   ownerCharacter: 2,

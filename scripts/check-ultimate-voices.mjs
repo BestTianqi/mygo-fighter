@@ -58,7 +58,7 @@ const forms = [
   })),
   { character: 2, penguin: { ms: 20000 } },
 ];
-const selectedMoves = new Map(
+const synchronizedMoves = new Map(
   selectedBackgrounds.clips.flatMap((clip) =>
     clip.moves.map((move) => [move, clip]),
   ),
@@ -94,17 +94,22 @@ for (const fighter of forms) {
     source,
     `Cross-character ultimate voice: ${fighter.character} ${entry.voice}`,
   );
-  const selected = selectedMoves.get(move);
-  if (selected) {
-    await sameRecording(entry.video, selected.video);
-    assert.equal(selected.speaker, profile.key, `${move}: selected speaker`);
-    assert.equal(entry.voice, selected.voice);
-    assert.equal(source.audio, selected.audio);
-    assert.equal(source.source.bvid, source.videoSource.bvid);
-    assert.deepEqual(source.source.segments, source.videoSource.segments);
-    assert.equal(MOVES[move].cinematic.releaseCueMs, selected.releaseCueMs);
-    assert.ok(selected.releaseCueMs < selected.duration * 1000);
-  }
+  const synchronized = synchronizedMoves.get(move);
+  assert.ok(synchronized, `${move}: missing synchronized source audit`);
+  await sameRecording(entry.video, synchronized.video);
+  assert.equal(synchronized.speaker, profile.key, `${move}: selected speaker`);
+  assert.equal(entry.voice, synchronized.voice);
+  assert.equal(source.audio, synchronized.audio);
+  assert.equal(source.source.url, source.videoSource.url);
+  assert.equal(source.source.bvid, source.videoSource.bvid);
+  assert.equal(source.source.start, source.videoSource.start);
+  assert.equal(source.source.end, source.videoSource.end);
+  assert.deepEqual(source.source.segments, source.videoSource.segments);
+  assert.equal(source.source.speaker, profile.key);
+  assert.equal(entry.videoRate ?? 1, 1, `${move}: original playback rate`);
+  const timing = MOVES[move].cinematic;
+  assert.equal(timing.releaseCueMs, synchronized.releaseCueMs);
+  assert.ok(synchronized.releaseCueMs < synchronized.duration * 1000);
   await sameRecording(
     assets.memeVoices[entry.voice] ??
       assets.soyoVoices[entry.voice] ??
@@ -112,6 +117,7 @@ for (const fighter of forms) {
     source.audio,
   );
 }
+assert.equal(synchronizedMoves.size, forms.length);
 for (const finish of finishes) {
   const selected = selectedSources[finish.character];
   if (selected) {
@@ -135,5 +141,5 @@ for (const finish of finishes) {
   await sameRecording(assets.finishVoices[finish.key], finish.output);
 }
 console.log(
-  `Verified ${forms.length} ultimate forms and ${finishes.length} finish voice/video bindings, including four explicitly selected sources.`,
+  `Verified ${forms.length} synchronized ultimate forms and ${finishes.length} finish voice/video bindings.`,
 );
