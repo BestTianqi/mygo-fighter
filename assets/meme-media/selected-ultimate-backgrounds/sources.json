@@ -1,0 +1,261 @@
+{
+  "date": "2026-11-13",
+  "processing": "User-selected scenes, original playback speed, muted 640×360 video. Existing ultimate voices are retained except for Taki’s selected 「は？」 line.",
+  "clips": [
+    {
+      "bvid": "BV1K7QTYKESK",
+      "cid": 28850716937,
+      "page": 1,
+      "title": "八幡海铃的「信用」合集",
+      "uploader": "大和イヴ",
+      "character": "umiri",
+      "characterId": 5,
+      "pick": "A",
+      "moves": [
+        "mujica_5_normal_super",
+        "mujica_5_stage_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1K7QTYKESK/",
+      "start": 15.65,
+      "end": 23.95,
+      "duration": 8.3,
+      "segments": [
+        {
+          "sourceStart": 15.65,
+          "sourceEnd": 23.95,
+          "outputStart": 0,
+          "outputEnd": 8.3
+        }
+      ],
+      "evidence": "信用场景。原大招语音在 6.28 秒进入释放段，对应海铃再次开口的近景。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/umiri-super.mp4",
+      "sha256": {
+        "video": "a0746ed5fb8c611f43dbf3e8ab4741aed8d9547f69ed3c9698ec9b19fe95d9ed"
+      }
+    },
+    {
+      "bvid": "BV1oLVXzFEUW",
+      "cid": 29880811985,
+      "page": 1,
+      "title": "【万恶之源/4K60帧】三角初音狗爬🌟压抑●▛▙原片段，明日方舟联动前瞻",
+      "uploader": "编新述旧",
+      "character": "uika",
+      "characterId": 7,
+      "pick": "B",
+      "moves": [
+        "mujica_7_normal_super",
+        "mujica_7_stage_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1oLVXzFEUW/",
+      "start": 41.6,
+      "end": 49.9,
+      "duration": 5.95,
+      "segments": [
+        {
+          "sourceStart": 41.6,
+          "sourceEnd": 44.15,
+          "outputStart": 0,
+          "outputEnd": 2.55
+        },
+        {
+          "sourceStart": 46.5,
+          "sourceEnd": 49.9,
+          "outputStart": 2.55,
+          "outputEnd": 5.95
+        }
+      ],
+      "evidence": "取所选 41.60–49.90 秒内的两段，剪掉中间停顿，保留「不是」与「想见小祥」。沿用现有大招语音。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/uika-super.mp4",
+      "sha256": {
+        "video": "daa9442e6b9978b3275c563092872d61ba16c3ce24fb914e0eeabdbe1c5627f9"
+      }
+    },
+    {
+      "bvid": "BV1p49gYCEdV",
+      "cid": 28615052728,
+      "page": 1,
+      "title": "颂乐人偶 第1话 高能片段1",
+      "uploader": "番剧资讯机",
+      "redirect": "https://www.bilibili.com/bangumi/play/ep1482114",
+      "character": "nyamu",
+      "characterId": 9,
+      "pick": "B",
+      "moves": [
+        "mujica_9_normal_super",
+        "mujica_9_stage_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1p49gYCEdV/",
+      "start": 10.55,
+      "end": 19.4,
+      "duration": 8.85,
+      "segments": [
+        {
+          "sourceStart": 10.55,
+          "sourceEnd": 19.4,
+          "outputStart": 0,
+          "outputEnd": 8.85
+        }
+      ],
+      "evidence": "截取舞台对话到摘下面具，摘面具转场约在大招释放附近。保留现有若麦原声。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/nyamu-super.mp4",
+      "sha256": {
+        "video": "8acd0ad35ccd4b4d6016345708d7aac1d65e487ae3c787ba7e5d998d62a12578"
+      }
+    },
+    {
+      "bvid": "BV1q1386VESe",
+      "cid": 40453213964,
+      "page": 1,
+      "title": "[MewType]阿拉蕾“梦想是力量”一分钟纯享版",
+      "uploader": "不是惨白的鸟妈妈",
+      "character": "arale",
+      "characterId": 10,
+      "pick": "A",
+      "moves": [
+        "mewtype_10_virtual_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1q1386VESe/",
+      "start": 9.55,
+      "end": 17.2,
+      "duration": 7.65,
+      "segments": [
+        {
+          "sourceStart": 9.55,
+          "sourceEnd": 17.2,
+          "outputStart": 0,
+          "outputEnd": 7.65
+        }
+      ],
+      "evidence": "从与律的对话到阿拉蕾举手宣告，接原本的队名与控制波。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/arale-super.mp4",
+      "sha256": {
+        "video": "4a20c7fef9ee3692307e079b8d203da77d3536634562f18efb0f98e77f037f44"
+      }
+    },
+    {
+      "bvid": "BV1Jip36oExk",
+      "cid": 42633138010,
+      "page": 2,
+      "title": "律的表情变化（bushi）",
+      "uploader": "青逸尤",
+      "character": "ritsu",
+      "characterId": 11,
+      "pick": "D",
+      "moves": [
+        "mewtype_11_virtual_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1Jip36oExk/?p=2",
+      "start": 27.0,
+      "end": 32.0,
+      "duration": 5.0,
+      "segments": [
+        {
+          "sourceStart": 27.0,
+          "sourceEnd": 32.0,
+          "outputStart": 0,
+          "outputEnd": 5.0
+        }
+      ],
+      "evidence": "P2 薇欧拉对律施压，采用律的正面近景。保留律本人语音，避免叠入薇欧拉的声音。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/ritsu-super.mp4",
+      "sha256": {
+        "video": "1be321502952a39cc3c0312afaa053a7e8a65879759daf039fb9a4580f470424"
+      }
+    },
+    {
+      "bvid": "BV1oJGG6cEem",
+      "cid": 40507673253,
+      "page": 1,
+      "title": "梦限大第七集live纯享版",
+      "uploader": "丰川要乐奈",
+      "character": "yuno",
+      "characterId": 13,
+      "pick": "E",
+      "moves": [
+        "mewtype_13_virtual_super"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1oJGG6cEem/",
+      "start": 149.8,
+      "end": 155.45,
+      "duration": 5.65,
+      "segments": [
+        {
+          "sourceStart": 149.8,
+          "sourceEnd": 155.45,
+          "outputStart": 0,
+          "outputEnd": 5.65
+        }
+      ],
+      "evidence": "第七集演出。按实际角色身份选黑粉发、红衣 DJ 由乃的近景，接手势和舞台强拍。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/yuno-super.mp4",
+      "sha256": {
+        "video": "ffe74d5a8d0fca7d89a4ebab6ab4d894e9390ab7ab4bdc798e962fda3efbd6ef"
+      }
+    },
+    {
+      "bvid": "BV1E841127Ns",
+      "cid": 1214092655,
+      "page": 1,
+      "title": "我的歌就是内心的呐喊！",
+      "uploader": "小黄啊啊啊啊啊",
+      "character": "tomori",
+      "characterId": 2,
+      "pick": "A",
+      "moves": [
+        "tomoriSuper"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1E841127Ns/",
+      "start": 43.82,
+      "end": 52.28,
+      "duration": 8.46,
+      "segments": [
+        {
+          "sourceStart": 43.82,
+          "sourceEnd": 52.28,
+          "outputStart": 0,
+          "outputEnd": 8.46
+        }
+      ],
+      "evidence": "常态灯唱前的独白到「我的歌是内心的呐喊」。沿用原语音及 6.80 秒释放节点。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/tomori-super.mp4",
+      "sha256": {
+        "video": "2b0fa261b47d35446e7de05f7171a64d678aa2c41152f1024b8993cb0c1cd673"
+      }
+    },
+    {
+      "bvid": "BV1gC4y1d74A",
+      "cid": 1292038876,
+      "page": 1,
+      "title": "立希“哈？”合集【MyGO!!!!!】",
+      "uploader": "是小毛哟",
+      "character": "taki",
+      "characterId": 4,
+      "pick": "哈？",
+      "moves": [
+        "rikiSuper"
+      ],
+      "sourceURL": "https://www.bilibili.com/video/BV1gC4y1d74A/",
+      "start": 0.56,
+      "end": 1.46,
+      "duration": 0.9,
+      "segments": [
+        {
+          "sourceStart": 0.56,
+          "sourceEnd": 1.46,
+          "outputStart": 0,
+          "outputEnd": 0.9
+        }
+      ],
+      "evidence": "合集首段立希正脸。明显起声约在源片 0.84 秒，截取后 0.28 秒接第一段。",
+      "video": "assets/meme-media/selected-ultimate-backgrounds/taki-super.mp4",
+      "sha256": {
+        "video": "68ec997a80f1a7d3ec14eede7f32fe86d459fb27644a526f0352529e26c23367",
+        "audio": "a70a9bc48e74af861b0508182d86bbcfc15ff8cb4403dbb63827fcf1acaa5cce"
+      },
+      "audio": "assets/meme-media/selected-ultimate-backgrounds/taki-ha.mp3",
+      "voice": "takiAnimeHa",
+      "label": "哈？·四拍终奏",
+      "releaseCueMs": 280
+    }
+  ]
+}

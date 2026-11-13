@@ -8,6 +8,9 @@ const assets = await readJson("frontend/public/assets.json");
 const catalog = await readJson("assets/meme-media/manifest.json");
 const finishes = await readJson("assets/finish-art/v2/sources-voices.json");
 const finishVideos = await readJson("assets/finish-art/v2/sources-videos.json");
+const selectedBackgrounds = await readJson(
+  "assets/meme-media/selected-ultimate-backgrounds/sources.json",
+);
 // Explicit user-selected replacements are distinct from the character-only audit.
 const selectedSources = {
   0: {
@@ -54,6 +57,11 @@ const forms = [
   })),
   { character: 2, penguin: { ms: 20000 } },
 ];
+const selectedMoves = new Map(
+  selectedBackgrounds.clips.flatMap((clip) =>
+    clip.moves.map((move) => [move, clip]),
+  ),
+);
 async function sameRecording(runtime, source) {
   assert.ok(
     runtime?.startsWith("/media/"),
@@ -85,6 +93,11 @@ for (const fighter of forms) {
     source,
     `Cross-character ultimate voice: ${fighter.character} ${entry.voice}`,
   );
+  const selected = selectedMoves.get(move);
+  if (selected) {
+    await sameRecording(entry.video, selected.video);
+    if (selected.audio) assert.equal(source.audio, selected.audio);
+  }
   await sameRecording(
     assets.memeVoices[entry.voice] ??
       assets.soyoVoices[entry.voice] ??

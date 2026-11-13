@@ -169,7 +169,7 @@ export function registerMoves(MOVES: Record<string, Move>): void {
       })),
     },
     rikiSuper: {
-      name: "曲子由我来写·四拍终奏",
+      name: "哈？·四拍终奏",
       riki: "super",
       ownerCharacter: 4,
       command: "P / 2P 小键盘8",

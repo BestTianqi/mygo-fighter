@@ -7,7 +7,7 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
     soyoSuper: 1450,
     tomoriSuper: 6800,
     ranaSuper: 2900,
-    rikiSuper: 1440,
+    rikiSuper: 280,
     penguinSuper: 0,
   };
   for (const form of ["normal", "stage"])

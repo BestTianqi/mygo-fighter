@@ -296,6 +296,20 @@ def build_catalog():
         profiles[identifier]['slots']['p'] = dict(clip)
         profiles[identifier]['variants'][row['move']] = dict(clip)
     catalog['sourceCatalogs'].append(super_catalog.relative_to(ROOT).as_posix())
+    selected_catalog = MEDIA / 'selected-ultimate-backgrounds/sources.json'
+    for row in read_json(selected_catalog)['clips']:
+        profile = profiles[str(CHARACTERS.index(row['character']))]
+        entries = [profile['slots']['p']]
+        entries += [profile['variants'][move] for move in row['moves'] if move in profile['variants']]
+        for clip in entries:
+            clip['video'] = asset_path(row['video'], selected_catalog)
+            clip['videoSource'] = source_info(row, selected_catalog)
+            clip['videoSource']['segments'] = row['segments']
+            if row.get('audio'):
+                clip.update(voice=row['voice'], label=row['label'],
+                            audio=asset_path(row['audio'], selected_catalog),
+                            duration=row['duration'], source=source_info(row, selected_catalog))
+    catalog['sourceCatalogs'].append(selected_catalog.relative_to(ROOT).as_posix())
     catalog['summonCall'] = normalize_clip(read_json(revision)['summonCall'], revision, 1, 'summonCall', 'tensoraOhYeah')
     (MEDIA / 'manifest.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
     return catalog

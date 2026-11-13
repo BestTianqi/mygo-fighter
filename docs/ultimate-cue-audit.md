@@ -14,7 +14,7 @@ Decoded every ultimate MP3 with FFmpeg; ran cached faster-whisper small Japanese
 | soyo             | soyoSuper                                   |         1450 | Final shouted phrase                                                           |
 | tomori           | tomoriSuper                                 |         6800 | Heart / scream climax                                                          |
 | rana             | ranaSuper                                   |         2900 | Bye-bye                                                                        |
-| taki             | rikiSuper                                   |         1440 | I will write the song                                                          |
+| taki             | rikiSuper                                   |          280 | First 「は？」                                                                 |
 | umiri            | mujica_5_normal_super, mujica_5_stage_super |         6280 | Want to trust each other                                                       |
 | sakiko           | mujica_6_normal_super, mujica_6_stage_super |         4160 | Watashi ga: I will become a god                                                |
 | uika             | mujica_7_normal_super, mujica_7_stage_super |          960 | First Sakki-chan call                                                          |
@@ -72,4 +72,6 @@ Sakiko's control releases at media 4160 ms; three rain impacts follow at 4760, 5
 
 The stage and HUD fade to black, then the video fills the battle frame. At the end of the frozen opening, the stage and HUD fade back in over the same video while combat resumes. During match preparation the loading bar tracks character art, the stage and the first decoded frames of the selected roster’s ultimate videos, including reserves and enabled forms. The browser reuses those video elements in combat.
 
-Local and LAN playback use the same serialized cast identity and clock (protocol 28). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
+Local and LAN playback use the same serialized cast identity and clock (protocol 29). LAN voice starts only after an authoritative cast is received; matching prediction can supply the current playback position. Delayed decoding and reconnect seek to that position. Audio/video remain at 1x; drift over 80 ms triggers a position correction. Pause stops both. Short source videos end without looping while their voice continues; the existing finish presentation waits for its queued complete voice. Existing originals and skill damage/costs are retained.
+
+The selected background replacements are recorded in [the source catalog](../assets/meme-media/selected-ultimate-backgrounds/sources.json). Seven use the established voice timing with new muted video edits. Taki uses the original 「は？」 from the new clip and releases its first strike at media time 280 ms.
