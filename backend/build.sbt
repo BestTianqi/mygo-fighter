@@ -1,6 +1,6 @@
 ThisBuild / scalaVersion := "3.3.6"
 ThisBuild / organization := "mygo"
-ThisBuild / version := "2.0.0"
+ThisBuild / version := "2.0.1"
 
 val polyglotVersion = "25.0.5.0.2"
 

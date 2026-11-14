@@ -8,10 +8,18 @@ import { CharacterSelection } from "./components/CharacterSelection";
 import { BattlePanel } from "./components/BattlePanel";
 import { LanLobby } from "./components/LanLobby";
 import { GameDialogs } from "./components/GameDialogs";
+import { invitedRoom, launchOptions } from "./functions/onlineLinks";
 export function GamePage({ assets }: { assets: Assets }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const mobile = useMobilePlay();
   const { runtime, view } = useGame(assets, canvas);
+  useEffect(() => {
+    if (
+      import.meta.env.MODE !== "pages" &&
+      (launchOptions.get("online") === "1" || invitedRoom)
+    )
+      runtime?.openLobby();
+  }, [runtime]);
   useEffect(() => {
     if (view.screen === "menu" || view.screen === "selection")
       void exitImmersive();

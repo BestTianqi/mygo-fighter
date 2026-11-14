@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { spawn } from "node:child_process";
 import { networkInterfaces } from "node:os";
 import { fileURLToPath } from "node:url";
 import {
@@ -30,23 +31,52 @@ const instanceTtlMs = process.env.INSTANCE_TTL_MS?.trim() || undefined;
 const internalSecret = process.env.INTERNAL_SECRET?.trim() || undefined;
 const trustLocalProxy = process.env.TRUST_LOCAL_PROXY?.trim() || undefined;
 
+const lanIPs = [];
+for (const [name, list] of Object.entries(networkInterfaces())) {
+  for (const ip of list ?? []) {
+    if (
+      ip.family === "IPv4" &&
+      !ip.internal &&
+      !/^(utun|awdl|llw|tun|tap)|clash|vmware|virtualbox|vEthernet/i.test(
+        name,
+      ) &&
+      !/^(169\.254\.|198\.1[89]\.)/.test(ip.address)
+    )
+      lanIPs.push([name, ip.address]);
+  }
+}
+
 function addresses(existing = false) {
-  console.log(`\nThis computer: http://localhost:${port}`);
-  for (const [name, list] of Object.entries(networkInterfaces()))
-    for (const ip of list ?? []) {
-      if (
-        ip.family === "IPv4" &&
-        !ip.internal &&
-        !/^(utun|awdl|llw|tun|tap)/i.test(name) &&
-        !/^(169\.254\.|198\.1[89]\.)/.test(ip.address)
-      )
-        console.log(`LAN (${name}): http://${ip.address}:${port}`);
-    }
+  const url = new URL(`http://127.0.0.1:${port}`);
+  url.searchParams.set("online", "1");
+  for (const [, ip] of lanIPs) url.searchParams.append("lan", ip);
+  console.log(`\nThis computer: ${url.href}`);
+  for (const [name, ip] of lanIPs) {
+    console.log(`LAN (${name}): http://${ip}:${port}/?online=1`);
+  }
   console.log(
     existing
       ? "The existing backend is still running in its original window. Both players must use the same server.\n"
       : "Keep this window open. Both players must use the same server.\n",
   );
+  if (
+    process.env.MYGO_OPEN_BROWSER !== "1" ||
+    process.env.MYGO_NO_BROWSER === "1"
+  )
+    return;
+  const [command, args] = {
+    win32: ["rundll32.exe", ["url.dll,FileProtocolHandler", url.href]],
+    darwin: ["open", [url.href]],
+  }[process.platform] ?? ["xdg-open", [url.href]];
+  const browser = spawn(command, args, {
+    stdio: "ignore",
+    windowsHide: true,
+    detached: true,
+  });
+  browser.on("error", () =>
+    console.log("Open the address above in your browser."),
+  );
+  browser.unref();
 }
 
 // Reuse only a server that identifies itself as this application. The port
@@ -56,7 +86,7 @@ const running = await fetch(`http://127.0.0.1:${port}/api/health`, {
 })
   .then((r) => r.json())
   .catch(() => null);
-if (running?.app === "mygo-scala") {
+if (running?.app === "mygo-scala" && running.ok) {
   console.log("The MyGO Scala server is already running.");
   addresses(true);
   process.exit(0);
@@ -188,7 +218,7 @@ for (const service of services) {
 // answers /api/health with this application's payload.
 waitForJson(
   `http://127.0.0.1:${port}/api/health`,
-  (body) => body?.app === "mygo-scala",
+  (body) => body?.app === "mygo-scala" && body.ok,
   {
     label: "the edge to become ready",
     timeoutMs: 180000,

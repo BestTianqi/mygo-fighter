@@ -13,6 +13,7 @@ import { enterImmersive } from "../../../runtime/display/immersive";
 import type { GameRuntime } from "../../../runtime/GameRuntime";
 
 import type { ConnectionView } from "../../../../../apis/rooms/objects";
+import { invitedRoom } from "../../../functions/onlineLinks";
 
 const orders = ["先锋", "中坚", "大将"];
 const slotLabel = (size: number, slot: number) =>
@@ -27,7 +28,7 @@ export function useLanLobby(
   runtime: Pick<GameRuntime, "lan" | "runCommand" | "closeLobby" | "setSound">,
   network: ConnectionView,
 ) {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(invitedRoom);
   const [busy, setBusy] = useState(false);
   const [pendingLabel, setPendingLabel] = useState("");
   const [preview, setPreview] = useState(0);

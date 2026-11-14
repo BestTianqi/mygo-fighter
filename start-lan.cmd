@@ -11,11 +11,11 @@ if not exist node_modules (
   call npm ci
   if errorlevel 1 goto failed
 )
+set "MYGO_OPEN_BROWSER=1"
 call npm run lan
 if errorlevel 1 goto failed
 echo.
 echo The launcher has finished. The local backend services have stopped.
-pause
 exit /b 0
 :failed
 echo.

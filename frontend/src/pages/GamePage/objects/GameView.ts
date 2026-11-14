@@ -38,7 +38,7 @@ export interface GameView {
   sound: boolean;
   network: ConnectionView;
   lobbyOpen: boolean;
-  dialog: "help" | "moves" | null;
+  dialog: "help" | "moves" | "onlineGuide" | null;
   cutins: (Presentation | null)[];
   superCasts: Match["superCasts"];
   preparedSuperVideos: ReadonlyMap<string, HTMLVideoElement>;

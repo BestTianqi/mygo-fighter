@@ -4,6 +4,7 @@ import { MATCH_FORMATS } from "../../../../game/battleRules";
 import type { Format } from "../../../../game/objects/MatchOptions";
 
 import type { LanLobbyModel } from "./hooks/useLanLobby";
+import { RoomInvite } from "./RoomInvite";
 
 const selectClass =
   "min-h-11 w-full touch-manipulation rounded-none bg-panel px-3 py-2 text-sm text-ivory disabled:opacity-65 focus-visible:outline-2 focus-visible:outline-ember";
@@ -80,6 +81,9 @@ export function LobbyHeader({ model }: { model: LanLobbyModel }) {
           ))}
         </select>
       </label>
+      {side === 0 && !model.bothConnected && (
+        <RoomInvite key={room.code} code={room.code} />
+      )}
     </header>
   );
 }

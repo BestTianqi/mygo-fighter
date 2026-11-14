@@ -8,7 +8,7 @@ export function RoomConnectionPanel({ model }: { model: LanLobbyModel }) {
     <div className="space-y-4" aria-busy={working}>
       <section className="bg-panel p-4 sm:p-5" aria-label="创建房间">
         <p className="mb-4 text-xs leading-5 text-muted">
-          创建房间，邀请朋友开战。
+          第一次开房？点「创建房间」，再把邀请链接发给朋友。
         </p>
         <Button
           primary
@@ -35,7 +35,9 @@ export function RoomConnectionPanel({ model }: { model: LanLobbyModel }) {
           id="room-code-help"
           className="mt-1 mb-3 text-xs leading-5 text-muted"
         >
-          输入朋友分享的 6 位房间码。
+          {code.length === 6
+            ? "房间码已填好，点「加入房间」继续。"
+            : "和朋友打开同一个游戏地址，再填入对方发来的六位房间码。"}
         </p>
         <div className="flex flex-wrap gap-2 sm:flex-nowrap">
           <input

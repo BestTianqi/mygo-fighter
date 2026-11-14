@@ -405,7 +405,7 @@ export class GameRuntime {
     });
     void this.audio.unlock(value);
   }
-  showDialog(dialog: "help" | "moves") {
+  showDialog(dialog: NonNullable<GameView["dialog"]>) {
     this.dialogWasPaused = this.match?.paused ?? true;
     if (this.view.screen === "battle") void this.pause(true);
     this.publish({ dialog });

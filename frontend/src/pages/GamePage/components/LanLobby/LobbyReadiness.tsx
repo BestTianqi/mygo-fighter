@@ -27,7 +27,9 @@ export function LobbyReadiness({ model }: { model: LanLobbyModel }) {
       : room.preparing || status === "preparing"
         ? "正在加载角色，所有人完成后同时开战。"
         : !bothConnected
-          ? `分享房间码，等待 ${model.playerCount} 位玩家全部连接。`
+          ? model.side === 0
+            ? `把邀请发给朋友，等 ${model.playerCount} 位玩家到齐。你可以先选角色。`
+            : `已加入房间，等待 ${model.playerCount} 位玩家到齐。你可以先选角色。`
           : drafting
             ? !myTurn
               ? `等待 ${(draft.turn ?? 0) + 1}P ${draft.phase === "ban" ? "禁用" : "选择"}角色。`
@@ -35,7 +37,9 @@ export function LobbyReadiness({ model }: { model: LanLobbyModel }) {
                 ? `轮到你了：点击角色，再确认${draft.phase === "ban" ? "禁用" : "出战"}。`
                 : `已选 ${ROSTER[candidate].name}，点击确认${draft.phase === "ban" ? "禁用" : "出战"}。`
             : !allTeamsComplete
-              ? "等待所有玩家选满出战阵容后，即可准备。"
+              ? model.team.length < model.teamSize
+                ? `点击角色卡选人，你还需选择 ${model.teamSize - model.team.length} 名角色。`
+                : "你的阵容已选满，等其他玩家选完即可准备。"
               : ownReady
                 ? `你已准备 · ${readyCount} / ${model.playerCount} 人已准备，等待其他玩家。`
                 : "阵容已齐，点击准备开战。所有人准备后自动开始。";

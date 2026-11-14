@@ -4,14 +4,26 @@ import { bindingList } from "../../../game/controls";
 import { MOVES, ROSTER } from "../../../game/engine";
 import type { GameView } from "../objects/GameView";
 import type { GameRuntime } from "../runtime/GameRuntime";
+import { OnlineGuide } from "./OnlineGuide";
 export function GameDialogs({
   view,
   runtime,
 }: {
   view: GameView;
-  runtime: Pick<GameRuntime, "closeDialog">;
+  runtime: Pick<GameRuntime, "closeDialog" | "openLobby">;
 }) {
   if (!view.dialog) return null;
+  if (view.dialog === "onlineGuide")
+    return (
+      <OnlineGuide
+        onClose={() => runtime.closeDialog()}
+        onLobby={() => {
+          runtime.closeDialog();
+          runtime.openLobby();
+        }}
+        lobbyOpen={view.lobbyOpen}
+      />
+    );
   if (view.dialog === "help")
     return (
       <Dialog title="操作说明" onClose={() => runtime.closeDialog()} wide>

@@ -21,7 +21,9 @@ npm run lan
 
 首次构建会下载 JavaScript 与 JVM 依赖。请保持服务器窗口开启。启动器会构建并暂存 JVM 产物，随后以三个本地进程启动与生产环境相同的三个后端角色——`rooms`、`lobby` 和 `edge`。命令与输出保持不变：它会打印本地地址和本机的局域网地址，默认公网端口为 **8080**（rooms 与 lobby 仍走回环端口 8091 与 8079）。拓扑结构见[后端服务](docs/SERVICES.md)。
 
-Windows 下双击 `start-lan.cmd`。无论启动成功还是失败，窗口都会保留，便于查看错误。macOS/Linux 下运行 `./start-lan.sh`。这些启动器同样会构建应用并启动相同的 Scala 后端角色。HTTP、静态文件、房间目录、房间、WebSocket 与权威对局均由 Java 处理；Node 只承担构建与启动。
+Windows 玩家可下载 [免安装版](https://github.com/BestTianqi/mygo-fighter/releases/latest)，完整解压后由房主双击 `start-lan.cmd`。浏览器会在服务启动后自动打开联机大厅。房主点击「创建房间」，把「复制邀请链接」得到的网址发给朋友。朋友连到同一个 Wi-Fi 后直接打开链接，点击「加入房间」，房间码已经填好。双方各自选人并点击「准备开战」。游戏主菜单和联机大厅都可以打开「联机教程」。
+
+使用源码时，Windows 双击 `start-lan.cmd`，macOS/Linux 运行 `./start-lan.sh`。源码启动器完成构建并启动后端后，也会自动打开联机大厅。使用免安装版时，Java 运行时已经打包，双击 `start-game.cmd` 可以开启本机游玩。两种版本游玩时均需保持对应的启动窗口开启。
 
 Windows 前端构建把 esbuild 的临时文件放在被 Git 忽略的 `output/build-temp/` 目录，避免系统临时目录拒绝访问导致清理报错。该行为适用于启动脚本、`npm run build`、`npm run build:pages` 以及在 `frontend/` 下执行的构建；系统环境变量不做改动。
 
@@ -61,7 +63,7 @@ Windows 启动脚本把 Java 临时文件（包括 JLine 的控制台 DLL）放�
 
 全部 16 名角色在 READY 之前都会用自己的原作全身立绘做一段短入场。开局时所有入场同时播放；在 3v3 中只有新上场的替补表演，留场角色保留原有资源。本地与联机对战共用同一个 2.75 秒的开战倒计时，包括暂停/重连后的恢复。系统开启“减少动态效果”偏好时改用静态介绍。
 
-[阿里云北京服务器](https://mygo-123-57-149-254.sslip.io/)支持**两个房间 / 四名玩家**，有独立的 HTTPS 地址，GitHub Pages 不提供入口链接。两名玩家必须使用同一台服务器。部署、限额与实测见[公网服务器搭建与运维](docs/WAN.md)。公网访问需要 HTTPS、WebSocket 转发以及主机入站 TCP 80/443 规则；只运行局域网启动器并不会配置这些。
+[阿里云北京服务器](https://mygo-123-57-149-254.sslip.io/)有独立的 HTTPS 地址，可直接打开，也可从 GitHub Pages 的「联机对战」进入。双方需使用同一台服务器。部署、限额与实测见[公网服务器搭建与运维](docs/WAN.md)。公网访问需要 HTTPS、WebSocket 转发以及主机入站 TCP 80/443 规则。
 
 ## 操作
 
@@ -134,6 +136,6 @@ Scala 后端以 `edge`、`lobby`、`rooms` 三个角色运行同一份发布产�
 
 参见[后端服务](docs/SERVICES.md)、[架构与评审指南](docs/ARCHITECTURE.md)、[课程指引](docs/COURSE_GUIDANCE.md)与[局域网协议与时序](docs/LAN.md)。随附的风格规范保留在 [STYLE_RULES.txt](docs/STYLE_RULES.txt)。
 
-推送到 `main` 后，GitHub Pages 会自动发布 `frontend/dist` 中的 React 构建。静态版本支持本地对战、CPU、练习与 3v3；联机房间需要 Scala 服务器。可选的仓库 Actions 变量 `PUBLIC_GAME_URL` 可开启公网服务器链接，本次试用未设置。本地静态构建可使用 `VITE_PUBLIC_GAME_URL`（见 `frontend/.env.example`）。所有原作运行时媒体均保留，路径相对于应用解析，因此项目子路径 URL 也能正常工作。
+推送到 `main` 后，GitHub Pages 会自动发布 `frontend/dist` 中的 React 构建。静态版本支持本地对战、CPU、练习与 3v3。联机对战按钮会打开公网服务器。可用仓库 Actions 变量 `PUBLIC_GAME_URL` 或本地构建变量 `VITE_PUBLIC_GAME_URL` 更换目标服务器（见 `frontend/.env.example`）。运行时媒体路径相对于应用解析，支持项目子路径。
 
 测试套件已被移除。发布前请运行上面的检查与两个构建，再在浏览器中验证项目子路径加载、录音播放、角色变身、大招与菜单流程。改动局域网相关功能时，还要检查两个客户端对同一台 Scala 服务器的加入、加载、对战、暂停与重连。本地报告与截图请放在被忽略的 `output/` 目录中。

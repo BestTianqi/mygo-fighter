@@ -1,6 +1,8 @@
 import type { Assets } from "../../../../assets/objects/Assets";
 import { Dialog } from "../../../../components/ui/Dialog";
 import type { GameView } from "../../objects/GameView";
+import { Button } from "../../../../components/ui/Button";
+import type { GameRuntime } from "../../runtime/GameRuntime";
 
 import { useLanLobby } from "./hooks/useLanLobby";
 import { LobbyHeader } from "./LobbyHeader";
@@ -14,7 +16,7 @@ export function LanLobby({
   view,
   assets,
 }: {
-  runtime: Parameters<typeof useLanLobby>[0];
+  runtime: Parameters<typeof useLanLobby>[0] & Pick<GameRuntime, "showDialog">;
   view: GameView;
   assets: Assets;
 }) {
@@ -28,7 +30,15 @@ export function LanLobby({
       viewport={!!room}
     >
       {!room ? (
-        <RoomConnectionPanel model={model} />
+        <>
+          <RoomConnectionPanel model={model} />
+          <Button
+            className="mt-3 w-full"
+            onClick={() => runtime.showDialog("onlineGuide")}
+          >
+            联机教程
+          </Button>
+        </>
       ) : (
         <>
           <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]">
@@ -61,7 +71,7 @@ export function LanLobby({
                 ? model.pendingLabel
                 : room
                   ? "所有玩家准备后自动开战。操作：WASD 移动 · J/K/L、U/I/O、H、P 技能。"
-                  : "房间码由 6 位数字或 A–F 字母组成。"}
+                  : ""}
       </p>
     </Dialog>
   );

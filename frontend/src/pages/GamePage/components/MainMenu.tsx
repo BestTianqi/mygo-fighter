@@ -5,6 +5,7 @@ import type { GameRuntime } from "../runtime/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { Button } from "../../../components/ui/Button";
 import { publicGameURL } from "../functions/publicGameURL";
+import { onlineLink } from "../functions/onlineLinks";
 
 const bands = [
   { key: "mygo", name: "MyGO!!!!!", ids: [1, 4, 3, 2, 0] },
@@ -25,8 +26,6 @@ export function MainMenu({
 }) {
   const [bandIndex, setBandIndex] = useState(1);
   const band = bands[bandIndex];
-  const onlineDisabled =
-    (import.meta.env.MODE === "pages" && !publicGameURL) || !runtime;
   const resumable = ["ready", "fighting", "roundOver"].includes(view.phase);
   const theater = assets.stages.findIndex((stage) => stage.id === "theater");
   const modes = [
@@ -109,22 +108,24 @@ export function MainMenu({
               ))}
               <Button
                 aria-label="联机对战"
-                disabled={onlineDisabled}
+                disabled={!runtime}
                 onClick={() =>
-                  import.meta.env.MODE === "pages" && publicGameURL
-                    ? location.assign(publicGameURL)
+                  import.meta.env.MODE === "pages"
+                    ? location.assign(onlineLink(publicGameURL))
                     : runtime?.openLobby()
                 }
-                className="col-span-2 min-h-12 bg-panel/90 px-5 text-center"
+                className="min-h-12 bg-panel/90 px-5 text-center"
               >
                 联机对战
               </Button>
+              <Button
+                disabled={!runtime}
+                onClick={() => runtime?.showDialog("onlineGuide")}
+                className="min-h-12 bg-panel/90"
+              >
+                联机教程
+              </Button>
             </div>
-            {onlineDisabled && import.meta.env.MODE === "pages" && (
-              <p className="mt-1 text-xs leading-5 text-muted">
-                联机请打开主机提供的游戏地址。
-              </p>
-            )}
           </div>
         </div>
         <div className="relative order-1 min-w-0 lg:order-2">
