@@ -3,6 +3,8 @@ import type { Assets } from "../../../../assets/objects/Assets";
 import { schemeFor } from "../../../../game/controls";
 import { bandFor } from "../../../../game/bands";
 import type { GameView } from "../../objects/GameView";
+import { superStageTransition } from "../../functions/superStageTransition";
+import { backgroundVideoEnabled } from "../../runtime/display/backgroundVideoEnabled";
 import { BattleConnection } from "./BattleConnection";
 import { FinishOverlay } from "./FinishOverlay";
 import type { BattleActions } from "./objects/BattleActions";
@@ -48,6 +50,35 @@ export function BattlePanel({
     view.screen,
     mobile,
   );
+  const cutins = backgroundVideoEnabled() ? view.cutins : [];
+  const transition = superStageTransition(view.superCasts, cutins, view.phase);
+  const hud = (
+    <div
+      className={
+        mobile
+          ? "order-last min-w-0 basis-full landscape:order-none landscape:flex-1 landscape:basis-0"
+          : undefined
+      }
+      style={{ opacity: transition.stageOpacity }}
+      aria-hidden={transition.stageOpacity === 0}
+    >
+      <BattleHUD
+        view={view}
+        assets={assets}
+        mobile={mobile}
+        fullField={fullField}
+      />
+    </div>
+  );
+  const fieldControls = fullField && (
+    <FullFieldControls
+      view={view}
+      runtime={runtime}
+      waitingForPlayers={waitingForPlayers}
+      toggleFullField={toggleFullField}
+      mobile={mobile}
+    />
+  );
   return (
     <section
       hidden={view.screen !== "battle"}
@@ -70,20 +101,27 @@ export function BattlePanel({
       ) : (
         <WindowedBattleHeader view={view} assets={assets} />
       )}
-      {mobile && <MobileBattleNotices view={view} />}
+      {mobile && (
+        <>
+          <div
+            className={`flex shrink-0 flex-wrap items-center justify-end gap-x-2 border-b border-line bg-panel pb-1 pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] ${fullField ? "pt-[max(0.25rem,env(safe-area-inset-top))]" : "pt-1"}`}
+          >
+            {hud}
+            {fullField && <BattleConnection view={view} mobile />}
+            {fieldControls}
+          </div>
+          <MobileBattleNotices view={view} />
+        </>
+      )}
       <BattleStage
         canvas={canvas}
         view={view}
         immersive={immersive}
+        mobile={mobile}
+        cutins={cutins}
+        transition={transition}
         onClearCutin={(side) => runtime?.clearCutin(side)}
-        hud={
-          <BattleHUD
-            view={view}
-            assets={assets}
-            mobile={mobile}
-            fullField={fullField}
-          />
-        }
+        hud={!mobile && hud}
       >
         {!immersive && (
           <>
@@ -101,14 +139,7 @@ export function BattlePanel({
           </>
         )}
       </BattleStage>
-      {fullField && (
-        <FullFieldControls
-          view={view}
-          runtime={runtime}
-          waitingForPlayers={waitingForPlayers}
-          toggleFullField={toggleFullField}
-        />
-      )}
+      {!mobile && fieldControls}
       {!immersive && (
         <BattleToolbar
           view={view}
@@ -118,7 +149,7 @@ export function BattlePanel({
           canTransform={canTransform}
         />
       )}
-      {fullField && <BattleConnection view={view} />}
+      {fullField && !mobile && <BattleConnection view={view} />}
       {fullField && !mobile && (
         <p className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-[10px] tracking-widest text-muted">
           ESC 退出全屏 · 右上角暂停设置
@@ -129,7 +160,7 @@ export function BattlePanel({
         !view.paused &&
         view.phase !== "finished" &&
         !view.dialog && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-void/85 via-void/35 to-transparent pt-14">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-void/85 via-void/35 to-transparent pt-14 landscape:bg-none landscape:pt-0">
             <div className="pointer-events-none pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
               {runtime && (
                 <TouchControls

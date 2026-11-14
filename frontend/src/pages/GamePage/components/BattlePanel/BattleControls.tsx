@@ -30,7 +30,7 @@ function BarButton({
   );
 }
 
-/** Floating buttons stay reachable while the full-field stage hides the toolbar. */
+/** Quick actions stay reachable while the full toolbar is hidden. */
 function FieldButton({
   label,
   onClick,
@@ -133,17 +133,19 @@ export function FullFieldControls({
   runtime,
   waitingForPlayers,
   toggleFullField,
+  mobile,
 }: {
   view: GameView;
   runtime: BattleActions | null;
   waitingForPlayers: boolean;
   toggleFullField: () => void;
+  mobile: boolean;
 }) {
   return (
     <div
       role="group"
       aria-label="全屏快捷操作"
-      className="absolute right-[max(0.5rem,env(safe-area-inset-right))] top-[max(0.5rem,env(safe-area-inset-top))] z-40 flex items-center gap-1.5"
+      className={`flex shrink-0 items-center gap-1.5 ${mobile ? "" : "absolute right-[max(0.5rem,env(safe-area-inset-right))] top-[max(0.5rem,env(safe-area-inset-top))] z-40"}`}
     >
       <FieldButton
         label={view.paused ? "继续对战" : "暂停对战"}

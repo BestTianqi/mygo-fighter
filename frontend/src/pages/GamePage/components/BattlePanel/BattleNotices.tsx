@@ -49,7 +49,7 @@ export function MobileBattleNotices({ view }: { view: GameView }) {
   return (
     <p
       role={error ? "alert" : "status"}
-      className={`pointer-events-none absolute inset-x-2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-50 bg-void/95 px-3 py-2 text-center text-xs ${error ? "text-ember" : "text-gold"}`}
+      className={`pointer-events-none shrink-0 bg-void/95 px-3 py-1 text-center text-xs ${error ? "text-ember" : "text-gold"}`}
     >
       {message}
     </p>

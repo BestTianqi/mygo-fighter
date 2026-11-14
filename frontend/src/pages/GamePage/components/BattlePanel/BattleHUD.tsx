@@ -16,15 +16,16 @@ export function BattleHUD({
   fullField: boolean;
 }) {
   const brawl = view.config?.format === "3ffa";
+  const padding = fullField
+    ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-6 portrait:pt-3 sm:gap-6"
+    : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16";
   return (
     <div
       aria-label="对战状态"
-      className={`pointer-events-none absolute inset-x-0 top-0 z-10 grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start gap-2 bg-linear-to-b from-void/95 via-void/65 to-transparent text-white ${
-        fullField
-          ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] pb-6 portrait:pt-3 sm:gap-6"
-          : mobile
-            ? "px-[max(0.75rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-6 pb-8"
-            : "p-3 pt-8 pb-12 sm:gap-6 sm:p-6 sm:pt-9 sm:pb-16"
+      className={`pointer-events-none grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start text-white ${
+        mobile
+          ? "gap-x-1.5 gap-y-0.5"
+          : `absolute inset-x-0 top-0 z-10 gap-2 bg-linear-to-b from-void/95 via-void/65 to-transparent ${padding}`
       }`}
     >
       {brawl ? (
@@ -33,8 +34,10 @@ export function BattleHUD({
             className="col-span-3 flex items-center justify-center gap-2 text-[10px] text-ivory/80"
             aria-label="混战剩余时间"
           >
-            <span>三人混战 · 每人 3 角色</span>
-            <strong className="font-mono text-base text-white">
+            {!mobile && <span>三人混战 · 每人 3 角色</span>}
+            <strong
+              className={`font-mono text-white ${mobile ? "text-xs leading-none" : "text-base"}`}
+            >
               {view.config?.rules?.infiniteTime
                 ? "∞"
                 : Math.ceil(view.remaining / 1000)}
@@ -60,7 +63,7 @@ export function BattleHUD({
               aria-label={
                 view.config?.rules?.infiniteTime ? "无限时间" : "剩余时间"
               }
-              className={`font-mono text-2xl font-bold text-white ${mobile ? "" : "sm:text-4xl"}`}
+              className={`font-mono font-bold text-white ${mobile ? "text-lg leading-tight" : "text-2xl sm:text-4xl"}`}
             >
               {view.config?.rules?.infiniteTime
                 ? "∞"
@@ -68,7 +71,9 @@ export function BattleHUD({
                     .toString()
                     .padStart(2, "0")}
             </p>
-            <small className="whitespace-nowrap text-[9px] text-ivory/80 sm:text-[10px]">
+            <small
+              className={`whitespace-nowrap text-[9px] text-ivory/80 ${mobile ? "block leading-tight" : "sm:text-[10px]"}`}
+            >
               第 {view.round} 回合
             </small>
             {view.config?.rules?.oneHitKO && (
@@ -113,10 +118,10 @@ function FighterHUD({
   return (
     <div
       aria-label={`${label} · ${fighter.name}${view.network.room && view.network.side === side ? " · 你" : ""}`}
-      className={`min-w-0 bg-void/55 p-1.5 sm:p-2 ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
+      className={`min-w-0 bg-void/55 ${mobile ? "px-1.5 py-0.5 leading-tight" : "p-1.5 sm:p-2"} ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
     >
       <div
-        className={`mb-1.5 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
+        className={`flex items-center gap-2 ${mobile ? "mb-0.5" : "mb-1.5"} ${reverse ? "flex-row-reverse" : ""}`}
       >
         {!mobile && (
           <img
@@ -128,29 +133,31 @@ function FighterHUD({
             className="hidden size-9 rounded-none object-cover object-top sm:block"
           />
         )}
-        <div className="min-w-0">
+        <div
+          className={`min-w-0 ${mobile ? `flex flex-wrap items-baseline gap-x-1 ${reverse ? "justify-end" : ""}` : ""}`}
+        >
           <p
-            className={`mb-0.5 text-[9px] font-bold ${side === 0 ? "text-ember" : side === 1 ? "text-silver" : "text-gold"}`}
+            className={`shrink-0 text-[9px] font-bold ${mobile ? "" : "mb-0.5"} ${side === 0 ? "text-ember" : side === 1 ? "text-silver" : "text-gold"}`}
           >
             {label}
             {view.network.room && view.network.side === side ? " · 你" : ""}
           </p>
           <p
-            className={`truncate text-[11px] font-bold ${mobile ? "sm:text-xs" : "sm:text-base"}`}
+            className={`min-w-0 truncate text-[11px] font-bold ${mobile ? "" : "sm:text-base"}`}
           >
             {fighter.name}
             {fighter.transformed && <span className="ml-1 text-ember">✦</span>}
             {fighter.lifesteal && (
               <span
                 aria-label="吸血效果"
-                className="ml-2 text-[9px] font-normal text-rose-200 sm:text-xs"
+                className={`text-[9px] font-normal text-rose-200 ${mobile ? "ml-1" : "ml-2 sm:text-xs"}`}
               >
                 吸血 {Math.round(fighter.lifesteal.ratio * 100)}% ·{" "}
                 {Math.ceil(fighter.lifesteal.ms / 1000)}秒
               </span>
             )}
             {view.config?.rules?.vampire && !fighter.lifesteal && (
-              <span className="ml-2 text-[9px] font-normal text-rose-200 sm:text-xs">
+              <span className={`text-[9px] font-normal text-rose-200 ${mobile ? "ml-1" : "ml-2 sm:text-xs"}`}>
                 吸血 25%
               </span>
             )}
@@ -170,7 +177,7 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={view.config?.rules?.maxHealth ?? 200}
         aria-valuenow={fighter.hp}
-        className={`h-2.5 overflow-hidden rounded-none bg-line ${mobile ? "sm:h-3" : "sm:h-4"}`}
+        className={`overflow-hidden rounded-none bg-line ${mobile ? "h-1.5" : "h-2.5 sm:h-4"}`}
       >
         <div
           className={`h-full transition-[width] duration-75 ${reverse ? "ml-auto" : ""} ${side === 0 ? "bg-ember" : side === 1 ? "bg-silver" : "bg-gold"}`}
@@ -185,7 +192,7 @@ function FighterHUD({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={fighter.energy}
-        className={`mt-1 flex items-center gap-2 ${reverse ? "flex-row-reverse" : ""}`}
+        className={`flex items-center ${mobile ? "mt-0.5 gap-1" : "mt-1 gap-2"} ${reverse ? "flex-row-reverse" : ""}`}
       >
         <div className="h-1 min-w-0 flex-1 overflow-hidden rounded-none bg-raised">
           <div
@@ -203,7 +210,7 @@ function FighterHUD({
         </span>
       </div>
       <p
-        className={`mt-1 text-[9px] text-ivory/80 ${mobile ? "" : "sm:text-[10px]"}`}
+        className={`text-[9px] text-ivory/80 ${mobile ? "" : "mt-1 sm:text-[10px]"}`}
       >
         {brawl
           ? remaining === 0

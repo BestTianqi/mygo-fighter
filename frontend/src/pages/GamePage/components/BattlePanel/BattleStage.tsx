@@ -1,14 +1,15 @@
 import { type ReactNode, type RefObject } from "react";
 import type { GameView } from "../../objects/GameView";
-import { backgroundVideoEnabled } from "../../runtime/display/backgroundVideoEnabled";
-
 import { UltimateBackgroundVideo } from "./UltimateBackgroundVideo";
-import { superStageTransition } from "../../functions/superStageTransition";
+import type { superStageTransition } from "../../functions/superStageTransition";
 
 export function BattleStage({
   canvas,
   view,
   immersive,
+  mobile,
+  cutins,
+  transition,
   onClearCutin,
   hud,
   children,
@@ -16,12 +17,13 @@ export function BattleStage({
   canvas: RefObject<HTMLCanvasElement | null>;
   view: GameView;
   immersive: boolean;
+  mobile: boolean;
+  cutins: GameView["cutins"];
+  transition: ReturnType<typeof superStageTransition>;
   onClearCutin: (side: number) => void;
   hud: ReactNode;
   children: ReactNode;
 }) {
-  const cutins = backgroundVideoEnabled() ? view.cutins : [];
-  const transition = superStageTransition(view.superCasts, cutins, view.phase);
   const videos = cutins.flatMap((media, side) =>
     media?.video ? [{ media, side, cast: view.superCasts[side] }] : [],
   );
@@ -29,7 +31,7 @@ export function BattleStage({
     <div
       className={
         immersive
-          ? "relative flex min-h-0 flex-1 items-center justify-center [container-type:size]"
+          ? `relative flex min-h-0 flex-1 items-center justify-center [container-type:size] ${mobile ? "ml-[env(safe-area-inset-left)] mr-[env(safe-area-inset-right)]" : ""}`
           : undefined
       }
     >
@@ -79,12 +81,7 @@ export function BattleStage({
           width={960}
           height={540}
         />
-        <div
-          style={{ opacity: transition.stageOpacity }}
-          aria-hidden={transition.stageOpacity === 0}
-        >
-          {hud}
-        </div>
+        {hud}
         {transition.blackOpacity > 0 && (
           <div
             aria-hidden="true"
