@@ -121,7 +121,7 @@ assert.deepEqual(
 );
 
 const tomori = duel([2, 0]);
-tomori.fighters[1].x = 300;
+tomori.fighters[1].x = 900;
 tomori.advance(10, { super: true });
 tomori.advance(tomori.superIntro?.durationMs ?? 0);
 const waveLaunches = [];
@@ -134,8 +134,24 @@ for (let i = 0; i < 100; i++) {
     control = tomori.fighters[1].hardStun;
 }
 assert.equal(waveLaunches.length, 1, "normal Tomori fires one wave");
-assert.equal(tomori.fighters[1].hp, 980, "the wave deals 20 damage");
+assert.equal(tomori.fighters[1].hp, 980, "the wave deals 20 damage at long range");
 assert.equal(control, 2000, "the wave inflicts two seconds of hard stun");
+
+const distant = duel([2, 0]);
+distant.fighters[1].x = 1400;
+distant.advance(10, { super: true });
+distant.advance(distant.superIntro?.durationMs ?? 0);
+for (let i = 0; i < 60 && !distant.waves.length; i++) distant.advance(10);
+const soundWave = distant.waves.find((wave) => wave.attack === "tomoriSuper");
+assert.ok(soundWave, "normal Tomori launches a wave");
+assert.equal(distant.superCasts[0].elapsedMs, 7080, "the launch cue stays aligned");
+assert.equal(soundWave.vx, 1260, "the wave travels at triple speed");
+distant.advance(950);
+assert.ok(distant.waves.includes(soundWave), "the wave travels past its old cap");
+distant.advance(30);
+assert.ok(!distant.waves.includes(soundWave), "the wave expires at its new cap");
+assert.ok(Math.abs(soundWave.x - soundWave.originX - 1260) <= 12.6);
+assert.equal(distant.fighters[1].hp, 1000, "targets past the cap stay unharmed");
 
 const guarded = duel([2, 0]);
 guarded.fighters[1].x = 300;
