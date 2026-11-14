@@ -49,7 +49,6 @@ export function applyUltimateTiming(moves: Record<string, Move>): void {
       releaseCueMs: cue,
       leadInMs: Math.max(0, cue - release),
       mediaDelayMs: Math.max(0, release - cue),
-      ...(key === "penguinSuper" ? { arenaVideo: true } : {}),
     };
   }
 }

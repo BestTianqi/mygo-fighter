@@ -2,7 +2,6 @@ import { MOVES } from "../../../game/combatData";
 import {
   hasSuperCutin,
   SUPER_BLACKOUT_MS,
-  usesSuperBackground,
 } from "../../../game/data/superTransition";
 import type { GameView } from "../objects/GameView";
 
@@ -42,13 +41,7 @@ export function superStageTransition(
   cutins: GameView["cutins"],
   phase: GameView["phase"],
 ) {
-  const hasVideo = cutins.some((media, side) => {
-    const cast = casts[side];
-    return (
-      !!media?.video &&
-      (!cast || usesSuperBackground(MOVES[cast.attack]?.cinematic))
-    );
-  });
+  const hasVideo = cutins.some((media) => !!media?.video);
   const background = { showVideo: hasVideo, stageOpacity: 1, blackOpacity: 0 };
   if (!hasVideo || phase !== "fighting") return background;
 

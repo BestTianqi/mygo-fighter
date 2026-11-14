@@ -116,8 +116,8 @@ assert.deepEqual(
     [{ video: "chant.mp4" }, null],
     chant.phase,
   ),
-  { showVideo: false, stageOpacity: 1, blackOpacity: 0 },
-  "an immediate super keeps the normal arena",
+  { showVideo: true, stageOpacity: 1, blackOpacity: 0 },
+  "an immediate super plays its video behind the visible battle",
 );
 
 const tomori = duel([2, 0]);
@@ -158,7 +158,8 @@ assert.deepEqual(
     [{ video: "taki.mp4" }, null],
     short.phase,
   ),
-  { showVideo: false, stageOpacity: 1, blackOpacity: 0 },
+  { showVideo: true, stageOpacity: 1, blackOpacity: 0 },
+  "a short lead-in plays its video behind the visible battle",
 );
 
 const penguin = duel([2, 0]);
