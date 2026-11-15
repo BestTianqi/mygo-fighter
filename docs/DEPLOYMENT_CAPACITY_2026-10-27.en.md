@@ -23,11 +23,11 @@ Fetched and reviewed `origin/main`, then fast-forwarded the clean checkout befor
 
 ## Capacity screening
 
-The deciding screening used the production HTTPS/WSS endpoint, temporarily configured to admit up to 40 rooms while the requested batches were tested. Clients ran on the separate Azure Japan East VM so they did not consume AliCloud CPU. AliCloud resource samples were recorded independently every five seconds. JVM flags, memory ceiling, task limit and application artifact were unchanged.
+The deciding screening used the production HTTPS/WSS endpoint, temporarily configured to admit up to 40 rooms while the requested batches were tested. Clients ran on a separate remote load generator so they did not consume game-host CPU. AliCloud resource samples were recorded independently every five seconds. JVM flags, memory ceiling, task limit and application artifact were unchanged.
 
 Every room was an active 3v3 relay with two authenticated clients. Teams covered all 16 characters across multiple stages, with flat terrain so clients could continuously approach and attack. Clients sent movement, normal attacks, skills, transformations, jumps and supers, at up to 30 input messages per second per player, acknowledged finish presentations and restarted completed matches.
 
-Each deciding stage used 60 seconds of active warm-up and at least 60 seconds of measurement. Passing required every client to receive at least 50 snapshots/second, snapshot-gap p95 at most 50 ms, server-update p95 at most 16.67 ms, RTT p95 at most 250 ms on the Japan East–Beijing path, no unexpected disconnects or protocol errors, observed damage, matching event IDs between peers and a live backend within the existing memory ceiling. These are workload-specific acceptance criteria relative to nominal 60 Hz snapshots, not a universal hardware maximum.
+Each deciding stage used 60 seconds of active warm-up and at least 60 seconds of measurement. Passing required every client to receive at least 50 snapshots/second, snapshot-gap p95 at most 50 ms, server-update p95 at most 16.67 ms, RTT p95 at most 250 ms on the measured cross-region path, no unexpected disconnects or protocol errors, observed damage, matching event IDs between peers and a live backend within the existing memory ceiling. These are workload-specific acceptance criteria relative to nominal 60 Hz snapshots, not a universal hardware maximum.
 
 | Rooms | Warmed screening | Minimum snapshots/s | Worst gap p95, ms | Worst RTT p95, ms | Mean CPU cores | Maximum sampled memory, MiB |
 | ----- | ---------------- | ------------------: | ----------------: | ----------------: | -------------: | --------------------------: |
@@ -69,8 +69,6 @@ Public functional checks passed protocol-20 authentication, pause/resume, reconn
 ## Previous-version removal and operations
 
 At the user's explicit request, deleted all three preceding AliCloud releases (`20261026-6d3d136-protocol10`, `20261026-b82ae8c-protocol12`, `20261027-9207f12-protocol12`), their uploaded packages and metadata, and the `previous` symlink. Only `20261027-1fbfdc0-protocol20` remains under `/srv/mygo-fighter/releases/`. Generic activation/rollback scripts remain deployment infrastructure, but rollback has no previous release to target.
-
-Removed the already disabled Azure game trial: all three release directories, uploaded archives, its service unit, environment file, dedicated cache and temporary hosting files. The game-specific Caddy configuration was replaced with its original configuration; Caddy remained disabled. The Azure VPN remained active/enabled, with its networking and credentials preserved.
 
 Temporary capacity services, clients, portable Node runtimes and their files on both hosts were removed after collecting reports. The active game continues running. Local reports and temporary scripts are under ignored `output/deploy-20261027/`; browser artifacts are under ignored `output/playwright/`.
 

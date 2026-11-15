@@ -1,149 +1,258 @@
 **简体中文** | [English](WAN.en.md) | [日本語](WAN.ja.md)
 
-# 公网在线部署
+# 个人服务器公网部署教程
 
-完整的游戏可以运行在一台 Linux 服务器上。Scala 后端以独立的 `edge`、`lobby` 与 `rooms` 角色运行：rooms 用与本地对战相同的 TypeScript 战斗内核执行权威的两人与三人对局，lobby 负责跟踪实例与房间容量，edge 接收公网流量。Caddy 提供 HTTPS，并把 HTTP 与 WebSocket 转发到 `127.0.0.1:8080` 上的 edge。玩家打开同一个共享游戏 URL；任何玩家都不需要开放公网端口或安装后端。
+本教程把完整游戏部署到你自己的 Linux 服务器，适用于个人 VPS、云主机或具备公网接入条件的家用服务器。玩家只需打开同一个 HTTPS 地址，通过浏览器创建和加入房间；接力对战支持两名玩家，三人混战支持三名玩家。
 
-**阿里云北京**部署运行在 `alicloud` SSH 主机上（`123.57.149.254`，Ubuntu 24.04，x86-64，两个 vCPU，约 1.6 GiB 内存）。游玩地址为 [mygo-123-57-149-254.sslip.io](https://mygo-123-57-149-254.sslip.io/)。配套的前端、Scala 后端与共享战斗内核对应应用提交 `2ed585d`、协议 **25**、发布版本 `20261030-2ed585d-protocol25`。页面较旧的客户端必须刷新。GitHub Pages 不链接到该服务器。
+部署使用仓库现有的 `deploy/` 脚本：Caddy 接收公网 HTTPS/WSS，edge 提供网页、API 与 WebSocket 入口，lobby 管理房间目录与容量，rooms 运行权威战斗内核。同一份发行包提供三个角色，前端与服务端内核一起更新。详细边界见[后端服务](SERVICES.md)。本教程中的地址和账号均为占位示例，不对应任何已部署主机。
 
-公网主机运行各自独立的 edge、lobby 与 rooms JVM，并只有一个 rooms 实例。生产环境在大厅与 rooms 配置中都使用**两房间上限**。在本次玩法审计中，四个房间会把该主机压满；两个房间通过了最初的受控测试。实测负载及其限制见[2026-10-30 部署与玩法审计](DEPLOYMENT_2026-10-30.md)。该设置并不代表能容纳所有可能的自定义规则组合。`deployment.json` 记录应用提交、归档校验和与验证信息。仍在使用 OpenJDK 21。
+## 1. 准备服务器、域名和构建机
 
-协议 22 的发布版本作为 `previous` 保留，连同其已禁用的旧版 unit 与环境文件，用于回滚。恢复路径已在公网主机上双向演练。更早的发布版本则保持删除状态。**Azure 游戏试用已退役**；下面的 Azure 部署细节均为历史记录。
+- **服务器**：以下命令以 Ubuntu 24.04 LTS、systemd、可使用 `sudo` 的 SSH 账号为前提。安装器使用 `apt-get`；其他发行版需自行适配包管理与服务配置。可从 2 vCPU、2 GiB 内存的小规模配置开始评估；这是起步预算，房间容量必须在自己的机器上测量。
+- **公网入口**：服务器需要可从玩家网络访问的地址。云主机在控制台配置安全组；家用服务器需要路由器把 TCP 80/443 转发到服务器，并固定内网地址。如果处于运营商 CGNAT 或校园网且无法做入站转发，这套直连步骤不能单独解决公网接入，需先取得可入站的地址或使用支持 WebSocket 的转发入口。
+- **域名**：把你控制的 `game.example.com` 的 A 记录指向服务器公网 IPv4。只有 IPv6 确实能访问时才添加 AAAA；错误的 AAAA 会造成部分客户端或证书校验失败。先使用直接 DNS 解析完成验收，再考虑额外的 CDN。
+- **构建机**：安装 Git、[Node.js](https://nodejs.org/en/download)（仓库要求至少 22.12，可使用 Node 24）、[JDK 21](https://adoptium.net/installation/) 和 [sbt](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html)。服务端运行机器只需 Java 21，安装器会安装，无需 Node.js 或 sbt。
 
-[运行时评估](RUNTIME_OPTIMIZATION_2026-10-27.md)、[协议 12 审计](DEPLOYMENT_PERFORMANCE_2026-10-26.md)与[最初的阿里云部署](DEPLOYMENT_ALICLOUD_2026-10-26.md)仍是历史记录，包含其测量值与限制。它们对应的发布目录已不存在。
-
-## 构建与安装
-
-先运行常规检查，然后在开发机上执行 `npm run package:server`。生成的 `backend/target/universal/mygo-server-2.0.0.tgz` 包含 JVM 依赖 jar、启动脚本、前端与原始运行时媒体，以及配套的内嵌战斗内核与地形清单。源美术资源保留在 Git 中，无需上传。目标主机只需要 Java 21，不需要 Node 或 sbt。
-
-根目录的 `deploy/` 文件夹存放操作系统安装与服务文件。它们属于部署基础设施而非后端业务代码，因此放在 Scala 的 `services/` 树之外。[后端服务](SERVICES.md)记录了运行时拓扑、内部端点与完整配置矩阵。
-
-## 三服务布局
-
-同一份发布产物服务全部三个角色；每个 systemd unit 设置 `SERVICE_ROLE`，并读取共享环境文件与角色专属环境文件。Caddy 保持不变：它仍把 `PUBLIC_HOSTNAME` 代理到 `127.0.0.1:8080`，只有 edge 在那里监听。
-
-| Unit                      | 角色    | 监听地址                                         | 环境文件                                                           |
-| ------------------------- | ------- | ------------------------------------------------ | ------------------------------------------------------------------ |
-| `mygo-edge.service`       | `edge`  | 公网 `127.0.0.1:8080`                            | `/etc/mygo-fighter/base.env`、`/etc/mygo-fighter/edge.env`         |
-| `mygo-lobby.service`      | `lobby` | 内部 `127.0.0.1:8079`                            | `/etc/mygo-fighter/base.env`、`/etc/mygo-fighter/lobby.env`        |
-| `mygo-rooms@<id>.service` | `rooms` | 内部 `127.0.0.1:8091`（实例 `a`；`b` 为 `8092`） | `/etc/mygo-fighter/base.env`、`rooms.env`、可选的 `rooms-<id>.env` |
-
-`base.env` 保存安装器生成的 `INTERNAL_SECRET` 以及激活过程使用的 `ROOMS_INSTANCES` 列表。初始部署预算为一个 rooms 实例，全局与逐实例的 `MAX_ROOMS=2`，`edge` 上限 256 MiB，`lobby` 192 MiB，`rooms` 512 MiB，由原先单一 512 MiB 的服务上限拆分而来。提高房间数之前，请先确认实测内存；这些限制只是配置，不是容量承诺。
-
-在全新的专用主机上首次安装：
+下面的本机命令使用 macOS/Linux 的 Bash；Windows 可使用 WSL，在同一环境中完成构建和上传。如果尚未取得源码，先执行：
 
 ```sh
+git clone https://github.com/BestTianqi/mygo-fighter.git
+cd mygo-fighter
+```
+
+已有仓库则直接使用原检出。给 `~/.ssh/config` 添加别名，替换示例 IP、登录用户及密钥路径；`203.0.113.10` 和 `game.example.com` 都必须换成你自己的值：
+
+```sshconfig
+Host game-server
+    HostName 203.0.113.10
+    User ubuntu
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+在**构建机的仓库根目录**设置变量。后续标为本机的命令在同一个终端执行；新开终端后需要重新设置变量。
+
+```sh
+MYGO_SSH=game-server
+MYGO_HOSTNAME=game.example.com
+ssh "$MYGO_SSH" 'id; uname -m; free -h; df -h /srv'
+```
+
+用 `nslookup game.example.com` 检查解析，确认得到你服务器的地址。自定义 SSH 端口可在 SSH 配置中添加 `Port`。
+
+## 2. 放行网络并检查端口
+
+云平台安全组与服务器防火墙必须同时允许流量。SSH 端口按你的管理需求放行，可进一步限制为管理 IP；TCP 80/443 向玩家网络开放。默认布局的端口如下：
+
+| 端口                     | 使用者                         | 访问范围                  |
+| ------------------------ | ------------------------------ | ------------------------- |
+| TCP 22 或自定义 SSH 端口 | SSH 管理                       | 管理访问（可限制来源 IP） |
+| TCP 80/443               | Caddy 的 HTTP 跳转、HTTPS、WSS | 公网                      |
+| TCP 8080                 | edge                           | `127.0.0.1`，不开放公网   |
+| TCP 8079                 | lobby                          | `127.0.0.1`，不开放公网   |
+| TCP 8091                 | rooms 实例 a                   | `127.0.0.1`，不开放公网   |
+
+在**服务器 SSH 会话**中执行以下示例。启用 UFW 前先放行实际 SSH 端口，保留当前会话，并确认其他正在使用的服务已有对应规则；若不是 22，请先修改示例中的 22。已有防火墙时只补充规则，不要重置现有配置。[Ubuntu 防火墙说明](https://ubuntu.com/server/docs/how-to/security/firewalls/)介绍了 UFW 的配置。
+
+```sh
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl openssl tar util-linux ufw
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status verbose
+sudo ss -ltnp
+```
+
+如果 Nginx、Apache 或其他程序已占用 TCP 80/443，应先确定由谁负责 HTTPS，不能让两个代理争抢同一端口。默认 Caddy 配置只启用 HTTP/1.1 与 HTTP/2，游戏不要求开放 UDP 443。
+
+## 3. 在本机构建完整发行包
+
+在干净的检出上先同步并审阅远端更新，再构建。已有修改时保留它们，先处理合并，不要覆盖工作区。以下命令在仓库根目录执行；`MYGO_HOSTNAME` 只填域名，不含协议、路径或端口。
+
+```sh
+node --version
+java -version
+sbt --version
+npm ci
+npm run check
+npm run check:backend
+VITE_PUBLIC_GAME_URL="https://$MYGO_HOSTNAME" npm run package:server
+
+MYGO_VERSION=$(node -p "require('./package.json').version")
+MYGO_COMMIT=$(git rev-parse HEAD)
+MYGO_RELEASE="$(date -u +%Y%m%dT%H%M%SZ)-$(git rev-parse --short HEAD)"
+MYGO_ARCHIVE="backend/target/universal/mygo-server-$MYGO_VERSION.tgz"
+test -f "$MYGO_ARCHIVE"
+mkdir -p output/wan
 tar -czf output/wan/hosting.tar.gz deploy
-scp output/wan/hosting.tar.gz alicloud:/tmp/mygo-hosting.tar.gz
-ssh alicloud 'mkdir -p /tmp/mygo-hosting && tar -xzf /tmp/mygo-hosting.tar.gz -C /tmp/mygo-hosting'
-ssh alicloud 'sudo bash /tmp/mygo-hosting/deploy/install.sh PUBLIC_HOSTNAME'
+shasum -a 256 "$MYGO_ARCHIVE"
 ```
 
-`install.sh` 创建 `mygo` 账号与发布目录，把三个 unit 以及 `activate.sh`/`rollback.sh` 安装到 `/opt/mygo-fighter` 下，仅在缺失时创建 `/etc/mygo-fighter/{base,edge,lobby,rooms}.env`，在缺少时追加生成的 `INTERNAL_SECRET`，并启用 Caddy 与 `ROOMS_INSTANCES` 中的每个 unit（默认 `a`）。它保留 Caddy 安全检查，且是幂等的。在仍运行旧单一 unit 的主机上，使用 `--prepare-only` 可以在旧服务继续可用的同时安装新布局。激活过程会在切换发布版本前停止旧服务。不加该选项时，安装器会立即禁用并停止 `mygo-fighter`。它保留 `/etc/mygo-fighter.env` 以便对照，并打印迁移步骤。迁移值映射如下：`HOST`、`PORT`、`WEB_ROOT` 与 `TRUST_LOCAL_PROXY` 对应 `edge.env`；旧的 `MAX_ROOMS` 对应 `lobby.env`（全局）与 `rooms.env`（逐实例）。修改 `ROOMS_INSTANCES` 后重新运行 `install.sh` 会启用新增的实例 unit。
+当前版本为 2.0.1，对应 `backend/target/universal/mygo-server-2.0.1.tgz`；命令从 `package.json` 取版本，因此升级时不用照抄旧文件名。Linux 缺少 `shasum` 时可用 `sha256sum` 替代。
 
-部署新的应用发布版本：
+`package:server` 包含常规生产前端、运行时媒体、JVM 依赖、启动脚本，以及生成后的共享战斗内核。应上传这个 `.tgz`，不要用桌面免安装 ZIP 或单独的 `build:pages` 替代。无需上传 `assets/` 源素材或 `node_modules/`。生成的文件和验证记录放在忽略的 `output/` 下。
+
+## 4. 首次安装系统服务
+
+在**构建机**上传部署文件并运行安装器：
 
 ```sh
-scp backend/target/universal/mygo-server-2.0.0.tgz alicloud:/tmp/mygo-server-2.0.0.tgz
-ssh alicloud 'sha256sum /tmp/mygo-server-2.0.0.tgz'
-ssh alicloud 'sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID COMMIT'
+scp output/wan/hosting.tar.gz "$MYGO_SSH:/tmp/mygo-hosting.tar.gz"
+ssh "$MYGO_SSH" 'mkdir -p /tmp/mygo-hosting && tar -xzf /tmp/mygo-hosting.tar.gz -C /tmp/mygo-hosting'
+ssh -t "$MYGO_SSH" "sudo bash /tmp/mygo-hosting/deploy/install.sh '$MYGO_HOSTNAME'"
 ```
 
-激活前请把上传的校验和与本地归档对比。可选的第三个参数会把应用提交记录到 `deployment.json`。激活会先停止 edge，再停止 lobby，然后停止每个 rooms 实例；把 `/srv/mygo-fighter/current` 切换到解压出的发布版本；依次启动 rooms 实例、lobby、edge，并等待每个内部 `/internal/health` 与 edge 的 `/api/health` 报告 `"app":"mygo-scala"`。随后它写入 `deployment.json`，包含发布 ID、可选提交、归档 SHA-256、激活时间与角色/实例端口，并把被替换的发布版本保留为 `previous`。启动或健康检查失败会还原上一个发布版本并重启整套服务。首次迁移会保留协议 22 的目录。失败还原与回滚能识别它的单 unit 布局，会启动 `mygo-fighter`，而不是把旧产物当作三个角色运行。在保留该回滚目标期间，请保留旧版 unit 与环境文件。
+这一步适用于全新的专用主机。安装器会安装 Java 21 和 Caddy，创建 `mygo` 系统账号、发布目录、环境文件与三个 systemd unit，并启用开机启动。`base.env` 中缺少 `INTERNAL_SECRET` 时会自动生成；重复安装会保留现有环境文件。Caddy 会启动，但应用在下一步激活前尚未运行，这时暂时出现 502 属于预期。
 
-请使用新的、有描述性的 `RELEASE_ID`，其中只能包含字母、数字、点、连字符与下划线。安装器使用 Ubuntu 的 Java 与 Caddy 软件包，并创建一个专用的 `mygo` 账号。它会拒绝替换与之无关的现有 Caddy 安装，备份初始 Caddy 配置，并保留任何现有的游戏环境文件。激活期间各角色会停止，因此切换发布版本会结束临时房间，客户端必须刷新；协议 25 的发布版本会拒绝协议 24 及更早的客户端。
+如果主机已安装且配置了其他用途的 Caddy，安装器会拒绝覆盖。不要为绕过检查而伪造备份标记。应先备份原配置，在维护窗口人工合并站点和全局选项，再按 `deploy/install.sh` 安装账号、环境文件及 unit，保留其他站点。如果已经有 Nginx 等代理，也应人工接入同一个 edge 地址；下面的自动安装流程以由 Caddy 独占 Web 端口的新主机为前提。
+
+安装器把配置写到以下位置。在**服务器**上检查它们：
 
 ```sh
-ssh alicloud 'systemctl status mygo-edge mygo-lobby caddy --no-pager'
-ssh alicloud 'systemctl list-units "mygo-rooms@*" --all --no-pager'
-ssh alicloud 'sudo journalctl -u mygo-edge -u mygo-lobby -n 100 --no-pager'
-ssh alicloud 'sudo systemctl show mygo-edge mygo-lobby "mygo-rooms@a" -p MemoryCurrent -p MemoryPeak -p NRestarts'
-ssh alicloud 'sudo cat /srv/mygo-fighter/current/deployment.json'
-ssh alicloud 'sudo bash /opt/mygo-fighter/rollback.sh'
+sudoedit /etc/mygo-fighter/base.env
+sudoedit /etc/mygo-fighter/edge.env
+sudoedit /etc/mygo-fighter/lobby.env
+sudoedit /etc/mygo-fighter/rooms.env
 ```
 
-每增加一个 rooms 实例，就为内存检查增加一条 `journalctl -u mygo-rooms@<id>` 与一个实例。`rollback.sh` 用相同的停止、启动与健康检查序列回退整套服务；如果回滚本身失败，它会重新启动当前活跃的发布版本，并保持链接不变。如需做内部健康检查，可以从 `base.env` 中读出生成的密钥：
+| 文件        | 首次部署的重要值                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `base.env`  | 自动生成的 `INTERNAL_SECRET`；`ROOMS_INSTANCES="a"`                                                                                  |
+| `edge.env`  | `HOST=127.0.0.1`、`PORT=8080`、`WEB_ROOT=/srv/mygo-fighter/current/web`、`LOBBY_URL=http://127.0.0.1:8079`、`TRUST_LOCAL_PROXY=true` |
+| `lobby.env` | `LOBBY_HOST=127.0.0.1`、`LOBBY_PORT=8079`、`MAX_ROOMS=2`、`ROOMS_PER_INSTANCE=2`                                                     |
+| `rooms.env` | `ROOMS_HOST=127.0.0.1`、`ROOMS_PORT=8091`、`MAX_ROOMS=2`、`LOBBY_URL=http://127.0.0.1:8079`                                          |
+
+三个角色必须使用同一个内部密钥。不要把它提交到仓库、放进网页或分享给玩家；配置文件默认是 `root:mygo`、0640。默认环境不需要修改即可启动。只在可信的本机反向代理后启用 `TRUST_LOCAL_PROXY`。环境文件使用普通 `KEY=value`，不写 `export` 或命令替换。
+
+systemd 默认分别限制 edge 256 MiB、lobby 192 MiB、每个 rooms 实例 512 MiB；这些是各进程的限制，不能把 512 MiB 当作整个部署的内存预算。还需为操作系统和 Caddy 留出内存。rooms 的 GraalJS 缓存由 unit 放在 `/var/cache/mygo-fighter/rooms-a`。
+
+## 5. 上传、核对校验和并激活
+
+回到**构建机的原终端**：
 
 ```sh
-ssh alicloud 'sudo bash -c ". /etc/mygo-fighter/base.env; curl -fsS -H \"X-Mygo-Internal: \$INTERNAL_SECRET\" http://127.0.0.1:8079/internal/health"'
+scp "$MYGO_ARCHIVE" "$MYGO_SSH:/tmp/mygo-server.tgz"
+shasum -a 256 "$MYGO_ARCHIVE"
+ssh "$MYGO_SSH" 'sha256sum /tmp/mygo-server.tgz'
 ```
 
-Azure SSH 别名的历史开通步骤（游戏试用现已移除）：
+先核对本地与远端输出的 64 位 SHA-256 完全一致，匹配后再执行激活：
 
 ```sh
-tar -czf output/wan/hosting.tar.gz deploy
-scp output/wan/hosting.tar.gz azure:/tmp/mygo-hosting.tar.gz
-ssh azure 'mkdir -p /tmp/mygo-hosting && tar -xzf /tmp/mygo-hosting.tar.gz -C /tmp/mygo-hosting'
-ssh azure 'sudo bash /tmp/mygo-hosting/deploy/install.sh mygo-20-78-1-182.sslip.io'
-scp backend/target/universal/mygo-server-2.0.0.tgz azure:/tmp/mygo-server-2.0.0.tgz
-ssh azure 'sudo bash /tmp/mygo-hosting/deploy/activate.sh /tmp/mygo-server-2.0.0.tgz RELEASE_ID'
+ssh -t "$MYGO_SSH" "sudo bash /opt/mygo-fighter/activate.sh /tmp/mygo-server.tgz '$MYGO_RELEASE' '$MYGO_COMMIT'"
+ssh "$MYGO_SSH" 'sudo cat /srv/mygo-fighter/current/deployment.json'
 ```
 
-上面的 Azure 命令描述的是使用单一 unit 的已退役试用；当前的 `install.sh` 改为安装三服务布局。请在虚拟机的 Azure 网络安全组中放行入站 **TCP 80 与 443**。不要开放 8080，也不要修改现有的 UDP 443 VPN 规则。随附的 Caddy 配置已禁用 HTTP/3，因此不会占用 VPN 的 UDP 端口。代理会保留 Host 并处理 WebSocket 升级。其 ACME 证书数据仍保存在 Caddy 的持久服务存储中。
+`MYGO_RELEASE` 是时间与提交组成的唯一发布 ID；手动命名时以字母或数字开头，至少两个字符，其余只用字母、数字、点、下划线或连字符，不得复用已有 ID。
 
-该试用在 `azure-vm-nsg` 中使用优先级 330 的 `MyGO-Web-TCP-80-443`，仅挂接到这台虚拟机的网络接口。优先级 320 的现有 `Hysteria2-UDP-443` 规则保持不变。Caddy 占用 TCP 80/443；JVM 仍绑定回环端口 8080，Hysteria 保留 UDP 443。
+激活器解压归档，检查启动脚本与网页，停止旧角色，切换 `/srv/mygo-fighter/current`，再按 rooms → lobby → edge 顺序启动并检查健康。成功后写入 `deployment.json`，记录提交、归档 SHA-256、角色端口与激活时间；被替换的发布保留为 `previous`。更新会结束当前临时房间，应提前通知玩家。新发布失败时会尝试恢复上一发布；首次安装没有上一发布时只能停止角色并排查，不能宣称已回滚。
 
-## 历史单 unit 配置与共享行为
+## 6. 验证 HTTPS、WebSocket 和实际对战
 
-`/etc/mygo-fighter.env` 曾保存已退役单 unit 布局的运行时设置。它在迁移过的主机上仍然保留，但 edge/lobby/rooms 的 unit **不再读取**它；三服务对应的配置位于 `/etc/mygo-fighter/{base,edge,lobby,rooms}.env`，如上所述。
-
-| 设置                | 试用值                          | 含义                                       |
-| ------------------- | ------------------------------- | ------------------------------------------ |
-| `HOST`              | `127.0.0.1`                     | 后端只能通过本地代理/SSH 访问              |
-| `PORT`              | `8080`                          | 私有后端端口                               |
-| `WEB_ROOT`          | `/srv/mygo-fighter/current/web` | 属于当前活跃发布版本的前端                 |
-| `MAX_ROOMS`         | `2`                             | 正数的房间上限；普通局域网默认仍为 20      |
-| `TRUST_LOCAL_PROXY` | `true`                          | 只接受来自回环对端的最后一个转发客户端地址 |
-
-单一 unit 启动时使用 64 MB 最小 / 256 MB 最大 Java 堆、64 MB 预留代码缓存与 512 MB 服务内存上限，且不分配服务交换空间。三服务布局改为把 edge 限制在 256 MB、lobby 192 MB、每个 rooms 实例 512 MB；这样为 Ubuntu、Caddy 与现有 VPN 留出空间。这些设置是试用预算，不是容量保证。虚拟机不会自动扩容。
-
-每个 rooms unit 通过 `CacheDirectory` 与 `XDG_CACHE_HOME` 为内嵌的 GraalJS 运行时提供专用的逐实例缓存 `/var/cache/mygo-fighter/rooms-<id>`。这样在应用发布版本与服务主目录保持只读的同时，原生运行时资源仍可解压。没有该缓存时，GraalJS 会因 `/srv/mygo-fighter/.cache` 下的访问拒绝错误而报出误导性的缺少 `truffleattach` 警告。现有安装需要换上更新后的 unit，然后执行 `systemctl daemon-reload` 并重启服务。参见 [GraalVM 的内部资源文档](https://www.graalvm.org/latest/reference-manual/embed-languages/#managing-internal-resources)。
-
-edge 保持相同的准入行为：创建房间与加入房间合计限制为每个客户端地址每分钟 20 次尝试，套接字握手另有每分钟 60 次的限制，计数器会过期，地址/类别映射上限为 4,096 项。拒绝时使用 HTTP 429、JSON 重试消息与 `Retry-After: 60`。已建立的套接字保留现有的每秒 300 条消息与 8 KiB 消息上限。edge 强制校验同源浏览器请求；rooms 进程在处理玩家命令前解析会话令牌。房间码出现在 WebSocket URL（`/ws?room=CODE`）中，令牌则从不出现在其中。Caddy 会忽略不可信的入站转发声明；只有位于可信回环代理之后才应启用 `TRUST_LOCAL_PROXY`。
-
-服务器每个房间接受两名真人玩家，并保留房主专属的规则修改、1v1 与 3v3 队伍接力、权威战斗与重连加载屏障。断线会暂停对局。所有套接字消失两分钟后，房间清理会停止其时钟、关闭仿真、吊销其会话并释放容量。30 分钟不活跃过期与所有人显式离开后的立即清理仍然保留。服务器重启会丢弃临时房间。
-
-## 历史 Azure 操作与通用回滚行为
-
-下面的 Azure 命令是为已退役的单一 unit 试用保留的。对于当前的阿里云主机，请改用[三服务布局](#三服务布局)中的三服务命令。
+在**服务器外的本机网络**执行：
 
 ```sh
-ssh azure 'systemctl status mygo-fighter caddy hysteria-server --no-pager'
-ssh azure 'sudo journalctl -u mygo-fighter -u caddy --no-pager -n 100'
-ssh azure 'systemctl show mygo-fighter -p MemoryCurrent -p MemoryPeak -p CPUUsageNSec -p NRestarts'
-ssh azure 'sudo systemctl restart mygo-fighter'
-curl --fail https://mygo-20-78-1-182.sslip.io/api/health
+curl -I "http://$MYGO_HOSTNAME/"
+curl -fsS "https://$MYGO_HOSTNAME/api/health"
 ```
 
-发布安装器会解压到 `/srv/mygo-fighter/releases/RELEASE_ID`，停止各角色 unit，原子地切换 `current`，按依赖顺序启动它们，并检查内部与公网健康状态。先停止再切换可避免上一个 JVM 继续提供更新的前端。切换、启动或健康检查失败时，如果存在上一个发布版本就会还原它并重启整套服务。成功激活会把它记录为 `previous`；在主机上运行 `sudo bash /opt/mygo-fighter/rollback.sh` 即可还原。部署与回滚通过主机本地锁串行化。切换与重启都会结束当前的临时对局。裁剪发布版本时，通常应保留活跃与上一个目录。2026-10-28 明确提出的删除旧版本请求覆盖了该部署的默认做法；现在只保留活跃的阿里云目录。
+HTTP 应返回 HTTPS 跳转；HTTPS 健康检查应包含 `"app":"mygo-scala"`、`"ok":true`，并且三个角色健康。不要用 `curl -k` 掩盖证书问题。Caddy 自动获取和续期证书需要域名解析正确、TCP 80/443 可达、端口可绑定、证书存储可写且持久；见 [Caddy 自动 HTTPS 文档](https://caddyserver.com/docs/automatic-https)。
 
-要退役该试用，请停止并禁用各角色 unit（历史上的单一 unit 是 `mygo-fighter`；当前布局使用 `mygo-edge`、`mygo-lobby` 与 `mygo-rooms@<id>`），只移除该试用的 Azure TCP 80/443 入站规则，然后在 Caddy 仍只服务本游戏时停止它。如果要把 Caddy 留给其他用途，请还原 `/etc/caddy/Caddyfile.before-mygo`。之后可以在完成所需备份后移除游戏的发布目录、其服务 unit、`/etc/mygo-fighter*` 配置与专用的 `mygo` 账号。请保持 VPN 服务、其证书与 UDP 443 规则不变。
+在**服务器**确认开机启动、日志与监听地址：
 
-## 历史 Azure 试用验证
+```sh
+sudo systemctl status mygo-edge mygo-lobby mygo-rooms@a caddy --no-pager
+sudo systemctl is-enabled mygo-edge mygo-lobby mygo-rooms@a caddy
+sudo journalctl -u mygo-edge -u mygo-lobby -u mygo-rooms@a -u caddy -n 100 --no-pager
+sudo ss -ltnp
+curl -fsS http://127.0.0.1:8080/api/health
+```
 
-必需的验收包括：常规前端/媒体/构建与 Scala 检查；在 `/mygo-fighter/` 下的静态 Pages 检查且不含试用链接；不绕过证书的 HTTPS 与 WebSocket 访问；原始图片/音频/视频加载；两个同时进行的对局中四个相互隔离的客户端持续至少 15 分钟；伤害、大招、替补推进、暂停、重开与重连；满员/无效房间、无效会话、不兼容协议、来源与准入检查；以及废弃房间过期。记录内存、CPU、快照时序与 VPN 响应性。所有临时工具与测量都属于被 Git 忽略的 `output/wan/`；不恢复任何已删除的测试目录。
+8080、8079 和 8091 应只监听回环地址；公网 Web 端口由 Caddy 持有。内部健康接口需要共享密钥。以下命令只在服务器内使用密钥，不将它打印到终端；示例对应安装器生成的单行十六进制格式：
 
-在退役之前，该应用以两房间上限安装在 Azure 上。合并立希与乐奈的更新（网络协议 7）后，前端/媒体检查、Scala 编译/格式化、常规构建、Pages 构建、打包启动与代理准入检查均已通过。已发布的 GitHub Pages 站点在 `/mygo-fighter/` 下检查过，没有试用服务器链接。可选的 HTTPS 链接用仅用于测试的构建单独验证过；Pages 的 `PUBLIC_GAME_URL` 仍未设置。
+```sh
+sudo bash <<'HEALTH'
+set -eu
+secret=$(sed -n 's/^INTERNAL_SECRET=//p' /etc/mygo-fighter/base.env | tail -n 1)
+for port in 8079 8091; do
+  curl -fsS -H "X-Mygo-Internal: $secret" "http://127.0.0.1:$port/internal/health"
+  printf '\n'
+done
+HEALTH
+```
 
-**2026-10-26 的公网验收运行通过**：**四个相互隔离的 WebSocket 客户端同时进入两个房间，持续 900 秒**，包含更新后的立希/乐奈 1v1 对局与 3v3 替补推进。客户端通过公网 HTTPS/WSS 直接连接，无需 SSH 转发或绕过证书。每个客户端收到约 54,000 个快照，没有意外断线、协议错误或服务器重启。房间隔离、移动、伤害、暂停、重开与重连均通过。第三个房间被明确拒绝，两分钟废弃会话吊销与房间容量回收检查也通过。
+最后做浏览器验收，健康接口成功不能代替真实联机：
 
-全部 **279 个原始运行时媒体文件（93,738,918 字节）**也通过可信的公网 HTTPS 与本地原始文件逐字节一致，覆盖图片、音频与视频资源。
+1. 用电脑打开 `https://game.example.com/`，确认主菜单、角色、关卡、音频和视频加载正常。
+2. 点击「联机对战」→「创建房间」→「复制邀请链接」。另一台设备通过手机流量或其他外网打开链接并加入同一房间。
+3. 双方选人并准备，确认加载完成后进入战斗，移动、攻击和大招能同步，生命与回合结果一致。需要混战时，用三台设备验证三人加载与开局。
+4. 在浏览器开发者工具的 Network → WS 中确认连接是 `wss://game.example.com/ws?room=...`，并有持续帧流。没有房间和认证的裸 `/ws` 请求被拒绝，不等于代理故障。
+5. 检查断线暂停、同标签页刷新重连，以及满房时的提示。更新或重启会丢弃内存房间，这不属于会话持久化功能。
 
-进一步的公网检查也已通过：权威的祥子与薇欧拉大招、刷新恢复、无效房间码、过期会话、不兼容客户端、同源强制与带重试消息的准入限制。故意让发布启动失败后的自动还原，以及手动回滚到上一发布版本再回滚回来，也都通过。最终的 Azure 试用应用是协议 7，位于 `/srv/mygo-fighter/releases/20261026-wan-protocol7`，由提交 `09c9a2a` 构建。
+随附的 [Caddy 反向代理](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy) 会转发 WebSocket 升级，不需要另开游戏公网端口。默认站点位于域名根路径；不要直接把 `/game/` 等子路径套用到这套配置。
 
-| 测量项             | 观察到的公网试用结果                                               |
-| ------------------ | ------------------------------------------------------------------ |
-| 游戏服务内存峰值   | 在 512 MiB 上限内为 313.2 MiB                                      |
-| Caddy 内存峰值     | 45.6 MiB                                                           |
-| 游戏平均 CPU       | 在对局运行 870 秒的 29 次采样中为 0.416 个 CPU 核                  |
-| Caddy 平均 CPU     | 同一区间为 0.021 个 CPU 核                                         |
-| p95 服务器更新工作 | 四个客户端下为 1.18–1.21 ms                                        |
-| p95 公网往返时间   | 四个客户端下为 123.8–124.8 ms                                      |
-| p95 快照投递间隔   | 四个客户端下为 59.1–59.3 ms                                        |
-| 公网连接建立       | 五次连接尝试中，打开 WSS 用 85–255 ms；收到已认证房间用 167–343 ms |
-| VPN 可用性         | 18 分钟内全部 36 次检查均为活跃；每次 SSH 探测都完成               |
-| VPN 命令探测时间   | p95 1.25 秒，最大 1.31 秒，包含 SSH 握手与命令执行                 |
+## 7. 更新与回滚
 
-这些测量支持**这台虚拟机上两房间 / 四玩家的测试目标**。它们描述的是一个客户端网络与一次短时试用，而不是持续的生产容量或各个地区的延迟。VPN 可用性与命令响应性是抽样得到的；VPN 吞吐量没有做基准测试。没有做虚拟机扩容或有偿资源升级。验收结果已在上文概述；临时工具与原始测量不属于仓库内容。
+更新时重复本机同步、检查、`package:server`、生成新的 `MYGO_COMMIT`/`MYGO_RELEASE`、上传与校验，再调用 `activate.sh`。每次都部署整包，使网页与共享内核保持一致。单纯发布新代码通常不用重跑 `install.sh`；修改了 unit 或安装脚本时才重新审阅并安装部署文件，注意安装器会重写它负责的 Caddy 配置。
 
-**退役前的历史结果：公网 HTTPS 与 WSS 已上线。** Caddy 为该主机名获取了公开受信的 Let's Encrypt 证书。HTTP 会重定向到 HTTPS，常规的证书/主机名校验与公网 `/api/health` 检查均已通过。两个相互隔离的浏览器通过 `wss://mygo-20-78-1-182.sslip.io/ws` 对战；键盘攻击把防守方血量降到 179，刷新/重连在恢复前保持了该血量。临时的仅回环验证代理已移除；公网 Caddy 服务随主机自动启动。
+回滚在**构建机**执行：
+
+```sh
+ssh "$MYGO_SSH" 'sudo readlink /srv/mygo-fighter/current; sudo readlink /srv/mygo-fighter/previous'
+ssh -t "$MYGO_SSH" 'sudo bash /opt/mygo-fighter/rollback.sh'
+curl -fsS "https://$MYGO_HOSTNAME/api/health"
+```
+
+首次发布没有 `previous`；保留正在使用和上一发布的目录。回滚只切换应用，不恢复 `/etc/mygo-fighter/*.env`、systemd 覆盖配置或 Caddy 配置，因此调整配置前需单独备份，回滚时检查与旧包是否兼容。回滚成功后，再次执行会切回刚刚被替换的版本。
+
+日常可在**服务器**查看资源与重启次数：
+
+```sh
+sudo systemctl show mygo-edge mygo-lobby mygo-rooms@a -p MemoryCurrent -p MemoryPeak -p NRestarts
+sudo journalctl -u mygo-rooms@a -n 100 --no-pager
+```
+
+环境值改变后，在维护窗口重启对应角色；更改内部密钥时必须协调重启全部角色。unit 文件改变后先执行 `sudo systemctl daemon-reload` 再重启。重启 rooms 会结束该实例中的对局。
+
+## 8. 容量与增加 rooms 实例
+
+默认只有实例 a、两个房间的全局上限。`lobby.env` 的 `MAX_ROOMS` 控制全局，`ROOMS_PER_INSTANCE` 控制放置预算，`rooms.env` 的 `MAX_ROOMS` 控制单实例。只改其中一处不会自动扩大整套容量。先在自己的机器上测试 CPU、内存、快照间隔与玩家 RTT；大队伍、三人混战和自定义规则可能改变负载，旧机器的测量值不能当作你的保证。
+
+如果确实需要实例 b，在**服务器**先确认 8092 空闲，然后准备覆盖文件：
+
+```sh
+sudo install -o root -g mygo -m 0640 /dev/null /etc/mygo-fighter/rooms-b.env
+printf 'ROOMS_PORT=8092\n' | sudo tee /etc/mygo-fighter/rooms-b.env >/dev/null
+sudoedit /etc/mygo-fighter/base.env
+sudoedit /etc/mygo-fighter/lobby.env
+```
+
+把 `base.env` 改为 `ROOMS_INSTANCES="a b"`。若仍是每实例两个房间，在 `lobby.env` 设置 `MAX_ROOMS=4`、`ROOMS_PER_INSTANCE=2`，而 `rooms.env` 保持 `MAX_ROOMS=2`。从保留的部署文件重新运行 `install.sh` 以启用新 unit，再用一个新的发布 ID 激活完整归档；激活器会读取实例列表。每个实例都必须有独立端口，仍只监听回环；核对 `mygo-rooms@b` 的状态、内部 8092 健康与资源占用。新增实例会增加 JVM 内存预算，不保证在同机线性扩容。更多配置见 [SERVICES.md](SERVICES.md)。
+
+## 9. 可选：让自己的 GitHub Pages 链接到此服务器
+
+直接打开个人服务器地址即可联机。若你使用自己的仓库副本发布静态 Pages，可在 GitHub 仓库 Settings → Secrets and variables → Actions → Variables 添加 `PUBLIC_GAME_URL=https://game.example.com`，再重新运行 Pages 工作流。它会在构建时传给 `VITE_PUBLIC_GAME_URL`。本机构建示例：
+
+```sh
+VITE_PUBLIC_GAME_URL="https://$MYGO_HOSTNAME" npm run build:pages
+```
+
+静态页面只负责打开你指定的 HTTPS 游戏地址；API、WebSocket 与房间仍由个人服务器提供，不是跨域把 Pages 当作游戏服务端。变量在构建时读取，修改后需要重新构建发布，并检查 `/mygo-fighter/` 项目子路径。未设置变量时会使用代码中的默认公共服务器，不会自动发现你的机器。
+
+## 10. 常见问题
+
+| 现象                              | 优先检查                                                                                                                |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| SSH 连不上                        | SSH 地址、用户、密钥、实际端口，以及安全组和 UFW 是否允许管理来源                                                       |
+| HTTPS 超时或证书申请失败          | A/AAAA 解析、TCP 80/443 的安全组/防火墙/NAT、端口占用和 `journalctl -u caddy`                                           |
+| HTTPS 正常但 502                  | edge 是否监听 8080，`current` 是否存在，`WEB_ROOT` 和发布权限是否正确                                                   |
+| 健康检查中 lobby/rooms 异常       | 三角色 unit、回环端口、`LOBBY_URL`、共享密钥与 rooms 心跳注册                                                           |
+| 能开网页但无法加入或持续重连      | WSS 升级是否通过代理，玩家是否在同一域名/同一服务器，是否满房或使用旧页面                                               |
+| 更新后提示客户端不兼容            | 刷新两个客户端，确认代理没有缓存旧 HTML，确保前端和内核来自同一个完整包                                                 |
+| `truffleattach` 或缓存权限错误    | Java 版本/架构、rooms unit 的 `XDG_CACHE_HOME` 与 `/var/cache/mygo-fighter/rooms-<id>` 权限；不要把发布目录整体改成可写 |
+| 服务反复重启或延迟升高            | `NRestarts`、内存上限、CPU 饱和、当前房间数与规则；降低容量并测量后再调整                                               |
+| `Release already exists`          | 使用新的发布 ID，不覆盖正在运行或用于回滚的目录                                                                         |
+| `No previous release is retained` | 首次发布或没有保留回滚目标；修复配置后部署一个新的完整包                                                                |
+
+部署前后的临时日志、截图和测量放在 `output/wan/`，不要提交账号密钥或生成产物。
