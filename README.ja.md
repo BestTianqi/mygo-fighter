@@ -23,6 +23,8 @@ npm run lan
 
 Windows では `start-lan.cmd` をダブルクリックします。起動が成功しても失敗してもウィンドウは開いたままなので、エラーを確認できます。macOS/Linux では `./start-lan.sh` を実行します。これらのランチャーもアプリをビルドし、同じ Scala バックエンドロールを起動します。HTTP、静的ファイル、ルームディレクトリ、ルーム、WebSocket、権威対戦は Java が処理し、Node はビルドと起動のためのツールです。
 
+Windows と macOS のポータブル版は[同じリリース](https://github.com/BestTianqi/mygo-fighter/releases/latest)からダウンロードできます。Apple Silicon（M1 以降）は `macos-arm64`、Intel は `macos-x64` を選び、ZIP を完全に展開してください。ローカル対戦は `start-game.command`、LAN ルームの作成は `start-lan.command` をダブルクリックします。Java は同梱されており、Node.js・Java・sbt の別途インストールは不要です。起動ウィンドウを開いたままにし、終了時は Ctrl+C を押します。Apple の開発者署名・公証はありません。macOS にブロックされた場合は公式リリースからのダウンロードであることを確認し、「システム設定 → プライバシーとセキュリティ」で起動を許可してください。詳細は同梱の `README.txt` を参照してください。
+
 Windows のフロントエンドビルドは、esbuild の一時ファイルを Git 管理外の `output/build-temp/` に置き、システムの一時ディレクトリでアクセス拒否によるクリーンアップエラーを避けます。これはランチャー、`npm run build`、`npm run build:pages`、`frontend/` から実行するビルドに適用され、システムの環境設定は変更しません。
 
 Windows でローカルゲームサーバーを停止するには `stop-lan.cmd` をダブルクリックします。成功するとウィンドウは自動で閉じ、エラー時は開いたままです。スクリプトは 8080 ポートをリッスンしているのがゲームサービスであることを確認してから停止します。`PORT` も認識し、`stop-lan.cmd -Port 8181` で別ポートも指定できます。サーバーを閉じると接続中のプレイヤーは切断されます。停止スクリプトは Windows PowerShell を使用し、Node.js は不要です。

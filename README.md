@@ -23,6 +23,8 @@ npm run lan
 
 Windows 玩家可下载 [免安装版](https://github.com/BestTianqi/mygo-fighter/releases/latest)，完整解压后由房主双击 `start-lan.cmd`。浏览器会在服务启动后自动打开联机大厅。房主点击「创建房间」，把「复制邀请链接」得到的网址发给朋友。朋友连到同一个 Wi-Fi 后直接打开链接，点击「加入房间」，房间码已经填好。双方各自选人并点击「准备开战」。游戏主菜单和联机大厅都可以打开「联机教程」。
 
+macOS 免安装版与 Windows 版在[同一个 Release](https://github.com/BestTianqi/mygo-fighter/releases/latest) 发布：Apple Silicon（M1 及更新芯片）选择 `macos-arm64`，Intel 选择 `macos-x64`。完整解压后双击 `start-game.command` 本地游玩，或双击 `start-lan.command` 开启局域网联机；均已内置 Java，无需安装 Node.js、Java 或 sbt。保持启动窗口开启，结束时按 Ctrl+C。本包未做 Apple 开发者签名或公证；若 macOS 拦截启动器，请确认官方 Release 来源后，在「系统设置 → 隐私与安全性」允许打开。详细步骤见包内 `README.txt`。
+
 使用源码时，Windows 双击 `start-lan.cmd`，macOS/Linux 运行 `./start-lan.sh`。源码启动器完成构建并启动后端后，也会自动打开联机大厅。使用免安装版时，Java 运行时已经打包，双击 `start-game.cmd` 可以开启本机游玩。两种版本游玩时均需保持对应的启动窗口开启。
 
 Windows 前端构建把 esbuild 的临时文件放在被 Git 忽略的 `output/build-temp/` 目录，避免系统临时目录拒绝访问导致清理报错。该行为适用于启动脚本、`npm run build`、`npm run build:pages` 以及在 `frontend/` 下执行的构建；系统环境变量不做改动。
