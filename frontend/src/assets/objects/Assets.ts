@@ -27,6 +27,7 @@ export interface Stage {
   id: string;
   name: string;
   thumbnail: string;
+  artBounds: { left: number; top: number; width: number; height: number };
   terrain: Terrain;
   category: string;
   layout: string;

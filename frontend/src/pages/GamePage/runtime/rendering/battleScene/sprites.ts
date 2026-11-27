@@ -130,23 +130,22 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
       ? null
       : (heavy ??
         scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion));
-  const bob =
+  const breath =
+    !traveling &&
     !entry &&
+    !scene.reducedMotion &&
     bandFor(f.character).id !== "mujica" &&
     !f.attack &&
     !f.stun &&
     !f.vx
-      ? Math.sin(scene.state.visualTime * 0.004 + side) * 1.2
-      : 0;
+      ? 1 + Math.sin(scene.state.visualTime * 0.004 + side) * 0.005
+      : 1;
   const recoil =
     !scene.reducedMotion && f.stun
       ? Math.min(9, f.stun / 25) * (f.guard ? 0.55 : 1) * -f.facing
       : 0;
-  scene.ctx.translate(
-    renderX + recoil,
-    floor - renderY + (traveling ? 0 : bob),
-  );
-  scene.ctx.scale(facing * scale, scale);
+  scene.ctx.translate(renderX + recoil, floor - renderY);
+  scene.ctx.scale(facing * scale, scale * breath);
   if (entry) {
     scene.ctx.globalAlpha = entry.alpha;
     scene.ctx.rotate(entry.tilt);

@@ -19,7 +19,11 @@ export function hydrateAssets(value: AssetManifest): Assets {
 }
 export async function loadAssets(signal: AbortSignal): Promise<Assets> {
   const base = new URL(import.meta.env.BASE_URL, document.baseURI);
-  const response = await fetch(new URL("assets.json", base), { signal });
+  // The catalog couples painted surfaces to physics; hashed media can stay cached.
+  const response = await fetch(new URL("assets.json", base), {
+    signal,
+    cache: "no-cache",
+  });
   if (!response.ok) throw new Error("无法读取角色与场地素材。");
   // The source manifest keeps stable root-relative media names. Resolve every
   // nested atlas, portrait, recording and video against the deployed app path.

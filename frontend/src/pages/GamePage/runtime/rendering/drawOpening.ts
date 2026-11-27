@@ -1,5 +1,6 @@
 import { ENTRANCE_TIMING } from "../../../../game/data/rules";
 import { entranceFor, openingFor } from "./animation/entrance";
+import { SAFE } from "./Camera";
 import type { BattleSceneContext } from "./battleScene/objects";
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
@@ -32,7 +33,7 @@ export function openingView(scene: BattleSceneContext) {
   const zoom = Math.min(
     base.zoom * wide,
     832 / (right - left),
-    336 / (bottom - top),
+    (SAFE.bottom - SAFE.top) / (bottom - top),
   );
   return {
     x: (left + right) / 2,

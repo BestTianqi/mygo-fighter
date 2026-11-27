@@ -3,7 +3,8 @@ import type { Fighter } from "../../../../game/objects/Fighter";
 /* Shared world camera. Canvas uses (x, 438 - height); HUD stays in screen space. */
 
 import { FEEL } from "../../../../game/engine";
-const SAFE = Object.freeze({ left: 64, right: 896, top: 104, bottom: 440 });
+// The health panels reach about y=148 on the battle canvas.
+const SAFE = Object.freeze({ left: 64, right: 896, top: 152, bottom: 440 });
 const clamp = (n: number, a: number, b: number) => Math.max(a, Math.min(b, n));
 function fighterBounds(f: Fighter) {
   const giant = f.attack === "super",

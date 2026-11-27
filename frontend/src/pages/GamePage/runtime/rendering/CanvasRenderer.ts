@@ -83,10 +83,28 @@ export class CanvasRenderer {
     this.correctionMs = 0;
   }
   positions(match: Match) {
-    return match.fighters.map((f, i) => ({
-      x: f.x + (this.offsets[i]?.x ?? 0),
-      y: f.y + (this.offsets[i]?.y ?? 0),
-    }));
+    return match.fighters.map((f, i) => this.visiblePosition(match, f, i));
+  }
+  private visiblePosition(match: Match, f: Fighter, side: number) {
+    const offset = this.offsets[side];
+    if (!offset || (!offset.x && !offset.y)) return { x: f.x, y: f.y };
+    const x = f.x + offset.x;
+    const floor = match.floorHeight(x);
+    if (match.grounded(f)) {
+      if (Math.abs(f.y - match.floorHeight(f.x)) < 0.1) return { x, y: floor };
+      const ledge = match.options.terrain?.platforms.find(
+        (p) =>
+          f.x >= p.left && f.x <= p.right && Math.abs(p.height - f.y) < 0.1,
+      );
+      if (ledge) {
+        const onLedge = Math.min(ledge.right, Math.max(ledge.left, x));
+        return {
+          x: onLedge,
+          y: Math.max(ledge.height, match.floorHeight(onLedge)),
+        };
+      }
+    }
+    return { x, y: Math.max(floor, f.y + offset.y) };
   }
   correct(match: Match, before: { x: number; y: number }[], snap: boolean) {
     let distance = 0;
@@ -579,10 +597,8 @@ export class CanvasRenderer {
       });
     visual.fighters = match.fighters.map((f, i) => {
       const target = (this.visualFighters[i] ??= { ...f });
-      return Object.assign(target, f, {
+      return Object.assign(target, f, this.visiblePosition(match, f, i), {
         hp: authority?.fighters[i].hp ?? f.hp,
-        x: f.x + (this.offsets[i]?.x ?? 0),
-        y: f.y + (this.offsets[i]?.y ?? 0),
       });
     });
     this.scene.draw(visual, dt, videoBackground);

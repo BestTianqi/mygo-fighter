@@ -40,10 +40,13 @@ export function drawBattle(
     );
     if (p === 1) scene.state.impactMotion = null;
   }
-  if (!videoBackground)
+  const view = openingView(scene);
+  const painted =
+    !videoBackground &&
     scene.stageRenderer.background(
       scene.state.battleArena,
       scene.state.visualTime,
+      view,
     );
   drawOpeningBackdrop(scene);
   if (scene.state.inkMs > 0) {
@@ -59,11 +62,10 @@ export function drawBattle(
       scene.state.inkMs = Math.max(0, scene.state.inkMs - dt);
   }
   scene.ctx.save();
-  const view = openingView(scene);
   scene.ctx.translate(480, 270);
   scene.ctx.scale(view.zoom, view.zoom);
   scene.ctx.translate(-view.x, -view.y);
-  scene.stageRenderer.terrain(scene.match, scene.state.battleArena);
+  if (!painted) scene.stageRenderer.drawSurfaceCues(scene.match);
   drawSuperAura(scene);
   scene.match.fighters.forEach((value) => drawMaskAura(scene, value));
   drawMujicaEffects(scene);

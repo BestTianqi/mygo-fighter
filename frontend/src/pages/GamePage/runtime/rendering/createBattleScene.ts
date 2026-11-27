@@ -35,7 +35,6 @@ export function createBattleScene(
   const stageRenderer = createStageRenderer(
     ctx,
     assets,
-    camera,
     getImage,
     reducedMotion,
   );
