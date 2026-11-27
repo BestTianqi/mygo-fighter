@@ -63,7 +63,7 @@ export function createStageRenderer(
           ctx.fillRect(x, 0, 32, 440);
         }
       }
-    } else if (id === "studio" || id.endsWith("-studio")) {
+    } else if (id === "studio" || id === "ring-studio") {
       const cool = id === "ring-studio";
       for (const x of [185, 465, 755])
         beam(x, 30, x + 15, 360, 94, cool ? "#d0dfff14" : "#ffdc9c1d");
@@ -96,7 +96,7 @@ export function createStageRenderer(
       }
     } else if (id === "rooftop" || id === "haneoka-roof") {
       // Faint upper-sky wisps; no weather layer covers the fighting plane.
-      ctx.fillStyle = id === "rooftop" ? "#f9c8a710" : "#f4fbff18";
+      ctx.fillStyle = "#f4fbff18";
       for (let i = 0; i < 3; i++) {
         const x = ((i * 365 + time * 0.003) % 1280) - 160;
         ctx.beginPath();
@@ -195,15 +195,7 @@ export function createStageRenderer(
     drawStageAtmosphere(assets.stages[battleArena]);
     ctx.restore();
     const shade = ctx.createLinearGradient(0, 0, 0, 540);
-    const stage = assets.stages[battleArena];
-    const ambience =
-      {
-        sakura: "petals",
-        rooftop: "sunset",
-        studio: "dust",
-        theater: "night",
-        rainstreet: "rain",
-      }[stage.id] || stage.ambience;
+    const ambience = assets.stages[battleArena].ambience;
     shade.addColorStop(
       0,
       ["petals", "leaves", "breeze"].includes(ambience)

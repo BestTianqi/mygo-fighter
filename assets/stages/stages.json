@@ -2,7 +2,7 @@
   {
     "id": "ring",
     "name": "RiNG 舞台",
-    "file": "assets/stages/ring-v1.png",
+    "file": "assets/stages/anime-scenes/ring.webp",
     "terrain": {
       "material": "metal",
       "colors": [
@@ -87,12 +87,13 @@
         }
       ]
     },
-    "layout": "双向舞台台阶与两层宽走台"
+    "layout": "双向舞台台阶与两层宽走台",
+    "source": "BanG Dream! It's MyGO!!!!! 第 7 话 11:00"
   },
   {
     "id": "theater",
-    "name": "月夜剧场",
-    "file": "assets/stages/theater-v1.png",
+    "name": "Ave Mujica·剧场",
+    "file": "assets/stages/anime-scenes/theater.webp",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -193,12 +194,14 @@
         }
       ]
     },
-    "layout": "双向石阶舞台与剧场长廊"
+    "layout": "双向石阶舞台与剧场长廊",
+    "ambience": "night",
+    "source": "BanG Dream! Ave Mujica 第 1 话 20:40"
   },
   {
     "id": "rooftop",
-    "name": "黄昏天台",
-    "file": "assets/stages/rooftop-v1.png",
+    "name": "壱雫空·露天舞台",
+    "file": "assets/stages/anime-scenes/rooftop.webp",
     "terrain": {
       "material": "concrete",
       "colors": [
@@ -286,12 +289,14 @@
         }
       ]
     },
-    "layout": "双向设备台阶与两层天台长台"
+    "layout": "双向设备台阶与两层舞台长台",
+    "ambience": "breeze",
+    "source": "BanG Dream! It's MyGO!!!!! 第 2 话 01:24"
   },
   {
     "id": "rainstreet",
-    "name": "雨夜街头",
-    "file": "assets/stages/rainstreet-v1.png",
+    "name": "雨中·车站前",
+    "file": "assets/stages/anime-scenes/rainstreet.webp",
     "terrain": {
       "material": "metal",
       "colors": [
@@ -376,12 +381,14 @@
         }
       ]
     },
-    "layout": "双向街沿台阶与两层钢制长台"
+    "layout": "双向街沿台阶与两层钢制长台",
+    "ambience": "rain",
+    "source": "BanG Dream! It's MyGO!!!!! 第 1 话 00:12"
   },
   {
     "id": "sakura",
-    "name": "樱花河畔",
-    "file": "assets/stages/sakura-v1.png",
+    "name": "春日·铁道天桥",
+    "file": "assets/stages/anime-scenes/sakura.webp",
     "terrain": {
       "material": "wood",
       "colors": [
@@ -514,12 +521,14 @@
         }
       ]
     },
-    "layout": "双向河堤台阶与两层木栈道"
+    "layout": "双向桥头台阶与两层木栈道",
+    "ambience": "petals",
+    "source": "BanG Dream! It's MyGO!!!!! 第 3 话 21:24"
   },
   {
     "id": "studio",
-    "name": "乐队练习室",
-    "file": "assets/stages/studio-v1.png",
+    "name": "羽丘·音乐教室",
+    "file": "assets/stages/anime-scenes/studio.webp",
     "terrain": {
       "material": "speaker",
       "colors": [
@@ -591,7 +600,9 @@
         }
       ]
     },
-    "layout": "双向鼓台台阶与两层练习走台"
+    "layout": "双向教室台阶与两层木走台",
+    "ambience": "dust",
+    "source": "BanG Dream! It's MyGO!!!!! 第 1 话 10:12"
   },
   {
     "id": "hanasakigawa",
@@ -599,12 +610,8 @@
     "category": "校园",
     "layout": "双向花坛台阶与两层校门长廊",
     "ambience": "petals",
-    "file": "assets/stages/campus/hanasakigawa.png",
-    "focalPoint": [
-      0.5,
-      0.25
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario0_rip/bg00003.png",
+    "file": "assets/stages/anime-scenes/hanasakigawa.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 8 话 03:48",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -747,12 +754,8 @@
     "category": "校园",
     "layout": "双向学园台阶与两层连廊",
     "ambience": "leaves",
-    "file": "assets/stages/campus/haneoka.png",
-    "focalPoint": [
-      0.5,
-      0.3
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario1_rip/bg00010.png",
+    "file": "assets/stages/anime-scenes/haneoka.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 1 话 03:48",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -844,12 +847,8 @@
     "category": "校园",
     "layout": "双向广场石阶与两层宽石台",
     "ambience": "leaves",
-    "file": "assets/stages/campus/tsukinomori.png",
-    "focalPoint": [
-      0.5,
-      0.05
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario47_rip/bg00470.png",
+    "file": "assets/stages/anime-scenes/tsukinomori.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 2 话 02:36",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -957,12 +956,8 @@
     "category": "校园",
     "layout": "双向庭院花阶与两层回廊",
     "ambience": "petals",
-    "file": "assets/stages/campus/tsukinomori-garden.png",
-    "focalPoint": [
-      0.5,
-      0.35
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario47_rip/bg00473.png",
+    "file": "assets/stages/anime-scenes/tsukinomori-garden.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 1 话 16:36",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -1105,12 +1100,8 @@
     "category": "校园",
     "layout": "双向屋顶台阶与两层设备长台",
     "ambience": "breeze",
-    "file": "assets/stages/campus/haneoka-roof.png",
-    "focalPoint": [
-      0.5,
-      0.35
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario1_rip/bg00012.png",
+    "file": "assets/stages/anime-scenes/haneoka-roof.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 10 话 14:36",
     "terrain": {
       "material": "concrete",
       "colors": [
@@ -1201,16 +1192,12 @@
   },
   {
     "id": "circle-studio",
-    "name": "CiRCLE·练习室",
-    "category": "练习室",
-    "layout": "双向木鼓台与两层练习长台",
-    "ambience": "dust",
-    "file": "assets/stages/campus/circle-studio.png",
-    "focalPoint": [
-      0.5,
-      0.6
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario3_rip/bg00033.png",
+    "name": "CiRCLE·门前足汤",
+    "category": "街景",
+    "layout": "双向木台阶与两层门前长台",
+    "ambience": "breeze",
+    "file": "assets/stages/anime-scenes/circle-studio.webp",
+    "source": "https://www.b-ch.com/titles/6927/001",
     "terrain": {
       "material": "speaker",
       "colors": [
@@ -1305,12 +1292,8 @@
     "category": "练习室",
     "layout": "双向音箱台阶与两层宽走台",
     "ambience": "dust",
-    "file": "assets/stages/campus/ring-studio.png",
-    "focalPoint": [
-      0.5,
-      0.55
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario91_rip/bg00918.png",
+    "file": "assets/stages/anime-scenes/ring-studio.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 9 话 18:12",
     "terrain": {
       "material": "speaker",
       "colors": [
@@ -1421,12 +1404,8 @@
     "category": "街景",
     "layout": "双向大台阶与两层休憩长台",
     "ambience": "sunset",
-    "file": "assets/stages/campus/sunshine-steps.png",
-    "focalPoint": [
-      0.5,
-      0.4
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario100_rip/bg01007.png",
+    "file": "assets/stages/anime-scenes/sunshine-steps.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 2 话 21:48",
     "terrain": {
       "material": "stone",
       "colors": [
@@ -1534,12 +1513,8 @@
     "category": "街景",
     "layout": "双向夜景大台阶与两层观景长台",
     "ambience": "night",
-    "file": "assets/stages/campus/sunshine-night.png",
-    "focalPoint": [
-      0.5,
-      0.4
-    ],
-    "source": "https://bestdori.com/assets/jp/bg/scenario100_rip/bg01008.png",
+    "file": "assets/stages/anime-scenes/sunshine-night.webp",
+    "source": "BanG Dream! It's MyGO!!!!! 第 4 话 00:12",
     "terrain": {
       "material": "stone",
       "colors": [

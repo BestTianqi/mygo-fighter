@@ -64,7 +64,7 @@ def main():
     choices = {}
     for url, key in references(manifest):
         if url.startswith("/media/"):
-            quality = 81 if url in strike_atlases else (74 if key == "atlas" else 94)
+            quality = 81 if url in strike_atlases else {"atlas": 74, "backgrounds": 82}.get(key, 94)
             choices[url] = min(quality, choices.get(url, quality))
     (DEST / "media").mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=4) as pool:
