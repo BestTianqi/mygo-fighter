@@ -63,6 +63,7 @@ export class CanvasRenderer {
   private readonly loading = new Map<string, Promise<RenderImage>>();
   private disposed = false;
   private prepareId = 0;
+  private cancelHints?: () => void;
   private readonly animate = createAnimator();
   private readonly reducedMotion = matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -218,6 +219,7 @@ export class CanvasRenderer {
         new Promise<RenderImage>((resolve, reject) => {
           const image = new Image();
           image.decoding = "async";
+          image.fetchPriority = "high";
           image.onload = () =>
             image.decode().then(
               async () => {
@@ -273,11 +275,60 @@ export class CanvasRenderer {
 
   cancelPrepare() {
     this.prepareId++;
+    this.cancelHints?.();
+    this.cancelHints = undefined;
+  }
+
+  /** Allow four compressed downloads to get ahead of the two bitmap decoders. */
+  private async prepareImages(
+    urls: Set<string>,
+    id: number,
+    onProgress?: (n: number) => void,
+  ) {
+    const pending = [...urls];
+    const hints = new Map<string, HTMLLinkElement>();
+    let next = 0,
+      hinted = 0,
+      done = 0,
+      closed = false;
+    const close = () => {
+      closed = true;
+      for (const hint of hints.values()) hint.remove();
+      hints.clear();
+    };
+    this.cancelHints = close;
+    const worker = async () => {
+      while (!closed && next < pending.length) {
+        const url = pending[next++];
+        while (hinted < Math.min(pending.length, next + 4)) {
+          const ahead = pending[hinted++];
+          if (this.images.has(ahead) || this.loading.has(ahead)) continue;
+          const hint = document.createElement("link");
+          hint.rel = "preload";
+          hint.as = "image";
+          hint.href = ahead;
+          document.head.append(hint);
+          hints.set(ahead, hint);
+        }
+        await this.load(url);
+        if (closed) return;
+        hints.get(url)?.remove();
+        hints.delete(url);
+        onProgress?.(++done / pending.length);
+      }
+    };
+    try {
+      await Promise.all([worker(), worker()]);
+    } finally {
+      close();
+      if (id === this.prepareId) this.cancelHints = undefined;
+    }
   }
 
   async prepare(config: MatchConfig, onProgress?: (fraction: number) => void) {
     if (this.disposed) return;
-    const prepareId = ++this.prepareId;
+    this.cancelPrepare();
+    const prepareId = this.prepareId;
     this.scene.reset(config.settings.arena);
     this.visualFighters = [];
     this.resetCorrection();
@@ -299,14 +350,8 @@ export class CanvasRenderer {
       this.assets.ranaParfait.src,
       ...atlases.map((a) => a.atlas),
     ]);
-    // Six fighters include large normal, action and transformation atlases.
-    // Limit simultaneous decoder allocations while still warming every reserve.
-    const pending = [...urls];
-    for (let i = 0; i < pending.length; i += 2) {
-      await Promise.all(pending.slice(i, i + 2).map((url) => this.load(url)));
-      if (this.disposed || prepareId !== this.prepareId) return;
-      onProgress?.(Math.min(i + 2, pending.length) / pending.length);
-    }
+    await this.prepareImages(urls, prepareId, onProgress);
+    if (this.disposed || prepareId !== this.prepareId) return;
     // Decode and rasterize before the ready countdown starts.
     for (const art of atlases) {
       const frame = art.frames[0];
@@ -546,6 +591,7 @@ export class CanvasRenderer {
 
   dispose() {
     this.disposed = true;
+    this.cancelPrepare();
     this.resizeObserver.disconnect();
     for (const image of this.images.values()) releaseRenderImage(image);
     this.images.clear();

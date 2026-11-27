@@ -14,12 +14,28 @@ const assets = JSON.parse(
   await readFile(new URL("../frontend/public/assets.json", import.meta.url)),
 );
 const originals = new Map(
-  ["Image", "createImageBitmap"].map((key) => [
+  ["Image", "createImageBitmap", "document"].map((key) => [
     key,
     Object.getOwnPropertyDescriptor(globalThis, key),
   ]),
 );
 const created = [];
+const hints = new Set();
+globalThis.document = {
+  head: {
+    append(link) {
+      hints.add(link);
+    },
+  },
+  createElement(tag) {
+    assert.equal(tag, "link");
+    return {
+      remove() {
+        hints.delete(this);
+      },
+    };
+  },
+};
 let decode = () => Promise.resolve();
 let failLoad = false;
 class FakeImage {
@@ -217,7 +233,16 @@ try {
       });
       await flush();
       assert.equal(created.length, 2);
+      assert.ok(
+        hints.size > 2 && hints.size <= 6,
+        "compressed requests run ahead of the two decoders",
+      );
       instance.cancelPrepare();
+      assert.equal(
+        hints.size,
+        0,
+        "leaving preparation drops pending preload hints",
+      );
       decode = () => Promise.resolve();
       await instance.prepare({ characters: [3, 4], settings: { arena: 1 } });
       const count = created.length,
