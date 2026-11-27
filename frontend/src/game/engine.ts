@@ -1,3 +1,4 @@
+import { meleeContact, type CombatBody } from "./match/collision";
 import {
   FEEL,
   MAX_HEALTH,
@@ -320,12 +321,12 @@ class Match {
   }
   meleeConnects(
     source: Fighter,
-    target: Pick<Fighter, "x" | "y">,
+    target: CombatBody,
     move: Move,
     reach: number,
     vertical: number,
   ) {
-    return hits.meleeConnects(source, target, move, reach, vertical);
+    return meleeContact(source, target, move, reach, vertical);
   }
   hitMinion(
     side: number,

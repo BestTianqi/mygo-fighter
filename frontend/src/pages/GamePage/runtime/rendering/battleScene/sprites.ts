@@ -121,10 +121,15 @@ export function drawFighter(scene: BattleSceneContext, side: number) {
   }
   scene.ctx.globalAlpha = 1;
   const heavy = acting ? heavyMotion(f, move, scene.reducedMotion) : null;
-  const motion = entry
-    ? null
-    : (heavy ??
-      scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion));
+  const authoredImpact =
+    animation === "dragonPunch" ||
+    animation === "uppercut" ||
+    /^jab-[123]-impact$/.test(animation ?? "");
+  const motion =
+    entry || authoredImpact
+      ? null
+      : (heavy ??
+        scene.mujicaMotion(scene.match, side, animation, scene.reducedMotion));
   const bob =
     !entry &&
     bandFor(f.character).id !== "mujica" &&

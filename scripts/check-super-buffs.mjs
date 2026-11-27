@@ -216,8 +216,8 @@ assert.equal(
   "only received damage grants resonance",
 );
 for (const [height, hp] of [
-  [350, 950],
-  [370, 1000],
+  [150, 950],
+  [350, 1000],
 ]) {
   const elevated = headbutt(350);
   elevated.setTerrain({ platforms: [{ left: -850, right: 1700, height }] });
@@ -226,7 +226,7 @@ for (const [height, hp] of [
   assert.equal(
     elevated.fighters[1].hp,
     hp,
-    "moving P retains the common super height tolerance",
+    "the moving head must intersect the elevated defender",
   );
 }
 for (const facing of [1, -1]) {

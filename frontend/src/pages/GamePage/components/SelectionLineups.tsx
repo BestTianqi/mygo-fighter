@@ -42,11 +42,12 @@ export function SelectionLineups({
   return (
     <div
       ref={lineups}
-      className={`mb-4 grid min-w-0 gap-2 sm:gap-3 ${teams.length === 3 ? "grid-cols-1 min-[600px]:grid-cols-3" : "grid-cols-2"}`}
+      className={`draft-lineups mb-4 grid min-w-0 gap-2 sm:gap-3 ${teams.length === 3 ? "grid-cols-1 min-[600px]:grid-cols-3" : "grid-cols-2"}`}
     >
       {teams.map((team, side) => (
         <section
           key={side}
+          data-slots={team.length}
           className={`min-w-0 rounded-none p-2 sm:p-3 [@media(max-height:500px)]:p-1.5 ${teams.length === 3 ? "grid grid-cols-[48px_minmax(0,1fr)] items-center gap-2 min-[600px]:block" : ""} ${active?.[0] === side ? (side === 0 ? "bg-crimson/20" : side === 1 ? "bg-silver/10" : "bg-gold/10") : "bg-panel"}`}
           aria-label={`${side + 1}P 出战阵容`}
         >

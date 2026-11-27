@@ -275,6 +275,13 @@ def build():
     install_finish_art(assets)
     from build_viola_assets import install_viola_assets
     install_viola_assets(assets)
+    strike_dir = ROOT / 'assets/characters/arcade-strikes'
+    strikes = json.loads((strike_dir / 'frames.json').read_text(encoding='utf-8'))
+    for forms in strikes.values():
+        for atlas in forms.values():
+            image = (strike_dir / atlas.pop('source')).read_bytes()
+            atlas['atlas'] = 'data:image/webp;base64,' + base64.b64encode(image).decode()
+    assets['strikeAtlases'] = strikes
     export_assets(assets)
 
 

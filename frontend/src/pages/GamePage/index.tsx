@@ -5,6 +5,8 @@ import { useGame } from "./hooks/useGame";
 import { useMobilePlay } from "./hooks/useMobilePlay";
 import { MainMenu } from "./components/MainMenu";
 import { CharacterSelection } from "./components/CharacterSelection";
+import { VersusLoading } from "./components/VersusLoading";
+import "./arcade.css";
 import { BattlePanel } from "./components/BattlePanel";
 import { LanLobby } from "./components/LanLobby";
 import { GameDialogs } from "./components/GameDialogs";
@@ -55,32 +57,13 @@ export function GamePage({ assets }: { assets: Assets }) {
         view={view}
         mobile={mobile}
       />
-      {view.screen === "loadingBattle" && (
-        <div className="flex min-h-dvh items-center justify-center px-5 text-center">
-          <div className="w-full max-w-sm">
-            <h2 role="status" className="text-xl font-bold text-ivory">
-              准备登台
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              正在加载角色、舞台和大招视频…
-            </p>
-            <progress
-              aria-label="对战加载进度"
-              className="mt-5 h-2 w-full appearance-none overflow-hidden bg-white/15 [&::-webkit-progress-bar]:bg-white/15 [&::-webkit-progress-value]:bg-silver [&::-moz-progress-bar]:bg-silver"
-              max={100}
-              value={view.loadingProgress}
-            />
-            <p className="mt-2 font-mono text-sm text-ivory">
-              {view.loadingProgress}%
-            </p>
-            <button
-              onClick={() => runtime?.returnToMenu()}
-              className="mt-6 min-h-11 px-4 text-sm font-semibold text-ember"
-            >
-              返回主菜单
-            </button>
-          </div>
-        </div>
+      {view.screen === "loadingBattle" && view.config && (
+        <VersusLoading
+          assets={assets}
+          config={view.config}
+          progress={view.loadingProgress}
+          onBack={() => runtime?.returnToMenu()}
+        />
       )}
       {view.error && view.screen !== "battle" && (
         <p

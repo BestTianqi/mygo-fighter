@@ -1,4 +1,4 @@
-import { bandFor, MOVES, NORMAL_BUTTONS } from "../combatData";
+import { bandFor, FEEL, MOVES, NORMAL_BUTTONS } from "../combatData";
 import * as controls from "../controls";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
@@ -23,6 +23,37 @@ export function motionMatches(f: Fighter, pattern: number[]): boolean {
   );
 }
 
+/** Keep a directional follow-up entered during the impact pause. The attack
+ * clock and cancellation checks still advance only on live simulation ticks. */
+export function bufferImpactMotion(match: Match, side: number, input: Input) {
+  const f = match.fighters[side];
+  if (
+    (!input.unified && !bandFor(f.character).unified) ||
+    !f.attack ||
+    !f.contact ||
+    f.stun ||
+    f.knockdown ||
+    !match.grounded(f)
+  )
+    return;
+  recordDirection(f, input);
+  const pressed = (key: "light" | "heavy") =>
+    input[key] &&
+    (!match.previous[side][key] ||
+      (input.pressIds?.[key] ?? 0) > (f.pressIds[key] ?? 0));
+  const name = motionStrike(f, !!pressed("light"), !!pressed("heavy"));
+  if (name && moveEnabled(match.options.rules, MOVES[name])) {
+    f.buffer = name;
+    f.bufferMs = FEEL.specialBuffer;
+  }
+}
+
+function motionStrike(f: Fighter, light: boolean, heavy: boolean) {
+  if (heavy && motionMatches(f, [6, 2, 3])) return "dragonPunch";
+  if (light && motionMatches(f, [2, 3, 6])) return "uppercut";
+  return null;
+}
+
 export function resolveAttack(
   match: Match,
   f: Fighter,
@@ -40,6 +71,10 @@ function resolveRequestedAttack(
   pressed: (key: string) => boolean,
 ): string | null {
   const band = bandFor(f.character);
+  if ((input.unified || band.unified) && match.grounded(f)) {
+    const strike = motionStrike(f, pressed("light"), pressed("heavy"));
+    if (strike) return strike;
+  }
   if (input.unified || band.unified) {
     const skill = controls.resolveSkill(f, input, pressed, !match.grounded(f));
     if (skill !== undefined) return skill;
@@ -120,6 +155,18 @@ export function canCancel(
     (f.attackMs < current.cancelAt || f.lastHitAt < current.pulses!.at(-1)!.at)
   )
     return false;
+  if (
+    f.attack === "uppercut" &&
+    next.category === "special" &&
+    name !== "uppercut"
+  ) {
+    // Hit-confirm the launcher into an attacking skill of the current form.
+    return (
+      next.damage > 0 ||
+      !!next.projectile ||
+      !!next.pulses?.some((p) => p.damage > 0)
+    );
+  }
   if (next.category === "super")
     return current.category === "normal" || current.category === "special";
   if (band.extraCancel?.(match, f, name)) return true;

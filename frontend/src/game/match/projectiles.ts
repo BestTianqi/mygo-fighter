@@ -1,7 +1,8 @@
-import { FEEL, MOVES, WORLD } from "../combatData";
+import { MOVES, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Fighter } from "../objects/Fighter";
 import type { Minion } from "../objects/Minion";
+import { hurtbox, ringTouches, sweptContact } from "./collision";
 import type { Move } from "../objects/Move";
 
 export function spawnWave(
@@ -72,9 +73,9 @@ export function spawnWave(
 }
 
 export function updateWaves(match: Match): void {
-  for (const w of match.waves) {
+  const starts = match.waves.map((w) => ({ x: w.x, y: w.y, rangeEnd: false }));
+  for (const [index, w] of match.waves.entries()) {
     if (w.radial) {
-      w.life -= 10;
       w.age += 10;
       w.previousRadius = w.radius;
       w.radius = Math.min(
@@ -98,9 +99,7 @@ export function updateWaves(match: Match): void {
       w.y += w.vy * 0.01;
     }
     w.x += w.vx * 0.01;
-    w.life -= 10;
     w.age += 10;
-    if (w.maxReach && Math.abs(w.x - w.originX!) > w.maxReach) w.life = 0;
     if (w.groundShock) {
       if (w.platform && (w.x < w.platform.left || w.x > w.platform.right))
         w.life = 0;
@@ -109,6 +108,18 @@ export function updateWaves(match: Match): void {
     if (w.gravity) {
       w.y += w.vy! * 0.01;
       w.vy! -= w.gravity * 0.01;
+    }
+    if (w.maxReach && Math.abs(w.x - w.originX!) >= w.maxReach) {
+      // Keep the last sweep up to the range limit, including an opponent's leading edge.
+      const start = starts[index];
+      const end = w.originX! + Math.sign(w.x - w.originX!) * w.maxReach;
+      const fraction =
+        w.x === start.x
+          ? 0
+          : Math.max(0, Math.min(1, (end - start.x) / (w.x - start.x)));
+      w.x = start.x + (w.x - start.x) * fraction;
+      w.y = start.y + (w.y - start.y) * fraction;
+      start.rangeEnd = true;
     }
     if (w.attack === "sonic") {
       const growth = Math.min(1, w.age / 420);
@@ -137,33 +148,23 @@ export function updateWaves(match: Match): void {
         match.events.push({ type: "clash", x: (a.x + b.x) / 2, y: a.y });
       }
     }
-  for (const w of match.waves) {
+  for (const [index, w] of match.waves.entries()) {
+    const start = starts[index];
     if (w.life <= 0) continue;
     const contacts: {
       body: Fighter | Minion;
-      radius: number;
+      time: number;
       side: number;
       minion: boolean;
     }[] = [];
     for (const targetSide of match.enemySides(w.owner)) {
       const target = match.fighters[targetSide];
       if (w.radial) {
-        const touches = (
-          body: Pick<Fighter, "x" | "y">,
-          height: number,
-          radius: number,
-        ) => {
-          const distance = Math.hypot(body.x - w.x, body.y + height - w.y);
-          return (
-            distance - radius <= w.radius! &&
-            distance + radius >= w.previousRadius!
-          );
-        };
         if (
           !w.hitTargets!.includes(targetSide) &&
           !target.knockdown &&
           !match.invulnerable(target) &&
-          touches(target, 80, 45)
+          ringTouches(hurtbox(target), w.x, w.y, w.radius!, w.previousRadius!)
         ) {
           w.hitTargets!.push(targetSide);
           match.hit(w.owner, w.attack, w.x, w.y, w.impact, targetSide);
@@ -171,72 +172,48 @@ export function updateWaves(match: Match): void {
         const group = target.summons;
         for (const unit of [...(group?.units || [])]) {
           const mark = targetSide + ":" + group!.bornAt + ":" + unit.id;
-          if (!w.hitMinions!.includes(mark) && touches(unit, 40, 30)) {
+          if (
+            !w.hitMinions!.includes(mark) &&
+            ringTouches(hurtbox(unit), w.x, w.y, w.radius!, w.previousRadius!)
+          ) {
             w.hitMinions!.push(mark);
             match.hitMinion(w.owner, unit, w.attack, w.impact);
           }
         }
         continue;
       }
-      const inRange = (body: Pick<Fighter, "x" | "y">) =>
-        !w.maxReach ||
-        (Math.abs(body.x - w.originX!) <= w.maxReach &&
-          Math.abs(body.y - w.originY!) <= w.maxVertical!);
-      const sonic =
-        w.attack === "sonic" ||
-        MOVES[w.attack ?? ""]?.tomoriOnly ||
-        MOVES[w.attack ?? ""]?.ranaOnly ||
-        MOVES[w.attack ?? ""]?.rikiOnly ||
-        MOVES[w.attack ?? ""]?.ownerCharacter !== undefined;
-      const crawling = MOVES[target.attack ?? ""]?.crawl && target.crouch;
-      const center = target.y + (crawling ? 35 : 80),
-        halfHeight = crawling ? 35 : 50;
-      const fighterRadius = sonic ? w.rx! + 18 : 35;
-      const authoredHeight = crawling || sonic ? w.ry! + halfHeight : 80;
-      const heightTolerance = w.groundShock
-        ? authoredHeight
-        : Math.max(authoredHeight, FEEL.projectileHeightTolerance);
-      if (
-        inRange(target) &&
-        !target.knockdown &&
-        !match.invulnerable(target) &&
-        Math.abs(target.x - w.x) < fighterRadius &&
-        Math.abs(center - w.y) <= heightTolerance
-      )
-        contacts.push({
-          body: target,
-          radius: fighterRadius,
-          side: targetSide,
-          minion: false,
-        });
-      for (const unit of target.summons?.units || []) {
-        if (
-          inRange(unit) &&
-          Math.abs(unit.x - w.x) < w.rx! + 20 &&
-          Math.abs(unit.y + 40 - w.y) < w.ry! + 40
-        )
-          contacts.push({
-            body: unit,
-            radius: w.rx! + 20,
-            side: targetSide,
-            minion: true,
-          });
-      }
+      const contact = (body: Fighter | Minion, minion: boolean) => {
+        const box = hurtbox(body);
+        if (w.maxVertical !== undefined && w.originY !== undefined) {
+          box.bottom = Math.max(box.bottom, w.originY - w.maxVertical);
+          box.top = Math.min(box.top, w.originY + w.maxVertical);
+          if (box.bottom >= box.top) return;
+        }
+        const time = sweptContact(
+          box,
+          start.x,
+          start.y,
+          w.x,
+          w.y,
+          w.rx!,
+          w.ry!,
+        );
+        if (Number.isFinite(time))
+          contacts.push({ body, time, side: targetSide, minion });
+      };
+      if (!match.invulnerable(target)) contact(target, false);
+      for (const unit of target.summons?.units ?? []) contact(unit, true);
     }
     if (w.radial) continue;
-    // Travelling shots are intercepted by the leading body across every opponent.
-    const direction = Math.sign(w.vx) || match.fighters[w.owner].facing;
-    contacts.sort(
-      (a, b) => direction * (a.body.x - b.body.x) - a.radius + b.radius,
-    );
+    contacts.sort((a, b) => a.time - b.time);
     const first = contacts[0];
     if (first) {
       if (!first.minion)
         match.hit(
           w.owner,
           w.attack || "wave",
-          w.x,
-          w.y,
+          start.x + (w.x - start.x) * first.time,
+          start.y + (w.y - start.y) * first.time,
           { ...w.impact, projectileRadiusY: w.ry },
           first.side,
         );
@@ -250,7 +227,8 @@ export function updateWaves(match: Match): void {
       w.life = 0;
     }
   }
-  for (const w of match.waves)
+  for (const [index, w] of match.waves.entries()) {
+    w.life = starts[index].rangeEnd ? 0 : w.life - 10;
     if (w.life <= 0 && w.attack === "ranaParfait")
       match.events.push({
         type: "parfaitSplash",
@@ -258,6 +236,7 @@ export function updateWaves(match: Match): void {
         x: w.x,
         y: w.y,
       });
+  }
   match.waves = match.waves.filter(
     (w) => w.life > 0 && w.x > WORLD.left - 50 && w.x < WORLD.right + 50,
   );

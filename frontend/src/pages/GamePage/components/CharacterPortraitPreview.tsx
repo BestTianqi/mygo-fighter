@@ -12,34 +12,37 @@ export function CharacterPortraitPreview({
   children,
   compact = false,
   fillHeight = false,
+  sideLabel,
 }: {
   assets: Assets;
   character: number;
   children?: ReactNode;
   compact?: boolean;
   fillHeight?: boolean;
+  sideLabel?: string;
 }) {
   const [stageForm, setStageForm] = useState(false);
   const profile = ROSTER[character];
   const scheme = schemeFor({ character, stageForm });
   return (
     <aside
-      className={`grid min-w-0 grid-cols-[120px_minmax(0,1fr)] overflow-hidden rounded-none bg-panel ${fillHeight ? "h-full sm:flex sm:flex-col" : "self-start sm:block"}`}
+      className={`fighter-preview grid min-w-0 grid-cols-[120px_minmax(0,1fr)] overflow-hidden rounded-none bg-panel ${fillHeight ? "h-full sm:flex sm:flex-col" : "self-start sm:block"}`}
     >
       <div
-        className={`relative overflow-hidden bg-panel ${fillHeight ? "min-h-40 flex-1" : compact ? "h-[clamp(100px,20dvh,200px)]" : "h-[clamp(120px,25dvh,280px)]"}`}
+        className={`preview-picture relative overflow-hidden bg-panel ${fillHeight ? "min-h-40 flex-1" : compact ? "h-[clamp(100px,20dvh,200px)]" : "h-[clamp(120px,25dvh,280px)]"}`}
       >
+        {sideLabel && <b className="preview-side">{sideLabel}</b>}
         <img
           src={
             bandPortrait(assets, character, stageForm ? "stage" : "normal")
               ?.portrait ?? assets.characters[character].portrait
           }
           alt={profile.name}
-          className="absolute inset-0 size-full object-contain object-top h-[120%]"
+          className="preview-art absolute inset-0 size-full object-contain object-top"
         />
         <span className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-panel to-transparent" />
       </div>
-      <div className="relative min-w-0 shrink-0 p-3">
+      <div className="preview-details relative min-w-0 shrink-0 p-3">
         <p className="text-[9px] tracking-widest text-muted">
           {BAND_LABEL[profile.band ?? "mygo"]}
         </p>

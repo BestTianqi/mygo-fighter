@@ -16,7 +16,11 @@ export function SelectionSettings({
   const { selection } = model;
   const stage = assets.stages[selection.settings.arena];
   return (
-    <section className="mt-5 pt-4" aria-label="场地与规则">
+    <section className="arena-settings" aria-label="场地与规则">
+      <div className="arena-preview">
+        <img src={assets.backgrounds[selection.settings.arena]} alt="" />
+        <h2>{stage.name}</h2>
+      </div>
       <div className="mb-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-1">
         <div>
           <h2 className="text-sm font-semibold">

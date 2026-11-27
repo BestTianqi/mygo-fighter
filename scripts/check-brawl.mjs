@@ -51,8 +51,12 @@ for (const [key, label] of [
   check(label + " real input hits both opponents in reach", () => {
     const m = fresh();
     m.fighters[0].x = 400;
-    m.fighters[1].x = 445;
-    m.fighters[2].x = 490;
+    // Both opponents stand in the swing, one on a raised platform. Two bodies
+    // a full body-width apart on the ground no longer fit inside one jab.
+    m.setTerrain({ platforms: [{ left: 470, right: 650, height: 154 }] });
+    m.fighters[1].x = 492;
+    m.fighters[2].x = 492;
+    m.fighters[2].y = 154;
     m.advance(650, { [key]: true }, {}, {});
     const hits = m
       .drainEvents()

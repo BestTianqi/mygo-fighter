@@ -15,7 +15,7 @@ export function hydrateAssets(value: AssetManifest): Assets {
       throw new Error(`角色 ${id + 1} 的素材不完整。`);
     return { ...base, ...character };
   });
-  return { ...value, characters };
+  return { ...value, characters, strikeAtlases: value.strikeAtlases ?? {} };
 }
 export async function loadAssets(signal: AbortSignal): Promise<Assets> {
   const base = new URL(import.meta.env.BASE_URL, document.baseURI);

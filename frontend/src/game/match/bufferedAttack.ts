@@ -77,6 +77,7 @@ export function startBufferedAttack(
       if (!match.options.rules.infiniteEnergy) f.energy -= move.cost || 0;
       f.guard = false;
       f.attack = name;
+      if (name === "uppercut" || name === "dragonPunch") f.motion = [];
       f.attackMs = 0;
       f.hit = false;
       f.beatGranted = false;
@@ -85,7 +86,10 @@ export function startBufferedAttack(
       f.runeMarks = [];
       f.binding = null;
       f.attackCrouch =
-        ground && (move.stance === "crouch" || !!move.crawl || !!input.crouch);
+        ground &&
+        (move.stance === "crouch" ||
+          !!move.crawl ||
+          (!!input.crouch && name !== "dragonPunch" && name !== "uppercut"));
       f.crouch = f.attackCrouch;
       f.backThrow =
         name === "throw" && (f.bufferBackThrow ?? direction === -f.facing);

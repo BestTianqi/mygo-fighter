@@ -99,8 +99,10 @@ export function bandPortrait(
 export function bandAtlases(assets: Assets, character: number): Atlas[] {
   const band = bandFor(character).id;
   const forms = formAtlases(assets, band, character);
+  const strikes = Object.values(assets.strikeAtlases[character] ?? {});
   if (forms)
     return [
+      ...strikes,
       ...Object.values(forms),
       ...portraitIdles(assets, band, character),
       ...(assets.mujicaMaskForms[character]
@@ -110,6 +112,7 @@ export function bandAtlases(assets: Assets, character: number): Atlas[] {
       ...(character === 6 ? [assets.sakikoCustomerActions] : []),
     ];
   return [
+    ...strikes,
     assets.characters[character],
     ...portraitIdles(assets, band, character),
     ...(mygoActionAtlases(assets)[character] ?? []),

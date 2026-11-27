@@ -18,12 +18,12 @@ export function SelectionHeader({
   const { selection, brawl } = model;
   return (
     <header className="mx-auto flex w-full max-w-[1600px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-3 py-4 sm:px-6 sm:py-6 lg:px-8 [@media(max-height:500px)]:py-2">
-      <div className="min-w-0">
+      <div className="draft-heading">
         <Button type="button" onClick={onBack} className="text-xs">
           主菜单
         </Button>
         <h1 className="mt-1 font-display text-2xl font-semibold tracking-wider sm:text-3xl [@media(max-height:500px)]:hidden">
-          选择角色
+          对战准备
         </h1>
       </div>
       <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:gap-3">

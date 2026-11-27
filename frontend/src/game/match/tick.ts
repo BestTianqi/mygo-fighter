@@ -3,6 +3,7 @@ import type { Match } from "../engine";
 import type { Input } from "../objects/Input";
 import type { Move, Pulse } from "../objects/Move";
 import { resolveBrawlKOs, updateBrawlRespawns } from "./rounds";
+import { bufferImpactMotion } from "./commands";
 import { clamp } from "./combatMath";
 import {
   advanceSuperClocks,
@@ -86,7 +87,12 @@ export function step(match: Match, p1: Input, p2: Input, p3: Input = {}): void {
   // Keep the impact flashes/camera accents, but run timed supers at their authored cadence.
   if (hasTimedSuper(match)) match.freeze = 0;
   if (match.freeze > 0) {
-    match.freeze -= 10;
+    bufferImpactMotion(match, 0, p1);
+    if (match.options.mode === "duel") {
+      bufferImpactMotion(match, 1, p2);
+      if (match.isBrawl) bufferImpactMotion(match, 2, p3);
+    }
+    match.freeze = Math.max(0, match.freeze - 10);
     return;
   }
   match.inputTick++;
@@ -210,16 +216,13 @@ function resolveContacts(match: Match, inputs: Input[]): void {
       // Acquisition happens once. Moving into a missed seal later cannot capture you.
       if (!f.hit) {
         f.hit = true;
-        const forward = (other.x - f.x) * f.facing;
-        const inside =
-          move.sakiko === "ascension"
-            ? Math.hypot(
-                other.x - f.attackTarget!.x,
-                other.y - f.attackTarget!.y,
-              ) <= move.areaRadius!
-            : forward >= 0 &&
-              forward <= move.reach! &&
-              Math.abs(other.y - f.y) <= move.vertical!;
+        const inside = match.meleeConnects(
+          f,
+          other,
+          move,
+          move.reach!,
+          move.vertical!,
+        );
         if (other.hp > 0 && inside && !match.invulnerable(other)) {
           f.binding = {
             target: match.targetSide(side),

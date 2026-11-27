@@ -8,9 +8,13 @@ const selectClass =
 export function SelectionFooter({
   model,
   stageName,
+  selecting,
+  onAdvance,
 }: {
   model: CharacterSelectionModel;
   stageName: string;
+  selecting: boolean;
+  onAdvance: () => void;
 }) {
   const { selection, complete, confirm } = model;
   const missing = selection.teams.flat().filter((id) => id === null).length;
@@ -78,12 +82,18 @@ export function SelectionFooter({
       )}
       <Button
         primary
-        onClick={confirm}
-        disabled={!complete}
+        onClick={!selecting && complete ? confirm : onAdvance}
+        disabled={selecting && !complete}
         aria-describedby="selection-start-status"
         className="min-h-12 min-w-36 flex-1 sm:max-w-56 sm:flex-none"
       >
-        {selection.mode === "practice" ? "开始练习" : "登台对战"}
+        {selecting
+          ? "下一步 · 选择场地"
+          : !complete
+            ? "返回补全阵容"
+            : selection.mode === "practice"
+              ? "开始练习"
+              : "登台对战"}
       </Button>
     </footer>
   );

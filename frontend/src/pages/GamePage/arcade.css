@@ -1,0 +1,688 @@
+/* Concert poster panels double as the band selector on the title screen. */
+.cabinet-menu,
+.draft-screen,
+.versus-screen {
+  --ice: #69e0f1;
+  --rose: #ff426f;
+  --ink: #101226;
+  --saffron: #ffdb79;
+  color: #f9f5f1;
+  background-color: var(--ink);
+}
+.cabinet-menu {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(125deg, #13152c 22%, #242350 63%, #192f49);
+}
+.cabinet-backdrop,
+.versus-map {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.16;
+}
+.cabinet-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 5vw, 5rem);
+  border-bottom: 1px solid #acbcdd32;
+}
+.cabinet-brand {
+  font:
+    900 italic 1.15rem/1 system-ui,
+    sans-serif;
+  letter-spacing: -0.06em;
+}
+.cabinet-brand b {
+  color: var(--ice);
+  font-size: 0.76em;
+}
+.cabinet-top nav,
+.band-switch {
+  display: flex;
+  gap: 0.35rem;
+}
+.cabinet-top button,
+.band-switch button,
+.versus-progress button {
+  min-height: 42px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+}
+.cabinet-top button:hover,
+.versus-progress button:hover {
+  color: var(--ice);
+}
+.cabinet-hero {
+  width: min(1620px, 100%);
+  flex: 1;
+  align-self: center;
+  display: grid;
+  grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.24fr);
+  align-items: center;
+  gap: 5%;
+  padding: 2rem clamp(1.5rem, 6vw, 6.5rem);
+}
+.cabinet-mode h1 {
+  display: grid;
+  width: max-content;
+  font-family: "Arial Black", Impact, system-ui, sans-serif;
+  font-weight: 1000;
+  font-style: italic;
+  font-size: clamp(3.5rem, 6.8vw, 7.5rem);
+  letter-spacing: -0.08em;
+  line-height: 0.88;
+  transform: skew(-5deg);
+}
+.cabinet-mode h1 span {
+  color: white;
+  font-size: 0.77em;
+}
+.cabinet-mode h1 strong {
+  color: var(--ice);
+  text-shadow: 0.042em 0.055em #6848af;
+}
+.cabinet-subtitle {
+  margin: 0.9rem 0 clamp(1rem, 4vh, 2.5rem);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+.cabinet-actions {
+  max-width: 27rem;
+}
+.cabinet-actions button {
+  text-align: left;
+  border-left: 3px solid #8997be;
+  padding: 0.55rem 1rem;
+  font-weight: 750;
+  background: #202640ec;
+  min-height: 44px;
+}
+.cabinet-actions button:hover,
+.cabinet-actions button:focus-visible {
+  background: #37415d;
+  border-color: var(--ice);
+}
+.cabinet-actions .cabinet-start {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem;
+  margin: 0.35rem 0;
+  background: #cb2c58;
+  border-color: var(--rose);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+.cabinet-start span {
+  color: #ffddad;
+  font-size: 1.3em;
+}
+.cabinet-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+.cabinet-modes button:last-child {
+  grid-column: 1/-1;
+}
+.cabinet-band {
+  min-width: 0;
+}
+.band-panels {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  height: clamp(285px, 52dvh, 610px);
+  gap: 4px;
+  transform: skew(-6deg);
+  border-bottom: 5px solid var(--ice);
+}
+.band-panel {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #675b98, #282740 70%);
+  border-top: 3px solid #f7d4da;
+}
+.band-panel:nth-child(2n) {
+  background: linear-gradient(160deg, #438899, #233048 70%);
+}
+.band-panel:nth-child(3) {
+  background: linear-gradient(160deg, #b84c75, #3a2541 70%);
+  border-color: var(--rose);
+}
+.band-panel img {
+  position: absolute;
+  left: 50%;
+  top: 3%;
+  width: auto;
+  max-width: none;
+  height: 172%;
+  transform: translateX(-50%) skew(6deg);
+  object-fit: contain;
+}
+.band-switch {
+  justify-content: flex-end;
+  margin-top: 0.65rem;
+  flex-wrap: wrap;
+}
+.band-switch button {
+  color: #ced2e5;
+  border-bottom: 2px solid transparent;
+  font-weight: 700;
+}
+.band-switch button[aria-pressed="true"] {
+  border-color: var(--ice);
+  color: white;
+}
+.cabinet-credit {
+  text-align: right;
+  padding: 0 5% 1rem;
+  color: #a2a3b4;
+  font-size: 0.7rem;
+}
+.draft-screen {
+  background:
+    radial-gradient(ellipse at 5% 30%, #312341, transparent 58%),
+    linear-gradient(120deg, #191a31, #101625 68%);
+}
+.draft-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.draft-heading h1,
+.arena-preview h2,
+.preview-details h2,
+[data-battle-menu] h2 {
+  font-family: system-ui, sans-serif;
+  font-weight: 950;
+  font-style: italic;
+}
+.draft-screen > header {
+  padding-top: 0.65rem;
+  padding-bottom: 0.55rem;
+}
+.draft-tabs {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  border-block: 1px solid #b7a9ce35;
+  background: #111526;
+  padding: 0.25rem;
+}
+.draft-tabs button {
+  padding: 0.5rem 1.3rem;
+  min-height: 42px;
+  font-weight: 800;
+  color: #bec4db;
+  border-bottom: 3px solid transparent;
+}
+.draft-tabs button[aria-pressed="true"] {
+  color: white;
+  border-color: #69e0f1;
+  background: #293044;
+}
+.draft-layout {
+  display: grid;
+  grid-template-columns: minmax(185px, 26%) minmax(0, 1fr);
+  gap: clamp(0.8rem, 2vw, 2.2rem);
+}
+.fighter-preview {
+  border: 1px solid #596383;
+  background: #171b33;
+}
+.preview-picture {
+  min-height: 220px;
+  background: radial-gradient(ellipse at 55% 50%, #645374, #222b48 65%);
+}
+.preview-picture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -58deg,
+    transparent 0 31px,
+    #b9beee0c 31px 33px
+  );
+}
+.preview-art {
+  height: 152%;
+  max-width: 100%;
+}
+.preview-side {
+  position: absolute;
+  z-index: 1;
+  left: 0.6rem;
+  top: 0.4rem;
+  color: #ffda85;
+  font: italic 900 clamp(1rem, 2.5vw, 2.3rem) / 1 system-ui;
+  text-shadow: 1px 2px 0 #30284e;
+}
+.preview-details {
+  border-top: 3px solid #8c83c7;
+  background: #191d34;
+}
+.preview-details h2 {
+  font-size: clamp(1.15rem, 2vw, 2rem);
+}
+.fighter-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: clamp(3px, 0.5vw, 8px);
+  max-width: 980px;
+}
+.fighter-tile {
+  height: auto;
+  width: 100%;
+  border: 2px solid #73768d;
+  opacity: 1;
+}
+.fighter-tile:enabled[aria-pressed="true"] {
+  border-color: #ffd86f;
+  box-shadow: 0 0 0 1px #ffd86f;
+  z-index: 1;
+}
+.fighter-tile:enabled[aria-pressed="true"] > span:first-of-type {
+  background: #833134;
+}
+.fighter-tile:enabled:hover img {
+  transform: scale(1.045);
+}
+.draft-lineups > section {
+  border-top: 3px solid #ee4f80;
+  background-color: #24243b;
+}
+.draft-lineups > section:nth-child(2) {
+  border-color: #68d9ec;
+}
+.draft-lineups > section:nth-child(3) {
+  border-color: #ffcd76;
+}
+.draft-lineups button[aria-pressed] {
+  max-height: 74px;
+  aspect-ratio: 1;
+  width: auto;
+  margin: auto;
+  min-width: min(100%, 48px);
+}
+.draft-lineups button[aria-pressed="true"] {
+  outline: 1px solid #ffd681;
+}
+.draft-status {
+  border-left: 3px solid #ffda85;
+}
+.draft-screen > footer {
+  border-top: 1px solid #99a9cc55;
+  background: #14182a;
+}
+.arena-settings {
+  max-width: 1200px;
+  margin: auto;
+}
+.arena-preview {
+  position: relative;
+  height: clamp(90px, 26dvh, 260px);
+  overflow: hidden;
+  border-bottom: 3px solid #69e0f1;
+}
+.arena-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.arena-preview h2 {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 0.9rem 1.25rem;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  background: linear-gradient(transparent, #101325ed);
+}
+.versus-screen {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(120deg, #36203a, #142c46);
+}
+.versus-teams {
+  display: grid;
+  position: relative;
+  width: min(84vw, 1024px);
+  gap: 4px;
+}
+.versus-player {
+  position: relative;
+  min-width: 0;
+  height: clamp(160px, 48dvh, 540px);
+  overflow: hidden;
+  background: linear-gradient(130deg, #81335799, #2c1b39);
+  border-top: 4px solid var(--rose);
+}
+.versus-player:nth-child(2) {
+  border-color: var(--ice);
+  background: linear-gradient(200deg, #1d738099, #1e263b);
+}
+.versus-player:nth-child(3) {
+  border-color: var(--saffron);
+}
+.versus-player img {
+  width: 100%;
+  height: 155%;
+  object-fit: contain;
+  object-position: top;
+}
+.versus-player > div {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 0.8rem 5%;
+  background: linear-gradient(transparent, #101222e8 40%);
+}
+.versus-player b {
+  font-weight: 900;
+  font-style: italic;
+  color: var(--saffron);
+}
+.versus-player h2 {
+  font-size: clamp(1rem, 2.7vw, 2.4rem);
+  font-weight: 900;
+}
+.versus-player p {
+  font-size: 0.7rem;
+}
+.versus-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) skew(-11deg);
+  font: italic 1000 clamp(2.5rem, 9vw, 7rem) / 1 system-ui;
+  color: #ffe7aa;
+  text-shadow: 3px 4px #6c2655;
+}
+.versus-progress {
+  text-align: center;
+}
+.versus-progress > div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+}
+.versus-progress progress {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--ice);
+}
+[data-battle-menu] section {
+  border-top: 4px solid #62d2e9;
+  background: linear-gradient(130deg, #20283e, #15182a);
+}
+[role="meter"][aria-label$="生命"] {
+  outline: 1px solid #f1f1ff55;
+}
+[role="meter"][aria-label$="生命"] > div {
+  background-image: linear-gradient(
+    0deg,
+    #0002,
+    transparent 45%,
+    #fff4 46%,
+    transparent
+  );
+}
+@media (min-width: 720px) and (prefers-reduced-motion: no-preference) {
+  .band-panels,
+  .versus-teams {
+    animation: lineup-in 0.24s ease-out;
+  }
+  @keyframes lineup-in {
+    from {
+      opacity: 0.35;
+      translate: 1.3rem 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+}
+@media (max-width: 799px) {
+  .cabinet-hero {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+    padding: 1.2rem max(5vw, 1rem);
+    align-content: center;
+  }
+  .cabinet-band {
+    grid-row: 1;
+  }
+  .band-panels {
+    height: clamp(130px, 26dvh, 275px);
+  }
+  .band-panel img {
+    height: 185%;
+  }
+  .band-switch {
+    margin-top: 0;
+    justify-content: center;
+  }
+  .cabinet-mode h1 {
+    display: flex;
+    gap: 0.12em;
+    align-items: baseline;
+    font-size: clamp(2.55rem, 9vw, 4.6rem);
+  }
+  .cabinet-subtitle {
+    margin: 0.5rem 0 0.8rem;
+    font-size: 0.8rem;
+  }
+  .cabinet-actions {
+    max-width: none;
+  }
+  .cabinet-credit {
+    margin-top: 0.5rem;
+  }
+  .draft-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fighter-preview {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    height: auto;
+  }
+  .preview-picture {
+    min-height: 95px;
+  }
+  .preview-art {
+    height: 235%;
+  }
+  .preview-details {
+    border: 0;
+    align-self: center;
+    padding: 0.4rem 0.8rem;
+  }
+  .preview-details dl {
+    display: none;
+  }
+  .preview-details button {
+    min-height: 35px;
+  }
+  .draft-layout {
+    gap: 0.6rem;
+  }
+  .fighter-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .draft-heading h1 {
+    font-size: 1.3rem;
+  }
+  .draft-screen > header {
+    gap: 0.2rem;
+  }
+  .draft-tabs button {
+    flex: 1;
+  }
+  .versus-teams {
+    width: 94vw;
+  }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .cabinet-hero {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.75rem 4%;
+  }
+  .cabinet-band {
+    grid-row: auto;
+  }
+  .band-panels {
+    height: 175px;
+  }
+  .cabinet-mode h1 {
+    font-size: 2.6rem;
+  }
+  .cabinet-top {
+    padding: 0.25rem 4%;
+  }
+  .draft-feature {
+    display: none;
+  }
+  .draft-layout {
+    grid-template-columns: 1fr;
+  }
+  .fighter-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .draft-tabs button {
+    min-height: 32px;
+    padding: 0.2rem 0.7rem;
+  }
+  .draft-screen > header {
+    padding-block: 0.25rem;
+  }
+  .versus-player {
+    height: 52dvh;
+  }
+}
+
+/* A single-fighter lineup is a versus nameplate. Wheel teams keep their
+   numbered slots and reserve order. */
+.draft-lineups section[data-slots="1"] {
+  position: relative;
+  overflow: hidden;
+  min-height: 100px;
+  padding: 0;
+}
+.draft-lineups section[data-slots="1"] h2 {
+  position: absolute;
+  inset: 8px auto auto 10px;
+  z-index: 2;
+  pointer-events: none;
+  display: grid;
+  justify-items: start;
+  gap: 0;
+  margin: 0;
+}
+.draft-lineups section[data-slots="1"] h2 span {
+  font: italic 900 1.4rem/1 system-ui;
+}
+.draft-lineups section[data-slots="1"] > div,
+.draft-lineups section[data-slots="1"] > div > div {
+  height: 100%;
+  width: 100%;
+  max-width: none;
+}
+.draft-lineups section[data-slots="1"] > div > div > p {
+  display: none;
+}
+.draft-lineups section[data-slots="1"] button[aria-pressed] {
+  height: 100%;
+  min-height: 97px;
+  max-height: none;
+  width: 100%;
+  aspect-ratio: auto;
+  align-items: flex-start;
+  background: linear-gradient(105deg, #292742, #492743);
+}
+.draft-lineups section[data-slots="1"]:nth-child(2) button[aria-pressed] {
+  background: linear-gradient(105deg, #202d43, #225569);
+}
+.draft-lineups section[data-slots="1"] button[aria-pressed="true"] {
+  outline-offset: -2px;
+}
+.draft-lineups section[data-slots="1"] button img {
+  inset: 0 0 auto auto;
+  width: 48%;
+  height: 100%;
+  object-position: 50% 35%;
+  mask-image: linear-gradient(to right, transparent, #000 30%);
+}
+.draft-lineups section[data-slots="1"] button > span:last-child {
+  width: 64%;
+  background: none;
+  margin-top: auto;
+  padding: 0 10px 8px;
+  text-align: left;
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+.draft-lineups section[data-slots="1"] button > span.grid {
+  left: 50%;
+  padding: 0;
+  color: #b4bdd2;
+}
+.draft-lineups section[data-slots="1"] button[aria-label^="移除"] {
+  top: 0;
+}
+@media (min-width: 800px) {
+  .draft-screen .draft-layout {
+    min-height: min(64dvh, 635px);
+    align-items: stretch;
+  }
+  .draft-screen .draft-feature aside {
+    height: 100%;
+  }
+  .draft-screen .draft-feature .preview-picture {
+    min-height: 235px;
+  }
+  .draft-screen .draft-feature .preview-art {
+    height: 175%;
+  }
+  .draft-layout .fighter-grid {
+    max-width: none;
+  }
+  .fighter-tile > span:first-of-type {
+    background: linear-gradient(0deg, #101423 10%, #101423cd 70%, transparent);
+    padding-top: 0.75rem;
+  }
+}
+@media (max-width: 799px) {
+  .draft-lineups section[data-slots="1"] {
+    min-height: 75px;
+  }
+  .draft-lineups section[data-slots="1"] button[aria-pressed] {
+    min-height: 72px;
+  }
+  .draft-lineups section[data-slots="1"] h2 span {
+    font-size: 1.05rem;
+  }
+  .draft-lineups section[data-slots="1"] h2 small {
+    display: none;
+  }
+}
+.band-panel[data-character="3"] img {
+  left: 68%;
+}
+.band-panel[data-character="0"] img {
+  left: 41%;
+}

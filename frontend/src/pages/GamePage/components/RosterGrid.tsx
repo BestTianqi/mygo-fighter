@@ -1,6 +1,34 @@
+import type { KeyboardEvent } from "react";
 import { bandPortrait } from "../../../assets/bandArt";
 import type { Assets } from "../../../assets/objects/Assets";
 import { ROSTER } from "../../../game/engine";
+
+function moveCursor(event: KeyboardEvent<HTMLDivElement>) {
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key))
+    return;
+  const grid = event.currentTarget;
+  const cards = Array.from(grid.querySelectorAll("button"));
+  const start = cards.indexOf(event.target as HTMLButtonElement);
+  if (start < 0) return;
+  const columns = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+  const step = {
+    ArrowLeft: -1,
+    ArrowRight: 1,
+    ArrowUp: -columns,
+    ArrowDown: columns,
+  }[event.key]!;
+  event.preventDefault();
+  for (
+    let index = start + step;
+    index >= 0 && index < cards.length;
+    index += step
+  ) {
+    if (!cards[index].disabled) {
+      cards[index].focus();
+      break;
+    }
+  }
+}
 
 /** Square face cards keep the local and online rosters visually identical. */
 export function RosterGrid({
@@ -23,10 +51,7 @@ export function RosterGrid({
   teams?: (number | null)[][];
 }) {
   return (
-    <div
-      className="grid min-w-0 grid-cols-4 content-start gap-1.5 self-start min-[600px]:grid-cols-8"
-      aria-label="全部角色"
-    >
+    <div className="fighter-grid" onKeyDown={moveCursor} aria-label="全部角色">
       {ROSTER.map((character, id) => {
         const banned = bans.includes(id);
         const sides = teams.flatMap((team, side) =>
@@ -42,7 +67,7 @@ export function RosterGrid({
             onClick={() => onChoose(id)}
             aria-label={`${banned ? "已禁用" : "选择"}${character.name}`}
             aria-pressed={preview === id}
-            className={`group relative h-[clamp(72px,10dvh,100px)] min-[600px]:h-[clamp(80px,13dvh,128px)] [@media(max-height:500px)]:h-16 min-w-0 touch-manipulation overflow-hidden rounded-none text-center text-white transition-colors disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember ${preview === id ? "bg-crimson opacity-100" : "bg-panel opacity-80 hover:opacity-100"}`}
+            className={`fighter-tile group relative aspect-square min-w-0 touch-manipulation overflow-hidden rounded-none text-center text-white transition-colors disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember ${preview === id ? "bg-crimson opacity-100" : "bg-panel opacity-80 hover:opacity-100"}`}
           >
             <img
               src={

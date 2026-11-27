@@ -15,23 +15,6 @@ export function invulnerable(f: Fighter): boolean {
   );
 }
 
-export function meleeConnects(
-  source: Fighter,
-  target: Pick<Fighter, "x" | "y">,
-  move: Move,
-  reach: number,
-  vertical: number,
-): boolean {
-  const dx = (target.x - source.x) * source.facing;
-  const outside = move.targetArea
-    ? Math.abs(target.x - source.attackTarget!.x) > move.areaRadius! ||
-      Math.abs(target.x - source.x) > 420
-    : move.omni
-      ? Math.abs(dx) > reach
-      : dx < -10 || dx > reach;
-  return !outside && Math.abs(target.y - source.y) <= vertical;
-}
-
 export function hit(
   match: Match,
   side: number,

@@ -1,6 +1,6 @@
 import { MOVES } from "../combatData";
 import type { Match } from "../engine";
-import type { Fighter } from "../objects/Fighter";
+import { hurtbox, overlaps, ringTouches, type CombatBody } from "./collision";
 
 export function updateBindings(match: Match): void {
   for (const source of match.fighters) {
@@ -80,9 +80,7 @@ export function updateSoyoSupers(match: Match): void {
         match.invulnerable(target)
       )
         continue;
-      if (
-        Math.hypot(target.x - state.x, target.y + 100 - state.y) <= state.radius
-      ) {
+      if (ringTouches(hurtbox(target), state.x, state.y, state.radius)) {
         state.hitTargets.push(targetSide);
         controls.push({ side, targetSide });
       }
@@ -133,11 +131,7 @@ export function updateAreas(match: Match): void {
       x: area.x,
       y: area.y,
     });
-    const connects = (
-      body: Pick<Fighter, "x" | "y"> & {
-        dropMs?: number;
-      },
-    ) => {
+    const connects = (body: CombatBody) => {
       const support = match.surfaceBelow(body.x, body.y, body.dropMs);
       const surface = area.platform
         ? area.platform.height
@@ -148,9 +142,12 @@ export function updateAreas(match: Match): void {
           (body.x >= area.platform.left && body.x <= area.platform.right));
       return (
         sameSurface &&
-        Math.abs(body.x - area.x) <= area.radius &&
-        body.y >= surface - 0.1 &&
-        body.y - surface <= move.vertical!
+        overlaps(hurtbox(body), {
+          left: area.x - area.radius,
+          right: area.x + area.radius,
+          bottom: surface,
+          top: surface + move.vertical!,
+        })
       );
     };
     for (const targetSide of match.enemySides(area.owner)) {

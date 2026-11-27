@@ -60,12 +60,14 @@ export function LobbyRoster({
   } = model;
   if (!room) return null;
   return (
-    <div className="grid min-w-0 gap-3 sm:grid-cols-[minmax(140px,20%)_minmax(0,1fr)] [@media(max-height:500px)]:grid-cols-1">
-      <div className="hidden sm:block [@media(max-height:500px)]:hidden">
+    <div className="draft-layout online-draft">
+      <div className="draft-feature">
         <CharacterPortraitPreview
           key={preview}
           assets={assets}
           character={preview}
+          sideLabel={`${side + 1}P`}
+          fillHeight
           compact
         />
       </div>

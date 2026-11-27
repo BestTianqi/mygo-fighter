@@ -45,13 +45,7 @@ function resolveSkill(
   pressed: (key: string) => boolean,
   airborne: boolean,
 ) {
-  return resolveSchemeSkill(
-    bandFor(f.character),
-    f,
-    input,
-    pressed,
-    airborne,
-  );
+  return resolveSchemeSkill(bandFor(f.character), f, input, pressed, airborne);
 }
 function bindingList(f: FighterIdentity) {
   const band = bandFor(f.character),
@@ -81,6 +75,10 @@ function bindingList(f: FighterIdentity) {
     key: s.variants.back1 ? "前＋O" : "后＋U / 前＋O",
     key2: s.variants.back1 ? "前＋6" : "后＋4 / 前＋6",
   });
+  rows.push(
+    { move: "uppercut", key: "↓↘→＋J", key2: "↓↘→＋1" },
+    { move: "dragonPunch", key: "→↓↘＋K", key2: "→↓↘＋2" },
+  );
   rows.push(...(band.extraBindings?.(f) ?? []));
   if (s.transform) rows.push({ move: s.transform, key: "H", key2: "7" });
   if (s.super) rows.push({ move: s.super, key: "P", key2: "8" });

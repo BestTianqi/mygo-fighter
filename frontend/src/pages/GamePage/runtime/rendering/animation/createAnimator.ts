@@ -92,6 +92,11 @@ function createAnimator() {
     if (f.attack) {
       const move = MOVES[f.attack ?? ""],
         t = f.attackMs;
+      if (f.attack === "uppercut" || f.attack === "dragonPunch") {
+        if (t < move.start) return "guard-crouch";
+        if (t <= move.end) return f.attack;
+        return ground ? "guard-standing" : "jump-fall";
+      }
       if (move.backSkill && bandFor(f.character).id === "mygo") {
         if (t < move.start) return "normal-windup";
         if (t > move.end + 130) return "normal-recover";

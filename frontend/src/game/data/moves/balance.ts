@@ -19,8 +19,7 @@ export function applyBalance(MOVES: Record<string, Move>): void {
       move.damage = normalDamage(move.damage);
       move.duration += 80;
       const strong = move.strength === 3 && !move.jab && !move.chain;
-      // Every normal, including all J follow-ups and crouch/air variants, uses
-      // one box. Heavy attacks extend both axes by the same 1.2 ratio.
+      // Normals share horizontal reach. The active pose sets the striking limb's height.
       const range = strong ? FEEL.heavyReachMultiplier : 1;
       move.reach = FEEL.normalReach * range;
       move.vertical = FEEL.normalHeightTolerance * range;

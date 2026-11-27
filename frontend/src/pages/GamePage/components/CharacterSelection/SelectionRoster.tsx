@@ -35,18 +35,19 @@ export function SelectionRoster({
       ? `${labels[selection.active[0]]} · 禁用第 ${Math.floor(selection.bans.length / 2) + 1} 名角色`
       : `${labels[selection.active[0]]} · 选择第 ${selection.active[1] + 1} 位角色`;
   return (
-    <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(170px,21%)_minmax(0,1fr)] lg:gap-6 [@media(max-height:500px)]:grid-cols-1">
-      <div className="hidden lg:block [@media(max-height:500px)]:hidden">
+    <div className="draft-layout">
+      <div className="draft-feature">
         <CharacterPortraitPreview
           key={preview}
           assets={assets}
           character={preview}
+          sideLabel={labels[selection.active[0]]}
           fillHeight
         />
       </div>
       <div className="min-w-0">
         <div
-          className={`mb-3 flex flex-wrap items-center justify-between gap-2 rounded-none px-3 py-2.5 ${error ? "bg-crimson/25 text-ember" : "bg-silver/6 text-ivory"}`}
+          className={`draft-status mb-3 flex flex-wrap items-center justify-between gap-2 rounded-none px-3 py-2.5 ${error ? "bg-crimson/25 text-ember" : "bg-silver/6 text-ivory"}`}
         >
           <p className="text-xs leading-5" role="status" aria-live="polite">
             {error || status}

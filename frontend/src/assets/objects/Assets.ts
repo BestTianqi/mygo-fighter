@@ -62,6 +62,10 @@ export interface Assets {
   ranaParfaitActions: Atlas;
   sakikoCustomerActions: Atlas;
   jabActions: Atlas[];
+  strikeAtlases: Record<
+    string,
+    Partial<Record<"base" | "stage" | "penguin", Atlas>>
+  >;
   ranaParfait: { src: string; height: number };
   memeSkills: Record<
     string,

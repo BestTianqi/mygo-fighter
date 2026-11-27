@@ -1,0 +1,1244 @@
+{
+  "0": {
+    "base": {
+      "source": "anon.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 252,
+          "h": 430,
+          "ax": 51.62,
+          "ay": 430,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 301,
+          "y": 4,
+          "w": 220,
+          "h": 388,
+          "ax": -20.94,
+          "ay": 388,
+          "height": 212
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 598,
+          "y": 4,
+          "w": 214,
+          "h": 494,
+          "ax": -12.66,
+          "ay": 494,
+          "height": 270
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 506,
+          "w": 289,
+          "h": 414,
+          "ax": 65.32,
+          "ay": 414,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 301,
+          "y": 506,
+          "w": 257,
+          "h": 490,
+          "ax": 50.56,
+          "ay": 490,
+          "height": 278
+        }
+      ]
+    }
+  },
+  "1": {
+    "base": {
+      "source": "soyo.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 250,
+          "h": 442,
+          "ax": 44.39,
+          "ay": 442,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 298,
+          "y": 4,
+          "w": 187,
+          "h": 399,
+          "ax": -57.36,
+          "ay": 399,
+          "height": 212
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 592,
+          "y": 4,
+          "w": 251,
+          "h": 454,
+          "ax": 45.04,
+          "ay": 454,
+          "height": 241
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 516,
+          "w": 286,
+          "h": 423,
+          "ax": 55.9,
+          "ay": 423,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 298,
+          "y": 516,
+          "w": 255,
+          "h": 504,
+          "ax": 37.2,
+          "ay": 504,
+          "height": 280
+        }
+      ]
+    }
+  },
+  "2": {
+    "base": {
+      "source": "tomori.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 248,
+          "h": 459,
+          "ax": 34.95,
+          "ay": 459,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 281,
+          "y": 4,
+          "w": 209,
+          "h": 409,
+          "ax": -42.59,
+          "ay": 409,
+          "height": 209
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 558,
+          "y": 4,
+          "w": 215,
+          "h": 525,
+          "ax": -13.77,
+          "ay": 525,
+          "height": 269
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 537,
+          "w": 269,
+          "h": 419,
+          "ax": 37.84,
+          "ay": 419,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 281,
+          "y": 537,
+          "w": 202,
+          "h": 505,
+          "ax": -1.76,
+          "ay": 505,
+          "height": 283
+        }
+      ]
+    },
+    "penguin": {
+      "source": "penguin.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 315,
+          "h": 360,
+          "ax": 105.35,
+          "ay": 360,
+          "height": 190
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 327,
+          "y": 4,
+          "w": 305,
+          "h": 319,
+          "ax": 86.17,
+          "ay": 319,
+          "height": 168
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 650,
+          "y": 4,
+          "w": 293,
+          "h": 362,
+          "ax": 84.17,
+          "ay": 362,
+          "height": 191
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 430,
+          "w": 288,
+          "h": 382,
+          "ax": 70.27,
+          "ay": 382,
+          "height": 190
+        },
+        {
+          "name": "dragonPunch",
+          "x": 327,
+          "y": 430,
+          "w": 264,
+          "h": 418,
+          "ax": 44.44,
+          "ay": 418,
+          "height": 208
+        }
+      ]
+    }
+  },
+  "3": {
+    "base": {
+      "source": "rana.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 377,
+          "h": 395,
+          "ax": 194.65,
+          "ay": 395,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 389,
+          "y": 4,
+          "w": 348,
+          "h": 345,
+          "ax": 166.02,
+          "ay": 345,
+          "height": 205
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 774,
+          "y": 4,
+          "w": 303,
+          "h": 412,
+          "ax": 88.72,
+          "ay": 412,
+          "height": 245
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 544,
+          "w": 325,
+          "h": 477,
+          "ax": 55.4,
+          "ay": 477,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 389,
+          "y": 544,
+          "w": 282,
+          "h": 532,
+          "ax": 56.72,
+          "ay": 532,
+          "height": 262
+        }
+      ]
+    }
+  },
+  "4": {
+    "base": {
+      "source": "riki.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 375,
+          "h": 407,
+          "ax": 187.38,
+          "ay": 407,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 387,
+          "y": 4,
+          "w": 321,
+          "h": 347,
+          "ax": 134.14,
+          "ay": 347,
+          "height": 200
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 770,
+          "y": 4,
+          "w": 346,
+          "h": 417,
+          "ax": 155.67,
+          "ay": 417,
+          "height": 241
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 585,
+          "w": 361,
+          "h": 491,
+          "ax": 129.27,
+          "ay": 491,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 387,
+          "y": 585,
+          "w": 328,
+          "h": 573,
+          "ax": 100.67,
+          "ay": 573,
+          "height": 274
+        }
+      ]
+    }
+  },
+  "5": {
+    "base": {
+      "source": "umiri.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 240,
+          "h": 411,
+          "ax": 48.51,
+          "ay": 411,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 315,
+          "y": 4,
+          "w": 215,
+          "h": 355,
+          "ax": 7.33,
+          "ay": 355,
+          "height": 203
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 626,
+          "y": 4,
+          "w": 214,
+          "h": 475,
+          "ax": 0.28,
+          "ay": 475,
+          "height": 272
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 518,
+          "w": 299,
+          "h": 450,
+          "ax": 43.04,
+          "ay": 450,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 315,
+          "y": 518,
+          "w": 303,
+          "h": 506,
+          "ax": 97.61,
+          "ay": 506,
+          "height": 264
+        }
+      ]
+    },
+    "stage": {
+      "source": "umiri-stage.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 243,
+          "h": 421,
+          "ax": 28.33,
+          "ay": 421,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 310,
+          "y": 4,
+          "w": 217,
+          "h": 359,
+          "ax": 2.97,
+          "ay": 359,
+          "height": 200
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 616,
+          "y": 4,
+          "w": 205,
+          "h": 468,
+          "ax": -8.33,
+          "ay": 468,
+          "height": 261
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 517,
+          "w": 298,
+          "h": 439,
+          "ax": 91.8,
+          "ay": 439,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 310,
+          "y": 517,
+          "w": 280,
+          "h": 505,
+          "ax": 77.08,
+          "ay": 505,
+          "height": 270
+        }
+      ]
+    }
+  },
+  "6": {
+    "base": {
+      "source": "sakiko.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 245,
+          "h": 400,
+          "ax": 60.63,
+          "ay": 400,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 329,
+          "y": 4,
+          "w": 222,
+          "h": 352,
+          "ax": 22.95,
+          "ay": 352,
+          "height": 207
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 654,
+          "y": 4,
+          "w": 264,
+          "h": 422,
+          "ax": 81.75,
+          "ay": 422,
+          "height": 248
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 518,
+          "w": 313,
+          "h": 446,
+          "ax": 56.15,
+          "ay": 446,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 329,
+          "y": 518,
+          "w": 317,
+          "h": 506,
+          "ax": 107.23,
+          "ay": 506,
+          "height": 267
+        }
+      ]
+    },
+    "stage": {
+      "source": "sakiko-stage.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 238,
+          "h": 400,
+          "ax": 38.52,
+          "ay": 400,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 317,
+          "y": 4,
+          "w": 219,
+          "h": 364,
+          "ax": 2.51,
+          "ay": 364,
+          "height": 214
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 630,
+          "y": 4,
+          "w": 256,
+          "h": 426,
+          "ax": 53.38,
+          "ay": 426,
+          "height": 250
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 521,
+          "w": 305,
+          "h": 450,
+          "ax": 84.5,
+          "ay": 450,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 317,
+          "y": 521,
+          "w": 282,
+          "h": 509,
+          "ax": 74.53,
+          "ay": 509,
+          "height": 266
+        }
+      ]
+    }
+  },
+  "7": {
+    "base": {
+      "source": "uika.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 233,
+          "h": 395,
+          "ax": 48.87,
+          "ay": 395,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 327,
+          "y": 4,
+          "w": 228,
+          "h": 337,
+          "ax": 25.4,
+          "ay": 337,
+          "height": 200
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 650,
+          "y": 4,
+          "w": 211,
+          "h": 437,
+          "ax": -16.55,
+          "ay": 437,
+          "height": 260
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 519,
+          "w": 315,
+          "h": 443,
+          "ax": 62.25,
+          "ay": 443,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 327,
+          "y": 519,
+          "w": 284,
+          "h": 507,
+          "ax": 79.47,
+          "ay": 507,
+          "height": 269
+        }
+      ]
+    },
+    "stage": {
+      "source": "uika-stage.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 231,
+          "h": 420,
+          "ax": 17.3,
+          "ay": 420,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 339,
+          "y": 4,
+          "w": 227,
+          "h": 379,
+          "ax": 11.13,
+          "ay": 379,
+          "height": 212
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 674,
+          "y": 4,
+          "w": 223,
+          "h": 475,
+          "ax": 9.79,
+          "ay": 475,
+          "height": 266
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 520,
+          "w": 327,
+          "h": 443,
+          "ax": 114.6,
+          "ay": 443,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 339,
+          "y": 520,
+          "w": 297,
+          "h": 508,
+          "ax": 91.69,
+          "ay": 508,
+          "height": 269
+        }
+      ]
+    }
+  },
+  "8": {
+    "base": {
+      "source": "mutsumi.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 287,
+          "h": 371,
+          "ax": 111.33,
+          "ay": 371,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 302,
+          "y": 4,
+          "w": 256,
+          "h": 333,
+          "ax": 79.07,
+          "ay": 333,
+          "height": 211
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 600,
+          "y": 4,
+          "w": 268,
+          "h": 404,
+          "ax": 66.35,
+          "ay": 404,
+          "height": 256
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 493,
+          "w": 266,
+          "h": 425,
+          "ax": 43.33,
+          "ay": 425,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 302,
+          "y": 493,
+          "w": 290,
+          "h": 481,
+          "ax": 64.24,
+          "ay": 481,
+          "height": 266
+        }
+      ]
+    },
+    "stage": {
+      "source": "mutsumi-stage.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 346,
+          "h": 474,
+          "ax": 104.87,
+          "ay": 474,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 358,
+          "y": 4,
+          "w": 313,
+          "h": 417,
+          "ax": 70.02,
+          "ay": 417,
+          "height": 207
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 712,
+          "y": 4,
+          "w": 264,
+          "h": 480,
+          "ax": 1.6,
+          "ay": 480,
+          "height": 238
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 709,
+          "w": 334,
+          "h": 614,
+          "ax": 35.55,
+          "ay": 614,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 358,
+          "y": 709,
+          "w": 345,
+          "h": 697,
+          "ax": 52.81,
+          "ay": 697,
+          "height": 267
+        }
+      ]
+    }
+  },
+  "9": {
+    "base": {
+      "source": "nyamu.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 295,
+          "h": 397,
+          "ax": 110.46,
+          "ay": 397,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 336,
+          "y": 4,
+          "w": 240,
+          "h": 356,
+          "ax": 54.93,
+          "ay": 356,
+          "height": 211
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 668,
+          "y": 4,
+          "w": 324,
+          "h": 415,
+          "ax": 138.83,
+          "ay": 415,
+          "height": 246
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 523,
+          "w": 268,
+          "h": 447,
+          "ax": 27.3,
+          "ay": 447,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 336,
+          "y": 523,
+          "w": 246,
+          "h": 511,
+          "ax": 41.06,
+          "ay": 511,
+          "height": 269
+        }
+      ]
+    },
+    "stage": {
+      "source": "nyamu-stage.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 345,
+          "h": 477,
+          "ax": 98.99,
+          "ay": 477,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 491,
+          "y": 4,
+          "w": 324,
+          "h": 421,
+          "ax": 78.37,
+          "ay": 421,
+          "height": 207
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 978,
+          "y": 4,
+          "w": 479,
+          "h": 480,
+          "ax": 231.95,
+          "ay": 480,
+          "height": 236
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 716,
+          "w": 329,
+          "h": 629,
+          "ax": 17.73,
+          "ay": 629,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 491,
+          "y": 716,
+          "w": 304,
+          "h": 704,
+          "ax": 7.37,
+          "ay": 704,
+          "height": 263
+        }
+      ]
+    }
+  },
+  "10": {
+    "base": {
+      "source": "arale.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 346,
+          "h": 364,
+          "ax": 171.07,
+          "ay": 364,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 385,
+          "y": 4,
+          "w": 308,
+          "h": 321,
+          "ax": 128.24,
+          "ay": 321,
+          "height": 207
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 766,
+          "y": 4,
+          "w": 324,
+          "h": 388,
+          "ax": 110.75,
+          "ay": 388,
+          "height": 250
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 494,
+          "w": 373,
+          "h": 369,
+          "ax": 150.02,
+          "ay": 369,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 385,
+          "y": 494,
+          "w": 334,
+          "h": 482,
+          "ax": 117.28,
+          "ay": 482,
+          "height": 307
+        }
+      ]
+    }
+  },
+  "11": {
+    "base": {
+      "source": "ritsu.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 294,
+          "h": 387,
+          "ax": 110.97,
+          "ay": 387,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 379,
+          "y": 4,
+          "w": 318,
+          "h": 343,
+          "ax": 133.78,
+          "ay": 343,
+          "height": 208
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 754,
+          "y": 4,
+          "w": 325,
+          "h": 416,
+          "ax": 108.5,
+          "ay": 416,
+          "height": 253
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 493,
+          "w": 367,
+          "h": 396,
+          "ax": 133.03,
+          "ay": 396,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 379,
+          "y": 493,
+          "w": 233,
+          "h": 481,
+          "ax": 48.16,
+          "ay": 481,
+          "height": 285
+        }
+      ]
+    }
+  },
+  "12": {
+    "base": {
+      "source": "miyako.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 332,
+          "h": 415,
+          "ax": 125.1,
+          "ay": 415,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 406,
+          "y": 4,
+          "w": 309,
+          "h": 369,
+          "ax": 103.75,
+          "ay": 369,
+          "height": 209
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 808,
+          "y": 4,
+          "w": 394,
+          "h": 417,
+          "ax": 198.42,
+          "ay": 417,
+          "height": 236
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 511,
+          "w": 392,
+          "h": 396,
+          "ax": 142.27,
+          "ay": 396,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 406,
+          "y": 511,
+          "w": 291,
+          "h": 499,
+          "ax": 98.22,
+          "ay": 499,
+          "height": 296
+        }
+      ]
+    }
+  },
+  "13": {
+    "base": {
+      "source": "yuno.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 361,
+          "h": 474,
+          "ax": 136.79,
+          "ay": 474,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 407,
+          "y": 4,
+          "w": 355,
+          "h": 406,
+          "ax": 123.63,
+          "ay": 406,
+          "height": 201
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 810,
+          "y": 4,
+          "w": 330,
+          "h": 490,
+          "ax": 100.49,
+          "ay": 490,
+          "height": 243
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 704,
+          "w": 395,
+          "h": 608,
+          "ax": 86.43,
+          "ay": 608,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 407,
+          "y": 704,
+          "w": 394,
+          "h": 692,
+          "ax": 108.7,
+          "ay": 692,
+          "height": 267
+        }
+      ]
+    }
+  },
+  "14": {
+    "base": {
+      "source": "nonoka.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 365,
+          "h": 472,
+          "ax": 141.51,
+          "ay": 472,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 467,
+          "y": 4,
+          "w": 355,
+          "h": 420,
+          "ax": 128.25,
+          "ay": 420,
+          "height": 209
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 930,
+          "y": 4,
+          "w": 455,
+          "h": 489,
+          "ax": 232.07,
+          "ay": 489,
+          "height": 243
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 711,
+          "w": 416,
+          "h": 611,
+          "ax": 95.68,
+          "ay": 611,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 467,
+          "y": 711,
+          "w": 371,
+          "h": 699,
+          "ax": 74.78,
+          "ay": 699,
+          "height": 269
+        }
+      ]
+    }
+  },
+  "15": {
+    "base": {
+      "source": "viola.webp",
+      "frames": [
+        {
+          "name": "jab-1-impact",
+          "x": 4,
+          "y": 4,
+          "w": 300,
+          "h": 397,
+          "ax": 112.31,
+          "ay": 397,
+          "height": 235
+        },
+        {
+          "name": "jab-2-impact",
+          "x": 328,
+          "y": 4,
+          "w": 266,
+          "h": 356,
+          "ax": 53.29,
+          "ay": 356,
+          "height": 211
+        },
+        {
+          "name": "jab-3-impact",
+          "x": 652,
+          "y": 4,
+          "w": 316,
+          "h": 444,
+          "ax": 51.95,
+          "ay": 444,
+          "height": 263
+        },
+        {
+          "name": "uppercut",
+          "x": 4,
+          "y": 540,
+          "w": 313,
+          "h": 448,
+          "ax": 42.75,
+          "ay": 448,
+          "height": 235
+        },
+        {
+          "name": "dragonPunch",
+          "x": 328,
+          "y": 540,
+          "w": 275,
+          "h": 528,
+          "ax": 63.01,
+          "ay": 528,
+          "height": 277
+        }
+      ]
+    }
+  }
+}

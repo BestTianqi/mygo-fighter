@@ -59,10 +59,12 @@ def optimize(item):
 
 def main():
     manifest = json.loads((PUBLIC / "assets.json").read_text("utf8"))
+    # The new impact cels have fine facial lines and only five frames per atlas.
+    strike_atlases = {url for url, _ in references(manifest.get("strikeAtlases", {}))}
     choices = {}
     for url, key in references(manifest):
         if url.startswith("/media/"):
-            quality = 74 if key == "atlas" else 94
+            quality = 81 if url in strike_atlases else (74 if key == "atlas" else 94)
             choices[url] = min(quality, choices.get(url, quality))
     (DEST / "media").mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=4) as pool:

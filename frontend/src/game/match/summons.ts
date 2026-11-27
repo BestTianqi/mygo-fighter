@@ -1,3 +1,4 @@
+import { overlaps, hurtbox } from "./collision";
 import { MOVES, ROSTER, WORLD } from "../combatData";
 import type { Match } from "../engine";
 import type { Minion } from "../objects/Minion";
@@ -104,18 +105,14 @@ export function updateSummons(match: Match): void {
       if (charging) {
         p.phaseMs -= 10;
         if (
-          Math.abs(target.x - p.x) < 40 &&
-          Math.abs(target.y + 10 - p.y) < 60 &&
+          overlaps(hurtbox(target), hurtbox(p)) &&
           !target.knockdown &&
           !match.invulnerable(target) &&
           target.hp > 0
         ) {
           for (const victim of match.enemySides(side)) {
             const enemy = match.fighters[victim];
-            if (
-              Math.abs(enemy.x - p.x) < 40 &&
-              Math.abs(enemy.y + 10 - p.y) < 60
-            )
+            if (overlaps(hurtbox(enemy), hurtbox(p)))
               match.hit(side, "tensoraHit", p.x, p.y + 40, {}, victim);
           }
           match.events.push({

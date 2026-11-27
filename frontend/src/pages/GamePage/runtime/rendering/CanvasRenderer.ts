@@ -1,3 +1,4 @@
+import { strikeForm, strikeIndex } from "../../../../game/data/strikePose";
 import { createAnimator } from "./animation";
 import { entranceFor } from "./animation/entrance";
 import { bandFor } from "../../../../game/bands";
@@ -361,7 +362,17 @@ export class CanvasRenderer {
     let frame = art.frames[match.pose(side)] ?? art.frames[0];
     let height = frame.height ?? (235 * frame.h) / art.frames[0].h;
     const band = bandFor(f.character);
-    if (band.id !== "mygo") {
+    const slot =
+      !blinkDirection && (match.phase === "fighting" || impact)
+        ? strikeIndex(f, move)
+        : -1;
+    const strikes =
+      slot >= 0 ? a.strikeAtlases[f.character]?.[strikeForm(f)] : undefined;
+    if (strikes?.frames[slot]) {
+      art = strikes;
+      frame = strikes.frames[slot];
+      height = frame.height!;
+    } else if (band.id !== "mygo") {
       const form = band.formFor(f);
       art = bandAtlas(a, f.character, form);
       if (animation?.startsWith("mask-"))
@@ -456,7 +467,7 @@ export class CanvasRenderer {
       image,
       frame,
       scale: height / frame.h,
-      animation: animation ?? null,
+      animation: strikes ? frame.name! : (animation ?? null),
     };
     return this.spriteCache.get(art.atlas, sprite, this.renderScale * viewZoom);
   }

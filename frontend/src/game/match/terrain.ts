@@ -165,6 +165,16 @@ export function separate(match: Match): void {
       if (!match.active(first) || !match.active(second)) continue;
       const bodies = [match.fighters[first], match.fighters[second]];
       const [a, b] = bodies;
+      // A confirmed headbutt can pass its victim and reach the next body.
+      if (
+        (MOVES[a.attack ?? ""]?.nonoka === "headbutt" &&
+          a.hitMarks.includes(second) &&
+          a.attackMs <= MOVES[a.attack!].end) ||
+        (MOVES[b.attack ?? ""]?.nonoka === "headbutt" &&
+          b.hitMarks.includes(first) &&
+          b.attackMs <= MOVES[b.attack!].end)
+      )
+        continue;
       if (Math.abs(a.y - b.y) > 34 * FEEL.scale || a.dashMs || b.dashMs)
         continue;
       const dx = b.x - a.x,

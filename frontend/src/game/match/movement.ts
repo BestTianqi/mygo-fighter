@@ -114,6 +114,14 @@ export function updateMovement(
       fromY,
     });
   }
+  if (
+    ground &&
+    f.attack === "dragonPunch" &&
+    f.attackMs === MOVES.dragonPunch.start
+  ) {
+    f.vy = 790;
+    f.y += 0.01;
+  }
   if (ground && f.vy <= 0 && !f.dropMs && !f.dashMs) {
     f.vx = !f.attack && !plantedGuard && !f.crouch ? direction * speed : 0;
     if (
