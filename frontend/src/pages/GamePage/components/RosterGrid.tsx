@@ -1,34 +1,7 @@
-import type { KeyboardEvent } from "react";
+import { moveGridFocus } from "../functions/moveGridFocus";
 import { bandPortrait } from "../../../assets/bandArt";
 import type { Assets } from "../../../assets/objects/Assets";
 import { ROSTER } from "../../../game/engine";
-
-function moveCursor(event: KeyboardEvent<HTMLDivElement>) {
-  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key))
-    return;
-  const grid = event.currentTarget;
-  const cards = Array.from(grid.querySelectorAll("button"));
-  const start = cards.indexOf(event.target as HTMLButtonElement);
-  if (start < 0) return;
-  const columns = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
-  const step = {
-    ArrowLeft: -1,
-    ArrowRight: 1,
-    ArrowUp: -columns,
-    ArrowDown: columns,
-  }[event.key]!;
-  event.preventDefault();
-  for (
-    let index = start + step;
-    index >= 0 && index < cards.length;
-    index += step
-  ) {
-    if (!cards[index].disabled) {
-      cards[index].focus();
-      break;
-    }
-  }
-}
 
 /** Square face cards keep the local and online rosters visually identical. */
 export function RosterGrid({
@@ -51,7 +24,11 @@ export function RosterGrid({
   teams?: (number | null)[][];
 }) {
   return (
-    <div className="fighter-grid" onKeyDown={moveCursor} aria-label="全部角色">
+    <div
+      className="fighter-grid"
+      onKeyDown={moveGridFocus}
+      aria-label="全部角色"
+    >
       {ROSTER.map((character, id) => {
         const banned = bans.includes(id);
         const sides = teams.flatMap((team, side) =>

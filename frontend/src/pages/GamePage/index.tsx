@@ -30,7 +30,6 @@ export function GamePage({ assets }: { assets: Assets }) {
     <main className="min-h-dvh bg-void text-ivory">
       {view.screen === "menu" && (
         <MainMenu
-          assets={assets}
           runtime={runtime}
           view={view}
           onResume={() => {

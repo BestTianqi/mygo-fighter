@@ -126,7 +126,7 @@ export function FinishOverlay({
               {ultimate ? "ULTIMATE FINISH" : view.reason}
             </p>
             <p
-              className={`text-2xl font-black italic sm:text-6xl ${ultimate ? "text-amber-100 drop-shadow-[0_3px_0_#9b4a21]" : ""}`}
+              className={`finish-verdict text-2xl font-black italic sm:text-6xl ${ultimate ? "text-amber-100 drop-shadow-[0_3px_0_#9b4a21]" : ""}`}
             >
               {ultimate ? "奥义终结" : winner ? "胜 利" : "平 局"}
             </p>

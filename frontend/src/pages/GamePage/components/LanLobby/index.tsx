@@ -31,6 +31,9 @@ export function LanLobby({
     >
       {!room ? (
         <>
+          <h3 className="lobby-title" lang="en">
+            ONLINE MATCH
+          </h3>
           <RoomConnectionPanel model={model} />
           <Button
             className="mt-3 w-full"

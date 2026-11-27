@@ -7,12 +7,14 @@ const selectClass =
   "w-full min-h-11 min-w-0 rounded-none bg-panel px-3 py-2 text-sm font-medium text-ivory touch-manipulation focus-visible:outline-2 focus-visible:outline-ember disabled:opacity-60";
 export function SelectionHeader({
   model,
+  selecting,
   onBack,
 }: {
   model: Pick<
     CharacterSelectionModel,
     "selection" | "brawl" | "setMode" | "setFormat"
   >;
+  selecting: boolean;
   onBack: () => void;
 }) {
   const { selection, brawl } = model;
@@ -23,7 +25,7 @@ export function SelectionHeader({
           主菜单
         </Button>
         <h1 className="mt-1 font-display text-2xl font-semibold tracking-wider sm:text-3xl [@media(max-height:500px)]:hidden">
-          对战准备
+          {selecting ? "FIGHTER SELECT" : "STAGE SELECT"}
         </h1>
       </div>
       <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:gap-3">

@@ -323,6 +323,11 @@ export class GameRuntime {
           videoProgress = fraction;
           progress();
         }),
+        // Give the local face-off time to read when both fighters are cached.
+        !network &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? new Promise<void>((resolve) => window.setTimeout(resolve, 800))
+          : undefined,
       ]);
       // Selection or lobby changes can supersede an in-flight image preload.
       if (this.disposed || request !== this.request) return;

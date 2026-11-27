@@ -22,6 +22,7 @@ export function BattleHUD({
   return (
     <div
       aria-label="对战状态"
+      data-hud={mobile ? "compact" : "arena"}
       className={`pointer-events-none grid ${brawl ? "grid-cols-3" : "grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"} items-start text-white ${
         mobile
           ? "gap-x-1.5 gap-y-0.5"
@@ -58,7 +59,7 @@ export function BattleHUD({
           {view.fighters[0] && (
             <FighterHUD side={0} view={view} assets={assets} mobile={mobile} />
           )}
-          <div className="text-center">
+          <div className="hud-clock text-center">
             <p
               aria-label={
                 view.config?.rules?.infiniteTime ? "无限时间" : "剩余时间"
@@ -117,6 +118,7 @@ function FighterHUD({
         : "CPU";
   return (
     <div
+      data-hud-side={side}
       aria-label={`${label} · ${fighter.name}${view.network.room && view.network.side === side ? " · 你" : ""}`}
       className={`min-w-0 bg-void/55 ${mobile ? "px-1.5 py-0.5 leading-tight" : "p-1.5 sm:p-2"} ${reverse ? "text-right" : ""} ${brawl && remaining === 0 ? "opacity-55" : ""}`}
     >
@@ -157,7 +159,9 @@ function FighterHUD({
               </span>
             )}
             {view.config?.rules?.vampire && !fighter.lifesteal && (
-              <span className={`text-[9px] font-normal text-rose-200 ${mobile ? "ml-1" : "ml-2 sm:text-xs"}`}>
+              <span
+                className={`text-[9px] font-normal text-rose-200 ${mobile ? "ml-1" : "ml-2 sm:text-xs"}`}
+              >
                 吸血 25%
               </span>
             )}
@@ -222,7 +226,9 @@ function FighterHUD({
             ? `剩余 ${view.teamRemaining[side]} 人`
             : `胜 ${view.wins[side] ?? 0} 回合`}{" "}
         {fighter.combo > 1 && (
-          <span className="ml-2 text-white">{fighter.combo} HITS</span>
+          <span className="hud-combo ml-2 text-white">
+            {fighter.combo} HITS
+          </span>
         )}
       </p>
       {brawl && !mobile && (

@@ -5,7 +5,7 @@ import type { BattleSceneContext } from "./battleScene/objects";
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const INK = "#0b1022";
 const PAPER = "#fff0d0";
-const GOLD = "#ffd56f";
+const GOLD = "#ffc345";
 
 /** Contain the approach in a wider shot, then settle into the normal camera.
  * This is a render projection; the live camera and fighter coordinates stay intact.
@@ -103,7 +103,8 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.lineJoin = "round";
-  ctx.font = `italic 900 ${threeWay ? 36 : versus ? 58 : round ? 44 : 88}px Impact,"Arial Black",sans-serif`;
+  ctx.transform(1, -0.035, -0.12, 1, 0, 0);
+  ctx.font = `italic 900 ${threeWay ? 36 : versus ? 61 : round ? 57 : 99}px Impact,"Arial Black",sans-serif`;
   ctx.strokeStyle = INK;
   ctx.lineWidth = threeWay ? 5 : versus ? 9 : 13;
   ctx.strokeText(label, 0, 4);
@@ -113,7 +114,7 @@ export function drawOpeningCue(scene: BattleSceneContext) {
   const fill = ctx.createLinearGradient(0, -40, 0, 40);
   fill.addColorStop(0, PAPER);
   fill.addColorStop(0.48, fight || versus ? GOLD : "#ffffff");
-  fill.addColorStop(1, fight ? "#ee9554" : "#b3c6df");
+  fill.addColorStop(1, fight ? "#ff662c" : "#b3c6df");
   ctx.fillStyle = fill;
   ctx.fillText(label, 0, 0);
   if (!versus) {
@@ -124,9 +125,11 @@ export function drawOpeningCue(scene: BattleSceneContext) {
     ctx.font = 'bold 11px "Microsoft YaHei",sans-serif';
     ctx.fillText(
       round
-        ? scene.match.isTeamBattle
-          ? "3 对 3 · 车轮战"
-          : "对 决 开 始"
+        ? scene.match.isBrawl
+          ? "三 方 混 战"
+          : scene.match.isTeamBattle
+            ? `${scene.match.options.teams?.[0]?.length ?? 3} 对 ${scene.match.options.teams?.[1]?.length ?? 3} · 车轮战`
+            : "对 决 开 始"
         : fight
           ? "开 战"
           : "准 备",

@@ -1,39 +1,72 @@
-import { useState } from "react";
-import { bandPortrait } from "../../../assets/bandArt";
-import type { Assets } from "../../../assets/objects/Assets";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { GameRuntime } from "../runtime/GameRuntime";
 import type { GameView } from "../objects/GameView";
 import { publicGameURL } from "../functions/publicGameURL";
 import { onlineLink } from "../functions/onlineLinks";
-import { ROSTER } from "../../../game/engine";
+import mygoPoster from "../../../../../assets/ui/fight-posters/mygo.webp";
+import mujicaPoster from "../../../../../assets/ui/fight-posters/mujica.webp";
+import mewPoster from "../../../../../assets/ui/fight-posters/mewtype.webp";
 
-const bands = [
-  { name: "MyGO!!!!!", ids: [1, 0, 2, 3, 4] },
-  { name: "Ave Mujica", ids: [5, 7, 6, 8, 9] },
-  { name: "夢限大 MewType", ids: [11, 12, 10, 13, 14] },
+const posters = [
+  { name: "MyGO!!!!!", image: mygoPoster, cast: "千早爱音 / 高松灯" },
+  { name: "Ave Mujica", image: mujicaPoster, cast: "丰川祥子 / 八幡海铃" },
+  { name: "夢限大 MewType", image: mewPoster, cast: "千石由乃 / 宫永野乃花" },
 ];
 
+function moveMenuFocus(event: KeyboardEvent<HTMLElement>) {
+  if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+  const buttons = Array.from(
+    event.currentTarget.querySelectorAll<HTMLButtonElement>("button:enabled"),
+  );
+  const index = buttons.indexOf(event.target as HTMLButtonElement);
+  if (index < 0) return;
+  event.preventDefault();
+  buttons[
+    (index + (event.key === "ArrowDown" ? 1 : -1) + buttons.length) %
+      buttons.length
+  ].focus();
+}
+
 export function MainMenu({
-  assets,
   runtime,
   view,
   onResume,
 }: {
-  assets: Assets;
   runtime: GameRuntime | null;
   view: GameView;
   onResume: () => void;
 }) {
-  const [bandIndex, setBandIndex] = useState(0);
-  const band = bands[bandIndex];
-  const resumable = ["ready", "fighting", "roundOver"].includes(view.phase);
+  const [band, setBand] = useState(0);
+  const poster = posters[band];
+  const firstMode = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (runtime && document.activeElement === document.body)
+      firstMode.current?.focus({ preventScroll: true });
+  }, [runtime]);
   const modes = [
-    { label: "本地双人", run: () => runtime?.begin("duel") },
-    { label: "车轮战", run: () => runtime?.begin("cpu", "3v3") },
-    { label: "三人混战", run: () => runtime?.begin("cpu", "3ffa") },
-    { label: "自由练习", run: () => runtime?.begin("practice") },
+    ...(["ready", "fighting", "roundOver"].includes(view.phase)
+      ? [{ label: "继续对战", en: "RESUME", run: onResume }]
+      : []),
+    { label: "开始对战", en: "ARCADE", run: () => runtime?.begin("cpu") },
+    { label: "本地双人", en: "VERSUS", run: () => runtime?.begin("duel") },
+    {
+      label: "车轮战",
+      en: "TEAM BATTLE",
+      run: () => runtime?.begin("cpu", "3v3"),
+    },
+    {
+      label: "三人混战",
+      en: "FREE FOR ALL",
+      run: () => runtime?.begin("cpu", "3ffa"),
+    },
+    {
+      label: "自由练习",
+      en: "TRAINING",
+      run: () => runtime?.begin("practice"),
+    },
     {
       label: "联机对战",
+      en: "ONLINE",
       run: () =>
         import.meta.env.MODE === "pages"
           ? location.assign(onlineLink(publicGameURL))
@@ -41,23 +74,13 @@ export function MainMenu({
     },
   ];
   return (
-    <section aria-label="主菜单" className="cabinet-menu">
-      <img
-        aria-hidden="true"
-        className="cabinet-backdrop"
-        alt=""
-        src={
-          assets.backgrounds[
-            Math.max(
-              0,
-              assets.stages.findIndex((s) => s.id === "theater"),
-            )
-          ]
-        }
-      />
-      <header className="cabinet-top">
-        <span className="cabinet-brand">
-          MyGO!!!!! <b>FIGHTER</b>
+    <section className="fight-hub" aria-label="主菜单" data-band={band}>
+      <div className="fight-poster" key={poster.name}>
+        <img src={poster.image} alt={poster.cast} fetchPriority="high" />
+      </div>
+      <header className="hub-head">
+        <span>
+          MODE SELECT <b>模式选择</b>
         </span>
         <nav aria-label="游戏帮助">
           <button
@@ -74,63 +97,51 @@ export function MainMenu({
           </button>
         </nav>
       </header>
-      <div className="cabinet-hero">
-        <div className="cabinet-mode">
-          <h1 aria-label="MyGO!!!!! FIGHTER 武道馆当然要比武">
-            <span>MyGO!!!!!</span>
-            <strong>FIGHTER</strong>
-          </h1>
-          <p className="cabinet-subtitle">武道馆当然要比武</p>
-          <div className="cabinet-actions">
-            {resumable && <button onClick={onResume}>继续对战</button>}
+      <div className="hub-play">
+        <h1 className="fight-logo" aria-label="MyGO!!!!! FIGHTER">
+          <span>MyGO!!!!!</span>
+          <strong>FIGHTER</strong>
+        </h1>
+        <p className="hub-motto">武道馆当然要比武</p>
+        <nav
+          className="mode-rail"
+          aria-label="对战模式"
+          onKeyDown={moveMenuFocus}
+        >
+          {modes.map((m, i) => (
             <button
-              className="cabinet-start"
+              className="mode-entry"
+              key={m.en}
               disabled={!runtime}
-              onClick={() => runtime?.begin("cpu")}
+              aria-label={m.label}
+              ref={i === 0 ? firstMode : undefined}
+              onClick={m.run}
             >
-              开始对战 <span aria-hidden="true">↗</span>
+              <span>{m.label}</span>
+              <small aria-hidden="true">{m.en}</small>
+              <i aria-hidden="true">▸</i>
             </button>
-            <div className="cabinet-modes">
-              {modes.map((m) => (
-                <button key={m.label} disabled={!runtime} onClick={m.run}>
-                  {m.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="cabinet-band">
-          <div
-            key={band.name}
-            className="band-panels"
-            aria-label={band.name + " 全员"}
-          >
-            {band.ids.map((id) => (
-              <div className="band-panel" data-character={id} key={id}>
-                <img
-                  src={
-                    bandPortrait(assets, id, "stage")?.portrait ??
-                    assets.characters[id].portrait
-                  }
-                  alt={ROSTER[id].name}
-                />
-              </div>
-            ))}
-          </div>
-          <nav aria-label="主视觉乐队" className="band-switch">
-            {bands.map((item, i) => (
-              <button
-                key={item.name}
-                aria-pressed={bandIndex === i}
-                onClick={() => setBandIndex(i)}
-              >
-                {item.name}
-              </button>
-            ))}
-          </nav>
-        </div>
+          ))}
+        </nav>
       </div>
-      <footer className="cabinet-credit">非官方同人格斗游戏</footer>
+      <div className="hub-bands">
+        <div className="poster-caption">
+          <strong>{poster.name}</strong>
+          <span>{poster.cast}</span>
+        </div>
+        <nav aria-label="主视觉乐队">
+          {posters.map((p, i) => (
+            <button
+              key={p.name}
+              aria-pressed={i === band}
+              onClick={() => setBand(i)}
+            >
+              {p.name}
+            </button>
+          ))}
+        </nav>
+      </div>
+      <footer className="hub-foot">非官方同人格斗游戏</footer>
     </section>
   );
 }

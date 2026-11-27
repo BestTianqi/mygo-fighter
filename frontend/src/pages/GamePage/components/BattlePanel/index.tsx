@@ -131,6 +131,7 @@ export function BattlePanel({
               className="absolute inset-0 z-20"
             />
             <PauseOverlay
+              assets={assets}
               view={view}
               runtime={runtime}
               fullField={false}
@@ -182,6 +183,7 @@ export function BattlePanel({
             className="fixed inset-0 z-40"
           />
           <PauseOverlay
+            assets={assets}
             view={view}
             runtime={runtime}
             fullField={fullField}

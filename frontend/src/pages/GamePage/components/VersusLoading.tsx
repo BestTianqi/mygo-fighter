@@ -16,14 +16,13 @@ export function VersusLoading({
 }) {
   const arena = config.settings.arena;
   return (
-    <section className="versus-screen" aria-label="准备登台">
+    <section
+      className="versus-screen"
+      aria-label="准备登台"
+      data-sides={config.characters.length}
+    >
       <img className="versus-map" src={assets.backgrounds[arena]} alt="" />
-      <div
-        className="versus-teams"
-        style={{
-          gridTemplateColumns: `repeat(${config.characters.length},minmax(0,1fr))`,
-        }}
-      >
+      <div className="versus-teams">
         {config.characters.map((id, side) => (
           <div className="versus-player" key={side}>
             <img
@@ -34,7 +33,16 @@ export function VersusLoading({
               }
             />
             <div>
-              <b>{side + 1}P</b>
+              <b>
+                {side === 0 || config.mode === "duel"
+                  ? side + 1 + "P"
+                  : config.mode === "practice"
+                    ? "练习对手"
+                    : "CPU " + side}
+              </b>
+              <small className="versus-en" aria-hidden="true">
+                {ROSTER[id].en}
+              </small>
               <h2>{ROSTER[id].name}</h2>
               {(config.teams?.[side]?.length ?? 0) > 1 && (
                 <p>
@@ -47,11 +55,9 @@ export function VersusLoading({
             </div>
           </div>
         ))}
-        {config.characters.length === 2 && (
-          <strong className="versus-mark" aria-hidden="true">
-            VS
-          </strong>
-        )}
+        <strong className="versus-mark" aria-hidden="true">
+          {config.characters.length === 3 ? "3 WAY" : "VS"}
+        </strong>
       </div>
       <div className="versus-progress">
         <div>

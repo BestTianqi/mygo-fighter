@@ -1,4 +1,5 @@
 import type { Assets } from "../../../../assets/objects/Assets";
+import { moveGridFocus } from "../../functions/moveGridFocus";
 import { ROSTER } from "../../../../game/engine";
 import { BattleRulesPanel } from "../BattleRulesPanel";
 import type { CharacterSelectionModel } from "./hooks/useCharacterSelection";
@@ -17,11 +18,21 @@ export function SelectionSettings({
   const stage = assets.stages[selection.settings.arena];
   return (
     <section className="arena-settings" aria-label="场地与规则">
-      <div className="arena-preview">
+      <div
+        className="arena-preview"
+        key={stage.id}
+        style={{ backgroundImage: `url("${stage.thumbnail}")` }}
+      >
         <img src={assets.backgrounds[selection.settings.arena]} alt="" />
-        <h2>{stage.name}</h2>
+        <div className="stage-caption">
+          <small>
+            STAGE {String(selection.settings.arena + 1).padStart(2, "0")} /{" "}
+            {String(assets.stages.length).padStart(2, "0")}
+          </small>
+          <h2>{stage.name}</h2>
+        </div>
       </div>
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-1">
+      <div className="stage-options mb-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-1">
         <div>
           <h2 className="text-sm font-semibold">
             选择场地{" "}
@@ -56,8 +67,9 @@ export function SelectionSettings({
         </div>
       </div>
       <div
+        onKeyDown={moveGridFocus}
         aria-label="选择场地"
-        className="flex snap-x gap-2 overflow-x-auto px-0.5 pb-3 pt-0.5 [scrollbar-width:thin]"
+        className="stage-grid"
       >
         {assets.stages.map((scene, arena) => (
           <button
@@ -71,7 +83,7 @@ export function SelectionSettings({
               src={scene.thumbnail}
               alt=""
               loading="lazy"
-              className="aspect-[16/7] w-full object-cover"
+              className="w-full object-cover"
             />
             <span className="flex items-center justify-between gap-2 px-2 py-2 text-[11px]">
               <span className="truncate">{scene.name}</span>

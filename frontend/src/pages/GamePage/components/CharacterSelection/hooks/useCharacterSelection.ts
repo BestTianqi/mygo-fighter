@@ -71,11 +71,26 @@ export function useCharacterSelection(
     clearSlot: (side: number, slot: number) =>
       update(() => controller.clearSlot(side, slot)),
     chooseCharacter: (id: number) => {
-      setPreview(id);
-      setError(
-        controller.pick(id) ? "" : "请选择未禁用且未被当前阵容占用的角色。",
+      const accepted = controller.pick(id);
+      const next = controller.snapshot();
+      const [side, slot] = next.active;
+      const nextPick = next.teams[side][slot];
+      const unavailable = next.rules.banCount
+        ? next.teams.flat()
+        : next.teams[side];
+      const suggested = ROSTER.findIndex(
+        (_, index) =>
+          index !== id &&
+          !next.bans.includes(index) &&
+          !unavailable.includes(index),
       );
-      setSelection(controller.snapshot());
+      setPreview(
+        accepted && !controller.isComplete()
+          ? (nextPick ?? (suggested >= 0 ? suggested : id))
+          : id,
+      );
+      setError(accepted ? "" : "请选择未禁用且未被当前阵容占用的角色。");
+      setSelection(next);
     },
   };
 }

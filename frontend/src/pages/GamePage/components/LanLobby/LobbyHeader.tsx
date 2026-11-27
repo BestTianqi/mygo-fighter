@@ -19,7 +19,7 @@ export function LobbyHeader({ model }: { model: LanLobbyModel }) {
     (player) => player?.connected,
   ).length;
   return (
-    <header className="mb-4 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 pb-4">
+    <header className="online-match-header mb-4 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 pb-4">
       <div className="min-w-0">
         <p className="text-[10px] font-semibold tracking-[.18em] text-muted [@media(max-height:500px)]:hidden">
           ONLINE LOBBY / 联机大厅

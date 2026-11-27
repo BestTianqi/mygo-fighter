@@ -5,7 +5,7 @@ import type { LanLobbyModel } from "./hooks/useLanLobby";
 export function RoomConnectionPanel({ model }: { model: LanLobbyModel }) {
   const { working, code, setCode, pendingLabel } = model;
   return (
-    <div className="space-y-4" aria-busy={working}>
+    <div className="room-connection space-y-4" aria-busy={working}>
       <section className="bg-panel p-4 sm:p-5" aria-label="创建房间">
         <p className="mb-4 text-xs leading-5 text-muted">
           第一次开房？点「创建房间」，再把邀请链接发给朋友。
