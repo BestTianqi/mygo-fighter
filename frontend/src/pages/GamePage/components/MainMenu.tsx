@@ -9,8 +9,8 @@ import mewPoster from "../../../../../assets/ui/fight-posters/mewtype.webp";
 
 const posters = [
   { name: "MyGO!!!!!", image: mygoPoster, cast: "千早爱音 / 高松灯" },
-  { name: "Ave Mujica", image: mujicaPoster, cast: "丰川祥子 / 八幡海铃" },
-  { name: "夢限大 MewType", image: mewPoster, cast: "千石由乃 / 宫永野乃花" },
+  { name: "Ave Mujica", image: mujicaPoster, cast: "丰川祥子 / 若叶睦" },
+  { name: "夢限大 MewType", image: mewPoster, cast: "薇欧拉 / 仲町阿拉蕾" },
 ];
 
 function moveMenuFocus(event: KeyboardEvent<HTMLElement>) {
